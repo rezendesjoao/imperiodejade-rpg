@@ -203,7 +203,9 @@
       "temp": "Temp.",
       "tempHint": "Pontos de vida temporários: são perdidos primeiro",
       "maxBase": "PV máximos (sem classe na ficha)",
-      "fromClasses": "Calculados pelas classes + Con por nível"
+      "fromClasses": "Calculados pelas classes + Con por nível",
+      "nonlethal": "Não letal",
+      "nonlethalHint": "Dano não letal: com tanto quanto os PV atuais, a criatura desmaia (sem sangrar). Cura tira o mesmo tanto; o descanso zera."
     },
     "PM": {
       "label": "PM",
@@ -325,7 +327,9 @@
         "leve": "Leve",
         "umaMao": "Uma mão",
         "duasMaos": "Duas mãos"
-      }
+      },
+      "throw": "Arremessar ({range})",
+      "meleeUse": "Usar corpo a corpo ({n})"
     },
     "Damage": {
       "C": "Corte",
@@ -673,7 +677,8 @@
         "vulnerable": "vulnerável a {what}: dobro",
         "guard": "alvo irresistível de {name} −{n}",
         "negated": "passou no teste: nenhum dano",
-        "missChancePct": "chance de falha: {n} ≤ {p}"
+        "missChancePct": "chance de falha: {n} ≤ {p}",
+        "nonlethal": "não letal"
       },
       "summary": "Faz sozinho",
       "chooseLabel": "{label}: escolha {n} ({done} escolhidas)",
@@ -755,7 +760,24 @@
       "weaponStrike": "Golpe com a arma",
       "dishonorButtonOf": "Arma desonrada: violação {severity}",
       "abilityDamageWord": "dano de habilidade",
-      "unarmedStrike": "Sem arma (desarmado)"
+      "unarmedStrike": "Sem arma (desarmado)",
+      "flanking": "flanco +2",
+      "damageSave": "{name} sofreu {n} de dano: teste com CD igual ao dano.",
+      "immuneSource": "{name} está imune a {what} por enquanto.",
+      "immunityName": "Imune: {what}",
+      "zonePick": "Clique no mapa onde fica a área (Esc cancela).",
+      "zonePlaced": "Área posta: {name}.",
+      "zoneEffect": "Área",
+      "diseaseName": "Doença",
+      "diseaseContracted": "{name} contraiu {what}.",
+      "diseaseCured": "{name} se curou de {what}.",
+      "cured": "{name}: {n} doença(s) ou veneno(s) eliminados.",
+      "noKit": "Sem {name} (−5)",
+      "drained": "absorveu {n}",
+      "contested": "Disputa: {n} perderam.",
+      "superseded": "Esse ataque foi rolado de novo: vale o cartão novo.",
+      "rerolled": "rolado de novo",
+      "noJutsus": "{name} não pode executar jutsus agora."
     },
     "Duration": {
       "rodada": "{n} rodada",

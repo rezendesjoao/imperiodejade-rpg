@@ -5,6 +5,7 @@
  * granted twice and leave with the item that brought them.
  */
 import { SYSTEM_ID } from "../config.mjs";
+import { expandMacros } from "../auto/formula.mjs";
 
 const flagOf = item => item.flags?.[SYSTEM_ID] ?? {};
 
@@ -30,6 +31,30 @@ async function grant(actor, source, entries) {
   const data = [];
   const pending = new Set();
   for (const entry of entries) {
+    // An item written in the data itself (a natural weapon: Mordida de Rato, Braço Armado)
+    if (entry.item?.name) {
+      const key = `inline:${entry.item.name}`;
+      if (pending.has(key)) continue;
+      pending.add(key);
+      if (actor.items.some(i => (flagOf(i).grantedBy === source.id) && (flagOf(i).sourceUuid === key))) continue;
+      const itemData = foundry.utils.deepClone(entry.item);
+      foundry.utils.setProperty(itemData, `flags.${SYSTEM_ID}.grantedBy`, source.id);
+      foundry.utils.setProperty(itemData, `flags.${SYSTEM_ID}.sourceUuid`, key);
+      if (entry.option) foundry.utils.setProperty(itemData, `flags.${SYSTEM_ID}.grantedOption`, entry.option);
+      // Its passive bonuses become its effect, like those of the compendium items
+      const passive = (itemData.system?.auto?.passive ?? []).filter(c => c?.key?.startsWith("system."));
+      if (passive.length && !itemData.effects?.length) {
+        itemData.effects = [{
+          name: itemData.name, img: itemData.img ?? "icons/svg/aura.svg", transfer: true, disabled: false,
+          system: { changes: passive.map(c => {
+            const override = (c.type === "override") || (c.mode === "override");
+            return { key: c.key, type: override ? "override" : "add", value: (typeof c.value === "string" && !override) ? expandMacros(c.value) : c.value, phase: "initial", priority: null };
+          }) }
+        }];
+      }
+      data.push(itemData);
+      continue;
+    }
     if (!entry.uuid) continue;
     // The same item twice in one batch (a class that gives "Usar Armas Simples" by two paths) comes once
     const key = `${entry.uuid}|${entry.choiceText ?? ""}`;

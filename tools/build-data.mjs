@@ -254,10 +254,12 @@ function effectsOf(parentKey, parentId, name, img, effects = [], auto = null) {
       _key: `!${parentKey}.effects!${parentId}.${id}`
     });
   };
-  if (base.length) make(name, base);
+  // Bonuses of a group that don't stack ("stack": "jade")
+  const stack = auto?.stack ? { stack: auto.stack } : {};
+  if (base.length) make(name, base, auto?.stack ? { [SYSTEM]: { ...stack } } : {});
   for (const opt of auto?.choice?.options ?? []) {
     const changes = (opt.passive ?? []).filter(e => e?.key?.startsWith("system."));
-    if (changes.length) make(`${name}: ${opt.label ?? opt.id}`, changes, { [SYSTEM]: { option: opt.id } });
+    if (changes.length) make(`${name}: ${opt.label ?? opt.id}`, changes, { [SYSTEM]: { option: opt.id, ...stack } });
   }
   return out;
 }
@@ -670,7 +672,8 @@ for (const [pack, p] of Object.entries(packs)) {
 const unresolved = [];
 function resolveGrants(list, owner) {
   for (const g of list ?? []) {
-    if (g.uuid) continue;
+    // Items written in the data itself need no compendium entry
+    if (g.uuid || g.item) continue;
     const order = g.type ? [g.type] : ["feat", "jutsu", "power", "item"];
     for (const kind of order) {
       const u = nameIndex[kind]?.get(norm(g.name));

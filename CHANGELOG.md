@@ -1,5 +1,69 @@
 # Changelog
 
+## 0.5.0 — 2026-11-19
+
+Terceira rodada da automação: 672 entradas do livro fazem tudo sozinhas (antes 544), 220 fazem em parte (antes 341) e só
+138 ficam apenas no texto (antes 145). O que sobra é sobretudo o que depende do mestre (controle mental, ilusões, cenas).
+
+### Adicionado
+- **Áreas no mapa**: névoas, escuridão, chuvas, mandalas e barreiras viram regiões na cena (no alvo marcado, em você ou onde
+  o jogador clicar). Quem entra ganha o efeito, quem sai perde, e a área some quando a duração acaba.
+- **Flanco**: +2 no ataque corpo a corpo com um aliado do lado oposto; o ataque furtivo conta o alvo flanqueado. Criaturas
+  "sem flanco" e a esquiva sobrenatural aprimorada impedem.
+- **Doenças** da tabela do livro: quem falha contrai e sofre na hora; a cada descanso faz Fortitude, e dois sucessos
+  seguidos curam (calafrios diabólicos: três). Purificação e Integridade Corporal curam doenças e venenos.
+- **Dano não letal**: o ataque desarmado (monges batem para valer) e a Piedosa; com tanto quanto os PV, a criatura desmaia
+  sem sangrar.
+- **Condições encadeadas**: o cego do tsukumogami acaba quando a vítima se solta; efeitos que acabam ao se mover ou ao
+  atacar; descarregar um jutsu encerra o efeito dele; fascinado acaba com dano.
+- **Testes**:
+  - CD igual ao dano sofrido (Golpe Avassalador) ou ao resultado do ataque;
+  - efeito pior para quem falha por 5 ou mais;
+  - imunidade por um dia para quem passa;
+  - efeitos que não pegam imunes a crítico;
+  - efeitos só no 20 natural.
+- **Ameaças**:
+  - efeitos e talentos mudam o deslocamento, os atributos, a CA e o ataque delas;
+  - as perícias da ficha delas viram rolagens;
+  - um efeito pode sortear um atributo que a Ameaça não tem (Despertar espírito).
+- **Armas**:
+  - arremesso (kunai, machadinha, yari) e uso corpo a corpo de armas de arremesso (azagaia);
+  - troca do dado ou do tipo de dano (leque fechado, peso da corrente);
+  - dano dobrado (multiplicadores se somam);
+  - passos de dano (Garras do Tigre, Faixa do monge);
+  - armas naturais que entram com o talento (Mordida de Rato, Braço Armado, Armamento da Tormenta);
+  - botão de rolar o ataque de novo (Mestre em Arma).
+- **Ativações**:
+  - teste de perícia antes do efeito, que não gasta nada se falhar (Biwa encantador, Pipa Ninja);
+  - disputas (finta do tengu, disputa de vontades);
+  - crítico em ataque de habilidade (tocha, farpa);
+  - dano que vira PV temporários (Drenar Forças);
+  - recuperar PM de outra criatura;
+  - curar dano de habilidade e tirar níveis negativos;
+  - dano em si mesmo.
+- **Cura acelerada** suspensa por efeitos (tigela vazia do kappa, Matador de Kaiju, Sasori'Ken); titãs regeneram e só o dano
+  de crítico fica; kaiju voltam da queda pela cura acelerada.
+- **Outros**:
+  - sem o kit, a perícia sofre −5 sozinha;
+  - escolher 10;
+  - Jutsu Estendido, Longínquo e Compartilhado;
+  - dados a mais em poderes (amuletos);
+  - objetos de jade não somam Constituição entre si;
+  - "não pode executar jutsus";
+  - a Honra conta +2 contra efeitos que pegam desonrados;
+  - todo acerto contra você é crítico (Wakizashi da Morte);
+  - revelar invisíveis e anular camuflagem.
+
+### Corrigido
+- Durações em dados de efeitos deixados por um acerto agora são roladas.
+- O ataque de uma habilidade com variantes usa a variante escolhida.
+- O ataque próprio de um jutsu leva a CD dele para o teste do acerto.
+- Rolar de novo mantém os PM gastos nas opções e o modificador da situação.
+- O deslocamento não cai abaixo de 1,5 m por efeitos.
+
+### Atualizar
+Os personagens e Ameaças do mundo recebem os blocos novos do compêndio sozinhos ao abrir o mundo com a 0.5.0.
+
 ## 0.4.0 — 2026-11-19
 
 Segunda rodada da automação. Agora 544 entradas do livro fazem tudo sozinhas (antes 463) e 341 fazem em parte (antes

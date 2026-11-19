@@ -1,5 +1,5 @@
 {
-  "_sobre": "Automação dos jutsus avançados, sublimes e lendários (src/data/jutsus-3.json e jutsus-4.json; docs/automacao.md). A chave é o nome do jutsu. Custo, ataque, dano e teste já vêm dos campos do próprio jutsu; o bloco só soma o que eles não fazem. Testes de turnStart, extraSaves e onHit sem CD própria usam a desta execução (@dc).",
+  "_sobre": "Automação dos jutsus avançados, sublimes e lendários (src/data/jutsus-3.json e jutsus-4.json; docs/automacao.md). A chave é o nome do jutsu. Custo, ataque, dano e teste já vêm dos campos do próprio jutsu; o bloco só soma o que eles não fazem. Testes de turnStart (também os das áreas) e extraSaves sem CD própria usam a desta execução; os de onHit pedem \"dc\": \"@dc\" (em opções de rolagem guardadas num efeito, @dc não existe).",
   "Artesão Dedicado": {
     "status": "narrativo"
   },
@@ -55,7 +55,7 @@
   },
   "Barreira Vulcânica": {
     "status": "parcial",
-    "notes": "O calor ao surgir e quem entra ou sai dos 6m ficam com a mesa.",
+    "notes": "Ajuste a área ao lado quente da muralha (6m); o 1d6 de fogo de quando ela surge fica à mão.",
     "activation": {
       "duration": {
         "unit": "cena"
@@ -74,8 +74,11 @@
           }
         }
       },
-      "targets": {
+      "zone": {
+        "radius": 6,
         "who": "any",
+        "includeSelf": true,
+        "label": "Calor da barreira vulcânica",
         "turnStart": {
           "damage": "1d6",
           "type": "fogo"
@@ -109,21 +112,19 @@
     }
   },
   "Cólera de Lin-Wu": {
-    "status": "parcial",
-    "notes": "Honra 10 ou mais não sofre dano: não aplique o dano neles.",
     "activation": {
       "damage": {
         "formula": "12d6",
         "perTarget": [
           {
-            "when": "vsSordid",
-            "mult": 2,
-            "label": "Honra 5 ou menos ×2"
+            "when": "vsHonorMin:10",
+            "mult": 0,
+            "label": "Honra 10 ou mais: sem dano"
           },
           {
-            "when": "vsDishonored",
+            "when": "vsHonorMin:6&vsHonorMax:9",
             "mult": 0.5,
-            "label": "Honra 9 ou menos ×½"
+            "label": "Honra 6 a 9: metade"
           }
         ]
       },
@@ -176,7 +177,8 @@
           ]
         }
       }
-    }
+    },
+    "notes": "Criaturas sem Honra sofrem o dano inteiro: o mestre decide."
   },
   "Contra-Ataque Relâmpago": {
     "activation": {
@@ -600,7 +602,7 @@
   },
   "Maldição das Trevas": {
     "status": "parcial",
-    "notes": "Debilidade, doença, lerdeza, olfato e o deslocamento do tato ficam com a mesa.",
+    "notes": "Debilidade (habilidade a 1) e lerdeza (deslocamentos a 1,5m) ficam com a mesa.",
     "activation": {
       "honorViolation": "severa",
       "options": [
@@ -609,8 +611,103 @@
           "label": "Debilidade"
         },
         {
-          "id": "doenca",
-          "label": "Doença"
+          "id": "doencaCalafrios",
+          "label": "Doença: calafrios diabólicos",
+          "targets": {
+            "who": "enemies",
+            "save": {
+              "type": "fort"
+            },
+            "disease": "Calafrios diabólicos"
+          }
+        },
+        {
+          "id": "doencaEnjoo",
+          "label": "Doença: enjoo cegante",
+          "targets": {
+            "who": "enemies",
+            "save": {
+              "type": "fort"
+            },
+            "disease": "Enjoo cegante"
+          }
+        },
+        {
+          "id": "doencaDemoniaca",
+          "label": "Doença: febre demoníaca",
+          "targets": {
+            "who": "enemies",
+            "save": {
+              "type": "fort"
+            },
+            "disease": "Febre demoníaca"
+          }
+        },
+        {
+          "id": "doencaEsgoto",
+          "label": "Doença: febre do esgoto",
+          "targets": {
+            "who": "enemies",
+            "save": {
+              "type": "fort"
+            },
+            "disease": "Febre do esgoto"
+          }
+        },
+        {
+          "id": "doencaRiso",
+          "label": "Doença: febre do riso",
+          "targets": {
+            "who": "enemies",
+            "save": {
+              "type": "fort"
+            },
+            "disease": "Febre do riso"
+          }
+        },
+        {
+          "id": "doencaEscarlate",
+          "label": "Doença: febre escarlate",
+          "targets": {
+            "who": "enemies",
+            "save": {
+              "type": "fort"
+            },
+            "disease": "Febre escarlate"
+          }
+        },
+        {
+          "id": "doencaMental",
+          "label": "Doença: febre mental",
+          "targets": {
+            "who": "enemies",
+            "save": {
+              "type": "fort"
+            },
+            "disease": "Febre mental"
+          }
+        },
+        {
+          "id": "doencaPegajosa",
+          "label": "Doença: maldição pegajosa",
+          "targets": {
+            "who": "enemies",
+            "save": {
+              "type": "fort"
+            },
+            "disease": "Maldição pegajosa"
+          }
+        },
+        {
+          "id": "doencaTremores",
+          "label": "Doença: tremores",
+          "targets": {
+            "who": "enemies",
+            "save": {
+              "type": "fort"
+            },
+            "disease": "Tremores"
+          }
         },
         {
           "id": "estupidez",
@@ -709,7 +806,19 @@
   },
   "Mandala da Anulação": {
     "status": "parcial",
-    "notes": "Os jutsus básicos e medianos na área ficam suprimidos, à mão."
+    "notes": "A área marca quem está dentro; suprima ali à mão os jutsus básicos e medianos.",
+    "activation": {
+      "duration": {
+        "unit": "cena"
+      },
+      "zone": {
+        "radius": 3,
+        "at": "self",
+        "who": "any",
+        "includeSelf": true,
+        "label": "Mandala da anulação"
+      }
+    }
   },
   "Manipulador de Memórias": {
     "status": "parcial",
@@ -779,49 +888,86 @@
     "notes": "A penalidade diária (–2 cumulativo) e a violação por missão impossível: à mão."
   },
   "Pancada Poderosa": {
-    "status": "parcial",
-    "notes": "Role a Fortitude só no acerto; imunes a acertos críticos não são afetados.",
     "activation": {
+      "note": "A Fortitude sai do cartão do golpe.",
       "attack": {
         "weapon": true,
-        "type": "corpo"
-      },
-      "save": {
-        "type": "fort",
-        "onFail": {
-          "conditions": [
-            {
-              "id": "inconsciente"
-            }
-          ]
-        },
-        "onSuccess": {
-          "conditions": [
-            {
-              "id": "atordoado",
-              "duration": {
-                "value": "1d4",
-                "unit": "rodada"
+        "type": "corpo",
+        "onHit": {
+          "save": {
+            "type": "fort",
+            "dc": "@dc"
+          },
+          "critImmuneSkip": true,
+          "onFail": {
+            "conditions": [
+              {
+                "id": "inconsciente"
               }
-            }
-          ]
+            ]
+          },
+          "onSuccess": {
+            "conditions": [
+              {
+                "id": "atordoado",
+                "duration": {
+                  "value": "1d4",
+                  "unit": "rodada"
+                }
+              }
+            ]
+          }
         }
       }
     }
   },
   "Pirâmide Intocável": {
-    "status": "narrativo"
+    "status": "parcial",
+    "notes": "Fechada, nada entra nem sai: fica com a mesa.",
+    "activation": {
+      "duration": {
+        "unit": "cena"
+      },
+      "options": [
+        {
+          "id": "fechada",
+          "label": "Impenetrável"
+        },
+        {
+          "id": "camuflagem",
+          "label": "Só barra forças fracas (camuflagem total)",
+          "zone": {
+            "radius": 1.5,
+            "who": "any",
+            "includeSelf": true,
+            "label": "Pirâmide intocável (camuflagem total)",
+            "traits": {
+              "missChance": 50
+            }
+          }
+        }
+      ]
+    }
   },
   "Possessão de Doragami": {
     "status": "parcial",
     "notes": "A possessão e a troca de estatísticas ficam com a mesa.",
     "activation": {
-      "honorViolation": "severa"
+      "honorViolation": "severa",
+      "save": {
+        "type": "von",
+        "onSuccess": {
+          "immuneFor": {
+            "value": 1,
+            "unit": "dia"
+          }
+        }
+      }
     }
   },
   "Resolução de Hikari": {
     "status": "parcial",
-    "notes": "Dano dobrado em shiryou de 6º nível ou mais e a descarga (imune a trevas): à mão.",
+    "notes": "A descarga (imune a trevas até o fim da cena) fica à mão.",
     "activation": {
       "duration": {
         "unit": "cena"
@@ -849,6 +995,12 @@
             "onHit": {
               "kill": true
             }
+          },
+          {
+            "id": "shiryouForte",
+            "label": "Dano dobrado (shiryou de Honra 0, 6º nível ou mais)",
+            "optional": true,
+            "damageMult": 2
           }
         ]
       },
@@ -904,7 +1056,7 @@
   },
   "Tamanho Minúsculo": {
     "status": "parcial",
-    "notes": "A mudança de tamanho fica à mão; ameaças não perdem Força.",
+    "notes": "A mudança de tamanho fica à mão.",
     "activation": {
       "duration": {
         "unit": "cena"
@@ -1006,16 +1158,45 @@
     }
   },
   "Toque da Morte": {
-    "status": "parcial",
-    "notes": "Role o dano só para quem passar; imunes a acertos críticos não são afetados.",
     "activation": {
       "honorViolation": "severa",
-      "save": {
-        "type": "fort",
-        "onFail": {
-          "setPv": -1
+      "save": false,
+      "damage": {
+        "button": false
+      },
+      "attack": {
+        "onHit": {
+          "save": {
+            "type": "fort",
+            "dc": "@dc"
+          },
+          "critImmuneSkip": true,
+          "onFail": {
+            "setPv": -1
+          },
+          "onSuccess": {
+            "damage": {
+              "formula": "@formula",
+              "type": "trevas"
+            }
+          }
         }
-      }
+      },
+      "note": "Acertou: Fortitude. Falhou, cai a −1 PV (inconsciente e sangrando); passou, sofre o dano de trevas do jutsu (com o aumento pago). Imunes a crítico não são afetados.",
+      "options": [
+        {
+          "id": "toque",
+          "label": "Ataque de toque (sem dano)"
+        },
+        {
+          "id": "desarmado",
+          "label": "Ataque desarmado (com o dano dele)",
+          "attack": {
+            "weapon": "desarmado",
+            "damage": ""
+          }
+        }
+      ]
     }
   },
   "Transformação": {
@@ -1052,16 +1233,30 @@
   },
   "Viagem Espiritual": {
     "status": "parcial",
-    "notes": "Apague o efeito quando todos voltarem; a viagem fica com a mesa.",
+    "notes": "Se os alvos voltarem por outro meio, apague o efeito; se um deles morrer no outro mundo, a perda de PM vira permanente.",
     "activation": {
-      "self": {
-        "changes": [
-          {
-            "key": "system.attributes.pm.bonus",
-            "value": "-6 - 9 * min(1, floor(@spent / 9))"
+      "options": [
+        {
+          "id": "ir",
+          "label": "Levar a outro mundo",
+          "self": {
+            "key": "viagemEspiritual",
+            "changes": [
+              {
+                "key": "system.attributes.pm.bonus",
+                "value": "-6 - 9 * min(1, floor(@spent / 9))"
+              }
+            ]
           }
-        ]
-      }
+        },
+        {
+          "id": "voltar",
+          "label": "Trazer de volta ao seu mundo",
+          "endEffects": [
+            "viagemEspiritual"
+          ]
+        }
+      ]
     }
   },
   "Vidência dos Ancestrais": {
@@ -1117,12 +1312,11 @@
     }
   },
   "Armadura de Dai’Gun": {
-    "status": "parcial",
-    "notes": "Sem outros jutsus enquanto durar; ao descarregar, apague o efeito.",
     "activation": {
       "duration": {
         "unit": "cena"
       },
+      "note": "Enquanto durar, você não executa outros jutsus, salvo com o aprimoramento.",
       "self": {
         "changes": [
           {
@@ -1142,15 +1336,32 @@
             "value": 6
           }
         ],
+        "traits": {
+          "noJutsus": true
+        },
         "reactions": [
           {
             "on": "dropToZero",
             "effect": "negateDamage",
+            "endEffect": true,
             "label": "Descarregar a armadura de Dai’Gun"
           }
         ]
       },
-      "tempPv": 60
+      "tempPv": 60,
+      "options": [
+        {
+          "id": "normal",
+          "label": "Sem executar outros jutsus"
+        },
+        {
+          "id": "jutsus",
+          "label": "Podendo executar outros jutsus (aprimoramento de +5 PM)",
+          "self": {
+            "traits": {}
+          }
+        }
+      ]
     }
   },
   "Armazenar Jutsu": {
@@ -1300,11 +1511,14 @@
   },
   "Destruir Sentidos": {
     "status": "parcial",
-    "notes": "Rastejar, sem faro, falhar em Percepção e as chances de 25% e 50%: à mão.",
+    "notes": "As chances de 25% (fala e mantras) e de 50% (largar o que segura) ficam com a mesa.",
     "activation": {
       "save": {
         "type": "fort",
         "onFail": {
+          "duration": {
+            "unit": "cena"
+          },
           "conditions": [
             {
               "id": "caido",
@@ -1324,9 +1538,27 @@
                 "unit": "cena"
               }
             }
+          ],
+          "rollOptions": [
+            {
+              "id": "semPercepcao",
+              "label": "Destruir sentidos: falha em Percepção",
+              "for": "skill",
+              "filter": {
+                "skills": [
+                  "percepcao"
+                ]
+              },
+              "value": -99,
+              "locked": true
+            }
           ]
         },
         "onSuccess": {
+          "duration": {
+            "value": 1,
+            "unit": "rodada"
+          },
           "conditions": [
             {
               "id": "caido",
@@ -1348,6 +1580,20 @@
                 "value": 1,
                 "unit": "rodada"
               }
+            }
+          ],
+          "rollOptions": [
+            {
+              "id": "semPercepcao",
+              "label": "Destruir sentidos: falha em Percepção",
+              "for": "skill",
+              "filter": {
+                "skills": [
+                  "percepcao"
+                ]
+              },
+              "value": -99,
+              "locked": true
             }
           ]
         }
@@ -1356,7 +1602,7 @@
   },
   "Dominar Gravidade": {
     "status": "parcial",
-    "notes": "Gravidade subjetiva (quedas e flutuação) fica com a mesa.",
+    "notes": "Gravidade subjetiva (quedas e flutuação) fica com a mesa; quem falhou e sai da área perde fatigado e lento à mão.",
     "activation": {
       "duration": {
         "unit": "cena"
@@ -1365,6 +1611,33 @@
         {
           "id": "aumentar",
           "label": "Aumentar gravidade",
+          "zone": {
+            "radius": 6,
+            "who": "enemies",
+            "label": "Gravidade aumentada",
+            "changes": [
+              {
+                "key": "system.skills.acrobacia.bonus",
+                "value": -2
+              },
+              {
+                "key": "system.skills.atletismo.bonus",
+                "value": -2
+              },
+              {
+                "key": "system.skills.furtividade.bonus",
+                "value": -2
+              },
+              {
+                "key": "system.skills.ladinagem.bonus",
+                "value": -2
+              },
+              {
+                "key": "system.attributes.movement.bonus",
+                "value": -3
+              }
+            ]
+          },
           "save": {
             "type": "fort",
             "onFail": {
@@ -1382,33 +1655,6 @@
                   }
                 }
               ]
-            },
-            "onSuccess": {
-              "duration": {
-                "unit": "cena"
-              },
-              "changes": [
-                {
-                  "key": "system.skills.acrobacia.bonus",
-                  "value": -2
-                },
-                {
-                  "key": "system.skills.atletismo.bonus",
-                  "value": -2
-                },
-                {
-                  "key": "system.skills.furtividade.bonus",
-                  "value": -2
-                },
-                {
-                  "key": "system.skills.ladinagem.bonus",
-                  "value": -2
-                },
-                {
-                  "key": "system.attributes.movement.bonus",
-                  "value": -3
-                }
-              ]
             }
           }
         },
@@ -1419,8 +1665,11 @@
         {
           "id": "reduzir",
           "label": "Reduzir gravidade",
-          "targets": {
-            "who": "any",
+          "zone": {
+            "radius": 6,
+            "who": "allies",
+            "includeSelf": true,
+            "label": "Gravidade reduzida",
             "changes": [
               {
                 "key": "system.attributes.movement.bonus",
@@ -1438,7 +1687,26 @@
   },
   "Enxame Espiritual": {
     "status": "parcial",
-    "notes": "Fortitude reduz só os 6d6 de veneno; o dano se repete a cada turno seu."
+    "notes": "A área repete os 6d6 de veneno (Fortitude: metade): some 2d6 de perfuração a cada vez e poupe os imunes a veneno; mova o enxame arrastando a área.",
+    "activation": {
+      "duration": {
+        "unit": "cena"
+      },
+      "zone": {
+        "radius": 1.5,
+        "who": "any",
+        "includeSelf": true,
+        "label": "Enxame espiritual",
+        "turnStart": {
+          "damage": "6d6",
+          "type": "veneno",
+          "save": {
+            "type": "fort"
+          },
+          "half": true
+        }
+      }
+    }
   },
   "Esconderijo Perfeito": {
     "status": "narrativo"
@@ -1447,8 +1715,6 @@
     "status": "narrativo"
   },
   "Estátua de Gelo": {
-    "status": "parcial",
-    "notes": "A estátua é imune a dano; só fogo lendário serve de anulação.",
     "activation": {
       "targets": {
         "who": "enemies",
@@ -1460,9 +1726,12 @@
             "id": "inerte"
           },
           {
-            "id": "inconsciente"
+            "id": "inconsciente",
+            "endWith": "inerte"
           }
-        ]
+        ],
+        "absorb": 99999,
+        "endWith": "inerte"
       }
     }
   },
@@ -1741,7 +2010,7 @@
   },
   "Forma Espiritual": {
     "status": "parcial",
-    "notes": "Ataques de toque contra materiais, tipo youkai e o limite de jutsus: à mão.",
+    "notes": "Tipo youkai e só poder executar jutsus em si mesmo ficam à mão.",
     "activation": {
       "duration": {
         "unit": "cena"
@@ -1758,7 +2027,14 @@
         "traits": {
           "seeInvisible": true,
           "touchIncorporeal": true
-        }
+        },
+        "rollOptions": [
+          {
+            "id": "toque",
+            "label": "Forma espiritual: ataque de toque",
+            "touch": true
+          }
+        ]
       }
     }
   },
@@ -1836,7 +2112,7 @@
   },
   "Insanidade de Okoreeji": {
     "status": "parcial",
-    "notes": "Espasmos: –10 em Reflexos à mão; paranoia fica com a mesa.",
+    "notes": "Paranoia (hostil com todos) fica com a mesa.",
     "activation": {
       "options": [
         {
@@ -1886,6 +2162,20 @@
                 "key": "system.attributes.mods.physSkills",
                 "value": -10
               }
+            ],
+            "rollOptions": [
+              {
+                "id": "espasmos",
+                "label": "Espasmos (Reflexos)",
+                "for": "save",
+                "filter": {
+                  "saves": [
+                    "ref"
+                  ]
+                },
+                "value": -10,
+                "locked": true
+              }
             ]
           }
         },
@@ -1901,7 +2191,7 @@
   },
   "Maldição do Ridículo": {
     "status": "parcial",
-    "notes": "Dança: só ação de movimento e –10 em Reflexos; riso: outras raças têm +4.",
+    "notes": "Dança: só uma ação de movimento por rodada; riso: alvo de outra raça usa o 2º teste (CD –4).",
     "activation": {
       "options": [
         {
@@ -1916,6 +2206,20 @@
               },
               "conditions": [
                 "desprevenido"
+              ],
+              "rollOptions": [
+                {
+                  "id": "danca",
+                  "label": "Dança irresistível (Reflexos)",
+                  "for": "save",
+                  "filter": {
+                    "saves": [
+                      "ref"
+                    ]
+                  },
+                  "value": -10,
+                  "locked": true
+                }
               ]
             },
             "onSuccess": {
@@ -1925,6 +2229,20 @@
               },
               "conditions": [
                 "desprevenido"
+              ],
+              "rollOptions": [
+                {
+                  "id": "danca",
+                  "label": "Dança irresistível (Reflexos)",
+                  "for": "save",
+                  "filter": {
+                    "saves": [
+                      "ref"
+                    ]
+                  },
+                  "value": -10,
+                  "locked": true
+                }
               ]
             }
           }
@@ -1952,7 +2270,32 @@
                 "pasmo"
               ]
             }
-          }
+          },
+          "extraSaves": [
+            {
+              "type": "von",
+              "dc": "@dc - 4",
+              "label": "Riso: alvo de outra raça",
+              "onFail": {
+                "duration": {
+                  "value": "1d4",
+                  "unit": "rodada"
+                },
+                "conditions": [
+                  "pasmo"
+                ]
+              },
+              "onSuccess": {
+                "duration": {
+                  "value": 1,
+                  "unit": "rodada"
+                },
+                "conditions": [
+                  "pasmo"
+                ]
+              }
+            }
+          ]
         },
         {
           "id": "voz",
@@ -2304,9 +2647,12 @@
                 "id": "inerte"
               },
               {
-                "id": "inconsciente"
+                "id": "inconsciente",
+                "endWith": "inerte"
               }
-            ]
+            ],
+            "absorb": 99999,
+            "endWith": "inerte"
           }
         }
       ]
@@ -2355,13 +2701,23 @@
   },
   "Retirada Relâmpago": {
     "status": "parcial",
-    "notes": "Apague o efeito ao descarregar; o teleporte fica com a mesa.",
+    "notes": "Fora de um ataque, descarregue apagando o efeito; o teste de Identificar Magia (lugar não visitado há um mês) fica com a mesa.",
     "activation": {
       "self": {
+        "key": "retiradaRelampago",
         "changes": [
           {
             "key": "system.attributes.pm.bonus",
             "value": -10
+          }
+        ],
+        "reactions": [
+          {
+            "on": "attacked",
+            "effect": "note",
+            "endEffect": true,
+            "label": "Retirada relâmpago (descarregar)",
+            "note": "Um relâmpago leva você ao lugar seguro escolhido."
           }
         ]
       }
@@ -2369,7 +2725,7 @@
   },
   "Revitalização de Hyaku-nen": {
     "status": "parcial",
-    "notes": "Dano de habilidade, doenças, venenos e salvar quem acabou de morrer: à mão.",
+    "notes": "Dano de habilidade e salvar quem acabou de morrer ficam à mão.",
     "activation": {
       "save": {
         "type": "von",
@@ -2401,7 +2757,8 @@
               "enjoado",
               "fatigado",
               "exausto"
-            ]
+            ],
+            "cure": true
           }
         },
         {
@@ -2449,11 +2806,18 @@
   },
   "Rocha Cadente": {
     "status": "parcial",
-    "notes": "Prisão sob a rocha (Atletismo CD 25) e queda dos voadores: à mão.",
+    "notes": "Preso só tenta erguer a rocha (Atletismo CD 25); voadores no caminho caem (1d6 a cada 1,5m): à mão.",
     "activation": {
       "save": {
         "type": "ref",
-        "half": true
+        "half": true,
+        "onFail": {
+          "conditions": [
+            {
+              "id": "agarrado"
+            }
+          ]
+        }
       }
     }
   },
@@ -2500,7 +2864,12 @@
   },
   "Assimilação": {
     "status": "parcial",
-    "notes": "PV temporários e ganhos da assimilação dependem do dano: aplique à mão."
+    "notes": "O dano vira PV temporários inteiros: se o alvo sobreviver, fique só com a metade; o golpe desarmado e, na assimilação total, +4 nas habilidades, jutsus e disfarce ficam à mão.",
+    "activation": {
+      "damage": {
+        "drain": "tempPv"
+      }
+    }
   },
   "Aura Celestial": {
     "status": "parcial",
@@ -2552,9 +2921,12 @@
                 "id": "inerte"
               },
               {
-                "id": "inconsciente"
+                "id": "inconsciente",
+                "endWith": "inerte"
               }
-            ]
+            ],
+            "absorb": 99999,
+            "endWith": "inerte"
           }
         }
       ]
@@ -2562,15 +2934,17 @@
   },
   "Buraco Negro": {
     "status": "parcial",
-    "notes": "O puxão de 30m e a sucção perto do buraco ficam com a mesa.",
+    "notes": "O puxão de 30m rumo ao buraco e a sucção de quem fica a 30m dele ficam com a mesa.",
     "activation": {
-      "targets": {
+      "duration": {
+        "value": 3,
+        "unit": "rodada"
+      },
+      "zone": {
+        "radius": 60,
         "who": "any",
         "includeSelf": true,
-        "duration": {
-          "value": 3,
-          "unit": "rodada"
-        },
+        "label": "Buraco negro",
         "turnStart": {
           "save": {
             "type": "fort"
@@ -2584,7 +2958,7 @@
   },
   "Ciclone de Shunka’Shuuto": {
     "status": "parcial",
-    "notes": "Grandes ou Enormes que passam em Reflexos não sofrem dano; expelir e a queda: à mão.",
+    "notes": "Arraste a área quando o ciclone andar e apague-a quando a concentração acabar; Grandes ou Enormes que passam em Reflexos não sofrem o dano; expelir e a queda: à mão.",
     "activation": {
       "damage": {
         "formula": "6d6",
@@ -2594,21 +2968,26 @@
           "type": "vento"
         }
       },
-      "extraSaves": [
-        {
-          "type": "fort",
-          "label": "Vento uivante",
-          "onFail": {
-            "conditions": [
-              {
-                "id": "surdo",
-                "duration": {
-                  "unit": "cena"
-                }
+      "zone": {
+        "radius": 33,
+        "who": "any",
+        "includeSelf": true,
+        "label": "Vento uivante do ciclone",
+        "turnStart": {
+          "save": {
+            "type": "fort"
+          },
+          "conditions": [
+            {
+              "id": "surdo",
+              "duration": {
+                "unit": "cena"
               }
-            ]
-          }
-        },
+            }
+          ]
+        }
+      },
+      "extraSaves": [
         {
           "type": "ref",
           "label": "Sucção (Média ou menor)",
@@ -2622,10 +3001,8 @@
     }
   },
   "Dança das Chamas Mortais": {
-    "status": "parcial",
-    "notes": "Uma vez por rodada; quem passar na Fortitude fica imune a esta execução.",
     "activation": {
-      "note": "A Fortitude sai do cartão do golpe.",
+      "note": "A Fortitude sai do cartão do golpe; quem passa fica imune a esta execução.",
       "attack": {
         "weapon": true,
         "type": "corpo",
@@ -2636,6 +3013,11 @@
           },
           "onFail": {
             "kill": true
+          },
+          "onSuccess": {
+            "immuneFor": {
+              "unit": "cena"
+            }
           }
         }
       }
@@ -2653,9 +3035,52 @@
   },
   "Distorção da Realidade": {
     "status": "parcial",
-    "notes": "O efeito escolhido e os PM permanentes ficam com a mesa.",
+    "notes": "Os outros efeitos e os PM permanentes ficam com a mesa.",
     "activation": {
-      "honorViolation": "moderada"
+      "honorViolation": "moderada",
+      "options": [
+        {
+          "id": "outro",
+          "label": "Outro efeito (o mestre decide)"
+        },
+        {
+          "id": "restaurar",
+          "label": "Restaurar PV e condições de até 10 criaturas",
+          "damage": {
+            "formula": "9999",
+            "type": "",
+            "healing": true
+          },
+          "targets": {
+            "who": "any",
+            "removeConditions": [
+              "abalado",
+              "agarrado",
+              "apavorado",
+              "atordoado",
+              "caido",
+              "cego",
+              "confuso",
+              "desprevenido",
+              "enjoado",
+              "enredado",
+              "exausto",
+              "fascinado",
+              "fatigado",
+              "inconsciente",
+              "indefeso",
+              "inerte",
+              "lento",
+              "ofuscado",
+              "paralisado",
+              "pasmo",
+              "sangrando",
+              "surdo",
+              "surpreendido"
+            ]
+          }
+        }
+      ]
     }
   },
   "Dominar o Tempo": {
@@ -2831,7 +3256,7 @@
   },
   "Lágrimas de Mizuha": {
     "status": "parcial",
-    "notes": "Chacras fechados, fim dos jutsus e os 5 PM permanentes ficam com a mesa.",
+    "notes": "Chacras fechados (PM e talentos), instrumentos mágicos, ofuda e os 5 PM permanentes ficam com a mesa.",
     "activation": {
       "options": [
         {
@@ -2843,7 +3268,17 @@
           "label": "Sem permissão (violação extrema)",
           "honorViolation": "extrema"
         }
-      ]
+      ],
+      "targets": {
+        "who": "enemies",
+        "save": {
+          "type": "von"
+        },
+        "traits": {
+          "noJutsus": true
+        }
+      },
+      "note": "Quem falha não executa mais jutsus."
     }
   },
   "Localização Perfeita": {
@@ -2930,9 +3365,17 @@
     }
   },
   "Matador de Kaiju": {
-    "status": "parcial",
-    "notes": "A cura acelerada suspensa por 1d4 rodadas fica à mão.",
     "activation": {
+      "targets": {
+        "who": "any",
+        "duration": {
+          "value": "1d4",
+          "unit": "rodada"
+        },
+        "traits": {
+          "noFastHealing": true
+        }
+      },
       "options": [
         {
           "id": "maiores",
@@ -3092,11 +3535,21 @@
   },
   "Terremoto Corrosivo": {
     "status": "parcial",
-    "notes": "Tremores (sem mover, atacar ou executar jutsus) e efeitos do terreno ficam com a mesa.",
+    "notes": "A área marca quem sente os tremores (voadores não): sem se mover, atacar ou executar jutsus; os efeitos do terreno ficam com a mesa.",
     "activation": {
+      "duration": {
+        "value": 1,
+        "unit": "rodada"
+      },
       "save": {
         "type": "ref",
         "negate": true
+      },
+      "zone": {
+        "radius": 30,
+        "at": "self",
+        "who": "any",
+        "label": "Tremores: sem se mover, atacar ou executar jutsus"
       }
     }
   },
@@ -3137,7 +3590,7 @@
   },
   "Velocidade da Luz": {
     "status": "parcial",
-    "notes": "Agir primeiro e o custo em Constituição (Fortitude a cada rodada): à mão.",
+    "notes": "Levantar, sacar e mover-se de graça ficam com a mesa; quem é imune a dano de habilidade sofre 20 de dano à mão.",
     "activation": {
       "duration": {
         "unit": "cena"
@@ -3148,7 +3601,15 @@
           "immune": [
             "surpreendido"
           ],
-          "missChance": 50
+          "missChance": 50,
+          "jutsuCost": [
+            {
+              "value": -6,
+              "filter": {
+                "jutsuExact": "Golpe Múltiplo"
+              }
+            }
+          ]
         },
         "rollOptions": [
           {
@@ -3161,8 +3622,24 @@
               ]
             },
             "best": true
+          },
+          {
+            "id": "primeiro",
+            "label": "Velocidade da luz: age antes de todos",
+            "for": "initiative",
+            "value": 100,
+            "locked": true
           }
-        ]
+        ],
+        "turnStart": {
+          "save": {
+            "type": "fort"
+          },
+          "abilityDamage": {
+            "ability": "con",
+            "formula": 2
+          }
+        }
       }
     }
   },

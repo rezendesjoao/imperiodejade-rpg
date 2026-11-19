@@ -45,24 +45,28 @@ export function energyOf(type) {
  * @param {number} [config.ignoreRd]    Points of RD (and resistance, when Infinity) the hit ignores
  * @param {object} [config.link]        { source: message id, save: "ref", half: true, attacker: uuid, melee: bool, targets: [uuid] }
  */
-export async function rollDamage({ actor, title, subtitle = "", kanji = "撃", parts = [], critical = false, mult = 2, healing = false, magic = false, ignoreRd = 0, maximize = false, link = {} }) {
+export async function rollDamage({ actor, title, subtitle = "", kanji = "撃", parts = [], critical = false, mult = 2, extraMult = 1, healing = false, magic = false, ignoreRd = 0, maximize = false, link = {} }) {
   const rolled = [];
   const renders = [];
   const rollData = actor?.getRollData?.() ?? {};
   for (const part of parts) {
     if (!part?.formula || part.formula === "0") continue;
     const multiply = critical && !part.noCrit && (mult > 1);
+    // Doubled damage (a mounted charge) adds to a critical's multiplier: ×2 and ×2 make ×3
+    const extra = (!part.noCrit && (extraMult > 1)) ? extraMult - 1 : 0;
+    const factor = (multiply ? mult : 1) + extra;
     // Jutsu Maximizado: every die at its maximum (the parts of the jutsu only)
-    const roll = await new Roll(multiply ? `(${part.formula}) * ${mult}` : String(part.formula), rollData).evaluate({ maximize: maximize && !part.noMax });
+    const roll = await new Roll(factor > 1 ? `(${part.formula}) * ${factor}` : String(part.formula), rollData).evaluate({ maximize: maximize && !part.noMax });
     renders.push(await roll.render());
     rolled.push({
       label: part.label ?? "",
       type: part.type ?? "",
+      nonlethal: !!part.nonlethal,
       physical: part.physical ?? isPhysical(part.type),
       precision: !!part.precision,
       crit: multiply,
       amount: Math.max(0, roll.total),
-      single: multiply ? Math.floor(roll.total / mult) : Math.max(0, roll.total),
+      single: multiply ? Math.floor((roll.total * (1 + extra)) / factor) : Math.max(0, roll.total),
       roll
     });
   }
@@ -145,10 +149,10 @@ export async function computeDamage(target, card, { half = null } = {}) {
   const hasExtra = card.critical || parts.some(p => p.precision);
   if (hasExtra) {
     let negated = false;
-    if (isImmune(target, ["critico", "furtivo"])) {
+    if (isImmune(target, ["critico", "furtivo"]) && !card.pierceCrit) {
       negated = true;
       notes.push(L("IJ.Auto.note.critImmune"));
-    } else if ((traits.fortification ?? 0) > 0) {
+    } else if (((traits.fortification ?? 0) > 0) && !card.pierceCrit) {
       const roll = await new Roll("1d100").evaluate();
       negated = roll.total <= traits.fortification;
       notes.push(game.i18n.format(negated ? "IJ.Auto.note.fortified" : "IJ.Auto.note.notFortified", { n: roll.total, p: traits.fortification }));
@@ -173,7 +177,15 @@ export async function computeDamage(target, card, { half = null } = {}) {
   let energy = 0;
   let healFromEnergy = 0;
   const bypass = target.system.rdBypass;
+  const PHYSICAL_WORDS = { c: "corte", p: "perfuracao", e: "esmagamento" };
   for (const p of parts) {
+    // Immune to what this part is (poison; one physical type: Estrela da Invencibilidade)
+    const word = norm(p.type);
+    const physicalWord = PHYSICAL_WORDS[word] ?? (/corte/.test(word) ? "corte" : /perfur/.test(word) ? "perfuracao" : /esmag/.test(word) ? "esmagamento" : null);
+    if (!ignoreAll && ((word && !energyOf(p.type) && isImmune(target, word)) || (physicalWord && isImmune(target, physicalWord)))) {
+      notes.push(game.i18n.format("IJ.Auto.note.immune", { what: physicalWord ?? p.type }));
+      continue;
+    }
     if (p.physical) {
       // RD 10/esmagamento: bludgeoning damage goes through
       if (bypass && String(p.type ?? "").includes(bypass)) bypassed += p.amount;
@@ -228,7 +240,12 @@ export async function computeDamage(target, card, { half = null } = {}) {
       notes.push(L("IJ.Auto.note.evasionImproved"));
     }
   }
-  return { amount, heal: healFromEnergy, notes };
+  // Nonlethal damage (unarmed strikes, Piedosa): its share of what got through
+  const all = parts.reduce((t, p) => t + (p.amount ?? 0), 0);
+  const soft = parts.filter(p => p.nonlethal).reduce((t, p) => t + (p.amount ?? 0), 0);
+  const nonlethal = (all > 0 && soft > 0) ? Math.round(amount * (soft / all)) : 0;
+  if (nonlethal) notes.push(L("IJ.Auto.note.nonlethal"));
+  return { amount, nonlethal, heal: healFromEnergy, notes };
 }
 
 /**
@@ -236,16 +253,30 @@ export async function computeDamage(target, card, { half = null } = {}) {
  * unconscious and bleeding (p. 77) and a threat defeated; the target's reactions for that moment are offered.
  * @returns {Promise<{damage: number, healed: number}>}
  */
-export async function applyToActor(actor, { amount = 0, heal = 0, source = "", card = null } = {}) {
+export async function applyToActor(actor, { amount = 0, heal = 0, source = "", card = null, nonlethal = 0 } = {}) {
   if (!["character", "npc"].includes(actor?.type)) return { damage: 0, healed: 0 };
   const base = actor.type === "npc" ? "system.pv" : "system.attributes.pv";
   const pv = foundry.utils.getProperty(actor, base);
-  if (heal > 0 && !(amount > 0)) {
+  if (heal > 0 && !(amount > 0) && !(nonlethal > 0)) {
     const value = Math.min(pv.max, pv.value + heal);
-    await updateActor(actor, { [`${base}.value`]: value });
-    // Back on his feet: no longer unconscious nor bleeding
+    // Healing also heals as much nonlethal damage
+    const soft = Math.max(0, (pv.nonlethal ?? 0) - heal);
+    await updateActor(actor, { [`${base}.value`]: value, [`${base}.nonlethal`]: soft });
+    // Back on his feet: no longer unconscious nor bleeding (or awake from a knockout)
     if (pv.value <= 0 && value > 0) await clearDying(actor);
+    else if (soft < value) await clearDying(actor, { nonlethalOnly: true });
     return { damage: 0, healed: value - pv.value };
+  }
+  let temp = pv.temp ?? 0;
+  const update = {};
+  // Nonlethal damage goes to its own count (temporary PV take it first)
+  let soft = pv.nonlethal ?? 0;
+  const softIn = Math.max(0, nonlethal);
+  if (softIn > 0) {
+    const fromTempSoft = Math.min(temp, softIn);
+    temp -= fromTempSoft;
+    soft += softIn - fromTempSoft;
+    update[`${base}.nonlethal`] = soft;
   }
   let damage = Math.max(0, amount);
   // Effects that absorb damage first (a barrier of 100 points), then those that end when hit
@@ -261,22 +292,39 @@ export async function applyToActor(actor, { amount = 0, heal = 0, source = "", c
       await updateEffect(actor, effect.id, { [`flags.${SYSTEM}.absorb`]: pool - taken });
     }
   }
-  if (damage > 0) {
-    const ending = actor.effects.filter(e => e.flags?.[SYSTEM]?.consumeOn === "damageTaken" && e.active).map(e => e.id);
+  if ((damage > 0) || (softIn > 0)) {
+    const { consumes } = await import("./effects.mjs");
+    const ending = actor.effects.filter(e => consumes(e, "damageTaken") && e.active).map(e => e.id);
     if (ending.length) { const { deleteEffects } = await import("./effects.mjs"); await deleteEffects(actor, ending); }
   }
-  const fromTemp = Math.min(pv.temp ?? 0, damage);
+  const fromTemp = Math.min(temp, damage);
   const toPv = damage - fromTemp;
   const before = pv.value;
   const after = before - toPv;
-  await updateActor(actor, { [`${base}.temp`]: (pv.temp ?? 0) - fromTemp, [`${base}.value`]: after });
+  update[`${base}.temp`] = temp - fromTemp;
+  update[`${base}.value`] = after;
+  // A regenerating creature (the titans) only keeps the damage of criticals
+  if (card?.critical && (actor.system.traits?.regeneration === true) && (toPv > 0)) update[`flags.${SYSTEM}.critDamage`] = (actor.flags?.[SYSTEM]?.critDamage ?? 0) + toPv;
+  await updateActor(actor, update);
+  // Being hurt breaks a fascination (p. 250)
+  if ((damage > 0) || (softIn > 0)) {
+    const ids = actor.effects.filter(e => e.statuses?.has("fascinado")).map(e => e.id);
+    if (ids.length) { const { deleteEffects } = await import("./effects.mjs"); await deleteEffects(actor, ids); }
+  }
   if ((before > 0) && (after <= 0)) await onFall(actor, { damage, source, card });
-  return { damage, healed: 0 };
+  // As much nonlethal damage as PV: knocked out, not dying
+  else if ((after > 0) && (softIn > 0) && (soft >= after) && !actor.effects.some(e => e.flags?.[SYSTEM]?.nonlethalFall)) {
+    await createEffects(actor, [{
+      name: game.i18n.localize("IJ.Condition.inconsciente"), img: CONFIG.statusEffects.find(st => st.id === "inconsciente")?.img,
+      statuses: ["inconsciente"], showIcon: CONST.ACTIVE_EFFECT_SHOW_ICON.ALWAYS, flags: { [SYSTEM]: { condition: "inconsciente", fall: true, nonlethalFall: true } }
+    }]);
+  }
+  return { damage: damage + softIn, healed: 0, nonlethal: softIn };
 }
 
-/** Remove the conditions of falling. */
-async function clearDying(actor) {
-  const ids = actor.effects.filter(e => e.flags?.[SYSTEM]?.fall).map(e => e.id);
+/** Remove the conditions of falling (or only the knockout of nonlethal damage). */
+async function clearDying(actor, { nonlethalOnly = false } = {}) {
+  const ids = actor.effects.filter(e => e.flags?.[SYSTEM]?.fall && (!nonlethalOnly || e.flags[SYSTEM].nonlethalFall)).map(e => e.id);
   if (ids.length) {
     const { deleteEffects } = await import("./effects.mjs");
     await deleteEffects(actor, ids);
@@ -298,6 +346,10 @@ async function onFall(actor, { damage, source, card }) {
         });
       }
     }
+  } else if (traits.regeneration && ((actor.flags?.[SYSTEM]?.critDamage ?? 0) < hpOf(actor).max)) {
+    // Regenerates even in pieces: down, not dead, while criticals haven't done it all
+    fall.push({ name: game.i18n.localize("IJ.Condition.inconsciente"), img: CONFIG.statusEffects.find(s => s.id === "inconsciente")?.img,
+      statuses: ["inconsciente"], showIcon: CONST.ACTIVE_EFFECT_SHOW_ICON.ALWAYS, flags: { [SYSTEM]: { condition: "inconsciente", fall: true } } });
   } else {
     fall.push({ name: game.i18n.localize("EFFECT.StatusDead"), img: "icons/svg/skull.svg", statuses: ["dead"], showIcon: CONST.ACTIVE_EFFECT_SHOW_ICON.ALWAYS, flags: { [SYSTEM]: { fall: true } } });
   }
@@ -343,14 +395,50 @@ export async function applyCard(message, { half = null } = {}) {
   const actors = cardTargets(message);
   if (!actors.length) return ui.notifications.warn(L("IJ.Chat.noTarget"));
   const lines = [];
+  let dealt = 0;
   for (const actor of actors) {
     const result = await computeDamage(actor, card, { half });
-    const applied = await applyToActor(actor, { amount: result.amount, heal: result.heal, source: message.id, card });
+    const applied = await applyToActor(actor, { amount: result.amount - (result.nonlethal ?? 0), nonlethal: result.nonlethal ?? 0, heal: result.heal, source: message.id, card });
     lines.push({ name: actor.name, damage: applied.damage, healed: applied.healed, notes: result.notes });
+    dealt += applied.damage ?? 0;
     // Retaliation: Sangue Ácido, armaduras gélidas (melee hits that dealt damage)
     if (card.melee && card.attacker && (applied.damage > 0)) await retaliate(actor, await fromUuid(card.attacker));
+    // Saves whose DC is the damage dealt (Golpe Avassalador, Investida Avassaladora)
+    if (card.source && (applied.damage > 0)) await askDamageSaves(card, actor, applied.damage);
+  }
+  // Draining damage (Drenar Forças, Assimilação): the attacker gains what it dealt, as temporary PV or healing
+  if (card.drain && card.attacker && (dealt > 0)) {
+    const who = await fromUuid(card.attacker);
+    if (who) {
+      if (card.drain === "heal") await applyToActor(who, { heal: dealt });
+      else { const { grantTempPv } = await import("./effects.mjs"); await grantTempPv(who, dealt); }
+      lines.push({ name: who.name, damage: 0, healed: card.drain === "heal" ? dealt : 0, notes: [game.i18n.format("IJ.Auto.drained", { n: dealt })] });
+    }
   }
   await postApplied(message, lines, card);
+}
+
+/** The saves of the attack's hit effects whose DC is the damage this creature took. */
+async function askDamageSaves(card, actor, damage) {
+  const atkMsg = game.messages.get(card.source);
+  const atk = atkMsg?.flags?.[SYSTEM]?.attack;
+  if (!atk) return;
+  const hit = (atk.targets ?? []).find(t => t.uuid === actor.uuid);
+  if (atk.targets?.length && !hit?.hit) return;
+  const { infoCard } = await import("../dice/rolls.mjs");
+  for (const h of atk.onHit ?? []) {
+    if (!h.save?.type || !String(h.save.dc ?? "").includes("@damage")) continue;
+    if (h.critOnly && atk.targets?.length && !hit?.crit) continue;
+    const dc = Math.floor(evaluate(String(h.save.dc).replace(/@damage/g, String(damage)), {}));
+    await infoCard({
+      actor, kind: "save", kanji: "守", title: h.label, subtitle: actor.name,
+      body: `<p>${foundry.utils.escapeHTML(game.i18n.format("IJ.Auto.damageSave", { name: actor.name, n: damage }))}</p>`,
+      buttons: [{
+        ijAction: "save", save: h.save.type, dc, source: h.label, sourceMsg: atkMsg.id, actor: actor.uuid, icon: "fa-solid fa-shield-halved",
+        label: game.i18n.format("IJ.Jutsu.saveButton", { save: L(CONFIG.IJ.SAVES[h.save.type].label), dc })
+      }]
+    });
+  }
 }
 
 /** A short card saying what each target took. */

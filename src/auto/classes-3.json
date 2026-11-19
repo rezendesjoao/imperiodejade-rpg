@@ -249,19 +249,20 @@
   "Wu-Jen/Estudos Caóticos": { "status": "narrativo", "notes": "Arraste do compêndio o talento de jutsu escolhido." },
   "Wu-Jen/Iniciado da Mente": { "passive": [{ "key": "system.attributes.pm.bonus", "value": "max(0, @int)" }] },
   "Wu-Jen/Segredos da Anulação": {
-    "status": "parcial", "notes": "A disputa de Vontade e a anulação do jutsu ficam à mão.",
+    "status": "parcial", "notes": "Identificar Magia antes é à mão; vencendo a disputa, o jutsu do conjurador não faz efeito: não aplique o cartão dele.",
     "activation": {
       "cost": 0, "action": "reação", "uses": { "max": 1, "per": "rodada" },
       "variable": { "min": 1, "max": "@pmLimit", "label": "PM gastos pelo conjurador", "costPer": 1 },
-      "note": "Use após identificar o jutsu; depois dispute Vontade com o conjurador."
+      "contest": { "mine": "save:von", "theirs": "save:von", "who": "any", "onWin": {} },
+      "note": "Marque o conjurador como alvo: disputa de Vontade contra ele."
     }
   },
   "Wu-Jen/Adepto da Mente": { "passive": [{ "key": "system.attributes.pm.bonus", "value": "max(0, @int)" }] },
   "Wu-Jen/Mestre da Mente": { "passive": [{ "key": "system.attributes.pm.bonus", "value": "max(0, @int)" }] },
   "Wu-Jen/Caos Elemental": {
-    "status": "parcial", "notes": "Role e pague os 3d4 PM à mão; o dano ignora resistências e imunidades.",
+    "status": "parcial", "notes": "Role os 3d4 e ponha o total no diálogo (1 PM cada); ignorar resistências, imunidades e habilidades do alvo fica à mão.",
     "traits": {
-      "jutsuEnhancements": [{ "id": "caosElemental", "label": "Caos elemental (3d4 PM à parte)", "cost": 0, "max": 1, "effect": "note",
+      "jutsuEnhancements": [{ "id": "caosElemental", "label": "Caos elemental (role 3d4: 1 PM por ponto)", "cost": 1, "max": 12, "effect": "note",
         "filter": { "descriptor": ["acido", "eletricidade", "fogo", "frio", "vento", "elemental"] } }]
     }
   }

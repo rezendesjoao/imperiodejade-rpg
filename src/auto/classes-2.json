@@ -785,16 +785,15 @@
             "unit": "cena"
           },
           "honorViolation": "severa",
-          "self": {
-            "key": "momentoTormenta",
-            "aura": {
-              "radius": 9,
-              "who": "any",
-              "includeSelf": true,
-              "label": "Área de Tormenta"
-            }
-          },
-          "note": "Área de 9 m de raio em você; role 1d6 agora e no início de cada turno seu."
+          "note": "Área de 9 m de raio, posta no mapa em volta de você; role 1d6 agora e no início de cada turno seu.",
+          "zone": {
+            "radius": 9,
+            "at": "self",
+            "who": "any",
+            "includeSelf": true,
+            "label": "Área de Tormenta",
+            "key": "momentoTormenta"
+          }
         },
         {
           "id": "chuva",
@@ -879,8 +878,6 @@
     ]
   },
   "Onimusha/Matador supremo": {
-    "status": "parcial",
-    "notes": "Contra monstro imune a crítico com ND menor que seu nível, a mesa aplica o crítico.",
     "rollOptions": [
       {
         "id": "supremo",
@@ -889,6 +886,14 @@
         "when": "vsMonster",
         "locked": true,
         "strict": true
+      },
+      {
+        "id": "supremoImune",
+        "label": "Matador supremo (atravessa a imunidade a crítico)",
+        "ignoreCritImmunity": true,
+        "when": "vsMonster&vsNdBelowLevel",
+        "strict": true,
+        "locked": true
       }
     ]
   }

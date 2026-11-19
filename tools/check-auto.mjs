@@ -17,19 +17,19 @@ const args = process.argv.slice(2);
 const stats = args.includes("--stats");
 const only = args.filter(a => !a.startsWith("--"));
 
-const TOP = ["passive", "requires", "traits", "rollOptions", "activation", "reactions", "triggers", "grants", "choice", "status", "notes", "damageType", "touch", "dishonor"];
+const TOP = ["passive", "requires", "traits", "rollOptions", "activation", "reactions", "triggers", "grants", "choice", "status", "notes", "damageType", "touch", "dishonor", "nonlethal", "thrown", "stack", "noDamage", "meleeUse"];
 const CONDITIONS = ["abalado", "agarrado", "apavorado", "atordoado", "caido", "cego", "confuso", "desprevenido", "enjoado", "enredado",
   "exausto", "fascinado", "fatigado", "inconsciente", "incorporeo", "indefeso", "inerte", "invisivel", "lento", "ofuscado",
   "paralisado", "pasmo", "sangrando", "surdo", "surpreendido"];
 const IMMUNE = ["medo", "critico", "furtivo", "doenca", "veneno", "sono", "fadiga", "enjoo", "paralisia", "atordoamento", "encantamento",
   "ilusao", "movimento", "acido", "eletricidade", "fogo", "frio", "vento", "luz", "trevas", "vacuo", "sonico", "surpresa",
-  "danoHabilidade", "transmutacao", "humanoide", "envelhecimento", "nivelNegativo", "adivinhacao", ...CONDITIONS];
+  "danoHabilidade", "transmutacao", "humanoide", "envelhecimento", "nivelNegativo", "adivinhacao", "corte", "perfuracao", "esmagamento", ...CONDITIONS];
 const ENERGIES = ["acido", "eletricidade", "fogo", "frio", "vento", "luz", "trevas", "vacuo", "sonico", "energia"];
 const UNITS = ["rodada", "turno", "cena", "minuto", "hora", "dia"];
 const USES = ["rodada", "cena", "dia", "sessao", "total"];
 const SAVES = ["fort", "ref", "von"];
 const SITUATIONS = ["hpHalf", "hp10", "hp20", "inDanger", "vsMonster", "vsYoukai", "vsAnimal", "vsConstruct", "vsHumanoid", "vsLowerHonor", "vsDishonored",
-  "vsSordid", "vsInhuman", "vsHonored", "vsFlatFooted", "vsProne", "inCombat", "outOfCombat", "noArmor", "resolve"];
+  "vsSordid", "vsInhuman", "vsHonored", "vsFlatFooted", "vsProne", "inCombat", "outOfCombat", "noArmor", "resolve", "flanking", "vsLevelBelowMine", "vsNdBelowLevel", "vsAlly", "vsEnemy"];
 const FOR = ["attack", "save", "skill", "ability", "initiative", "maneuver"];
 const SKILLS = ["acrobacia", "adestrarAnimais", "atletismo", "atuacao", "cavalgar", "conhecimento", "cura", "diplomacia", "enganacao",
   "furtividade", "identificarMagia", "iniciativa", "intimidacao", "intuicao", "ladinagem", "obterInformacao", "oficio", "percepcao", "sobrevivencia"];
@@ -38,15 +38,18 @@ const TRAITS = ["evasion", "uncannyDodge", "fortification", "immune", "resist", 
   "trainedSkills", "untrainedSkills", "proficiency", "exotic", "proficiencyShift", "finesse", "finesseDamage", "rangedDexDamage",
   "twoHandedStrength", "conToCa", "unarmed", "deathAtFull", "nemMorto", "reservePerScene", "reserveHonorBonus", "reserveExtra",
   "touchUsesCa", "jutsuMeleeAbility", "fastHealing", "retaliate", "costMods", "jutsuCost", "jutsuDc", "jutsuDamage", "jutsuHeal",
-  "jutsuGradeDown", "jutsuEnhancements", "incorporeal", "guardAllies", "defense", "seeInvisible", "touchIncorporeal", "missChance"];
+  "jutsuGradeDown", "jutsuEnhancements", "incorporeal", "guardAllies", "defense", "seeInvisible", "touchIncorporeal", "missChance",
+  "noFlank", "noFastHealing", "regeneration", "honorShift", "critAgainst", "lethalUnarmed", "powerDice", "revealed", "noJutsus", "armorFree", "ignoreConcealment", "exposed"];
 const FILTER = ["melee", "ranged", "unarmed", "light", "twoHanded", "monk", "ninja", "weapon", "chosenWeapon", "chosenWeaponOf", "weaponCategory", "skills", "maneuvers",
   "saves", "abilities", "chakra", "descriptor", "jutsu", "chosenJutsu", "jutsuExact", "itemName"];
 const OPTION_KEYS = ["id", "label", "for", "filter", "value", "attack", "damage", "type", "noCrit", "precision", "ca", "critRange", "critMult",
-  "ignoreRd", "cost", "pm", "when", "locked", "optional", "strict", "minRank", "minLevel", "option", "onHit", "onCrit", "note", "reroll", "best", "extraAttack", "selfEffect", "defense", "both", "autoCrit", "touch", "noMissChance"];
+  "ignoreRd", "cost", "pm", "when", "locked", "optional", "strict", "minRank", "minLevel", "option", "onHit", "onCrit", "note", "reroll", "best", "extraAttack", "selfEffect", "defense", "both", "autoCrit", "touch", "noMissChance", "ignoreCritImmunity", "nonlethal", "ranged", "weaponDice", "weaponType", "damageMult", "damageSteps", "take10", "rerollCost", "toMelee"];
 const ACTIVATION_KEYS = ["cost", "variable", "action", "uses", "duration", "self", "tempPv", "heal", "healTargets", "restore", "targets", "save",
-  "damage", "attack", "honorViolation", "note", "options", "consume", "anywhere", "extraSaves"];
+  "damage", "attack", "honorViolation", "note", "options", "consume", "anywhere", "extraSaves", "endEffects", "zone", "check", "contest", "setScores"];
 const BLOCK_KEYS = ["changes", "traits", "rollOptions", "conditions", "statuses", "key", "duration", "who", "includeSelf", "save", "damage", "pmLoss", "variants", "removeConditions", "turnStart",
-  "abilityDamage", "negativeLevels", "setPv", "kill", "dispel", "aura", "reactions", "consumeOn", "absorb", "half", "negate", "onFail", "onSuccess", "type", "dc", "label"];
+  "abilityDamage", "negativeLevels", "setPv", "kill", "dispel", "aura", "reactions", "consumeOn", "absorb", "half", "negate", "onFail", "onSuccess", "type", "dc", "label",
+  "endWith", "immuneFor", "onFailBy5", "disease", "cure", "poison", "restore", "healAbility", "removeNegativeLevels"];
+const DISEASE_NAMES = ["calafrios diabolicos", "enjoo cegante", "febre demoniaca", "febre do esgoto", "febre do riso", "febre escarlate", "febre mental", "maldicao pegajosa", "tremores"];
 const REACTION_ON = ["saveFailed", "saveRolled", "dropToZero", "attacked", "honorDamage", "allyDown"];
 const REACTION_EFFECTS = ["reroll", "addBonus", "negateDamage", "stayUp", "counterattack", "opposedAttack", "opposedSkill", "reduceHonor", "honorTest", "note"];
 const PASSIVE_PREFIX = [/^system\.abilities\.(for|des|con|int|sab|car|hon)\.bonus$/, /^system\.skills\.\w+\.(bonus|ability|trained)$/,
@@ -93,11 +96,12 @@ const conditions = (where, list) => {
     const id = typeof c === "string" ? c : c?.id;
     check(where, CONDITIONS.includes(id), `condição "${id}"`);
     if (c?.duration) duration(where, c.duration);
+    if (c?.endWith) check(where, CONDITIONS.includes(c.endWith), `endWith "${c.endWith}"`);
   }
 };
 const situations = (where, when) => {
   if (!when) return;
-  for (const w of String(when).split("|")) check(where, SITUATIONS.includes(w.trim()), `situação "${w}"`);
+  for (const w of String(when).split(/[|&]/)) check(where, SITUATIONS.includes(w.trim()) || /^vsHonor(Max|Min):-?\d+$/.test(w.trim()) || /^vsLevel(Max|Min):.+$/.test(w.trim()) || /^(vs|self)Status:(\w+)$/.test(w.trim()) && CONDITIONS.includes(w.trim().split(":")[1]), `situação "${w}"`);
 };
 const changes = (where, list) => {
   for (const c of list ?? []) {
@@ -120,7 +124,7 @@ const traitsOk = (where, t) => {
   for (const k of ["evasion", "uncannyDodge", "fortification", "reserveHonorBonus", "fastHealing", "proficiencyShift", "guardAllies", "deathAtFull"]) {
     if (t?.[k] !== undefined) check(where, formulaOk(t[k]), `${k} "${t[k]}"`);
   }
-  for (const k of ["jutsuCost", "jutsuDc", "jutsuDamage", "jutsuHeal", "costMods"]) {
+  for (const k of ["jutsuCost", "jutsuDc", "jutsuDamage", "jutsuHeal", "costMods", "powerDice"]) {
     for (const r of t?.[k] ?? []) {
       if (r.value !== undefined) check(where, formulaOk(r.value), `${k}.value "${r.value}"`);
       if (r.filter) filterOk(where, r.filter);
@@ -130,7 +134,7 @@ const traitsOk = (where, t) => {
   for (const r of t?.retaliate ?? []) check(where, formulaOk(r.formula), `retaliate "${r.formula}"`);
   for (const e of t?.jutsuEnhancements ?? []) {
     check(where, !!e.id && !!e.label, "aprimoramento sem id/label");
-    check(where, ["maximize", "dc", "dcHonor", "note"].includes(e.effect ?? "note"), `aprimoramento com effect "${e.effect}"`);
+    check(where, ["maximize", "dc", "dcHonor", "note", "extend", "ranged", "share"].includes(e.effect ?? "note"), `aprimoramento com effect "${e.effect}"`);
   }
 };
 const optionOk = (where, o) => {
@@ -141,8 +145,20 @@ const optionOk = (where, o) => {
   for (const k of ["value", "attack", "ca", "critRange", "critMult", "cost"]) if (o[k] !== undefined) check(where, formulaOk(o[k]), `${k} "${o[k]}"`);
   if (o.damage !== undefined) check(where, formulaOk(o.damage), `dano "${o.damage}"`);
   if (o.ignoreRd !== undefined && o.ignoreRd !== "all") check(where, formulaOk(o.ignoreRd), `ignoreRd "${o.ignoreRd}"`);
-  if (o.onHit?.save) check(where, SAVES.includes(o.onHit.save.type), `onHit.save "${o.onHit.save.type}"`);
-  conditions(where, o.onHit?.conditions);
+  if (o.weaponDice !== undefined) check(where, /^\d*d\d+$/i.test(String(o.weaponDice)), `weaponDice "${o.weaponDice}"`);
+  if (o.damageSteps !== undefined) check(where, formulaOk(o.damageSteps), `damageSteps "${o.damageSteps}"`);
+  if (o.damageMult !== undefined) check(where, Number(o.damageMult) >= 1, `damageMult "${o.damageMult}"`);
+  for (const h of [o.onHit, o.onCrit].filter(Boolean)) hitOk(where, h);
+};
+/** What a hit brings: a save with its outcomes, or conditions, changes and traits on the creature hit. */
+const hitOk = (where, h) => {
+  if (h.save) check(where, SAVES.includes(h.save.type), `onHit.save "${h.save.type}"`);
+  if (h.save?.dc !== undefined) check(where, String(h.save.dc).includes("@damage") || formulaOk(String(h.save.dc).replace(/@attack/g, "3")), `onHit.save.dc "${h.save.dc}"`);
+  conditions(where, h.conditions);
+  changes(where, h.changes);
+  traitsOk(where, h.traits);
+  duration(where, h.duration);
+  for (const k of ["onFail", "onSuccess", "onFailBy5"]) if (h[k]) blockOk(where, h[k]);
 };
 const blockOk = (where, b) => {
   if (!b) return;
@@ -152,11 +168,17 @@ const blockOk = (where, b) => {
   for (const o of b.rollOptions ?? []) optionOk(where, o);
   conditions(where, b.conditions);
   duration(where, b.duration);
-  if (b.who) check(where, ["allies", "enemies", "any"].includes(b.who), `who "${b.who}"`);
+  if (b.who) check(where, ["allies", "enemies", "any", "self"].includes(b.who), `who "${b.who}"`);
+  if (b.aura) {
+    keysIn(where, b.aura, ["radius", "who", "includeSelf", "label", "changes", "traits", "rollOptions", "turnStart", "conditions"], "chave de aura");
+    check(where, formulaOk(b.aura.radius ?? 9), `aura.radius "${b.aura.radius}"`);
+    blockOk(where, { changes: b.aura.changes, traits: b.aura.traits, rollOptions: b.aura.rollOptions, conditions: b.aura.conditions, turnStart: b.aura.turnStart });
+  }
+  if (typeof b.disease === "string") check(where, DISEASE_NAMES.includes(norm(b.disease)), `doença "${b.disease}"`);
   if (b.save) check(where, SAVES.includes(b.save.type), `save "${b.save.type}"`);
   for (const id of b.removeConditions ?? []) check(where, CONDITIONS.includes(id), `condição a remover "${id}"`);
   if (b.turnStart) {
-    keysIn(where, b.turnStart, ["damage", "type", "heal", "save", "half", "negate", "endOnSave", "conditions", "abilityDamage", "ignoreRd"], "chave de turnStart");
+    keysIn(where, b.turnStart, ["damage", "type", "heal", "save", "half", "negate", "endOnSave", "conditions", "abilityDamage", "ignoreRd", "conditionsBy5", "immuneFor"], "chave de turnStart");
     if (b.turnStart.damage) check(where, formulaOk(b.turnStart.damage), `turnStart.damage "${b.turnStart.damage}"`);
     if (b.turnStart.heal) check(where, formulaOk(b.turnStart.heal), `turnStart.heal "${b.turnStart.heal}"`);
     if (b.turnStart.save) check(where, SAVES.includes(b.turnStart.save.type), `turnStart.save "${b.turnStart.save.type}"`);
@@ -165,7 +187,7 @@ const blockOk = (where, b) => {
   for (const v of b.variants ?? []) { const { when, ...rest } = v; situations(where, when); blockOk(where, rest); }
 };
 const activationOk = (where, a, nested = false) => {
-  keysIn(where, a, nested ? [...ACTIVATION_KEYS, "id", "label", "option", "minLevel", "minRank", "honorMin", "hint"] : ACTIVATION_KEYS, "chave de activation");
+  keysIn(where, a, nested ? [...ACTIVATION_KEYS, "id", "label", "option", "minLevel", "minRank", "honorMin", "hint", "free", "dcDelta"] : ACTIVATION_KEYS, "chave de activation");
   if (a.cost !== undefined) check(where, formulaOk(a.cost), `custo "${a.cost}"`);
   if (a.variable) { check(where, formulaOk(a.variable.max ?? 1), `variable.max "${a.variable.max}"`); }
   if (a.uses) { check(where, USES.includes(a.uses.per), `uses.per "${a.uses.per}"`); check(where, formulaOk(a.uses.max ?? 1), `uses.max "${a.uses.max}"`); }
@@ -174,7 +196,7 @@ const activationOk = (where, a, nested = false) => {
   blockOk(where, a.targets);
   for (const k of ["tempPv", "heal"]) if (a[k] !== undefined) check(where, formulaOk(a[k]), `${k} "${a[k]}"`);
   if (a.restore) for (const [k, v] of Object.entries(a.restore)) check(where, formulaOk(v), `restore.${k} "${v}"`);
-  if (a.save) {
+  if (a.save && (a.save !== false)) {
     check(where, SAVES.includes(a.save.type), `save "${a.save.type}"`);
     if (a.save.dc !== undefined) check(where, formulaOk(a.save.dc), `CD "${a.save.dc}"`);
     blockOk(where, a.save.onFail);
@@ -188,13 +210,51 @@ const activationOk = (where, a, nested = false) => {
     if (s.dc !== undefined) check(where, formulaOk(s.dc), `extraSaves.dc "${s.dc}"`);
     blockOk(where, s.onFail); blockOk(where, s.onSuccess);
   }
-  if (a.attack && !(a.attack.weapon && !a.attack.type)) check(where, ["corpo", "toque", "distancia", "toqueDistancia"].includes(a.attack.type), `ataque "${a.attack.type}"`);
+  for (const h of [a.attack?.onHit, a.attack?.onCrit].filter(Boolean)) hitOk(where, h);
+  // A jutsu's attack may take its type from the jutsu (only onHit here)
+  if (a.attack && (a.attack.type !== undefined)) check(where, ["corpo", "toque", "distancia", "toqueDistancia"].includes(a.attack.type), `ataque "${a.attack.type}"`);
   if (a.honorViolation) check(where, ["leve", "moderada", "severa", "extrema"].includes(a.honorViolation), `violação "${a.honorViolation}"`);
+  if (a.setScores) for (const [k, v] of Object.entries(a.setScores)) { check(where, ABILITIES.includes(k), `setScores "${k}"`); check(where, formulaOk(v), `setScores.${k} "${v}"`); }
+  if (a.check) {
+    keysIn(where, a.check, ["skill", "dc", "label", "specialty"], "chave de check");
+    check(where, SKILLS.includes(a.check.skill), `check.skill "${a.check.skill}"`);
+    if (a.check.dc !== undefined) check(where, formulaOk(a.check.dc), `check.dc "${a.check.dc}"`);
+  }
+  if (a.contest) {
+    keysIn(where, a.contest, ["mine", "theirs", "onWin", "who", "label"], "chave de contest");
+    for (const side of [a.contest.mine, a.contest.theirs].filter(Boolean)) {
+      const [kind, key] = String(side).split(":");
+      check(where, (kind === "skill" && SKILLS.includes(key)) || (kind === "save" && SAVES.includes(key)) || (kind === "ability" && ABILITIES.includes(key)) || (kind === "attack") || (kind === "fixed" && Number.isFinite(Number(key))), `contest "${side}"`);
+    }
+    blockOk(where, a.contest.onWin);
+  }
+  if (a.attack?.critical) check(where, Number(a.attack.critical.range ?? 20) >= 2 && Number(a.attack.critical.mult ?? 2) >= 2, "attack.critical");
+  if (a.damage?.drain) check(where, ["tempPv", "heal"].includes(a.damage.drain), `damage.drain "${a.damage.drain}"`);
+  if (a.zone) {
+    keysIn(where, a.zone, ["radius", "who", "includeSelf", "label", "changes", "traits", "rollOptions", "turnStart", "conditions", "at", "duration", "key"], "chave de zone");
+    check(where, formulaOk(a.zone.radius ?? 3), `zone.radius "${a.zone.radius}"`);
+    if (a.zone.who) check(where, ["allies", "enemies", "any", "self"].includes(a.zone.who), `zone.who "${a.zone.who}"`);
+    blockOk(where, { changes: a.zone.changes, traits: a.zone.traits, rollOptions: a.zone.rollOptions, conditions: a.zone.conditions, turnStart: a.zone.turnStart });
+  }
   const ids = new Set();
   for (const o of a.options ?? []) {
     check(where, !!o.id && !ids.has(o.id), `opção sem id ou repetida "${o.id}"`);
     ids.add(o.id);
     activationOk(`${where}/${o.id}`, o, true);
+  }
+};
+
+/** A grant: a compendium item by name, or an item written in the data (a natural weapon). */
+const grantOk = (where, g) => {
+  if (!g?.item) return check(where, !!g?.name, "concessão sem nome");
+  check(where, !!g.item.name && ["weapon", "armor", "gear", "power", "feat", "consumable"].includes(g.item.type), `item concedido "${g.item.name}" (${g.item.type})`);
+  if (g.item.type === "weapon") {
+    const sys = g.item.system ?? {};
+    check(where, /^\d*d\d+$/i.test(String(sys.damage ?? "1d6")), `dano da arma concedida "${sys.damage}"`);
+    if (sys.damageType) check(where, ["C", "P", "E", "CP", "PE"].includes(sys.damageType), `tipo da arma concedida "${sys.damageType}"`);
+    if (sys.kind) check(where, ["corpo", "arremesso", "disparo"].includes(sys.kind), `kind da arma concedida "${sys.kind}"`);
+    if (sys.grip) check(where, ["leve", "umaMao", "duasMaos"].includes(sys.grip), `grip da arma concedida "${sys.grip}"`);
+    if (sys.auto) checkAuto(`${where}/${g.item.name}`, sys.auto);
   }
 };
 
@@ -212,7 +272,7 @@ function checkAuto(where, auto) {
     if (r.cost !== undefined) check(where, formulaOk(r.cost), `reação custo "${r.cost}"`);
   }
   for (const t of auto.triggers ?? []) check(where, ["creatureDown"].includes(t.on), `gatilho "${t.on}"`);
-  for (const g of auto.grants ?? []) check(where, !!g.name, "concessão sem nome");
+  for (const g of auto.grants ?? []) grantOk(where, g);
   if (auto.choice) {
     const ids = new Set();
     for (const o of auto.choice.options ?? []) {
@@ -222,7 +282,7 @@ function checkAuto(where, auto) {
       changes(`${where}/${o.id}`, o.passive);
       traitsOk(`${where}/${o.id}`, o.traits);
       for (const r of o.rollOptions ?? []) optionOk(`${where}/${o.id}`, r);
-      for (const g of o.grants ?? []) check(where, !!g.name, "concessão sem nome");
+      for (const g of o.grants ?? []) grantOk(where, g);
     }
     if (auto.choice.count !== undefined) check(where, formulaOk(auto.choice.count), `choice.count "${auto.choice.count}"`);
   }

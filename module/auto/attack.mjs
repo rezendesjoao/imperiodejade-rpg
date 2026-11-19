@@ -4,7 +4,7 @@
  * criticals, what a hit brings (PM drained, a save against a condition) and the reactions of who was attacked.
  * The damage buttons of the card know the hits and the options chosen.
  */
-import { SYSTEM, rollOptionsFor, isImmune, evaluate, resolveFormula, situation } from "./context.mjs";
+import { SYSTEM, rollOptionsFor, isImmune, evaluate, resolveFormula, situation, isFlanked, stepDice } from "./context.mjs";
 import { askOptions, optionTag } from "./dialog.mjs";
 import { conditionMods, attackVs, effectiveStatuses } from "./conditions.mjs";
 import { adjustCost } from "./activation.mjs";
@@ -66,23 +66,44 @@ function targetsOf(target) {
  * @param {string} [config.reaction]          Name of the reaction that made this attack
  * @param {boolean} [config.touch]            Touch attack (jutsus)
  */
-export async function attackRoll({ actor, weapon = null, ranged = false, unarmed = false, title, subtitle = "", bonus = 0, parts = [], critRange = 20, critMult = 2, damage = null, kanji = "刀", event = null, target = null, reaction = null, touch = false, extraFlags = {}, extraOptions = [] }) {
+export async function attackRoll({ actor, weapon = null, ranged = false, unarmed = false, title, subtitle = "", bonus = 0, parts = [], critRange = 20, critMult = 2, damage = null, kanji = "刀", event = null, target = null, reaction = null, touch = false, extraFlags = {}, extraOptions = [], preselect = null, free = false, fixedCa = null }) {
   const targets = targetsOf(target);
   const ctx = { weapon, melee: !ranged, ranged, unarmed, target: targets[0] ?? null };
   // Options of the attacker, plus those of what made the attack (a jutsu or ability riding the weapon)
-  const options = [...(actor ? rollOptionsFor(actor, "attack", ctx) : []), ...extraOptions];
+  const all = [...(actor ? rollOptionsFor(actor, "attack", ctx) : []), ...extraOptions];
+  // Options that let the attack be rolled again (Mestre em Arma) are buttons on the card, not bonuses
+  const rerolls = all.filter(o => o.reroll);
+  const options = all.filter(o => !o.reroll);
 
-  // Options and situational modifier
-  let picked = { selected: new Set(options.filter(o => o.locked || o.auto).map(o => o.id)), pm: {}, split: {}, bonus: 0 };
+  // Options and situational modifier (a reroll repeats the options of the first roll)
+  const pre = Array.isArray(preselect) ? { ids: preselect } : preselect;
+  let picked = { selected: new Set(pre?.ids ?? options.filter(o => o.locked || o.auto).map(o => o.id)), pm: pre?.pm ?? {}, split: pre?.split ?? {}, bonus: pre?.bonus ?? 0 };
   const optional = options.filter(o => !o.locked);
-  if ((event?.shiftKey || optional.length) && !event?.altKey) {
+  if (!preselect && (event?.shiftKey || optional.length) && !event?.altKey) {
     picked = await askOptions(title, options, { pmLimit: actor?.pmLimit ?? Infinity });
     if (!picked) return null;
   }
   const chosenOpts = options.filter(o => picked.selected.has(o.id));
+  // Weapon modes: thrown (a ranged attack), other dice or type (the closed fan, a light that turns the damage to light),
+  // damage steps (Garras do Tigre), doubled damage (a mounted charge)
+  if (chosenOpts.some(o => o.ranged)) ranged = true;
+  if (chosenOpts.some(o => o.toMelee)) ranged = false;
+  if (damage?.formula) {
+    const dice = chosenOpts.find(o => o.weaponDice)?.weaponDice;
+    if (dice) damage = { ...damage, formula: damage.formula.replace(/^\s*\d*d\d+/i, dice) };
+    const steps = chosenOpts.reduce((t, o) => t + (Number(o.damageSteps) || 0), 0);
+    if (steps > 0) damage = { ...damage, formula: damage.formula.replace(/^\s*(\d*d\d+)/i, (m, d) => stepDice(d, steps)) };
+    const wtype = chosenOpts.find(o => o.weaponType)?.weaponType;
+    if (wtype) damage = { ...damage, type: wtype };
+  }
+  // Multipliers add up: ×2 and ×2 make ×3
+  const damageMult = 1 + chosenOpts.reduce((t, o) => t + Math.max(0, (Number(o.damageMult) || 1) - 1), 0);
   // Options that make every hit a critical (a sworn enemy), the attack a touch attack, or ignore the miss chance
   const autoCrit = chosenOpts.some(o => o.autoCrit);
   const noMissChance = chosenOpts.some(o => o.noMissChance);
+  const pierceCrit = chosenOpts.some(o => o.ignoreCritImmunity);
+  // Nonlethal: unarmed strikes, or an option that makes the weapon's damage nonlethal (Piedosa)
+  const nonlethal = !!damage?.nonlethal || chosenOpts.some(o => o.nonlethal);
   if (chosenOpts.some(o => o.touch)) touch = true;
 
   // What the options add, and what they cost
@@ -104,23 +125,31 @@ export async function attackRoll({ actor, weapon = null, ranged = false, unarmed
       else { a += n * o.pm.attack; d += n * o.pm.damage; }
       if (o.pm.cap !== null && o.pm.cap !== undefined) { a = Math.min(a, o.pm.cap); d = Math.min(d, o.pm.cap); }
     }
-    cost += o.cost;
-    attack += a;
+    cost += o.cost || 0;
+    attack += a || 0;
     if (o.damage) {
       const n = Number(o.damage);
       if (Number.isFinite(n) && !o.damageType) flatDamage += n;
       else extraParts.push({ formula: o.damage, type: o.damageType || damage?.type || "", noCrit: o.noCrit || /d/i.test(o.damage), precision: o.precision, label: o.label });
     }
     flatDamage += d;
-    critRangeBonus += o.critRange;
-    critMultBonus += o.critMult;
-    ignoreRd = Math.max(ignoreRd, o.ignoreRd);
+    critRangeBonus += o.critRange || 0;
+    critMultBonus += o.critMult || 0;
+    ignoreRd = Math.max(ignoreRd, o.ignoreRd || 0);
     if (a) optionParts.push({ label: o.label, value: a });
   }
-  cost = adjustCost(actor, cost, { kind: "power" });
+  cost = free ? 0 : adjustCost(actor, cost, { kind: "power" });
   if (cost > 0 && actor) {
     if (cost > actor.pmLimit) return ui.notifications.warn(game.i18n.format("IJ.Auto.overLimit", { n: cost, limit: actor.pmLimit }));
     if (!(await actor.spendPm(cost))) return null;
+  }
+
+  // What an option does to the attacker itself (bashing with the shield: its CA bonus is gone until the next turn)
+  if (actor) {
+    for (const o of chosenOpts.filter(c => c.selfEffect)) {
+      const { createEffects, effectData, forActor } = await import("./effects.mjs");
+      await createEffects(actor, [effectData({ ...o.selfEffect, changes: forActor(o.selfEffect.changes ?? [], actor), name: o.label, duration: o.selfEffect.duration ?? null }, o.data ?? {})]);
+    }
   }
 
   // Conditions of a threat (a character's are already in its attack numbers)
@@ -146,11 +175,13 @@ export async function attackRoll({ actor, weapon = null, ranged = false, unarmed
   const results = [];
   for (const t of targets) {
     const vs = attackVs(t, { ranged });
-    let ca = armorClassOf(t);
+    // A fixed CA (holy water thrown at a square: CA 7), else the target's
+    const hasFixed = (fixedCa !== null) && (fixedCa !== undefined) && (fixedCa !== "");
+    let ca = hasFixed ? Number(fixedCa) : armorClassOf(t);
     let defense = "CA";
     const notes = [...vs.notes];
     // Touch attacks: the target resists with a Reflexos test (p. 230), unless an item lets it use the CA
-    if (touch && !t.system?.traits?.touchUsesCa) {
+    if (touch && !hasFixed && !t.system?.traits?.touchUsesCa) {
       const ref = t.type === "npc" ? (t.system.saveTotals?.ref ?? t.system.saves?.ref ?? 0) : (t.system.saves?.ref?.total ?? 0);
       const refRoll = await new Roll(`1d20 + ${ref}`).evaluate();
       ca = refRoll.total;
@@ -172,18 +203,25 @@ export async function attackRoll({ actor, weapon = null, ranged = false, unarmed
     // Alvo irresistível (bushi): attacks against the bushi's allies take a penalty while he can be seen
     const guard = guardPenalty(t);
     if (guard.value) notes.push(guard.note);
-    const value = roll.total + vs.bonus - guard.value;
+    // Flanking: an ally on the opposite side of the target (melee)
+    const flank = !ranged && isFlanked(actor, t);
+    if (flank) notes.push(L("IJ.Auto.flanking"));
+    const value = roll.total + vs.bonus - guard.value + (flank ? 2 : 0);
     let hit = (natural === 20) || ((natural !== 1) && (value >= ca));
     // Miss chance: a blind attacker or an invisible target (50%)
     let missRoll = null;
     const sees = actor?.system?.traits ?? {};
-    const hidden = (effectiveStatuses(t).has("invisivel") && !sees.seeInvisible) || ((effectiveStatuses(t).has("incorporeo") || t.system?.traits?.incorporeal) && !sees.touchIncorporeal);
-    const missChance = (attackerStatuses.has("cego") || hidden) ? 50 : (t.system?.traits?.missChance ?? 0);
+    // A revealed creature (Lanterna da revelação) has no invisibility against anyone
+    const hidden = (effectiveStatuses(t).has("invisivel") && !sees.seeInvisible && !t.system?.traits?.revealed) || ((effectiveStatuses(t).has("incorporeo") || t.system?.traits?.incorporeal) && !sees.touchIncorporeal);
+    // Seeing through concealment (Visão Perfeita, Chuva da Revelação) ignores the target's miss chance; blindness still counts
+    const missChance = (attackerStatuses.has("cego") || hidden) ? 50 : ((sees.ignoreConcealment || t.system?.traits?.exposed) ? 0 : (t.system?.traits?.missChance ?? 0));
     if (hit && missChance > 0 && !noMissChance) {
       missRoll = await new Roll("1d100").evaluate();
       if (missRoll.total <= missChance) { hit = false; notes.push(game.i18n.format("IJ.Auto.note.missChancePct", { n: missRoll.total, p: missChance })); }
     }
-    const crit = hit && (autoCrit || (natural >= threat)) && !isImmune(t, "critico");
+    // Every hit against some creatures is a critical (Wakizashi da Morte); some hits pierce the immunity
+    const against = !!t.system?.traits?.critAgainst;
+    const crit = hit && (autoCrit || (natural >= threat) || against) && (pierceCrit || against || !isImmune(t, "critico"));
     results.push({
       uuid: t.uuid, name: t.name, ca, defense, value, hit, crit, notes: notes.join(", "),
       reactions: reactionButtons(t, "attacked", { attacker: actor?.uuid, total: roll.total, ranged })
@@ -191,9 +229,23 @@ export async function attackRoll({ actor, weapon = null, ranged = false, unarmed
   }
 
   // What a hit brings: PM drained back to the attacker; a save against a condition. onCrit: only on critical hits
+  // The damage of a hit's outcome is fixed now with its source's numbers (@formula: the jutsu's damage with the
+  // enhancements paid), since the card keeps no roll data
+  const fixOutcome = (h) => {
+    const out = { ...h };
+    for (const k of ["onFail", "onSuccess", "onFailBy5"]) {
+      const dmg = out[k]?.damage;
+      const f = (typeof dmg === "string") ? dmg : dmg?.formula;
+      if (f && /@/.test(f)) {
+        const fixed = resolveFormula(f, h.data ?? {});
+        out[k] = { ...out[k], damage: (typeof dmg === "string") ? fixed : { ...dmg, formula: fixed } };
+      }
+    }
+    return out;
+  };
   const onHit = [
-    ...chosenOpts.filter(o => o.onHit).map(o => ({ ...o.onHit, label: o.label, data: o.data })),
-    ...chosenOpts.filter(o => o.onCrit).map(o => ({ ...o.onCrit, label: o.label, data: o.data, critOnly: true }))
+    ...chosenOpts.filter(o => o.onHit).map(o => fixOutcome({ ...o.onHit, label: o.label, data: o.data })),
+    ...chosenOpts.filter(o => o.onCrit).map(o => fixOutcome({ ...o.onCrit, label: o.label, data: o.data, critOnly: true }))
   ];
   const anyHit = results.some(r => r.hit) || (!results.length);
   const hitLines = [];
@@ -212,14 +264,31 @@ export async function attackRoll({ actor, weapon = null, ranged = false, unarmed
     const { applyOutcomeExtras } = await import("./activation.mjs");
     for (const h of onHit) {
       if (h.save?.type) continue;
+      if (h.natural20 && (natural !== 20)) continue;
       const struck = results.filter(x => x.hit && (!h.critOnly || x.crit));
       if (!struck.length) continue;
       for (const r of struck) {
         const doc = fromUuidSync(r.uuid);
         const t = doc?.actor ?? doc;
         if (!t?.system) continue;
-        for (const c of h.conditions ?? []) await applyCondition(t, c.id ?? c, { duration: c.duration ?? null, source: h.label });
+        // What only works on a body that can take criticals (Pancada Poderosa)
+        if (h.critImmuneSkip && isImmune(t, "critico")) continue;
+        for (const c of h.conditions ?? []) await applyCondition(t, c, { duration: c.duration ?? null, source: h.label });
+        // An effect the hit leaves on the target (Sasori'Ken: no fast healing for a round)
+        if (h.changes?.length || h.traits || h.rollOptions?.length) {
+          const { createEffects, effectData, forActor } = await import("./effects.mjs");
+          // A duration in dice is rolled now (1d4 rodadas)
+          let duration = h.duration ?? null;
+          if ((typeof duration?.value === "string") && /\d*d\d/i.test(duration.value)) duration = { ...duration, value: (await new Roll(resolveFormula(duration.value, h.data ?? {})).evaluate()).total };
+          await createEffects(t, [effectData({ ...h, changes: forActor(h.changes ?? [], t), name: h.label, duration }, h.data ?? {})]);
+        }
         await applyOutcomeExtras(t, h, h.data ?? {});
+      }
+      // What the hit gives (or costs) the attacker: temporary PV on a critical, the akamono's damage per hit
+      if (h.selfTempPv) { const { grantTempPv } = await import("./effects.mjs"); await grantTempPv(actor, Math.floor(evaluate(h.selfTempPv, h.data ?? {}))); }
+      if (h.selfDamage) {
+        const { applyToActor } = await import("./damage.mjs");
+        await applyToActor(actor, { amount: (await new Roll(resolveFormula(String(h.selfDamage), h.data ?? {})).evaluate()).total });
       }
       if (h.conditions?.length) hitLines.push(game.i18n.format("IJ.Auto.hitConditions", { what: h.label, list: h.conditions.map(c => game.i18n.localize(`IJ.Condition.${c.id ?? c}`)).join(", ") }));
     }
@@ -229,7 +298,11 @@ export async function attackRoll({ actor, weapon = null, ranged = false, unarmed
     if (!h.save?.type) continue;
     // A critical's save only when there was a critical (no targets: when the die threatened)
     if (h.critOnly && !(results.length ? results.some(r => r.crit) : (autoCrit || natural >= threat))) continue;
-    const dc = Math.floor(evaluate(h.save.dc ?? 15, h.data));
+    if (h.natural20 && (natural !== 20)) continue;
+    // A save whose DC is the damage dealt is asked when the damage is applied
+    if (String(h.save.dc ?? "").includes("@damage")) continue;
+    // @attack: the DC is the attack roll (Granada)
+    const dc = Math.floor(evaluate(h.save.dc ?? 15, Object.assign(Object.create(h.data ?? {}), { attack: roll.total })));
     saveButtons.push({
       ijAction: "save", save: h.save.type, dc, source: h.label, icon: "fa-solid fa-shield-halved",
       label: game.i18n.format("IJ.Jutsu.saveButton", { save: L(CONFIG.IJ.SAVES[h.save.type].label), dc })
@@ -247,6 +320,16 @@ export async function attackRoll({ actor, weapon = null, ranged = false, unarmed
     buttons.push({ ijAction: "extraAttack", label: L("IJ.Auto.extraAttack"), icon: "fa-solid fa-repeat", actor: actor.uuid, item: weapon?.id ?? "" });
   }
   for (const r of results) buttons.push(...r.reactions.map(b => ({ ...b, label: `${b.label} · ${r.name}` })));
+  // Roll it again, paying the option's PM (the second result stands)
+  for (const o of rerolls) {
+    if (!actor) break;
+    const price = Number(o.cost) || 0;
+    buttons.push({
+      ijAction: "rerollAttack", icon: "fa-solid fa-rotate", actor: actor.uuid, item: weapon?.id ?? "",
+      label: price ? `${o.label} (${price} PM)` : o.label,
+      payload: JSON.stringify({ ids: chosenOpts.map(c => c.id), pm: picked.pm, split: picked.split, bonus: picked.bonus, cost: price, ranged, label: o.label })
+    });
+  }
   // Attacking with a dishonorable weapon is an Honor violation (the owner confirms with the button)
   if (weapon?.system?.dishonorable && actor?.type === "character") {
     const severity = weapon.system.auto?.dishonor ?? "leve";
@@ -254,7 +337,8 @@ export async function attackRoll({ actor, weapon = null, ranged = false, unarmed
   }
   // Effects that end after the next attack ("só o próximo ataque")
   if (actor) {
-    const used = actor.effects.filter(e => e.flags?.[SYSTEM]?.consumeOn === "attack" && e.active).map(e => e.id);
+    const { consumes } = await import("./effects.mjs");
+    const used = actor.effects.filter(e => consumes(e, "attack") && e.active).map(e => e.id);
     if (used.length) { const { deleteEffects } = await import("./effects.mjs"); await deleteEffects(actor, used); }
   }
 
@@ -287,7 +371,12 @@ export async function attackRoll({ actor, weapon = null, ranged = false, unarmed
         attack: {
           actor: actor?.uuid ?? null, weapon: weapon?.id ?? null, unarmed, ranged, total: roll.total, natural,
           damage: damage ? { formula: damage.formula, type: damage.type ?? "", flat: flatDamage } : null,
-          extraParts, mult, ignoreRd: Number.isFinite(ignoreRd) ? ignoreRd : "all",
+          extraParts, mult, ignoreRd: Number.isFinite(ignoreRd) ? ignoreRd : "all", nonlethal, damageMult,
+          // Criticals that ignore immunity and fortification (A Última Flecha against akumushi; every hit on the Wakizashi's bearer)
+          pierceCrit: pierceCrit || results.some(r => {
+            const doc = r.crit ? fromUuidSync(r.uuid) : null;
+            return !!(doc?.actor ?? doc)?.system?.traits?.critAgainst;
+          }),
           targets: results.map(({ reactions, ...r }) => r),
           onHit: onHit.map(({ data, ...h }) => h)
         },
@@ -306,9 +395,15 @@ export async function attackRoll({ actor, weapon = null, ranged = false, unarmed
 export async function attackDamage(message, { critical = false } = {}) {
   const atk = message.flags?.[SYSTEM]?.attack;
   if (!atk?.damage) return null;
+  // Rolled again (Mestre em Arma): only the new card counts
+  if (message.flags?.[SYSTEM]?.superseded) {
+    ui.notifications.warn(L("IJ.Auto.superseded"));
+    return null;
+  }
   const actor = await fromUuid(atk.actor);
   const base = atk.damage.flat ? `${atk.damage.formula} + ${atk.damage.flat}` : atk.damage.formula;
-  const parts = [{ formula: base, type: atk.damage.type, physical: isPhysical(atk.damage.type), label: "" }, ...(atk.extraParts ?? [])];
+  const parts = [{ formula: base, type: atk.damage.type, physical: isPhysical(atk.damage.type), label: "" }, ...(atk.extraParts ?? [])]
+    .map(p => (atk.nonlethal ? { ...p, nonlethal: true } : p));
   // Normal damage goes to the plain hits, the critical to the critical hits (all hits when none was a critical)
   const hits = (atk.targets ?? []).filter(t => t.hit);
   const crits = hits.filter(t => t.crit);
@@ -325,8 +420,9 @@ export async function attackDamage(message, { critical = false } = {}) {
     parts,
     critical,
     mult: atk.mult,
+    extraMult: atk.damageMult ?? 1,
     ignoreRd: atk.ignoreRd === "all" ? Infinity : atk.ignoreRd,
-    link: { source: message.id, melee: !atk.ranged, targets: (atk.targets ?? []).length ? targets.map(t => t.uuid) : [] }
+    link: { source: message.id, melee: !atk.ranged, pierceCrit: !!atk.pierceCrit, targets: (atk.targets ?? []).length ? targets.map(t => t.uuid) : [] }
   });
 }
 

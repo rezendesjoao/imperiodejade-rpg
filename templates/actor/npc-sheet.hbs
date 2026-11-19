@@ -63,6 +63,12 @@
           {{else}}<span class="ij-hp__max">{{system.pv.max}}</span>{{/if}}
         </div>
         <div class="ij-bar ij-bar--pv"><span style="width: {{system.pv.pct}}%"></span></div>
+        {{#if system.pv.nonlethal}}
+        <div class="ij-hp__temp ij-hp__nonlethal" data-tooltip="{{localize 'IJ.PV.nonlethalHint'}}">
+          <span>{{localize "IJ.PV.nonlethal"}}</span>
+          <input class="ij-select-on-focus" type="text" inputmode="numeric" name="system.pv.nonlethal" value="{{system.pv.nonlethal}}">
+        </div>
+        {{/if}}
       </div>
 
       {{#if (or system.pm.max editMode)}}
@@ -91,7 +97,7 @@
       {{/if}}
       <dl class="ij-npc-lines">
         <dt>{{localize "IJ.Movement.label"}}</dt>
-        <dd>{{#if editMode}}<input type="text" name="system.movement" value="{{source.movement}}">{{else}}{{system.movement}}{{/if}}</dd>
+        <dd>{{#if editMode}}<input type="text" name="system.movement" value="{{source.movement}}">{{else}}{{system.movement}}{{#if system.movementNote}} <em class="ij-note">→ {{system.movementNote}}</em>{{/if}}{{/if}}</dd>
         <dt>{{localize "IJ.Npc.senses"}}</dt>
         <dd>{{#if editMode}}<input type="text" name="system.senses" value="{{source.senses}}">{{else}}{{#if system.senses}}{{system.senses}}{{else}}—{{/if}}{{/if}}</dd>
         {{#if (or system.caNote editMode)}}<dt>{{localize "IJ.CA.abbr"}}</dt>

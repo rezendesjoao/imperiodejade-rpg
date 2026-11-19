@@ -276,8 +276,20 @@
   },
   "Ataque Desarmado Aprimorado": {
     "traits": {
-      "unarmed": "1d4"
-    }
+      "unarmed": "1d4",
+      "lethalUnarmed": true
+    },
+    "rollOptions": [
+      {
+        "id": "naoLetal",
+        "label": "Golpe desarmado não letal",
+        "nonlethal": true,
+        "filter": {
+          "unarmed": true
+        },
+        "optional": true
+      }
+    ]
   },
   "Ataque Duplo": {
     "choice": {
@@ -804,16 +816,14 @@
     "rollOptions": [
       {
         "id": "investida",
-        "label": "Investida montada",
+        "label": "Investida montada (dano dobrado)",
         "filter": {
           "melee": true
         },
-        "optional": true,
-        "note": "dano dobrado"
+        "damageMult": 2,
+        "optional": true
       }
-    ],
-    "status": "parcial",
-    "notes": "O sistema não dobra o dano: dobre o total na mesa."
+    ]
   },
   "Lutar às Cegas": {
     "status": "narrativo",
@@ -836,14 +846,17 @@
           "chosenWeapon": true
         },
         "locked": true
+      },
+      {
+        "id": "repetir",
+        "label": "Mestre em arma: rolar de novo",
+        "reroll": true,
+        "cost": 4,
+        "filter": {
+          "chosenWeapon": true
+        }
       }
-    ],
-    "activation": {
-      "cost": 4,
-      "note": "Repita a jogada de ataque que acabou de fazer; vale o segundo resultado."
-    },
-    "status": "parcial",
-    "notes": "Depois de pagar, role de novo o ataque; vale o segundo resultado."
+    ]
   },
   "Mira Apurada": {
     "activation": {
@@ -910,8 +923,24 @@
         "note": "–4 no ataque e na mordida; marque nos dois"
       }
     ],
-    "status": "parcial",
-    "notes": "Crie a mordida (arma natural, 1d4) na ficha."
+    "grants": [
+      {
+        "item": {
+          "name": "Mordida de rato",
+          "type": "weapon",
+          "system": {
+            "kind": "corpo",
+            "grip": "leve",
+            "category": "simples",
+            "damage": "1d4",
+            "damageType": "P",
+            "critRange": 20,
+            "critMult": 2,
+            "description": "<p>Arma natural do talento Mordida de Rato.</p>"
+          }
+        }
+      }
+    ]
   },
   "Na Mosca": {
     "traits": {
@@ -955,11 +984,29 @@
           "id": "outro",
           "label": "Sacar ou guardar de novo na rodada",
           "cost": 1
+        },
+        {
+          "id": "reacao",
+          "label": "Sacar ou guardar como reação (primeira vez na rodada)",
+          "cost": 0,
+          "action": "reação",
+          "check": {
+            "skill": "iniciativa",
+            "dc": 30
+          }
+        },
+        {
+          "id": "reacaoOutro",
+          "label": "Sacar ou guardar como reação, de novo na rodada",
+          "cost": 1,
+          "action": "reação",
+          "check": {
+            "skill": "iniciativa",
+            "dc": 30
+          }
         }
       ]
-    },
-    "status": "parcial",
-    "notes": "Sacar como reação pede um teste de Iniciativa CD 30, rolado à parte."
+    }
   },
   "Separar Aprimorado": {
     "rollOptions": [
@@ -973,10 +1020,14 @@
           ]
         },
         "value": 4
+      },
+      {
+        "id": "objeto",
+        "label": "Separar aprimorado: dano contra objeto (dobrado)",
+        "damageMult": 2,
+        "optional": true
       }
-    ],
-    "status": "parcial",
-    "notes": "O dano dobrado contra objetos fica com a mesa."
+    ]
   },
   "Tiro Certeiro": {
     "rollOptions": [

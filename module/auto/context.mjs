@@ -79,9 +79,11 @@ export function inactiveReason(item) {
   const req = sys.auto?.requires ?? {};
   const honorMin = Math.max(sys.honorMin ?? 0, req.honorMin ?? 0);
   if (honorMin && (actor.type === "character") && ((honorOf(actor) ?? 0) < honorMin)) return "honor";
-  if ((sys.noArmor || req.noArmor) && wearsArmor(actor)) return "armor";
+  // An effect can free the "no armor" abilities (Libertação de Nozomi); read on the effects to avoid gathering traits here
+  const armorFree = actor.effects?.some(e => e.flags?.[SYSTEM]?.traits?.armorFree && !e.disabled);
+  if ((sys.noArmor || req.noArmor) && wearsArmor(actor) && !armorFree) return "armor";
   if (req.noShield && wearsShield(actor)) return "shield";
-  if (req.lightArmor && actor.items.some(i => (i.type === "armor") && i.system.equipped && ["media", "pesada"].includes(i.system.category))) return "armor";
+  if (req.lightArmor && !armorFree && actor.items.some(i => (i.type === "armor") && i.system.equipped && ["media", "pesada"].includes(i.system.category))) return "armor";
   // Only while wearing armor of a category (Foco em Armadura: the category chosen on the feat)
   if (req.armorChosen || req.armorCategory) {
     const worn = actor.items.find(i => (i.type === "armor") && i.system.equipped && (i.system.category !== "escudo"))?.system.category ?? null;
@@ -203,6 +205,36 @@ export function isImmune(actor, what) {
 /*  Situations a rule can ask about             */
 /* -------------------------------------------- */
 
+/** The kits of the equipment and the skills that suffer without them (always: every test of the skill). */
+const KITS = [
+  { id: "artesao", name: "Kit de artesão", skills: ["oficio"], always: true },
+  { id: "disfarces", name: "Kit de disfarces", skills: ["enganacao"], always: false },
+  { id: "ladrao", name: "Kit de ladrão", skills: ["ladinagem"], always: false },
+  { id: "medicamentos", name: "Kit de medicamentos", skills: ["cura"], always: true }
+];
+
+/** An option with every field at its neutral value (for options the engine makes itself). */
+export const PLAIN_OPTION = {
+  value: 0, attack: 0, damage: "", damageType: "", noCrit: false, precision: false, ca: 0, critRange: 0, critMult: 0, ignoreRd: 0,
+  cost: 0, pm: null, onHit: null, onCrit: null, defense: false, note: "", reroll: false, best: null, extraAttack: false,
+  autoCrit: false, touch: false, noMissChance: false, ignoreCritImmunity: false, nonlethal: false, ranged: false,
+  weaponDice: "", weaponType: "", damageMult: 0, damageSteps: 0, take10: false, auto: true, locked: false, selfEffect: null, data: {}
+};
+
+/** The weapon damage one step larger (the table of damage by size, p. 142). */
+const DAMAGE_STEP = {
+  "1d2": "1d3", "1d3": "1d4", "1d4": "1d6", "1d6": "1d8", "1d8": "2d6", "2d4": "2d6", "1d10": "2d8", "1d12": "3d6", "3d4": "3d6",
+  "2d6": "3d6", "3d6": "4d6", "4d6": "6d6", "6d6": "8d6", "8d6": "12d6", "12d6": "16d6",
+  "2d8": "3d8", "3d8": "4d8", "4d8": "6d8", "6d8": "8d8", "8d8": "12d8", "12d8": "16d8", "2d10": "4d8"
+};
+/** "1d6" two steps up → "2d6". */
+export function stepDice(dice, steps = 1) {
+  let d = String(dice).trim().toLowerCase();
+  if (/^d/.test(d)) d = `1${d}`;
+  for (let i = 0; i < steps; i++) d = DAMAGE_STEP[d] ?? d;
+  return d;
+}
+
 /** The first targeted token's actor (the roll's opponent), if any. */
 export function firstTarget() {
   const token = game.user?.targets?.first?.() ?? [...(game.user?.targets ?? [])][0];
@@ -214,6 +246,88 @@ export function hpOf(actor) {
   if (!actor) return { value: 0, max: 0 };
   const pv = actor.type === "npc" ? actor.system.pv : actor.system.attributes?.pv;
   return { value: pv?.value ?? 0, max: pv?.max ?? 0 };
+}
+
+/** The Honor that effects against the dishonored see (Traje das sombras eternas: +2). */
+export function honorVs(actor) {
+  const h = honorOf(actor);
+  return (h === null) ? null : h + (actor?.system?.traits?.honorShift ?? 0);
+}
+
+/** Whether two creatures are on the same side (their tokens' disposition; characters against threats otherwise). */
+function sameSideAs(actor, target) {
+  if (!actor || !target) return null;
+  if (actor === target) return true;
+  const a = actor.getActiveTokens?.()[0]?.document?.disposition;
+  const b = target.getActiveTokens?.()[0]?.document?.disposition;
+  if ((a !== undefined) && (b !== undefined)) return a === b;
+  return (actor.type === "character") === (target.type === "character");
+}
+
+/** A creature's level (a threat's from its stat block). */
+export function levelOf(actor) {
+  if (!actor) return 0;
+  return (actor.type === "npc") ? (actor.system.level ?? 0) : (actor.system.level ?? actor.system.attributes?.level ?? 0);
+}
+
+/** A creature's ND ("1/2" → 0.5); a character's is its level. */
+export function ndOf(actor) {
+  if (!actor) return 0;
+  if (actor.type !== "npc") return levelOf(actor);
+  const t = String(actor.system.nd ?? "").trim();
+  const frac = /^(\d+)\s*\/\s*(\d+)$/.exec(t);
+  if (frac) return Number(frac[1]) / Number(frac[2]);
+  const n = Number(t.replace(",", "."));
+  return Number.isFinite(n) ? n : levelOf(actor);
+}
+
+/** Whether two tokens touch (adjacent squares or overlapping). */
+function adjacent(a, b) {
+  const A = a.bounds, B = b.bounds, gap = canvas.grid.size * 0.5;
+  const dx = Math.max(0, Math.max(A.left, B.left) - Math.min(A.right, B.right));
+  const dy = Math.max(0, Math.max(A.top, B.top) - Math.min(A.bottom, B.bottom));
+  return (dx < gap) && (dy < gap);
+}
+
+/** Whether the segment between two points crosses opposite sides (or corners) of a rectangle. */
+function crossesOpposite(p, q, r) {
+  const sides = new Set();
+  const dx = q.x - p.x, dy = q.y - p.y;
+  const eps = 0.5;
+  if (dy !== 0) {
+    for (const [y, side] of [[r.top, "top"], [r.bottom, "bottom"]]) {
+      const t = (y - p.y) / dy;
+      const x = p.x + (dx * t);
+      if ((t >= 0) && (t <= 1) && (x >= r.left - eps) && (x <= r.right + eps)) sides.add(side);
+    }
+  }
+  if (dx !== 0) {
+    for (const [x, side] of [[r.left, "left"], [r.right, "right"]]) {
+      const t = (x - p.x) / dx;
+      const y = p.y + (dy * t);
+      if ((t >= 0) && (t <= 1) && (y >= r.top - eps) && (y <= r.bottom + eps)) sides.add(side);
+    }
+  }
+  return (sides.has("top") && sides.has("bottom")) || (sides.has("left") && sides.has("right"));
+}
+
+/**
+ * Whether the attacker flanks the target: both touch it and an able ally of the attacker stands on the opposite side.
+ * Creatures that can't be flanked (Sem Flanco, esquiva sobrenatural aprimorada) never are.
+ */
+export function isFlanked(attacker, target) {
+  if (!canvas?.ready || !attacker || !target) return false;
+  const traits = target.system?.traits ?? {};
+  if (traits.noFlank || ((traits.uncannyDodge ?? 0) >= 2)) return false;
+  const at = attacker.getActiveTokens?.()[0];
+  const tt = target.getActiveTokens?.()[0];
+  if (!at || !tt || !adjacent(at, tt)) return false;
+  const out = ["dead", "inconsciente", "paralisado", "indefeso", "atordoado", "pasmo", "fascinado"];
+  return canvas.tokens.placeables.some(ally => {
+    if (!ally.actor || (ally === at) || (ally === tt) || (ally.document.disposition !== at.document.disposition)) return false;
+    if (out.some(s => ally.actor.statuses?.has(s))) return false;
+    return adjacent(ally, tt) && crossesOpposite(at.center, ally.center, tt.bounds);
+  });
 }
 
 /** Conditions that lower the armor class directly ("em perigo" of the hanyô, p. 33). */
@@ -238,10 +352,15 @@ export const SITUATIONS = {
     const theirs = honorOf(target);
     return (mine !== null) && (theirs !== null) && (theirs < mine);
   },
-  vsDishonored: (actor, target) => { const h = honorOf(target); return h !== null && h <= 9; },
-  vsSordid: (actor, target) => { const h = honorOf(target); return h !== null && h <= 5; },
-  vsInhuman: (actor, target) => { const h = honorOf(target); return h !== null && h <= 0; },
+  vsDishonored: (actor, target) => { const h = honorVs(target); return h !== null && h <= 9; },
+  vsSordid: (actor, target) => { const h = honorVs(target); return h !== null && h <= 5; },
+  vsInhuman: (actor, target) => { const h = honorVs(target); return h !== null && h <= 0; },
   vsHonored: (actor, target) => { const h = honorOf(target); return h !== null && h >= 16; },
+  vsAlly: (actor, target) => sameSideAs(actor, target) === true,
+  vsEnemy: (actor, target) => sameSideAs(actor, target) === false,
+  vsLevelBelowMine: (actor, target) => !!target && !!actor && (levelOf(target) < levelOf(actor)),
+  vsNdBelowLevel: (actor, target) => !!target && !!actor && (ndOf(target) < levelOf(actor)),
+  flanking: (actor, target) => isFlanked(actor, target),
   vsFlatFooted: (actor, target) => !!target && ["desprevenido", "atordoado", "agarrado", "cego", "indefeso", "inconsciente", "paralisado", "surpreendido"].some(s => target.statuses?.has(s)),
   vsProne: (actor, target) => !!target?.statuses?.has("caido"),
   inCombat: actor => !!game.combat?.started && !!actor && game.combat.combatants.some(c => c.actor === actor),
@@ -253,10 +372,33 @@ export const SITUATIONS = {
 /** Test a situation key ("vsMonster", "hpHalf|inDanger" = any of them). */
 export function situation(key, actor, target = firstTarget()) {
   if (!key) return true;
-  return String(key).split("|").some(k => {
-    const test = SITUATIONS[k.trim()];
+  // "a|b": any of them; "a&b": all of them; "vsLevelMax:5" / "vsLevelMin:6": the opponent's level
+  return String(key).split("|").some(alt => alt.split("&").every(part => {
+    const k = part.trim();
+    const honor = /^vsHonor(Max|Min):(-?\d+)$/.exec(k);
+    if (honor) {
+      // The Honor shift (Traje das sombras eternas) only counts against effects that catch the dishonored
+      const h = honor[1] === "Max" ? honorVs(target) : honorOf(target);
+      if (h === null) return false;
+      return honor[1] === "Max" ? h <= Number(honor[2]) : h >= Number(honor[2]);
+    }
+    // The opponent's level against a number or a formula of yours ("vsLevelMax:@level + @abilities.car.mod")
+    const level = /^vsLevel(Max|Min):(.+)$/.exec(k);
+    if (level) {
+      if (!target) return false;
+      const lv = levelOf(target);
+      const limit = /^\d+$/.test(level[2].trim()) ? Number(level[2]) : Math.floor(evaluate(level[2], actor?.getRollData?.() ?? {}));
+      return level[1] === "Max" ? lv <= limit : lv >= limit;
+    }
+    // A condition of the opponent ("vsStatus:enjoado") or of yourself ("selfStatus:caido")
+    const status = /^(vs|self)Status:(\w+)$/.exec(k);
+    if (status) {
+      const who = status[1] === "vs" ? target : actor;
+      return !!who?.statuses?.has(status[2]);
+    }
+    const test = SITUATIONS[k];
     return test ? !!test(actor, target) : false;
-  });
+  }));
 }
 
 /* -------------------------------------------- */
@@ -344,6 +486,14 @@ export function matches(filter, ctx, item = null) {
  */
 export function rollOptionsFor(actor, kind, ctx = {}) {
   const out = [];
+  // Without the kit a skill asks for: −5 (on by itself when every test needs it, offered when only some do)
+  if ((kind === "skill") && (actor?.type === "character")) {
+    for (const kit of KITS) {
+      if (!kit.skills.includes(ctx.skill)) continue;
+      if (actor.items.some(i => norm(i.name) === norm(kit.name))) continue;
+      out.push({ ...PLAIN_OPTION, id: `kit.${kit.id}`, label: game.i18n.format("IJ.Auto.noKit", { name: kit.name }), value: -5, auto: kit.always, data: {} });
+    }
+  }
   const target = ctx.target === undefined ? firstTarget() : ctx.target;
   const push = (opt, item, data, source) => {
     if (![opt.for ?? "attack"].flat().includes(kind)) return;
@@ -389,6 +539,14 @@ export function rollOptionsFor(actor, kind, ctx = {}) {
       autoCrit: !!opt.autoCrit,
       touch: !!opt.touch,
       noMissChance: !!opt.noMissChance,
+      ignoreCritImmunity: !!opt.ignoreCritImmunity,
+      nonlethal: !!opt.nonlethal,
+      ranged: !!opt.ranged,
+      weaponDice: opt.weaponDice ?? "",
+      weaponType: opt.weaponType ?? "",
+      damageMult: Number(opt.damageMult) || 0,
+      damageSteps: evaluate(opt.damageSteps ?? 0, data),
+      take10: !!opt.take10,
       auto,
       locked: !!opt.locked && auto,
       selfEffect: opt.selfEffect ?? null,

@@ -5,7 +5,7 @@ import { useItem, perform, postCard, adjustCost, availableOptions, specFor, appl
 import { askActivation } from "../auto/dialog.mjs";
 import { attackRoll, armorClassOf } from "../auto/attack.mjs";
 import { rollDamage, isPhysical } from "../auto/damage.mjs";
-import { dataFor, evaluate, resolveFormula, norm } from "../auto/context.mjs";
+import { dataFor, evaluate, resolveFormula, norm, PLAIN_OPTION } from "../auto/context.mjs";
 import { jutsuDialog, jutsuRules, gradeCost } from "../auto/jutsu.mjs";
 
 const L = key => game.i18n.localize(key);
@@ -117,10 +117,26 @@ export class ImperioItem extends Item {
    * @param {Actor} [options.target]   Attack this one (a reaction)
    * @param {string} [options.reaction]
    */
-  async rollAttack({ event, target = null, reaction = null, extraOptions = [] } = {}) {
+  async rollAttack({ event, target = null, reaction = null, extraOptions = [], preselect = null, free = false } = {}) {
     if (this.type !== "weapon" || !this.actor) return null;
     const sys = this.system;
     const actor = this.actor;
+    // A melee weapon that can be thrown (kunai, machadinha, yari): throwing uses the ranged attack
+    if (sys.auto?.thrown && (sys.kind === "corpo")) {
+      const delta = (actor.type === "character") ? ((actor.system.attack?.ranged ?? 0) - (actor.system.attack?.melee ?? 0)) : 0;
+      extraOptions = [...extraOptions, {
+        ...PLAIN_OPTION, id: `thrown.${this.id}`, label: game.i18n.format("IJ.Weapon.throw", { range: sys.auto.thrown }),
+        itemName: this.name, attack: delta, ranged: true, auto: false, locked: false
+      }];
+    }
+    if (sys.auto?.meleeUse && (sys.kind !== "corpo")) {
+      const penalty = Number(sys.auto.meleeUse.penalty ?? sys.auto.meleeUse) || 0;
+      const delta = (actor.type === "character") ? ((actor.system.attack?.melee ?? 0) - (actor.system.attack?.ranged ?? 0)) : 0;
+      extraOptions = [...extraOptions, {
+        ...PLAIN_OPTION, id: `melee.${this.id}`, label: game.i18n.format("IJ.Weapon.meleeUse", { n: penalty }),
+        itemName: this.name, attack: delta + penalty, toMelee: true, auto: false, locked: false
+      }];
+    }
     const ability = sys.attackAbility;
     const kind = WEAPON_KINDS[sys.kind];
     const ranged = sys.kind !== "corpo";
@@ -133,7 +149,7 @@ export class ImperioItem extends Item {
     // A creature's natural weapon can deal energy (auto.damageType) and be a touch attack (auto.touch)
     const damageType = sys.auto?.damageType || sys.damageType;
     return attackRoll({
-      actor, weapon: this, ranged, event, target, reaction, extraOptions,
+      actor, weapon: this, ranged, event, target, reaction, extraOptions, preselect, free,
       touch: !!sys.auto?.touch,
       unarmed: norm(this.name).includes("desarmado"),
       title: this.name,
@@ -142,7 +158,8 @@ export class ImperioItem extends Item {
       parts,
       critRange: sys.threat,
       critMult: sys.critMult,
-      damage: { formula: sys.damageFormula, type: damageType },
+      // Unarmed strikes hurt without killing, unless the striker's training makes them lethal (monk)
+      damage: sys.auto?.noDamage ? null : { formula: sys.damageFormula, type: damageType, nonlethal: !!sys.auto?.nonlethal && !(actor.system.traits?.unarmed || actor.system.traits?.lethalUnarmed) },
       kanji: "刀"
     });
   }
@@ -230,13 +247,13 @@ export class ImperioItem extends Item {
     const actor = this.actor;
     if (!actor) return null;
     const flags = message?.flags?.[SYSTEM_ID] ?? {};
-    const spec = flags.jutsuSpec ?? this.system.auto?.activation ?? {};
+    const spec = flags.jutsuSpec ?? (flags.source ? specFor(this, flags.source.option ?? null) : null) ?? this.system.auto?.activation ?? {};
     // An ability or jutsu that strikes with the weapon: the weapon's attack, with this one's bonus, damage and hit effects
     if (spec.attack?.weapon) return this.#weaponStrike(spec, flags, message, event);
     const type = spec.attack?.type ?? this.system.attack ?? "corpo";
     const ranged = ["distancia", "toqueDistancia"].includes(type);
     const touch = type.startsWith("toque");
-    const data = dataFor(this, { spent: flags.source?.spent ?? 0 });
+    const data = dataFor(this, { spent: flags.source?.spent ?? 0, ...(flags.jutsuData ?? {}) });
     let bonus;
     if (actor.type === "character") {
       bonus = ranged ? actor.system.attack.ranged : actor.system.attack.melee;
@@ -247,19 +264,31 @@ export class ImperioItem extends Item {
       }
     } else bonus = (actor.system.level ?? 0) + ((ranged ? actor.system.mods?.des : actor.system.mods?.for) ?? 0);
     bonus += Math.floor(evaluate(spec.attack?.bonus ?? 0, data));
+    const damage = spec.damage?.formula ? { formula: resolveFormula(flags.damageFormula ?? spec.damage.formula, data), type: spec.damage.type ?? "" } : null;
+    // An attack that threatens criticals like a weapon (a torch, a dart): the damage rides the attack card
+    const crit = spec.attack?.critical ?? null;
     const hitOption = (spec.attack?.onHit || spec.attack?.onCrit) ? [{
       id: `strike.${this.id}`, label: this.name, itemName: this.name, itemId: this.id,
       value: 0, attack: 0, damage: "", damageType: "", noCrit: true, precision: false, ca: 0, critRange: 0, critMult: 0,
       ignoreRd: 0, cost: 0, pm: null, onHit: spec.attack.onHit ?? null, onCrit: spec.attack.onCrit ?? null, note: "",
       auto: true, locked: true, data
     }] : [];
+    if (crit && spec.damage?.extra?.length) {
+      hitOption.push(...spec.damage.extra.map((p, i) => ({
+        ...PLAIN_OPTION, id: `extra.${this.id}.${i}`, label: p.label || this.name, itemName: this.name,
+        damage: resolveFormula(p.formula, data), damageType: p.type ?? "", noCrit: true, auto: true, locked: true, data
+      })));
+    }
     const msg = await attackRoll({
       actor, ranged, event, touch,
       title: this.name,
       subtitle: L(`IJ.Jutsu.attack.${type}`) + (touch ? ` · ${L("IJ.Jutsu.touchNote")}` : ""),
       bonus,
       kanji: this.type === "jutsu" ? "術" : "能",
-      damage: null,
+      damage: crit ? damage : null,
+      critRange: crit ? (Number(crit.range) || 20) : 20,
+      fixedCa: spec.attack?.ca ?? null,
+      critMult: crit ? (Number(crit.mult) || 2) : 2,
       extraFlags: { touchOf: message?.id ?? null },
       extraOptions: hitOption
     });
@@ -287,7 +316,9 @@ export class ImperioItem extends Item {
     if ((typeof a.weapon === "string") && !["corpo", "distancia"].includes(a.weapon)) {
       const names = a.weapon.split("|").map(n => n.trim().toLowerCase()).filter(Boolean);
       const named = candidates.filter(i => names.some(n => i.name.toLowerCase().includes(n)));
+      // "desarmado" without an unarmed weapon item: the unarmed strike of the sheet
       if (named.length) candidates = named;
+      else if (names.some(n => n.includes("desarmad"))) candidates = [];
     }
     let weapon = candidates[0] ?? null;
     // Several weapons in hand (or Shift held): ask which one strikes, or a strike without a weapon
@@ -297,11 +328,12 @@ export class ImperioItem extends Item {
       if (!answer) return null;
       weapon = (answer.choice && answer.choice !== "none") ? actor.items.get(answer.choice) : null;
     }
-    const extraDamage = a.damage ?? spec.damage?.formula ?? "";
+    const written = (a.damage !== undefined) && (a.damage !== null);
+    const extraDamage = written ? String(a.damage) : (flags.damageFormula ?? spec.damage?.formula ?? "");
     const option = {
       id: `strike.${this.id}`, label: this.name, itemName: this.name, itemId: this.id,
       value: 0, attack: Math.floor(evaluate(a.bonus ?? 0, data)),
-      damage: extraDamage ? resolveFormula(flags.damageFormula ?? extraDamage, data) : "",
+      damage: (extraDamage && (extraDamage !== "0")) ? resolveFormula(extraDamage, data) : "",
       damageType: a.damageType ?? spec.damage?.type ?? "", noCrit: true, precision: false, ca: 0,
       critRange: Math.floor(evaluate(a.critRange ?? 0, data)), critMult: Math.floor(evaluate(a.critMult ?? 0, data)),
       ignoreRd: a.ignoreRd === "all" ? Infinity : Math.floor(evaluate(a.ignoreRd ?? 0, data)),
@@ -344,11 +376,19 @@ export class ImperioItem extends Item {
       if (!pick) return null;
       optionId = pick.choice;
     }
+    if (actor?.system?.traits?.noJutsus) return ui.notifications.warn(game.i18n.format("IJ.Auto.noJutsus", { name: actor.name }));
+    const chosenSpec = specFor(this, optionId);
+    if (chosenSpec.check?.skill && actor) {
+      const { checkBefore } = await import("../auto/activation.mjs");
+      if (!(await checkBefore(actor, this, chosenSpec.check, dataFor(this), event))) return null;
+    }
+    // An option that only ends what the jutsu made (descarregar, voltar): no PM, no execution of its own
+    const freeOption = !!chosenSpec.free;
     let extra = 0;
     let steps = 0;
     let enh = {};
     const limit = actor?.pmLimit ?? 99;
-    if (actor && !event?.altKey && ((limit > base) || rules.enhancements.length)) {
+    if (actor && !freeOption && !event?.altKey && ((limit > base) || rules.enhancements.length)) {
       const answer = await jutsuDialog(this, { base, limit, rules });
       if (!answer) return null;
       extra = answer.extra;
@@ -361,6 +401,9 @@ export class ImperioItem extends Item {
     const used = [];
     let dcBonus = 0;
     let maximize = false;
+    let extend = 0;
+    let farTouch = false;
+    let share = false;
     for (const e of rules.enhancements) {
       const n = enh[e.id] ?? 0;
       if (!n) continue;
@@ -369,9 +412,12 @@ export class ImperioItem extends Item {
       if (e.effect === "maximize") maximize = true;
       if (e.effect === "dc") dcBonus += n * Number(e.value ?? 1);
       if (e.effect === "dcHonor") dcBonus += Math.max(0, actor?.system?.abilities?.hon?.mod ?? 0);
+      if (e.effect === "extend") extend += n;
+      if (e.effect === "ranged") farTouch = true;
+      if (e.effect === "share") share = true;
     }
     total = Math.max((rules.gradeDown && sys.grade === "basico") ? 1 : 0, rules.costDelta < 0 ? (rules.costMin ?? 0) : 0, total + rules.costDelta);
-    total = adjustCost(actor, total, { kind: "jutsu", ctx: { item: this, chakra: sys.chakra, descriptors: sys.descriptors } });
+    total = freeOption ? 0 : adjustCost(actor, total, { kind: "jutsu", ctx: { item: this, chakra: sys.chakra, descriptors: sys.descriptors } });
     if (actor) {
       if (total > limit) return ui.notifications.warn(game.i18n.format("IJ.Auto.overLimit", { n: total, limit }));
       if (!(await actor.spendPm(total))) return null;
@@ -382,16 +428,18 @@ export class ImperioItem extends Item {
     if (auto.honorViolation && actor?.type === "character") await actor.honorViolation(auto.honorViolation);
 
     // The spec of this execution: the jutsu's own save, damage and attack, plus its automation
-    const dc = sys.dc + rules.dcDelta + dcBonus;
+    const dc = sys.dc + rules.dcDelta + dcBonus + (Number(auto.dcDelta) || 0);
     const spec = { ...auto };
     const res = sys.resistance ?? "";
-    if (sys.save) {
+    // "save": false in the automation: the save comes from the hit, not from a button of its own (Toque da Morte)
+    if (sys.save && (auto.save !== false)) {
       spec.save = {
         ...(auto.save ?? {}), type: sys.save, dc,
         half: auto.save?.half ?? /metade/i.test(res),
         negate: auto.save?.negate ?? (/anula/i.test(res) && !/metade/i.test(res))
       };
     } else if (spec.save) spec.save.dc = dc;
+    if (spec.save === false) delete spec.save;
     if (spec.targets?.save) spec.targets.save.dc = dc;
     let damageFormula = null;
     if (sys.damage?.formula) {
@@ -401,9 +449,16 @@ export class ImperioItem extends Item {
       spec.damage = { formula: damageFormula, type: sys.damage.type, healing: sys.damage.healing, magic: true, ...(auto.damage ?? {}) };
       spec.damage.formula = damageFormula;
     }
-    if (sys.attack) spec.attack = { type: sys.attack, ...(auto.attack ?? {}) };
+    // An option can drop the jutsu's own attack ("attack": null: the smoke of Dominar Chamas)
+    if (sys.attack && (auto.attack !== null)) spec.attack = { type: sys.attack, ...(auto.attack ?? {}) };
+    // Jutsu Longínquo: the touch reaches at range; Compartilhado: the personal effect goes to the touched creature;
+    // Estendido: every duration in rounds, minutes or hours doubles
+    if (farTouch && spec.attack?.type === "toque") spec.attack = { ...spec.attack, type: "toqueDistancia" };
+    if (share && spec.self) { spec.targets = { ...spec.self, who: "any" }; delete spec.self; }
+    if (extend) doubleDurations(spec, 1 + extend);
     // @dc: the DC of this execution (ongoing saves of the jutsu use it)
-    const data = dataFor(this, { spent: extra, dc });
+    // @dc and @formula (the damage with the enhancements paid) for what the jutsu leaves behind
+    const data = dataFor(this, { spent: extra, dc, formula: damageFormula ?? "" });
     const results = await perform(this, spec, data, { spent: extra, optionId });
 
     const tags = [
@@ -419,7 +474,7 @@ export class ImperioItem extends Item {
       tags,
       extraBody: (sys.target ? `<p><strong>${L("IJ.Jutsu.target")}:</strong> ${foundry.utils.escapeHTML(sys.target)}</p>` : "")
         + (enhText ? `<div class="ij-card-enh"><strong>${L("IJ.Jutsu.enhancements")}</strong>${enhText}</div>` : ""),
-      flags: { jutsuSpec: spec, jutsuData: { spent: extra, dc }, damageFormula, maximize }
+      flags: { jutsuSpec: spec, jutsuData: { spent: extra, dc, formula: damageFormula ?? "" }, damageFormula, maximize }
     });
   }
 
@@ -459,6 +514,23 @@ export class ImperioItem extends Item {
 
   async rollJutsuAttack() {
     return this.rollAutoAttack({});
+  }
+}
+
+/**
+ * Jutsu Estendido: each purchase adds +100% of the original duration in rounds (1 rodada → 2; 1d4 rodadas with three
+ * purchases → 4d4).
+ */
+function doubleDurations(node, factor = 2) {
+  if (Array.isArray(node)) return node.forEach(n => doubleDurations(n, factor));
+  if (!node || (typeof node !== "object")) return;
+  for (const [k, v] of Object.entries(node)) {
+    if ((k === "duration") && v && (typeof v === "object") && (v.unit === "rodada") && (v.value !== undefined) && (v.value !== null)) {
+      const dice = /^\s*(\d*)d(\d+)\s*$/i.exec(String(v.value));
+      const value = (typeof v.value === "number") ? v.value * factor
+        : dice ? `${(Number(dice[1]) || 1) * factor}d${dice[2]}` : `(${v.value}) * ${factor}`;
+      node[k] = { ...v, value };
+    } else doubleDurations(v, factor);
   }
 }
 

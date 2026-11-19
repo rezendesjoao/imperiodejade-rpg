@@ -165,7 +165,7 @@
   },
 
   "Yakuza/Ataque Furtivo": {
-    "rollOptions": [{ "id": "furtivo", "label": "Ataque furtivo", "damage": "(@rank)d6", "precision": true, "noCrit": true, "when": "vsFlatFooted", "note": "corpo a corpo, ou à distância até 9m" }]
+    "rollOptions": [{ "id": "furtivo", "label": "Ataque furtivo", "damage": "(@rank)d6", "precision": true, "noCrit": true, "when": "vsFlatFooted|flanking", "note": "corpo a corpo, ou à distância até 9m" }]
   },
   "Yakuza/Hierarquia do Kumi": {
     "activation": {
@@ -237,12 +237,12 @@
     "reactions": [{ "on": "saveFailed", "saves": ["von"], "label": "Mente escorregadia", "effect": "reroll" }]
   },
   "Yakuza/Vingança Final": {
-    "status": "parcial", "notes": "Arma mortal (CD 28): no 20 natural, a Fortitude e o efeito ficam à mão.",
     "reactions": [{ "on": "allyDown", "label": "Vingança final", "effect": "note", "note": "Use Vingança final (6 PM) com você e os nakama como alvos." }],
     "activation": {
       "cost": 6, "action": "reação", "duration": { "unit": "cena" },
       "targets": { "who": "allies", "includeSelf": true,
-        "rollOptions": [{ "id": "vinganca", "label": "Vingança final (contra o agressor)", "damage": "4d6", "type": "vacuo", "noCrit": true, "optional": true }] }
+        "rollOptions": [{ "id": "vinganca", "label": "Vingança final (contra o agressor)", "damage": "4d6", "type": "vacuo", "noCrit": true, "optional": true,
+          "onHit": { "natural20": true, "save": { "type": "fort", "dc": 28 }, "onFail": { "setPv": -1 }, "onSuccess": { "damage": { "formula": "5d6", "type": "vacuo" } } } }] }
     }
   }
 }

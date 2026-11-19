@@ -924,11 +924,21 @@
       "self": {
         "traits": {
           "seeInvisible": true
-        }
+        },
+        "rollOptions": [
+          {
+            "id": "vergonha",
+            "label": "Ver a vergonha (desonrado sem camuflagem)",
+            "noMissChance": true,
+            "when": "vsDishonored",
+            "locked": true,
+            "strict": true
+          }
+        ]
       }
     },
     "status": "parcial",
-    "notes": "Camuflagem de desonrados à mão; o sistema revela todo invisível, mesmo honrado."
+    "notes": "O sistema revela todo invisível, mesmo honrado; Furtividade dos desonrados contra você, à mão."
   },
   "Visão Térmica": {
     "status": "parcial",
@@ -1402,12 +1412,12 @@
           "label": "Jutsu Compartilhado",
           "cost": 2,
           "max": 1,
-          "effect": "note"
+          "effect": "share"
         }
       ]
     },
     "status": "parcial",
-    "notes": "O efeito pessoal vai para o alvo tocado: aplique-o nele à mão."
+    "notes": "Em quem não aceita o efeito, acerte antes um ataque de toque (à parte)."
   },
   "Jutsu Distante": {
     "traits": {
@@ -1430,12 +1440,12 @@
           "label": "Jutsu Estendido",
           "cost": 2,
           "max": 10,
-          "effect": "note"
+          "effect": "extend"
         }
       ]
     },
     "status": "parcial",
-    "notes": "Durações em rodadas não dobram sozinhas: ajuste as condições aplicadas à mão."
+    "notes": "O sistema dobra uma vez só (e também minutos e horas): aplicações extras, à mão."
   },
   "Jutsu Irresistível": {
     "traits": {
@@ -1459,12 +1469,10 @@
           "label": "Jutsu Longínquo",
           "cost": 1,
           "max": 1,
-          "effect": "note"
+          "effect": "ranged"
         }
       ]
-    },
-    "status": "parcial",
-    "notes": "O cartão rola toque corpo a corpo; role o toque à distância à parte."
+    }
   },
   "Jutsu Maximizado": {
     "traits": {
@@ -2022,6 +2030,1098 @@
     }
   },
   "Armamento da Tormenta": {
+    "choice": {
+      "label": "Arma de akamono",
+      "count": 1,
+      "options": [
+        {
+          "id": "kama",
+          "label": "Kama",
+          "grants": [
+            {
+              "item": {
+                "name": "Kama de akamono",
+                "type": "weapon",
+                "system": {
+                  "kind": "corpo",
+                  "grip": "leve",
+                  "category": "simples",
+                  "damage": "1d6",
+                  "damageType": "C",
+                  "critRange": 20,
+                  "critMult": 2,
+                  "description": "<p>Arma de akamono expelida pelo corpo (Armamento da Tormenta): some no fim da cena.</p>"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "kunai",
+          "label": "Kunai (adaga)",
+          "grants": [
+            {
+              "item": {
+                "name": "Kunai de akamono",
+                "type": "weapon",
+                "system": {
+                  "kind": "corpo",
+                  "grip": "leve",
+                  "category": "simples",
+                  "damage": "1d4",
+                  "damageType": "P",
+                  "critRange": 19,
+                  "critMult": 2,
+                  "range": 3,
+                  "description": "<p>Arma de akamono expelida pelo corpo (Armamento da Tormenta): some no fim da cena.</p>",
+                  "auto": {
+                    "thrown": "3m"
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "tanto",
+          "label": "Tanto",
+          "grants": [
+            {
+              "item": {
+                "name": "Tanto de akamono",
+                "type": "weapon",
+                "system": {
+                  "kind": "corpo",
+                  "grip": "leve",
+                  "category": "simples",
+                  "damage": "1d4",
+                  "damageType": "CP",
+                  "critRange": 18,
+                  "critMult": 2,
+                  "description": "<p>Arma de akamono expelida pelo corpo (Armamento da Tormenta): some no fim da cena.</p>"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "clava",
+          "label": "Clava",
+          "grants": [
+            {
+              "item": {
+                "name": "Clava de akamono",
+                "type": "weapon",
+                "system": {
+                  "kind": "corpo",
+                  "grip": "umaMao",
+                  "category": "simples",
+                  "damage": "1d6",
+                  "damageType": "E",
+                  "critRange": 20,
+                  "critMult": 2,
+                  "description": "<p>Arma de akamono expelida pelo corpo (Armamento da Tormenta): some no fim da cena.</p>"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "maca",
+          "label": "Maça",
+          "grants": [
+            {
+              "item": {
+                "name": "Maça de akamono",
+                "type": "weapon",
+                "system": {
+                  "kind": "corpo",
+                  "grip": "umaMao",
+                  "category": "simples",
+                  "damage": "1d8",
+                  "damageType": "E",
+                  "critRange": 20,
+                  "critMult": 2,
+                  "description": "<p>Arma de akamono expelida pelo corpo (Armamento da Tormenta): some no fim da cena.</p>"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "yari",
+          "label": "Yari (lança)",
+          "grants": [
+            {
+              "item": {
+                "name": "Yari de akamono",
+                "type": "weapon",
+                "system": {
+                  "kind": "corpo",
+                  "grip": "umaMao",
+                  "category": "simples",
+                  "damage": "1d6",
+                  "damageType": "P",
+                  "critRange": 20,
+                  "critMult": 2,
+                  "range": 6,
+                  "description": "<p>Arma de akamono expelida pelo corpo (Armamento da Tormenta): some no fim da cena.</p>",
+                  "auto": {
+                    "thrown": "6m"
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "bo",
+          "label": "Bo (bordão)",
+          "grants": [
+            {
+              "item": {
+                "name": "Bo de akamono",
+                "type": "weapon",
+                "system": {
+                  "kind": "corpo",
+                  "grip": "duasMaos",
+                  "category": "simples",
+                  "damage": "1d6",
+                  "damageType": "E",
+                  "critRange": 20,
+                  "critMult": 2,
+                  "description": "<p>Arma de akamono expelida pelo corpo (Armamento da Tormenta): some no fim da cena.</p>"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "tacape",
+          "label": "Tacape",
+          "grants": [
+            {
+              "item": {
+                "name": "Tacape de akamono",
+                "type": "weapon",
+                "system": {
+                  "kind": "corpo",
+                  "grip": "duasMaos",
+                  "category": "simples",
+                  "damage": "1d10",
+                  "damageType": "E",
+                  "critRange": 20,
+                  "critMult": 2,
+                  "description": "<p>Arma de akamono expelida pelo corpo (Armamento da Tormenta): some no fim da cena.</p>"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "azagaia",
+          "label": "Azagaia",
+          "grants": [
+            {
+              "item": {
+                "name": "Azagaia de akamono",
+                "type": "weapon",
+                "system": {
+                  "kind": "arremesso",
+                  "grip": "umaMao",
+                  "category": "simples",
+                  "damage": "1d6",
+                  "damageType": "P",
+                  "critRange": 20,
+                  "critMult": 2,
+                  "range": 9,
+                  "description": "<p>Arma de akamono expelida pelo corpo (Armamento da Tormenta): some no fim da cena.</p>"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "espadaCurta",
+          "label": "Espada curta",
+          "grants": [
+            {
+              "item": {
+                "name": "Espada curta de akamono",
+                "type": "weapon",
+                "system": {
+                  "kind": "corpo",
+                  "grip": "leve",
+                  "category": "marcial",
+                  "damage": "1d6",
+                  "damageType": "P",
+                  "critRange": 19,
+                  "critMult": 2,
+                  "description": "<p>Arma de akamono expelida pelo corpo (Armamento da Tormenta): some no fim da cena.</p>"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "jitte",
+          "label": "Jitte",
+          "grants": [
+            {
+              "item": {
+                "name": "Jitte de akamono",
+                "type": "weapon",
+                "system": {
+                  "kind": "corpo",
+                  "grip": "leve",
+                  "category": "marcial",
+                  "damage": "1d4",
+                  "damageType": "E",
+                  "critRange": 20,
+                  "critMult": 2,
+                  "dishonorable": true,
+                  "description": "<p>Arma de akamono expelida pelo corpo (Armamento da Tormenta): some no fim da cena.</p>",
+                  "auto": {
+                    "rollOptions": [
+                      {
+                        "id": "desarmar",
+                        "label": "Jitte: desarmar ou separar",
+                        "for": "maneuver",
+                        "filter": {
+                          "maneuvers": [
+                            "desarmar",
+                            "separar"
+                          ]
+                        },
+                        "value": 4
+                      }
+                    ],
+                    "dishonor": "severa"
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "machadinha",
+          "label": "Machadinha",
+          "grants": [
+            {
+              "item": {
+                "name": "Machadinha de akamono",
+                "type": "weapon",
+                "system": {
+                  "kind": "corpo",
+                  "grip": "leve",
+                  "category": "marcial",
+                  "damage": "1d6",
+                  "damageType": "C",
+                  "critRange": 20,
+                  "critMult": 3,
+                  "range": 3,
+                  "description": "<p>Arma de akamono expelida pelo corpo (Armamento da Tormenta): some no fim da cena.</p>",
+                  "auto": {
+                    "thrown": "3m"
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "nekoTe",
+          "label": "Neko-te",
+          "grants": [
+            {
+              "item": {
+                "name": "Neko-te de akamono",
+                "type": "weapon",
+                "system": {
+                  "kind": "corpo",
+                  "grip": "leve",
+                  "category": "marcial",
+                  "damage": "1d4",
+                  "damageType": "C",
+                  "critRange": 19,
+                  "critMult": 2,
+                  "dishonorable": true,
+                  "description": "<p>Arma de akamono expelida pelo corpo (Armamento da Tormenta): some no fim da cena.</p>",
+                  "auto": {
+                    "dishonor": "severa"
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "ninjaTo",
+          "label": "Ninja-to",
+          "grants": [
+            {
+              "item": {
+                "name": "Ninja-to de akamono",
+                "type": "weapon",
+                "system": {
+                  "kind": "corpo",
+                  "grip": "leve",
+                  "category": "marcial",
+                  "damage": "1d6",
+                  "damageType": "C",
+                  "critRange": 19,
+                  "critMult": 2,
+                  "dishonorable": true,
+                  "description": "<p>Arma de akamono expelida pelo corpo (Armamento da Tormenta): some no fim da cena.</p>",
+                  "auto": {
+                    "dishonor": "severa"
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "nunchaku",
+          "label": "Nunchaku",
+          "grants": [
+            {
+              "item": {
+                "name": "Nunchaku de akamono",
+                "type": "weapon",
+                "system": {
+                  "kind": "corpo",
+                  "grip": "leve",
+                  "category": "marcial",
+                  "damage": "1d6",
+                  "damageType": "E",
+                  "critRange": 20,
+                  "critMult": 3,
+                  "description": "<p>Arma de akamono expelida pelo corpo (Armamento da Tormenta): some no fim da cena.</p>"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "sai",
+          "label": "Sai",
+          "grants": [
+            {
+              "item": {
+                "name": "Sai de akamono",
+                "type": "weapon",
+                "system": {
+                  "kind": "corpo",
+                  "grip": "leve",
+                  "category": "marcial",
+                  "damage": "1d6",
+                  "damageType": "PE",
+                  "critRange": 20,
+                  "critMult": 2,
+                  "description": "<p>Arma de akamono expelida pelo corpo (Armamento da Tormenta): some no fim da cena.</p>",
+                  "auto": {
+                    "rollOptions": [
+                      {
+                        "id": "desarmar",
+                        "label": "Sai: desarmar",
+                        "for": "maneuver",
+                        "filter": {
+                          "maneuvers": [
+                            "desarmar"
+                          ]
+                        },
+                        "value": 4
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "tonfa",
+          "label": "Tonfa",
+          "grants": [
+            {
+              "item": {
+                "name": "Tonfa de akamono",
+                "type": "weapon",
+                "system": {
+                  "kind": "corpo",
+                  "grip": "leve",
+                  "category": "marcial",
+                  "damage": "1d6",
+                  "damageType": "E",
+                  "critRange": 20,
+                  "critMult": 2,
+                  "description": "<p>Arma de akamono expelida pelo corpo (Armamento da Tormenta): some no fim da cena.</p>"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "wakizashi",
+          "label": "Wakizashi",
+          "grants": [
+            {
+              "item": {
+                "name": "Wakizashi de akamono",
+                "type": "weapon",
+                "system": {
+                  "kind": "corpo",
+                  "grip": "leve",
+                  "category": "marcial",
+                  "damage": "1d6",
+                  "damageType": "C",
+                  "critRange": 19,
+                  "critMult": 2,
+                  "description": "<p>Arma de akamono expelida pelo corpo (Armamento da Tormenta): some no fim da cena.</p>"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "espadaLonga",
+          "label": "Espada longa",
+          "grants": [
+            {
+              "item": {
+                "name": "Espada longa de akamono",
+                "type": "weapon",
+                "system": {
+                  "kind": "corpo",
+                  "grip": "umaMao",
+                  "category": "marcial",
+                  "damage": "1d8",
+                  "damageType": "C",
+                  "critRange": 19,
+                  "critMult": 2,
+                  "description": "<p>Arma de akamono expelida pelo corpo (Armamento da Tormenta): some no fim da cena.</p>"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "cimitarra",
+          "label": "Cimitarra",
+          "grants": [
+            {
+              "item": {
+                "name": "Cimitarra de akamono",
+                "type": "weapon",
+                "system": {
+                  "kind": "corpo",
+                  "grip": "umaMao",
+                  "category": "marcial",
+                  "damage": "1d6",
+                  "damageType": "C",
+                  "critRange": 18,
+                  "critMult": 2,
+                  "description": "<p>Arma de akamono expelida pelo corpo (Armamento da Tormenta): some no fim da cena.</p>"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "kraTann",
+          "label": "Kra'tann",
+          "grants": [
+            {
+              "item": {
+                "name": "Kra'tann de akamono",
+                "type": "weapon",
+                "system": {
+                  "kind": "corpo",
+                  "grip": "umaMao",
+                  "category": "marcial",
+                  "damage": "2d4",
+                  "damageType": "PE",
+                  "critRange": 20,
+                  "critMult": 2,
+                  "dishonorable": true,
+                  "description": "<p>Arma de akamono expelida pelo corpo (Armamento da Tormenta): some no fim da cena.</p>",
+                  "auto": {
+                    "dishonor": "moderada"
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "machadoDeBatalha",
+          "label": "Machado de batalha",
+          "grants": [
+            {
+              "item": {
+                "name": "Machado de batalha de akamono",
+                "type": "weapon",
+                "system": {
+                  "kind": "corpo",
+                  "grip": "umaMao",
+                  "category": "marcial",
+                  "damage": "1d8",
+                  "damageType": "C",
+                  "critRange": 20,
+                  "critMult": 3,
+                  "description": "<p>Arma de akamono expelida pelo corpo (Armamento da Tormenta): some no fim da cena.</p>"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "mangual",
+          "label": "Mangual",
+          "grants": [
+            {
+              "item": {
+                "name": "Mangual de akamono",
+                "type": "weapon",
+                "system": {
+                  "kind": "corpo",
+                  "grip": "umaMao",
+                  "category": "marcial",
+                  "damage": "1d8",
+                  "damageType": "E",
+                  "critRange": 20,
+                  "critMult": 2,
+                  "description": "<p>Arma de akamono expelida pelo corpo (Armamento da Tormenta): some no fim da cena.</p>",
+                  "auto": {
+                    "rollOptions": [
+                      {
+                        "id": "desarmar",
+                        "label": "Mangual: desarmar",
+                        "for": "maneuver",
+                        "filter": {
+                          "maneuvers": [
+                            "desarmar"
+                          ]
+                        },
+                        "value": 4
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "picareta",
+          "label": "Picareta",
+          "grants": [
+            {
+              "item": {
+                "name": "Picareta de akamono",
+                "type": "weapon",
+                "system": {
+                  "kind": "corpo",
+                  "grip": "umaMao",
+                  "category": "marcial",
+                  "damage": "1d6",
+                  "damageType": "P",
+                  "critRange": 20,
+                  "critMult": 4,
+                  "description": "<p>Arma de akamono expelida pelo corpo (Armamento da Tormenta): some no fim da cena.</p>"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "tridente",
+          "label": "Tridente",
+          "grants": [
+            {
+              "item": {
+                "name": "Tridente de akamono",
+                "type": "weapon",
+                "system": {
+                  "kind": "corpo",
+                  "grip": "umaMao",
+                  "category": "marcial",
+                  "damage": "1d8",
+                  "damageType": "P",
+                  "critRange": 20,
+                  "critMult": 2,
+                  "description": "<p>Arma de akamono expelida pelo corpo (Armamento da Tormenta): some no fim da cena.</p>",
+                  "auto": {
+                    "rollOptions": [
+                      {
+                        "id": "derrubar",
+                        "label": "Tridente: derrubar",
+                        "for": "maneuver",
+                        "filter": {
+                          "maneuvers": [
+                            "derrubar"
+                          ]
+                        },
+                        "value": 4
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "naginata",
+          "label": "Naginata",
+          "grants": [
+            {
+              "item": {
+                "name": "Naginata de akamono",
+                "type": "weapon",
+                "system": {
+                  "kind": "corpo",
+                  "grip": "duasMaos",
+                  "category": "marcial",
+                  "damage": "1d12",
+                  "damageType": "C",
+                  "critRange": 20,
+                  "critMult": 3,
+                  "description": "<p>Arma de akamono expelida pelo corpo (Armamento da Tormenta): some no fim da cena.</p>"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "nodachi",
+          "label": "Nodachi",
+          "grants": [
+            {
+              "item": {
+                "name": "Nodachi de akamono",
+                "type": "weapon",
+                "system": {
+                  "kind": "corpo",
+                  "grip": "duasMaos",
+                  "category": "marcial",
+                  "damage": "2d6",
+                  "damageType": "C",
+                  "critRange": 19,
+                  "critMult": 2,
+                  "description": "<p>Arma de akamono expelida pelo corpo (Armamento da Tormenta): some no fim da cena.</p>"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "tetsubo",
+          "label": "Tetsubo",
+          "grants": [
+            {
+              "item": {
+                "name": "Tetsubo de akamono",
+                "type": "weapon",
+                "system": {
+                  "kind": "corpo",
+                  "grip": "duasMaos",
+                  "category": "marcial",
+                  "damage": "3d4",
+                  "damageType": "E",
+                  "critRange": 20,
+                  "critMult": 2,
+                  "description": "<p>Arma de akamono expelida pelo corpo (Armamento da Tormenta): some no fim da cena.</p>"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "jian",
+          "label": "Jian",
+          "grants": [
+            {
+              "item": {
+                "name": "Jian de akamono",
+                "type": "weapon",
+                "system": {
+                  "kind": "corpo",
+                  "grip": "leve",
+                  "category": "exotica",
+                  "damage": "1d6",
+                  "damageType": "P",
+                  "critRange": 19,
+                  "critMult": 2,
+                  "description": "<p>Arma de akamono expelida pelo corpo (Armamento da Tormenta): some no fim da cena.</p>",
+                  "auto": {
+                    "rollOptions": [
+                      {
+                        "id": "manobra",
+                        "label": "Jian: manobras com arma",
+                        "for": "maneuver",
+                        "filter": {
+                          "maneuvers": [
+                            "derrubar",
+                            "desarmar",
+                            "separar"
+                          ]
+                        },
+                        "value": 4
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "leque",
+          "label": "Leque",
+          "grants": [
+            {
+              "item": {
+                "name": "Leque de akamono",
+                "type": "weapon",
+                "system": {
+                  "kind": "corpo",
+                  "grip": "leve",
+                  "category": "exotica",
+                  "damage": "1d6",
+                  "damageType": "C",
+                  "critRange": 19,
+                  "critMult": 2,
+                  "description": "<p>Arma de akamono expelida pelo corpo (Armamento da Tormenta): some no fim da cena.</p>"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "chicote",
+          "label": "Chicote",
+          "grants": [
+            {
+              "item": {
+                "name": "Chicote de akamono",
+                "type": "weapon",
+                "system": {
+                  "kind": "corpo",
+                  "grip": "umaMao",
+                  "category": "exotica",
+                  "damage": "1d4",
+                  "damageType": "C",
+                  "critRange": 20,
+                  "critMult": 2,
+                  "description": "<p>Arma de akamono expelida pelo corpo (Armamento da Tormenta): some no fim da cena.</p>",
+                  "auto": {
+                    "rollOptions": [
+                      {
+                        "id": "manobra",
+                        "label": "Chicote: derrubar ou desarmar",
+                        "for": "maneuver",
+                        "filter": {
+                          "maneuvers": [
+                            "derrubar",
+                            "desarmar"
+                          ]
+                        },
+                        "value": 4
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "chuan",
+          "label": "Chuan",
+          "grants": [
+            {
+              "item": {
+                "name": "Chuan de akamono",
+                "type": "weapon",
+                "system": {
+                  "kind": "corpo",
+                  "grip": "umaMao",
+                  "category": "exotica",
+                  "damage": "1d8",
+                  "damageType": "C",
+                  "critRange": 19,
+                  "critMult": 2,
+                  "description": "<p>Arma de akamono expelida pelo corpo (Armamento da Tormenta): some no fim da cena.</p>",
+                  "auto": {
+                    "rollOptions": [
+                      {
+                        "id": "manobra",
+                        "label": "Chuan: manobras com arma",
+                        "for": "maneuver",
+                        "filter": {
+                          "maneuvers": [
+                            "derrubar",
+                            "desarmar",
+                            "separar"
+                          ]
+                        },
+                        "value": 4
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "katana",
+          "label": "Katana",
+          "grants": [
+            {
+              "item": {
+                "name": "Katana de akamono",
+                "type": "weapon",
+                "system": {
+                  "kind": "corpo",
+                  "grip": "umaMao",
+                  "category": "exotica",
+                  "damage": "1d10",
+                  "damageType": "C",
+                  "critRange": 19,
+                  "critMult": 2,
+                  "description": "<p>Arma de akamono expelida pelo corpo (Armamento da Tormenta): some no fim da cena.</p>"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "corrente",
+          "label": "Corrente",
+          "grants": [
+            {
+              "item": {
+                "name": "Corrente de akamono",
+                "type": "weapon",
+                "system": {
+                  "kind": "corpo",
+                  "grip": "duasMaos",
+                  "category": "exotica",
+                  "damage": "1d6",
+                  "damageType": "E",
+                  "critRange": 20,
+                  "critMult": 3,
+                  "description": "<p>Arma de akamono expelida pelo corpo (Armamento da Tormenta): some no fim da cena.</p>"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "kakkoDai",
+          "label": "Kakko'dai",
+          "grants": [
+            {
+              "item": {
+                "name": "Kakko'dai de akamono",
+                "type": "weapon",
+                "system": {
+                  "kind": "corpo",
+                  "grip": "duasMaos",
+                  "category": "exotica",
+                  "damage": "2d8",
+                  "damageType": "CP",
+                  "critRange": 20,
+                  "critMult": 3,
+                  "dishonorable": true,
+                  "description": "<p>Arma de akamono expelida pelo corpo (Armamento da Tormenta): some no fim da cena.</p>",
+                  "auto": {
+                    "dishonor": "moderada"
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "kusariGama",
+          "label": "Kusari-gama",
+          "grants": [
+            {
+              "item": {
+                "name": "Kusari-gama de akamono",
+                "type": "weapon",
+                "system": {
+                  "kind": "corpo",
+                  "grip": "duasMaos",
+                  "category": "exotica",
+                  "damage": "1d4",
+                  "damageType": "C",
+                  "critRange": 19,
+                  "critMult": 2,
+                  "description": "<p>Arma de akamono expelida pelo corpo (Armamento da Tormenta): some no fim da cena.</p>",
+                  "auto": {
+                    "rollOptions": [
+                      {
+                        "id": "manobra",
+                        "label": "Kusari-gama: derrubar ou desarmar",
+                        "for": "maneuver",
+                        "filter": {
+                          "maneuvers": [
+                            "derrubar",
+                            "desarmar"
+                          ]
+                        },
+                        "value": 4
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "lajatang",
+          "label": "Lajatang",
+          "grants": [
+            {
+              "item": {
+                "name": "Lajatang de akamono",
+                "type": "weapon",
+                "system": {
+                  "kind": "corpo",
+                  "grip": "duasMaos",
+                  "category": "exotica",
+                  "damage": "1d8",
+                  "damageType": "C",
+                  "critRange": 19,
+                  "critMult": 2,
+                  "description": "<p>Arma de akamono expelida pelo corpo (Armamento da Tormenta): some no fim da cena.</p>"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "sansetsukon",
+          "label": "Sansetsukon",
+          "grants": [
+            {
+              "item": {
+                "name": "Sansetsukon de akamono",
+                "type": "weapon",
+                "system": {
+                  "kind": "corpo",
+                  "grip": "duasMaos",
+                  "category": "exotica",
+                  "damage": "1d6",
+                  "damageType": "E",
+                  "critRange": 20,
+                  "critMult": 3,
+                  "description": "<p>Arma de akamono expelida pelo corpo (Armamento da Tormenta): some no fim da cena.</p>"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "zanbatou",
+          "label": "Zanbatou",
+          "grants": [
+            {
+              "item": {
+                "name": "Zanbatou de akamono",
+                "type": "weapon",
+                "system": {
+                  "kind": "corpo",
+                  "grip": "duasMaos",
+                  "category": "exotica",
+                  "damage": "2d8",
+                  "damageType": "C",
+                  "critRange": 20,
+                  "critMult": 2,
+                  "description": "<p>Arma de akamono expelida pelo corpo (Armamento da Tormenta): some no fim da cena.</p>"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "chakram",
+          "label": "Chakram",
+          "grants": [
+            {
+              "item": {
+                "name": "Chakram de akamono",
+                "type": "weapon",
+                "system": {
+                  "kind": "arremesso",
+                  "grip": "umaMao",
+                  "category": "exotica",
+                  "damage": "1d6",
+                  "damageType": "C",
+                  "critRange": 20,
+                  "critMult": 3,
+                  "range": 9,
+                  "description": "<p>Arma de akamono expelida pelo corpo (Armamento da Tormenta): some no fim da cena.</p>"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "shuriken",
+          "label": "Shuriken",
+          "grants": [
+            {
+              "item": {
+                "name": "Shuriken de akamono",
+                "type": "weapon",
+                "system": {
+                  "kind": "arremesso",
+                  "grip": "leve",
+                  "category": "exotica",
+                  "damage": "1d4",
+                  "damageType": "P",
+                  "critRange": 20,
+                  "critMult": 2,
+                  "range": 3,
+                  "dishonorable": true,
+                  "description": "<p>Arma de akamono expelida pelo corpo (Armamento da Tormenta): some no fim da cena.</p>",
+                  "auto": {
+                    "dishonor": "severa"
+                  }
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "rollOptions": [
+      {
+        "id": "akamono",
+        "label": "Akamono (+1d4; não vale contra kaijin e akumushi)",
+        "damage": "1d4",
+        "noCrit": true,
+        "filter": {
+          "weapon": "akamono"
+        }
+      },
+      {
+        "id": "tormenta",
+        "label": "Armamento da Tormenta (talentos da Tormenta)",
+        "damage": "floor((@tormenta - 1) / 2)",
+        "filter": {
+          "weapon": "akamono"
+        },
+        "locked": true
+      }
+    ],
     "activation": {
       "action": "movimento",
       "duration": {
@@ -2030,20 +3130,10 @@
       "damage": {
         "formula": "1d6"
       },
-      "self": {
-        "rollOptions": [
-          {
-            "id": "akamono",
-            "label": "Arma de akamono (Armamento da Tormenta)",
-            "damage": "floor((@tormenta - 1) / 2)",
-            "optional": true
-          }
-        ]
-      },
-      "note": "Arma de akamono (corpo a corpo ou arremesso) que saiba usar; dura a cena."
+      "note": "Expele a arma de akamono escolhida, que dura até o fim da cena; o 1d6 é em você."
     },
     "status": "parcial",
-    "notes": "Crie a arma de akamono na ficha e aplique o 1d6 em você."
+    "notes": "Expelir: aplique o 1d6 em você; a arma só vale na cena em que saiu, e quem não é kaijin sofre 1 de dano por acerto (à mão)."
   },
   "Asas Insetoides": {
     "activation": {
@@ -2081,15 +3171,6 @@
           "label": "Tentáculo (esmagamento 1d4, x2, alcance 4,5m)",
           "rollOptions": [
             {
-              "id": "dano",
-              "label": "Braço armado (tentáculo)",
-              "filter": {
-                "weapon": "tentaculo"
-              },
-              "damage": "floor((@tormenta - 1) / 2)",
-              "locked": true
-            },
-            {
               "id": "manobra",
               "label": "Braço armado (tentáculo)",
               "for": "maneuver",
@@ -2102,35 +3183,97 @@
               },
               "value": 2
             }
+          ],
+          "grants": [
+            {
+              "item": {
+                "name": "Tentáculo (braço armado)",
+                "type": "weapon",
+                "system": {
+                  "kind": "corpo",
+                  "grip": "leve",
+                  "category": "simples",
+                  "damage": "1d4",
+                  "damageType": "E",
+                  "critRange": 20,
+                  "critMult": 2,
+                  "description": "<p>Arma natural do talento Braço Armado. Alcance de 4,5 m.</p>",
+                  "auto": {
+                    "rollOptions": [
+                      {
+                        "id": "tormenta",
+                        "label": "Braço armado (tentáculo)",
+                        "damage": "floor((@tormenta - 1) / 2)",
+                        "locked": true
+                      }
+                    ]
+                  }
+                }
+              }
+            }
           ]
         },
         {
           "id": "garra",
           "label": "Garra (corte 1d8, x3)",
-          "rollOptions": [
+          "grants": [
             {
-              "id": "dano",
-              "label": "Braço armado (garra)",
-              "filter": {
-                "weapon": "garra"
-              },
-              "damage": "floor((@tormenta - 1) / 2)",
-              "locked": true
+              "item": {
+                "name": "Garra (braço armado)",
+                "type": "weapon",
+                "system": {
+                  "kind": "corpo",
+                  "grip": "leve",
+                  "category": "simples",
+                  "damage": "1d8",
+                  "damageType": "C",
+                  "critRange": 20,
+                  "critMult": 3,
+                  "description": "<p>Arma natural do talento Braço Armado.</p>",
+                  "auto": {
+                    "rollOptions": [
+                      {
+                        "id": "tormenta",
+                        "label": "Braço armado (garra)",
+                        "damage": "floor((@tormenta - 1) / 2)",
+                        "locked": true
+                      }
+                    ]
+                  }
+                }
+              }
             }
           ]
         },
         {
           "id": "ferrao",
           "label": "Ferrão (perfuração 1d6, 18)",
-          "rollOptions": [
+          "grants": [
             {
-              "id": "dano",
-              "label": "Braço armado (ferrão)",
-              "filter": {
-                "weapon": "ferrao"
-              },
-              "damage": "floor((@tormenta - 1) / 2)",
-              "locked": true
+              "item": {
+                "name": "Ferrão (braço armado)",
+                "type": "weapon",
+                "system": {
+                  "kind": "corpo",
+                  "grip": "leve",
+                  "category": "simples",
+                  "damage": "1d6",
+                  "damageType": "P",
+                  "critRange": 18,
+                  "critMult": 2,
+                  "description": "<p>Arma natural do talento Braço Armado.</p>",
+                  "auto": {
+                    "rollOptions": [
+                      {
+                        "id": "tormenta",
+                        "label": "Braço armado (ferrão)",
+                        "damage": "floor((@tormenta - 1) / 2)",
+                        "locked": true
+                      }
+                    ]
+                  }
+                }
+              }
             }
           ]
         },
@@ -2138,15 +3281,6 @@
           "id": "pinca",
           "label": "Pinça (corte 1d6, x2)",
           "rollOptions": [
-            {
-              "id": "dano",
-              "label": "Braço armado (pinça)",
-              "filter": {
-                "weapon": "pinca"
-              },
-              "damage": "floor((@tormenta - 1) / 2)",
-              "locked": true
-            },
             {
               "id": "manobra",
               "label": "Braço armado (pinça)",
@@ -2159,21 +3293,40 @@
               },
               "value": 2
             }
+          ],
+          "grants": [
+            {
+              "item": {
+                "name": "Pinça (braço armado)",
+                "type": "weapon",
+                "system": {
+                  "kind": "corpo",
+                  "grip": "leve",
+                  "category": "simples",
+                  "damage": "1d6",
+                  "damageType": "C",
+                  "critRange": 20,
+                  "critMult": 2,
+                  "description": "<p>Arma natural do talento Braço Armado.</p>",
+                  "auto": {
+                    "rollOptions": [
+                      {
+                        "id": "tormenta",
+                        "label": "Braço armado (pinça)",
+                        "damage": "floor((@tormenta - 1) / 2)",
+                        "locked": true
+                      }
+                    ]
+                  }
+                }
+              }
+            }
           ]
         },
         {
           "id": "clava",
           "label": "Clava (esmagamento 1d8, x2)",
           "rollOptions": [
-            {
-              "id": "dano",
-              "label": "Braço armado (clava)",
-              "filter": {
-                "weapon": "clava"
-              },
-              "damage": "floor((@tormenta - 1) / 2)",
-              "locked": true
-            },
             {
               "id": "manobra",
               "label": "Braço armado (clava)",
@@ -2184,6 +3337,34 @@
                 ]
               },
               "value": 2
+            }
+          ],
+          "grants": [
+            {
+              "item": {
+                "name": "Clava (braço armado)",
+                "type": "weapon",
+                "system": {
+                  "kind": "corpo",
+                  "grip": "leve",
+                  "category": "simples",
+                  "damage": "1d8",
+                  "damageType": "E",
+                  "critRange": 20,
+                  "critMult": 2,
+                  "description": "<p>Arma natural do talento Braço Armado.</p>",
+                  "auto": {
+                    "rollOptions": [
+                      {
+                        "id": "tormenta",
+                        "label": "Braço armado (clava)",
+                        "damage": "floor((@tormenta - 1) / 2)",
+                        "locked": true
+                      }
+                    ]
+                  }
+                }
+              }
             }
           ]
         }
@@ -2203,9 +3384,7 @@
         "value": -2,
         "optional": true
       }
-    ],
-    "status": "parcial",
-    "notes": "Crie a arma natural com o nome do tipo (tentáculo, garra...)."
+    ]
   },
   "Golpes da Tempestade": {
     "rollOptions": [

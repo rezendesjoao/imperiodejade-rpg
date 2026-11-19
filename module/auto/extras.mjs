@@ -2,8 +2,8 @@
  * What an effect can do to a creature beyond buffs and conditions: ability damage, negative levels, setting PV
  * ("drops to −1 PV"), instant death, dispelling magic, and the auras that follow their bearer.
  */
-import { SYSTEM, evaluate, resolveFormula, hpOf } from "./context.mjs";
-import { updateActor, createEffects, deleteEffects, effectData, applyCondition } from "./effects.mjs";
+import { SYSTEM, evaluate, resolveFormula, hpOf, norm } from "./context.mjs";
+import { updateActor, createEffects, deleteEffects, effectData, applyCondition, createRegion, deleteRegion, resolveAura, forActor, updateEffect } from "./effects.mjs";
 
 const L = key => game.i18n.localize(key);
 const ABILITY_KEYS = ["for", "des", "con", "int", "sab", "car"];
@@ -88,6 +88,30 @@ export async function recoverAbilityDamage(actor) {
 /* -------------------------------------------- */
 
 /** Negative levels (p. 252): −1 on attacks, tests and saves each; each one also costs 2 PV and 2 PM right away. */
+/** Heal ability damage: { "ability": "for" | "all", "value": 2 | "all" } (Integridade Corporal, Revitalização). */
+export async function healAbilityDamage(actor, spec, data = {}) {
+  const update = {};
+  for (const s of [spec].flat()) {
+    const keys = (s.ability === "all" || !s.ability) ? ABILITY_KEYS : [s.ability].flat();
+    for (const key of keys) {
+      const d = (actor.type === "character") ? (actor.system.abilities[key]?.damage ?? 0) : (actor.system.abilityDamage?.[key] ?? 0);
+      if (!d) continue;
+      const n = (s.value === "all" || s.value === undefined) ? d : Math.max(0, await amountOf(s.value, data));
+      update[(actor.type === "character") ? `system.abilities.${key}.damage` : `system.abilityDamage.${key}`] = Math.max(0, d - n);
+    }
+  }
+  if (Object.keys(update).length) await updateActor(actor, update);
+}
+
+/** Remove negative levels (Círculo de Luz): a number or "all". */
+export async function removeNegativeLevels(actor, value = "all", data = {}) {
+  const isNpc = actor.type === "npc";
+  const current = isNpc ? (actor.system.negativeLevels ?? 0) : (actor.system.attributes.negativeLevels ?? 0);
+  if (!current) return;
+  const n = (value === "all") ? current : Math.max(0, await amountOf(value, data));
+  await updateActor(actor, { [isNpc ? "system.negativeLevels" : "system.attributes.negativeLevels"]: Math.max(0, current - n) });
+}
+
 export async function applyNegativeLevels(actor, formula, data = {}) {
   const n = Math.max(0, await amountOf(formula, data));
   if (!n) return 0;
@@ -172,32 +196,186 @@ export async function syncAuras() {
   for (const t of tokens) {
     for (const e of t.actor.effects) {
       const aura = e.flags?.[SYSTEM]?.aura;
-      if (aura && e.active) sources.push({ token: t, effect: e, aura });
+      if (!aura || !e.active) continue;
+      sources.push({
+        from: e.uuid, spec: aura, name: aura.label || e.name, img: e.img, origin: e.origin,
+        isSelf: tok => (tok === t) || (tok.actor === t.actor),
+        sameSide: tok => tok.document.disposition === t.document.disposition,
+        inside: tok => (tok === t) || (canvas.grid.measurePath([t.center, tok.center]).distance <= (aura.radius ?? 9))
+      });
     }
   }
-  const live = new Set(sources.map(s => s.effect.uuid));
+  // Areas placed on the scene (a jutsu's mist, darkness, mandala): who stands inside gets the effect
+  for (const region of canvas.scene?.regions ?? []) {
+    const zone = region.flags?.[SYSTEM]?.zone;
+    if (!zone) continue;
+    // The area ends with the effect that keeps it
+    if (zone.effect && !fromUuidSync(zone.effect)) { await deleteRegion(region); continue; }
+    sources.push({
+      from: region.uuid, spec: zone, name: zone.label || region.name, img: zone.img || "icons/svg/aura.svg", origin: zone.origin ?? null,
+      isSelf: tok => tok.actor?.uuid === zone.actor,
+      sameSide: tok => tok.document.disposition === zone.disposition,
+      inside: tok => region.testPoint({ x: tok.center.x, y: tok.center.y, elevation: tok.document.elevation ?? 0 })
+    });
+  }
+  const live = new Set(sources.map(s => s.from));
   for (const t of tokens) {
     const actor = t.actor;
-    // Copies whose aura is gone
+    // Copies whose aura or area is gone
     const stale = actor.effects.filter(e => e.flags?.[SYSTEM]?.auraFrom && !live.has(e.flags[SYSTEM].auraFrom)).map(e => e.id);
     for (const s of sources) {
-      const from = s.effect.uuid;
-      const mine = actor.effects.filter(e => e.flags?.[SYSTEM]?.auraFrom === from);
-      const has = mine[0];
-      const self = t === s.token || actor === s.token.actor;
-      const disp = t.document.disposition === s.token.document.disposition;
-      const sideOk = self ? !!s.aura.includeSelf : (s.aura.who === "allies" ? disp : s.aura.who === "enemies" ? !disp : true);
-      const inside = self || (canvas.grid.measurePath([s.token.center, t.center]).distance <= (s.aura.radius ?? 9));
-      if (sideOk && inside && !has) {
+      const mine = actor.effects.filter(e => e.flags?.[SYSTEM]?.auraFrom === s.from);
+      const self = s.isSelf(t);
+      // who: allies, enemies, any, or self (only the user: a mandala around you)
+      const sideOk = (s.spec.who === "self") ? self
+        : self ? !!s.spec.includeSelf : (s.spec.who === "allies" ? s.sameSide(t) : s.spec.who === "enemies" ? !s.sameSide(t) : true);
+      const inside = s.inside(t);
+      if (sideOk && inside && !mine.length) {
+        // A threat gets the numbers on its own fields
+        const changes = forActor((s.spec.changes ?? []).map(c => ({ key: c.key, value: c.value, mode: c.mode })), actor);
         await createEffects(actor, [{
-          ...effectData({ ...s.aura, name: s.aura.label || s.effect.name, img: s.effect.img, origin: s.effect.origin }, {}),
+          ...effectData({ ...s.spec, changes, name: s.name, img: s.img, origin: s.origin }, {}),
           duration: undefined,
-          flags: { [SYSTEM]: { auraFrom: from, temp: true, traits: s.aura.traits ?? null, rollOptions: s.aura.rollOptions ?? null, turnStart: s.aura.turnStart ?? null } }
+          flags: { [SYSTEM]: { auraFrom: s.from, temp: true, traits: s.spec.traits ?? null, rollOptions: s.spec.rollOptions ?? null, turnStart: s.spec.turnStart ?? null } }
         }]);
-        // The aura's conditions leave with it (tagged with the aura)
-        for (const c of s.aura.conditions ?? []) await applyCondition(actor, c.id ?? c, { source: s.aura.label || s.effect.name, flags: { auraFrom: from } });
+        // The conditions leave with it (tagged with the source)
+        for (const c of s.spec.conditions ?? []) await applyCondition(actor, c, { source: s.name, flags: { auraFrom: s.from } });
       } else if (!(sideOk && inside) && mine.length) stale.push(...mine.map(e => e.id));
     }
     if (stale.length) await deleteEffects(actor, [...new Set(stale)]);
   }
+}
+
+/* -------------------------------------------- */
+/*  Areas                                       */
+/* -------------------------------------------- */
+
+/** Wait for a click on the map (Esc or a minute without a click cancels). */
+function pickPoint() {
+  return new Promise(resolve => {
+    const view = canvas.app?.view;
+    if (!view) return resolve(null);
+    let timer = null;
+    const done = point => {
+      view.removeEventListener("pointerdown", onDown, true);
+      document.removeEventListener("keydown", onKey, true);
+      clearTimeout(timer);
+      resolve(point);
+    };
+    const onDown = () => { const p = canvas.mousePosition; done(p ? { x: p.x, y: p.y } : null); };
+    const onKey = ev => { if (ev.key === "Escape") done(null); };
+    view.addEventListener("pointerdown", onDown, true);
+    document.addEventListener("keydown", onKey, true);
+    timer = setTimeout(() => done(null), 60000);
+  });
+}
+
+/**
+ * Place an area: a circle on the scene (on the first target, on the user, or where the player clicks) whose effect goes
+ * to who stands inside, for as long as the user's effect of the area lasts.
+ */
+export async function placeZone(item, spec, data, duration = null) {
+  const actor = item.actor;
+  const scene = canvas?.scene;
+  if (!actor || !scene || !canvas.ready) return null;
+  const zone = resolveAura(spec.zone, data);
+  const myToken = actor.getActiveTokens?.()[0] ?? null;
+  const target = [...(game.user?.targets ?? [])][0] ?? null;
+  let center = null;
+  if (spec.zone.at === "self") center = myToken?.center ?? null;
+  else if (target) center = target.center;
+  else {
+    ui.notifications.info(game.i18n.localize("IJ.Auto.zonePick"));
+    center = await pickPoint();
+  }
+  center ??= myToken?.center ?? null;
+  if (!center) return null;
+  const label = zone.label || (spec.optionLabel ? `${item.name}: ${spec.optionLabel}` : item.name);
+  // The user's effect keeps the area: when it ends, the area goes
+  const created = await createEffects(actor, [{
+    ...effectData({ name: `${L("IJ.Auto.zoneEffect")}: ${label}`, img: item.img, origin: item.uuid, duration, key: spec.zone.key ?? null }, data),
+  }].map(e => { e.flags[SYSTEM].zoneMarker = true; return e; }));
+  const effect = Array.isArray(created) ? created[0] : null;
+  const radius = (zone.radius / (scene.grid.distance || 1.5)) * scene.grid.size;
+  await createRegion(scene, {
+    name: label,
+    color: game.user?.color?.css ?? "#3f8f6b",
+    shapes: [{ type: "circle", x: center.x, y: center.y, radius }],
+    visibility: CONST.REGION_VISIBILITY.ALWAYS,
+    flags: { [SYSTEM]: { zone: {
+      ...zone, label, img: item.img, origin: item.uuid, actor: actor.uuid, effect: effect?.uuid ?? null,
+      disposition: myToken?.document.disposition ?? (actor.type === "character" ? 1 : -1)
+    } } }
+  });
+  return label;
+}
+
+/** The user's effect of an area ended: the area leaves the scenes. */
+export async function endZones(effect) {
+  for (const scene of game.scenes) {
+    for (const region of scene.regions) {
+      if (region.flags?.[SYSTEM]?.zone?.effect === effect.uuid) await region.delete();
+    }
+  }
+}
+
+/* -------------------------------------------- */
+/*  Diseases                                    */
+/* -------------------------------------------- */
+
+/** The diseases of the book (p. 247): the save's DC, what each failed day does, successes in a row to heal. */
+export const DISEASES = {
+  "calafrios diabolicos": { name: "Calafrios diabólicos", dc: 16, damage: [{ ability: "for", formula: "1d4" }], cure: 3 },
+  "enjoo cegante": { name: "Enjoo cegante", dc: 18, damage: [{ ability: "for", formula: "1d4" }] },
+  "febre demoniaca": { name: "Febre demoníaca", dc: 20, damage: [{ ability: "con", formula: "1d6" }] },
+  "febre do esgoto": { name: "Febre do esgoto", dc: 14, damage: [{ ability: "des", formula: "1d3" }, { ability: "con", formula: "1d3" }] },
+  "febre do riso": { name: "Febre do riso", dc: 18, damage: [{ ability: "sab", formula: "1d6" }] },
+  "febre escarlate": { name: "Febre escarlate", dc: 17, damage: [{ ability: "for", formula: "1d6" }] },
+  "febre mental": { name: "Febre mental", dc: 14, damage: [{ ability: "int", formula: "1d4" }] },
+  "maldicao pegajosa": { name: "Maldição pegajosa", dc: 16, damage: [{ ability: "con", formula: "1d4" }] },
+  "tremores": { name: "Tremores", dc: 15, damage: [{ ability: "des", formula: "1d8" }] }
+};
+
+/** Catch a disease (a failed save against it): its first effect now, then a save each day. */
+export async function contractDisease(actor, which) {
+  const d = (typeof which === "string") ? DISEASES[norm(which)] : (which ? { cure: 2, ...which } : null);
+  if (!actor || !d) return;
+  if (actor.system?.traits?.immune?.includes("doenca")) {
+    await note(actor, game.i18n.format("IJ.Auto.immuneTo", { name: actor.name, what: d.name }));
+    return;
+  }
+  if (actor.effects.some(e => e.flags?.[SYSTEM]?.disease?.name === d.name)) return;
+  await createEffects(actor, [{
+    name: `${L("IJ.Auto.diseaseName")}: ${d.name}`, img: "icons/svg/biohazard.svg", showIcon: CONST.ACTIVE_EFFECT_SHOW_ICON.ALWAYS,
+    flags: { [SYSTEM]: { temp: true, disease: { name: d.name, dc: d.dc, damage: d.damage, cure: d.cure ?? 2, streak: 0 } } }
+  }]);
+  await applyAbilityDamage(actor, d.damage);
+  await note(actor, game.i18n.format("IJ.Auto.diseaseContracted", { name: actor.name, what: d.name }));
+}
+
+/** A day passed (a night of rest): each disease asks its save; two in a row heal it, a failure does its harm. */
+export async function diseaseDay(actor) {
+  for (const effect of actor.effects.filter(e => e.flags?.[SYSTEM]?.disease)) {
+    const d = effect.flags[SYSTEM].disease;
+    const msg = await actor.rollSave("fort", { dc: d.dc, source: d.name });
+    if (msg?.flags?.[SYSTEM]?.success) {
+      const streak = (d.streak ?? 0) + 1;
+      if (streak >= (d.cure ?? 2)) {
+        await deleteEffects(actor, [effect.id]);
+        await note(actor, game.i18n.format("IJ.Auto.diseaseCured", { name: actor.name, what: d.name }));
+      } else await updateEffect(actor, effect.id, { [`flags.${SYSTEM}.disease.streak`]: streak });
+    } else {
+      await updateEffect(actor, effect.id, { [`flags.${SYSTEM}.disease.streak`]: 0 });
+      await applyAbilityDamage(actor, d.damage);
+    }
+  }
+}
+
+/** Purificação, Integridade Corporal: the diseases and/or lasting poisons go. */
+export async function cure(actor, kinds = ["disease", "poison"]) {
+  const list = [kinds].flat();
+  const ids = actor.effects.filter(e => (list.includes("disease") && e.flags?.[SYSTEM]?.disease) || (list.includes("poison") && e.flags?.[SYSTEM]?.poison)).map(e => e.id);
+  if (ids.length) await deleteEffects(actor, ids);
+  await note(actor, game.i18n.format("IJ.Auto.cured", { name: actor.name, n: ids.length }));
+  return ids.length;
 }

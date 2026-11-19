@@ -61,7 +61,7 @@ export class CharacterData extends foundry.abstract.TypeDataModel {
         level: int(1, { min: 1, max: 20 }),
         xp: int(0, { min: 0 }),
         bba: int(0),
-        pv: new fields.SchemaField({ value: int(10), max: int(10, { min: 0 }), temp: int(0, { min: 0 }), bonus: int(0) }),
+        pv: new fields.SchemaField({ value: int(10), max: int(10, { min: 0 }), temp: int(0, { min: 0 }), bonus: int(0), nonlethal: int(0, { min: 0 }) }),
         pm: new fields.SchemaField({ value: int(4), max: int(4, { min: 0 }), bonus: int(0), limitBonus: int(0) }),
         ca: new fields.SchemaField({ bonus: int(0) }),
         attack: new fields.SchemaField({ melee: int(0), ranged: int(0), damage: int(0) }),
@@ -202,6 +202,8 @@ export class CharacterData extends foundry.abstract.TypeDataModel {
     let movement = baseMove + this.attributes.movement.bonus;
     if (cond.movement) movement = Math.max(1.5, movement + cond.movement);
     if (cond.movementCap !== null) movement = Math.min(movement, cond.movementCap);
+    // Effects never take it below 1,5 m (only "can't move" stops it)
+    movement = Math.max(1.5, movement);
     if (cond.noMove) movement = 0;
     this.movement = movement;
 

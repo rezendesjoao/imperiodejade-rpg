@@ -57,7 +57,7 @@
   },
   "Henge/Forma Animal": {
     "status": "parcial",
-    "notes": "Sem fala, jutsus, mãos nem equipamento: à mão. Para voltar, apague o efeito.",
+    "notes": "Sem fala, jutsus nem mãos; o equipamento some com a forma: desequipe os itens à mão.",
     "choice": {
       "label": "Forma animal",
       "count": 1,
@@ -82,13 +82,14 @@
     },
     "activation": {
       "action": "completa",
-      "note": "Ajustes do tamanho até voltar à forma híbrida (apague o efeito).",
+      "note": "Ajustes do tamanho até voltar à forma híbrida (use de novo e escolha voltar).",
       "options": [
         {
           "id": "pequeno",
           "label": "Forma animal (Pequeno)",
           "option": "pequeno",
           "self": {
+            "key": "formaAnimal",
             "changes": [
               {
                 "key": "system.attributes.ca.bonus",
@@ -120,6 +121,7 @@
           "label": "Forma animal (Pequeno, 12 m)",
           "option": "pequenoVeloz",
           "self": {
+            "key": "formaAnimal",
             "changes": [
               {
                 "key": "system.attributes.ca.bonus",
@@ -155,6 +157,7 @@
           "label": "Forma animal (Mínimo)",
           "option": "minimo",
           "self": {
+            "key": "formaAnimal",
             "changes": [
               {
                 "key": "system.attributes.ca.bonus",
@@ -186,6 +189,7 @@
           "label": "Forma animal (Mínimo, 12 m)",
           "option": "minimoVeloz",
           "self": {
+            "key": "formaAnimal",
             "changes": [
               {
                 "key": "system.attributes.ca.bonus",
@@ -215,6 +219,14 @@
               }
             ]
           }
+        },
+        {
+          "id": "voltar",
+          "label": "Voltar à forma híbrida",
+          "endEffects": [
+            "formaAnimal"
+          ],
+          "note": "De volta à forma híbrida."
         }
       ]
     }
@@ -224,8 +236,88 @@
     "notes": "Os 12 m vêm da Forma Animal; escalar, escavar, nadar e voar à mão."
   },
   "Henge/Ataque Natural": {
-    "status": "narrativo",
-    "notes": "Crie a arma natural da espécie na ficha."
+    "choice": {
+      "label": "Ataque natural da forma animal",
+      "count": 1,
+      "options": [
+        {
+          "id": "mordida",
+          "label": "Mordida 1d6 (cão, raposa ou garça)",
+          "grants": [
+            {
+              "item": {
+                "name": "Mordida (forma animal)",
+                "type": "weapon",
+                "system": {
+                  "kind": "corpo",
+                  "grip": "leve",
+                  "category": "simples",
+                  "damage": "1d6",
+                  "damageType": "P",
+                  "critRange": 20,
+                  "critMult": 2,
+                  "description": "<p>Arma natural da forma animal do henge: só ataca com ela transformado.</p>"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "mordidaPequena",
+          "label": "Mordida 1d2 (carpa, lebre, macaco ou pardal)",
+          "grants": [
+            {
+              "item": {
+                "name": "Mordida (forma animal)",
+                "type": "weapon",
+                "system": {
+                  "kind": "corpo",
+                  "grip": "leve",
+                  "category": "simples",
+                  "damage": "1d2",
+                  "damageType": "P",
+                  "critRange": 20,
+                  "critMult": 2,
+                  "description": "<p>Arma natural da forma animal do henge: só ataca com ela transformado.</p>"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "garras",
+          "label": "Duas garras 1d4 (gato, guaxinim ou texugo)",
+          "grants": [
+            {
+              "item": {
+                "name": "Garras (forma animal)",
+                "type": "weapon",
+                "system": {
+                  "kind": "corpo",
+                  "grip": "leve",
+                  "category": "simples",
+                  "damage": "1d4",
+                  "damageType": "C",
+                  "critRange": 20,
+                  "critMult": 2,
+                  "description": "<p>Arma natural da forma animal do henge: só ataca com ela transformado.</p>",
+                  "auto": {
+                    "rollOptions": [
+                      {
+                        "id": "segunda",
+                        "label": "Segunda garra",
+                        "extraAttack": true,
+                        "optional": true
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
   },
   "Henge/Visão na Penumbra": {
     "status": "narrativo"
@@ -347,14 +439,8 @@
   "Mashin/Visão no Escuro": {
     "status": "narrativo"
   },
-  "Nezumi/Tamanho Pequeno": {
-    "status": "narrativo",
-    "notes": "Aplicado pelo tamanho da raça."
-  },
-  "Nezumi/Deslocamento 9m": {
-    "status": "narrativo",
-    "notes": "Aplicado pelo deslocamento da raça."
-  },
+  "Nezumi/Tamanho Pequeno": {},
+  "Nezumi/Deslocamento 9m": {},
   "Nezumi/Visão na Penumbra": {
     "status": "narrativo"
   },
@@ -444,7 +530,21 @@
       "untrainedSkills": [
         "conhecimento"
       ]
-    }
+    },
+    "rollOptions": [
+      {
+        "id": "culto",
+        "label": "Culto: escolher 10 em Conhecimento",
+        "for": "skill",
+        "filter": {
+          "skills": [
+            "conhecimento"
+          ]
+        },
+        "take10": true,
+        "optional": true
+      }
+    ]
   },
   "Vanara/Mente Sobre a Matéria": {
     "traits": {

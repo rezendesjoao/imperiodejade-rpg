@@ -1,8 +1,8 @@
 {
-  "_sobre": "Automação dos ataques e habilidades das criaturas do bestiário (docs/automacao.md). A chave é Criatura/Ataque ou Criatura/Habilidade. Imunidades, resistências, RD, fortificação, vulnerabilidades e cura acelerada da ficha já saem do campo de resistências (module/data/npc.mjs). Kaijin/Afinidade com a Tormenta usa o bloco de racas.json (mesma chave da raça). Ataque e habilidade com o mesmo nome dividem o bloco: nesses, nada de rollOptions (sairiam em dobro). As opções de manobra (for maneuver) levam a rolagem oposta ao total impresso na ficha, para fazer e para resistir (both): o valor é a diferença para nível + mod. de For + tamanho, a base que o sistema usa para ameaças. Galhada divide o bloco, então o bônus de manobra dela vem de uma ativação usada uma vez.",
+  "_sobre": "Automação dos ataques e habilidades das criaturas do bestiário (docs/automacao.md). A chave é Criatura/Ataque ou Criatura/Habilidade. Imunidades, resistências, RD, fortificação, vulnerabilidades e cura acelerada da ficha já saem do campo de resistências (module/data/npc.mjs). Kaijin/Afinidade com a Tormenta usa o bloco de racas.json (mesma chave da raça). Ataque e habilidade com o mesmo nome dividem o bloco: nesses, nada de rollOptions (sairiam em dobro). As opções de manobra (for maneuver) levam a rolagem oposta ao total impresso na ficha, para fazer e para resistir (both): o valor é a diferença para nível + mod. de For + tamanho, a base que o sistema usa para ameaças. Galhada divide o bloco, então o bônus de manobra dela vem de uma ativação usada uma vez. O passive dos itens não chega aos campos de uma ameaça: o que vale sempre (deslocamento, atributos) fica numa ativação usada uma vez, e escolher outra opção troca a anterior (endEffects).",
   "Bisonte/Investida Avassaladora": {
     "status": "parcial",
-    "notes": "O empurrão e o teste de Fortitude (CD igual ao dano causado) ficam à mão.",
+    "notes": "Quem falhar é empurrado 1d6 × 1,5 m na direção do golpe: mova o token à mão.",
     "rollOptions": [
       {
         "id": "investida",
@@ -11,7 +11,13 @@
         "filter": {
           "melee": true
         },
-        "note": "empurra 1d6 × 1,5 m; Fortitude (CD = dano) evita"
+        "note": "em investida: Fortitude (CD = dano sofrido) ou é empurrado 1d6 × 1,5 m",
+        "onHit": {
+          "save": {
+            "type": "fort",
+            "dc": "@damage"
+          }
+        }
       }
     ]
   },
@@ -134,8 +140,6 @@
     }
   },
   "Rato Gigante/Mordida": {
-    "status": "parcial",
-    "notes": "A doença (febre do esgoto) fica à mão.",
     "rollOptions": [
       {
         "id": "doenca",
@@ -146,15 +150,15 @@
           "save": {
             "type": "fort",
             "dc": 14
+          },
+          "onFail": {
+            "disease": "Febre do esgoto"
           }
         }
       }
     ]
   },
-  "Rato Gigante/Doença": {
-    "status": "parcial",
-    "notes": "O teste sai no ataque Mordida; a febre do esgoto fica à mão."
-  },
+  "Rato Gigante/Doença": {},
   "Salamandra Gigante/Mordida": {
     "rollOptions": [
       {
@@ -244,44 +248,114 @@
     }
   },
   "Tsukumogami Mínimo/Cegar": {
-    "status": "parcial",
-    "notes": "Tire o cego quando a vítima se soltar.",
     "activation": {
       "targets": {
         "who": "enemies",
         "conditions": [
           {
-            "id": "cego"
+            "id": "cego",
+            "endWith": "agarrado"
           }
         ]
       },
-      "note": "Só objeto achatado e flexível (futon, cortina) que esteja agarrando."
+      "note": "Só objeto achatado e flexível (futon, cortina) que esteja agarrando: a vítima fica cega até se soltar."
     }
   },
   "Tsukumogami Mínimo/Constrição": {
     "activation": {
-      "damage": {
-        "formula": "1d3-1",
-        "type": "esmagamento"
+      "targets": {
+        "who": "enemies",
+        "turnStart": {
+          "damage": "1d3-1",
+          "type": "esmagamento"
+        },
+        "endWith": "agarrado"
       },
-      "note": "A cada rodada mantendo o agarrar; só objeto flexível (corda, corrente)."
+      "note": "Só objeto flexível (corda, corrente) que esteja agarrando: a vítima sofre o dano da pancada no começo de cada turno até se soltar."
     }
   },
   "Tsukumogami Mínimo/Deslocamento aprimorado": {
-    "status": "parcial",
-    "notes": "Some +3, +6 ou +12 m ao deslocamento da ficha conforme o objeto."
+    "activation": {
+      "endEffects": [
+        "deslocamento"
+      ],
+      "options": [
+        {
+          "id": "pernas",
+          "label": "Dois pés ou pernas: +3 m",
+          "self": {
+            "key": "deslocamento",
+            "changes": [
+              {
+                "key": "system.attributes.movement.bonus",
+                "value": 3
+              }
+            ]
+          }
+        },
+        {
+          "id": "muitas",
+          "label": "Várias pernas: +6 m",
+          "self": {
+            "key": "deslocamento",
+            "changes": [
+              {
+                "key": "system.attributes.movement.bonus",
+                "value": 6
+              }
+            ]
+          }
+        },
+        {
+          "id": "rodas",
+          "label": "Rodas: +12 m",
+          "self": {
+            "key": "deslocamento",
+            "changes": [
+              {
+                "key": "system.attributes.movement.bonus",
+                "value": 12
+              }
+            ]
+          }
+        }
+      ],
+      "note": "Objeto que se arrasta fica com o deslocamento da ficha. Escolha uma vez; escolher outra opção troca a anterior."
+    }
   },
   "Tsukumogami Mínimo/Despertar espírito": {
-    "status": "parcial",
-    "notes": "Ajuste Int, Honra, Sab e Car na ficha à mão."
+    "activation": {
+      "self": {
+        "key": "despertar",
+        "changes": [
+          {
+            "key": "system.abilities.sab.bonus",
+            "value": 4
+          },
+          {
+            "key": "system.abilities.car.bonus",
+            "value": 4
+          }
+        ]
+      },
+      "note": "Objeto despertado pelo jutsu: Inteligência e Honra 3d6, +4 em Sabedoria e Carisma; fala um idioma (em geral ningo).",
+      "setScores": {
+        "int": "3d6",
+        "hon": "3d6"
+      }
+    }
   },
   "Tsukumogami Mínimo/Redução de dano": {
     "activation": {
+      "endEffects": [
+        "material"
+      ],
       "options": [
         {
           "id": "vidro",
           "label": "Vidro: RD 1",
           "self": {
+            "key": "material",
             "changes": [
               {
                 "key": "system.attributes.rd",
@@ -294,6 +368,7 @@
           "id": "madeira",
           "label": "Madeira: RD 5",
           "self": {
+            "key": "material",
             "changes": [
               {
                 "key": "system.attributes.rd",
@@ -306,6 +381,7 @@
           "id": "pedra",
           "label": "Pedra: RD 8",
           "self": {
+            "key": "material",
             "changes": [
               {
                 "key": "system.attributes.rd",
@@ -318,6 +394,7 @@
           "id": "metal",
           "label": "Metal: RD 10",
           "self": {
+            "key": "material",
             "changes": [
               {
                 "key": "system.attributes.rd",
@@ -327,48 +404,118 @@
           }
         }
       ],
-      "note": "Papel, tecido ou corda: RD 0. Escolha uma vez; para trocar, apague o efeito anterior."
+      "note": "Papel, tecido ou corda: RD 0. Escolha uma vez; escolher outro material troca o anterior."
     }
   },
   "Tsukumogami Pequeno/Cegar": {
-    "status": "parcial",
-    "notes": "Tire o cego quando a vítima se soltar.",
     "activation": {
       "targets": {
         "who": "enemies",
         "conditions": [
           {
-            "id": "cego"
+            "id": "cego",
+            "endWith": "agarrado"
           }
         ]
       },
-      "note": "Só objeto achatado e flexível (futon, cortina) que esteja agarrando."
+      "note": "Só objeto achatado e flexível (futon, cortina) que esteja agarrando: a vítima fica cega até se soltar."
     }
   },
   "Tsukumogami Pequeno/Constrição": {
     "activation": {
-      "damage": {
-        "formula": "1d4",
-        "type": "esmagamento"
+      "targets": {
+        "who": "enemies",
+        "turnStart": {
+          "damage": "1d4",
+          "type": "esmagamento"
+        },
+        "endWith": "agarrado"
       },
-      "note": "A cada rodada mantendo o agarrar; só objeto flexível (corda, corrente)."
+      "note": "Só objeto flexível (corda, corrente) que esteja agarrando: a vítima sofre o dano da pancada no começo de cada turno até se soltar."
     }
   },
   "Tsukumogami Pequeno/Deslocamento aprimorado": {
-    "status": "parcial",
-    "notes": "Some +3, +6 ou +12 m ao deslocamento da ficha conforme o objeto."
+    "activation": {
+      "endEffects": [
+        "deslocamento"
+      ],
+      "options": [
+        {
+          "id": "pernas",
+          "label": "Dois pés ou pernas: +3 m",
+          "self": {
+            "key": "deslocamento",
+            "changes": [
+              {
+                "key": "system.attributes.movement.bonus",
+                "value": 3
+              }
+            ]
+          }
+        },
+        {
+          "id": "muitas",
+          "label": "Várias pernas: +6 m",
+          "self": {
+            "key": "deslocamento",
+            "changes": [
+              {
+                "key": "system.attributes.movement.bonus",
+                "value": 6
+              }
+            ]
+          }
+        },
+        {
+          "id": "rodas",
+          "label": "Rodas: +12 m",
+          "self": {
+            "key": "deslocamento",
+            "changes": [
+              {
+                "key": "system.attributes.movement.bonus",
+                "value": 12
+              }
+            ]
+          }
+        }
+      ],
+      "note": "Objeto que se arrasta fica com o deslocamento da ficha. Escolha uma vez; escolher outra opção troca a anterior."
+    }
   },
   "Tsukumogami Pequeno/Despertar espírito": {
-    "status": "parcial",
-    "notes": "Ajuste Int, Honra, Sab e Car na ficha à mão."
+    "activation": {
+      "self": {
+        "key": "despertar",
+        "changes": [
+          {
+            "key": "system.abilities.sab.bonus",
+            "value": 4
+          },
+          {
+            "key": "system.abilities.car.bonus",
+            "value": 4
+          }
+        ]
+      },
+      "note": "Objeto despertado pelo jutsu: Inteligência e Honra 3d6, +4 em Sabedoria e Carisma; fala um idioma (em geral ningo).",
+      "setScores": {
+        "int": "3d6",
+        "hon": "3d6"
+      }
+    }
   },
   "Tsukumogami Pequeno/Redução de dano": {
     "activation": {
+      "endEffects": [
+        "material"
+      ],
       "options": [
         {
           "id": "vidro",
           "label": "Vidro: RD 1",
           "self": {
+            "key": "material",
             "changes": [
               {
                 "key": "system.attributes.rd",
@@ -381,6 +528,7 @@
           "id": "madeira",
           "label": "Madeira: RD 5",
           "self": {
+            "key": "material",
             "changes": [
               {
                 "key": "system.attributes.rd",
@@ -393,6 +541,7 @@
           "id": "pedra",
           "label": "Pedra: RD 8",
           "self": {
+            "key": "material",
             "changes": [
               {
                 "key": "system.attributes.rd",
@@ -405,6 +554,7 @@
           "id": "metal",
           "label": "Metal: RD 10",
           "self": {
+            "key": "material",
             "changes": [
               {
                 "key": "system.attributes.rd",
@@ -414,48 +564,118 @@
           }
         }
       ],
-      "note": "Papel, tecido ou corda: RD 0. Escolha uma vez; para trocar, apague o efeito anterior."
+      "note": "Papel, tecido ou corda: RD 0. Escolha uma vez; escolher outro material troca o anterior."
     }
   },
   "Tsukumogami Médio/Cegar": {
-    "status": "parcial",
-    "notes": "Tire o cego quando a vítima se soltar.",
     "activation": {
       "targets": {
         "who": "enemies",
         "conditions": [
           {
-            "id": "cego"
+            "id": "cego",
+            "endWith": "agarrado"
           }
         ]
       },
-      "note": "Só objeto achatado e flexível (futon, cortina) que esteja agarrando."
+      "note": "Só objeto achatado e flexível (futon, cortina) que esteja agarrando: a vítima fica cega até se soltar."
     }
   },
   "Tsukumogami Médio/Constrição": {
     "activation": {
-      "damage": {
-        "formula": "1d6+2",
-        "type": "esmagamento"
+      "targets": {
+        "who": "enemies",
+        "turnStart": {
+          "damage": "1d6+2",
+          "type": "esmagamento"
+        },
+        "endWith": "agarrado"
       },
-      "note": "A cada rodada mantendo o agarrar; só objeto flexível (corda, corrente)."
+      "note": "Só objeto flexível (corda, corrente) que esteja agarrando: a vítima sofre o dano da pancada no começo de cada turno até se soltar."
     }
   },
   "Tsukumogami Médio/Deslocamento aprimorado": {
-    "status": "parcial",
-    "notes": "Some +3, +6 ou +12 m ao deslocamento da ficha conforme o objeto."
+    "activation": {
+      "endEffects": [
+        "deslocamento"
+      ],
+      "options": [
+        {
+          "id": "pernas",
+          "label": "Dois pés ou pernas: +3 m",
+          "self": {
+            "key": "deslocamento",
+            "changes": [
+              {
+                "key": "system.attributes.movement.bonus",
+                "value": 3
+              }
+            ]
+          }
+        },
+        {
+          "id": "muitas",
+          "label": "Várias pernas: +6 m",
+          "self": {
+            "key": "deslocamento",
+            "changes": [
+              {
+                "key": "system.attributes.movement.bonus",
+                "value": 6
+              }
+            ]
+          }
+        },
+        {
+          "id": "rodas",
+          "label": "Rodas: +12 m",
+          "self": {
+            "key": "deslocamento",
+            "changes": [
+              {
+                "key": "system.attributes.movement.bonus",
+                "value": 12
+              }
+            ]
+          }
+        }
+      ],
+      "note": "Objeto que se arrasta fica com o deslocamento da ficha. Escolha uma vez; escolher outra opção troca a anterior."
+    }
   },
   "Tsukumogami Médio/Despertar espírito": {
-    "status": "parcial",
-    "notes": "Ajuste Int, Honra, Sab e Car na ficha à mão."
+    "activation": {
+      "self": {
+        "key": "despertar",
+        "changes": [
+          {
+            "key": "system.abilities.sab.bonus",
+            "value": 4
+          },
+          {
+            "key": "system.abilities.car.bonus",
+            "value": 4
+          }
+        ]
+      },
+      "note": "Objeto despertado pelo jutsu: Inteligência e Honra 3d6, +4 em Sabedoria e Carisma; fala um idioma (em geral ningo).",
+      "setScores": {
+        "int": "3d6",
+        "hon": "3d6"
+      }
+    }
   },
   "Tsukumogami Médio/Redução de dano": {
     "activation": {
+      "endEffects": [
+        "material"
+      ],
       "options": [
         {
           "id": "vidro",
           "label": "Vidro: RD 1",
           "self": {
+            "key": "material",
             "changes": [
               {
                 "key": "system.attributes.rd",
@@ -468,6 +688,7 @@
           "id": "madeira",
           "label": "Madeira: RD 5",
           "self": {
+            "key": "material",
             "changes": [
               {
                 "key": "system.attributes.rd",
@@ -480,6 +701,7 @@
           "id": "pedra",
           "label": "Pedra: RD 8",
           "self": {
+            "key": "material",
             "changes": [
               {
                 "key": "system.attributes.rd",
@@ -492,6 +714,7 @@
           "id": "metal",
           "label": "Metal: RD 10",
           "self": {
+            "key": "material",
             "changes": [
               {
                 "key": "system.attributes.rd",
@@ -501,48 +724,118 @@
           }
         }
       ],
-      "note": "Papel, tecido ou corda: RD 0. Escolha uma vez; para trocar, apague o efeito anterior."
+      "note": "Papel, tecido ou corda: RD 0. Escolha uma vez; escolher outro material troca o anterior."
     }
   },
   "Tsukumogami Grande/Cegar": {
-    "status": "parcial",
-    "notes": "Tire o cego quando a vítima se soltar.",
     "activation": {
       "targets": {
         "who": "enemies",
         "conditions": [
           {
-            "id": "cego"
+            "id": "cego",
+            "endWith": "agarrado"
           }
         ]
       },
-      "note": "Só objeto achatado e flexível (futon, cortina) que esteja agarrando."
+      "note": "Só objeto achatado e flexível (futon, cortina) que esteja agarrando: a vítima fica cega até se soltar."
     }
   },
   "Tsukumogami Grande/Constrição": {
     "activation": {
-      "damage": {
-        "formula": "1d8+5",
-        "type": "esmagamento"
+      "targets": {
+        "who": "enemies",
+        "turnStart": {
+          "damage": "1d8+5",
+          "type": "esmagamento"
+        },
+        "endWith": "agarrado"
       },
-      "note": "A cada rodada mantendo o agarrar; só objeto flexível (corda, corrente)."
+      "note": "Só objeto flexível (corda, corrente) que esteja agarrando: a vítima sofre o dano da pancada no começo de cada turno até se soltar."
     }
   },
   "Tsukumogami Grande/Deslocamento aprimorado": {
-    "status": "parcial",
-    "notes": "Some +3, +6 ou +12 m ao deslocamento da ficha conforme o objeto."
+    "activation": {
+      "endEffects": [
+        "deslocamento"
+      ],
+      "options": [
+        {
+          "id": "pernas",
+          "label": "Dois pés ou pernas: +3 m",
+          "self": {
+            "key": "deslocamento",
+            "changes": [
+              {
+                "key": "system.attributes.movement.bonus",
+                "value": 3
+              }
+            ]
+          }
+        },
+        {
+          "id": "muitas",
+          "label": "Várias pernas: +6 m",
+          "self": {
+            "key": "deslocamento",
+            "changes": [
+              {
+                "key": "system.attributes.movement.bonus",
+                "value": 6
+              }
+            ]
+          }
+        },
+        {
+          "id": "rodas",
+          "label": "Rodas: +12 m",
+          "self": {
+            "key": "deslocamento",
+            "changes": [
+              {
+                "key": "system.attributes.movement.bonus",
+                "value": 12
+              }
+            ]
+          }
+        }
+      ],
+      "note": "Objeto que se arrasta fica com o deslocamento da ficha. Escolha uma vez; escolher outra opção troca a anterior."
+    }
   },
   "Tsukumogami Grande/Despertar espírito": {
-    "status": "parcial",
-    "notes": "Ajuste Int, Honra, Sab e Car na ficha à mão."
+    "activation": {
+      "self": {
+        "key": "despertar",
+        "changes": [
+          {
+            "key": "system.abilities.sab.bonus",
+            "value": 4
+          },
+          {
+            "key": "system.abilities.car.bonus",
+            "value": 4
+          }
+        ]
+      },
+      "note": "Objeto despertado pelo jutsu: Inteligência e Honra 3d6, +4 em Sabedoria e Carisma; fala um idioma (em geral ningo).",
+      "setScores": {
+        "int": "3d6",
+        "hon": "3d6"
+      }
+    }
   },
   "Tsukumogami Grande/Redução de dano": {
     "activation": {
+      "endEffects": [
+        "material"
+      ],
       "options": [
         {
           "id": "vidro",
           "label": "Vidro: RD 1",
           "self": {
+            "key": "material",
             "changes": [
               {
                 "key": "system.attributes.rd",
@@ -555,6 +848,7 @@
           "id": "madeira",
           "label": "Madeira: RD 5",
           "self": {
+            "key": "material",
             "changes": [
               {
                 "key": "system.attributes.rd",
@@ -567,6 +861,7 @@
           "id": "pedra",
           "label": "Pedra: RD 8",
           "self": {
+            "key": "material",
             "changes": [
               {
                 "key": "system.attributes.rd",
@@ -579,6 +874,7 @@
           "id": "metal",
           "label": "Metal: RD 10",
           "self": {
+            "key": "material",
             "changes": [
               {
                 "key": "system.attributes.rd",
@@ -588,48 +884,118 @@
           }
         }
       ],
-      "note": "Papel, tecido ou corda: RD 0. Escolha uma vez; para trocar, apague o efeito anterior."
+      "note": "Papel, tecido ou corda: RD 0. Escolha uma vez; escolher outro material troca o anterior."
     }
   },
   "Tsukumogami Enorme/Cegar": {
-    "status": "parcial",
-    "notes": "Tire o cego quando a vítima se soltar.",
     "activation": {
       "targets": {
         "who": "enemies",
         "conditions": [
           {
-            "id": "cego"
+            "id": "cego",
+            "endWith": "agarrado"
           }
         ]
       },
-      "note": "Só objeto achatado e flexível (futon, cortina) que esteja agarrando."
+      "note": "Só objeto achatado e flexível (futon, cortina) que esteja agarrando: a vítima fica cega até se soltar."
     }
   },
   "Tsukumogami Enorme/Constrição": {
     "activation": {
-      "damage": {
-        "formula": "2d6+10",
-        "type": "esmagamento"
+      "targets": {
+        "who": "enemies",
+        "turnStart": {
+          "damage": "2d6+10",
+          "type": "esmagamento"
+        },
+        "endWith": "agarrado"
       },
-      "note": "A cada rodada mantendo o agarrar; só objeto flexível (corda, corrente)."
+      "note": "Só objeto flexível (corda, corrente) que esteja agarrando: a vítima sofre o dano da pancada no começo de cada turno até se soltar."
     }
   },
   "Tsukumogami Enorme/Deslocamento aprimorado": {
-    "status": "parcial",
-    "notes": "Some +3, +6 ou +12 m ao deslocamento da ficha conforme o objeto."
+    "activation": {
+      "endEffects": [
+        "deslocamento"
+      ],
+      "options": [
+        {
+          "id": "pernas",
+          "label": "Dois pés ou pernas: +3 m",
+          "self": {
+            "key": "deslocamento",
+            "changes": [
+              {
+                "key": "system.attributes.movement.bonus",
+                "value": 3
+              }
+            ]
+          }
+        },
+        {
+          "id": "muitas",
+          "label": "Várias pernas: +6 m",
+          "self": {
+            "key": "deslocamento",
+            "changes": [
+              {
+                "key": "system.attributes.movement.bonus",
+                "value": 6
+              }
+            ]
+          }
+        },
+        {
+          "id": "rodas",
+          "label": "Rodas: +12 m",
+          "self": {
+            "key": "deslocamento",
+            "changes": [
+              {
+                "key": "system.attributes.movement.bonus",
+                "value": 12
+              }
+            ]
+          }
+        }
+      ],
+      "note": "Objeto que se arrasta fica com o deslocamento da ficha. Escolha uma vez; escolher outra opção troca a anterior."
+    }
   },
   "Tsukumogami Enorme/Despertar espírito": {
-    "status": "parcial",
-    "notes": "Ajuste Int, Honra, Sab e Car na ficha à mão."
+    "activation": {
+      "self": {
+        "key": "despertar",
+        "changes": [
+          {
+            "key": "system.abilities.sab.bonus",
+            "value": 4
+          },
+          {
+            "key": "system.abilities.car.bonus",
+            "value": 4
+          }
+        ]
+      },
+      "note": "Objeto despertado pelo jutsu: Inteligência e Honra 3d6, +4 em Sabedoria e Carisma; fala um idioma (em geral ningo).",
+      "setScores": {
+        "int": "3d6",
+        "hon": "3d6"
+      }
+    }
   },
   "Tsukumogami Enorme/Redução de dano": {
     "activation": {
+      "endEffects": [
+        "material"
+      ],
       "options": [
         {
           "id": "vidro",
           "label": "Vidro: RD 1",
           "self": {
+            "key": "material",
             "changes": [
               {
                 "key": "system.attributes.rd",
@@ -642,6 +1008,7 @@
           "id": "madeira",
           "label": "Madeira: RD 5",
           "self": {
+            "key": "material",
             "changes": [
               {
                 "key": "system.attributes.rd",
@@ -654,6 +1021,7 @@
           "id": "pedra",
           "label": "Pedra: RD 8",
           "self": {
+            "key": "material",
             "changes": [
               {
                 "key": "system.attributes.rd",
@@ -666,6 +1034,7 @@
           "id": "metal",
           "label": "Metal: RD 10",
           "self": {
+            "key": "material",
             "changes": [
               {
                 "key": "system.attributes.rd",
@@ -675,48 +1044,118 @@
           }
         }
       ],
-      "note": "Papel, tecido ou corda: RD 0. Escolha uma vez; para trocar, apague o efeito anterior."
+      "note": "Papel, tecido ou corda: RD 0. Escolha uma vez; escolher outro material troca o anterior."
     }
   },
   "Tsukumogami Descomunal/Cegar": {
-    "status": "parcial",
-    "notes": "Tire o cego quando a vítima se soltar.",
     "activation": {
       "targets": {
         "who": "enemies",
         "conditions": [
           {
-            "id": "cego"
+            "id": "cego",
+            "endWith": "agarrado"
           }
         ]
       },
-      "note": "Só objeto achatado e flexível (futon, cortina) que esteja agarrando."
+      "note": "Só objeto achatado e flexível (futon, cortina) que esteja agarrando: a vítima fica cega até se soltar."
     }
   },
   "Tsukumogami Descomunal/Constrição": {
     "activation": {
-      "damage": {
-        "formula": "2d8+17",
-        "type": "esmagamento"
+      "targets": {
+        "who": "enemies",
+        "turnStart": {
+          "damage": "2d8+17",
+          "type": "esmagamento"
+        },
+        "endWith": "agarrado"
       },
-      "note": "A cada rodada mantendo o agarrar; só objeto flexível (corda, corrente)."
+      "note": "Só objeto flexível (corda, corrente) que esteja agarrando: a vítima sofre o dano da pancada no começo de cada turno até se soltar."
     }
   },
   "Tsukumogami Descomunal/Deslocamento aprimorado": {
-    "status": "parcial",
-    "notes": "Some +3, +6 ou +12 m ao deslocamento da ficha conforme o objeto."
+    "activation": {
+      "endEffects": [
+        "deslocamento"
+      ],
+      "options": [
+        {
+          "id": "pernas",
+          "label": "Dois pés ou pernas: +3 m",
+          "self": {
+            "key": "deslocamento",
+            "changes": [
+              {
+                "key": "system.attributes.movement.bonus",
+                "value": 3
+              }
+            ]
+          }
+        },
+        {
+          "id": "muitas",
+          "label": "Várias pernas: +6 m",
+          "self": {
+            "key": "deslocamento",
+            "changes": [
+              {
+                "key": "system.attributes.movement.bonus",
+                "value": 6
+              }
+            ]
+          }
+        },
+        {
+          "id": "rodas",
+          "label": "Rodas: +12 m",
+          "self": {
+            "key": "deslocamento",
+            "changes": [
+              {
+                "key": "system.attributes.movement.bonus",
+                "value": 12
+              }
+            ]
+          }
+        }
+      ],
+      "note": "Objeto que se arrasta fica com o deslocamento da ficha. Escolha uma vez; escolher outra opção troca a anterior."
+    }
   },
   "Tsukumogami Descomunal/Despertar espírito": {
-    "status": "parcial",
-    "notes": "Ajuste Int, Honra, Sab e Car na ficha à mão."
+    "activation": {
+      "self": {
+        "key": "despertar",
+        "changes": [
+          {
+            "key": "system.abilities.sab.bonus",
+            "value": 4
+          },
+          {
+            "key": "system.abilities.car.bonus",
+            "value": 4
+          }
+        ]
+      },
+      "note": "Objeto despertado pelo jutsu: Inteligência e Honra 3d6, +4 em Sabedoria e Carisma; fala um idioma (em geral ningo).",
+      "setScores": {
+        "int": "3d6",
+        "hon": "3d6"
+      }
+    }
   },
   "Tsukumogami Descomunal/Redução de dano": {
     "activation": {
+      "endEffects": [
+        "material"
+      ],
       "options": [
         {
           "id": "vidro",
           "label": "Vidro: RD 1",
           "self": {
+            "key": "material",
             "changes": [
               {
                 "key": "system.attributes.rd",
@@ -729,6 +1168,7 @@
           "id": "madeira",
           "label": "Madeira: RD 5",
           "self": {
+            "key": "material",
             "changes": [
               {
                 "key": "system.attributes.rd",
@@ -741,6 +1181,7 @@
           "id": "pedra",
           "label": "Pedra: RD 8",
           "self": {
+            "key": "material",
             "changes": [
               {
                 "key": "system.attributes.rd",
@@ -753,6 +1194,7 @@
           "id": "metal",
           "label": "Metal: RD 10",
           "self": {
+            "key": "material",
             "changes": [
               {
                 "key": "system.attributes.rd",
@@ -762,48 +1204,118 @@
           }
         }
       ],
-      "note": "Papel, tecido ou corda: RD 0. Escolha uma vez; para trocar, apague o efeito anterior."
+      "note": "Papel, tecido ou corda: RD 0. Escolha uma vez; escolher outro material troca o anterior."
     }
   },
   "Tsukumogami Colossal/Cegar": {
-    "status": "parcial",
-    "notes": "Tire o cego quando a vítima se soltar.",
     "activation": {
       "targets": {
         "who": "enemies",
         "conditions": [
           {
-            "id": "cego"
+            "id": "cego",
+            "endWith": "agarrado"
           }
         ]
       },
-      "note": "Só objeto achatado e flexível (futon, cortina) que esteja agarrando."
+      "note": "Só objeto achatado e flexível (futon, cortina) que esteja agarrando: a vítima fica cega até se soltar."
     }
   },
   "Tsukumogami Colossal/Constrição": {
     "activation": {
-      "damage": {
-        "formula": "4d8+33",
-        "type": "esmagamento"
+      "targets": {
+        "who": "enemies",
+        "turnStart": {
+          "damage": "4d8+33",
+          "type": "esmagamento"
+        },
+        "endWith": "agarrado"
       },
-      "note": "A cada rodada mantendo o agarrar; só objeto flexível (corda, corrente)."
+      "note": "Só objeto flexível (corda, corrente) que esteja agarrando: a vítima sofre o dano da pancada no começo de cada turno até se soltar."
     }
   },
   "Tsukumogami Colossal/Deslocamento aprimorado": {
-    "status": "parcial",
-    "notes": "Some +3, +6 ou +12 m ao deslocamento da ficha conforme o objeto."
+    "activation": {
+      "endEffects": [
+        "deslocamento"
+      ],
+      "options": [
+        {
+          "id": "pernas",
+          "label": "Dois pés ou pernas: +3 m",
+          "self": {
+            "key": "deslocamento",
+            "changes": [
+              {
+                "key": "system.attributes.movement.bonus",
+                "value": 3
+              }
+            ]
+          }
+        },
+        {
+          "id": "muitas",
+          "label": "Várias pernas: +6 m",
+          "self": {
+            "key": "deslocamento",
+            "changes": [
+              {
+                "key": "system.attributes.movement.bonus",
+                "value": 6
+              }
+            ]
+          }
+        },
+        {
+          "id": "rodas",
+          "label": "Rodas: +12 m",
+          "self": {
+            "key": "deslocamento",
+            "changes": [
+              {
+                "key": "system.attributes.movement.bonus",
+                "value": 12
+              }
+            ]
+          }
+        }
+      ],
+      "note": "Objeto que se arrasta fica com o deslocamento da ficha. Escolha uma vez; escolher outra opção troca a anterior."
+    }
   },
   "Tsukumogami Colossal/Despertar espírito": {
-    "status": "parcial",
-    "notes": "Ajuste Int, Honra, Sab e Car na ficha à mão."
+    "activation": {
+      "self": {
+        "key": "despertar",
+        "changes": [
+          {
+            "key": "system.abilities.sab.bonus",
+            "value": 4
+          },
+          {
+            "key": "system.abilities.car.bonus",
+            "value": 4
+          }
+        ]
+      },
+      "note": "Objeto despertado pelo jutsu: Inteligência e Honra 3d6, +4 em Sabedoria e Carisma; fala um idioma (em geral ningo).",
+      "setScores": {
+        "int": "3d6",
+        "hon": "3d6"
+      }
+    }
   },
   "Tsukumogami Colossal/Redução de dano": {
     "activation": {
+      "endEffects": [
+        "material"
+      ],
       "options": [
         {
           "id": "vidro",
           "label": "Vidro: RD 1",
           "self": {
+            "key": "material",
             "changes": [
               {
                 "key": "system.attributes.rd",
@@ -816,6 +1328,7 @@
           "id": "madeira",
           "label": "Madeira: RD 5",
           "self": {
+            "key": "material",
             "changes": [
               {
                 "key": "system.attributes.rd",
@@ -828,6 +1341,7 @@
           "id": "pedra",
           "label": "Pedra: RD 8",
           "self": {
+            "key": "material",
             "changes": [
               {
                 "key": "system.attributes.rd",
@@ -840,6 +1354,7 @@
           "id": "metal",
           "label": "Metal: RD 10",
           "self": {
+            "key": "material",
             "changes": [
               {
                 "key": "system.attributes.rd",
@@ -849,7 +1364,7 @@
           }
         }
       ],
-      "note": "Papel, tecido ou corda: RD 0. Escolha uma vez; para trocar, apague o efeito anterior."
+      "note": "Papel, tecido ou corda: RD 0. Escolha uma vez; escolher outro material troca o anterior."
     }
   },
   "Kappa/Agarrar Aprimorado": {
@@ -883,58 +1398,96 @@
   },
   "Kappa/Carapaça Kappa": {
     "status": "parcial",
-    "notes": "Sem flanco à mão; apague o efeito quando ele se levantar ou sair da água.",
+    "notes": "Na água, a cobertura vale só contra quem ataca de terra: apague o efeito ao sair dela.",
+    "traits": {
+      "noFlank": true
+    },
     "activation": {
       "action": "livre",
-      "self": {
-        "traits": {
-          "missChance": 100
+      "options": [
+        {
+          "id": "deitado",
+          "label": "Deitado na carapaça",
+          "self": {
+            "traits": {
+              "missChance": 100
+            },
+            "conditions": [
+              "caido"
+            ],
+            "endWith": "caido"
+          },
+          "note": "Fica caído com cobertura total; ao se levantar, a cobertura acaba."
+        },
+        {
+          "id": "agua",
+          "label": "Na água, contra quem está em terra",
+          "self": {
+            "traits": {
+              "missChance": 100
+            }
+          },
+          "note": "Cobertura total contra quem ataca de fora da água."
         }
-      },
-      "note": "Deitado, rastejando ou na água contra quem está em terra: cobertura total."
+      ],
+      "note": "Não pode ser flanqueado."
     }
   },
   "Kappa/Tigela d'água": {
-    "status": "parcial",
-    "notes": "A cura acelerada da ficha não para sozinha: suspenda-a à mão até encher a tigela.",
     "activation": {
-      "self": {
-        "conditions": [
-          {
-            "id": "enjoado"
-          }
-        ]
-      },
-      "note": "Água derramada: enjoado e sem cura acelerada até encher de novo."
+      "options": [
+        {
+          "id": "derramada",
+          "label": "Água derramada",
+          "self": {
+            "key": "tigelaVazia",
+            "statuses": [
+              "enjoado"
+            ],
+            "traits": {
+              "noFastHealing": true
+            }
+          },
+          "note": "Um oponente venceu agarrar ou empurrar: enjoado e sem cura acelerada até encher a tigela."
+        },
+        {
+          "id": "cheia",
+          "label": "Tigela cheia de novo",
+          "endEffects": [
+            "tigelaVazia"
+          ],
+          "note": "Acabam o enjoo e a suspensão da cura acelerada."
+        }
+      ],
+      "note": "Andar e lutar não derramam a água; só uma manobra de agarrar ou empurrar vencida."
     }
   },
   "Tengu/Desorientação": {
-    "status": "parcial",
-    "notes": "O teste oposto da finta (Enganação contra Intuição) é rolado à mão.",
     "activation": {
       "action": "livre",
       "uses": {
         "max": 1,
         "per": "rodada"
       },
-      "targets": {
-        "who": "enemies",
-        "conditions": [
-          {
-            "id": "desprevenido",
-            "duration": {
-              "value": 1,
-              "unit": "rodada"
+      "contest": {
+        "mine": "skill:enganacao",
+        "theirs": "skill:intuicao",
+        "onWin": {
+          "conditions": [
+            {
+              "id": "desprevenido",
+              "duration": {
+                "value": 1,
+                "unit": "rodada"
+              }
             }
-          }
-        ]
+          ]
+        }
       },
-      "note": "Use depois de vencer a finta: o alvo fica desprevenido contra o próximo ataque."
+      "note": "Finta como ação livre, uma vez por rodada (Enganação contra Intuição): quem perder fica desprevenido até o próximo turno do tengu."
     }
   },
   "Tengu/Golpe Relâmpago": {
-    "status": "parcial",
-    "notes": "Lutando desarmado, role o ataque extra pela linha Desarmado.",
     "activation": {
       "action": "livre",
       "uses": {
@@ -945,7 +1498,7 @@
         "type": "corpo",
         "weapon": true
       },
-      "note": "Ataque extra com o mesmo modificador da arma corpo a corpo."
+      "note": "Ao atacar: um ataque extra com o mesmo modificador (até 5 por rodada); com mais de uma arma, o diálogo pergunta qual."
     }
   },
   "Tengu/Poder Marcial": {
@@ -964,32 +1517,31 @@
     ]
   },
   "Daitengu/Desorientação": {
-    "status": "parcial",
-    "notes": "O teste oposto da finta (Enganação contra Intuição) é rolado à mão.",
     "activation": {
       "action": "livre",
       "uses": {
         "max": 1,
         "per": "rodada"
       },
-      "targets": {
-        "who": "enemies",
-        "conditions": [
-          {
-            "id": "desprevenido",
-            "duration": {
-              "value": 1,
-              "unit": "rodada"
+      "contest": {
+        "mine": "skill:enganacao",
+        "theirs": "skill:intuicao",
+        "onWin": {
+          "conditions": [
+            {
+              "id": "desprevenido",
+              "duration": {
+                "value": 1,
+                "unit": "rodada"
+              }
             }
-          }
-        ]
+          ]
+        }
       },
-      "note": "Use depois de vencer a finta: o alvo fica desprevenido contra o próximo ataque."
+      "note": "Finta como ação livre, uma vez por rodada (Enganação contra Intuição): quem perder fica desprevenido até o próximo turno do daitengu."
     }
   },
   "Daitengu/Golpe Relâmpago": {
-    "status": "parcial",
-    "notes": "Lutando desarmado, role o ataque extra pela linha Desarmado.",
     "activation": {
       "action": "livre",
       "uses": {
@@ -1000,7 +1552,7 @@
         "type": "corpo",
         "weapon": true
       },
-      "note": "Ataque extra com o mesmo modificador da arma corpo a corpo."
+      "note": "Ao atacar: um ataque extra com o mesmo modificador (até 5 por rodada); com mais de uma arma, o diálogo pergunta qual."
     }
   },
   "Daitengu/Poder Marcial": {
@@ -1046,8 +1598,9 @@
     ]
   },
   "Titã Enorme/Cura Acelerada": {
-    "status": "parcial",
-    "notes": "Cura da ficha já automática; crítico e cura a 0 PV ficam à mão."
+    "traits": {
+      "regeneration": true
+    }
   },
   "Titã Descomunal/Agarrar": {
     "rollOptions": [
@@ -1073,8 +1626,9 @@
     ]
   },
   "Titã Descomunal/Cura Acelerada": {
-    "status": "parcial",
-    "notes": "Cura da ficha já automática; crítico e cura a 0 PV ficam à mão."
+    "traits": {
+      "regeneration": true
+    }
   },
   "Titã Descomunal/Fúria Explosiva": {
     "activation": {
@@ -1110,14 +1664,6 @@
     "activation": {
       "cost": 1,
       "action": "padrão",
-      "targets": {
-        "who": "any",
-        "conditions": [
-          {
-            "id": "enredado"
-          }
-        ]
-      },
       "options": [
         {
           "id": "alvo",
@@ -1126,59 +1672,105 @@
             "type": "toqueDistancia",
             "bonus": -1
           },
+          "targets": {
+            "who": "any",
+            "conditions": [
+              {
+                "id": "enredado"
+              }
+            ]
+          },
           "note": "Escapa com Força ou Acrobacia CD 20, ou rasgando a teia (PV 5, RD 5)."
         },
         {
           "id": "area",
           "label": "Área de 6 m",
           "action": "completa",
-          "note": "Quase invisível (Percepção CD 20); enrede quem entrar. Cada 1,5 m: PV 5, RD 5."
+          "zone": {
+            "radius": 3,
+            "who": "any",
+            "label": "Teia do dokumo",
+            "conditions": [
+              {
+                "id": "enredado"
+              }
+            ]
+          },
+          "note": "Quase invisível (Percepção CD 20); enreda quem entrar e solta quem sair. Cada 1,5 m: PV 5, RD 5."
         }
       ]
     }
   },
   "Akumushi, Dokumo/Veneno": {},
   "Akumushi, Dokumo/Sem Flanco": {
-    "status": "parcial",
-    "notes": "O sistema não calcula flanco: não aplique o bônus de flanco contra ele."
+    "traits": {
+      "noFlank": true
+    }
   },
   "Akumushi, Hidotsu/Gralhar Aterrador": {
-    "status": "parcial",
-    "notes": "Falha por 5 ou mais (apavorado), fim do som e imunidade diária ficam à mão.",
     "activation": {
       "action": "livre",
+      "duration": {
+        "unit": "cena"
+      },
       "variable": {
         "min": 1,
         "max": 20,
-        "label": "Hidotsu a até 9 m",
+        "label": "Hidotsu ao alcance (contando este)",
         "costPer": 0
       },
-      "targets": {
-        "who": "any",
-        "save": {
-          "type": "von",
-          "dc": "10 + @spent"
-        },
-        "conditions": [
-          {
-            "id": "abalado"
+      "self": {
+        "aura": {
+          "radius": 9,
+          "who": "enemies",
+          "label": "Gralhar Aterrador",
+          "turnStart": {
+            "save": {
+              "type": "von",
+              "dc": "10 + @spent"
+            },
+            "conditions": [
+              {
+                "id": "abalado",
+                "duration": {
+                  "value": 1,
+                  "unit": "rodada"
+                }
+              }
+            ],
+            "conditionsBy5": [
+              {
+                "id": "apavorado",
+                "duration": {
+                  "value": 1,
+                  "unit": "rodada"
+                }
+              }
+            ],
+            "immuneFor": {
+              "value": 1,
+              "unit": "dia"
+            }
           }
-        ]
+        }
       },
-      "note": "Começo do turno, criaturas a até 9 m. Falha por 5+: apavorada e foge."
+      "note": "Use no começo do combate. Quem começa o turno a até 9 m testa Vontade: falhou, abalado; falhou por 5 ou mais, apavorado e foge. Quem passa fica imune por um dia."
     }
   },
   "Akumushi, Hidotsu/Sem Flanco": {
-    "status": "parcial",
-    "notes": "O sistema não calcula flanco: não aplique o bônus de flanco contra ele."
+    "traits": {
+      "noFlank": true
+    }
   },
   "Akumushi, Kanatur/Sem Flanco": {
-    "status": "parcial",
-    "notes": "O sistema não calcula flanco: não aplique o bônus de flanco contra ele."
+    "traits": {
+      "noFlank": true
+    }
   },
   "Akumushi, Tai-Kanatur/Sem Flanco": {
-    "status": "parcial",
-    "notes": "O sistema não calcula flanco: não aplique o bônus de flanco contra ele."
+    "traits": {
+      "noFlank": true
+    }
   },
   "Kaijin/Sangue Ácido": {
     "traits": {
@@ -1203,12 +1795,12 @@
   },
   "Kaiju Sauroide/Traços de Kaiju": {
     "status": "parcial",
-    "notes": "Marque também os vizinhos do alvo; repetir testes e a fuga ficam à mão.",
+    "notes": "Marque também os vizinhos do alvo; repetir o teste a cada rodada e a fuga (quando a cura acelerada o traz de volta) ficam à mão.",
     "rollOptions": [
       {
         "id": "ignoraRd",
         "label": "Traços de kaiju",
-        "ignoreRd": 100,
+        "ignoreRd": "all",
         "locked": true
       }
     ],
@@ -1219,7 +1811,10 @@
         "effect": "note",
         "note": "Efeito com duração: repete o teste a cada rodada até passar."
       }
-    ]
+    ],
+    "traits": {
+      "regeneration": "full"
+    }
   },
   "Kaiju Sauroide/Duro de Matar": {
     "reactions": [
@@ -1233,7 +1828,7 @@
   },
   "Kaiju Sauroide/Engolir": {
     "status": "parcial",
-    "notes": "Saída da vítima (30 de corte ou perfuração, CA 15) à mão.",
+    "notes": "A saída (30 de dano de corte ou perfuração por dentro, CA 15) fica à mão: ao sair, tire o agarrado da vítima.",
     "rollOptions": [
       {
         "id": "agarrar",
@@ -1253,21 +1848,22 @@
       "action": "livre",
       "damage": {
         "formula": "4d6+32",
-        "ignoreRd": 100
+        "ignoreRd": "all"
       },
       "targets": {
         "who": "enemies",
         "turnStart": {
           "damage": "4d6+32",
           "ignoreRd": "all"
-        }
+        },
+        "endWith": "agarrado"
       },
-      "note": "Venceu o agarrar no começo do turno: engole. Dano agora e no começo de cada turno da vítima."
+      "note": "Venceu o agarrar no começo do turno: engole. Dano agora e no começo de cada turno da vítima, até ela deixar de estar agarrada."
     }
   },
   "Kaiju Sauroide/Golpe Avassalador": {
     "status": "parcial",
-    "notes": "Fortitude (CD = dano) evita a queda: tire à mão; o arremesso também.",
+    "notes": "Quem falhar também é lançado 1d6 × 1,5 m para onde o kaiju quiser: mova o token à mão.",
     "rollOptions": [
       {
         "id": "avassalador",
@@ -1276,8 +1872,12 @@
         "filter": {
           "melee": true
         },
-        "note": "acertou: caído e lançado 1d6 × 1,5 m; Fortitude (CD = dano) evita",
+        "note": "acertou: Fortitude (CD = dano sofrido) ou cai e é lançado 1d6 × 1,5 m",
         "onHit": {
+          "save": {
+            "type": "fort",
+            "dc": "@damage"
+          },
           "conditions": [
             {
               "id": "caido"
@@ -1304,7 +1904,7 @@
       "damage": {
         "formula": "6d8+26",
         "type": "perfuração",
-        "ignoreRd": 100
+        "ignoreRd": "all"
       },
       "save": {
         "type": "fort",
@@ -1321,12 +1921,12 @@
   },
   "Kaiju Insetoide/Traços de Kaiju": {
     "status": "parcial",
-    "notes": "Marque também os vizinhos do alvo; repetir testes e a fuga ficam à mão.",
+    "notes": "Marque também os vizinhos do alvo; repetir o teste a cada rodada e a fuga (quando a cura acelerada o traz de volta) ficam à mão.",
     "rollOptions": [
       {
         "id": "ignoraRd",
         "label": "Traços de kaiju",
-        "ignoreRd": 100,
+        "ignoreRd": "all",
         "locked": true
       }
     ],
@@ -1337,7 +1937,10 @@
         "effect": "note",
         "note": "Efeito com duração: repete o teste a cada rodada até passar."
       }
-    ]
+    ],
+    "traits": {
+      "regeneration": "full"
+    }
   },
   "Kaiju Insetoide/Duro de Matar": {
     "reactions": [
@@ -1379,7 +1982,7 @@
       {
         "id": "ignoraRd",
         "label": "Traços de kaiju",
-        "ignoreRd": 100,
+        "ignoreRd": "all",
         "locked": true
       }
     ],
@@ -1403,8 +2006,9 @@
     ]
   },
   "Kaiju Titã/Cura Acelerada": {
-    "status": "parcial",
-    "notes": "Cura da ficha já automática; crítico e cura a 0 PV ficam à mão."
+    "traits": {
+      "regeneration": true
+    }
   },
   "Kaiju Titã/Fúria Explosiva": {
     "activation": {
@@ -1414,24 +2018,94 @@
     }
   },
   "Dragão Celestial Jovem/Culto": {
-    "status": "parcial",
-    "notes": "Escolher 10 em Conhecimento fica à mão."
+    "rollOptions": [
+      {
+        "id": "culto",
+        "label": "Culto: escolher 10",
+        "for": "skill",
+        "filter": {
+          "skills": [
+            "conhecimento"
+          ]
+        },
+        "take10": true,
+        "optional": true
+      }
+    ]
   },
   "Dragão Celestial Jovem/Metamorfose (M)": {
     "status": "parcial",
-    "notes": "Use o jutsu transformação à mão, sem aprimoramentos e sem PM."
+    "notes": "As vantagens da forma (1d4+1) ficam com a mesa.",
+    "activation": {
+      "action": "completa",
+      "duration": {
+        "unit": "cena"
+      },
+      "self": {
+        "rollOptions": [
+          {
+            "id": "disfarce",
+            "label": "Metamorfose (disfarce)",
+            "for": "skill",
+            "filter": {
+              "skills": [
+                "enganacao"
+              ]
+            },
+            "value": 30,
+            "optional": true
+          }
+        ]
+      },
+      "note": "O jutsu transformação, sem aprimoramentos e sem gastar PM: +30 em Enganação para se passar pela forma."
+    }
   },
   "Dragão Celestial Adulto/Culto": {
-    "status": "parcial",
-    "notes": "Escolher 10 em Conhecimento fica à mão."
+    "rollOptions": [
+      {
+        "id": "culto",
+        "label": "Culto: escolher 10",
+        "for": "skill",
+        "filter": {
+          "skills": [
+            "conhecimento"
+          ]
+        },
+        "take10": true,
+        "optional": true
+      }
+    ]
   },
   "Dragão Celestial Adulto/Metamorfose (M)": {
     "status": "parcial",
-    "notes": "Use o jutsu transformação à mão, sem aprimoramentos e sem PM."
+    "notes": "As vantagens da forma (1d4+1) ficam com a mesa.",
+    "activation": {
+      "action": "completa",
+      "duration": {
+        "unit": "cena"
+      },
+      "self": {
+        "rollOptions": [
+          {
+            "id": "disfarce",
+            "label": "Metamorfose (disfarce)",
+            "for": "skill",
+            "filter": {
+              "skills": [
+                "enganacao"
+              ]
+            },
+            "value": 30,
+            "optional": true
+          }
+        ]
+      },
+      "note": "O jutsu transformação, sem aprimoramentos e sem gastar PM: +30 em Enganação para se passar pela forma."
+    }
   },
   "Dragão Celestial Adulto/Presença Celestial": {
     "status": "parcial",
-    "notes": "Honra até 9 e até 5 níveis: apavorado (troque à mão); imunidade diária também.",
+    "notes": "Desonrados de nível até 5 ficam apavorados, não abalados: troque à mão.",
     "activation": {
       "action": "livre",
       "duration": {
@@ -1441,7 +2115,13 @@
         "who": "any",
         "save": {
           "type": "von",
-          "dc": 25
+          "dc": 25,
+          "onSuccess": {
+            "immuneFor": {
+              "value": 1,
+              "unit": "dia"
+            }
+          }
         },
         "conditions": [
           {
@@ -1463,16 +2143,51 @@
     }
   },
   "Dragão Celestial Venerável/Culto": {
-    "status": "parcial",
-    "notes": "Escolher 10 em Conhecimento fica à mão."
+    "rollOptions": [
+      {
+        "id": "culto",
+        "label": "Culto: escolher 10",
+        "for": "skill",
+        "filter": {
+          "skills": [
+            "conhecimento"
+          ]
+        },
+        "take10": true,
+        "optional": true
+      }
+    ]
   },
   "Dragão Celestial Venerável/Metamorfose (M)": {
     "status": "parcial",
-    "notes": "Use o jutsu transformação à mão, sem aprimoramentos e sem PM."
+    "notes": "As vantagens da forma (1d4+1) ficam com a mesa.",
+    "activation": {
+      "action": "completa",
+      "duration": {
+        "unit": "cena"
+      },
+      "self": {
+        "rollOptions": [
+          {
+            "id": "disfarce",
+            "label": "Metamorfose (disfarce)",
+            "for": "skill",
+            "filter": {
+              "skills": [
+                "enganacao"
+              ]
+            },
+            "value": 30,
+            "optional": true
+          }
+        ]
+      },
+      "note": "O jutsu transformação, sem aprimoramentos e sem gastar PM: +30 em Enganação para se passar pela forma."
+    }
   },
   "Dragão Celestial Venerável/Presença Celestial": {
     "status": "parcial",
-    "notes": "Honra até 9 e até 5 níveis: apavorado (troque à mão); imunidade diária também.",
+    "notes": "Desonrados de nível até 5 ficam apavorados, não abalados: troque à mão.",
     "activation": {
       "action": "livre",
       "duration": {
@@ -1482,7 +2197,13 @@
         "who": "any",
         "save": {
           "type": "von",
-          "dc": 35
+          "dc": 35,
+          "onSuccess": {
+            "immuneFor": {
+              "value": 1,
+              "unit": "dia"
+            }
+          }
         },
         "conditions": [
           {
@@ -1605,30 +2326,47 @@
     ]
   },
   "Elemental da Água Médio/Vórtice": {
-    "status": "parcial",
-    "notes": "Ao soltar a vítima (ação livre), tire dela o agarrado e o efeito à mão.",
     "activation": {
-      "cost": 3,
       "action": "livre",
-      "duration": {
-        "unit": "cena"
-      },
-      "targets": {
-        "who": "enemies",
-        "save": {
-          "type": "ref",
-          "dc": 15
+      "options": [
+        {
+          "id": "vortice",
+          "label": "Redemoinho (3 PM)",
+          "cost": 3,
+          "duration": {
+            "unit": "cena"
+          },
+          "targets": {
+            "who": "enemies",
+            "save": {
+              "type": "ref",
+              "dc": 15
+            },
+            "conditions": [
+              {
+                "id": "agarrado"
+              }
+            ],
+            "turnStart": {
+              "damage": "1d6+2"
+            },
+            "endWith": "agarrado"
+          },
+          "note": "Só submerso; redemoinho pela cena, sem pancadas. Falhou: agarrado e 1d6+2 por rodada até ser solto."
         },
-        "conditions": [
-          {
-            "id": "agarrado"
-          }
-        ],
-        "turnStart": {
-          "damage": "1d6+2"
+        {
+          "id": "soltar",
+          "label": "Soltar a vítima",
+          "cost": 0,
+          "targets": {
+            "who": "enemies",
+            "removeConditions": [
+              "agarrado"
+            ]
+          },
+          "note": "A vítima marcada deixa de estar agarrada e para de sofrer o dano."
         }
-      },
-      "note": "Só submerso; redemoinho pela cena, sem pancadas. Falhou: agarrado e 1d6+2 por rodada."
+      ]
     }
   },
   "Elemental da Terra Médio/Jato de ácido": {
@@ -1719,14 +2457,18 @@
   },
   "Elemental das Trevas Enorme/Escuridão": {
     "status": "parcial",
-    "notes": "Jutsus básicos de luz falham à mão; ao trocar de modo, apague o efeito anterior.",
+    "notes": "Luzes comuns e jutsus básicos de luz na área falham à mão.",
     "activation": {
       "action": "livre",
+      "endEffects": [
+        "escuridao"
+      ],
       "options": [
         {
           "id": "area",
           "label": "Escuridão de 18 m",
           "self": {
+            "key": "escuridao",
             "aura": {
               "radius": 18,
               "who": "any",
@@ -1742,13 +2484,14 @@
           "id": "recolher",
           "label": "Recolhida: só em si",
           "self": {
+            "key": "escuridao",
             "traits": {
               "missChance": 50
             }
           }
         }
       ],
-      "note": "Camuflagem total (50% de falha); luzes normais não funcionam na área."
+      "note": "Camuflagem total (50% de falha) para todos na área; escolher o outro modo troca o anterior."
     }
   },
   "Elemental das Trevas Enorme/Névoa Negra": {
@@ -1869,14 +2612,14 @@
   },
   "Yuurei/Toque": {
     "status": "parcial",
-    "notes": "Não role o dano em PV; com Força 0, o dano passa à Constituição à mão.",
+    "notes": "Com Força 0, o dano passa à Constituição (à mão).",
     "touch": true,
     "rollOptions": [
       {
         "id": "toqueSombrio",
         "label": "Toque sombrio",
         "locked": true,
-        "note": "acertou: 1d6 de dano de Força; não role o dano em PV",
+        "note": "acertou: 1d6 de dano de Força",
         "onHit": {
           "abilityDamage": {
             "ability": "for",
@@ -1884,7 +2627,8 @@
           }
         }
       }
-    ]
+    ],
+    "noDamage": true
   },
   "Yuurei/Sensibilidade à Luz": {
     "status": "parcial",
@@ -1905,8 +2649,6 @@
     "notes": "O dano de Força sai no ataque Toque; Constituição e o novo yuurei à mão."
   },
   "Oni/Chifres": {
-    "status": "parcial",
-    "notes": "A doença (calafrios diabólicos) fica à mão.",
     "rollOptions": [
       {
         "id": "doenca",
@@ -1917,13 +2659,13 @@
           "save": {
             "type": "fort",
             "dc": 16
+          },
+          "onFail": {
+            "disease": "Calafrios diabólicos"
           }
         }
       }
     ]
   },
-  "Oni/Doença": {
-    "status": "parcial",
-    "notes": "O teste sai no ataque Chifres; os calafrios diabólicos ficam à mão."
-  }
+  "Oni/Doença": {}
 }

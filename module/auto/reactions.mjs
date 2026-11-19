@@ -115,7 +115,7 @@ export async function useReaction(button, message) {
       const weapon = actor.items.find(i => (i.type === "weapon") && i.system.equipped && (i.system.kind === "corpo"));
       const bonus = weapon ? weapon.system.attackTotal : (actor.system.attack?.melee ?? 0);
       const roll = await new Roll(`1d20 + ${bonus}`).evaluate();
-      const avoided = roll.total > (payload.total ?? 0);
+      const avoided = reaction.tieWins ? (roll.total >= (payload.total ?? 0)) : (roll.total > (payload.total ?? 0));
       return ChatMessage.create({
         speaker: ChatMessage.getSpeaker({ actor }), rolls: [roll],
         content: `<div class="imperiodejade ij-card ij-card--applied"><p><strong>${foundry.utils.escapeHTML(name)}</strong>: ${roll.total} × ${payload.total ?? "?"} · ${
@@ -125,7 +125,7 @@ export async function useReaction(button, message) {
     case "opposedSkill": {
       const skill = actor.system.skills?.[reaction.skill];
       const roll = await new Roll(`1d20 + ${skill?.total ?? 0}`).evaluate();
-      const avoided = roll.total > (payload.total ?? 0);
+      const avoided = reaction.tieWins ? (roll.total >= (payload.total ?? 0)) : (roll.total > (payload.total ?? 0));
       return ChatMessage.create({
         speaker: ChatMessage.getSpeaker({ actor }), rolls: [roll],
         content: `<div class="imperiodejade ij-card ij-card--applied"><p><strong>${foundry.utils.escapeHTML(name)}</strong>: ${roll.total} × ${payload.total ?? "?"} · ${

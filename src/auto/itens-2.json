@@ -387,6 +387,29 @@
         "type": "jutsu"
       }
     ],
+    "activation": {
+      "note": "Execute agora o Véu das Múltiplas Faces nessa ação; ainda é preciso falar e gesticular.",
+      "options": [
+        {
+          "id": "movimento",
+          "label": "Véu como ação de movimento (Atuação CD 15)",
+          "action": "movimento",
+          "check": {
+            "skill": "atuacao",
+            "dc": 15
+          }
+        },
+        {
+          "id": "livre",
+          "label": "Véu como ação livre (Atuação CD 25)",
+          "action": "livre",
+          "check": {
+            "skill": "atuacao",
+            "dc": 25
+          }
+        }
+      ]
+    },
     "choice": {
       "label": "Véu das Múltiplas Faces",
       "count": 1,
@@ -411,9 +434,7 @@
           }
         }
       ]
-    },
-    "status": "parcial",
-    "notes": "Acelerar o véu com Atuação (CD 15 movimento, 25 livre): à mão."
+    }
   },
   "Amuleto da natureza": {
     "grants": [
@@ -430,6 +451,16 @@
         "type": "jutsu"
       }
     ],
+    "traits": {
+      "powerDice": [
+        {
+          "filter": {
+            "itemName": "canalizar energia|canalizar o vácuo"
+          },
+          "value": 1
+        }
+      ]
+    },
     "choice": {
       "label": "Para cada jutsu, se já o conhecia",
       "count": 3,
@@ -492,9 +523,7 @@
           }
         }
       ]
-    },
-    "status": "parcial",
-    "notes": "+1 dado no canalizar energia: à mão."
+    }
   },
   "Amuleto da noite": {
     "grants": [
@@ -528,8 +557,17 @@
         }
       ]
     },
-    "status": "parcial",
-    "notes": "+1 dado no canalizar energia de trevas: à mão."
+    "traits": {
+      "powerDice": [
+        {
+          "filter": {
+            "itemName": "canalizar energia",
+            "descriptor": "trevas"
+          },
+          "value": 1
+        }
+      ]
+    }
   },
   "Amuleto da terra": {
     "grants": [
@@ -700,8 +738,8 @@
       }
     ],
     "choice": {
-      "label": "Leitura de Chacras",
-      "count": 1,
+      "label": "Leitura de Chacras e quem usa",
+      "count": 2,
       "options": [
         {
           "id": "novo",
@@ -721,11 +759,31 @@
               }
             ]
           }
+        },
+        {
+          "id": "vanara",
+          "label": "Usado por um vanara (escolher 10 em Identificar Magia)",
+          "rollOptions": [
+            {
+              "id": "dez",
+              "label": "Amuleto das auras (escolher 10)",
+              "for": "skill",
+              "filter": {
+                "skills": [
+                  "identificarMagia"
+                ]
+              },
+              "take10": true,
+              "optional": true
+            }
+          ]
+        },
+        {
+          "id": "outraRaca",
+          "label": "Usado por outra raça"
         }
       ]
-    },
-    "status": "parcial",
-    "notes": "Vanara: escolher 10 em Identificar Magia, à mão."
+    }
   },
   "Amuleto das barreiras": {
     "grants": [
@@ -937,6 +995,7 @@
     "notes": "Quem desacredita suas ilusões sofre −5 na Intuição: à mão."
   },
   "Amuleto das mandalas": {
+    "stack": "jade",
     "grants": [
       {
         "name": "Mandala de Proteção",
@@ -1013,9 +1072,7 @@
           }
         }
       ]
-    },
-    "status": "parcial",
-    "notes": "A Constituição não acumula com outros objetos de jade."
+    }
   },
   "Amuleto das tradições": {
     "grants": [
@@ -1403,10 +1460,20 @@
         }
       ]
     },
-    "status": "parcial",
-    "notes": "+1 dado no canalizar energia de luz: à mão."
+    "traits": {
+      "powerDice": [
+        {
+          "filter": {
+            "itemName": "canalizar energia",
+            "descriptor": "luz"
+          },
+          "value": 1
+        }
+      ]
+    }
   },
   "Amuleto do dragão": {
+    "stack": "jade",
     "grants": [
       {
         "name": "Físico do Dragão",
@@ -1489,9 +1556,7 @@
           }
         }
       ]
-    },
-    "status": "parcial",
-    "notes": "A Constituição não acumula com outros objetos de jade."
+    }
   },
   "Amuleto do encantamento": {
     "grants": [
@@ -1930,6 +1995,7 @@
     }
   },
   "Amuleto dos espíritos": {
+    "stack": "jade",
     "grants": [
       {
         "name": "Espírito Guardião",
@@ -2029,9 +2095,7 @@
           }
         }
       ]
-    },
-    "status": "parcial",
-    "notes": "A Constituição não acumula com outros objetos de jade."
+    }
   },
   "Amuleto dos kata": {
     "grants": [
@@ -2509,7 +2573,8 @@
     "activation": {
       "action": "padrão",
       "attack": {
-        "type": "distancia"
+        "type": "distancia",
+        "ca": 7
       },
       "damage": {
         "formula": "2d6",
@@ -2521,9 +2586,7 @@
       },
       "note": "Contra CA 7, a até 9m. Fere só oni e shiryou (luz) ou tenshi (trevas).",
       "consume": true
-    },
-    "status": "parcial",
-    "notes": "Compare o ataque com CA 7 à mão."
+    }
   },
   "Wagh'Zarr (pintura de guerra)": {
     "activation": {
@@ -2749,7 +2812,8 @@
           "label": "Você bebe",
           "restore": {
             "pm": "max(0, @hon)"
-          }
+          },
+          "note": "Desonrado: recupera só a metade (à mão quando é você quem bebe)."
         },
         {
           "id": "servir",
@@ -2757,6 +2821,12 @@
           "targets": {
             "who": "any",
             "variants": [
+              {
+                "when": "vsDishonored",
+                "restore": {
+                  "pm": "floor(max(0, @hon) / 2)"
+                }
+              },
               {
                 "when": "vsSordid",
                 "conditions": [
@@ -2768,13 +2838,16 @@
                   }
                 ]
               }
-            ]
+            ],
+            "restore": {
+              "pm": "max(0, @hon)"
+            }
           }
         }
       ]
     },
     "status": "parcial",
-    "notes": "Os PM de quem você serve são à mão."
+    "notes": "Quando você mesmo bebe sendo desonrado, tire a metade à mão."
   },
   "Pena de Hinotori": {
     "activation": {
@@ -3169,7 +3242,7 @@
                 "label": "Jutsu Longínquo",
                 "cost": 1,
                 "max": 1,
-                "effect": "note",
+                "effect": "ranged",
                 "discount": 1
               }
             ]
@@ -3271,7 +3344,7 @@
                 "label": "Jutsu Compartilhado",
                 "cost": 2,
                 "max": 1,
-                "effect": "note",
+                "effect": "share",
                 "discount": 2
               }
             ]
@@ -3305,7 +3378,7 @@
                 "label": "Jutsu Estendido",
                 "cost": 2,
                 "max": 10,
-                "effect": "note",
+                "effect": "extend",
                 "discount": 2
               }
             ]
@@ -3510,11 +3583,37 @@
   },
   "Tokkuri da fumaça eterna": {
     "activation": {
-      "action": "movimento",
-      "note": "Nuvem de bomba de fumaça (6m de raio) até tampar, com outra ação de movimento."
+      "options": [
+        {
+          "id": "destampar",
+          "label": "Destampar",
+          "action": "movimento",
+          "zone": {
+            "radius": 6,
+            "who": "any",
+            "includeSelf": true,
+            "at": "self",
+            "key": "tokkuriFumaca",
+            "label": "Fumaça do tokkuri",
+            "traits": {
+              "missChance": 50
+            }
+          },
+          "note": "Nuvem de bomba de fumaça (6m de raio) até tampar: camuflagem total a partir de 3m."
+        },
+        {
+          "id": "tampar",
+          "label": "Tampar",
+          "action": "movimento",
+          "endEffects": [
+            "tokkuriFumaca"
+          ],
+          "note": "A fumaça se desfaz."
+        }
+      ]
     },
     "status": "parcial",
-    "notes": "A camuflagem dentro da nuvem é à mão."
+    "notes": "Quem ataca a 1,5m do alvo enfrenta só camuflagem (20%), e quem está na nuvem também enxerga mal para fora: à mão."
   },
   "Aljava abençoada": {
     "rollOptions": [
@@ -3591,12 +3690,34 @@
   },
   "Papel das muitas formas": {
     "activation": {
+      "variable": {
+        "min": 5,
+        "max": 60,
+        "label": "CD do teste (20 + ND da criatura, ou a CD do objeto)",
+        "costPer": 0
+      },
       "options": [
         {
           "id": "dobrar",
-          "label": "Dobrar a figura",
+          "label": "Dobrar a figura (Ofício: origami)",
           "action": "completa",
-          "note": "Ofício (origami) ou Atuação: CD 20 + ND da criatura (ou a CD do objeto)."
+          "check": {
+            "skill": "oficio",
+            "dc": "@spent",
+            "specialty": "origami"
+          },
+          "note": "Passou: a figura vira objeto ou criatura real (até Enorme) até o fim da cena."
+        },
+        {
+          "id": "dobrarAtuacao",
+          "label": "Dobrar a figura (Atuação: arte tradicional)",
+          "action": "completa",
+          "check": {
+            "skill": "atuacao",
+            "dc": "@spent",
+            "specialty": "arte tradicional"
+          },
+          "note": "Passou: a figura vira objeto ou criatura real (até Enorme) até o fim da cena."
         },
         {
           "id": "reusar",
@@ -3607,7 +3728,7 @@
       ]
     },
     "status": "parcial",
-    "notes": "A figura (tsukumogami do tamanho) fica com a mesa."
+    "notes": "A figura (tsukumogami do tamanho, com os deslocamentos da criatura original) fica com a mesa."
   },
   "Furoshiki profundo": {
     "status": "narrativo"
@@ -3615,14 +3736,17 @@
   "Biwa encantador": {
     "activation": {
       "action": "padrão",
+      "check": {
+        "skill": "atuacao",
+        "dc": 25,
+        "specialty": "música"
+      },
       "save": {
         "type": "von",
         "dc": 18
       },
       "note": "Como influência invisível, em qualquer criatura ouvinte. Ordens ocultas: Intuição contra sua Enganação."
-    },
-    "status": "parcial",
-    "notes": "Antes, passe em Atuação (música) CD 25; falhando, nada acontece."
+    }
   },
   "Faixa do monge": {
     "grants": [
@@ -3632,7 +3756,7 @@
       }
     ],
     "choice": {
-      "label": "Já tinha o talento",
+      "label": "Já tinha o talento (ou dano desarmado de classe)",
       "count": 1,
       "options": [
         {
@@ -3645,11 +3769,24 @@
           "traits": {
             "unarmed": "1d6"
           }
+        },
+        {
+          "id": "classe",
+          "label": "Tem dano desarmado de classe (duas categorias acima)",
+          "rollOptions": [
+            {
+              "id": "faixa",
+              "label": "Faixa do monge (+2 categorias de dano desarmado)",
+              "filter": {
+                "unarmed": true
+              },
+              "damageSteps": 2,
+              "locked": true
+            }
+          ]
         }
       ]
-    },
-    "status": "parcial",
-    "notes": "Com dano desarmado de classe, suba duas categorias de dano à mão."
+    }
   },
   "Sandálias da velocidade": {
     "status": "narrativo"
@@ -3671,14 +3808,17 @@
     ],
     "activation": {
       "action": "completa",
+      "check": {
+        "skill": "atuacao",
+        "dc": 25,
+        "specialty": "arte tradicional"
+      },
       "save": {
         "type": "von",
         "dc": 18
       },
-      "note": "Verdade dos ancestrais em 18m: ninguém mente nem omite. Sustente com ação padrão por rodada."
-    },
-    "status": "parcial",
-    "notes": "Antes, passe em Atuação (arte tradicional) CD 25."
+      "note": "Cerimônia do chá: verdade dos ancestrais em 18m, ninguém mente nem omite. Sustente com ação padrão por rodada."
+    }
   },
   "Faixa do vanara incompleto": {
     "grants": [
@@ -3762,6 +3902,11 @@
     ],
     "activation": {
       "action": "movimento",
+      "check": {
+        "skill": "atuacao",
+        "dc": 25,
+        "specialty": "dança"
+      },
       "duration": {
         "unit": "cena"
       },
@@ -3774,9 +3919,7 @@
         }
       },
       "note": "Criaturas escolhidas a até 30m."
-    },
-    "status": "parcial",
-    "notes": "Antes, passe em Atuação (dança) CD 25."
+    }
   },
   "Periapto da saúde": {
     "traits": {
@@ -3818,15 +3961,14 @@
           "who": "any",
           "includeSelf": true,
           "traits": {
-            "seeInvisible": true
+            "seeInvisible": true,
+            "revealed": true
           },
           "label": "Luz da lanterna da revelação"
         }
       },
       "note": "Revela criaturas e objetos invisíveis a até 9m."
-    },
-    "status": "parcial",
-    "notes": "Quem ataca de fora da luz também vê os revelados: à mão."
+    }
   },
   "Taiko de Dai'Gun": {
     "rollOptions": [
@@ -4098,13 +4240,12 @@
     }
   },
   "Anel da estabilidade": {
+    "stack": "jade",
     "traits": {
       "immune": [
         "transmutacao"
       ]
-    },
-    "status": "parcial",
-    "notes": "Não acumula Con com outros objetos de jade: confira à mão."
+    }
   },
   "Flauta das Eras": {
     "choice": {
@@ -4206,11 +4347,11 @@
               "label": "Kaminari (radiante: monstros, shiryou e oni)",
               "damage": "3d6",
               "type": "luz",
-              "when": "vsMonster",
-              "note": "shiryou e oni: marque",
+              "when": "vsMonster|vsYoukai&vsHonorMax:5",
               "filter": {
                 "weapon": "katana|kaminari"
-              }
+              },
+              "weaponType": "luz"
             },
             {
               "id": "fantasma",
@@ -4226,6 +4367,15 @@
               "id": "veloz",
               "label": "Kaminari (veloz: dois ataques extras)",
               "extraAttack": true,
+              "filter": {
+                "weapon": "katana|kaminari"
+              }
+            },
+            {
+              "id": "toque",
+              "label": "Kaminari (fantasma: ataques de toque)",
+              "touch": true,
+              "locked": true,
               "filter": {
                 "weapon": "katana|kaminari"
               }
@@ -4281,12 +4431,27 @@
             "type": "eletricidade",
             "ignoreRd": "all"
           },
-          "note": "A cada rodada com a espada; ignora resistências e imunidades."
+          "note": "Ao empunhar e no começo de cada turno seu, até soltar a espada; ignora resistências e imunidades.",
+          "self": {
+            "key": "kaminariTrovao",
+            "turnStart": {
+              "damage": "26d6",
+              "type": "eletricidade",
+              "ignoreRd": "all"
+            }
+          }
+        },
+        {
+          "id": "soltar",
+          "label": "Soltar a espada (sórdido ou desumano)",
+          "option": "sordido",
+          "endEffects": [
+            "kaminariTrovao"
+          ],
+          "note": "O trovão cessa."
         }
       ]
-    },
-    "status": "parcial",
-    "notes": "Ataques de toque (fantasma) e dano todo de luz (radiante): à mão."
+    }
   },
   "Orbe Dourado das Quatro Direções": {
     "status": "narrativo"
@@ -4380,9 +4545,25 @@
               }
             },
             {
+              "id": "curaAcelerada",
+              "label": "Sasori'Ken (sem cura acelerada por 1 rodada)",
+              "locked": true,
+              "filter": {
+                "weapon": "ninja to|ninjato|sasori"
+              },
+              "onHit": {
+                "traits": {
+                  "noFastHealing": true
+                },
+                "duration": {
+                  "value": 1,
+                  "unit": "rodada"
+                }
+              }
+            },
+            {
               "id": "sanguinaria",
               "label": "Sasori'Ken (sanguinária)",
-              "note": "imunes a crítico escapam: desmarque",
               "onHit": {
                 "abilityDamage": {
                   "ability": "con",
@@ -4390,7 +4571,8 @@
                 },
                 "conditions": [
                   "sangrando"
-                ]
+                ],
+                "critImmuneSkip": true
               },
               "filter": {
                 "weapon": "ninja to|ninjato|sasori"
@@ -4401,8 +4583,7 @@
               "label": "Sasori'Ken (sórdida: Honra 10 ou mais)",
               "damage": "4d6",
               "type": "vacuo",
-              "when": "vsHonored",
-              "note": "Honra 10 a 15: marque",
+              "when": "vsHonorMin:10",
               "filter": {
                 "weapon": "ninja to|ninjato|sasori"
               }
@@ -4453,7 +4634,7 @@
       "note": "Jura matar uma criatura a até 9m: contra ela, todo acerto é crítico."
     },
     "status": "parcial",
-    "notes": "Anular cura acelerada, as violações e o preço: à mão."
+    "notes": "As violações (empunhar: leve; usar: severa), o preço ao embainhar e tornar um efeito permanente: à mão."
   },
   "A Última Flecha": {
     "activation": {
@@ -4505,14 +4686,15 @@
             "filter": {
               "ranged": true,
               "weapon": "arco|hankyu|daikyu|besta"
-            }
+            },
+            "ignoreCritImmunity": true
           }
         ]
       },
       "note": "Vale no próximo disparo; mirar pede ação de movimento e Percepção."
     },
     "status": "parcial",
-    "notes": "Contra akumushi a imunidade a crítico ainda conta: à mão. A CD do poder mortal não vem no livro: usamos 15."
+    "notes": "Mira: role Percepção contra a CA do alvo e marque a opção à mão. A CD do poder mortal não vem no livro: usamos 15."
   },
   "Wakizashi da Morte": {
     "rollOptions": [
@@ -4560,7 +4742,7 @@
         },
         {
           "id": "fatal",
-          "label": "Encontro fatal (−4)",
+          "label": "Encontro fatal (−4 e todo acerto é crítico)",
           "traits": {
             "defense": [
               {
@@ -4568,7 +4750,8 @@
                 "when": "inCombat",
                 "label": "Encontro fatal"
               }
-            ]
+            ],
+            "critAgainst": true
           },
           "rollOptions": [
             {
@@ -4585,6 +4768,6 @@
       ]
     },
     "status": "parcial",
-    "notes": "No encontro fatal, todo acerto contra você é crítico: à mão."
+    "notes": "Fora de combate, o mestre adapta os modificadores."
   }
 }

@@ -314,3 +314,170 @@ Evasão: `"auto": { "traits": { "evasion": "rank(1,2)" }, "requires": { "noArmor
 - `traits.defense` com `"touch": true`: só contra ataques de toque (entra no teste de Reflexos).
 - Arma desonrada: `"dishonor": "severa"` no bloco da arma põe a gravidade certa no botão do cartão de ataque; a arma
   não precisa de um poder só para a violação.
+
+## Rodada 3
+
+### Encadeamentos
+- Condição com `endWith`: `{ "id": "cego", "endWith": "agarrado" }` acaba quando quem a tem perde a outra condição. Um bloco
+  (`self`, `targets`) também aceita `"endWith": "caido"` (o efeito acaba quando a pessoa se levanta).
+- `"consumeOn": "move"`: o efeito acaba quando o token se move (Invisibilidade Ninja).
+- `activation.endEffects: ["chave"]`: usar encerra os efeitos do usuário com essa `key` (ou com esse nome): descarregar,
+  trocar de modo.
+- Fascinado acaba sozinho quando a criatura sofre dano.
+
+### Ameaças
+- Efeitos mudam o deslocamento (`system.attributes.movement.bonus`) e os atributos (`system.abilities.X.bonus`) também das
+  Ameaças (a ficha mostra o deslocamento final).
+- As perícias do texto da Ameaça ("Enganação +15") viram rolagens; as não listadas usam metade do nível + atributo.
+
+### Flanco
+- Ataque corpo a corpo com um aliado capaz de agir do lado oposto do alvo: +2 no ataque e a situação `"flanking"` (ataque
+  furtivo: `"when": "vsFlatFooted|flanking"`). O traço `"noFlank": true` (e a esquiva sobrenatural aprimorada) impede.
+
+### Testes
+- `save.dc: "@damage"` num `onHit`: o teste é pedido quando o dano é aplicado, com CD igual ao dano que aquela criatura
+  sofreu (Golpe Avassalador). `"@attack"`: CD igual ao resultado do ataque.
+- `"onFailBy5": {...}` num `save` (ou num `onHit`): falhar por 5 ou mais traz este bloco no lugar do de falha. No
+  `turnStart`: `"conditionsBy5": [...]`.
+- `"immuneFor": { "value": 1, "unit": "dia" }` no bloco de sucesso (ou no `turnStart`): quem passou fica imune àquela
+  fonte por esse tempo.
+- `onHit`/`onCrit` com `"critImmuneSkip": true` não afetam imunes a crítico; `"natural20": true` só vale no 20 natural.
+
+### Cura acelerada
+- Traço `"noFastHealing": true` (num efeito com duração) suspende a cura acelerada (tigela vazia do kappa, Matador de
+  Kaiju). Traço `"regeneration": true`: a criatura cai inconsciente em vez de morrer e a cura acelerada não cura o dano de
+  acertos críticos (titãs).
+
+### Outros traços
+`"honorShift": 2` (sua Honra conta +2 contra efeitos que pegam desonrados), `"critAgainst": true` (todo acerto contra você
+é crítico), `"lethalUnarmed": true` (seu ataque desarmado causa dano letal), `"powerDice": [{ "filter": { "itemName":
+"canalizar energia" }, "value": 1 }]` (dados a mais no dano de um poder).
+
+### Opções de rolagem
+- Ataque: `"ignoreCritImmunity": true`, `"nonlethal": true` (dano não letal), `"ranged": true` (vira ataque à distância),
+  `"weaponDice": "1d4"` (troca o dado da arma), `"weaponType": "E"` ou `"luz"` (troca o tipo de todo o dano da arma),
+  `"damageMult": 2` (dano dobrado; soma com o crítico: ×2 e ×2 = ×3), `"damageSteps": 1` (o dado da arma sobe passos na
+  tabela de dano por tamanho: 1d6 → 1d8 → 2d6 → 3d6...).
+- Teste: `"take10": true` (escolher 10: o dado vale 10).
+
+### Armas
+- `"thrown": "3m"` no bloco de uma arma corpo a corpo: o diálogo oferece arremessar (com o ataque à distância).
+- `"nonlethal": true` no bloco de uma arma: dano não letal (Ataque desarmado). Quem tem o dado desarmado de classe
+  (monge) ou `lethalUnarmed` causa dano letal. Dano não letal soma à parte; igual aos PV atuais, a criatura desmaia (sem
+  sangrar); cura tira o mesmo tanto e o descanso zera.
+
+### Áreas
+`activation.zone: { "radius": 6, "who": "enemies|allies|any", "includeSelf": false, "label": "...", "changes": [...],
+"traits": {...}, "rollOptions": [...], "turnStart": {...}, "conditions": [...], "at": "self" }`: uma região no mapa (no
+primeiro alvo marcado, em você com `"at": "self"`, ou onde o jogador clicar). Quem está dentro recebe o efeito, quem sai
+perde; o `turnStart` age no começo do turno de quem está dentro. A área some quando acaba o efeito "Área" do usuário (a
+duração da ativação).
+
+### Doenças
+`"disease": "Febre do esgoto"` num bloco de falha (Calafrios diabólicos, Enjoo cegante, Febre demoníaca, Febre do esgoto,
+Febre do riso, Febre escarlate, Febre mental, Maldição pegajosa, Tremores) ou `{ "name", "dc", "damage": [{ "ability",
+"formula" }], "cure": 2 }`. Quem contrai sofre o efeito na hora; a cada descanso faz Fortitude: falhando, sofre de novo;
+dois sucessos seguidos curam (calafrios: três). `"cure": true` (ou `["disease"]`, `["poison"]`) elimina doenças e
+venenos; um efeito com `"poison": true` é um veneno que dura.
+
+### Ativação
+- `"check": { "skill": "atuacao", "dc": 25 }`: o teste vem antes; falhando, nada acontece e nada é gasto.
+- `"contest": { "mine": "skill:enganacao", "theirs": "skill:intuicao", "onWin": {...} }`: disputa contra cada alvo (o
+  defensor fica com o empate); quem perde recebe o bloco. Lados: `skill:x`, `save:fort|ref|von`, `ability:x`, `attack`.
+- `attack.critical: { "range": 19, "mult": 2 }`: o ataque próprio da habilidade ameaça crítico como uma arma; o dano sai
+  no cartão do ataque (o cartão da habilidade não mostra outro botão de dano).
+- `damage.drain: "tempPv" | "heal"`: quem causou ganha PV temporários (ou cura) iguais ao dano aplicado.
+
+### Kits
+Sem o kit, o teste da perícia sofre −5 sozinho (Cura e Ofício: sempre; Enganação e Ladinagem: oferecido no diálogo). Os
+kits não precisam de bloco.
+
+### Aprimoramentos de jutsu
+`"effect": "extend"` (durações em rodadas, minutos, horas e dias dobram), `"ranged"` (toque vira toque à distância),
+`"share"` (o efeito pessoal vai para o alvo tocado).
+
+### Itens escritos nos dados
+Uma concessão pode trazer o item inteiro em vez do nome de um item do compêndio (armas naturais):
+`"grants": [{ "item": { "name": "Mordida", "type": "weapon", "system": { "kind": "corpo", "grip": "leve", "category":
+"simples", "damage": "1d4", "damageType": "P", "critRange": 20, "critMult": 2, "auto": { ... } } } }]`. O item entra na
+ficha com a habilidade (ou com a opção escolhida, numa `choice`) e sai com ela. `damageType`: C, P, E, CP ou PE;
+`kind`: corpo, arremesso ou disparo; `grip`: leve, umaMao ou duasMaos.
+
+### Rolar o ataque de novo
+Uma opção de ataque com `"reroll": true` (e `"cost": 4`) não soma nada: põe no cartão do ataque o botão de rolar de
+novo, que paga o custo e repete o mesmo ataque com as mesmas opções (sem pagar de novo o que elas custam). O segundo
+resultado vale; o cartão antigo deixa de rolar dano (Mestre em Arma).
+
+### Bônus que não acumulam
+`"stack": "jade"` no bloco de um item: os passivos dele só valem se forem os mais fortes do grupo entre os itens que a
+pessoa usa ("a Constituição do jade não acumula com outros objetos de jade"). O mais forte é o que soma mais.
+
+### Ajustes da rodada 3 (bestiário)
+- Passivos de itens numa Ameaça usam os campos dela: `system.attributes.movement.bonus`, `system.abilities.X.bonus`,
+  CA, ataque, dano, resistências e RD vão para os bônus da Ameaça (o que ela não tem, como perícias, fica de fora).
+- `activation.setScores: { "int": "3d6", "hon": "3d6" }`: rola (ou fixa) atributos do usuário, mesmo os que a Ameaça não
+  tem (Despertar espírito).
+- Situações com `&` (todas valem) e o nível do alvo: `"vsDishonored&vsLevelMax:5"`, `"vsLevelMin:6"`.
+- `"regeneration": "full"`: a criatura nunca morre por dano (cai inconsciente e a cura acelerada a traz de volta), ao
+  contrário de `true`, em que o dano de críticos não regenera.
+- `"noDamage": true` no bloco de uma arma: o ataque não causa dano em PV, só o que o acerto traz (Toque do yuurei).
+
+### Ajustes da rodada 3 (itens)
+- `"consumeOn": ["move", "attack"]`: o efeito acaba no primeiro desses momentos.
+- `"check": { "skill": "atuacao", "specialty": "música", "dc": 25 }`: o teste usa a especialização, se a pessoa tiver.
+- `powerDice` vê o tipo do dano: `"filter": { "itemName": "canalizar energia", "descriptor": "luz" }`; vale também no botão
+  de cura do poder.
+- `critAgainst` (e `ignoreCritImmunity`) passam por cima da imunidade a crítico e da fortificação.
+- `attack.ca: 7`: o ataque próprio da habilidade é contra essa CA (Água sagrada atirada num quadrado).
+- `"restore": { "pm": "1d4" }` num bloco de alvos: devolve PV ou PM a quem recebe.
+- Traço `"revealed": true`: a criatura invisível fica visível para todos (Lanterna da revelação).
+- Situações pela Honra do alvo: `"vsHonorMin:10"`, `"vsHonorMax:5"` (com `&`: `"vsYoukai&vsHonorMax:5"`).
+
+### Ajustes da rodada 3 (equipamento, classes, talentos, itens)
+- O ataque próprio de uma habilidade usa a variante escolhida (o `attack` de uma `activation.options`).
+- `attack.critical` mantém o `damage.extra` (o fogo da tocha), sem multiplicar.
+- `"meleeUse": { "penalty": -4 }` no bloco de uma arma de arremesso: o diálogo oferece usá-la corpo a corpo.
+- `"selfEffect": { "changes": [...], "duration": {...} }` numa opção de ataque: o efeito vai para quem ataca ao escolher a
+  opção (bater com o escudo perde o bônus dele).
+- `damageMult` de várias opções se somam (×2 e ×2 = ×3).
+- Rolar de novo mantém os PM gastos nas opções e o modificador da situação.
+- Jutsu Estendido (`"extend"`): cada compra soma +100% da duração em rodadas (1d4 com três compras → 4d4).
+- Falhar no `check` ainda cobra a `honorViolation` do item (usar a pipa ninja).
+- `self.damage: "1d6"`: dano em quem usa (Armamento da Tormenta).
+- `onHit`/`onCrit` com `"selfTempPv": 10` ou `"selfDamage": 1`: o que o acerto dá ou custa a quem ataca.
+- `"stack"` vale bônus a bônus: cada mudança só conta se for a maior do grupo naquele campo.
+- `honorShift` só pesa contra efeitos que pegam desonrados (vsDishonored, vsSordid, vsInhuman, vsHonorMax).
+- Situações `"vsLevelBelowMine"` (o alvo tem nível menor que o seu) e `"vsNdBelowLevel"` (ND do alvo menor que o seu nível).
+- Itens escritos numa concessão ganham os `passive` deles como efeito.
+
+### Ajustes da rodada 3 (jutsus)
+- O ataque próprio de um jutsu leva a CD da execução: um `onHit` com `save.dc: "@dc"` funciona sem golpe de arma.
+- No golpe com a arma, `attack.damage` escrito (até `"0"`) vale no lugar do dano do jutsu.
+- `check` também vale para jutsus (antes de pagar).
+- Uma opção com `"free": true` não custa PM nem abre o diálogo do jutsu (descarregar, voltar); `"dcDelta": 2` muda a CD
+  só naquela opção.
+- Traço `"noJutsus": true`: a criatura não executa jutsus enquanto durar.
+- Imunidade a `"veneno"` vale para dano desse tipo; `"corte"`, `"perfuracao"`, `"esmagamento"` imunizam contra um
+  tipo físico.
+- As opções de rolagem guardadas num efeito fixam a CD do teste do acerto (`@dc`) na hora em que o efeito nasce.
+- `"healAbility": { "ability": "for" | "all", "value": 2 | "all" }` cura dano de habilidade; `"removeNegativeLevels": 1 |
+  "all"` tira níveis negativos.
+- Traço `"armorFree": true` (num efeito): as habilidades que pedem estar sem armadura funcionam de armadura.
+- Disputa com bônus fixo: `"theirs": "fixed:15"`.
+
+### Ajustes finais da rodada 3
+- `"who": "self"` em áreas e auras: só quem usa recebe (uma mandala em volta de você).
+- O bloco `self` também cura (`cure`), cura dano de habilidade, tira níveis negativos e dissipa.
+- Situações `"vsAlly"` e `"vsEnemy"` (o alvo é aliado ou inimigo de quem usa: num bloco de alvos, `variants` dão +1 aos
+  aliados e −1 aos inimigos), `"vsStatus:enjoado"` (o alvo tem a condição), `"selfStatus:caido"` (você tem) e
+  `"vsLevelMax:@level + @abilities.car.mod"` (nível do alvo contra uma fórmula sua).
+- Traço `"ignoreConcealment": true`: seus ataques ignoram a chance de falha da camuflagem do alvo (não a cegueira).
+- `damageSteps` e `damageMult` de uma opção guardada num efeito ficam fixos quando o efeito nasce (`@spent` funciona).
+- `@formula`: o dano do jutsu com o aumento pago, para o que ele deixa (dano por turno, dano no próximo ataque).
+- Deslocamento nunca cai abaixo de 1,5 m por efeitos (só "não pode se mover" zera).
+- Reação com `"tieWins": true`: empate também evita (Mente Ausente).
+- Numa opção de jutsu, `"attack": null` tira o ataque próprio do jutsu.
+- Condição com `"consumeOn"`: `{ "id": "invisivel", "consumeOn": ["move", "attack"] }` acaba no primeiro desses momentos.
+- Traço `"exposed": true`: a camuflagem da criatura não conta (Chuva da Revelação).
+- `@formula` vale também no dano do resultado de um acerto (`onSuccess.damage`), com o aumento pago.
+- `"save": false` na automação de um jutsu: o cartão não mostra o botão de teste do jutsu (o teste sai do acerto).

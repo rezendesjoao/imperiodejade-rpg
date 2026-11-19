@@ -58,6 +58,25 @@ export function parseRd(textIn, fallback = 0) {
  * book); attacks are weapon items (attack bonus = the total), special abilities are ability items, jutsus are jutsus.
  * Conditions and effects change the numbers that matter in play (CA, saves) through the automation.
  */
+/** Skill names of the stat blocks (normalized) and their keys. */
+const SKILL_NAMES = {
+  acrobacia: "acrobacia", "adestrar animais": "adestrarAnimais", atletismo: "atletismo", atuacao: "atuacao", cavalgar: "cavalgar",
+  conhecimento: "conhecimento", cura: "cura", diplomacia: "diplomacia", enganacao: "enganacao", furtividade: "furtividade",
+  "identificar magia": "identificarMagia", iniciativa: "iniciativa", intimidacao: "intimidacao", intuicao: "intuicao",
+  ladinagem: "ladinagem", "obter informacao": "obterInformacao", oficio: "oficio", percepcao: "percepcao", sobrevivencia: "sobrevivencia"
+};
+
+/** "Enganação +15, Conhecimento (arcano) +8" → { enganacao: 15, conhecimento: 8 }. */
+export function parseSkills(text) {
+  const out = {};
+  const plain = String(text ?? "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+  for (const m of plain.matchAll(/([a-z][a-z ]*?)\s*(?:\([^)]*\))?\s*([+-]\s*\d+)/g)) {
+    const key = SKILL_NAMES[m[1].trim()];
+    if (key) out[key] = Math.max(out[key] ?? -Infinity, Number(m[2].replace(/\s+/g, "")));
+  }
+  return out;
+}
+
 export class NpcData extends foundry.abstract.TypeDataModel {
   static defineSchema() {
     const abilities = {};
@@ -75,7 +94,7 @@ export class NpcData extends foundry.abstract.TypeDataModel {
       senses: text(),
       ca: int(10),
       caNote: text(),
-      pv: new fields.SchemaField({ value: int(10), max: int(10, { min: 0 }), temp: int(0, { min: 0 }) }),
+      pv: new fields.SchemaField({ value: int(10), max: int(10, { min: 0 }), temp: int(0, { min: 0 }), nonlethal: int(0, { min: 0 }) }),
       pm: new fields.SchemaField({ value: int(0), max: int(0, { min: 0 }) }),
       saves: new fields.SchemaField({ fort: int(0), ref: int(0), von: int(0) }),
       movement: text("9m"),
@@ -90,7 +109,10 @@ export class NpcData extends foundry.abstract.TypeDataModel {
       // Ability damage taken (poisons, drains): lowers the score and its modifier
       abilityDamage: new fields.SchemaField({ for: int(0, { min: 0 }), des: int(0, { min: 0 }), con: int(0, { min: 0 }), int: int(0, { min: 0 }), sab: int(0, { min: 0 }), car: int(0, { min: 0 }) }),
       // Bonuses that effects give (buffs and debuffs of abilities and jutsus)
-      bonus: new fields.SchemaField({ ca: int(0), saves: int(0), attack: int(0), damage: int(0) }),
+      bonus: new fields.SchemaField({
+        ca: int(0), saves: int(0), attack: int(0), damage: int(0), movement: int(0),
+        abilities: new fields.SchemaField(Object.fromEntries(Object.keys(ABILITIES).map(k => [k, int(0)])))
+      }),
       description: new fields.HTMLField({ required: true, blank: true }),
       notes: new fields.HTMLField({ required: true, blank: true }),
       source: text()
@@ -99,10 +121,14 @@ export class NpcData extends foundry.abstract.TypeDataModel {
 
   prepareDerivedData() {
     this.mods = {};
+    // Effects raise or lower a threat's scores (Despertar espírito: +4 Sabedoria), ability damage lowers them
+    this.abilityTotals = {};
     for (const [key, score] of Object.entries(this.abilities)) {
-      this.mods[key] = (score === null) ? null : abilityMod(Math.max(0, score - (this.abilityDamage?.[key] ?? 0)));
+      const total = (score === null) ? null : Math.max(0, score + (this.bonus.abilities?.[key] ?? 0) - (this.abilityDamage?.[key] ?? 0));
+      this.abilityTotals[key] = total;
+      this.mods[key] = (total === null) ? null : abilityMod(total);
     }
-    this.honorTier = this.abilities.hon === null ? null : honorTier(this.abilities.hon);
+    this.honorTier = this.abilities.hon === null ? null : honorTier(this.abilityTotals.hon);
     this.sizeData = SIZES[this.size] ?? SIZES.medio;
     const rd = parseRd(this._source.rd, this.rdValue);
     this.rdText = this._source.rd;
@@ -136,6 +162,18 @@ export class NpcData extends foundry.abstract.TypeDataModel {
     this.attackMod = { melee: cond.attack + cond.attackMelee + this.bonus.attack, ranged: cond.attack + cond.attackRanged + this.bonus.attack, damage: cond.damage + this.bonus.damage };
     this.checkMod = cond.skills + cond.abilityTests;
     this.perceptionTotal = this.perception + cond.skills + cond.perception;
+    // The land movement of the stat block (first number), with effects and conditions
+    const move = /(\d+(?:[.,]\d+)?)/.exec(String(this.movement ?? ""));
+    this.movementBase = move ? Number(move[1].replace(",", ".")) : 0;
+    let movement = this.movementBase + (this.bonus.movement ?? 0);
+    if (cond.movement) movement = Math.max(1.5, movement + cond.movement);
+    if (cond.movementCap !== null && cond.movementCap !== undefined) movement = Math.min(movement, cond.movementCap);
+    movement = Math.max(1.5, movement);
+    if (cond.noMove) movement = 0;
+    this.movementTotal = movement;
+    this.movementNote = (movement !== this.movementBase) ? `${movement}m` : "";
+    // Skills of the stat block ("Enganação +15, Intuição +8"): the listed ones; the rest is half level + ability
+    this.skillTotals = parseSkills(this.skills);
     this.initiativeTotal = this.initiative + cond.skills + cond.initiative;
   }
 }

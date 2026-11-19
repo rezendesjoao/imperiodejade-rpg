@@ -56,7 +56,7 @@
   {{#if buttons.length}}
   <div class="ij-card__buttons">
     {{#each buttons as |b|}}
-    <button type="button" class="ij-card__button {{#if b.critical}}ij-card__button--crit{{/if}}" data-ij-action="{{b.ijAction}}" data-actor="{{b.actor}}" data-item="{{b.item}}" data-crit="{{b.crit}}" data-extra="{{b.extra}}" data-save="{{b.save}}" data-dc="{{b.dc}}" data-source="{{b.source}}" data-alt="{{b.alt}}" data-on="{{b.on}}" data-index="{{b.index}}" data-payload="{{b.payload}}" data-kind="{{b.kind}}">
+    <button type="button" class="ij-card__button {{#if b.critical}}ij-card__button--crit{{/if}}" data-ij-action="{{b.ijAction}}" data-actor="{{b.actor}}" data-item="{{b.item}}" data-crit="{{b.crit}}" data-extra="{{b.extra}}" data-save="{{b.save}}" data-dc="{{b.dc}}" data-source="{{b.source}}" data-alt="{{b.alt}}" data-on="{{b.on}}" data-index="{{b.index}}" data-payload="{{b.payload}}" data-kind="{{b.kind}}" data-source-msg="{{b.sourceMsg}}">
       <i class="{{b.icon}}"></i> {{b.label}}
     </button>
     {{/each}}

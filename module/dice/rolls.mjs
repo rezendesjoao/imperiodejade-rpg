@@ -73,7 +73,9 @@ export async function d20Roll({ actor, title, subtitle = "", bonus = 0, parts = 
     bestOf = total - situational;
     bestLabel = advantage.label;
   }
-  const roll = await new Roll(`1d20${bonusTerm(total)}`, actor?.getRollData?.() ?? {}).evaluate();
+  // Escolher 10: the die counts as 10
+  const takes10 = chosen.some(o => o.take10);
+  const roll = await new Roll(`${takes10 ? "10" : "1d20"}${bonusTerm(total)}`, actor?.getRollData?.() ?? {}).evaluate();
   const rolls = [roll];
   let shown = roll;
   let bestNote = "";
@@ -84,7 +86,7 @@ export async function d20Roll({ actor, title, subtitle = "", bonus = 0, parts = 
     if (other.total > roll.total) shown = other;
     bestNote = `${bestLabel}: ${other.total} (${signed(bestOf + situational)})`;
   }
-  const natural = shown.dice[0]?.total ?? 0;
+  const natural = takes10 ? 10 : (shown.dice[0]?.total ?? 0);
   const allParts = [...parts, ...optionParts, ...(situational ? [{ label: game.i18n.localize("IJ.Roll.situational"), value: situational }] : [])];
   // Against a DC: natural 20 always succeeds and natural 1 always fails on saves (p. 78)
   let success = (dc === null) ? null : ((kind === "save") && (natural === 20)) ? true
@@ -111,7 +113,7 @@ export async function d20Roll({ actor, title, subtitle = "", bonus = 0, parts = 
   if (actor) {
     const kinds = kind === "save" ? ["save", "check"] : kind === "attack" ? ["attack"]
       : kind === "initiative" ? ["check", "skill", "initiative"] : ["check", flags.skill ? "skill" : "ability"];
-    const used = actor.effects.filter(e => kinds.includes(e.flags?.[SYSTEM_ID]?.consumeOn) && e.active).map(e => e.id);
+    const used = actor.effects.filter(e => [e.flags?.[SYSTEM_ID]?.consumeOn].flat().some(k => kinds.includes(k)) && e.active).map(e => e.id);
     if (used.length) {
       const { deleteEffects } = await import("../auto/effects.mjs");
       await deleteEffects(actor, used);
@@ -210,6 +212,19 @@ async function onCardButton(event, message) {
       const extra = game.i18n.localize("IJ.Auto.extraAttack");
       return weapon ? weapon.rollAttack({ event: { altKey: true }, reaction: extra }) : attacker.rollPlainAttack("melee", { event: { altKey: true } });
     }
+    case "rerollAttack": {
+      // Mestre em Arma: pay, mark the first roll as replaced, roll the same attack with the same options
+      const attacker = await fromUuid(button.dataset.actor);
+      if (!attacker?.isOwner) return ui.notifications.warn(game.i18n.localize("IJ.Chat.notOwner"));
+      if (message.flags?.[SYSTEM_ID]?.superseded) return ui.notifications.warn(game.i18n.localize("IJ.Auto.superseded"));
+      const data = JSON.parse(button.dataset.payload || "{}");
+      if ((data.cost > 0) && !(await attacker.spendPm(data.cost))) return;
+      await message.setFlag(SYSTEM_ID, "superseded", true);
+      const weapon = button.dataset.item ? attacker.items.get(button.dataset.item) : null;
+      const opts = { event: { altKey: true }, reaction: data.label ?? game.i18n.localize("IJ.Auto.rerolled"), free: true,
+        preselect: { ids: data.ids ?? [], pm: data.pm ?? {}, split: data.split ?? {}, bonus: data.bonus ?? 0 } };
+      return weapon ? weapon.rollAttack(opts) : attacker.rollPlainAttack(data.ranged ? "ranged" : "melee", opts);
+    }
     case "endScene": return auto.endScene();
     case "dishonor": {
       const who = await fromUuid(button.dataset.actor);
@@ -223,12 +238,15 @@ async function onCardButton(event, message) {
     }
     case "save": {
       // Each targeted/selected token (or the user's character) rolls against the DC; failing applies what the card says
-      const actors = targetActors().filter(a => a.isOwner);
+      // A button for one creature (the save of the damage it took) rolls for it; others for the targets
+      const named = button.dataset.actor ? await fromUuid(button.dataset.actor) : null;
+      const actors = (named ? [named.actor ?? named] : targetActors()).filter(a => a?.isOwner);
       if (!actors.length) return ui.notifications.warn(game.i18n.localize("IJ.Chat.noTargetSave"));
       const dc = Number(button.dataset.dc) || null;
+      const sourceId = button.dataset.sourceMsg || message.id;
       const sourceActor = message.speaker?.actor ? game.actors.get(message.speaker.actor) : null;
       for (const actor of actors) {
-        await actor.rollSave(button.dataset.save, { dc, source: button.dataset.source ?? "", sourceId: message.id, sourceActor, saveIndex: Number(button.dataset.index) || 0 });
+        await actor.rollSave(button.dataset.save, { dc, source: button.dataset.source ?? "", sourceId, sourceActor, saveIndex: Number(button.dataset.index) || 0 });
       }
       return;
     }

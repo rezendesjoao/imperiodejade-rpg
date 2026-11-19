@@ -1,5 +1,5 @@
 {
-  "_sobre": "Automação dos itens mágicos de magic-a.json (docs/automacao.md): melhorias, encantamentos de armas e de armaduras, armas e armaduras específicas. Encantamentos com categoria (menor, médio, maior) pedem a escolha na ficha do item; os de arma pedem também o nome da arma (filtro chosenWeapon). Itens de equipamento só valem equipados.",
+  "_sobre": "Automação dos itens mágicos de magic-a.json (docs/automacao.md): melhorias, encantamentos de armas e de armaduras, armas e armaduras específicas. Encantamentos com categoria (menor, médio, maior) pedem a escolha na ficha do item; os de arma pedem também o nome da arma (filtro chosenWeapon). Itens de equipamento só valem equipados. Quando o livro não dá a CD de um poder, usamos 15. Violações de honra de vestir ou empunhar ficam no botão de usar do item; as de atacar com arma desonrada, no cartão do ataque (dishonor).",
   "Arma Mágica +1": {
     "choice": {
       "label": "Arma encantada",
@@ -418,9 +418,7 @@
           ]
         }
       ]
-    },
-    "status": "parcial",
-    "notes": "A cobertura (item médio) fica à mão: o sistema não calcula cobertura."
+    }
   },
   "Cáustica": {
     "choice": {
@@ -583,7 +581,7 @@
   },
   "Destrutiva": {
     "status": "parcial",
-    "notes": "O livro não dá a CD do teste de Vontade: usamos 15.",
+    "notes": "Contra um mashin personagem (o sistema só reconhece construtos entre as ameaças), marque a opção.",
     "choice": {
       "label": "Categoria do item",
       "count": 1,
@@ -714,8 +712,6 @@
     }
   },
   "Disruptiva": {
-    "status": "parcial",
-    "notes": "Maior: contra esses alvos, todo o dano da arma vira vácuo (à mão).",
     "choice": {
       "label": "Categoria do item",
       "count": 1,
@@ -761,14 +757,15 @@
           "rollOptions": [
             {
               "id": "disruptiva",
-              "label": "Disruptiva (construtos e youkai)",
+              "label": "Disruptiva (construtos e youkai; dano todo de vácuo)",
               "damage": "3d6",
               "type": "vacuo",
               "noCrit": true,
               "filter": {
                 "chosenWeapon": true
               },
-              "when": "vsYoukai|vsConstruct"
+              "when": "vsYoukai|vsConstruct",
+              "weaponType": "vacuo"
             }
           ]
         }
@@ -837,13 +834,25 @@
   },
   "Energética": {
     "status": "parcial",
-    "notes": "Toque e dano todo de luz/trevas (maior) à mão; visão no escuro ignora a penumbra.",
+    "notes": "Trevas: quem ataca com visão no escuro ignora a penumbra; a falha de 20% contra ele fica à mão.",
     "traits": {
       "touchIncorporeal": true
     },
+    "rollOptions": [
+      {
+        "id": "toque",
+        "label": "Energética: ataque de toque",
+        "touch": true,
+        "filter": {
+          "chosenWeapon": true
+        },
+        "locked": true
+      }
+    ],
     "choice": {
-      "label": "Energia da arma",
+      "label": "Energia e categoria",
       "count": 1,
+      "text": "Nome da arma",
       "options": [
         {
           "id": "luz",
@@ -855,13 +864,46 @@
           "traits": {
             "missChance": 20
           }
+        },
+        {
+          "id": "luzMaior",
+          "label": "Luz, item maior (dano todo de luz)",
+          "rollOptions": [
+            {
+              "id": "luzMaior",
+              "label": "Energética maior: dano todo de luz",
+              "weaponType": "luz",
+              "filter": {
+                "chosenWeapon": true
+              },
+              "locked": true
+            }
+          ]
+        },
+        {
+          "id": "trevasMaior",
+          "label": "Trevas, item maior (penumbra; dano todo de trevas)",
+          "traits": {
+            "missChance": 20
+          },
+          "rollOptions": [
+            {
+              "id": "trevasMaior",
+              "label": "Energética maior: dano todo de trevas",
+              "weaponType": "trevas",
+              "filter": {
+                "chosenWeapon": true
+              },
+              "locked": true
+            }
+          ]
         }
       ]
     }
   },
   "Exorcista": {
     "status": "parcial",
-    "notes": "Marque contra shiryou. O livro não dá a CD do teste de Vontade: usamos 15.",
+    "notes": "Marque contra shiryou: o sistema não separa os shiryou dos oni (youkai de Honra baixa).",
     "choice": {
       "label": "Categoria do item",
       "count": 1,
@@ -921,7 +963,7 @@
   },
   "Fantasma": {
     "status": "parcial",
-    "notes": "Maior: os ataques com a arma são de toque (à mão).",
+    "notes": "Dano extra: marque quando só um dos dois (você ou o alvo) for incorpóreo.",
     "traits": {
       "touchIncorporeal": true
     },
@@ -978,6 +1020,15 @@
                 "chosenWeapon": true
               },
               "optional": true
+            },
+            {
+              "id": "fantasmaToque",
+              "label": "Fantasma maior: ataque de toque",
+              "touch": true,
+              "filter": {
+                "chosenWeapon": true
+              },
+              "locked": true
             }
           ]
         }
@@ -1049,41 +1100,74 @@
     "notes": "Dobra o alcance da arma (maior: triplica); ajuste o campo de alcance."
   },
   "Mortal": {
-    "status": "parcial",
-    "notes": "Item médio: só no 20 natural (à mão). A CD não vem no livro: usamos 15.",
-    "rollOptions": [
-      {
-        "id": "mortal",
-        "label": "Mortal",
-        "filter": {
-          "chosenWeapon": true
-        },
-        "locked": true,
-        "onCrit": {
-          "save": {
-            "type": "fort",
-            "dc": 15
-          },
-          "onFail": {
-            "setPv": -1
-          },
-          "onSuccess": {
-            "damage": {
-              "formula": "5d6",
-              "type": "vacuo"
-            }
-          }
-        }
-      }
-    ],
     "choice": {
-      "label": "Arma encantada",
-      "text": "Nome da arma"
+      "label": "Categoria do item",
+      "count": 1,
+      "text": "Nome da arma",
+      "options": [
+        {
+          "id": "medio",
+          "label": "Médio (só no 20 natural)",
+          "rollOptions": [
+            {
+              "id": "mortal",
+              "label": "Mortal (20 natural)",
+              "filter": {
+                "chosenWeapon": true
+              },
+              "locked": true,
+              "onCrit": {
+                "natural20": true,
+                "save": {
+                  "type": "fort",
+                  "dc": 15
+                },
+                "onFail": {
+                  "setPv": -1
+                },
+                "onSuccess": {
+                  "damage": {
+                    "formula": "5d6",
+                    "type": "vacuo"
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "maior",
+          "label": "Maior (qualquer acerto crítico)",
+          "rollOptions": [
+            {
+              "id": "mortal",
+              "label": "Mortal (acerto crítico)",
+              "filter": {
+                "chosenWeapon": true
+              },
+              "locked": true,
+              "onCrit": {
+                "save": {
+                  "type": "fort",
+                  "dc": 15
+                },
+                "onFail": {
+                  "setPv": -1
+                },
+                "onSuccess": {
+                  "damage": {
+                    "formula": "5d6",
+                    "type": "vacuo"
+                  }
+                }
+              }
+            }
+          ]
+        }
+      ]
     }
   },
   "Piedosa": {
-    "status": "parcial",
-    "notes": "Com o poder ligado, todo o dano da arma é não letal (à mão).",
     "choice": {
       "label": "Categoria do item",
       "count": 1,
@@ -1101,7 +1185,8 @@
               "filter": {
                 "chosenWeapon": true
               },
-              "optional": true
+              "optional": true,
+              "nonlethal": true
             }
           ]
         },
@@ -1117,7 +1202,8 @@
               "filter": {
                 "chosenWeapon": true
               },
-              "optional": true
+              "optional": true,
+              "nonlethal": true
             }
           ]
         },
@@ -1133,7 +1219,8 @@
               "filter": {
                 "chosenWeapon": true
               },
-              "optional": true
+              "optional": true,
+              "nonlethal": true
             }
           ]
         }
@@ -1141,8 +1228,6 @@
     }
   },
   "Radiante": {
-    "status": "parcial",
-    "notes": "Contra shiryou e oni, marque a opção. Maior: todo o dano vira luz (à mão).",
     "choice": {
       "label": "Categoria do item",
       "count": 1,
@@ -1161,8 +1246,7 @@
               "filter": {
                 "chosenWeapon": true
               },
-              "when": "vsMonster",
-              "note": "shiryou e oni: marque"
+              "when": "vsMonster|vsYoukai&vsSordid"
             }
           ]
         },
@@ -1179,8 +1263,7 @@
               "filter": {
                 "chosenWeapon": true
               },
-              "when": "vsMonster",
-              "note": "shiryou e oni: marque"
+              "when": "vsMonster|vsYoukai&vsSordid"
             }
           ]
         },
@@ -1190,15 +1273,15 @@
           "rollOptions": [
             {
               "id": "radiante",
-              "label": "Radiante (monstros, shiryou e oni)",
+              "label": "Radiante (monstros, shiryou e oni; dano todo de luz)",
               "damage": "3d6",
               "type": "luz",
               "noCrit": true,
               "filter": {
                 "chosenWeapon": true
               },
-              "when": "vsMonster",
-              "note": "shiryou e oni: marque"
+              "when": "vsMonster|vsYoukai&vsSordid",
+              "weaponType": "luz"
             }
           ]
         }
@@ -1206,11 +1289,26 @@
     }
   },
   "Retornável": {
-    "status": "narrativo"
+    "choice": {
+      "label": "Arma encantada",
+      "text": "Nome da arma"
+    },
+    "rollOptions": [
+      {
+        "id": "arremessar",
+        "label": "Retornável: arremessar a arma (6m)",
+        "ranged": true,
+        "attack": "@attack.ranged - @attack.melee",
+        "filter": {
+          "chosenWeapon": true,
+          "melee": true
+        },
+        "optional": true,
+        "note": "volta para a sua mão"
+      }
+    ]
   },
   "Sanguinária": {
-    "status": "parcial",
-    "notes": "Usar é violação de honra moderada; imunes a crítico ignoram o efeito (à mão).",
     "choice": {
       "label": "Categoria do item",
       "count": 1,
@@ -1236,8 +1334,10 @@
                 "abilityDamage": {
                   "ability": "con",
                   "formula": 1
-                }
-              }
+                },
+                "critImmuneSkip": true
+              },
+              "note": "usar é violação de honra moderada (botão de usar do item)"
             }
           ]
         },
@@ -1261,17 +1361,24 @@
                 "abilityDamage": {
                   "ability": "con",
                   "formula": "1d3"
-                }
-              }
+                },
+                "critImmuneSkip": true
+              },
+              "note": "usar é violação de honra moderada (botão de usar do item)"
             }
           ]
         }
       ]
+    },
+    "activation": {
+      "action": "livre",
+      "honorViolation": "moderada",
+      "note": "Atacar com a arma sanguinária é violação de honra moderada."
     }
   },
   "Sórdida": {
     "status": "parcial",
-    "notes": "Alvo de Honra 10 a 15: marque a opção. Empunhar: violação leve; usar: severa.",
+    "notes": "Alvo de Honra 10 a 15: marque a opção.",
     "choice": {
       "label": "Categoria do item",
       "count": 1,
@@ -1332,11 +1439,26 @@
           ]
         }
       ]
+    },
+    "activation": {
+      "action": "livre",
+      "options": [
+        {
+          "id": "empunhar",
+          "label": "Empunhar (violação leve)",
+          "honorViolation": "leve",
+          "note": "Empunhar a arma sórdida é violação de honra leve."
+        },
+        {
+          "id": "usar",
+          "label": "Atacar com ela (violação severa)",
+          "honorViolation": "severa",
+          "note": "Usar a arma sórdida é violação de honra severa."
+        }
+      ]
     }
   },
   "Soturna": {
-    "status": "parcial",
-    "notes": "Maior: contra esses alvos, todo o dano da arma vira trevas (à mão).",
     "choice": {
       "label": "Categoria do item",
       "count": 1,
@@ -1355,7 +1477,7 @@
               "filter": {
                 "chosenWeapon": true
               },
-              "when": "vsAnimal|vsHumanoid|vsHonored"
+              "when": "vsAnimal|vsHumanoid|vsYoukai&vsHonored"
             }
           ]
         },
@@ -1372,7 +1494,7 @@
               "filter": {
                 "chosenWeapon": true
               },
-              "when": "vsAnimal|vsHumanoid|vsHonored"
+              "when": "vsAnimal|vsHumanoid|vsYoukai&vsHonored"
             }
           ]
         },
@@ -1382,14 +1504,15 @@
           "rollOptions": [
             {
               "id": "soturna",
-              "label": "Soturna (animais, humanoides e tenshi)",
+              "label": "Soturna (animais, humanoides e tenshi; dano todo de trevas)",
               "damage": "3d6",
               "type": "trevas",
               "noCrit": true,
               "filter": {
                 "chosenWeapon": true
               },
-              "when": "vsAnimal|vsHumanoid|vsHonored"
+              "when": "vsAnimal|vsHumanoid|vsYoukai&vsHonored",
+              "weaponType": "trevas"
             }
           ]
         }
@@ -1745,8 +1868,31 @@
     }
   },
   "Desonrada": {
-    "status": "parcial",
-    "notes": "Contra efeitos que pegam desonrados, sua Honra conta +2 (maior: +4). Usar: violação severa."
+    "choice": {
+      "label": "Categoria do item",
+      "count": 1,
+      "options": [
+        {
+          "id": "base",
+          "label": "Menor ou médio (Honra +2)",
+          "traits": {
+            "honorShift": 2
+          }
+        },
+        {
+          "id": "maior",
+          "label": "Maior (Honra +4)",
+          "traits": {
+            "honorShift": 4
+          }
+        }
+      ]
+    },
+    "activation": {
+      "action": "livre",
+      "honorViolation": "severa",
+      "note": "Usar a armadura desonrada é violação de honra severa."
+    }
   },
   "Divergente": {
     "status": "parcial",
@@ -1941,7 +2087,7 @@
   },
   "Hipnótica": {
     "status": "parcial",
-    "notes": "O livro não dá a CD (usamos 15); o fascínio acaba se um afetado for atacado.",
+    "notes": "O fascínio deve acabar para todos quando qualquer afetado é atacado; o sistema só o tira de quem sofre dano.",
     "choice": {
       "label": "Categoria do item",
       "count": 1,
@@ -2247,8 +2393,6 @@
     }
   },
   "Reluzente": {
-    "status": "parcial",
-    "notes": "O livro não dá a CD dos testes de Reflexos: usamos 15.",
     "choice": {
       "label": "Categoria do item",
       "count": 1,
@@ -2510,7 +2654,159 @@
   },
   "Bordão do artista marcial": {
     "status": "parcial",
-    "notes": "Monge ou kensei: dano de ataque desarmado e –1 PM nas habilidades de classe (à mão)."
+    "notes": "Kensei: o –1 PM no Golpe extra e no Poder marcial fica à mão. Troque a escolha quando o dado desarmado subir.",
+    "choice": {
+      "label": "Usuário (monge ou kensei: o dado do seu dano desarmado)",
+      "count": 1,
+      "options": [
+        {
+          "id": "outro",
+          "label": "Outro usuário"
+        },
+        {
+          "id": "monge1d6",
+          "label": "Monge ou kensei, dano desarmado 1d6",
+          "traits": {
+            "costMods": [
+              {
+                "value": -1,
+                "kinds": [
+                  "power"
+                ],
+                "filter": {
+                  "itemName": "rajada de golpes|aperfeicoamento"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "id": "monge1d8",
+          "label": "Monge ou kensei, dano desarmado 1d8",
+          "traits": {
+            "costMods": [
+              {
+                "value": -1,
+                "kinds": [
+                  "power"
+                ],
+                "filter": {
+                  "itemName": "rajada de golpes|aperfeicoamento"
+                }
+              }
+            ]
+          },
+          "rollOptions": [
+            {
+              "id": "desarmado",
+              "label": "Bordão: dano desarmado (1d8)",
+              "weaponDice": "1d8",
+              "locked": true
+            }
+          ]
+        },
+        {
+          "id": "monge1d10",
+          "label": "Monge ou kensei, dano desarmado 1d10",
+          "traits": {
+            "costMods": [
+              {
+                "value": -1,
+                "kinds": [
+                  "power"
+                ],
+                "filter": {
+                  "itemName": "rajada de golpes|aperfeicoamento"
+                }
+              }
+            ]
+          },
+          "rollOptions": [
+            {
+              "id": "desarmado",
+              "label": "Bordão: dano desarmado (1d10)",
+              "weaponDice": "1d10",
+              "locked": true
+            }
+          ]
+        },
+        {
+          "id": "monge2d6",
+          "label": "Monge ou kensei, dano desarmado 2d6",
+          "traits": {
+            "costMods": [
+              {
+                "value": -1,
+                "kinds": [
+                  "power"
+                ],
+                "filter": {
+                  "itemName": "rajada de golpes|aperfeicoamento"
+                }
+              }
+            ]
+          },
+          "rollOptions": [
+            {
+              "id": "desarmado",
+              "label": "Bordão: dano desarmado (2d6)",
+              "weaponDice": "2d6",
+              "locked": true
+            }
+          ]
+        },
+        {
+          "id": "monge2d8",
+          "label": "Monge ou kensei, dano desarmado 2d8",
+          "traits": {
+            "costMods": [
+              {
+                "value": -1,
+                "kinds": [
+                  "power"
+                ],
+                "filter": {
+                  "itemName": "rajada de golpes|aperfeicoamento"
+                }
+              }
+            ]
+          },
+          "rollOptions": [
+            {
+              "id": "desarmado",
+              "label": "Bordão: dano desarmado (2d8)",
+              "weaponDice": "2d8",
+              "locked": true
+            }
+          ]
+        },
+        {
+          "id": "monge2d10",
+          "label": "Monge ou kensei, dano desarmado 2d10",
+          "traits": {
+            "costMods": [
+              {
+                "value": -1,
+                "kinds": [
+                  "power"
+                ],
+                "filter": {
+                  "itemName": "rajada de golpes|aperfeicoamento"
+                }
+              }
+            ]
+          },
+          "rollOptions": [
+            {
+              "id": "desarmado",
+              "label": "Bordão: dano desarmado (2d10)",
+              "weaponDice": "2d10",
+              "locked": true
+            }
+          ]
+        }
+      ]
+    }
   },
   "Cauda do tigre branco": {
     "rollOptions": [
@@ -2578,8 +2874,8 @@
         "damage": "2d6",
         "type": "luz",
         "noCrit": true,
-        "when": "vsMonster",
-        "note": "shiryou e oni: marque; perde o poder em área de Tormenta"
+        "when": "vsMonster|vsYoukai&vsSordid",
+        "note": "perde o poder em área de Tormenta"
       }
     ]
   },
@@ -2607,14 +2903,29 @@
   },
   "Chifre das cerejeiras celestiais": {
     "status": "parcial",
-    "notes": "O jutsu exige Honra 10+; com a piedosa ligada, todo o dano é não letal.",
+    "notes": "O jutsu dado pela arma só pode ser usado com Honra 10 ou mais: confira à mão.",
+    "passive": [
+      {
+        "key": "system.saves.fort.bonus",
+        "value": 5
+      },
+      {
+        "key": "system.saves.ref.bonus",
+        "value": 5
+      },
+      {
+        "key": "system.saves.von.bonus",
+        "value": 5
+      }
+    ],
     "rollOptions": [
       {
         "id": "piedosa",
         "label": "Piedosa (dano não letal)",
         "damage": "2d6",
         "noCrit": true,
-        "optional": true
+        "optional": true,
+        "nonlethal": true
       }
     ],
     "grants": [
@@ -2651,7 +2962,7 @@
   },
   "Corrente do rio das almas": {
     "status": "parcial",
-    "notes": "Honra 10 a 15: marque a sórdida. Peso da corrente e violação severa à mão.",
+    "notes": "Contra construtos e shiryou (não vivos), desmarque o crítico.",
     "rollOptions": [
       {
         "id": "sordida",
@@ -2659,8 +2970,7 @@
         "damage": "2d6",
         "type": "vacuo",
         "noCrit": true,
-        "when": "vsHonored",
-        "note": "Honra 10 a 15: marque"
+        "when": "vsHonorMin:10"
       },
       {
         "id": "manobra",
@@ -2673,6 +2983,24 @@
           ]
         },
         "value": 4
+      },
+      {
+        "id": "peso",
+        "label": "Peso da corrente (1d6 de esmagamento, 20/×2)",
+        "weaponDice": "1d6",
+        "weaponType": "E",
+        "critRange": -1,
+        "optional": true
+      },
+      {
+        "id": "critico",
+        "label": "Corrente do rio das almas (crítico)",
+        "locked": true,
+        "onCrit": {
+          "negativeLevels": 1,
+          "selfTempPv": 10
+        },
+        "note": "criatura viva"
       }
     ],
     "choice": {
@@ -2699,18 +3027,16 @@
     },
     "activation": {
       "action": "livre",
-      "self": {
-        "duration": {
-          "unit": "cena"
+      "options": [
+        {
+          "id": "empunhar",
+          "label": "Empunhar (violação leve)",
+          "honorViolation": "leve",
+          "note": "Empunhar a corrente é violação de honra leve."
         }
-      },
-      "tempPv": 10,
-      "targets": {
-        "who": "enemies",
-        "negativeLevels": 1
-      },
-      "note": "Após um crítico em criatura viva: ela ganha um nível negativo; você, 10 PV temporários."
-    }
+      ]
+    },
+    "dishonor": "severa"
   },
   "Cortadora profunda": {
     "rollOptions": [
@@ -2720,7 +3046,7 @@
         "damage": "2d6",
         "type": "trevas",
         "noCrit": true,
-        "when": "vsAnimal|vsHumanoid|vsHonored"
+        "when": "vsAnimal|vsHumanoid|vsYoukai&vsHonored"
       }
     ],
     "activation": {
@@ -2742,11 +3068,12 @@
         ]
       },
       "note": "Depois de um acerto crítico: a alma fica presa na lâmina (uma por vez, até 19 níveis)."
-    }
+    },
+    "dishonor": "extrema"
   },
   "Crescente lunar": {
     "status": "parcial",
-    "notes": "O dano dobrado contra mortos-vivos fica à mão.",
+    "notes": "Contra mortos-vivos (shiryou), marque o dano dobrado: o sistema não os separa dos oni.",
     "rollOptions": [
       {
         "id": "radiante",
@@ -2754,8 +3081,7 @@
         "damage": "2d6",
         "type": "luz",
         "noCrit": true,
-        "when": "vsMonster",
-        "note": "shiryou e oni: marque"
+        "when": "vsMonster|vsYoukai&vsSordid"
       },
       {
         "id": "desonrado",
@@ -2765,6 +3091,12 @@
         "when": "vsDishonored",
         "locked": true,
         "strict": true
+      },
+      {
+        "id": "mortoVivo",
+        "label": "Contra morto-vivo: dano dobrado",
+        "damageMult": 2,
+        "optional": true
       }
     ],
     "activation": {
@@ -2852,7 +3184,19 @@
     },
     "activation": {
       "action": "padrão",
-      "note": "Extinguir chama (dominar chamas): fumaça em 3m de raio, camuflagem total dentro."
+      "duration": {
+        "unit": "cena"
+      },
+      "zone": {
+        "radius": 3,
+        "who": "any",
+        "includeSelf": true,
+        "label": "Fumaça do dente gélido",
+        "traits": {
+          "missChance": 50
+        }
+      },
+      "note": "Extinguir chama: fumaça de 3m de raio onde estava a chama, camuflagem total dentro; vento forte a dissipa em 4 rodadas, vendaval em 1."
     }
   },
   "Digníssima determinação": {
@@ -2962,15 +3306,51 @@
     }
   },
   "Estrela elemental": {
-    "status": "parcial",
-    "notes": "O dano sobe dois passos e vira todo do elemento escolhido: ajuste à mão.",
     "rollOptions": [
       {
-        "id": "elemental",
-        "label": "Estrela elemental",
+        "id": "acido",
+        "label": "Estrela elemental: ácido",
         "cost": 3,
+        "damageSteps": 2,
+        "weaponType": "acido",
         "optional": true,
-        "note": "ácido, eletricidade, fogo, frio ou vento"
+        "note": "dano dois passos acima, todo de ácido"
+      },
+      {
+        "id": "eletricidade",
+        "label": "Estrela elemental: eletricidade",
+        "cost": 3,
+        "damageSteps": 2,
+        "weaponType": "eletricidade",
+        "optional": true,
+        "note": "dano dois passos acima, todo de eletricidade"
+      },
+      {
+        "id": "fogo",
+        "label": "Estrela elemental: fogo",
+        "cost": 3,
+        "damageSteps": 2,
+        "weaponType": "fogo",
+        "optional": true,
+        "note": "dano dois passos acima, todo de fogo"
+      },
+      {
+        "id": "frio",
+        "label": "Estrela elemental: frio",
+        "cost": 3,
+        "damageSteps": 2,
+        "weaponType": "frio",
+        "optional": true,
+        "note": "dano dois passos acima, todo de frio"
+      },
+      {
+        "id": "vento",
+        "label": "Estrela elemental: vento",
+        "cost": 3,
+        "damageSteps": 2,
+        "weaponType": "vento",
+        "optional": true,
+        "note": "dano dois passos acima, todo de vento"
       }
     ]
   },
@@ -3011,9 +3391,16 @@
         }
       ],
       "note": "Depois de acertar um disparo: bote da naja no alvo; Fortitude 1 minuto depois."
-    }
+    },
+    "dishonor": "severa"
   },
   "Kakko'dai krrat'kharn": {
+    "passive": [
+      {
+        "key": "system.attributes.ca.bonus",
+        "value": -1
+      }
+    ],
     "rollOptions": [
       {
         "id": "ignorarRd",
@@ -3049,7 +3436,8 @@
           "label": "Outro usuário"
         }
       ]
-    }
+    },
+    "dishonor": "moderada"
   },
   "Kra'tann sh'kann'shmin": {
     "passive": [
@@ -3078,24 +3466,27 @@
         ]
       },
       "note": "Uma criatura a até 9m."
-    }
+    },
+    "dishonor": "moderada"
   },
   "Lâmina da bruxa aberrante": {
     "status": "parcial",
-    "notes": "Akamono: você sofre 1 de dano por acerto. Fusão com o onimusha à mão.",
+    "notes": "Kaijin e akumushi não sofrem o 1 de dano por acerto (desmarque a opção); a fusão com o onimusha fica à mão.",
     "rollOptions": [
       {
         "id": "akamono",
         "label": "Akamono",
         "damage": "1d4",
         "noCrit": true,
-        "note": "exceto kaijin e akumushi"
+        "note": "exceto kaijin e akumushi",
+        "onHit": {
+          "selfDamage": 1
+        }
       }
-    ]
+    ],
+    "dishonor": "severa"
   },
   "Maestria marcial do magistrado": {
-    "status": "parcial",
-    "notes": "Magistrado: +8 para resistir a manobras (à mão).",
     "passive": [
       {
         "key": "system.attributes.ca.bonus",
@@ -3122,11 +3513,20 @@
       "options": [
         {
           "id": "magistrado",
-          "label": "Magistrado (CA +6 no total)",
+          "label": "Magistrado (CA +6 no total, +8 contra manobras, sem violação)",
           "passive": [
             {
               "key": "system.attributes.ca.bonus",
               "value": 4
+            }
+          ],
+          "rollOptions": [
+            {
+              "id": "resistir",
+              "label": "Magistrado: resistir a manobras",
+              "for": "maneuver",
+              "value": 8,
+              "defense": true
             }
           ]
         },
@@ -3135,11 +3535,10 @@
           "label": "Outro usuário"
         }
       ]
-    }
+    },
+    "dishonor": "severa"
   },
   "Pilar derrubado": {
-    "status": "parcial",
-    "notes": "Sórdido: dano como arma duas categorias maior (à mão).",
     "rollOptions": [
       {
         "id": "caustico",
@@ -3166,10 +3565,11 @@
           "rollOptions": [
             {
               "id": "sordido",
-              "label": "Nas mãos de um sórdido",
+              "label": "Nas mãos de um sórdido (+4; dano duas categorias maior)",
               "attack": 4,
               "damage": 4,
-              "locked": true
+              "locked": true,
+              "damageSteps": 2
             }
           ]
         },
@@ -3240,11 +3640,10 @@
           }
         }
       ]
-    }
+    },
+    "thrown": "6m"
   },
   "Salvação no relâmpago sólido": {
-    "status": "parcial",
-    "notes": "Retirada relâmpago só pode ser executada durante tempestades: confira à mão.",
     "rollOptions": [
       {
         "id": "eletrica",
@@ -3262,7 +3661,7 @@
       }
     ],
     "choice": {
-      "label": "Retirada Relâmpago",
+      "label": "Retirada Relâmpago (só durante tempestades)",
       "count": 1,
       "options": [
         {
@@ -3307,15 +3706,29 @@
         ]
       },
       "note": "Depois de acertar um disparo: sono de Mizuha (só nível até o seu + Carisma)."
-    }
+    },
+    "dishonor": "severa"
   },
   "Surpresa mortal": {
     "status": "parcial",
-    "notes": "Seu ataque furtivo usa d8 em vez de d6, rolando de novo os 1 (à mão)."
+    "notes": "Seu ataque furtivo usa d8 em vez de d6, rolando de novo os 1 (à mão).",
+    "rollOptions": [
+      {
+        "id": "perfurar",
+        "label": "Surpresa mortal: espinhos (perfuração)",
+        "weaponType": "P",
+        "optional": true
+      },
+      {
+        "id": "esmagar",
+        "label": "Surpresa mortal: esmagamento",
+        "weaponType": "E",
+        "optional": true
+      }
+    ]
   },
   "Unha do gato sortudo": {
-    "status": "narrativo",
-    "notes": "Escalada 6m, sem testes de Atletismo e sem ficar desprevenido; exige mãos livres."
+    "dishonor": "severa"
   },
   "Vento silvante no bambuzal": {
     "rollOptions": [
@@ -3373,10 +3786,11 @@
         "label": "Golpe ninja ou ataque furtivo",
         "attack": 4,
         "damage": 4,
-        "when": "vsFlatFooted",
+        "when": "vsFlatFooted|flanking",
         "note": "com golpe ninja: marque"
       }
-    ]
+    ],
+    "dishonor": "severa"
   },
   "Blindagem elemental": {
     "passive": [
@@ -3479,30 +3893,47 @@
       ]
     },
     "activation": {
-      "cost": 10,
-      "action": "reação",
-      "targets": {
-        "who": "enemies",
-        "conditions": [
-          {
-            "id": "paralisado",
-            "duration": {
-              "value": 1,
-              "unit": "rodada"
-            }
-          }
-        ]
-      },
-      "note": "Ao sofrer um acerto crítico: o atacante (alvo) fica paralisado por 1 rodada."
+      "action": "livre",
+      "options": [
+        {
+          "id": "frio",
+          "label": "Frio intenso (10 PM)",
+          "cost": 10,
+          "action": "reação",
+          "targets": {
+            "who": "enemies",
+            "conditions": [
+              {
+                "id": "paralisado",
+                "duration": {
+                  "value": 1,
+                  "unit": "rodada"
+                }
+              }
+            ]
+          },
+          "note": "Ao sofrer um acerto crítico: o atacante (alvo) fica paralisado por 1 rodada."
+        },
+        {
+          "id": "vestir",
+          "label": "Vestir (violação leve)",
+          "honorViolation": "leve",
+          "note": "Para tamuranianos, vestir couro é violação de honra leve."
+        }
+      ]
     }
   },
   "Escama do dragão azul do leste": {
     "status": "parcial",
-    "notes": "O ataque repetido é rolado à mão. A Constituição do jade não acumula.",
+    "notes": "O atacante rola o ataque de novo à mão.",
     "passive": [
       {
         "key": "system.attributes.movement.bonus",
         "value": -3
+      },
+      {
+        "key": "system.abilities.con.bonus",
+        "value": 2
       }
     ],
     "reactions": [
@@ -3513,11 +3944,19 @@
         "effect": "note",
         "note": "O atacante rola de novo e fica com a segunda rolagem, mesmo melhor."
       }
-    ]
+    ],
+    "stack": "jade"
   },
   "Escudo do dragão": {
     "status": "parcial",
-    "notes": "O dano no escudo é aplicado à mão. A Constituição do jade não acumula.",
+    "notes": "O golpe desviado para o escudo (RD 12, 40 PV) é resolvido à mão.",
+    "passive": [
+      {
+        "key": "system.abilities.con.bonus",
+        "value": 1
+      }
+    ],
+    "stack": "jade",
     "reactions": [
       {
         "on": "attacked",
@@ -3679,24 +4118,40 @@
     }
   },
   "Ossos inquietos": {
-    "status": "parcial",
-    "notes": "O crítico da farpa (19, ×2) não entra no dano automático.",
     "activation": {
       "cost": 1,
       "action": "padrão",
       "attack": {
-        "type": "toqueDistancia"
+        "type": "toqueDistancia",
+        "critical": {
+          "range": 19,
+          "mult": 2
+        }
       },
       "damage": {
         "formula": "1d10",
         "type": "perfuracao"
       },
-      "note": "Farpa de osso: 36m, crítico 19."
+      "note": "Farpa de osso: 36m, crítico 19.",
+      "options": [
+        {
+          "id": "farpa",
+          "label": "Farpa de osso (1 PM)"
+        },
+        {
+          "id": "vestir",
+          "label": "Vestir (violação moderada)",
+          "cost": 0,
+          "action": "livre",
+          "attack": null,
+          "damage": null,
+          "honorViolation": "moderada",
+          "note": "Vestir a armadura de ossos é violação de honra moderada."
+        }
+      ]
     }
   },
   "Quimono celestial": {
-    "status": "parcial",
-    "notes": "Ryuujin: voo igual ao deslocamento (narrativo). A Constituição do jade não acumula.",
     "passive": [
       {
         "key": "system.saves.fort.bonus",
@@ -3709,6 +4164,10 @@
       {
         "key": "system.saves.von.bonus",
         "value": 3
+      },
+      {
+        "key": "system.abilities.con.bonus",
+        "value": 1
       }
     ],
     "grants": [
@@ -3741,7 +4200,8 @@
           }
         }
       ]
-    }
+    },
+    "stack": "jade"
   },
   "Rancor nos quatro espelhos": {
     "status": "parcial",
@@ -3770,7 +4230,7 @@
   },
   "Sobrevivente maldita": {
     "status": "parcial",
-    "notes": "Kaijin e akumushi ignoram a falha de 30%. Fusão com o onimusha à mão.",
+    "notes": "Kaijin e akumushi ignoram a falha de 30% (desconte à mão); a fusão com o onimusha fica à mão.",
     "passive": [
       {
         "key": "system.attributes.movement.bonus",
@@ -3779,21 +4239,53 @@
     ],
     "traits": {
       "missChance": 30
+    },
+    "activation": {
+      "action": "livre",
+      "honorViolation": "moderada",
+      "note": "Vestir a armadura de akamono é violação de honra moderada."
     }
   },
   "Thai'rrokhan": {
-    "status": "parcial",
-    "notes": "Não é flanqueado; caído, ganha cobertura (CA +4). Natação e respiração na água: narrativo.",
     "passive": [
       {
         "key": "system.attributes.movement.bonus",
         "value": -3
       }
-    ]
+    ],
+    "traits": {
+      "noFlank": true
+    },
+    "activation": {
+      "action": "livre",
+      "options": [
+        {
+          "id": "deitar",
+          "label": "Caído na carapaça (cobertura, CA +4)",
+          "self": {
+            "changes": [
+              {
+                "key": "system.attributes.ca.bonus",
+                "value": 4
+              }
+            ],
+            "conditions": [
+              "caido"
+            ],
+            "endWith": "caido"
+          },
+          "note": "Usuário Pequeno ou Médio caído (jogou-se ao chão ou foi derrubado): cobertura até se levantar."
+        },
+        {
+          "id": "vestir",
+          "label": "Vestir (violação moderada)",
+          "honorViolation": "moderada",
+          "note": "Usar a carapaça kappa é violação de honra moderada."
+        }
+      ]
+    }
   },
   "Traje das sombras eternas": {
-    "status": "parcial",
-    "notes": "Contra efeitos que pegam desonrados, sua Honra conta +2 (à mão). Visão no escuro: narrativo.",
     "passive": [
       {
         "key": "system.skills.furtividade.bonus",
@@ -3802,8 +4294,20 @@
       {
         "key": "system.skills.intimidacao.bonus",
         "value": 2
+      },
+      {
+        "key": "system.skills.furtividade.bonus",
+        "value": 5
       }
-    ]
+    ],
+    "traits": {
+      "honorShift": 2
+    },
+    "activation": {
+      "action": "livre",
+      "honorViolation": "severa",
+      "note": "Usar o traje desonrado é violação de honra severa."
+    }
   },
   "Tufão sublime": {
     "passive": [

@@ -10,13 +10,13 @@ import { attackRoll, attackDamage } from "./attack.mjs";
 import { applyCard, rollDamage, applyToActor } from "./damage.mjs";
 import { useReaction } from "./reactions.mjs";
 import { syncActor, migrateWorld, registerMigrationSetting } from "./migration.mjs";
-import { scheduleAuras, syncAuras, applyAbilityDamage, applyNegativeLevels, kill, dispel } from "./extras.mjs";
+import { scheduleAuras, syncAuras, applyAbilityDamage, applyNegativeLevels, kill, dispel, endZones, placeZone, contractDisease, diseaseDay, cure, DISEASES } from "./extras.mjs";
 
 export {
   collectTraits, rollOptionsFor, matches, situation, dataFor, rankOf, conditionMods, effectiveStatuses, CONDITIONS,
   applyCondition, removeCondition, resetUses, endScene, useItem, onApplyTargets, onDamage, onHeal, onSaveResult, sourceOf,
   attackRoll, attackDamage, applyCard, rollDamage, applyToActor, useReaction, syncActor, migrateWorld,
-  syncAuras, applyAbilityDamage, applyNegativeLevels, kill, dispel
+  syncAuras, applyAbilityDamage, applyNegativeLevels, kill, dispel, placeZone, contractDisease, diseaseDay, cure, DISEASES
 };
 
 /** Called at init. */
@@ -36,10 +36,15 @@ export function readyAutomation() {
     if (!("initiative" in change) || (change.initiative === null) || (userId !== game.user.id)) return;
     const actor = combatant.actor;
     if (!actor) return;
-    const used = actor.effects.filter(e => ["check", "skill", "initiative"].includes(e.flags?.[SYSTEM]?.consumeOn) && e.active).map(e => e.id);
+    const { consumes } = await import("./effects.mjs");
+    const used = actor.effects.filter(e => consumes(e, ["check", "skill", "initiative"]) && e.active).map(e => e.id);
     if (used.length) await deleteEffects(actor, used);
   });
   Hooks.on("deleteCombat", onCombatDelete);
+  // Effects tied to a condition end with it (blind while grabbed); effects that end when the bearer moves
+  Hooks.on("deleteActiveEffect", effect => { if (game.users.activeGM?.isSelf) endLinked(effect); });
+  // (a moment later: removing a status while the token is being placed breaks its drawing)
+  Hooks.on("updateToken", (token, changed) => { if ((("x" in changed) || ("y" in changed)) && game.users.activeGM?.isSelf) setTimeout(() => endOnMove(token), 150); });
   Hooks.on("preUpdateActor", stashPv);
   Hooks.on("updateActor", onActorUpdate);
   Hooks.on("deleteActiveEffect", onEffectDeleted);
@@ -50,6 +55,9 @@ export function readyAutomation() {
   Hooks.on("createActiveEffect", effect => { if (effect.flags?.[SYSTEM]?.aura) scheduleAuras(); });
   Hooks.on("deleteActiveEffect", effect => { if (effect.flags?.[SYSTEM]?.aura) scheduleAuras(); });
   Hooks.on("canvasReady", () => scheduleAuras());
+  // Areas: placed, moved or removed regions of jutsus; the user's effect of an area takes it along when it ends
+  for (const hook of ["createRegion", "updateRegion", "deleteRegion"]) Hooks.on(hook, region => { if (region.flags?.[SYSTEM]?.zone) scheduleAuras(); });
+  Hooks.on("deleteActiveEffect", effect => { if (game.users.activeGM?.isSelf && effect.flags?.[SYSTEM]?.zoneMarker) endZones(effect); });
 }
 
 /* -------------------------------------------- */
@@ -67,9 +75,11 @@ async function onCombatUpdate(combat, changed) {
   if (!actor) return;
   const statuses = effectiveStatuses(actor);
   // Cura acelerada: PV back at the start of each turn
-  const fast = actor.system.traits?.fastHealing ?? 0;
-  if (fast > 0 && hpOf(actor).value < hpOf(actor).max && !statuses.has("dead")) {
-    const r = await applyToActor(actor, { heal: fast });
+  // Cura acelerada: stopped by effects (an empty kappa bowl); a regenerating titan doesn't heal what criticals did
+  const fast = actor.system.traits?.noFastHealing ? 0 : (actor.system.traits?.fastHealing ?? 0);
+  const cap = hpOf(actor).max - (actor.flags?.[SYSTEM]?.critDamage ?? 0);
+  if (fast > 0 && hpOf(actor).value < cap && !statuses.has("dead")) {
+    const r = await applyToActor(actor, { heal: Math.min(fast, cap - hpOf(actor).value) });
     if (r.healed) await ChatMessage.create({
       speaker: ChatMessage.getSpeaker({ actor }),
       content: `<div class="imperiodejade ij-card ij-card--applied"><p>${foundry.utils.escapeHTML(game.i18n.format("IJ.Auto.fastHealing", { name: actor.name, n: r.healed }))}</p></div>`
@@ -84,12 +94,39 @@ async function onCombatUpdate(combat, changed) {
   }
 }
 
+/** Effects tied to a condition the actor no longer has end with it. */
+async function endLinked(effect) {
+  const actor = effect.parent;
+  if (!(actor instanceof Actor) || !effect.statuses?.size) return;
+  const still = new Set(actor.effects.filter(e => (e.id !== effect.id) && e.active).flatMap(e => [...e.statuses]));
+  const gone = [...effect.statuses].filter(s => !still.has(s));
+  if (!gone.length) return;
+  const ids = actor.effects.filter(e => (e.id !== effect.id) && gone.includes(e.flags?.[SYSTEM]?.endWith)).map(e => e.id);
+  if (ids.length) await actor.deleteEmbeddedDocuments("ActiveEffect", ids);
+}
+
+/** A token moved: its effects that end on movement go (Invisibilidade Ninja). */
+async function endOnMove(token) {
+  const actor = token.actor;
+  if (!actor) return;
+  const { consumes } = await import("./effects.mjs");
+  const ids = actor.effects.filter(e => consumes(e, "move") && e.active).map(e => e.id);
+  if (ids.length) await actor.deleteEmbeddedDocuments("ActiveEffect", ids);
+}
+
 /** One effect's start-of-turn work. */
 async function turnStartEffect(actor, effect, ts) {
+  // Passed it before: immune for now (Gralhar Aterrador)
+  const { immuneTo, grantImmunity } = await import("./effects.mjs");
+  if (immuneTo(actor, effect.name)) return;
   let success = null;
   if (ts.save?.type) {
     const msg = await actor.rollSave(ts.save.type, { dc: ts.save.dc, source: effect.name });
     success = msg?.flags?.[SYSTEM]?.success ?? null;
+    if (success && ts.immuneFor) await grantImmunity(actor, effect.name, ts.immuneFor);
+    // Failing by 5 or more: the harder conditions instead
+    const total = msg?.flags?.[SYSTEM]?.total ?? null;
+    if ((success === false) && ts.conditionsBy5?.length && (total !== null) && (total <= ts.save.dc - 5)) ts = { ...ts, conditions: ts.conditionsBy5 };
     if (success && ts.endOnSave) return actor.deleteEmbeddedDocuments("ActiveEffect", [effect.id]);
   }
   const lines = [];
@@ -108,7 +145,7 @@ async function turnStartEffect(actor, effect, ts) {
     const r = await applyToActor(actor, { heal: roll.total });
     lines.push(game.i18n.format("IJ.Chat.healedNote", { name: actor.name, n: r.healed }));
   }
-  for (const c of (success ? [] : ts.conditions ?? [])) await applyCondition(actor, c.id ?? c, { duration: c.duration ?? null, source: effect.name });
+  for (const c of (success ? [] : ts.conditions ?? [])) await applyCondition(actor, c, { duration: c.duration ?? null, source: effect.name });
   if (ts.abilityDamage && !success) {
     const { applyAbilityDamage } = await import("./extras.mjs");
     await applyAbilityDamage(actor, ts.abilityDamage);

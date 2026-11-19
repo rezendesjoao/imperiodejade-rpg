@@ -91,10 +91,10 @@ export class ImperioActor extends Actor {
     const sys = this.system;
     if (this.type === "npc") {
       if (key === "iniciativa") return this.rollInitiativeCheck({ event });
-      if (key !== "percepcao") return null;
+      if (!SKILLS[key]) return null;
       return d20Roll({
-        actor: this, event, title: game.i18n.format("IJ.Roll.skillTest", { name: L(SKILLS.percepcao.label) }),
-        bonus: sys.perceptionTotal ?? sys.perception, kanji: "技", options: rollOptionsFor(this, "skill", { skill: "percepcao" })
+        actor: this, event, title: game.i18n.format("IJ.Roll.skillTest", { name: L(SKILLS[key].label) }),
+        bonus: this.skillBonus(key), kanji: "技", flags: { skill: key }, options: rollOptionsFor(this, "skill", { skill: key })
       });
     }
     const spec = specialtyId ? sys.specialties[specialtyId] : null;
@@ -129,6 +129,20 @@ export class ImperioActor extends Actor {
       flags: { skill: skillKey, specialtyId: specialtyId ?? null },
       options: rollOptionsFor(this, "skill", { skill: skillKey, ability: data.ability })
     });
+  }
+
+  /**
+   * The total of a skill for any actor. A threat uses its stat block (Percepção and Iniciativa have their own fields;
+   * the skills listed in its text), else half its level plus the ability.
+   */
+  skillBonus(key) {
+    const sys = this.system;
+    if (this.type !== "npc") return sys.skills?.[key]?.total ?? 0;
+    if (key === "percepcao") return sys.perceptionTotal ?? sys.perception ?? 0;
+    if (key === "iniciativa") return sys.initiativeTotal ?? sys.initiative ?? 0;
+    const listed = sys.skillTotals?.[key];
+    const base = (listed !== undefined) ? listed : (Math.floor((sys.level ?? 0) / 2) + (sys.mods?.[SKILLS[key]?.ability] ?? 0));
+    return base + (sys.checkMod ?? 0);
   }
 
   /** Initiative: the Iniciativa skill. In a combat, it sets the combatant's initiative. */
@@ -209,8 +223,9 @@ export class ImperioActor extends Actor {
       const sourceMsg = game.messages.get(sourceId);
       if (sourceMsg) {
         const { onSaveResult, onHitSave } = await import("../auto/activation.mjs");
-        if (sourceMsg.flags?.[SYSTEM_ID]?.attack) await onHitSave(sourceMsg, this, success);
-        else await onSaveResult(sourceMsg, this, success, saveIndex);
+        const result = { save: key, total: message.flags[SYSTEM_ID].total, dc };
+        if (sourceMsg.flags?.[SYSTEM_ID]?.attack) await onHitSave(sourceMsg, this, success, result);
+        else await onSaveResult(sourceMsg, this, success, saveIndex, result);
       }
     }
     return message;
@@ -223,7 +238,7 @@ export class ImperioActor extends Actor {
   }
 
   /** A plain attack roll without a weapon (melee or ranged), from the attack medallions; unarmed damage in melee. */
-  async rollPlainAttack(type = "melee", { event, target = null, extraOptions = [] } = {}) {
+  async rollPlainAttack(type = "melee", { event, target = null, extraOptions = [], preselect = null, free = false, reaction = null } = {}) {
     const sys = this.system;
     const ability = type === "melee" ? "for" : "des";
     const unarmed = sys.traits?.unarmed || "1d3";
@@ -232,7 +247,7 @@ export class ImperioActor extends Actor {
       ? `${unarmed}${str ? ` ${str > 0 ? "+" : "-"} ${Math.abs(str)}` : ""}${sys.attack?.damage ? ` + ${sys.attack.damage}` : ""}`
       : null;
     return attackRoll({
-      actor: this, event, target, extraOptions, ranged: type !== "melee", unarmed: type === "melee",
+      actor: this, event, target, extraOptions, preselect, free, reaction, ranged: type !== "melee", unarmed: type === "melee",
       title: L(type === "melee" ? "IJ.Attack.melee" : "IJ.Attack.ranged"),
       subtitle: type === "melee" ? `${L("IJ.Attack.unarmed")} · ${damageFormula}` : L("IJ.Attack.noWeapon"),
       bonus: sys.attack[type],
@@ -242,7 +257,7 @@ export class ImperioActor extends Actor {
         { label: L("IJ.Size.label"), value: sys.size.attack },
         { label: L("IJ.Skill.other"), value: sys.attributes.attack[type] }
       ],
-      damage: damageFormula ? { formula: damageFormula, type: "E" } : null,
+      damage: damageFormula ? { formula: damageFormula, type: "E", nonlethal: (type === "melee") && (this.type === "character") && !(sys.traits?.unarmed || sys.traits?.lethalUnarmed) } : null,
       kanji: "攻"
     });
   }
@@ -370,12 +385,15 @@ export class ImperioActor extends Actor {
     const healed = Math.max(0, Math.min(pv.max, pv.value + sys.level) - pv.value);
     await this.update({
       "system.attributes.pv.value": pv.value + healed,
-      "system.attributes.pm.value": pm.max
+      "system.attributes.pm.value": pm.max,
+      "system.attributes.pv.nonlethal": 0
     });
     // Uses per day (and per scene) come back; 1 point of each damaged ability
     await resetUses(this, ["dia", "cena", "rodada"]);
-    const { recoverAbilityDamage } = await import("../auto/extras.mjs");
+    const { recoverAbilityDamage, diseaseDay } = await import("../auto/extras.mjs");
     await recoverAbilityDamage(this);
+    // A day of each disease: its save (two in a row heal it)
+    await diseaseDay(this);
     return infoCard({
       actor: this, kind: "rest", kanji: "休",
       title: L("IJ.Rest.title"),

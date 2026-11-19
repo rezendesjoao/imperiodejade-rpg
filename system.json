@@ -2,7 +2,7 @@
   "id": "imperiodejade",
   "title": "Império de Jade",
   "description": "Império de Jade para o Foundry VTT: ficha completa e automatizada, Honra, chacras e jutsus, e os compêndios do livro (raças, classes, habilidades, talentos, jutsus, equipamento, itens mágicos e bestiário) com as habilidades concedidas automaticamente.",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "compatibility": {
     "minimum": "14",
     "verified": "14.367"
@@ -282,7 +282,7 @@
   "secondaryTokenAttribute": "attributes.pm",
   "url": "https://github.com/rezendesjoao/imperiodejade-rpg",
   "manifest": "https://github.com/rezendesjoao/imperiodejade-rpg/releases/latest/download/system.json",
-  "download": "https://github.com/rezendesjoao/imperiodejade-rpg/releases/download/v0.4.0/imperiodejade.zip",
+  "download": "https://github.com/rezendesjoao/imperiodejade-rpg/releases/download/v0.5.0/imperiodejade.zip",
   "bugs": "https://github.com/rezendesjoao/imperiodejade-rpg/issues",
   "readme": "https://github.com/rezendesjoao/imperiodejade-rpg/blob/main/README.md",
   "changelog": "https://github.com/rezendesjoao/imperiodejade-rpg/blob/main/CHANGELOG.md",

@@ -16,7 +16,7 @@
  */
 import { SYSTEM, dataFor, evaluate, evaluateInt, resolveFormula, inactiveReason, situation, chosen, norm, matches } from "./context.mjs";
 import { askActivation } from "./dialog.mjs";
-import { effectData, createEffects, deleteEffects, applyCondition, removeCondition, grantTempPv, usesLeft, spendUse, durationLabel, updateActor, forActor } from "./effects.mjs";
+import { effectData, createEffects, deleteEffects, applyCondition, removeCondition, grantTempPv, usesLeft, spendUse, durationLabel, updateActor, forActor, immuneTo, grantImmunity } from "./effects.mjs";
 import { rollDamage } from "./damage.mjs";
 
 const L = key => game.i18n.localize(key);
@@ -115,6 +115,12 @@ export async function useItem(item, { event = null, choice = undefined, spent = 
   spent = variable ? Math.clamp(spentValue, variable.min, variable.max) : 0;
   const spec = specFor(item, optionId);
   data = dataFor(item, { spent });
+  // A test before it works (Biwa encantador: Atuação CD 25; failing, nothing happens and nothing is spent)
+  if (spec.check?.skill && actor && !(await checkBefore(actor, item, spec.check, data, event))) {
+    // Trying still counts as using it: a dishonorable item costs Honor even when the test fails (Pipa Ninja)
+    if (spec.honorViolation && (actor.type === "character")) await actor.honorViolation(spec.honorViolation);
+    return null;
+  }
 
   // Pay: PM (with the actor's cost rules, within the PM limit), uses, Honor
   // Without its own cost, the item's cost counts (not for a variable cost, which is all in the PM chosen)
@@ -167,6 +173,13 @@ export async function perform(item, spec, data, { optionId = null, spent = 0 } =
   const lines = [];
   if (!actor) return { applied: lines };
 
+  // Effects this use ends (discharging Retirada Relâmpago, changing the mode of a darkness)
+  const ending = [spec.endEffects].flat().filter(Boolean);
+  if (ending.length) {
+    const ids = actor.effects.filter(e => ending.includes(e.flags?.[SYSTEM]?.key) || ending.includes(e.name)).map(e => e.id);
+    if (ids.length) await deleteEffects(actor, ids);
+  }
+
   // On the user
   if (spec.self) {
     const self = spec.self;
@@ -185,7 +198,15 @@ export async function perform(item, spec, data, { optionId = null, spent = 0 } =
       }, data)]);
     }
     for (const id of self.removeConditions ?? []) await removeCondition(actor, id);
-    for (const id of self.conditions ?? []) await applyCondition(actor, id.id ?? id, { duration: await fixDuration(id.duration ?? duration, data), origin: item.uuid, source: item.name, data });
+    // Cures, ability damage healed, negative levels removed, dispel... also on yourself (Integridade Corporal: Saúde)
+    await applyOutcomeExtras(actor, self, data);
+    for (const id of self.conditions ?? []) await applyCondition(actor, id, { duration: await fixDuration(id.duration ?? duration, data), origin: item.uuid, source: item.name, data });
+    // Damage to oneself (Armamento da Tormenta: 1d6 each time)
+    if (self.damage) {
+      const { applyToActor } = await import("./damage.mjs");
+      const roll = await new Roll(resolveFormula(self.damage, data) || "0").evaluate();
+      await applyToActor(actor, { amount: roll.total });
+    }
     lines.push(game.i18n.format("IJ.Auto.appliedSelf", { name: actor.name }));
   }
   if (spec.tempPv) {
@@ -215,6 +236,34 @@ export async function perform(item, spec, data, { optionId = null, spent = 0 } =
     const roll = await new Roll(resolveFormula(spec.heal, data) || "0").evaluate();
     const r = await applyToActor(actor, { heal: roll.total });
     lines.push(game.i18n.format("IJ.Auto.healed", { name: actor.name, n: r.healed }));
+  }
+
+  // Scores rolled or set (Despertar espírito: Inteligência and Honra 3d6, even on a threat without them)
+  if (spec.setScores) {
+    const update = {};
+    const rolled = [];
+    for (const [key, formula] of Object.entries(spec.setScores)) {
+      const n = await rollValue(formula, data);
+      update[actor.type === "npc" ? `system.abilities.${key}` : `system.abilities.${key}.value`] = n;
+      rolled.push(`${game.i18n.localize(CONFIG.IJ.ABILITIES[key]?.abbr ?? key)} ${n}`);
+    }
+    if (Object.keys(update).length) {
+      await updateActor(actor, update);
+      lines.push(rolled.join(", "));
+    }
+  }
+
+  // A contest against each target (a feint: Enganação against Intuição); who loses gets the block
+  if (spec.contest && actor) {
+    const n = await contest(item, spec, data);
+    if (n !== null) lines.push(game.i18n.format("IJ.Auto.contested", { n }));
+  }
+
+  // An area placed on the scene (mist, darkness, a mandala): who stands inside gets its effect
+  if (spec.zone) {
+    const { placeZone } = await import("./extras.mjs");
+    const placed = await placeZone(item, spec, data, await fixDuration(spec.zone.duration ?? spec.duration, data));
+    if (placed) lines.push(game.i18n.format("IJ.Auto.zonePlaced", { name: placed }));
   }
 
   // On the targets, right away when there is no save and no attack (with an attack, on the creatures it hits)
@@ -268,13 +317,25 @@ export async function applyTargetBlock(item, block, data, actor, source = item.n
     await createEffects(actor, [effectData({ ...spec, changes, name: source, img: item.img, origin: item.uuid, duration: spec.duration, optionKey, magic: isMagic(item) }, data)]);
   }
   for (const c of spec.conditions ?? []) {
-    await applyCondition(actor, c.id ?? c, { duration: await fixDuration(c.duration ?? spec.duration, data), origin: item.uuid, source, data, tags: descriptorTags(item) });
+    await applyCondition(actor, c, { duration: await fixDuration(c.duration ?? spec.duration, data), origin: item.uuid, source, data, tags: descriptorTags(item) });
   }
+  // Passed the save: immune to this source for a while
+  if (spec.immuneFor) await grantImmunity(actor, source, spec.immuneFor);
   if (spec.damage) {
     // Direct damage of an effect that hit (no roll of its own on the card)
     const { applyToActor } = await import("./damage.mjs");
     const roll = await new Roll(resolveFormula(spec.damage, data) || "0").evaluate();
     await applyToActor(actor, { amount: roll.total });
+  }
+  // PV or PM back to the creature (Chá da revigoração honrada: the PM of whom you serve)
+  if (spec.restore) {
+    const isNpc = actor.type === "npc";
+    const pv = isNpc ? actor.system.pv : actor.system.attributes.pv;
+    const pm = isNpc ? actor.system.pm : actor.system.attributes.pm;
+    const update = {};
+    if (spec.restore.pv) update[isNpc ? "system.pv.value" : "system.attributes.pv.value"] = Math.min(pv.max, pv.value + await rollValue(spec.restore.pv, data));
+    if (spec.restore.pm) update[isNpc ? "system.pm.value" : "system.attributes.pm.value"] = Math.min(pm.max, pm.value + await rollValue(spec.restore.pm, data));
+    if (Object.keys(update).length) await updateActor(actor, update);
   }
   if (spec.pmLoss) {
     const pm = actor.type === "npc" ? actor.system.pm : actor.system.attributes.pm;
@@ -283,11 +344,86 @@ export async function applyTargetBlock(item, block, data, actor, source = item.n
   await applyOutcomeExtras(actor, spec, data);
 }
 
+/** Extra dice of the user's rules on a power (Amuleto do dia: +1 die on canalizar energia of light). */
+function addPowerDice(actor, item, formula, type = "") {
+  const n = (actor?.system?.traits?.powerDice ?? []).filter(r => matches(r.filter, { item, descriptors: type ?? "" }))
+    .reduce((t, r) => t + Math.floor(evaluate(r.value ?? 1, r._data ?? {})), 0);
+  return n ? String(formula).replace(/(\d+)d(\d+)/i, (m, c, d) => `${Number(c) + n}d${d}`) : formula;
+}
+
+/** A skill test before an item works; false when it fails (the card says so). */
+export async function checkBefore(actor, item, check, data, event = null) {
+  const { d20Roll } = await import("../dice/rolls.mjs");
+  const { rollOptionsFor } = await import("./context.mjs");
+  const dc = evaluateInt(check.dc ?? 15, data);
+  const skill = check.skill;
+  // A specialty of the skill (Atuação: música) when the user has it
+  const wanted = check.specialty ? norm(check.specialty) : null;
+  const spec = wanted ? Object.values(actor.system?.specialties ?? {}).find(s => (s.skill === skill) && norm(s.label).includes(wanted)) : null;
+  const name = L(CONFIG.IJ.SKILLS[skill]?.label ?? skill) + (check.specialty ? ` (${check.specialty})` : "");
+  const msg = await d20Roll({
+    actor, event, kind: "check", dc,
+    title: `${item.name}: ${game.i18n.format("IJ.Roll.skillTest", { name })}`,
+    bonus: spec ? (spec.total ?? 0) : (actor.skillBonus?.(skill) ?? 0), kanji: "技", flags: { skill },
+    options: rollOptionsFor(actor, "skill", { skill })
+  });
+  return !!msg?.flags?.[SYSTEM]?.success;
+}
+
+/** The bonus of a side of a contest ("skill:enganacao", "save:von", "ability:for", "attack"). */
+function contestBonus(actor, what) {
+  const [kind, key] = String(what ?? "").split(":");
+  const sys = actor.system;
+  if (kind === "skill") return actor.skillBonus?.(key) ?? 0;
+  if (kind === "save") return (actor.type === "npc") ? (sys.saveTotals?.[key] ?? sys.saves?.[key] ?? 0) : (sys.saves?.[key]?.total ?? 0);
+  if (kind === "ability") return (actor.type === "npc") ? (sys.mods?.[key] ?? 0) : (sys.abilities?.[key]?.mod ?? 0);
+  if (kind === "attack") return (actor.type === "npc") ? ((sys.level ?? 0) + (sys.mods?.for ?? 0)) : (sys.attack?.melee ?? 0);
+  // A fixed bonus (the tentacles of a jutsu grapple with +15)
+  if (kind === "fixed") return Number(key) || 0;
+  return 0;
+}
+
+/**
+ * An opposed test against each target (a feint, a contest of wills): the user wins on a higher result (the defender
+ * keeps ties) and the loser gets the contest's block. Returns how many lost, or null without targets.
+ */
+async function contest(item, spec, data) {
+  const actor = item.actor;
+  const c = spec.contest;
+  const foes = targetActors(actor, { who: c.who ?? "enemies" });
+  if (!foes.length) return null;
+  const mine = contestBonus(actor, c.mine);
+  const rows = [];
+  let lost = 0;
+  const label = spec.optionLabel ? `${item.name}: ${spec.optionLabel}` : item.name;
+  for (const foe of foes) {
+    const a = await new Roll(`1d20 + ${mine}`).evaluate();
+    const theirs = contestBonus(foe, c.theirs ?? c.mine);
+    const b = await new Roll(`1d20 + ${theirs}`).evaluate();
+    const win = a.total > b.total;
+    rows.push(`<li>${esc(foe.name)}: ${a.total} × ${b.total} · ${esc(L(win ? "IJ.Maneuver.win" : "IJ.Maneuver.lose"))}</li>`);
+    if (win && c.onWin) { await applyTargetBlock(item, c.onWin, data, foe, label, { duration: c.onWin.duration ?? spec.duration ?? null, optionKey: spec.optionId ?? null }); lost++; }
+  }
+  const { infoCard } = await import("../dice/rolls.mjs");
+  await infoCard({ actor, kind: "info", kanji: "競", title: label, subtitle: `${c.mine} × ${c.theirs ?? c.mine}`, body: `<ul class="ij-applied">${rows.join("")}</ul>` });
+  return lost;
+}
+
+/** A short card: the creature is immune to this source for now. */
+async function immuneNote(actor, source) {
+  const { infoCard } = await import("../dice/rolls.mjs");
+  return infoCard({ actor, kind: "info", kanji: "守", title: source, body: `<p>${esc(game.i18n.format("IJ.Auto.immuneSource", { name: actor.name, what: source }))}</p>` });
+}
+
 /** The heavier outcomes of a block: ability damage, negative levels, PV set, death, dispel. */
 export async function applyOutcomeExtras(actor, spec, data = {}) {
   if (!spec) return;
   const extras = await import("./extras.mjs");
   if (spec.dispel) await extras.dispel(actor);
+  if (spec.cure) await extras.cure(actor, spec.cure === true ? ["disease", "poison"] : spec.cure);
+  if (spec.healAbility) await extras.healAbilityDamage(actor, spec.healAbility, data);
+  if (spec.removeNegativeLevels) await extras.removeNegativeLevels(actor, spec.removeNegativeLevels, data);
+  if (spec.disease) await extras.contractDisease(actor, spec.disease);
   if (spec.abilityDamage) await extras.applyAbilityDamage(actor, spec.abilityDamage, data);
   if (spec.negativeLevels) await extras.applyNegativeLevels(actor, spec.negativeLevels, data);
   if (spec.kill) await extras.kill(actor);
@@ -318,7 +454,7 @@ export function cardButtons(item, spec, data, { extra = 0 } = {}) {
     const label = spec.attack.weapon ? L("IJ.Auto.weaponStrike") : L(`IJ.Jutsu.attack.${spec.attack.type ?? "corpo"}`);
     buttons.push({ ijAction: "autoAttack", label, icon: "fa-solid fa-crosshairs", actor: actor.uuid, item: item.id });
   }
-  if (spec.damage?.formula && actor && !spec.attack?.weapon && (spec.damage.button !== false)) {
+  if (spec.damage?.formula && actor && !spec.attack?.weapon && !spec.attack?.critical && (spec.damage.button !== false)) {
     const formula = resolveFormula(spec.damage.formula, data);
     const label = spec.damage.healing ? game.i18n.format("IJ.Jutsu.healButton", { f: formula })
       : game.i18n.format("IJ.Jutsu.damageButton", { f: formula, type: spec.damage.type ?? "" });
@@ -360,7 +496,7 @@ export async function onHeal(message) {
   const { actor, item, spec, data } = src;
   return rollDamage({
     actor, title: item.name, subtitle: L("IJ.Chat.healing"), kanji: item.type === "jutsu" ? "術" : "能",
-    parts: [{ formula: resolveFormula(spec.heal, data), noCrit: true }],
+    parts: [{ formula: addPowerDice(actor, item, resolveFormula(spec.heal, data), "luz"), noCrit: true }],
     healing: true, magic: item.type === "jutsu" || !!spec.magic, link: { source: message.id }
   });
 }
@@ -418,10 +554,14 @@ export async function onApplyTargets(message) {
 }
 
 /** A save rolled from a card: apply what failing (or passing) brings. */
-export async function onSaveResult(message, actor, success, index = 0) {
+export async function onSaveResult(message, actor, success, index = 0, { total = null, dc = null } = {}) {
   const src = await sourceOf(message);
   if (!src) return;
   const { item, spec, data } = src;
+  // Immune to this source (passed it before; the variant's name counts too)
+  const sourceLabel = spec.optionLabel ? `${item.name}: ${spec.optionLabel}` : item.name;
+  if (immuneTo(actor, item.name) || immuneTo(actor, sourceLabel)) return immuneNote(actor, sourceLabel);
+  const failBy5 = (success === false) && (total !== null) && (dc !== null) && (total <= dc - 5);
   // An extra save of the card: its own outcome only
   if (index > 0) {
     const extra = spec.extraSaves?.[index - 1];
@@ -431,7 +571,11 @@ export async function onSaveResult(message, actor, success, index = 0) {
   }
   const label = spec.optionLabel ? `${item.name}: ${spec.optionLabel}` : item.name;
   const opts = { duration: spec.duration ?? null, optionKey: spec.optionId ?? null };
+  // Failing by 5 or more brings the harder outcome instead (apavorado instead of abalado)
+  const by5 = failBy5 ? (spec.save?.onFailBy5 ?? spec.targets?.save?.onFailBy5 ?? null) : null;
+  if (by5) return applyTargetBlock(item, by5, data, actor, label, opts);
   if (spec.targets?.save && !success) await applyTargetBlock(item, spec.targets, data, actor, label, opts);
+  if (spec.targets?.save?.onSuccess && success) await applyTargetBlock(item, spec.targets.save.onSuccess, data, actor, label, opts);
   const outcome = success ? spec.save?.onSuccess : spec.save?.onFail;
   if (outcome) await applyTargetBlock(item, outcome, data, actor, label, opts);
 }
@@ -440,21 +584,29 @@ export async function onSaveResult(message, actor, success, index = 0) {
  * A save asked by a hit (Ataque Atordoante: Fortitude or stunned): failing applies the option's onHit outcome.
  * @param {ChatMessage} attackMsg  The attack card
  */
-export async function onHitSave(attackMsg, actor, success) {
+export async function onHitSave(attackMsg, actor, success, { save = null, total = null, dc = null } = {}) {
   const atk = attackMsg.flags?.[SYSTEM]?.attack;
   // Only creatures the attack actually hit
   const hit = (atk?.targets ?? []).find(t => t.uuid === actor.uuid);
   if (atk?.targets?.length && !hit?.hit) return;
+  const { isImmune } = await import("./context.mjs");
   for (const h of atk?.onHit ?? []) {
     if (!h.save?.type) continue;
+    // The entry of the save that was rolled
+    if (save && (h.save.type !== save)) continue;
     if (h.critOnly && atk?.targets?.length && !hit?.crit) continue;
-    const outcome = success ? h.onSuccess : (h.onFail ?? { conditions: h.conditions ?? [], duration: h.duration });
+    if (h.natural20 && (atk.natural !== 20)) continue;
+    if (h.critImmuneSkip && isImmune(actor, "critico")) continue;
+    if (immuneTo(actor, h.label)) { await immuneNote(actor, h.label); continue; }
+    const failBy5 = (success === false) && h.onFailBy5 && (total !== null) && (dc !== null) && (total <= dc - 5);
+    const outcome = success ? h.onSuccess : (failBy5 ? h.onFailBy5 : (h.onFail ?? { conditions: h.conditions ?? [], duration: h.duration }));
     if (!outcome) continue;
     for (const c of outcome.conditions ?? []) {
-      await applyCondition(actor, c.id ?? c, { duration: c.duration ?? outcome.duration ?? null, source: h.label });
+      await applyCondition(actor, c, { duration: c.duration ?? outcome.duration ?? null, source: h.label });
     }
+    if (outcome.immuneFor) await grantImmunity(actor, h.label, outcome.immuneFor);
     if (outcome.changes?.length || outcome.traits) {
-      await createEffects(actor, [effectData({ ...outcome, name: h.label, duration: outcome.duration })]);
+      await createEffects(actor, [effectData({ ...outcome, changes: forActor(outcome.changes ?? [], actor), name: h.label, duration: outcome.duration })]);
     }
     await applyOutcomeExtras(actor, outcome, {});
     // Damage of the outcome (Mortal: +5d6 de vácuo for who passes)
@@ -476,7 +628,9 @@ export async function onDamage(message, { alt = false } = {}) {
   const { actor, item, spec, data } = src;
   const dmg = spec.damage;
   const type = alt ? (dmg.alt?.type ?? dmg.type) : dmg.type;
-  const formula = resolveFormula(message.flags[SYSTEM].damageFormula ?? dmg.formula, data);
+  let formula = resolveFormula(message.flags[SYSTEM].damageFormula ?? dmg.formula, data);
+  // Extra dice of the user's rules on this power (Amuleto do dia: +1 dado no canalizar energia)
+  formula = addPowerDice(actor, item, formula, type);
   const save = spec.save ?? spec.targets?.save;
   // An attack rolled from this card decides who is hit (and a save can halve or cancel)
   const attackMsg = game.messages.contents.findLast(m => m.flags?.[SYSTEM]?.touchOf === message.id);
@@ -491,6 +645,6 @@ export async function onDamage(message, { alt = false } = {}) {
     magic: dmg.magic ?? (item.type === "jutsu"),
     ignoreRd: (dmg.ignoreRd === "all") ? Infinity : (dmg.ignoreRd ?? message.flags[SYSTEM].ignoreRd ?? 0),
     maximize: !!message.flags[SYSTEM].maximize,
-    link: { source: message.id, save: save?.type ?? null, half: !!save?.half, negate: !!save?.negate, targets: hits, perTarget: dmg.perTarget ?? null }
+    link: { source: message.id, save: save?.type ?? null, half: !!save?.half, negate: !!save?.negate, targets: hits, perTarget: dmg.perTarget ?? null, drain: dmg.drain ?? null }
   });
 }
