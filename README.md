@@ -62,6 +62,27 @@ medalhões e escudos — com o jade, o ouro e a laca vermelha do Império. As ab
   RD), jutsus que gastam PM e perguntam os PM extras dos aprimoramentos até o limite, habilidades que gastam PM.
 - Iniciativa pela perícia Iniciativa; **descanso** recupera os PM e 1 PV por nível.
 
+### As habilidades fazem sozinhas o que o texto diz
+
+- **Bônus que crescem com o nível** (Esquiva Engenhosa, Passo do Ninja, Fortificação) e bônus de itens equipados,
+  desligados quando a Honra fica abaixo do mínimo ou quando a habilidade pede sem armadura.
+- **Usar** uma habilidade, talento, item ou jutsu: escolhe a variante e os PM, paga PM e usos (por rodada, cena ou dia),
+  aplica o efeito em você (com duração: uma rodada, a cena) e nos alvos marcados, e o cartão traz os botões de ataque,
+  dano e teste de resistência. O teste de quem falhar aplica a condição sozinho.
+- **Opções de rolagem**: ataque furtivo, Ataque Poderoso, Poder Marcial, Golpe Ninja, bônus contra monstros ou contra quem
+  tem Honra menor aparecem no diálogo do ataque (Alt pula o diálogo), já marcadas quando a situação vale.
+- **Ataque contra os alvos marcados**: acerto ou erro contra a CA de cada um (caído, desprevenido, cego e as outras
+  condições do livro contam), crítico, chance de falha; o dano vai só para quem foi atingido.
+- **Dano**: RD (e RD/esmagamento), resistências, imunidades, vulnerabilidade, fortificação contra crítico e ataque
+  furtivo, evasão nos testes de Reflexos, PV temporários primeiro. Quem cai a 0 PV fica inconsciente e sangrando.
+- **Reações**: os botões aparecem na hora certa ("Hoje não" ao falhar num teste, "Duro de Matar" ao cair, "Bateu levou"
+  ao ser atacado, "Vingança" quando um aliado cai).
+- **Condições** no HUD do token, com as penalidades aplicadas; sangramento, confusão e cura acelerada no começo do turno.
+- **Jutsus**: talentos de aprimoramento no diálogo (Maximizado, Irresistível, Acelerado...), reduções de custo dos truques
+  ninjas e do Escolhido Celestial, +2 de CD das Bênçãos, dano do Wu-Jen de Batalha.
+- **Escolhas** na ficha da habilidade (estilo de combate, opções da Extorsão, elemento do mashin): os talentos e efeitos
+  da escolha chegam sozinhos. O mestre encerra a cena pelo botão da ampulheta nos controles de token.
+
 ### Dicas
 
 - O **pincel** no alto do trilho liga o **modo de edição** (valores base, bônus, treinos, nível, PV/PM sem classe).

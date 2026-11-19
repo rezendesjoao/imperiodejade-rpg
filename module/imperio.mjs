@@ -9,11 +9,13 @@ import { ITEM_MODELS } from "./data/items.mjs";
 import { ImperioActor } from "./documents/actor.mjs";
 import { ImperioItem } from "./documents/item.mjs";
 import { ImperioActiveEffect } from "./documents/active-effect.mjs";
+import { ImperioCombatant } from "./documents/combatant.mjs";
 import { CharacterSheet } from "./sheets/character-sheet.mjs";
 import { NpcSheet } from "./sheets/npc-sheet.mjs";
 import { ItemSheet } from "./sheets/item-sheet.mjs";
 import { registerChatListeners, signed, applyDamage } from "./dice/rolls.mjs";
 import { bookText, registerBookTextSetting, loadBookTextFile } from "./book-text.mjs";
+import * as auto from "./auto/index.mjs";
 
 const PARTIALS = {
   "ij-shield": `systems/${SYSTEM_ID}/templates/partials/shield.hbs`,
@@ -29,6 +31,7 @@ Hooks.once("init", () => {
   CONFIG.Actor.documentClass = ImperioActor;
   CONFIG.Item.documentClass = ImperioItem;
   CONFIG.ActiveEffect.documentClass = ImperioActiveEffect;
+  CONFIG.Combatant.documentClass = ImperioCombatant;
   CONFIG.Actor.dataModels.character = CharacterData;
   CONFIG.Actor.dataModels.npc = NpcData;
   Object.assign(CONFIG.Item.dataModels, ITEM_MODELS);
@@ -52,13 +55,33 @@ Hooks.once("init", () => {
 
   // Macros and other modules
   // bookText: the original wording of the rules, only when a local module built from the player's own book fills it
-  game[SYSTEM_ID] = { config: IJ, applyDamage, bookText };
+  // auto: the automation engine (conditions, effects, attacks, damage); endScene for the GM's macro
+  game[SYSTEM_ID] = { config: IJ, applyDamage, bookText, auto, endScene: auto.endScene };
   registerBookTextSetting();
+  auto.registerAutomation();
 
   registerChatListeners();
 });
 
 Hooks.once("setup", () => loadBookTextFile());
+
+Hooks.once("ready", () => auto.readyAutomation());
+
+/** The GM's "Encerrar cena" in the token controls: scene effects end, uses per scene come back. */
+Hooks.on("getSceneControlButtons", controls => {
+  if (!game.user?.isGM) return;
+  const tokens = controls.tokens ?? controls.token;
+  if (!tokens?.tools) return;
+  tokens.tools.ijEndScene = {
+    name: "ijEndScene",
+    title: "IJ.Auto.endScene",
+    icon: "fa-solid fa-hourglass-end",
+    order: Object.keys(tokens.tools).length,
+    button: true,
+    visible: true,
+    onChange: () => auto.endScene()
+  };
+});
 
 Hooks.once("ready", () => {
   console.log(`${SYSTEM_ID} | pronto`);

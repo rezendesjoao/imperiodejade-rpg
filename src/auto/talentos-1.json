@@ -1,0 +1,1293 @@
+{
+  "_sobre": "Automação dos talentos de src/data/feats-a.json (docs/automacao.md). A chave é o nome do talento. Esquiva já tem o efeito no próprio dado (effects), por isso o bloco fica vazio.",
+  "Acerto Crítico Aprimorado": {
+    "choice": {
+      "label": "Arma escolhida",
+      "text": "Arma"
+    },
+    "rollOptions": [
+      {
+        "id": "critico",
+        "label": "Acerto crítico aprimorado",
+        "critRange": 2,
+        "filter": {
+          "chosenWeapon": true
+        },
+        "locked": true
+      }
+    ]
+  },
+  "Acuidade com Arma": {
+    "traits": {
+      "finesse": true
+    }
+  },
+  "Agarrar Aprimorado": {
+    "rollOptions": [
+      {
+        "id": "agarrar",
+        "label": "Manobra agarrar",
+        "attack": 4,
+        "filter": {
+          "melee": true
+        },
+        "optional": true
+      }
+    ]
+  },
+  "Aparar": {
+    "reactions": [
+      {
+        "on": "attacked",
+        "melee": true,
+        "label": "Aparar",
+        "cost": 1,
+        "effect": "opposedAttack"
+      }
+    ],
+    "status": "parcial",
+    "notes": "Só com arma beneficiada por Acuidade com Arma; confira na mesa."
+  },
+  "Arma Elemental": {
+    "activation": {
+      "cost": 1,
+      "action": "livre",
+      "duration": {
+        "value": 1,
+        "unit": "rodada"
+      },
+      "note": "Use a energia escolhida na sua cura elemental.",
+      "options": [
+        {
+          "id": "fogo",
+          "label": "Fogo",
+          "self": {
+            "rollOptions": [
+              {
+                "id": "elemental",
+                "label": "Arma elemental (fogo)",
+                "damage": "1d6",
+                "type": "fogo",
+                "noCrit": true,
+                "locked": true
+              }
+            ]
+          }
+        },
+        {
+          "id": "frio",
+          "label": "Frio",
+          "self": {
+            "rollOptions": [
+              {
+                "id": "elemental",
+                "label": "Arma elemental (frio)",
+                "damage": "1d6",
+                "type": "frio",
+                "noCrit": true,
+                "locked": true
+              }
+            ]
+          }
+        },
+        {
+          "id": "vento",
+          "label": "Vento",
+          "self": {
+            "rollOptions": [
+              {
+                "id": "elemental",
+                "label": "Arma elemental (vento)",
+                "damage": "1d6",
+                "type": "vento",
+                "noCrit": true,
+                "locked": true
+              }
+            ]
+          }
+        },
+        {
+          "id": "acido",
+          "label": "Ácido",
+          "self": {
+            "rollOptions": [
+              {
+                "id": "elemental",
+                "label": "Arma elemental (ácido)",
+                "damage": "1d6",
+                "type": "acido",
+                "noCrit": true,
+                "locked": true
+              }
+            ]
+          }
+        },
+        {
+          "id": "eletricidade",
+          "label": "Eletricidade",
+          "self": {
+            "rollOptions": [
+              {
+                "id": "elemental",
+                "label": "Arma elemental (eletricidade)",
+                "damage": "1d6",
+                "type": "eletricidade",
+                "noCrit": true,
+                "locked": true
+              }
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "Arma Exagerada": {
+    "status": "narrativo",
+    "notes": "Use armas de criatura Grande sem penalidade; ajuste o dano na arma."
+  },
+  "Arma Implantada": {
+    "status": "narrativo"
+  },
+  "Ataque Atordoante": {
+    "rollOptions": [
+      {
+        "id": "basico",
+        "label": "Ataque atordoante (CD 15)",
+        "cost": 1,
+        "filter": {
+          "unarmed": true
+        },
+        "optional": true,
+        "onHit": {
+          "save": {
+            "type": "fort",
+            "dc": 15
+          },
+          "conditions": [
+            {
+              "id": "atordoado",
+              "duration": {
+                "value": 1,
+                "unit": "rodada"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "id": "mediano",
+        "label": "Ataque atordoante (CD 18, PM de mediano)",
+        "cost": 3,
+        "filter": {
+          "unarmed": true
+        },
+        "optional": true,
+        "onHit": {
+          "save": {
+            "type": "fort",
+            "dc": 18
+          },
+          "conditions": [
+            {
+              "id": "atordoado",
+              "duration": {
+                "value": 1,
+                "unit": "rodada"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "id": "avancado",
+        "label": "Ataque atordoante (CD 22, PM de avançado)",
+        "cost": 6,
+        "filter": {
+          "unarmed": true
+        },
+        "optional": true,
+        "onHit": {
+          "save": {
+            "type": "fort",
+            "dc": 22
+          },
+          "conditions": [
+            {
+              "id": "atordoado",
+              "duration": {
+                "value": 1,
+                "unit": "rodada"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "id": "sublime",
+        "label": "Ataque atordoante (CD 25, PM de sublime)",
+        "cost": 10,
+        "filter": {
+          "unarmed": true
+        },
+        "optional": true,
+        "onHit": {
+          "save": {
+            "type": "fort",
+            "dc": 25
+          },
+          "conditions": [
+            {
+              "id": "atordoado",
+              "duration": {
+                "value": 1,
+                "unit": "rodada"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "id": "lendario",
+        "label": "Ataque atordoante (CD 28, PM de lendário)",
+        "cost": 15,
+        "filter": {
+          "unarmed": true
+        },
+        "optional": true,
+        "onHit": {
+          "save": {
+            "type": "fort",
+            "dc": 28
+          },
+          "conditions": [
+            {
+              "id": "atordoado",
+              "duration": {
+                "value": 1,
+                "unit": "rodada"
+              }
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "Ataque Desarmado Aprimorado": {
+    "traits": {
+      "unarmed": "1d4"
+    }
+  },
+  "Ataque Duplo": {
+    "choice": {
+      "label": "Arma escolhida (a do Foco em Arma)",
+      "text": "Arma"
+    },
+    "rollOptions": [
+      {
+        "id": "duplo",
+        "label": "Ataque duplo",
+        "cost": 2,
+        "filter": {
+          "chosenWeapon": true
+        },
+        "optional": true,
+        "extraAttack": true,
+        "note": "um ataque extra com a mesma arma"
+      }
+    ]
+  },
+  "Ataque em Movimento": {
+    "status": "narrativo"
+  },
+  "Ataque Giratório": {
+    "status": "narrativo",
+    "notes": "Troca os ataques por um ataque contra cada oponente ao seu alcance."
+  },
+  "Ataque Poderoso": {
+    "rollOptions": [
+      {
+        "id": "poderoso",
+        "label": "Ataque poderoso",
+        "attack": -2,
+        "damage": 4,
+        "filter": {
+          "melee": true
+        },
+        "optional": true,
+        "pm": {
+          "max": "@pmLimit",
+          "damage": 2
+        }
+      }
+    ]
+  },
+  "Ataque Preciso": {
+    "traits": {
+      "finesseDamage": true
+    }
+  },
+  "Atropelar Aprimorado": {
+    "rollOptions": [
+      {
+        "id": "atropelar",
+        "label": "Manobra atropelar",
+        "attack": 4,
+        "filter": {
+          "melee": true
+        },
+        "optional": true,
+        "note": "o alvo não pode se desviar"
+      }
+    ],
+    "status": "parcial",
+    "notes": "A mesa impede o alvo de se desviar."
+  },
+  "Auxílio de Mira": {
+    "activation": {
+      "cost": 1,
+      "action": "livre",
+      "duration": {
+        "value": 1,
+        "unit": "rodada"
+      },
+      "self": {
+        "rollOptions": [
+          {
+            "id": "mira",
+            "label": "Auxílio de mira",
+            "critRange": 1,
+            "filter": {
+              "ranged": true
+            },
+            "locked": true
+          }
+        ]
+      }
+    }
+  },
+  "Blindagem": {
+    "choice": {
+      "label": "Tipo da armadura instalada",
+      "count": 1,
+      "options": [
+        {
+          "id": "leve",
+          "label": "Leve (25%)",
+          "traits": {
+            "fortification": 25
+          }
+        },
+        {
+          "id": "media",
+          "label": "Média (75%)",
+          "traits": {
+            "fortification": 75
+          }
+        },
+        {
+          "id": "pesada",
+          "label": "Pesada (100%)",
+          "traits": {
+            "fortification": 100
+          }
+        }
+      ]
+    },
+    "notes": "Marque o tipo da armadura instalada; vesti-la ou recolhê-la é ação livre.",
+    "requires": {
+      "armorChosen": true
+    }
+  },
+  "Bloqueio Ambidestro": {
+    "activation": {
+      "duration": {
+        "value": 1,
+        "unit": "rodada"
+      },
+      "note": "Use ao atacar com Combater com Duas Armas.",
+      "self": {
+        "changes": [
+          {
+            "key": "system.attributes.ca.bonus",
+            "value": 2
+          }
+        ]
+      }
+    }
+  },
+  "Campo de Força": {
+    "grants": [
+      {
+        "name": "Mandala-escudo",
+        "type": "jutsu"
+      }
+    ]
+  },
+  "Casca Grossa": {
+    "traits": {
+      "conToCa": true
+    }
+  },
+  "Combate Montado": {
+    "reactions": [
+      {
+        "on": "attacked",
+        "label": "Combate montado (montaria)",
+        "cost": 1,
+        "effect": "opposedSkill",
+        "skill": "cavalgar"
+      }
+    ],
+    "status": "parcial",
+    "notes": "Protege a montaria; o botão só aparece em ataques contra você."
+  },
+  "Combater com Duas Armas": {
+    "rollOptions": [
+      {
+        "id": "duasArmas",
+        "label": "Combater com duas armas (–4)",
+        "attack": -4,
+        "optional": true,
+        "note": "um ataque com cada arma; marque nos dois"
+      }
+    ]
+  },
+  "Combater com Duas Armas Aprimorado": {
+    "rollOptions": [
+      {
+        "id": "duasArmas",
+        "label": "Combater com duas armas aprimorado (–2)",
+        "attack": -2,
+        "optional": true,
+        "note": "no lugar da opção de –4; marque nos dois ataques"
+      }
+    ]
+  },
+  "Combater com Duas Armas Maior": {
+    "rollOptions": [
+      {
+        "id": "duasArmas",
+        "label": "Combater com duas armas maior (sem penalidade)",
+        "optional": true,
+        "note": "no lugar das opções de –4 e –2"
+      }
+    ]
+  },
+  "Derrubar Aprimorado": {
+    "rollOptions": [
+      {
+        "id": "derrubar",
+        "label": "Manobra derrubar",
+        "attack": 4,
+        "filter": {
+          "melee": true
+        },
+        "optional": true
+      }
+    ]
+  },
+  "Desarmar Aprimorado": {
+    "rollOptions": [
+      {
+        "id": "desarmar",
+        "label": "Manobra desarmar",
+        "attack": 4,
+        "filter": {
+          "melee": true
+        },
+        "optional": true
+      }
+    ]
+  },
+  "Desbastar": {
+    "activation": {
+      "variable": {
+        "min": 1,
+        "max": 20,
+        "label": "Mordidas que já acertaram o alvo na cena",
+        "costPer": 0
+      },
+      "note": "Marque o alvo mordido; a penalidade nova (o total) substitui a anterior.",
+      "targets": {
+        "who": "enemies",
+        "duration": {
+          "unit": "cena"
+        },
+        "changes": [
+          {
+            "key": "system.attributes.ca.bonus",
+            "value": "-@spent"
+          }
+        ]
+      }
+    }
+  },
+  "Desviar Objetos": {
+    "reactions": [
+      {
+        "on": "attacked",
+        "ranged": true,
+        "label": "Desviar objetos",
+        "cost": 1,
+        "effect": "opposedAttack"
+      },
+      {
+        "on": "attacked",
+        "ranged": true,
+        "label": "Desviar objetos: devolver",
+        "cost": 2,
+        "effect": "note",
+        "note": "Agarrou a arma arremessada: ataque o oponente com ela, como reação."
+      }
+    ],
+    "status": "parcial",
+    "notes": "Exige mão livre; não vale contra jutsus. Role à parte o ataque de volta."
+  },
+  "Duro de Matar": {
+    "reactions": [
+      {
+        "on": "dropToZero",
+        "label": "Duro de matar",
+        "cost": 4,
+        "effect": "negateDamage"
+      }
+    ]
+  },
+  "Empunhadura Poderosa": {
+    "status": "narrativo",
+    "notes": "Arma uma categoria maior: –2 no ataque, não –4; ajuste na ficha da arma."
+  },
+  "Empurrar Aprimorado": {
+    "rollOptions": [
+      {
+        "id": "empurrar",
+        "label": "Manobra empurrar",
+        "attack": 4,
+        "filter": {
+          "melee": true
+        },
+        "optional": true
+      }
+    ]
+  },
+  "Especialização em Arma": {
+    "choice": {
+      "label": "Arma escolhida",
+      "text": "Arma"
+    },
+    "rollOptions": [
+      {
+        "id": "especializacao",
+        "label": "Especialização em arma",
+        "damage": 2,
+        "filter": {
+          "chosenWeapon": true
+        },
+        "locked": true
+      }
+    ]
+  },
+  "Especialização em Arma Aprimorada": {
+    "choice": {
+      "label": "Arma escolhida",
+      "text": "Arma"
+    },
+    "rollOptions": [
+      {
+        "id": "especializacao",
+        "label": "Especialização em arma aprimorada",
+        "damage": 2,
+        "filter": {
+          "chosenWeapon": true
+        },
+        "locked": true
+      }
+    ]
+  },
+  "Especialização em Armadura": {
+    "choice": {
+      "label": "Tipo de armadura",
+      "count": 1,
+      "options": [
+        {
+          "id": "leve",
+          "label": "Leve",
+          "passive": [
+            {
+              "key": "system.attributes.rd",
+              "value": 2
+            }
+          ]
+        },
+        {
+          "id": "media",
+          "label": "Média",
+          "passive": [
+            {
+              "key": "system.attributes.rd",
+              "value": 2
+            }
+          ]
+        },
+        {
+          "id": "pesada",
+          "label": "Pesada",
+          "passive": [
+            {
+              "key": "system.attributes.rd",
+              "value": 2
+            }
+          ]
+        }
+      ]
+    },
+    "requires": {
+      "armorChosen": true
+    }
+  },
+  "Especialização em Combate": {
+    "activation": {
+      "duration": {
+        "value": 1,
+        "unit": "rodada"
+      },
+      "note": "Use antes de atacar corpo a corpo: –2 no ataque, +4 na CA até o próximo turno.",
+      "self": {
+        "changes": [
+          {
+            "key": "system.attributes.attack.melee",
+            "value": -2
+          },
+          {
+            "key": "system.attributes.ca.bonus",
+            "value": 4
+          }
+        ]
+      }
+    }
+  },
+  "Esquiva": {},
+  "Foco em Arma": {
+    "choice": {
+      "label": "Arma escolhida",
+      "text": "Arma"
+    },
+    "rollOptions": [
+      {
+        "id": "foco",
+        "label": "Foco em arma",
+        "attack": 1,
+        "filter": {
+          "chosenWeapon": true
+        },
+        "locked": true
+      }
+    ]
+  },
+  "Foco em Arma Aprimorado": {
+    "choice": {
+      "label": "Arma escolhida",
+      "text": "Arma"
+    },
+    "rollOptions": [
+      {
+        "id": "foco",
+        "label": "Foco em arma aprimorado",
+        "attack": 1,
+        "filter": {
+          "chosenWeapon": true
+        },
+        "locked": true
+      }
+    ]
+  },
+  "Foco em Armadura": {
+    "choice": {
+      "label": "Tipo de armadura",
+      "count": 1,
+      "options": [
+        {
+          "id": "leve",
+          "label": "Leve",
+          "passive": [
+            {
+              "key": "system.attributes.ca.bonus",
+              "value": 1
+            },
+            {
+              "key": "system.attributes.armorPenaltyMod",
+              "value": 1
+            }
+          ]
+        },
+        {
+          "id": "media",
+          "label": "Média",
+          "passive": [
+            {
+              "key": "system.attributes.ca.bonus",
+              "value": 1
+            },
+            {
+              "key": "system.attributes.armorPenaltyMod",
+              "value": 1
+            }
+          ]
+        },
+        {
+          "id": "pesada",
+          "label": "Pesada",
+          "passive": [
+            {
+              "key": "system.attributes.ca.bonus",
+              "value": 1
+            },
+            {
+              "key": "system.attributes.armorPenaltyMod",
+              "value": 1
+            }
+          ]
+        }
+      ]
+    },
+    "requires": {
+      "armorChosen": true
+    }
+  },
+  "Golpe com Duas Mãos": {
+    "traits": {
+      "twoHandedStrength": true
+    }
+  },
+  "Honra Suprema": {
+    "rollOptions": [
+      {
+        "id": "honra",
+        "label": "Honra suprema",
+        "attack": 1,
+        "damage": 1,
+        "when": "vsLowerHonor",
+        "locked": true,
+        "strict": true
+      }
+    ],
+    "traits": {
+      "defense": [
+        {
+          "value": 1,
+          "when": "vsLowerHonor",
+          "label": "Honra suprema"
+        }
+      ]
+    }
+  },
+  "Infinita Munição": {
+    "status": "narrativo"
+  },
+  "Investida Implacável": {
+    "rollOptions": [
+      {
+        "id": "investida",
+        "label": "Investida montada",
+        "filter": {
+          "melee": true
+        },
+        "optional": true,
+        "note": "dano dobrado"
+      }
+    ],
+    "status": "parcial",
+    "notes": "O sistema não dobra o dano: dobre o total na mesa."
+  },
+  "Lutar às Cegas": {
+    "status": "narrativo",
+    "notes": "Role de novo a chance de falha; inimigos que não vê não o deixam desprevenido."
+  },
+  "Mestre em Arma": {
+    "choice": {
+      "label": "Arma escolhida",
+      "text": "Arma"
+    },
+    "rollOptions": [
+      {
+        "id": "mestre",
+        "label": "Mestre em arma",
+        "attack": 1,
+        "damage": 1,
+        "critRange": 1,
+        "critMult": 1,
+        "filter": {
+          "chosenWeapon": true
+        },
+        "locked": true
+      }
+    ],
+    "activation": {
+      "cost": 4,
+      "note": "Repita a jogada de ataque que acabou de fazer; vale o segundo resultado."
+    },
+    "status": "parcial",
+    "notes": "Depois de pagar, role de novo o ataque; vale o segundo resultado."
+  },
+  "Mira Apurada": {
+    "activation": {
+      "action": "movimento",
+      "duration": {
+        "value": 1,
+        "unit": "rodada"
+      },
+      "note": "O bônus vale só contra o alvo mirado.",
+      "self": {
+        "rollOptions": [
+          {
+            "id": "mira",
+            "label": "Mira apurada (alvo mirado)",
+            "attack": 1,
+            "filter": {
+              "ranged": true
+            }
+          }
+        ]
+      }
+    }
+  },
+  "Mira Mortal": {
+    "rollOptions": [
+      {
+        "id": "mortal",
+        "label": "Mira mortal",
+        "critRange": 1,
+        "filter": {
+          "ranged": true
+        },
+        "locked": true
+      }
+    ]
+  },
+  "Mobilidade": {
+    "activation": {
+      "duration": {
+        "value": 1,
+        "unit": "rodada"
+      },
+      "note": "Use ao gastar uma ação de movimento para se deslocar.",
+      "self": {
+        "changes": [
+          {
+            "key": "system.attributes.ca.bonus",
+            "value": 2
+          }
+        ]
+      }
+    }
+  },
+  "Mordida de Rato": {
+    "rollOptions": [
+      {
+        "id": "mordida",
+        "label": "Mordida como ataque extra",
+        "attack": -4,
+        "filter": {
+          "melee": true
+        },
+        "optional": true,
+        "note": "–4 no ataque e na mordida; marque nos dois"
+      }
+    ],
+    "status": "parcial",
+    "notes": "Crie a mordida (arma natural, 1d4) na ficha."
+  },
+  "Na Mosca": {
+    "traits": {
+      "rangedDexDamage": true
+    }
+  },
+  "Pisotear": {
+    "status": "narrativo",
+    "notes": "Montado, o alvo do atropelar não se desvia; ataque livre contra quem derrubar."
+  },
+  "Rapidez de Recarga": {
+    "status": "narrativo"
+  },
+  "Reflexos de Combate": {
+    "activation": {
+      "cost": 1,
+      "action": "livre",
+      "note": "Ataque corpo a corpo um oponente desprevenido ao seu alcance."
+    }
+  },
+  "Saque Rápido": {
+    "activation": {
+      "action": "livre",
+      "options": [
+        {
+          "id": "primeiro",
+          "label": "Sacar ou guardar (primeira vez na rodada)",
+          "cost": 0
+        },
+        {
+          "id": "outro",
+          "label": "Sacar ou guardar de novo na rodada",
+          "cost": 1
+        }
+      ]
+    },
+    "status": "parcial",
+    "notes": "Sacar como reação pede um teste de Iniciativa CD 30, rolado à parte."
+  },
+  "Separar Aprimorado": {
+    "rollOptions": [
+      {
+        "id": "separar",
+        "label": "Manobra separar",
+        "attack": 4,
+        "filter": {
+          "melee": true
+        },
+        "optional": true,
+        "note": "dano dobrado contra objetos"
+      }
+    ],
+    "status": "parcial",
+    "notes": "O dano dobrado contra objetos fica com a mesa."
+  },
+  "Tiro Certeiro": {
+    "rollOptions": [
+      {
+        "id": "certeiro",
+        "label": "Tiro certeiro (alvo a até 9m)",
+        "attack": 1,
+        "damage": 1,
+        "filter": {
+          "ranged": true
+        },
+        "optional": true
+      }
+    ]
+  },
+  "Tiro em Movimento": {
+    "status": "narrativo"
+  },
+  "Tiro Longo": {
+    "status": "narrativo",
+    "notes": "Dobre o alcance das armas à distância ao medir."
+  },
+  "Tiro Montado": {
+    "rollOptions": [
+      {
+        "id": "montado",
+        "label": "Montaria se moveu (Tiro montado)",
+        "attack": -2,
+        "filter": {
+          "ranged": true
+        },
+        "optional": true,
+        "note": "no lugar da penalidade de –4"
+      }
+    ]
+  },
+  "Tiro Múltiplo": {
+    "rollOptions": [
+      {
+        "id": "multiplo",
+        "label": "Tiro múltiplo (arma de disparo, até 9m)",
+        "cost": 2,
+        "filter": {
+          "ranged": true
+        },
+        "optional": true,
+        "extraAttack": true,
+        "note": "um ataque extra contra o mesmo alvo"
+      }
+    ]
+  },
+  "Tiro Preciso": {
+    "status": "narrativo",
+    "notes": "Sem a penalidade de –4 ao atirar em quem está em corpo a corpo."
+  },
+  "Tiro Preciso Aprimorado": {
+    "status": "narrativo",
+    "notes": "Ignora cobertura e camuflagem não totais; no agarrar, acerta quem escolher."
+  },
+  "Tiro Rápido": {
+    "rollOptions": [
+      {
+        "id": "rapido",
+        "label": "Tiro rápido (ação completa)",
+        "cost": 2,
+        "filter": {
+          "ranged": true
+        },
+        "optional": true,
+        "extraAttack": true,
+        "note": "um ataque extra à distância"
+      }
+    ]
+  },
+  "Trespassar": {
+    "activation": {
+      "cost": 1,
+      "action": "livre",
+      "note": "Um inimigo caiu: ataque outra criatura ao alcance com os mesmos bônus."
+    },
+    "status": "parcial",
+    "notes": "Repita à mão os bônus do ataque anterior, sem pagar de novo."
+  },
+  "Trespassar Aprimorado": {
+    "activation": {
+      "cost": 1,
+      "action": "livre",
+      "note": "Avance 1,5m antes do ataque extra de Trespassar."
+    }
+  },
+  "Usar Armas Simples": {
+    "traits": {
+      "proficiency": [
+        "simples"
+      ]
+    }
+  },
+  "Usar Armas Marciais": {
+    "traits": {
+      "proficiency": [
+        "marcial"
+      ]
+    }
+  },
+  "Usar Arma Exótica": {
+    "choice": {
+      "label": "Arma",
+      "count": 1,
+      "options": [
+        {
+          "id": "chakram",
+          "label": "Chakram",
+          "traits": {
+            "exotic": [
+              "chakram"
+            ]
+          }
+        },
+        {
+          "id": "chicote",
+          "label": "Chicote",
+          "traits": {
+            "exotic": [
+              "chicote"
+            ]
+          }
+        },
+        {
+          "id": "chuan",
+          "label": "Chuan",
+          "traits": {
+            "exotic": [
+              "chuan"
+            ]
+          }
+        },
+        {
+          "id": "corrente",
+          "label": "Corrente",
+          "traits": {
+            "exotic": [
+              "corrente"
+            ]
+          }
+        },
+        {
+          "id": "granada",
+          "label": "Granada",
+          "traits": {
+            "exotic": [
+              "granada"
+            ]
+          }
+        },
+        {
+          "id": "jian",
+          "label": "Jian",
+          "traits": {
+            "exotic": [
+              "jian"
+            ]
+          }
+        },
+        {
+          "id": "kakkodai",
+          "label": "Kakko'dai",
+          "traits": {
+            "exotic": [
+              "kakko'dai",
+              "kakkodai"
+            ]
+          }
+        },
+        {
+          "id": "katana",
+          "label": "Katana",
+          "traits": {
+            "exotic": [
+              "katana"
+            ]
+          }
+        },
+        {
+          "id": "kusarigama",
+          "label": "Kusari-gama",
+          "traits": {
+            "exotic": [
+              "kusari-gama",
+              "kusarigama"
+            ]
+          }
+        },
+        {
+          "id": "lajatang",
+          "label": "Lajatang",
+          "traits": {
+            "exotic": [
+              "lajatang"
+            ]
+          }
+        },
+        {
+          "id": "leque",
+          "label": "Leque",
+          "traits": {
+            "exotic": [
+              "leque"
+            ]
+          }
+        },
+        {
+          "id": "rede",
+          "label": "Rede",
+          "traits": {
+            "exotic": [
+              "rede"
+            ]
+          }
+        },
+        {
+          "id": "sansetsukon",
+          "label": "Sansetsukon",
+          "traits": {
+            "exotic": [
+              "sansetsukon"
+            ]
+          }
+        },
+        {
+          "id": "shuriken",
+          "label": "Shuriken",
+          "traits": {
+            "exotic": [
+              "shuriken"
+            ]
+          }
+        },
+        {
+          "id": "zanbatou",
+          "label": "Zanbatou",
+          "traits": {
+            "exotic": [
+              "zanbato"
+            ]
+          }
+        },
+        {
+          "id": "jitte",
+          "label": "Jitte",
+          "hint": "Marcial: escolha do monge ou do ninja",
+          "traits": {
+            "exotic": [
+              "jitte"
+            ]
+          }
+        },
+        {
+          "id": "nekote",
+          "label": "Neko-te",
+          "hint": "Marcial: escolha do monge ou do ninja",
+          "traits": {
+            "exotic": [
+              "neko-te",
+              "nekote"
+            ]
+          }
+        },
+        {
+          "id": "nunchaku",
+          "label": "Nunchaku",
+          "hint": "Marcial: escolha do monge ou do ninja",
+          "traits": {
+            "exotic": [
+              "nunchaku"
+            ]
+          }
+        },
+        {
+          "id": "sai",
+          "label": "Sai",
+          "hint": "Marcial: escolha do monge ou do ninja",
+          "traits": {
+            "exotic": [
+              "sai"
+            ]
+          }
+        },
+        {
+          "id": "tonfa",
+          "label": "Tonfa",
+          "hint": "Marcial: escolha do monge ou do ninja",
+          "traits": {
+            "exotic": [
+              "tonfa"
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "Usar Armaduras Leves": {
+    "traits": {
+      "proficiency": [
+        "leve"
+      ]
+    }
+  },
+  "Usar Armaduras Médias": {
+    "traits": {
+      "proficiency": [
+        "media"
+      ]
+    }
+  },
+  "Usar Armaduras Pesadas": {
+    "traits": {
+      "proficiency": [
+        "pesada"
+      ]
+    }
+  },
+  "Usar Escudos": {
+    "traits": {
+      "proficiency": [
+        "escudo"
+      ]
+    }
+  },
+  "Usar Venenos": {
+    "status": "narrativo",
+    "notes": "Escolher o talento é violação de honra severa: aplique a perda na ficha."
+  },
+  "Vitalidade": {
+    "passive": [
+      {
+        "key": "system.attributes.pv.bonus",
+        "value": "@nivel"
+      }
+    ]
+  }
+}

@@ -28,8 +28,27 @@
       {{#if (eq success true)}}<span class="ij-card__flag ij-card__flag--success">{{localize "IJ.Roll.success"}}</span>{{/if}}
       {{#if (eq success false)}}<span class="ij-card__flag ij-card__flag--fumble">{{localize "IJ.Roll.failure"}}</span>{{/if}}
     </div>
+    {{#if breakdown}}<p class="ij-card__breakdown">{{breakdown}}</p>{{/if}}
     {{#if parts.length}}
     <ul class="ij-card__parts">{{#each parts as |p|}}<li><span>{{p.label}}</span><strong>{{p.value}}</strong></li>{{/each}}</ul>
+    {{/if}}
+    {{#if options.length}}
+    <ul class="ij-card__options">{{#each options as |o|}}<li><i class="fa-solid fa-circle-check"></i> <span>{{o.label}}</span>{{#if o.tag}} <em>{{o.tag}}</em>{{/if}}</li>{{/each}}</ul>
+    {{/if}}
+    {{#if targets.length}}
+    <ul class="ij-card__targets">
+      {{#each targets as |t|}}
+      <li class="ij-target {{#if t.crit}}crit{{else if t.hit}}hit{{else}}miss{{/if}}">
+        <span class="ij-target__name">{{t.name}}</span>
+        <span class="ij-target__vs">{{t.value}} × {{t.defense}} {{t.ca}}</span>
+        <strong class="ij-target__result">{{t.hitLabel}}</strong>
+        {{#if t.notes}}<span class="ij-target__notes">{{t.notes}}</span>{{/if}}
+      </li>
+      {{/each}}
+    </ul>
+    {{/if}}
+    {{#if lines.length}}
+    <ul class="ij-card__lines">{{#each lines as |l|}}<li>{{l}}</li>{{/each}}</ul>
     {{/if}}
     <div class="ij-card__dice">{{{dice}}}</div>
   {{/if}}
@@ -37,7 +56,7 @@
   {{#if buttons.length}}
   <div class="ij-card__buttons">
     {{#each buttons as |b|}}
-    <button type="button" class="ij-card__button {{#if b.critical}}ij-card__button--crit{{/if}}" data-ij-action="{{b.ijAction}}" data-actor="{{b.actor}}" data-item="{{b.item}}" data-crit="{{b.crit}}" data-extra="{{b.extra}}" data-save="{{b.save}}" data-dc="{{b.dc}}" data-source="{{b.source}}">
+    <button type="button" class="ij-card__button {{#if b.critical}}ij-card__button--crit{{/if}}" data-ij-action="{{b.ijAction}}" data-actor="{{b.actor}}" data-item="{{b.item}}" data-crit="{{b.crit}}" data-extra="{{b.extra}}" data-save="{{b.save}}" data-dc="{{b.dc}}" data-source="{{b.source}}" data-alt="{{b.alt}}" data-on="{{b.on}}" data-index="{{b.index}}" data-payload="{{b.payload}}">
       <i class="{{b.icon}}"></i> {{b.label}}
     </button>
     {{/each}}
@@ -47,11 +66,11 @@
   {{#if apply}}
   <div class="ij-card__buttons ij-card__buttons--apply">
     {{#if healing}}
-    <button type="button" class="ij-card__button" data-ij-action="apply" data-amount="-{{amount}}"><i class="fa-solid fa-heart"></i> {{localize "IJ.Chat.applyHeal"}}</button>
+    <button type="button" class="ij-card__button" data-ij-action="applyCard" data-tooltip="{{localize 'IJ.Chat.applyHealTip'}}"><i class="fa-solid fa-heart"></i> {{localize "IJ.Chat.applyHeal"}}</button>
     {{else}}
-    <button type="button" class="ij-card__button" data-ij-action="apply" data-amount="{{amount}}" data-physical="{{physical}}" data-tooltip="{{localize 'IJ.Chat.applyTip'}}"><i class="fa-solid fa-droplet"></i> {{localize "IJ.Chat.apply"}}</button>
-    <button type="button" class="ij-card__button" data-ij-action="apply" data-amount="{{amount}}" data-physical="false" data-tooltip="{{localize 'IJ.Chat.applyRawTip'}}"><i class="fa-solid fa-bolt"></i> {{localize "IJ.Chat.applyRaw"}}</button>
-    <button type="button" class="ij-card__button" data-ij-action="apply" data-amount="-{{amount}}" data-tooltip="{{localize 'IJ.Chat.applyHealTip'}}"><i class="fa-solid fa-heart"></i></button>
+    <button type="button" class="ij-card__button" data-ij-action="applyCard" data-tooltip="{{localize 'IJ.Auto.applyTip'}}"><i class="fa-solid fa-droplet"></i> {{localize "IJ.Chat.apply"}}</button>
+    <button type="button" class="ij-card__button" data-ij-action="applyHalf" data-tooltip="{{localize 'IJ.Auto.applyHalfTip'}}"><i class="fa-solid fa-shield-halved"></i> {{localize "IJ.Auto.half"}}</button>
+    {{#if half}}<button type="button" class="ij-card__button" data-ij-action="applyFull" data-tooltip="{{localize 'IJ.Auto.applyFullTip'}}"><i class="fa-solid fa-bolt"></i> {{localize "IJ.Auto.full"}}</button>{{/if}}
     {{/if}}
   </div>
   {{/if}}

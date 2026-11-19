@@ -36,7 +36,12 @@
         {{#if editMode}}
         <label class="ij-npc-field ij-npc-field--big"><span>{{localize "IJ.CA.abbr"}}</span><input type="number" name="system.ca" value="{{source.ca}}"></label>
         {{else}}
-        {{> ij-shield label=(localize "IJ.CA.abbr") value=system.ca color="jade" cls="ij-shield--md" tooltip=system.caNote}}
+        {{> ij-shield label=(localize "IJ.CA.abbr") value=caTotal color="jade" cls="ij-shield--md" tooltip=system.caNote}}
+        {{/if}}
+        {{#if activeConditions.length}}
+        <div class="ij-conditions">
+          {{#each activeConditions as |c|}}<span class="ij-condition" data-tooltip="{{c.hint}}"><img src="{{c.img}}" alt="">{{c.label}}</span>{{/each}}
+        </div>
         {{/if}}
       </div>
       {{#each saves as |s|}}
@@ -120,6 +125,7 @@
       <div class="ij-npc-attack ij-card-row draggable" data-item-id="{{w.id}}">
         <img class="ij-npc-attack__img" src="{{w.img}}" alt="">
         <a class="ij-npc-attack__name" data-action="itemUse" data-tooltip="{{localize 'IJ.Weapon.attackTip'}}">{{w.name}}</a>
+        {{#if w.power}}<a class="ij-power-btn" data-action="itemActivate" data-tooltip="{{localize 'IJ.Auto.usePower'}}"><i class="fa-solid fa-wand-sparkles"></i></a>{{/if}}
         <div class="ij-wield__stats ij-npc-attack__stats">
           <a class="ij-wield__stat ij-wield__stat--atk" data-action="itemUse"><small>{{localize "IJ.Weapon.attack"}}</small><strong>{{w.attack}}</strong></a>
           <a class="ij-wield__stat" data-action="itemDamage"><small>{{localize "IJ.Weapon.damage"}}</small><strong>{{w.damage}}</strong></a>

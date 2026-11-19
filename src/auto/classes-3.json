@@ -1,0 +1,244 @@
+{
+  "_sobre": "Automação das habilidades de Shinkan, Shugenja e Wu-Jen (docs/automacao.md). A chave é Classe/Habilidade.",
+
+  "Shinkan/Aprendiz dos Espíritos": { "status": "narrativo", "notes": "Arraste do compêndio os jutsus básicos de Sabedoria aprendidos." },
+  "Shinkan/Canalizar Energia": {
+    "activation": {
+      "cost": 0, "action": "padrão",
+      "variable": { "min": 1, "max": "min(@pmLimit, @rank)", "label": "Dados (1 PM cada)", "costPer": 1 },
+      "damage": { "formula": "(@spent)d6", "type": "luz", "healing": true, "magic": true, "alt": { "label": "Ferir shiryou e oni", "type": "luz", "harm": true } },
+      "save": { "type": "von", "dc": "15 + @spent", "half": true },
+      "note": "Dispersão de 9m; você mesmo fica a salvo dela.",
+      "options": [
+        { "id": "luz", "label": "Luz" },
+        { "id": "trevas", "label": "Trevas", "hint": "Violação de honra moderada.", "honorViolation": "moderada",
+          "damage": { "formula": "(@spent)d6", "type": "trevas", "alt": { "label": "Ferir os vivos", "type": "trevas", "harm": true } } }
+      ]
+    }
+  },
+  "Shinkan/Devoto do Bushintau": { "grants": [{ "name": "Devoto do Bushintau", "type": "feat" }] },
+  "Shinkan/Conhecimento de Jutsus": { "status": "narrativo", "notes": "Arraste do compêndio os dois jutsus novos de cada nível par." },
+  "Shinkan/Raio Espiritual": {
+    "activation": {
+      "action": "padrão",
+      "attack": { "type": "toqueDistancia" },
+      "damage": { "formula": "dice(1d4, 1d6, 1d8, 1d10, 1d12)", "type": "luz", "healing": true, "magic": true, "alt": { "label": "Ferir shiryou ou oni", "type": "luz", "harm": true } },
+      "note": "Alcance 9m (30m no 13º). Alvo voluntário é atingido sem ataque.",
+      "options": [
+        { "id": "luz", "label": "Luz" },
+        { "id": "trevas", "label": "Trevas", "hint": "Violação de honra moderada.", "honorViolation": "moderada",
+          "damage": { "formula": "dice(1d4, 1d6, 1d8, 1d10, 1d12)", "type": "trevas", "alt": { "label": "Ferir os vivos", "type": "trevas", "harm": true } } },
+        { "id": "luzFora", "label": "Luz, fora de combate", "hint": "1 PM.", "cost": 1 },
+        { "id": "trevasFora", "label": "Trevas, fora de combate", "hint": "1 PM; violação de honra moderada.", "cost": 1, "honorViolation": "moderada",
+          "damage": { "formula": "dice(1d4, 1d6, 1d8, 1d10, 1d12)", "type": "trevas", "alt": { "label": "Ferir os vivos", "type": "trevas", "harm": true } } }
+      ]
+    }
+  },
+  "Shinkan/Discípulo dos Espíritos": { "passive": [{ "key": "system.attributes.pm.bonus", "value": "max(0, @sab)" }] },
+  "Shinkan/Lições Espirituais": { "status": "narrativo", "notes": "Arraste do compêndio o poder do Bushintau ou o talento de jutsu escolhido." },
+  "Shinkan/Iniciado dos Espíritos": { "passive": [{ "key": "system.attributes.pm.bonus", "value": "max(0, @sab)" }] },
+  "Shinkan/Meditação": {
+    "activation": {
+      "duration": { "value": "rank(120, 60, 30)", "unit": "minuto" },
+      "restore": { "pv": "2 * @nivel", "pm": "@nivel" },
+      "note": "Transe: vê e ouve, sem falar nem se mover. Distração: Vontade CD 20."
+    },
+    "rollOptions": [{ "id": "meditacao", "label": "Meditação (veneno ou doença que já o aflige)", "for": "save", "filter": { "saves": ["fort"] }, "value": 5, "optional": true }]
+  },
+  "Shinkan/Adepto dos Espíritos": { "passive": [{ "key": "system.attributes.pm.bonus", "value": "max(0, @sab)" }] },
+  "Shinkan/Mestre dos Espíritos": { "passive": [{ "key": "system.attributes.pm.bonus", "value": "max(0, @sab)" }] },
+  "Shinkan/União Espiritual": {
+    "status": "parcial", "notes": "Tipo youkai, movimento em qualquer direção e ver o invisível ficam à mão.",
+    "activation": {
+      "action": "movimento",
+      "note": "Forma espiritual permanente; executa qualquer jutsu nela.",
+      "options": [
+        { "id": "invisivel", "label": "Incorpóreo e invisível", "self": { "statuses": ["incorporeo", "invisivel"] } },
+        { "id": "visivel", "label": "Incorpóreo e visível", "self": { "statuses": ["incorporeo"] } }
+      ]
+    }
+  },
+
+  "Shugenja/Aprendiz Celestial": { "status": "narrativo", "notes": "Arraste do compêndio os jutsus básicos de Sabedoria aprendidos." },
+  "Shugenja/Defesa da Honra": {
+    "requires": { "honorMin": 16 },
+    "passive": [
+      { "key": "system.attributes.ca.bonus", "value": "max(0, @hon) + lvl(5:1, 10:2, 15:3, 20:4)" },
+      { "key": "system.saves.ref.bonus", "value": "max(0, @hon) + lvl(5:1, 10:2, 15:3, 20:4)" }
+    ],
+    "activation": {
+      "action": "livre",
+      "options": [
+        { "id": "aprimorada", "label": "Defesa da honra aprimorada", "minLevel": 9, "cost": 1, "duration": { "value": 1, "unit": "rodada" },
+          "self": { "changes": [{ "key": "system.attributes.rd", "value": "max(0, @hon)" }] } }
+      ]
+    }
+  },
+  "Shugenja/Devoto": {
+    "choice": {
+      "label": "Religião", "count": 1,
+      "options": [
+        { "id": "linWu", "label": "Lin-Wu", "grants": [{ "name": "Devoto de Lin-Wu", "type": "feat" }] },
+        { "id": "familiaCelestial", "label": "Família Celestial", "grants": [{ "name": "Devoto da Família Celestial", "type": "feat" }] }
+      ]
+    }
+  },
+  "Shugenja/Conhecimento de Jutsus": { "status": "narrativo", "notes": "Arraste do compêndio os dois jutsus novos de cada nível par." },
+  "Shugenja/Orientação": {
+    "requires": { "honorMin": 16 },
+    "status": "parcial", "notes": "Resolução: o fim do efeito é à mão. Confira Honra 10+ e Int 3+ do alvo.",
+    "choice": {
+      "label": "Efeitos de orientação", "count": "@rank",
+      "options": [
+        { "id": "aviso", "label": "Aviso" },
+        { "id": "conselho", "label": "Conselho", "hint": "Exige aviso." },
+        { "id": "coordenar", "label": "Coordenar", "hint": "Exige manobrar." },
+        { "id": "criticaConstrutiva", "label": "Crítica construtiva", "hint": "Exige coordenar e 11º nível.", "minLevel": 11 },
+        { "id": "criticaDestrutiva", "label": "Crítica destrutiva", "hint": "Exige crítica construtiva e 17º nível.", "minLevel": 17 },
+        { "id": "expedicao", "label": "Expedição", "hint": "Exige 5º nível.", "minLevel": 5 },
+        { "id": "manobrar", "label": "Manobrar" },
+        { "id": "precisao", "label": "Precisão" },
+        { "id": "resolucao", "label": "Resolução" }
+      ]
+    },
+    "activation": {
+      "cost": 1, "action": "padrão", "duration": { "unit": "cena" },
+      "note": "Uma criatura a até 9m, com Int 3+ e Honra 10+, que o veja ou ouça.",
+      "options": [
+        { "id": "aviso", "label": "Aviso", "option": "aviso",
+          "targets": { "who": "allies", "duration": { "unit": "cena" }, "changes": [{ "key": "system.attributes.mods.saves", "value": "lvl(1:1, 5:2, 11:3, 17:4)" }] } },
+        { "id": "conselho", "label": "Conselho", "option": "conselho",
+          "targets": { "who": "allies", "duration": { "unit": "cena" }, "changes": [{ "key": "system.attributes.mods.skills", "value": "lvl(1:2, 8:4, 14:6, 20:8)" }] } },
+        { "id": "coordenar", "label": "Coordenar", "option": "coordenar",
+          "targets": { "who": "allies", "duration": { "unit": "cena" }, "changes": [{ "key": "system.attributes.mods.attack", "value": "lvl(1:1, 8:2, 14:3, 20:4)" }] } },
+        { "id": "criticaConstrutiva", "label": "Crítica construtiva", "option": "criticaConstrutiva", "minLevel": 11, "duration": { "value": 1, "unit": "rodada" },
+          "targets": { "who": "allies", "duration": { "value": 1, "unit": "rodada" }, "changes": [{ "key": "system.attributes.critBonus", "value": 1 }] } },
+        { "id": "criticaDestrutiva", "label": "Crítica destrutiva", "option": "criticaDestrutiva", "minLevel": 17, "duration": { "value": 1, "unit": "rodada" },
+          "targets": { "who": "allies", "duration": { "value": 1, "unit": "rodada" }, "changes": [{ "key": "system.attributes.critMult", "value": 1 }] } },
+        { "id": "expedicao", "label": "Expedição", "option": "expedicao", "minLevel": 5,
+          "targets": { "who": "allies", "duration": { "unit": "cena" }, "changes": [{ "key": "system.attributes.movement.bonus", "value": "lvl(1:3, 11:6, 17:9)" }] } },
+        { "id": "expedicaoVoce", "label": "Expedição em você", "option": "expedicao", "minLevel": 5,
+          "self": { "changes": [{ "key": "system.attributes.movement.bonus", "value": "lvl(1:3, 11:6, 17:9)" }] } },
+        { "id": "manobrar", "label": "Manobrar", "option": "manobrar",
+          "targets": { "who": "allies", "duration": { "unit": "cena" },
+            "rollOptions": [{ "id": "manobrar", "label": "Manobrar (teste de manobra)", "attack": "lvl(1:2, 5:4, 11:6, 17:8)", "filter": { "melee": true }, "optional": true }] } },
+        { "id": "precisao", "label": "Precisão", "option": "precisao", "duration": { "value": 1, "unit": "rodada" },
+          "targets": { "who": "allies", "duration": { "value": 1, "unit": "rodada" },
+            "rollOptions": [{ "id": "precisao", "label": "Precisão", "damage": "(1 + floor((@classe - 2) / 6))d6", "noCrit": true, "precision": true }] } },
+        { "id": "precisaoVoce", "label": "Precisão em você", "option": "precisao", "duration": { "value": 1, "unit": "rodada" },
+          "self": { "rollOptions": [{ "id": "precisao", "label": "Precisão", "damage": "(1 + floor((@classe - 2) / 6))d6", "noCrit": true, "precision": true }] } },
+        { "id": "resolucao", "label": "Resolução", "option": "resolucao", "duration": { "value": 1, "unit": "rodada" },
+          "note": "Novo teste contra um efeito contínuo; passando, ele acaba e seu dano é desfeito.",
+          "targets": { "who": "allies", "duration": { "value": 1, "unit": "rodada" },
+            "rollOptions": [{ "id": "resolucao", "label": "Resolução (+4 no novo teste)", "for": "save", "value": 4, "optional": true }] } },
+        { "id": "resolucaoVoce", "label": "Resolução em você", "option": "resolucao", "duration": { "value": 1, "unit": "rodada" },
+          "note": "Novo teste contra um efeito contínuo; passando, ele acaba e seu dano é desfeito.",
+          "self": { "rollOptions": [{ "id": "resolucao", "label": "Resolução (+4 no novo teste)", "for": "save", "value": 4, "optional": true }] } }
+      ]
+    }
+  },
+  "Shugenja/Discípulo Celestial": {
+    "choice": {
+      "label": "PM extras", "count": 1,
+      "options": [
+        { "id": "sab", "label": "Bônus de Sabedoria", "passive": [{ "key": "system.attributes.pm.bonus", "value": "max(0, @sab)" }] },
+        { "id": "hon", "label": "Bônus de Honra", "passive": [{ "key": "system.attributes.pm.bonus", "value": "max(0, @hon)" }] }
+      ]
+    }
+  },
+  "Shugenja/Poder Concedido": { "status": "narrativo", "notes": "Arraste do compêndio o poder concedido escolhido da sua religião." },
+  "Shugenja/Iniciado Celestial": {
+    "choice": {
+      "label": "PM extras", "count": 1,
+      "options": [
+        { "id": "sab", "label": "Bônus de Sabedoria", "passive": [{ "key": "system.attributes.pm.bonus", "value": "max(0, @sab)" }] },
+        { "id": "hon", "label": "Bônus de Honra", "passive": [{ "key": "system.attributes.pm.bonus", "value": "max(0, @hon)" }] }
+      ]
+    }
+  },
+  "Shugenja/Fortaleza da Honra": {
+    "requires": { "honorMin": 16 },
+    "status": "parcial", "notes": "Aliados com Honra 16 ou mais recebem o dobro: ajuste à mão.",
+    "activation": {
+      "cost": 6, "action": "movimento", "duration": { "unit": "cena" },
+      "self": { "traits": { "resist": { "energia": "rank(10, 20, 30)" } } },
+      "targets": { "who": "allies", "duration": { "unit": "cena" }, "traits": { "resist": { "energia": "rank(5, 10, 15)" } } }
+    }
+  },
+  "Shugenja/Adepto Celestial": {
+    "choice": {
+      "label": "PM extras", "count": 1,
+      "options": [
+        { "id": "sab", "label": "Bônus de Sabedoria", "passive": [{ "key": "system.attributes.pm.bonus", "value": "max(0, @sab)" }] },
+        { "id": "hon", "label": "Bônus de Honra", "passive": [{ "key": "system.attributes.pm.bonus", "value": "max(0, @hon)" }] }
+      ]
+    }
+  },
+  "Shugenja/Mestre Celestial": {
+    "choice": {
+      "label": "PM extras", "count": 1,
+      "options": [
+        { "id": "sab", "label": "Bônus de Sabedoria", "passive": [{ "key": "system.attributes.pm.bonus", "value": "max(0, @sab)" }] },
+        { "id": "hon", "label": "Bônus de Honra", "passive": [{ "key": "system.attributes.pm.bonus", "value": "max(0, @hon)" }] }
+      ]
+    }
+  },
+  "Shugenja/Escolhido Celestial": {
+    "requires": { "honorMin": 16 },
+    "traits": { "jutsuCost": [{ "value": "-max(@sab, @hon)" }], "immune": ["encantamento", "ilusao"] }
+  },
+
+  "Wu-Jen/Aprendiz da Mente": { "status": "narrativo", "notes": "O chacra da mente já abre pelo efeito; arraste os quatro jutsus básicos." },
+  "Wu-Jen/Percepção Elemental": {
+    "status": "narrativo",
+    "activation": {
+      "action": "padrão",
+      "note": "Até 9m: 1 rodada, presença e quantidade; 2, dimensões; 3, posição exata.",
+      "options": [
+        { "id": "agua", "label": "Água" }, { "id": "ar", "label": "Ar" }, { "id": "fogo", "label": "Fogo" }, { "id": "terra", "label": "Terra" }
+      ]
+    }
+  },
+  "Wu-Jen/Raio Elemental": {
+    "status": "parcial", "notes": "Conta como jutsu: talentos de jutsu (Wu-jen de Batalha, aprimoramentos) ficam à mão.",
+    "activation": {
+      "cost": 0, "action": "padrão",
+      "variable": { "min": 0, "max": "max(0, from(17, @int) - 1)", "label": "Raios extras (17º nível, 1 PM cada)", "costPer": 1 },
+      "attack": { "type": "toqueDistancia", "bonus": "from(5, @int)" },
+      "damage": { "formula": "dice(1d4, 1d6, 1d8, 1d10, 1d12)", "magic": true },
+      "note": "Alcance 9m (30m no 13º). Raio extra: role ataque e dano de novo.",
+      "options": [
+        { "id": "acido", "label": "Ácido", "damage": { "formula": "dice(1d4, 1d6, 1d8, 1d10, 1d12)", "type": "acido" } },
+        { "id": "eletricidade", "label": "Eletricidade", "damage": { "formula": "dice(1d4, 1d6, 1d8, 1d10, 1d12)", "type": "eletricidade" } },
+        { "id": "fogo", "label": "Fogo", "damage": { "formula": "dice(1d4, 1d6, 1d8, 1d10, 1d12)", "type": "fogo" } },
+        { "id": "frio", "label": "Frio", "damage": { "formula": "dice(1d4, 1d6, 1d8, 1d10, 1d12)", "type": "frio" } },
+        { "id": "vento", "label": "Vento", "damage": { "formula": "dice(1d4, 1d6, 1d8, 1d10, 1d12)", "type": "vento" } }
+      ]
+    }
+  },
+  "Wu-Jen/Segredos dos Chacras": {
+    "status": "parcial", "notes": "Concede um Abrir Chacra; os seguintes (ou Chacra Mediano) arraste do compêndio.",
+    "grants": [{ "name": "Abrir Chacra", "type": "feat" }]
+  },
+  "Wu-Jen/Conhecimento de Jutsus": { "status": "narrativo", "notes": "Arraste do compêndio os três jutsus novos de cada nível par." },
+  "Wu-Jen/Discípulo da Mente": { "passive": [{ "key": "system.attributes.pm.bonus", "value": "max(0, @int)" }] },
+  "Wu-Jen/Estudos Caóticos": { "status": "narrativo", "notes": "Arraste do compêndio o talento de jutsu escolhido." },
+  "Wu-Jen/Iniciado da Mente": { "passive": [{ "key": "system.attributes.pm.bonus", "value": "max(0, @int)" }] },
+  "Wu-Jen/Segredos da Anulação": {
+    "status": "parcial", "notes": "A disputa de Vontade e a anulação do jutsu ficam à mão.",
+    "activation": {
+      "cost": 0, "action": "reação", "uses": { "max": 1, "per": "rodada" },
+      "variable": { "min": 1, "max": "@pmLimit", "label": "PM gastos pelo conjurador", "costPer": 1 },
+      "note": "Use após identificar o jutsu; depois dispute Vontade com o conjurador."
+    }
+  },
+  "Wu-Jen/Adepto da Mente": { "passive": [{ "key": "system.attributes.pm.bonus", "value": "max(0, @int)" }] },
+  "Wu-Jen/Mestre da Mente": { "passive": [{ "key": "system.attributes.pm.bonus", "value": "max(0, @int)" }] },
+  "Wu-Jen/Caos Elemental": {
+    "status": "parcial", "notes": "Role e pague os 3d4 PM à mão; o dano ignora resistências e imunidades.",
+    "traits": {
+      "jutsuEnhancements": [{ "id": "caosElemental", "label": "Caos elemental (3d4 PM à parte)", "cost": 0, "max": 1, "effect": "note",
+        "filter": { "descriptor": ["acido", "eletricidade", "fogo", "frio", "vento", "elemental"] } }]
+    }
+  }
+}

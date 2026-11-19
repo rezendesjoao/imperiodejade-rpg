@@ -1,6 +1,12 @@
 import { ABILITIES, CHAKRAS, DAMAGE_TYPES, JUTSU_GRADES, SAVES, WEAPON_KINDS, SYSTEM_ID } from "../config.mjs";
-import { d20Roll, damageRoll, infoCard, signed } from "../dice/rolls.mjs";
-import { grantClassFeatures, grantRaceFeatures, removeGranted } from "./grants.mjs";
+import { infoCard, signed } from "../dice/rolls.mjs";
+import { grantClassFeatures, grantRaceFeatures, removeGranted, syncItemGrants } from "./grants.mjs";
+import { useItem, perform, postCard, adjustCost, availableOptions, specFor, applyTargetBlock } from "../auto/activation.mjs";
+import { askActivation } from "../auto/dialog.mjs";
+import { attackRoll, armorClassOf } from "../auto/attack.mjs";
+import { rollDamage, isPhysical } from "../auto/damage.mjs";
+import { dataFor, evaluate, resolveFormula, norm } from "../auto/context.mjs";
+import { jutsuDialog, jutsuRules, gradeCost } from "../auto/jutsu.mjs";
 
 const L = key => game.i18n.localize(key);
 const { TextEditor } = foundry.applications.ux;
@@ -31,17 +37,20 @@ export class ImperioItem extends Item {
     }
   }
 
-  /** A class or race added to a character brings its abilities (only the user who added it does the work). */
+  /** A class or race added to a character brings its abilities; any item brings what its automation grants. */
   _onCreate(data, options, userId) {
     super._onCreate(data, options, userId);
-    if ((userId !== game.user.id) || (this.actor?.type !== "character")) return;
-    if (this.type === "class") grantClassFeatures(this);
-    else if (this.type === "race") {
-      // One race per character: the old one (and what it granted) leaves
-      const others = this.actor.items.filter(i => (i.type === "race") && (i.id !== this.id)).map(i => i.id);
-      if (others.length) this.actor.deleteEmbeddedDocuments("Item", others);
-      grantRaceFeatures(this);
+    if ((userId !== game.user.id) || !this.actor) return;
+    if (this.actor.type === "character") {
+      if (this.type === "class") grantClassFeatures(this);
+      else if (this.type === "race") {
+        // One race per character: the old one (and what it granted) leaves
+        const others = this.actor.items.filter(i => (i.type === "race") && (i.id !== this.id)).map(i => i.id);
+        if (others.length) this.actor.deleteEmbeddedDocuments("Item", others);
+        grantRaceFeatures(this);
+      }
     }
+    if (this.system.auto?.grants?.length || this.system.choices?.length) syncItemGrants(this);
   }
 
   /** Remember the class level before the change, to know which abilities the new levels bring. */
@@ -54,11 +63,14 @@ export class ImperioItem extends Item {
 
   /**
    * A class gained levels: grant the abilities of the new levels and, for the first class, +1 Honor per level
-   * (persistence, p. 81).
+   * (persistence, p. 81). Choices changed on an ability: its grants follow.
    */
   _onUpdate(changed, options, userId) {
     super._onUpdate(changed, options, userId);
-    if ((userId !== game.user.id) || (this.type !== "class") || (this.actor?.type !== "character")) return;
+    if ((userId !== game.user.id) || !this.actor) return;
+    if ((foundry.utils.getProperty(changed, "system.choices") !== undefined) || (foundry.utils.getProperty(changed, "system.choiceText") !== undefined)
+      || ((foundry.utils.getProperty(changed, "system.equipped") !== undefined) && (this.system.auto?.grants?.length || this.system.auto?.choice))) syncItemGrants(this);
+    if ((this.type !== "class") || (this.actor.type !== "character")) return;
     const before = options.ijPreviousLevels;
     if ((before === undefined) || (this.system.levels <= before)) return;
     grantClassFeatures(this, { fromLevel: before });
@@ -75,11 +87,11 @@ export class ImperioItem extends Item {
     }
   }
 
-  /** A class or race leaving takes what it granted. */
+  /** An item leaving takes what it granted. */
   _onDelete(options, userId) {
     super._onDelete(options, userId);
     if ((userId !== game.user.id) || !this.actor) return;
-    if (["class", "race"].includes(this.type)) removeGranted(this);
+    if (["class", "race"].includes(this.type) || this.system.auto?.grants?.length || this.system.auto?.choice) removeGranted(this);
   }
 
   /** The description, enriched for a card. */
@@ -89,52 +101,65 @@ export class ImperioItem extends Item {
     });
   }
 
+  /** Whether using the item does something automatic. */
+  get hasActivation() {
+    return !!this.system.auto?.activation;
+  }
+
   /* -------------------------------------------- */
   /*  Weapons                                     */
   /* -------------------------------------------- */
 
-  /** Attack roll with this weapon (p. 227), with the damage buttons on the card. */
-  async rollAttack({ event } = {}) {
+  /**
+   * Attack roll with this weapon (p. 227): the attacker's options, each target's CA, the damage buttons.
+   * @param {object} [options]
+   * @param {Event} [options.event]
+   * @param {Actor} [options.target]   Attack this one (a reaction)
+   * @param {string} [options.reaction]
+   */
+  async rollAttack({ event, target = null, reaction = null } = {}) {
     if (this.type !== "weapon" || !this.actor) return null;
     const sys = this.system;
     const actor = this.actor;
     const ability = sys.attackAbility;
     const kind = WEAPON_KINDS[sys.kind];
+    const ranged = sys.kind !== "corpo";
     // A character adds BBA and ability; a threat's attack bonus is already the total from its stat block
     const parts = (actor.type === "character") ? [
-      { label: L(ability === "for" ? "IJ.Attack.melee" : "IJ.Attack.ranged"), value: ability === "for" ? actor.system.attack.melee : actor.system.attack.ranged },
+      { label: L(ability === "for" ? "IJ.Attack.melee" : "IJ.Attack.ranged"), value: sys.attackTotal - sys.attackBonus + (sys.isProficient ? 0 : 4) },
       { label: L("IJ.Weapon.attackBonus"), value: sys.attackBonus },
-      { label: L("IJ.Weapon.notProficient"), value: sys.proficient ? 0 : -4 }
+      { label: L("IJ.Weapon.notProficient"), value: sys.isProficient ? 0 : -4 }
     ] : [{ label: L("IJ.Weapon.attack"), value: sys.attackTotal }];
-    return d20Roll({
-      actor, event, kind: "attack",
+    // A creature's natural weapon can deal energy (auto.damageType) and be a touch attack (auto.touch)
+    const damageType = sys.auto?.damageType || sys.damageType;
+    return attackRoll({
+      actor, weapon: this, ranged, event, target, reaction,
+      touch: !!sys.auto?.touch,
+      unarmed: norm(this.name).includes("desarmado"),
       title: this.name,
       subtitle: [L(kind.label), `${L("IJ.Weapon.damage")} ${sys.damageFormula}`, sys.critLabel].join(" · "),
       bonus: sys.attackTotal,
-      critRange: sys.threat,
       parts,
-      kanji: "刀",
-      buttons: [
-        { ijAction: "damage", label: L("IJ.Weapon.rollDamage"), icon: "fa-solid fa-burst", actor: actor.uuid, item: this.id, crit: false },
-        { ijAction: "damage", label: game.i18n.format("IJ.Weapon.rollCritical", { n: sys.critMult }), icon: "fa-solid fa-skull", actor: actor.uuid, item: this.id, crit: true, critical: true }
-      ],
-      flags: { itemId: this.id }
+      critRange: sys.threat,
+      critMult: sys.critMult,
+      damage: { formula: sys.damageFormula, type: damageType },
+      kanji: "刀"
     });
   }
 
-  /** Damage roll; a critical multiplies dice and modifiers (p. 141). */
+  /** Damage roll without an attack card (macros); a critical multiplies dice and modifiers (p. 141). */
   async rollDamage({ critical = false } = {}) {
     if (this.type !== "weapon") return null;
     const sys = this.system;
-    return damageRoll({
+    return rollDamage({
       actor: this.actor,
       title: this.name,
       subtitle: [L(DAMAGE_TYPES[sys.damageType] ?? ""), critical ? game.i18n.format("IJ.Weapon.criticalX", { n: sys.critMult }) : ""].filterJoin(" · "),
-      formula: sys.damageFormula,
-      multiplier: critical ? sys.critMult : 1,
-      damageType: sys.damageType,
-      physical: true,
-      kanji: critical ? "斬" : "撃"
+      parts: [{ formula: sys.damageFormula, type: sys.damageType, physical: true }],
+      critical,
+      mult: sys.critMult + (this.actor?.system?.attributes?.critMult ?? 0),
+      kanji: critical ? "斬" : "撃",
+      link: { melee: sys.kind === "corpo" }
     });
   }
 
@@ -148,9 +173,9 @@ export class ImperioItem extends Item {
       case "weapon": return this.rollAttack({ event });
       case "jutsu": return this.executeJutsu({ event });
       case "power":
-      case "feat": return this.activate();
-      case "consumable": return this.consume();
-      default: return this.toChat();
+      case "feat": return this.activate({ event });
+      case "consumable": return this.consume({ event });
+      default: return this.hasActivation ? useItem(this, { event }) : this.toChat();
     }
   }
 
@@ -165,109 +190,180 @@ export class ImperioItem extends Item {
     });
   }
 
-  /** Activate a class/race ability or a feat that costs PM. */
-  async activate() {
+  /** Activate a class/race ability or a feat: its automation, or the plain card that pays its PM. */
+  async activate({ event } = {}) {
+    if (this.hasActivation) return useItem(this, { event });
     const sys = this.system;
     const actor = this.actor;
-    if (actor && sys.honorMin && (actor.system.abilities.hon.total < sys.honorMin)) {
+    if (actor && sys.honorMin && (actor.type === "character") && (actor.system.abilities.hon.total < sys.honorMin)) {
       ui.notifications.warn(game.i18n.format("IJ.Power.honorTooLow", { name: this.name, n: sys.honorMin }));
       return null;
     }
-    if (actor && sys.cost && !(await actor.spendPm(sys.cost))) return null;
-    const tags = [];
-    if (sys.cost) tags.push(`${sys.cost} PM`);
-    if (sys.action) tags.push(sys.action);
-    if (sys.honorMin) tags.push(game.i18n.format("IJ.Power.honorTag", { n: sys.honorMin }));
-    return infoCard({
-      actor, kind: "power", kanji: "能",
-      title: this.name,
-      subtitle: this.type === "feat" ? L(CONFIG.IJ.FEAT_CATEGORIES[sys.category]) : (sys.originName || L(CONFIG.IJ.ABILITY_SOURCES[sys.origin])),
-      tags,
-      body: await this.enrichedDescription()
-    });
+    const cost = adjustCost(actor, sys.cost ?? 0, { kind: "power" });
+    if (actor && cost && !(await actor.spendPm(cost))) return null;
+    return postCard(this, {}, dataFor(this), { cost });
   }
 
-  /** Use one charge (or one unit) of a consumable. */
-  async consume() {
+  /** Use one charge (or one unit) of a consumable, with what its automation does. */
+  async consume({ event } = {}) {
     const sys = this.system;
     if (sys.uses.max > 0) {
       if (sys.uses.value <= 0) return ui.notifications.warn(game.i18n.format("IJ.Consumable.empty", { name: this.name }));
-      await this.update({ "system.uses.value": sys.uses.value - 1 });
-    } else {
-      if (sys.quantity <= 0) return ui.notifications.warn(game.i18n.format("IJ.Consumable.empty", { name: this.name }));
-      await this.update({ "system.quantity": sys.quantity - 1 });
-    }
-    return infoCard({
+    } else if (sys.quantity <= 0) return ui.notifications.warn(game.i18n.format("IJ.Consumable.empty", { name: this.name }));
+    const result = this.hasActivation ? await useItem(this, { event }) : await infoCard({
       actor: this.actor, kind: "item", kanji: "薬",
       title: this.name,
       subtitle: L(CONFIG.IJ.CONSUMABLE_KINDS[sys.kind]),
       body: await this.enrichedDescription()
     });
+    if (!result) return null;
+    if (sys.uses.max > 0) await this.update({ "system.uses.value": sys.uses.value - 1 });
+    else await this.update({ "system.quantity": sys.quantity - 1 });
+    return result;
   }
 
   /**
-   * Execute a jutsu (p. 161): pays its grade cost plus any extra PM for enhancements, up to the PM limit.
+   * The attack of an ability or jutsu card (spec.attack, or the jutsu's attack field). Touch attacks are resisted with
+   * a Reflexos test of the target instead of its CA (p. 230), unless something lets it use the CA.
    */
-  async executeJutsu({ event } = {}) {
+  async rollAutoAttack({ message = null, event = null } = {}) {
+    const actor = this.actor;
+    if (!actor) return null;
+    const flags = message?.flags?.[SYSTEM_ID] ?? {};
+    const spec = flags.jutsuSpec ?? this.system.auto?.activation ?? {};
+    const type = spec.attack?.type ?? this.system.attack ?? "corpo";
+    const ranged = ["distancia", "toqueDistancia"].includes(type);
+    const touch = type.startsWith("toque");
+    const data = dataFor(this, { spent: flags.source?.spent ?? 0 });
+    let bonus;
+    if (actor.type === "character") {
+      bonus = ranged ? actor.system.attack.ranged : actor.system.attack.melee;
+      // Bênção de Tikauromu: Wisdom for the melee attacks of jutsus
+      if (!ranged && this.type === "jutsu" && actor.system.traits?.jutsuMeleeAbility) {
+        const a = actor.system.traits.jutsuMeleeAbility;
+        bonus += (actor.system.abilities[a]?.mod ?? 0) - (actor.system.abilities.for.mod ?? 0);
+      }
+    } else bonus = (actor.system.level ?? 0) + ((ranged ? actor.system.mods?.des : actor.system.mods?.for) ?? 0);
+    bonus += Math.floor(evaluate(spec.attack?.bonus ?? 0, data));
+    const damage = spec.damage?.formula ? { formula: resolveFormula(flags.damageFormula ?? spec.damage.formula, data), type: spec.damage.type ?? "" } : null;
+    const msg = await attackRoll({
+      actor, ranged, event, touch,
+      title: this.name,
+      subtitle: L(`IJ.Jutsu.attack.${type}`) + (touch ? ` · ${L("IJ.Jutsu.touchNote")}` : ""),
+      bonus,
+      kanji: this.type === "jutsu" ? "術" : "能",
+      damage: null,
+      extraFlags: { touchOf: message?.id ?? null }
+    });
+    if (msg && spec.targets && !spec.targets.save) {
+      const label = spec.optionLabel ? `${this.name}: ${spec.optionLabel}` : this.name;
+      for (const t of msg.flags[SYSTEM_ID].attack.targets.filter(r => r.hit)) {
+        const doc = fromUuidSync(t.uuid);
+        const target = doc?.actor ?? doc;
+        if (target?.system) await applyTargetBlock(this, spec.targets, data, target, label, { duration: spec.duration ?? null, optionKey: spec.optionId ?? null });
+      }
+    }
+    return msg;
+  }
+
+  /* -------------------------------------------- */
+  /*  Jutsus                                      */
+  /* -------------------------------------------- */
+
+  /**
+   * Execute a jutsu (p. 161): its grade cost with the executor's rules, PM for its own enhancements and the
+   * enhancement feats, all within the PM limit; then its effects, and the card with attack, damage and save.
+   */
+  async executeJutsu({ event, choice } = {}) {
     const actor = this.actor;
     const sys = this.system;
     const grade = JUTSU_GRADES[sys.grade];
+    const rules = actor ? jutsuRules(actor, this) : { costDelta: 0, dcDelta: 0, damageDelta: 0, healDelta: 0, gradeDown: false, enhancements: [] };
+    const base = gradeCost(sys.grade, rules.gradeDown) + (sys.extraCost ?? 0);
+    // A variant picked when executing (Mandala Elemental: the energy)
+    const opts = availableOptions(this);
+    let optionId = (choice !== undefined) ? choice : (opts.length === 1 ? opts[0].id : null);
+    if ((choice === undefined) && (opts.length > 1)) {
+      const pick = await askActivation(this.name, opts.map(o => ({ id: o.id, label: o.label, hint: o.hint ?? "" })));
+      if (!pick) return null;
+      optionId = pick.choice;
+    }
     let extra = 0;
+    let steps = 0;
+    let enh = {};
+    const limit = actor?.pmLimit ?? 99;
+    if (actor && !event?.altKey && ((limit > base) || rules.enhancements.length)) {
+      const answer = await jutsuDialog(this, { base, limit, rules });
+      if (!answer) return null;
+      extra = answer.extra;
+      steps = answer.steps ?? 0;
+      enh = answer.enh;
+    }
+    // Cost: grade + own enhancements (damage steps apart) + enhancement feats, then the executor's reductions and rules
+    const scalePm = steps * (sys.damage?.scaleCost || 0);
+    let total = base + extra + scalePm;
+    const used = [];
+    let dcBonus = 0;
+    let maximize = false;
+    for (const e of rules.enhancements) {
+      const n = enh[e.id] ?? 0;
+      if (!n) continue;
+      total += n * e.cost - (e.discount ?? 0);
+      used.push(n > 1 ? `${e.label} ×${n}` : e.label);
+      if (e.effect === "maximize") maximize = true;
+      if (e.effect === "dc") dcBonus += n * Number(e.value ?? 1);
+      if (e.effect === "dcHonor") dcBonus += Math.max(0, actor?.system?.abilities?.hon?.mod ?? 0);
+    }
+    total = Math.max((rules.gradeDown && sys.grade === "basico") ? 1 : 0, rules.costDelta < 0 ? (rules.costMin ?? 0) : 0, total + rules.costDelta);
+    total = adjustCost(actor, total, { kind: "jutsu", ctx: { item: this, chakra: sys.chakra, descriptors: sys.descriptors } });
     if (actor) {
-      const limit = actor.pmLimit;
-      const max = Math.max(0, limit - sys.cost);
-      if (max > 0 && !event?.altKey) {
-        const content = `<div class="ij-dialog-mod">
-          <p>${game.i18n.format("IJ.Jutsu.extraHint", { cost: sys.cost, limit })}</p>
-          <label>${L("IJ.Jutsu.extraPm")} <input type="number" name="extra" value="0" min="0" max="${max}" step="1" autofocus></label>
-        </div>`;
-        const result = await foundry.applications.api.DialogV2.wait({
-          window: { title: this.name, icon: "fa-solid fa-hand-sparkles" },
-          classes: ["imperiodejade", "ij-dialog"],
-          content,
-          rejectClose: false,
-          buttons: [{
-            action: "go", label: L("IJ.Jutsu.execute"), icon: "fa-solid fa-hand-sparkles", default: true,
-            callback: (e, b, dialog) => Math.clamp(Number(dialog.element.querySelector("input[name=extra]")?.value) || 0, 0, max)
-          }]
-        });
-        if (result === null || result === undefined) return null;
-        extra = result;
-      }
-      if (!(await actor.spendPm(sys.cost + extra))) return null;
+      if (total > limit) return ui.notifications.warn(game.i18n.format("IJ.Auto.overLimit", { n: total, limit }));
+      if (!(await actor.spendPm(total))) return null;
     }
-    const tags = [
-      `${sys.cost + extra} PM`,
-      `${L("IJ.Jutsu.dc")} ${sys.dc}`,
-      sys.execution, sys.range, sys.duration, sys.resistance
-    ].filter(Boolean);
-    const enh = sys.enhancements ? await TextEditor.implementation.enrichHTML(sys.enhancements, { relativeTo: this }) : "";
-    // The buttons the jutsu needs: its attack, its damage (with the enhancement dice already counted), the save
-    const buttons = [];
-    if (sys.attack && actor) {
-      buttons.push({ ijAction: "jutsuAttack", label: L(`IJ.Jutsu.attack.${sys.attack}`), icon: "fa-solid fa-crosshairs", actor: actor.uuid, item: this.id });
-    }
-    if (sys.damage?.formula && actor) {
-      const formula = this.jutsuFormula(extra);
-      const label = sys.damage.healing ? game.i18n.format("IJ.Jutsu.healButton", { f: formula })
-        : game.i18n.format("IJ.Jutsu.damageButton", { f: formula, type: sys.damage.type });
-      buttons.push({ ijAction: "jutsuDamage", label, icon: sys.damage.healing ? "fa-solid fa-heart" : "fa-solid fa-burst", actor: actor.uuid, item: this.id, extra });
-    }
+
+    // Using a jutsu can be an Honor violation (the jutsu says which)
+    const auto = specFor(this, optionId);
+    if (auto.honorViolation && actor?.type === "character") await actor.honorViolation(auto.honorViolation);
+
+    // The spec of this execution: the jutsu's own save, damage and attack, plus its automation
+    const dc = sys.dc + rules.dcDelta + dcBonus;
+    const spec = { ...auto };
+    const res = sys.resistance ?? "";
     if (sys.save) {
-      buttons.push({
-        ijAction: "save", save: sys.save, dc: sys.dc, source: this.name, icon: "fa-solid fa-shield-halved",
-        label: game.i18n.format("IJ.Jutsu.saveButton", { save: L(SAVES[sys.save].label), dc: sys.dc })
-      });
+      spec.save = {
+        ...(auto.save ?? {}), type: sys.save, dc,
+        half: auto.save?.half ?? /metade/i.test(res),
+        negate: auto.save?.negate ?? (/anula/i.test(res) && !/metade/i.test(res))
+      };
+    } else if (spec.save) spec.save.dc = dc;
+    if (spec.targets?.save) spec.targets.save.dc = dc;
+    let damageFormula = null;
+    if (sys.damage?.formula) {
+      damageFormula = this.jutsuFormula(scalePm);
+      const delta = sys.damage.healing ? rules.healDelta : rules.damageDelta;
+      if (delta) damageFormula = `${damageFormula} + ${delta}`;
+      spec.damage = { formula: damageFormula, type: sys.damage.type, healing: sys.damage.healing, magic: true, ...(auto.damage ?? {}) };
+      spec.damage.formula = damageFormula;
     }
-    return infoCard({
-      actor, kind: "jutsu", kanji: "術",
-      title: this.name,
-      subtitle: `${L(CHAKRAS[sys.chakra].label)} · ${L(grade.label)}${extra ? ` · ${game.i18n.format("IJ.Jutsu.enhanced", { n: extra })}` : ""}`,
+    if (sys.attack) spec.attack = { type: sys.attack, ...(auto.attack ?? {}) };
+    // @dc: the DC of this execution (ongoing saves of the jutsu use it)
+    const data = dataFor(this, { spent: extra, dc });
+    const results = await perform(this, spec, data, { spent: extra, optionId });
+
+    const tags = [
+      `${total} PM`,
+      `${L("IJ.Jutsu.dc")} ${dc}`,
+      sys.execution, sys.range, sys.duration, sys.resistance,
+      ...used
+    ].filter(Boolean);
+    const enhText = sys.enhancements ? await TextEditor.implementation.enrichHTML(sys.enhancements, { relativeTo: this }) : "";
+    return postCard(this, spec, data, {
+      cost: total, spent: extra, optionId, results, kanji: "術", kind: "jutsu",
+      subtitle: `${L(CHAKRAS[sys.chakra].label)} · ${L(grade.label)}${(extra + scalePm) ? ` · ${game.i18n.format("IJ.Jutsu.enhanced", { n: extra + scalePm })}` : ""}`,
       tags,
-      buttons,
-      body: (sys.target ? `<p><strong>${L("IJ.Jutsu.target")}:</strong> ${foundry.utils.escapeHTML(sys.target)}</p>` : "")
-        + await this.enrichedDescription()
-        + (enh ? `<div class="ij-card-enh"><strong>${L("IJ.Jutsu.enhancements")}</strong>${enh}</div>` : "")
+      extraBody: (sys.target ? `<p><strong>${L("IJ.Jutsu.target")}:</strong> ${foundry.utils.escapeHTML(sys.target)}</p>` : "")
+        + (enhText ? `<div class="ij-card-enh"><strong>${L("IJ.Jutsu.enhancements")}</strong>${enhText}</div>` : ""),
+      flags: { jutsuSpec: spec, jutsuData: { spent: extra, dc }, damageFormula, maximize }
     });
   }
 
@@ -281,51 +377,32 @@ export class ImperioItem extends Item {
     if (!formula) return "";
     const steps = (scaleCost > 0) ? Math.floor(extra / scaleCost) : 0;
     if (!steps || !scaleDice) return formula;
-    const scale = /^\s*(\d+)d(\d+)\s*$/i.exec(scaleDice);
+    const scale = /^\s*(\d+)d(\d+)\s*(?:([+-])\s*(\d+))?\s*$/i.exec(scaleDice);
     if (!scale) {
       const flat = Number(scaleDice);
       return Number.isFinite(flat) ? `${formula} + ${flat * steps}` : formula;
     }
     const count = Number(scale[1]) * steps;
     const die = scale[2];
+    const flat = scale[4] ? (scale[3] === "-" ? -1 : 1) * Number(scale[4]) * steps : 0;
+    const flatText = flat ? ` ${flat > 0 ? "+" : "-"} ${Math.abs(flat)}` : "";
     const base = /^\s*(\d+)d(\d+)(.*)$/i.exec(formula);
-    if (base && (base[2] === die)) return `${Number(base[1]) + count}d${die}${base[3]}`;
-    return `${formula} + ${count}d${die}`;
+    if (base && (base[2] === die)) return `${Number(base[1]) + count}d${die}${base[3]}${flatText}`;
+    return `${formula} + ${count}d${die}${flatText}`;
   }
 
-  /** Roll the jutsu's damage or healing (energy damage ignores damage reduction). */
+  /** Macro helpers kept from 0.2: the damage and the attack of a jutsu outside a card. */
   async rollJutsuDamage({ extra = 0 } = {}) {
     const dmg = this.system.damage;
     if (!dmg?.formula) return null;
-    const physical = /corte|perfura|esmaga/i.test(dmg.type ?? "");
-    return damageRoll({
-      actor: this.actor,
-      title: this.name,
-      subtitle: dmg.healing ? L("IJ.Chat.healing") : (dmg.type || ""),
-      formula: this.jutsuFormula(extra),
-      damageType: dmg.type,
-      physical,
-      healing: dmg.healing,
-      kanji: "術"
+    return rollDamage({
+      actor: this.actor, title: this.name, subtitle: dmg.healing ? L("IJ.Chat.healing") : (dmg.type || ""),
+      parts: [{ formula: this.jutsuFormula(extra), type: dmg.type, noCrit: true }], healing: dmg.healing, magic: true, kanji: "術"
     });
   }
 
-  /** The jutsu's attack (p. 230): melee uses Strength, ranged Dexterity; touch attacks are opposed by Reflexos. */
   async rollJutsuAttack() {
-    const actor = this.actor;
-    if (!actor) return null;
-    const type = this.system.attack;
-    const ranged = ["distancia", "toqueDistancia"].includes(type);
-    const bonus = (actor.type === "character")
-      ? (ranged ? actor.system.attack.ranged : actor.system.attack.melee)
-      : (actor.system.level ?? 0) + ((ranged ? actor.system.mods?.des : actor.system.mods?.for) ?? 0);
-    return d20Roll({
-      actor, kind: "attack",
-      title: this.name,
-      subtitle: L(`IJ.Jutsu.attack.${type}`) + (type.startsWith("toque") ? ` · ${L("IJ.Jutsu.touchNote")}` : ""),
-      bonus,
-      kanji: "術"
-    });
+    return this.rollAutoAttack({});
   }
 }
 

@@ -1,5 +1,6 @@
 /**
- * Copy check: no compendium text may reproduce the book. Compares every description in src/data/*.json with the
+ * Copy check: no compendium text may reproduce the book. Compares every description in src/data/*.json (and the short
+ * texts of the automation blocks in src/auto) with the
  * book's text (extracted from your own PDF; it never goes into the repository) and lists the entries that share a
  * long run of identical words with it.
  *
@@ -81,6 +82,29 @@ for (const file of fs.readdirSync(DATA).filter(f => f.endsWith(".json")).sort())
     for (const [label, text] of textsOf(entry)) {
       const r = compare(text);
       if (r.longest >= minRun) report.push({ file, name: entry.name, field: label, longest: r.longest, ratio: Math.round(r.ratio * 100), sample: r.sample });
+    }
+  }
+}
+// The automation blocks (src/auto): labels, notes and hints are our own short texts too
+const AUTO = path.join(ROOT, "src", "auto");
+const autoTexts = (node, where, out) => {
+  if (Array.isArray(node)) node.forEach((n, i) => autoTexts(n, where, out));
+  else if (node && typeof node === "object") {
+    for (const [k, v] of Object.entries(node)) {
+      if ((typeof v === "string") && ["label", "notes", "note", "hint", "text"].includes(k)) out.push([`${where} · ${k}`, v]);
+      else autoTexts(v, where, out);
+    }
+  }
+  return out;
+};
+if (fs.existsSync(AUTO)) {
+  for (const file of fs.readdirSync(AUTO).filter(f => f.endsWith(".json")).sort()) {
+    const blocks = JSON.parse(fs.readFileSync(path.join(AUTO, file), "utf8"));
+    for (const [key, block] of Object.entries(blocks)) {
+      for (const [label, text] of autoTexts(block, key, [])) {
+        const r = compare(text);
+        if (r.longest >= minRun) report.push({ file, name: key, field: label, longest: r.longest, ratio: Math.round(r.ratio * 100), sample: r.sample });
+      }
     }
   }
 }

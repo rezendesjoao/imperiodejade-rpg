@@ -11,6 +11,7 @@ import fs from "node:fs";
 import path from "node:path";
 import crypto from "node:crypto";
 import { fileURLToPath } from "node:url";
+import { expandMacros } from "../module/auto/formula.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const DATA = path.join(ROOT, "src", "data");
@@ -225,19 +226,63 @@ function folderId(pack, name, sort = 0) {
   return p.folders.get(name)._id;
 }
 
-/** Active effects of an item, from the {key, type, value} list of the data. */
-function effectsOf(parentKey, parentId, name, img, effects = []) {
-  const valid = (effects ?? []).filter(e => e?.key?.startsWith("system."));
-  if (!valid.length) return [];
-  const id = makeId(parentId, "effect", name);
-  return [{
-    _id: id, name, img, type: "base", origin: null, transfer: true, disabled: false, tint: "#ffffff",
-    duration: { value: null, units: "seconds", expiry: null, expired: false }, start: null,
-    system: { changes: valid.map(e => ({ key: e.key, type: e.type === "override" ? "override" : "add", value: e.value, phase: "initial", priority: null })) },
-    description: "", statuses: [], sort: 0, showIcon: 1, flags: {},
-    _key: `!${parentKey}.effects!${parentId}.${id}`
-  }];
+/**
+ * One active-effect change from the data: { key, value, type|mode: "add"|"override" }. Formula strings get their
+ * rank()/lvl()/from() macros expanded (Foundry evaluates the rest with @rank and @classe, documents/active-effect.mjs).
+ */
+function changeOf(e) {
+  const override = (e.type === "override") || (e.mode === "override");
+  let value = e.value;
+  if ((typeof value === "string") && !override) value = expandMacros(value);
+  return { key: e.key, type: override ? "override" : "add", value, phase: "initial", priority: null };
 }
+
+/**
+ * Active effects of an item: the old {key, type, value} list plus the automation's passive changes, and one effect per
+ * option of a choice that has passive changes (off until the option is chosen on the owned item).
+ */
+function effectsOf(parentKey, parentId, name, img, effects = [], auto = null) {
+  const base = [...(effects ?? []), ...(auto?.passive ?? [])].filter(e => e?.key?.startsWith("system."));
+  const out = [];
+  const make = (effName, changes, flags = {}) => {
+    const id = makeId(parentId, "effect", effName);
+    out.push({
+      _id: id, name: effName, img, type: "base", origin: null, transfer: true, disabled: false, tint: "#ffffff",
+      duration: { value: null, units: "seconds", expiry: null, expired: false }, start: null,
+      system: { changes: changes.map(changeOf) },
+      description: "", statuses: [], sort: 0, showIcon: 1, flags,
+      _key: `!${parentKey}.effects!${parentId}.${id}`
+    });
+  };
+  if (base.length) make(name, base);
+  for (const opt of auto?.choice?.options ?? []) {
+    const changes = (opt.passive ?? []).filter(e => e?.key?.startsWith("system."));
+    if (changes.length) make(`${name}: ${opt.label ?? opt.id}`, changes, { [SYSTEM]: { option: opt.id } });
+  }
+  return out;
+}
+
+/**
+ * The automation blocks live in src/auto/*.json, keyed by name ("Bushi/Resolução", "Foco em Arma", "Oni/Garra");
+ * an "auto" inside the entry also works. A copy, so the build never edits the source.
+ */
+const AUTO = new Map();
+const AUTO_DIR = path.join(ROOT, "src", "auto");
+if (fs.existsSync(AUTO_DIR)) {
+  for (const file of fs.readdirSync(AUTO_DIR).filter(f => f.endsWith(".json")).sort()) {
+    for (const [key, block] of Object.entries(JSON.parse(fs.readFileSync(path.join(AUTO_DIR, file), "utf8")))) {
+      if (key.startsWith("_")) continue;
+      if (AUTO.has(norm(key))) console.warn(`automação repetida: ${key} (${file})`);
+      AUTO.set(norm(key), block);
+    }
+  }
+}
+const autoUsed = new Set();
+const autoOf = (e, key = e?.name) => {
+  const block = AUTO.get(norm(key)) ?? e?.auto;
+  if (AUTO.has(norm(key))) autoUsed.add(norm(key));
+  return (block && typeof block === "object") ? structuredClone(block) : {};
+};
 
 /** An item document in a pack (or embedded in an actor when `actorId` is given). */
 function itemDoc(pack, { type, name, img, system, effects = [], folder = null, sort = 0, flags = {} }, { actorId = null } = {}) {
@@ -247,7 +292,7 @@ function itemDoc(pack, { type, name, img, system, effects = [], folder = null, s
   const effectParent = actorId ? `${actorId}.${id}` : id;
   const doc = {
     _id: id, name, type, img, system,
-    effects: effectsOf(parentKey, effectParent, name, img, effects).map(e => ({ ...e, _key: e._key.replace(`${effectParent}.`, `${effectParent}.`) })),
+    effects: effectsOf(parentKey, effectParent, name, img, effects, system.auto),
     folder: actorId ? null : folder, sort, flags, ownership: { default: 0 }, _stats: STATS, _key: key
   };
   return doc;
@@ -271,7 +316,8 @@ feats.forEach((f, i) => {
     folder: folderId("talentos", FEAT_FOLDERS[category], Object.keys(FEAT_FOLDERS).indexOf(category) + 1),
     system: {
       description: str(f.description), source: source(f.page), category,
-      prerequisites: str(f.prerequisites), cost: int(f.cost), honorMin: int(f.honorMin), deity: str(f.deity)
+      prerequisites: str(f.prerequisites), cost: int(f.cost), honorMin: int(f.honorMin), deity: str(f.deity),
+      auto: autoOf(f)
     },
     effects: f.effects
   });
@@ -317,14 +363,14 @@ read("racas.json").forEach((r, i) => {
       type: "power", name: f.name, img: raceImg, folder, sort: j * 100,
       system: {
         description: f.description, source: source(r.page), origin: "raca", originName: r.name, level: 0, cost: 0,
-        honorMin: 0, action: "", levels: "", noArmor: false, choice: false
+        honorMin: 0, action: "", levels: "", noArmor: false, choice: false, auto: autoOf(f, `${r.name}/${f.name}`)
       },
       effects: f.effects
     });
     // Same ability name in two races (Faro, Visão no Escuro): the id already differs by folder? Make it unique by race
     doc._id = makeId("habilidades-raca", r.name, f.name);
     doc._key = `!items!${doc._id}`;
-    doc.effects = effectsOf("items", doc._id, f.name, raceImg, f.effects);
+    doc.effects = effectsOf("items", doc._id, f.name, raceImg, f.effects, doc.system.auto);
     packs["habilidades-raca"].docs.push(doc);
     features.push({ name: f.name, uuid: uuidOf("habilidades-raca", doc._id) });
     for (const feat of f.grantFeats ?? []) features.push(...featsFor(feat).filter(x => x.uuid));
@@ -368,13 +414,13 @@ readAll("classes-").forEach((c, i) => {
       system: {
         description: str(f.description), source: source(f.page ?? c.page), origin: "classe", originName: c.name,
         level: first, cost: int(f.cost), honorMin: int(f.honorMin), action: ACTIONS[norm(f.action)] ?? str(f.action),
-        levels: levels.join(", "), noArmor: !!f.noArmor, choice: !!f.choice
+        levels: levels.join(", "), noArmor: !!f.noArmor, choice: !!f.choice, auto: autoOf(f, `${c.name}/${f.name}`)
       },
       effects: f.effects
     });
     doc._id = makeId("habilidades-classe", c.name, f.name);
     doc._key = `!items!${doc._id}`;
-    doc.effects = effectsOf("items", doc._id, f.name, img, f.effects);
+    doc.effects = effectsOf("items", doc._id, f.name, img, f.effects, doc.system.auto);
     packs["habilidades-classe"].docs.push(doc);
     features.push({ level: first, name: f.name, uuid: uuidOf("habilidades-classe", doc._id) });
   }
@@ -427,7 +473,8 @@ readAll("jutsus-").forEach((j, i) => {
       execution: str(j.execution), range: str(j.range), target: str(j.target), duration: str(j.duration),
       resistance: str(j.resistance), save: pick(j.save, ["", "fort", "ref", "von"], ""),
       attack: pick(j.attack, ["", "corpo", "toque", "distancia", "toqueDistancia"], ""),
-      damage: dmg, extraCost: 0, enhancements: enh ? `<ul>${enh}</ul>` : ""
+      damage: dmg, extraCost: 0, enhancements: enh ? `<ul>${enh}</ul>` : "",
+      auto: autoOf(j)
     }
   });
   packs.jutsus.docs.push(doc);
@@ -500,6 +547,7 @@ function addPhysical(pack, e, i, magic = false) {
         : /amuleto/i.test(e.group ?? "") ? icon("equipment/neck", [], null, name) : icon("sundries/misc", [], null, name))
       : iconByName(name, GEAR_ICONS, icon("containers/bags", [], null, name));
   }
+  system.auto = autoOf(e);
   packs[pack].docs.push(itemDoc(pack, {
     type, name, img, sort: i * 100, folder: folderId(pack, e.group || null), system, effects: e.effects
   }));
@@ -544,7 +592,7 @@ read("bestiary.json").forEach((m, i) => {
         damage: DICE.test(damage) ? damage : "0", damageType: damageTypeOf(a.damageType || a.name),
         critRange: Math.min(20, Math.max(2, int(a.critRange, 20))), critMult: Math.min(6, Math.max(2, int(a.critMult, 2))),
         range: int(a.range), attackBonus: int(a.bonus), damageBonus: int(a.damageBonus),
-        proficient: true, equipped: true, dishonorable: false
+        proficient: true, equipped: true, dishonorable: false, auto: autoOf(a, `${m.name}/${a.name ?? "Ataque"}`)
       }
     }, { actorId }));
   });
@@ -553,7 +601,7 @@ read("bestiary.json").forEach((m, i) => {
       type: "power", name: s.name, img: icon("magic/symbols", ["star"]), sort: 10000 + (j * 100),
       system: {
         description: str(s.description), source: source(m.page), origin: "outra", originName: m.name, level: 0,
-        cost: int(s.cost), honorMin: 0, action: "", levels: "", noArmor: false, choice: false
+        cost: int(s.cost), honorMin: 0, action: str(s.action), levels: "", noArmor: false, choice: false, auto: autoOf(s, `${m.name}/${s.name}`)
       }
     }, { actorId }));
   });
@@ -607,6 +655,40 @@ read("bestiary.json").forEach((m, i) => {
 /* ------------------------------------------------------------------ */
 /*  Write                                                             */
 /* ------------------------------------------------------------------ */
+
+/* ------------------------------------------------------------------ */
+/*  Grants of the automation: names -> compendium uuids               */
+/* ------------------------------------------------------------------ */
+
+const nameIndex = { feat: new Map(), jutsu: new Map(), power: new Map(), item: new Map() };
+for (const [pack, p] of Object.entries(packs)) {
+  for (const doc of p.docs) {
+    const kind = doc.type === "feat" ? "feat" : doc.type === "jutsu" ? "jutsu" : doc.type === "power" ? "power" : ["weapon", "armor", "gear", "consumable"].includes(doc.type) ? "item" : null;
+    if (kind && !nameIndex[kind].has(norm(doc.name))) nameIndex[kind].set(norm(doc.name), uuidOf(pack, doc._id));
+  }
+}
+const unresolved = [];
+function resolveGrants(list, owner) {
+  for (const g of list ?? []) {
+    if (g.uuid) continue;
+    const order = g.type ? [g.type] : ["feat", "jutsu", "power", "item"];
+    for (const kind of order) {
+      const u = nameIndex[kind]?.get(norm(g.name));
+      if (u) { g.uuid = u; break; }
+    }
+    if (!g.uuid) unresolved.push(`${owner}: ${g.name}`);
+  }
+}
+const walkAuto = (doc) => {
+  const auto = doc.system?.auto;
+  if (!auto) return;
+  resolveGrants(auto.grants, doc.name);
+  for (const opt of auto.choice?.options ?? []) resolveGrants(opt.grants, `${doc.name}/${opt.id}`);
+};
+for (const p of Object.values(packs)) for (const doc of p.docs) { walkAuto(doc); for (const it of doc.items ?? []) walkAuto(it); }
+const orphans = [...AUTO.keys()].filter(k => !autoUsed.has(k));
+if (orphans.length) console.warn(`automação sem item nos dados (${orphans.length}): ${orphans.join(", ")}`);
+if (unresolved.length) console.warn(`concessões sem item no compêndio (${unresolved.length}):\n  ${unresolved.join("\n  ")}`);
 
 const safe = s => str(s).normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^A-Za-z0-9]+/g, "_").replace(/^_|_$/g, "") || "doc";
 fs.rmSync(OUT, { recursive: true, force: true });

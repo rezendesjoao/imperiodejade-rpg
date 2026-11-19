@@ -15,6 +15,7 @@
     </div>
     <span class="ij-item-head__kanji">{{kanji}}</span>
     {{#if usable}}<a class="ij-item-head__use" data-action="useItem" data-tooltip="{{localize 'IJ.Item.useTip'}}"><i class="fa-solid fa-hand-sparkles"></i></a>{{/if}}
+    {{#if powerUse}}<a class="ij-item-head__use ij-item-head__use--power" data-action="activateItem" data-tooltip="{{localize 'IJ.Auto.usePower'}}"><i class="fa-solid fa-wand-sparkles"></i></a>{{/if}}
   </header>
 
   <div class="ij-item-body">
@@ -165,6 +166,24 @@
       <span class="ij-item-effects__label"><i class="fa-solid fa-wand-magic-sparkles"></i> {{localize "IJ.Item.effects"}}</span>
       {{#each effects as |e|}}<span class="ij-tag ij-tag--effect">{{e.label}}</span>{{/each}}
       {{#if effectsNote}}<span class="ij-item-effects__note">{{effectsNote}}</span>{{/if}}
+    </div>
+    {{/if}}
+
+    {{#if autoChoice}}
+    <div class="ij-field ij-field--wide ij-race-choice ij-auto-choice {{#if autoChoice.missing}}ij-race-choice--missing{{/if}}">
+      <span>{{autoChoice.label}}</span>
+      <div class="ij-checkchips">
+        {{#each autoChoice.options as |o|}}<a class="ij-checkchip {{#if o.chosen}}on{{/if}}" {{#if @root.editable}}data-action="toggleAutoChoice" data-option="{{o.id}}"{{/if}} {{#if o.hint}}data-tooltip="{{o.hint}}"{{/if}}>{{o.label}}</a>{{/each}}
+      </div>
+      {{#if autoChoice.text}}<label class="ij-auto-choice__text"><span>{{autoChoice.text}}</span><input type="text" name="system.choiceText" value="{{source.choiceText}}"></label>{{/if}}
+    </div>
+    {{/if}}
+
+    {{#if autoSummary.length}}
+    <div class="ij-item-auto {{#if autoInactive}}ij-item-auto--off{{/if}}">
+      <span class="ij-item-effects__label"><i class="fa-solid fa-gears"></i> {{localize "IJ.Auto.summary"}}</span>
+      <ul>{{#each autoSummary as |l|}}<li>{{l}}</li>{{/each}}</ul>
+      {{#if autoInactive}}<p class="ij-item-auto__off"><i class="fa-solid fa-circle-pause"></i> {{autoInactive}}</p>{{/if}}
     </div>
     {{/if}}
 

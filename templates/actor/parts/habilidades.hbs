@@ -20,7 +20,7 @@
         <span class="ij-power__tags">
           {{#if p.origin}}<span class="ij-tag">{{p.origin}}{{#if p.level}} · {{p.level}}º</span>{{/if}}{{/if}}
           {{#if p.action}}<span class="ij-tag">{{p.action}}</span>{{/if}}
-          {{#if p.cost}}<span class="ij-tag ij-tag--pm">{{p.cost}} PM</span>{{/if}}
+          {{#if p.cost}}<span class="ij-tag ij-tag--pm">{{p.cost}} PM</span>{{/if}}{{#if p.uses}}<span class="ij-uses" data-tooltip="{{localize 'IJ.Auto.usesTip'}}">{{p.uses}}</span>{{/if}}{{#if p.automated}}<span class="ij-tag ij-tag--auto" data-tooltip="{{localize 'IJ.Auto.automatedTip'}}"><i class="fa-solid fa-gears"></i></span>{{/if}}
           {{#if p.honorMin}}<span class="ij-tag ij-tag--honor" data-tooltip="{{localize 'IJ.Power.honorReq'}}">{{localize "IJ.AbilityAbbr.hon"}} {{p.honorMin}}+</span>{{/if}}
         </span>
         <span class="ij-power__ctl">
@@ -48,7 +48,7 @@
         <a class="ij-power__name" data-action="toggleCollapse">{{f.name}}</a>
         <span class="ij-power__tags">
           {{#if f.category}}<span class="ij-tag">{{f.category}}</span>{{/if}}
-          {{#if f.cost}}<span class="ij-tag ij-tag--pm">{{f.cost}} PM</span>{{/if}}
+          {{#if f.cost}}<span class="ij-tag ij-tag--pm">{{f.cost}} PM</span>{{/if}}{{#if f.uses}}<span class="ij-uses" data-tooltip="{{localize 'IJ.Auto.usesTip'}}">{{f.uses}}</span>{{/if}}{{#if f.automated}}<span class="ij-tag ij-tag--auto" data-tooltip="{{localize 'IJ.Auto.automatedTip'}}"><i class="fa-solid fa-gears"></i></span>{{/if}}
           {{#if f.honorMin}}<span class="ij-tag ij-tag--honor">{{localize "IJ.AbilityAbbr.hon"}} {{f.honorMin}}+</span>{{/if}}
         </span>
         <span class="ij-power__ctl">

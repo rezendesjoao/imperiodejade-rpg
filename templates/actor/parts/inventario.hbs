@@ -31,6 +31,7 @@
         <li class="ij-inv-row ij-item-row draggable" data-item-id="{{i.id}}">
           <img class="ij-inv-row__img" src="{{i.img}}" alt="">
           <a class="ij-inv-row__name" data-action="itemEdit">{{i.name}}</a>
+          {{#if i.power}}<a class="ij-power-btn" data-action="itemActivate" data-tooltip="{{localize 'IJ.Auto.usePower'}}"><i class="fa-solid fa-wand-sparkles"></i></a>{{/if}}
           {{#if (ne i.equipped null)}}
           <a class="ij-equip ij-equip--sm {{#if i.equipped}}on{{/if}}" data-action="itemEquip" data-tooltip="{{#if i.equipped}}{{localize 'IJ.Item.equipped'}}{{else}}{{localize 'IJ.Item.stowed'}}{{/if}}"><i class="fa-solid fa-check"></i></a>
           {{/if}}

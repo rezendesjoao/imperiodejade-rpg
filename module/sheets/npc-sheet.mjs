@@ -20,9 +20,13 @@ export class NpcSheet extends HandlebarsApplicationMixin(ActorSheetV2) {
   static DEFAULT_OPTIONS = {
     classes: ["imperiodejade", "ij-sheet", "ij-npc"],
     position: { width: 780, height: 860 },
-    window: { resizable: true },
+    window: {
+      resizable: true,
+      controls: [{ icon: "fa-solid fa-gears", label: "IJ.Auto.syncActor", action: "syncAuto", ownership: "OWNER" }]
+    },
     form: { submitOnChange: true },
     actions: {
+      syncAuto: NpcSheet.#onSyncAuto,
       toggleEdit: NpcSheet.#onToggleEdit,
       rollAbility: NpcSheet.#onRollAbility,
       rollSave: NpcSheet.#onRollSave,
@@ -32,6 +36,7 @@ export class NpcSheet extends HandlebarsApplicationMixin(ActorSheetV2) {
       itemEdit: NpcSheet.#onItemEdit,
       itemDelete: NpcSheet.#onItemDelete,
       itemUse: NpcSheet.#onItemUse,
+      itemActivate: NpcSheet.#onItemActivate,
       itemDamage: NpcSheet.#onItemDamage,
       toggleCollapse: NpcSheet.#onToggleCollapse
     }
@@ -76,14 +81,21 @@ export class NpcSheet extends HandlebarsApplicationMixin(ActorSheetV2) {
         score: sys.abilities[key], mod: sys.mods[key] === null ? "—" : signed(sys.mods[key]),
         none: sys.abilities[key] === null
       })),
-      saves: ["fort", "ref", "von"].map(key => ({ key, label: L(`IJ.Save.${key}`), value: signed(sys.saves[key]) })),
-      initiative: signed(sys.initiative),
-      perception: signed(sys.perception),
+      // In play: the numbers with conditions and effects on them
+      saves: ["fort", "ref", "von"].map(key => ({ key, label: L(`IJ.Save.${key}`), value: signed(sys.saveTotals?.[key] ?? sys.saves[key]) })),
+      caTotal: sys.caTotal ?? sys.ca,
+      initiative: signed(sys.initiativeTotal ?? sys.initiative),
+      perception: signed(sys.perceptionTotal ?? sys.perception),
+      activeConditions: [...(actor.statuses ?? [])].filter(id => CONFIG.statusEffects.find(st => st.id === id)).map(id => {
+        const st = CONFIG.statusEffects.find(x => x.id === id);
+        return { id, label: L(st.name), img: st.img, hint: st.description ? L(st.description) : "" };
+      }),
       attacks: itemsOf("weapon").map(w => ({
         id: w.id, name: w.name, img: w.img,
-        attack: signed(w.system.attackTotal), damage: w.system.damageFormula, crit: w.system.critLabel,
+        attack: signed(w.system.attackTotal + (w.system.kind === "corpo" ? (sys.attackMod?.melee ?? 0) : (sys.attackMod?.ranged ?? 0))), damage: w.system.damageFormula, crit: w.system.critLabel,
         type: w.system.damageType, typeLabel: L(DAMAGE_TYPES[w.system.damageType] ?? ""),
-        range: w.system.range ? `${w.system.range} m` : ""
+        range: w.system.range ? `${w.system.range} m` : "",
+        power: w.hasActivation
       })),
       specials: await Promise.all([...itemsOf("power"), ...itemsOf("feat")].map(view)),
       jutsus: await Promise.all(itemsOf("jutsu").map(async j => ({ ...(await view(j)), cost: j.system.cost, dc: j.system.dc }))),
@@ -133,6 +145,12 @@ export class NpcSheet extends HandlebarsApplicationMixin(ActorSheetV2) {
     return id ? this.actor.items.get(id) : null;
   }
 
+  /** Bring the automation of the items on this sheet up to date with the compendium. */
+  static async #onSyncAuto() {
+    const n = await game.imperiodejade.auto.syncActor(this.actor);
+    ui.notifications.info(game.i18n.format("IJ.Auto.migrated", { n, v: game.system.version }));
+  }
+
   static #onToggleEdit() {
     this.#editMode = !this.#editMode;
     this.render();
@@ -175,6 +193,13 @@ export class NpcSheet extends HandlebarsApplicationMixin(ActorSheetV2) {
       rejectClose: false
     });
     if (ok) await item.delete();
+  }
+
+  /** The power of an attack or item (its activation), not the attack itself. */
+  static #onItemActivate(event, target) {
+    const id = target.closest("[data-item-id]")?.dataset.itemId;
+    const item = this.actor.items.get(id);
+    if (item) game.imperiodejade.auto.useItem(item, { event });
   }
 
   static #onItemUse(event, target) {

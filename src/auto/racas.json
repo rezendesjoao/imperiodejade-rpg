@@ -1,0 +1,296 @@
+{
+  "_sobre": "Automação das habilidades de raça (docs/automacao.md). A chave é Raça/Habilidade. Arcano, Faro, Digno e outras já têm efeito no próprio dado (effects).",
+  "Humano/Perícias Extras": {
+    "status": "narrativo",
+    "notes": "As 2 perícias extras já entram no total de perícias permitidas."
+  },
+  "Humano/Talentos Extras": {
+    "status": "narrativo"
+  },
+  "Hanyô/Espírito Livre": {
+    "rollOptions": [
+      {
+        "id": "espirito",
+        "label": "Espírito livre (efeitos que prendem)",
+        "for": [
+          "save",
+          "ability",
+          "skill"
+        ],
+        "value": 4,
+        "optional": true
+      }
+    ]
+  },
+  "Hanyô/Poder Salvador": {
+    "traits": {
+      "costMods": [
+        {
+          "value": -1,
+          "kinds": [
+            "jutsu",
+            "power"
+          ],
+          "when": "inDanger"
+        }
+      ]
+    }
+  },
+  "Henge/Animal": {
+    "traits": {
+      "immune": [
+        "humanoide"
+      ]
+    }
+  },
+  "Henge/Forma Animal": {
+    "status": "narrativo"
+  },
+  "Henge/Movimento Especial": {
+    "status": "narrativo"
+  },
+  "Henge/Ataque Natural": {
+    "status": "narrativo",
+    "notes": "Crie a arma natural da espécie na ficha."
+  },
+  "Henge/Visão na Penumbra": {
+    "status": "narrativo"
+  },
+  "Kaijin/Monstro": {
+    "traits": {
+      "immune": [
+        "humanoide"
+      ]
+    }
+  },
+  "Kaijin/Afinidade com a Tormenta": {
+    "status": "narrativo"
+  },
+  "Kaijin/Disforme": {
+    "status": "narrativo"
+  },
+  "Kaijin/Visão no Escuro": {
+    "status": "narrativo"
+  },
+  "Mashin/Construto": {
+    "traits": {
+      "immune": [
+        "humanoide"
+      ]
+    }
+  },
+  "Mashin/Imunidades": {
+    "traits": {
+      "immune": [
+        "doenca",
+        "veneno",
+        "sono",
+        "fadiga",
+        "enjoo",
+        "paralisia",
+        "atordoamento",
+        "luz",
+        "trevas"
+      ]
+    }
+  },
+  "Mashin/Quase Vivo": {
+    "status": "narrativo"
+  },
+  "Mashin/Sem Cura": {
+    "traits": {
+      "noHeal": true
+    }
+  },
+  "Mashin/Cura Elemental": {
+    "choice": {
+      "label": "Elemento",
+      "count": 1,
+      "options": [
+        {
+          "id": "fogo",
+          "label": "Fogo",
+          "traits": {
+            "immune": [
+              "fogo"
+            ],
+            "healFrom": [
+              "fogo"
+            ]
+          }
+        },
+        {
+          "id": "frio",
+          "label": "Frio",
+          "traits": {
+            "immune": [
+              "frio"
+            ],
+            "healFrom": [
+              "frio"
+            ]
+          }
+        },
+        {
+          "id": "vento",
+          "label": "Vento",
+          "traits": {
+            "immune": [
+              "vento"
+            ],
+            "healFrom": [
+              "vento"
+            ]
+          }
+        },
+        {
+          "id": "acido",
+          "label": "Ácido",
+          "traits": {
+            "immune": [
+              "acido"
+            ],
+            "healFrom": [
+              "acido"
+            ]
+          }
+        },
+        {
+          "id": "eletricidade",
+          "label": "Eletricidade",
+          "traits": {
+            "immune": [
+              "eletricidade"
+            ],
+            "healFrom": [
+              "eletricidade"
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "Mashin/Visão no Escuro": {
+    "status": "narrativo"
+  },
+  "Nezumi/Tamanho Pequeno": {
+    "status": "narrativo",
+    "notes": "Aplicado pelo tamanho da raça."
+  },
+  "Nezumi/Deslocamento 9m": {
+    "status": "narrativo",
+    "notes": "Aplicado pelo deslocamento da raça."
+  },
+  "Nezumi/Visão na Penumbra": {
+    "status": "narrativo"
+  },
+  "Ryuujin/Honra Superior": {
+    "rollOptions": [
+      {
+        "id": "honra",
+        "label": "Honra superior",
+        "attack": 1,
+        "damage": 1,
+        "when": "vsLowerHonor",
+        "locked": true,
+        "strict": true
+      }
+    ],
+    "traits": {
+      "defense": [
+        {
+          "value": 1,
+          "when": "vsLowerHonor",
+          "label": "Honra superior"
+        }
+      ]
+    }
+  },
+  "Ryuujin/Resistência Celestial": {
+    "choice": {
+      "label": "Três descritores",
+      "count": 3,
+      "options": [
+        {
+          "id": "acido",
+          "label": "Ácido",
+          "traits": {
+            "resist": {
+              "acido": 5
+            }
+          }
+        },
+        {
+          "id": "eletricidade",
+          "label": "Eletricidade",
+          "traits": {
+            "resist": {
+              "eletricidade": 5
+            }
+          }
+        },
+        {
+          "id": "fogo",
+          "label": "Fogo",
+          "traits": {
+            "resist": {
+              "fogo": 5
+            }
+          }
+        },
+        {
+          "id": "frio",
+          "label": "Frio",
+          "traits": {
+            "resist": {
+              "frio": 5
+            }
+          }
+        },
+        {
+          "id": "vento",
+          "label": "Vento",
+          "traits": {
+            "resist": {
+              "vento": 5
+            }
+          }
+        }
+      ]
+    }
+  },
+  "Ryuujin/Visão no Escuro": {
+    "status": "narrativo"
+  },
+  "Vanara/Cauda Preênsil": {
+    "status": "narrativo"
+  },
+  "Vanara/Culto": {
+    "traits": {
+      "untrainedSkills": [
+        "conhecimento"
+      ]
+    }
+  },
+  "Vanara/Mente Sobre a Matéria": {
+    "traits": {
+      "saveBest": {
+        "fort": "von"
+      }
+    }
+  },
+  "Vanara/Visão na Penumbra": {
+    "status": "narrativo"
+  },
+  "Hanyô/Arcano": {},
+  "Hanyô/Brincar com os Sentimentos": {},
+  "Henge/Agilidade Animal": {},
+  "Henge/Faro": {},
+  "Kaijin/Ameaçador": {},
+  "Kaijin/Talentos da Tormenta": {},
+  "Nezumi/Amedrontador": {},
+  "Nezumi/Faro": {},
+  "Ryuujin/Digno": {},
+  "Ryuujin/Sorte Ancestral": {},
+  "Vanara/Conheça o Inimigo": {}
+}

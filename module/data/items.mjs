@@ -11,12 +11,20 @@ const text = (initial = "") => new fields.StringField({ required: true, blank: t
 const choice = (choices, initial) => new fields.StringField({ required: true, initial, choices: Object.keys(choices) });
 const html = () => new fields.HTMLField({ required: true, blank: true });
 
-/** Fields every item shares: the description and where it came from (book page). */
+/**
+ * Fields every item shares: the description, where it came from (book page) and the automation.
+ * `auto` is what the item does by itself (docs/automacao.md); `choices` and `choiceText` are the picks made on an
+ * owned copy (a fighting style, the weapon of Foco em Arma); `spent` counts the uses of the period.
+ */
 class ItemBase extends foundry.abstract.TypeDataModel {
   static defineSchema() {
     return {
       description: html(),
-      source: text()
+      source: text(),
+      auto: new fields.ObjectField({ required: true, initial: {} }),
+      choices: new fields.ArrayField(new fields.StringField({ required: true, blank: false })),
+      choiceText: text(),
+      spent: int(0, { min: 0 })
     };
   }
 }
@@ -130,20 +138,51 @@ export class WeaponData extends ItemBase {
     return (WEAPON_KINDS[this.kind] ?? WEAPON_KINDS.corpo).attack;
   }
 
+  /**
+   * Does the owner know how to use it? Characters with proficiency feats (Usar Armas Simples/Marciais, Usar Arma
+   * Exótica for this weapon) are checked against the weapon's category; without any, the checkbox decides.
+   */
+  get isProficient() {
+    const traits = this.#owner?.traits;
+    const prof = traits?.proficiency;
+    if (!prof) return this.proficient;
+    const name = String(this.parent?.name ?? "").normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
+    const shift = traits.proficiencyShift ?? 0;
+    const known = new Set(prof);
+    // Bênção de Dai'Gun: martial weapons count as simple, exotic as martial
+    if (shift && known.has("simples")) known.add("marcial");
+    if (shift && known.has("marcial")) known.add("exotica");
+    if (known.has(this.category)) return true;
+    if ((traits.exotic ?? []).some(w => w && name.includes(String(w).toLowerCase()))) return true;
+    return this.proficient && !prof.length;
+  }
+
   /** Total attack bonus: BBA + ability + size + weapon bonus, −4 without proficiency (p. 141). */
   get attackTotal() {
     const sys = this.#owner;
     if (!sys?.attack) return this.attackBonus;
-    const base = this.attackAbility === "for" ? sys.attack.melee : sys.attack.ranged;
-    return base + this.attackBonus - (this.proficient ? 0 : 4);
+    let base = this.attackAbility === "for" ? sys.attack.melee : sys.attack.ranged;
+    // Acuidade com Arma: Dexterity instead of Strength with light melee weapons
+    if ((this.attackAbility === "for") && sys.traits?.finesse && (this.grip === "leve")) {
+      base += Math.max(0, (sys.abilities.des.mod ?? 0) - (sys.abilities.for.mod ?? 0));
+    }
+    return base + this.attackBonus - (this.isProficient ? 0 : 4);
   }
 
-  /** Flat damage: Strength for melee and thrown weapons, none for missile weapons (p. 227), plus bonuses. */
+  /**
+   * Flat damage: Strength for melee and thrown weapons, none for missile weapons (p. 227), plus bonuses; Golpe com
+   * Duas Mãos doubles Strength, Ataque Preciso and Na Mosca add Dexterity.
+   */
   get damageFlat() {
     const sys = this.#owner;
     const kind = WEAPON_KINDS[this.kind] ?? WEAPON_KINDS.corpo;
-    const strength = (kind.damage && sys) ? (sys.abilities?.for?.mod ?? 0) : 0;
-    return strength + this.damageBonus + (sys?.attack?.damage ?? 0);
+    const traits = sys?.traits ?? {};
+    let strength = (kind.damage && sys) ? (sys.abilities?.for?.mod ?? 0) : 0;
+    if (traits.twoHandedStrength && (this.kind === "corpo") && (this.grip === "duasMaos") && (strength > 0)) strength *= 2;
+    let dex = 0;
+    if (sys && traits.finesseDamage && (this.kind === "corpo") && (this.grip === "leve")) dex = Math.max(0, sys.abilities.des.mod);
+    if (sys && traits.rangedDexDamage && (this.kind !== "corpo")) dex = Math.max(0, sys.abilities.des.mod);
+    return strength + dex + this.damageBonus + (sys?.attack?.damage ?? 0);
   }
 
   /** "1d10 + 3" */

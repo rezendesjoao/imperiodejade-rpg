@@ -8,11 +8,18 @@ import { SYSTEM_ID } from "../config.mjs";
 
 const flagOf = item => item.flags?.[SYSTEM_ID] ?? {};
 
-/** Whether the actor already has the item that `uuid` points to (granted, dropped from the compendium or by name). */
-function alreadyHas(actor, uuid, name, type) {
-  return actor.items.some(i => (flagOf(i).sourceUuid === uuid)
-    || (i._stats?.compendiumSource === uuid)
-    || ((i.name === name) && (i.type === type)));
+const normText = s => String(s ?? "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().trim();
+
+/**
+ * Whether the actor already has the item that `uuid` points to (granted, dropped from the compendium or by name).
+ * With a choice (Foco em Arma for the katana), only a copy with the same choice counts.
+ */
+function alreadyHas(actor, uuid, name, type, choiceText = null) {
+  return actor.items.some(i => {
+    const same = (flagOf(i).sourceUuid === uuid) || (i._stats?.compendiumSource === uuid) || ((i.name === name) && (i.type === type));
+    if (!same) return false;
+    return choiceText ? normText(i.system.choiceText) === normText(choiceText) : true;
+  });
 }
 
 /**
@@ -21,17 +28,31 @@ function alreadyHas(actor, uuid, name, type) {
  */
 async function grant(actor, source, entries) {
   const data = [];
+  const pending = new Set();
   for (const entry of entries) {
     if (!entry.uuid) continue;
+    // The same item twice in one batch (a class that gives "Usar Armas Simples" by two paths) comes once
+    const key = `${entry.uuid}|${entry.choiceText ?? ""}`;
+    if (pending.has(key)) continue;
+    pending.add(key);
     const doc = await fromUuid(entry.uuid).catch(() => null);
     if (!doc) {
       console.warn(`${SYSTEM_ID} | ${source.name}: não achei ${entry.name} (${entry.uuid})`);
       continue;
     }
-    if (alreadyHas(actor, entry.uuid, doc.name, doc.type)) continue;
+    // "@choice": the granted item takes the choice made on the item that grants it (the kensei's Arma eleita)
+    const choiceText = entry.choiceText === "@choice" ? (source.system?.choiceText ?? "") : (entry.choiceText ?? null);
+    if (entry.choiceText === "@choice" && !choiceText) continue;
+    if (alreadyHas(actor, entry.uuid, doc.name, doc.type, choiceText)) continue;
     const itemData = game.items.fromCompendium(doc, { clearFolder: true, keepId: false });
     foundry.utils.setProperty(itemData, `flags.${SYSTEM_ID}.grantedBy`, source.id);
     foundry.utils.setProperty(itemData, `flags.${SYSTEM_ID}.sourceUuid`, entry.uuid);
+    if (entry.option) foundry.utils.setProperty(itemData, `flags.${SYSTEM_ID}.grantedOption`, entry.option);
+    // A feat granted for a chosen thing (Foco em Arma for the eleita) carries the choice along
+    if (choiceText) foundry.utils.setProperty(itemData, "system.choiceText", choiceText);
+    if (entry.choiceText === "@choice") foundry.utils.setProperty(itemData, `flags.${SYSTEM_ID}.copyChoice`, true);
+    // A granted item can come with its choice made (Usar Arma Exótica: katana)
+    if (entry.choices?.length) foundry.utils.setProperty(itemData, "system.choices", [...entry.choices]);
     data.push(itemData);
   }
   if (!data.length) return [];
@@ -59,6 +80,33 @@ export async function grantRaceFeatures(race) {
   const actor = race.actor;
   if (!actor || actor.type !== "character") return [];
   return grant(actor, race, race.system.features ?? []);
+}
+
+/**
+ * Items an ability, feat or item brings (system.auto.grants), plus those of the options chosen on it
+ * (system.auto.choice.options[].grants). Options no longer chosen take their grants back.
+ */
+export async function syncItemGrants(item) {
+  const actor = item.actor;
+  if (!actor || !["character", "npc"].includes(actor.type)) return [];
+  // An amulet's jutsus only while it is worn
+  if (["gear", "weapon", "armor"].includes(item.type) && (item.system.equipped === false)) {
+    await removeGranted(item);
+    return [];
+  }
+  const auto = item.system.auto ?? {};
+  const picks = item.system.choices ?? [];
+  const entries = [...(auto.grants ?? [])];
+  for (const opt of auto.choice?.options ?? []) {
+    if (picks.includes(opt.id)) entries.push(...(opt.grants ?? []).map(g => ({ ...g, option: opt.id })));
+  }
+  // Grants of options that were unchosen
+  const stale = actor.items.filter(i => (flagOf(i).grantedBy === item.id) && flagOf(i).grantedOption && !picks.includes(flagOf(i).grantedOption)).map(i => i.id);
+  if (stale.length) await actor.deleteEmbeddedDocuments("Item", stale, { ijGranted: true });
+  // Granted copies that follow the choice text get the new text
+  const follow = actor.items.filter(i => (flagOf(i).grantedBy === item.id) && flagOf(i).copyChoice && (i.system.choiceText !== item.system.choiceText));
+  if (follow.length) await actor.updateEmbeddedDocuments("Item", follow.map(i => ({ _id: i.id, "system.choiceText": item.system.choiceText })));
+  return entries.length ? grant(actor, item, entries) : [];
 }
 
 /** The item left the actor: its granted items leave too. */

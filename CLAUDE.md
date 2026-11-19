@@ -14,6 +14,8 @@ chacras e jutsus com custo e CD por grau.
 - `module/documents/`: rolagens, Honra, descanso, PM (ator); ataque, dano, jutsu, uso (item).
 - `module/dice/rolls.mjs`: os cartões de chat (`templates/chat/roll-card.hbs`) e os botões deles (dano, aplicar dano).
 - `module/sheets/`: ficha de personagem (ApplicationV2, uma parte por aba) e ficha de item.
+- `module/auto/`: o motor de automação (condições, efeitos com duração, usos, opções de rolagem, ataque contra a CA dos
+  alvos, dano com RD/resistências/evasão/fortificação, reações, jutsus). O formato dos dados está em `docs/automacao.md`.
 - `styles/imperio.css`: todo o visual; `styles/fonts.css`: Cinzel (Google Fonts), Gelasio e Noto Serif JP (embutidas).
 
 ## Compêndios
@@ -28,6 +30,15 @@ chacras e jutsus com custo e CD por grau.
 - `game.imperiodejade.bookText` mostra o texto original de um módulo local que cada jogador gera do próprio PDF
   (importador fora deste repositório). O sistema nunca traz esse texto.
 
+## Automação
+- O que cada habilidade, talento, jutsu, item e criatura faz sozinho fica em `src/auto/*.json`, com a chave pelo nome
+  (`"Bushi/Resolução"`, `"Foco em Arma"`, `"Oni/Garra"`); o build copia para `system.auto` e transforma os passivos em
+  efeitos ativos. `node tools/check-auto.mjs` confere os blocos (e `--stats` mostra a cobertura).
+- Efeito em ator de outro jogador vai pelo socket do sistema para o mestre ativo (`module/auto/effects.mjs`).
+- Condições do livro são os estados do token (`module/auto/conditions.mjs`); os números saem de `conditionMods`, nunca
+  de mudanças nos efeitos de condição.
+- Fórmulas: `@rank` (níveis da habilidade alcançados), `@classe`, `rank()`, `lvl()`, `from()`, `dice()`, `dlvl()`.
+
 ## Regras que valem sempre
 - Código e comentários em inglês; interface em `lang/pt-BR.json` (registrado também para `en`).
 - Um campo `name` aparece uma vez só no formulário inteiro: as abas são partes do mesmo `<form>` e dois campos com o
@@ -41,6 +52,6 @@ chacras e jutsus com custo e CD por grau.
   desligue no fim (ele trava o Data inteiro).
 
 ## Release
-1. `version` e `download` no `system.json`; entrada nova no CHANGELOG.
+1. `version` e `download` no `system.json`; entrada nova no CHANGELOG; `node tools/check-auto.mjs` sem problemas.
 2. `node tools/package.mjs` (gera `dist/imperiodejade.zip` e `dist/system.json`).
 3. Commit, push e `gh release create vX.Y.Z dist/system.json dist/imperiodejade.zip --repo rezendesjoao/imperiodejade-rpg`.

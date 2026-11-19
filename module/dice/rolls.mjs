@@ -1,4 +1,6 @@
 import { SYSTEM_ID } from "../config.mjs";
+import { askOptions } from "../auto/dialog.mjs";
+import { adjustCost } from "../auto/activation.mjs";
 
 const { renderTemplate } = foundry.applications.handlebars;
 const CARD = `systems/${SYSTEM_ID}/templates/chat/roll-card.hbs`;
@@ -21,22 +23,8 @@ function bonusTerm(n) {
  * @returns {Promise<number|null>} The modifier, or null if the dialog was closed.
  */
 export async function askModifier(title) {
-  const content = `<div class="ij-dialog-mod">
-    <p>${game.i18n.localize("IJ.Roll.situationalHint")}</p>
-    <label>${game.i18n.localize("IJ.Roll.otherBonus")} <input type="number" name="bonus" value="0" step="1" autofocus></label>
-  </div>`;
-  const read = (button, dialog, base) => base + (Number(dialog.element.querySelector("input[name=bonus]")?.value) || 0);
-  return foundry.applications.api.DialogV2.wait({
-    window: { title, icon: "fa-solid fa-dice-d20" },
-    classes: ["imperiodejade", "ij-dialog"],
-    content,
-    rejectClose: false,
-    buttons: [
-      { action: "bad", label: game.i18n.localize("IJ.Roll.unfavorable"), icon: "fa-solid fa-arrow-down", callback: (e, b, d) => read(b, d, -2) },
-      { action: "normal", label: game.i18n.localize("IJ.Roll.normal"), icon: "fa-solid fa-dice-d20", default: true, callback: (e, b, d) => read(b, d, 0) },
-      { action: "good", label: game.i18n.localize("IJ.Roll.favorable"), icon: "fa-solid fa-arrow-up", callback: (e, b, d) => read(b, d, 2) }
-    ]
-  });
+  const answer = await askOptions(title, []);
+  return answer ? answer.bonus : null;
 }
 
 /**
@@ -51,82 +39,103 @@ export async function askModifier(title) {
  * @param {number} [options.critRange]   Natural roll that threatens a critical (attacks)
  * @param {string} [options.kind]        "check" | "save" | "attack" | "initiative"
  * @param {object} [options.buttons]     Extra buttons [{action, label, icon, data}]
- * @param {Event} [options.event]        The click: Shift asks for a situational modifier
+ * @param {Event} [options.event]        The click: Shift asks for a situational modifier, Alt skips the options
+ * @param {number|null} [options.dc]     A DC to beat: the card says success or failure
+ * @param {object[]} [options.options]   Roll options (auto/context.mjs rollOptionsFor): the dialog offers them
+ * @param {number} [options.bestOf]      Another bonus rolled alongside; the better result stands (Mente Sobre a Matéria)
+ * @param {boolean} [options.autoSuccess] Passes no matter the roll (Autoperfeição)
+ * @param {Function} [options.after]     (context) => extra buttons, called once the result is known
  */
-export async function d20Roll({ actor, title, subtitle = "", bonus = 0, parts = [], kanji = "", critRange = 20, kind = "check", buttons = [], event = null, flags = {}, dc = null }) {
-  let situational = 0;
-  if (event?.shiftKey) {
-    const mod = await askModifier(title);
-    if (mod === null) return null;
-    situational = mod;
+export async function d20Roll({ actor, title, subtitle = "", bonus = 0, parts = [], kanji = "", critRange = 20, kind = "check", buttons = [], event = null, flags = {}, dc = null, options = [], bestOf = null, bestLabel = "", autoSuccess = false, after = null }) {
+  // The options an actor has for this roll (and the situational modifier)
+  let picked = { selected: new Set(options.filter(o => o.locked || o.auto).map(o => o.id)), pm: {}, split: {}, bonus: 0 };
+  const optional = options.filter(o => !o.locked);
+  if ((event?.shiftKey || optional.length) && !event?.altKey) {
+    picked = await askOptions(title, options, { pmLimit: actor?.pmLimit ?? Infinity });
+    if (!picked) return null;
   }
-  const total = bonus + situational;
+  const chosen = options.filter(o => picked.selected.has(o.id));
+  let cost = 0;
+  const optionParts = [];
+  for (const o of chosen) {
+    cost += o.cost + (picked.pm[o.id] ?? 0);
+    const v = o.value + ((o.pm && picked.pm[o.id]) ? picked.pm[o.id] * (o.pm.attack || o.pm.damage || 0) : 0);
+    if (v) optionParts.push({ label: o.label, value: v });
+  }
+  cost = adjustCost(actor, cost, { kind: "power" });
+  if (cost > 0 && actor && !(await actor.spendPm(cost))) return null;
+
+  const situational = picked.bonus;
+  const total = bonus + situational + optionParts.reduce((t, p) => t + p.value, 0);
+  // An option that rolls two d20 and keeps the better (Ataque Zen, Língua de Prata)
+  const advantage = chosen.find(o => o.best);
+  if (advantage && (bestOf === null || bestOf === undefined)) {
+    bestOf = total - situational;
+    bestLabel = advantage.label;
+  }
   const roll = await new Roll(`1d20${bonusTerm(total)}`, actor?.getRollData?.() ?? {}).evaluate();
-  const natural = roll.dice[0]?.total ?? 0;
-  const allParts = situational ? [...parts, { label: game.i18n.localize("IJ.Roll.situational"), value: situational }] : parts;
+  const rolls = [roll];
+  let shown = roll;
+  let bestNote = "";
+  // Roll another bonus too and keep the better result
+  if (bestOf !== null && bestOf !== undefined) {
+    const other = await new Roll(`1d20${bonusTerm(bestOf + situational)}`, actor?.getRollData?.() ?? {}).evaluate();
+    rolls.push(other);
+    if (other.total > roll.total) shown = other;
+    bestNote = `${bestLabel}: ${other.total} (${signed(bestOf + situational)})`;
+  }
+  const natural = shown.dice[0]?.total ?? 0;
+  const allParts = [...parts, ...optionParts, ...(situational ? [{ label: game.i18n.localize("IJ.Roll.situational"), value: situational }] : [])];
+  // Against a DC: natural 20 always succeeds and natural 1 always fails on saves (p. 78)
+  let success = (dc === null) ? null : ((kind === "save") && (natural === 20)) ? true
+    : ((kind === "save") && (natural === 1)) ? false : shown.total >= dc;
+  if (autoSuccess && dc !== null) success = true;
   const context = {
     title, subtitle, kanji, kind,
-    total: roll.total,
+    total: shown.total,
     natural,
     bonus: signed(total),
     parts: allParts.filter(p => p.value).map(p => ({ label: p.label, value: signed(p.value) })),
     crit: natural >= critRange,
     critLabel: kind === "attack" ? "IJ.Roll.threat" : "IJ.Roll.natural20",
     fumble: natural === 1,
-    dice: await roll.render(),
+    dice: (await Promise.all(rolls.map(r => r.render()))).join(""),
     img: actor?.img,
-    buttons,
+    buttons: [...buttons],
     dc,
-    // Against a DC: natural 20 always succeeds and natural 1 always fails on saves (p. 78)
-    success: (dc === null) ? null : ((kind === "save") && (natural === 20)) ? true
-      : ((kind === "save") && (natural === 1)) ? false : roll.total >= dc
+    success,
+    lines: [bestNote, autoSuccess && dc !== null ? game.i18n.localize("IJ.Auto.autoSuccess") : "", cost ? `${cost} PM` : ""].filter(Boolean)
   };
+  if (after) context.buttons.push(...(after({ total: shown.total, natural, success, dc }) ?? []));
   const content = await renderTemplate(CARD, context);
   return ChatMessage.create({
     speaker: ChatMessage.getSpeaker({ actor }),
     content,
-    rolls: [roll],
-    flags: { [SYSTEM_ID]: { kind, ...flags } }
+    rolls,
+    flags: { [SYSTEM_ID]: { kind, actor: actor?.uuid ?? null, total: shown.total, success, dc, ...flags } }
   }, { messageMode: game.settings.get("core", "messageMode") });
 }
 
 /**
- * Roll damage (or healing) and post the card with the buttons that apply it to the controlled tokens.
- * A critical multiplies the whole result (dice and modifiers, p. 141).
+ * Roll damage (or healing) and post the card with the buttons that apply it.
+ * Kept for macros: a single part, physical or not.
  */
 export async function damageRoll({ actor, title, subtitle = "", formula, multiplier = 1, damageType = "", physical = true, kanji = "", healing = false }) {
-  const expr = multiplier > 1 ? `(${formula}) * ${multiplier}` : formula;
-  const roll = await new Roll(expr, actor?.getRollData?.() ?? {}).evaluate();
-  const context = {
-    title, subtitle, kanji,
-    kind: healing ? "healing" : "damage",
-    total: roll.total,
-    critical: multiplier > 1,
-    multiplier,
-    damageType,
-    dice: await roll.render(),
-    img: actor?.img,
-    apply: true,
-    healing,
-    amount: roll.total,
-    physical
-  };
-  const content = await renderTemplate(CARD, context);
-  return ChatMessage.create({
-    speaker: ChatMessage.getSpeaker({ actor }),
-    content,
-    rolls: [roll],
-    flags: { [SYSTEM_ID]: { kind: context.kind, amount: roll.total, physical } }
-  }, { messageMode: game.settings.get("core", "messageMode") });
+  const { rollDamage } = await import("../auto/damage.mjs");
+  return rollDamage({
+    actor, title, subtitle, kanji,
+    parts: [{ formula, type: damageType, physical }],
+    critical: multiplier > 1, mult: multiplier, healing
+  });
 }
 
 /** A card without a roll (abilities, jutsus, Honor). */
-export async function infoCard({ actor, title, subtitle = "", kanji = "", body = "", tags = [], buttons = [], kind = "info" }) {
+export async function infoCard({ actor, title, subtitle = "", kanji = "", body = "", tags = [], buttons = [], kind = "info", flags = {} }) {
   const content = await renderTemplate(CARD, { title, subtitle, kanji, body, tags, buttons, kind, img: actor?.img, info: true });
   return ChatMessage.create({
     speaker: ChatMessage.getSpeaker({ actor }),
     content,
-    flags: { [SYSTEM_ID]: { kind } }
+    flags: { [SYSTEM_ID]: { kind, ...flags } }
   }, { messageMode: game.settings.get("core", "messageMode") });
 }
 
@@ -134,39 +143,29 @@ export async function infoCard({ actor, title, subtitle = "", kanji = "", body =
 /*  Chat card buttons                           */
 /* -------------------------------------------- */
 
-/** The actors of the controlled tokens (or the user's character), for "apply damage". */
-function targetActors() {
-  const tokens = canvas?.tokens?.controlled ?? [];
-  const actors = tokens.map(t => t.actor).filter(Boolean);
-  if (!actors.length && game.user.character) actors.push(game.user.character);
-  return actors;
+/** The actors of the user's targets, else the controlled tokens, else the user's character. */
+export function targetActors() {
+  const targets = [...(game.user.targets ?? [])].map(t => t.actor).filter(Boolean);
+  if (targets.length) return targets;
+  const controlled = (canvas?.tokens?.controlled ?? []).map(t => t.actor).filter(Boolean);
+  if (controlled.length) return controlled;
+  return game.user.character ? [game.user.character] : [];
 }
 
 /**
- * Apply damage to an actor: temporary PV go first, physical damage is reduced by the damage reduction (p. 227).
+ * Apply damage to an actor (macros and older cards): temporary PV go first, physical damage is reduced by RD.
  * @param {Actor} actor
  * @param {number} amount        Positive damage, or negative for healing
  * @param {object} [options]
- * @param {boolean} [options.physical=true]  Whether damage reduction applies
+ * @param {boolean} [options.physical=true]
  */
 export async function applyDamage(actor, amount, { physical = true } = {}) {
-  if (!["character", "npc"].includes(actor.type)) return;
-  const base = actor.type === "npc" ? "system.pv" : "system.attributes.pv";
-  const pv = foundry.utils.getProperty(actor, base);
-  if (amount < 0) {
-    const value = Math.min(pv.max, pv.value - amount);
-    await actor.update({ [`${base}.value`]: value });
-    return { healed: value - pv.value };
-  }
-  const rd = physical ? (actor.system.rd ?? 0) : 0;
-  let damage = Math.max(0, amount - rd);
-  const fromTemp = Math.min(pv.temp ?? 0, damage);
-  damage -= fromTemp;
-  await actor.update({
-    [`${base}.temp`]: (pv.temp ?? 0) - fromTemp,
-    [`${base}.value`]: pv.value - damage
-  });
-  return { damage: damage + fromTemp, reduced: Math.min(rd, amount) };
+  const { computeDamage, applyToActor } = await import("../auto/damage.mjs");
+  if (amount < 0) return applyToActor(actor, { heal: -amount });
+  const card = { parts: [{ amount, single: amount, type: physical ? "" : "energia", physical }] };
+  const result = await computeDamage(actor, card);
+  const applied = await applyToActor(actor, { amount: result.amount });
+  return { damage: applied.damage, reduced: amount - result.amount };
 }
 
 async function onCardButton(event, message) {
@@ -174,39 +173,56 @@ async function onCardButton(event, message) {
   if (!button) return;
   event.preventDefault();
   const { ijAction } = button.dataset;
+  const auto = await import("../auto/index.mjs");
 
-  if (ijAction === "apply") {
-    const amount = Number(button.dataset.amount) || 0;
-    const physical = button.dataset.physical === "true";
-    const actors = targetActors();
-    if (!actors.length) return ui.notifications.warn(game.i18n.localize("IJ.Chat.noTarget"));
-    for (const actor of actors) {
-      if (!actor.isOwner) continue;
-      const result = await applyDamage(actor, amount, { physical });
-      if (!result) continue;
-      const key = amount < 0 ? "IJ.Chat.healedNote" : "IJ.Chat.damagedNote";
-      ui.notifications.info(game.i18n.format(key, { name: actor.name, n: Math.abs(result.healed ?? result.damage ?? 0) }));
+  switch (ijAction) {
+    // Damage cards: to the hits of the attack / the targets / the selected tokens
+    case "applyCard": return auto.applyCard(message, { half: null });
+    case "applyHalf": return auto.applyCard(message, { half: true });
+    case "applyFull": return auto.applyCard(message, { half: false });
+    case "apply": {
+      // Older cards without parts
+      const amount = Number(button.dataset.amount) || 0;
+      const physical = button.dataset.physical === "true";
+      for (const actor of targetActors()) await applyDamage(actor, amount, { physical });
+      return;
     }
-    return;
+    case "attackDamage": return auto.attackDamage(message, { critical: button.dataset.crit === "true" });
+    case "autoTargets": return auto.onApplyTargets(message);
+    case "autoDamage": return auto.onDamage(message, { alt: button.dataset.alt === "1" });
+    case "autoHeal": return auto.onHeal(message);
+    case "reaction": return auto.useReaction(button, message);
+    case "extraAttack": {
+      // The same attack again (the automatic options apply; costs were paid on the first one)
+      const attacker = await fromUuid(button.dataset.actor);
+      if (!attacker?.isOwner) return ui.notifications.warn(game.i18n.localize("IJ.Chat.notOwner"));
+      const weapon = button.dataset.item ? attacker.items.get(button.dataset.item) : null;
+      const extra = game.i18n.localize("IJ.Auto.extraAttack");
+      return weapon ? weapon.rollAttack({ event: { altKey: true }, reaction: extra }) : attacker.rollPlainAttack("melee", { event: { altKey: true } });
+    }
+    case "endScene": return auto.endScene();
+    case "save": {
+      // Each targeted/selected token (or the user's character) rolls against the DC; failing applies what the card says
+      const actors = targetActors().filter(a => a.isOwner);
+      if (!actors.length) return ui.notifications.warn(game.i18n.localize("IJ.Chat.noTargetSave"));
+      const dc = Number(button.dataset.dc) || null;
+      const sourceActor = message.speaker?.actor ? game.actors.get(message.speaker.actor) : null;
+      for (const actor of actors) {
+        await actor.rollSave(button.dataset.save, { dc, source: button.dataset.source ?? "", sourceId: message.id, sourceActor });
+      }
+      return;
+    }
   }
 
-  // Saving throws asked by a jutsu or ability: each selected token (or the user's character) rolls against the DC
-  if (ijAction === "save") {
-    const actors = targetActors().filter(a => a.isOwner);
-    if (!actors.length) return ui.notifications.warn(game.i18n.localize("IJ.Chat.noTargetSave"));
-    const dc = Number(button.dataset.dc) || null;
-    for (const actor of actors) await actor.rollSave(button.dataset.save, { dc, source: button.dataset.source ?? "" });
-    return;
-  }
-
-  // Item buttons (damage of an attack, damage and attack of a jutsu)
+  // Item buttons (attacks of jutsus and abilities)
   const actor = await fromUuid(button.dataset.actor);
   const item = actor?.items.get(button.dataset.item);
   if (!item) return ui.notifications.warn(game.i18n.localize("IJ.Chat.itemGone"));
   if (!actor.isOwner) return ui.notifications.warn(game.i18n.localize("IJ.Chat.notOwner"));
+  if (ijAction === "autoAttack") return item.rollAutoAttack({ message });
   if (ijAction === "damage") return item.rollDamage({ critical: button.dataset.crit === "true" });
-  if (ijAction === "jutsuDamage") return item.rollJutsuDamage({ extra: Number(button.dataset.extra) || 0 });
-  if (ijAction === "jutsuAttack") return item.rollJutsuAttack();
+  if (ijAction === "jutsuDamage") return auto.onDamage(message);
+  if (ijAction === "jutsuAttack") return item.rollAutoAttack({ message });
 }
 
 /** Bind the card buttons when a message is rendered. */

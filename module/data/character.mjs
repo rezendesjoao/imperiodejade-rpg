@@ -2,6 +2,8 @@ import {
   ABILITIES, BBA_PROGRESSIONS, CASTES, CHAKRAS, JUTSU_GRADES, KEY_ABILITIES, SAVES, SIZES, SKILLS,
   abilityMod, honorTier, xpForLevel
 } from "../config.mjs";
+import { collectTraits } from "../auto/context.mjs";
+import { conditionMods } from "../auto/conditions.mjs";
 
 const { fields } = foundry.data;
 
@@ -66,6 +68,16 @@ export class CharacterData extends foundry.abstract.TypeDataModel {
         rd: int(0, { min: 0 }),
         // Threat range bonus for every weapon (+1 = a 19 also threatens on a 20-only weapon), e.g. Conheça o Inimigo
         critBonus: int(0, { min: 0 }),
+        // Critical multiplier bonus for every weapon (Letalidade)
+        critMult: int(0, { min: 0 }),
+        // Bonuses that effects give to whole groups of rolls (buffs and conditions of abilities and jutsus)
+        mods: new fields.SchemaField({
+          attack: int(0), skills: int(0), physSkills: int(0), abilityTests: int(0), saves: int(0)
+        }),
+        // Negative levels (p. 252): −1 on attacks, tests and saves each
+        negativeLevels: int(0, { min: 0 }),
+        // Reduces the armor penalty (Foco em Armadura: +1); the penalty never turns into a bonus
+        armorPenaltyMod: int(0),
         energy: text()
       }),
       honor: new fields.SchemaField({
@@ -101,6 +113,16 @@ export class CharacterData extends foundry.abstract.TypeDataModel {
   /* -------------------------------------------- */
 
   prepareBaseData() {
+    // Level, BBA and half level (p. 45-46) come first: the formulas of the active effects use them
+    const classes = this.parent.items.filter(i => i.type === "class").sort((a, b) => a.sort - b.sort);
+    const level = classes.length ? Math.max(1, classes.reduce((t, c) => t + c.system.levels, 0)) : this.attributes.level;
+    this.level = level;
+    this.halfLevel = Math.floor(level / 2);
+    this.bba = classes.length
+      ? classes.reduce((t, c) => t + (BBA_PROGRESSIONS[c.system.bba]?.calc(c.system.levels) ?? 0), 0)
+      : this.attributes.bba;
+    // Talentos da Tormenta grow with how many the character has
+    this.tormenta = this.parent.items.filter(i => (i.type === "feat") && (i.system.category === "tormenta")).length;
     // A first pass, so the roll data used while applying effects already has the modifiers
     this.#prepareAbilities();
   }
@@ -145,14 +167,15 @@ export class CharacterData extends foundry.abstract.TypeDataModel {
     // Plain summaries only: documents never live inside the system data
     this.classes = classes.map(c => ({ id: c.id, name: c.name, img: c.img, levels: c.system.levels, primary: c === primary }));
     this.auto = { classes: classes.length > 0, race: !!race, raceId: race?.id ?? null };
+    const level = this.level;
 
-    // Level, BBA and half level (p. 45-46)
-    const level = classes.length ? Math.max(1, classes.reduce((t, c) => t + c.system.levels, 0)) : this.attributes.level;
-    this.level = level;
-    this.halfLevel = Math.floor(level / 2);
-    this.bba = classes.length
-      ? classes.reduce((t, c) => t + (BBA_PROGRESSIONS[c.system.bba]?.calc(c.system.levels) ?? 0), 0)
-      : this.attributes.bba;
+    // What the active items and effects say (immunities, resistances, evasion, proficiencies...) and the conditions
+    const traits = collectTraits(actor);
+    this.traits = traits;
+    const cond = conditionMods(actor);
+    this.conditions = { list: [...cond.statuses], noActions: cond.noActions, oneAction: cond.oneAction, miss: cond.miss };
+    const gm = this.attributes.mods;
+
     this.classLabel = classes.length
       ? classes.map(c => `${c.name} ${c.system.levels}`).join(" / ")
       : this.details.className;
@@ -174,7 +197,12 @@ export class CharacterData extends foundry.abstract.TypeDataModel {
     const size = SIZES[sizeKey] ?? SIZES.medio;
     this.size = { key: sizeKey, ...size };
     const baseMove = race ? race.system.movement : this.attributes.movement.base;
-    this.movement = baseMove + this.attributes.movement.bonus;
+    // Conditions slow down, but never below 1.5m (p. 251); slowed caps at 3m; grappled can't move
+    let movement = baseMove + this.attributes.movement.bonus;
+    if (cond.movement) movement = Math.max(1.5, movement + cond.movement);
+    if (cond.movementCap !== null) movement = Math.min(movement, cond.movementCap);
+    if (cond.noMove) movement = 0;
+    this.movement = movement;
 
     // Equipped armor and shield (p. 150): armor class, maximum Dexterity, armor penalty, damage reduction
     const armors = items.filter(i => (i.type === "armor") && i.system.equipped);
@@ -187,50 +215,74 @@ export class CharacterData extends foundry.abstract.TypeDataModel {
       bodyBonus: bodyArmor?.system.bonus ?? 0,
       shieldBonus: shield?.system.bonus ?? 0,
       maxDex: Number.isFinite(maxDex) ? maxDex : null,
-      penalty: armors.reduce((t, a) => t + Math.min(0, a.system.penalty), 0),
+      penalty: Math.min(0, armors.reduce((t, a) => t + Math.min(0, a.system.penalty), 0) + (armors.length ? this.attributes.armorPenaltyMod : 0)),
       rd: armors.reduce((t, a) => t + (a.system.rd ?? 0), 0)
     };
     this.rd = this.attributes.rd + this.armor.rd;
 
     // Armor class (p. 77 and the level table, p. 45): 10 + half level + Dex (capped by armor) + armor + shield
     const dexToCa = this.armor.maxDex === null ? mod("des") : Math.min(mod("des"), this.armor.maxDex);
+    // Casca Grossa: Constitution to the armor class, only without armor
+    const conToCa = (traits.conToCa && !bodyArmor) ? Math.max(0, mod("con")) : 0;
+    const caTotal = 10 + this.halfLevel + dexToCa + this.armor.bodyBonus + this.armor.shieldBonus + size.ca
+      + this.attributes.ca.bonus + conToCa + cond.ca;
     this.ca = {
       dex: dexToCa,
-      total: 10 + this.halfLevel + dexToCa + this.armor.bodyBonus + this.armor.shieldBonus + size.ca + this.attributes.ca.bonus
+      condition: cond.ca,
+      // Helpless: CA 5 + size (p. 251)
+      total: cond.caOverride ? 5 + size.ca : caTotal
     };
 
-    // Saving throws (p. 78)
+    // Saving throws (p. 78), with the bonuses of effects and the penalties of conditions
     for (const [key, save] of Object.entries(SAVES)) {
       const s = this.saves[key];
       s.ability = save.ability;
       s.mod = mod(save.ability);
-      s.total = this.halfLevel + s.mod + s.bonus;
+      s.condition = cond.saves + gm.saves + (key === "ref" ? cond.ref : 0);
+      s.total = this.halfLevel + s.mod + s.bonus + s.condition;
     }
 
-    // Attacks (p. 227): BBA + Strength (melee) or Dexterity (ranged)
+    // Attacks (p. 227): BBA + Strength (melee) or Dexterity (ranged). Armor without the proficiency feat puts its
+    // penalty on the attacks too (p. 150)
+    const armorProf = traits.proficiency ?? null;
+    const unskilled = armorProf
+      ? armors.filter(a => !armorProf.includes(a.system.category)).reduce((t, a) => t + Math.min(0, a.system.penalty), 0)
+      : 0;
+    this.armor.unskilled = unskilled;
+    const allAttack = gm.attack + cond.attack + unskilled;
     this.attack = {
-      melee: this.bba + mod("for") + size.attack + this.attributes.attack.melee,
-      ranged: this.bba + mod("des") + size.attack + this.attributes.attack.ranged,
-      damage: this.attributes.attack.damage
+      melee: this.bba + mod("for") + size.attack + this.attributes.attack.melee + allAttack + cond.attackMelee,
+      ranged: this.bba + mod("des") + size.attack + this.attributes.attack.ranged + allAttack + cond.attackRanged,
+      damage: this.attributes.attack.damage + cond.damage
     };
+    this.abilityTestMod = gm.abilityTests + cond.abilityTests;
 
     // Skills (p. 97, 223): ranks = level + 3 trained, half level otherwise; + key ability; armor penalty
-    const skillTotal = (skill, data) => {
-      const ranks = data.trained ? level + 3 : this.halfLevel;
+    const alwaysTrained = traits.trainedSkills ?? [];
+    const skillTotal = (key, skill, data) => {
+      const trained = data.trained || alwaysTrained.includes(key);
+      const ranks = trained ? level + 3 : this.halfLevel;
       const abilityMod = mod(data.ability);
       const penalty = skill.armor ? this.armor.penalty : 0;
       const sizeBonus = skill.size ? size.stealth : 0;
-      return { ranks, abilityMod, penalty, sizeBonus, total: ranks + abilityMod + data.bonus + penalty + sizeBonus };
+      const physical = ["for", "des"].includes(data.ability);
+      const condition = gm.skills + cond.skills + (physical ? gm.physSkills + cond.physSkills : 0)
+        + (data.ability === "des" ? cond.dexSkills : 0) + (key === "percepcao" ? cond.perception : 0)
+        + (key === "iniciativa" ? cond.initiative : 0);
+      return { ranks, abilityMod, penalty, sizeBonus, condition, total: ranks + abilityMod + data.bonus + penalty + sizeBonus + condition };
     };
     for (const [key, skill] of Object.entries(SKILLS)) {
-      Object.assign(this.skills[key], skillTotal(skill, this.skills[key]), {
-        usable: this.skills[key].trained || !skill.trainedOnly
+      Object.assign(this.skills[key], skillTotal(key, skill, this.skills[key]), {
+        usable: this.skills[key].trained || !skill.trainedOnly || alwaysTrained.includes(key) || (traits.untrainedSkills ?? []).includes(key)
       });
     }
     for (const spec of Object.values(this.specialties)) {
       const skill = SKILLS[spec.skill];
       const ability = this.skills[spec.skill]?.ability ?? skill.ability;
-      Object.assign(spec, skillTotal(skill, { ...spec, ability }), { ability, usable: spec.trained || !skill.trainedOnly });
+      const free = alwaysTrained.includes(spec.skill) || (traits.untrainedSkills ?? []).includes(spec.skill);
+      Object.assign(spec, skillTotal(spec.skill, skill, { ...spec, ability, trained: spec.trained || alwaysTrained.includes(spec.skill) }), {
+        ability, usable: spec.trained || !skill.trainedOnly || free
+      });
     }
 
     // Trained skills allowed (p. 97): primary class + Int modifier (+2 for humans), at least one
@@ -274,8 +326,8 @@ export class CharacterData extends foundry.abstract.TypeDataModel {
     }
     pv.pct = pv.max ? Math.clamp(Math.round((pv.value / pv.max) * 100), 0, 100) : 0;
     pm.pct = pm.max ? Math.clamp(Math.round((pm.value / pm.max) * 100), 0, 100) : 0;
-    // Death at negative half of the total PV (p. 77)
-    pv.death = -Math.floor(pv.max / 2);
+    // Death at negative half of the total PV (p. 77); Nem Morto Aprimorado: at the negative total
+    pv.death = traits.deathAtFull ? -pv.max : -Math.floor(pv.max / 2);
     pm.limit = level + chakraLimit + pm.limitBonus;
     this.chakraPm = chakraPm;
 

@@ -143,6 +143,11 @@
             <input class="ij-select-on-focus" type="text" inputmode="numeric" name="system.attributes.pv.temp" value="{{pv.temp}}">
           </div>
           <div class="ij-bar ij-bar--pv"><span style="width: {{pv.pct}}%"></span></div>
+          {{#if activeConditions.length}}
+          <div class="ij-conditions">
+            {{#each activeConditions as |c|}}<span class="ij-condition" data-tooltip="{{c.hint}}"><img src="{{c.img}}" alt="">{{c.label}}{{#if @root.editable}} <a data-action="removeCondition" data-condition="{{c.id}}"><i class="fa-solid fa-xmark"></i></a>{{/if}}</span>{{/each}}
+          </div>
+          {{/if}}
         </div>
 
         {{> ij-shield label=(localize "IJ.CA.abbr") value=ca color="jade" cls="ij-shield--ca" tooltip=(localize "IJ.CA.tooltip")}}

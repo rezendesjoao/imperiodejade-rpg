@@ -4,6 +4,8 @@ import {
 } from "../config.mjs";
 import { signed } from "../dice/rolls.mjs";
 import { bookText } from "../book-text.mjs";
+import { usesLeft } from "../auto/effects.mjs";
+import { dataFor, inactiveReason } from "../auto/context.mjs";
 
 const { HandlebarsApplicationMixin } = foundry.applications.api;
 const { ActorSheetV2 } = foundry.applications.sheets;
@@ -27,9 +29,13 @@ export class CharacterSheet extends HandlebarsApplicationMixin(ActorSheetV2) {
   static DEFAULT_OPTIONS = {
     classes: ["imperiodejade", "ij-sheet", "ij-character"],
     position: { width: 1100, height: 900 },
-    window: { resizable: true },
+    window: {
+      resizable: true,
+      controls: [{ icon: "fa-solid fa-gears", label: "IJ.Auto.syncActor", action: "syncAuto", ownership: "OWNER" }]
+    },
     form: { submitOnChange: true },
     actions: {
+      syncAuto: CharacterSheet.#onSyncAuto,
       toggleEdit: CharacterSheet.#onToggleEdit,
       rollAbility: CharacterSheet.#onRollAbility,
       rollSkill: CharacterSheet.#onRollSkill,
@@ -40,6 +46,7 @@ export class CharacterSheet extends HandlebarsApplicationMixin(ActorSheetV2) {
       itemEdit: CharacterSheet.#onItemEdit,
       itemDelete: CharacterSheet.#onItemDelete,
       itemUse: CharacterSheet.#onItemUse,
+      itemActivate: CharacterSheet.#onItemActivate,
       itemDamage: CharacterSheet.#onItemDamage,
       itemEquip: CharacterSheet.#onItemEquip,
       itemQuantity: CharacterSheet.#onItemQuantity,
@@ -54,6 +61,7 @@ export class CharacterSheet extends HandlebarsApplicationMixin(ActorSheetV2) {
       honorReserveReset: CharacterSheet.#onHonorReserveReset,
       rest: CharacterSheet.#onRest,
       levelUp: CharacterSheet.#onLevelUp,
+      removeCondition: CharacterSheet.#onRemoveCondition,
       toggleCollapse: CharacterSheet.#onToggleCollapse
     }
   };
@@ -178,16 +186,17 @@ export class CharacterSheet extends HandlebarsApplicationMixin(ActorSheetV2) {
       attack: signed(w.system.attackTotal), damage: w.system.damageFormula, crit: w.system.critLabel,
       type: w.system.damageType, typeLabel: L(DAMAGE_TYPES[w.system.damageType] ?? ""),
       kind: L(WEAPON_KINDS[w.system.kind]?.label ?? ""), range: w.system.range ? `${w.system.range} m` : "—",
-      proficient: w.system.proficient, dishonorable: w.system.dishonorable
+      proficient: w.system.isProficient ?? w.system.proficient, dishonorable: w.system.dishonorable,
+      power: w.hasActivation
     }));
     const armors = itemsOf("armor").map(a => ({
       ...armorCard(a), equipped: a.system.equipped, isShield: a.system.category === "escudo",
-      dishonorable: a.system.dishonorable
+      dishonorable: a.system.dishonorable, power: a.hasActivation
     }));
     const physical = item => ({
       id: item.id, name: item.name, img: item.img, type: item.type,
       quantity: item.system.quantity, weight: item.system.weight, price: item.system.price,
-      equipped: item.system.equipped ?? null
+      equipped: item.system.equipped ?? null, power: item.hasActivation && (item.type !== "consumable")
     });
     const consumables = itemsOf("consumable").map(c => ({
       ...physical(c),
@@ -214,6 +223,10 @@ export class CharacterSheet extends HandlebarsApplicationMixin(ActorSheetV2) {
       origin: item.system.originName || (item.system.origin ? L(ABILITY_SOURCES[item.system.origin]) : ""),
       category: item.system.category ? L(FEAT_CATEGORIES[item.system.category]) : "",
       honorLocked: item.system.honorMin > 0 && sys.abilities.hon.total < item.system.honorMin,
+      // Automation: uses left this period, and whether it is off (armor, Honor)
+      uses: item.system.auto?.activation?.uses ? `${usesLeft(item, dataFor(item))}/${item.system.auto.activation.uses.per}` : "",
+      autoOff: item.system.auto && Object.keys(item.system.auto).length ? ["armor", "shield", "honor"].includes(inactiveReason(item)) : false,
+      automated: !!(item.system.auto && Object.keys(item.system.auto).length && !item.system.auto.status),
       expanded: this.#expanded.has(item.id),
       description: await enrich(item),
       bookText: bookText.of(item)
@@ -297,6 +310,11 @@ export class CharacterSheet extends HandlebarsApplicationMixin(ActorSheetV2) {
       equippedWeapons: weapons.filter(w => w.equipped).slice(0, 4),
       weight: Math.round(weight * 10) / 10,
       powerGroups, feats, jutsus, jutsuGroups, chakras,
+      // Conditions on the character (status effects), with the book rule as tooltip
+      activeConditions: [...(actor.statuses ?? [])].filter(id => CONFIG.statusEffects.find(s => s.id === id)).map(id => {
+        const st = CONFIG.statusEffects.find(s => s.id === id);
+        return { id, label: L(st.name), img: st.img, hint: st.description ? L(st.description) : "" };
+      }),
       racePowers: powers.filter(p => items.get(p.id).system.origin === "raca"),
       classPowers: powers.filter(p => items.get(p.id).system.origin === "classe"),
       grades: Object.entries(JUTSU_GRADES).map(([key, g]) => ({ key, label: L(g.label), cost: g.cost, dc: g.dc })),
@@ -379,6 +397,12 @@ export class CharacterSheet extends HandlebarsApplicationMixin(ActorSheetV2) {
     return id ? this.actor.items.get(id) : null;
   }
 
+  /** Bring the automation of the items on this sheet up to date with the compendium. */
+  static async #onSyncAuto() {
+    const n = await game.imperiodejade.auto.syncActor(this.actor);
+    ui.notifications.info(game.i18n.format("IJ.Auto.migrated", { n, v: game.system.version }));
+  }
+
   static #onToggleEdit() {
     this.#editMode = !this.editMode;
     this.render();
@@ -431,6 +455,12 @@ export class CharacterSheet extends HandlebarsApplicationMixin(ActorSheetV2) {
 
   static #onItemUse(event, target) {
     this.#item(target)?.use({ event });
+  }
+
+  /** The power of a weapon, armor or accessory (its activation), not the attack. */
+  static #onItemActivate(event, target) {
+    const item = this.#item(target);
+    if (item) game.imperiodejade.auto.useItem(item, { event });
   }
 
   static #onItemDamage(event, target) {
@@ -520,6 +550,13 @@ export class CharacterSheet extends HandlebarsApplicationMixin(ActorSheetV2) {
   }
 
   /** Level up by hand (no class items): +1 level, and +1 Honor for staying in the class (p. 81). */
+  /** Remove a condition from the character (all the effects that give it). */
+  static async #onRemoveCondition(event, target) {
+    const id = target.dataset.condition;
+    const ids = this.actor.effects.filter(e => e.statuses.has(id)).map(e => e.id);
+    if (ids.length) await this.actor.deleteEmbeddedDocuments("ActiveEffect", ids);
+  }
+
   static async #onLevelUp() {
     const sys = this.actor.system;
     if (sys.level >= 20) return;

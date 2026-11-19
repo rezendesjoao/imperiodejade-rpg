@@ -1,0 +1,3425 @@
+{
+  "_sobre": "Automação dos itens mágicos de magic-a.json (docs/automacao.md): melhorias, encantamentos de armas e de armaduras, armas e armaduras específicas. Encantamentos com categoria (menor, médio, maior) pedem a escolha na ficha do item; os de arma pedem também o nome da arma (filtro chosenWeapon). Itens de equipamento só valem equipados.",
+  "Arma Mágica +1": {
+    "choice": {
+      "label": "Arma encantada",
+      "text": "Nome da arma"
+    },
+    "rollOptions": [
+      {
+        "id": "magica",
+        "label": "Arma mágica +1",
+        "attack": 1,
+        "damage": 1,
+        "filter": {
+          "chosenWeapon": true
+        },
+        "locked": true
+      }
+    ]
+  },
+  "Arma Mágica +2": {
+    "choice": {
+      "label": "Arma encantada",
+      "text": "Nome da arma"
+    },
+    "rollOptions": [
+      {
+        "id": "magica",
+        "label": "Arma mágica +2",
+        "attack": 2,
+        "damage": 2,
+        "filter": {
+          "chosenWeapon": true
+        },
+        "locked": true
+      }
+    ]
+  },
+  "Arma Mágica +3": {
+    "choice": {
+      "label": "Arma encantada",
+      "text": "Nome da arma"
+    },
+    "rollOptions": [
+      {
+        "id": "magica",
+        "label": "Arma mágica +3",
+        "attack": 3,
+        "damage": 3,
+        "filter": {
+          "chosenWeapon": true
+        },
+        "locked": true
+      }
+    ]
+  },
+  "Arma Mágica +4": {
+    "choice": {
+      "label": "Arma encantada",
+      "text": "Nome da arma"
+    },
+    "rollOptions": [
+      {
+        "id": "magica",
+        "label": "Arma mágica +4",
+        "attack": 4,
+        "damage": 4,
+        "filter": {
+          "chosenWeapon": true
+        },
+        "locked": true
+      }
+    ]
+  },
+  "Arma Mágica +5": {
+    "choice": {
+      "label": "Arma encantada",
+      "text": "Nome da arma"
+    },
+    "rollOptions": [
+      {
+        "id": "magica",
+        "label": "Arma mágica +5",
+        "attack": 5,
+        "damage": 5,
+        "filter": {
+          "chosenWeapon": true
+        },
+        "locked": true
+      }
+    ]
+  },
+  "Arma Mágica +6": {
+    "notes": "Bônus mágico máximo +5; o excedente são encantamentos, adicionados à parte.",
+    "choice": {
+      "label": "Arma encantada",
+      "text": "Nome da arma"
+    },
+    "rollOptions": [
+      {
+        "id": "magica",
+        "label": "Arma mágica +5 (bônus total +6)",
+        "attack": 5,
+        "damage": 5,
+        "filter": {
+          "chosenWeapon": true
+        },
+        "locked": true
+      }
+    ]
+  },
+  "Arma Mágica +7": {
+    "notes": "Bônus mágico máximo +5; o excedente são encantamentos, adicionados à parte.",
+    "choice": {
+      "label": "Arma encantada",
+      "text": "Nome da arma"
+    },
+    "rollOptions": [
+      {
+        "id": "magica",
+        "label": "Arma mágica +5 (bônus total +7)",
+        "attack": 5,
+        "damage": 5,
+        "filter": {
+          "chosenWeapon": true
+        },
+        "locked": true
+      }
+    ]
+  },
+  "Arma Mágica +8": {
+    "notes": "Bônus mágico máximo +5; o excedente são encantamentos, adicionados à parte.",
+    "choice": {
+      "label": "Arma encantada",
+      "text": "Nome da arma"
+    },
+    "rollOptions": [
+      {
+        "id": "magica",
+        "label": "Arma mágica +5 (bônus total +8)",
+        "attack": 5,
+        "damage": 5,
+        "filter": {
+          "chosenWeapon": true
+        },
+        "locked": true
+      }
+    ]
+  },
+  "Arma Mágica +9": {
+    "notes": "Bônus mágico máximo +5; o excedente são encantamentos, adicionados à parte.",
+    "choice": {
+      "label": "Arma encantada",
+      "text": "Nome da arma"
+    },
+    "rollOptions": [
+      {
+        "id": "magica",
+        "label": "Arma mágica +5 (bônus total +9)",
+        "attack": 5,
+        "damage": 5,
+        "filter": {
+          "chosenWeapon": true
+        },
+        "locked": true
+      }
+    ]
+  },
+  "Arma Mágica +10": {
+    "notes": "Bônus mágico máximo +5; o excedente são encantamentos, adicionados à parte.",
+    "choice": {
+      "label": "Arma encantada",
+      "text": "Nome da arma"
+    },
+    "rollOptions": [
+      {
+        "id": "magica",
+        "label": "Arma mágica +5 (bônus total +10)",
+        "attack": 5,
+        "damage": 5,
+        "filter": {
+          "chosenWeapon": true
+        },
+        "locked": true
+      }
+    ]
+  },
+  "Armadura Mágica +1": {
+    "passive": [
+      {
+        "key": "system.attributes.ca.bonus",
+        "value": 1
+      },
+      {
+        "key": "system.attributes.armorPenaltyMod",
+        "value": 1
+      }
+    ]
+  },
+  "Armadura Mágica +2": {
+    "passive": [
+      {
+        "key": "system.attributes.ca.bonus",
+        "value": 2
+      },
+      {
+        "key": "system.attributes.armorPenaltyMod",
+        "value": 1
+      }
+    ]
+  },
+  "Armadura Mágica +3": {
+    "passive": [
+      {
+        "key": "system.attributes.ca.bonus",
+        "value": 3
+      },
+      {
+        "key": "system.attributes.armorPenaltyMod",
+        "value": 1
+      }
+    ]
+  },
+  "Armadura Mágica +4": {
+    "passive": [
+      {
+        "key": "system.attributes.ca.bonus",
+        "value": 4
+      },
+      {
+        "key": "system.attributes.armorPenaltyMod",
+        "value": 1
+      }
+    ]
+  },
+  "Armadura Mágica +5": {
+    "passive": [
+      {
+        "key": "system.attributes.ca.bonus",
+        "value": 5
+      },
+      {
+        "key": "system.attributes.armorPenaltyMod",
+        "value": 1
+      }
+    ]
+  },
+  "Armadura Mágica +6": {
+    "notes": "Bônus mágico máximo +5 na CA; o excedente são encantamentos, adicionados à parte.",
+    "passive": [
+      {
+        "key": "system.attributes.ca.bonus",
+        "value": 5
+      },
+      {
+        "key": "system.attributes.armorPenaltyMod",
+        "value": 1
+      }
+    ]
+  },
+  "Armadura Mágica +7": {
+    "notes": "Bônus mágico máximo +5 na CA; o excedente são encantamentos, adicionados à parte.",
+    "passive": [
+      {
+        "key": "system.attributes.ca.bonus",
+        "value": 5
+      },
+      {
+        "key": "system.attributes.armorPenaltyMod",
+        "value": 1
+      }
+    ]
+  },
+  "Armadura Mágica +8": {
+    "notes": "Bônus mágico máximo +5 na CA; o excedente são encantamentos, adicionados à parte.",
+    "passive": [
+      {
+        "key": "system.attributes.ca.bonus",
+        "value": 5
+      },
+      {
+        "key": "system.attributes.armorPenaltyMod",
+        "value": 1
+      }
+    ]
+  },
+  "Armadura Mágica +9": {
+    "notes": "Bônus mágico máximo +5 na CA; o excedente são encantamentos, adicionados à parte.",
+    "passive": [
+      {
+        "key": "system.attributes.ca.bonus",
+        "value": 5
+      },
+      {
+        "key": "system.attributes.armorPenaltyMod",
+        "value": 1
+      }
+    ]
+  },
+  "Armadura Mágica +10": {
+    "notes": "Bônus mágico máximo +5 na CA; o excedente são encantamentos, adicionados à parte.",
+    "passive": [
+      {
+        "key": "system.attributes.ca.bonus",
+        "value": 5
+      },
+      {
+        "key": "system.attributes.armorPenaltyMod",
+        "value": 1
+      }
+    ]
+  },
+  "Ameaçadora": {
+    "choice": {
+      "label": "Categoria do item",
+      "count": 1,
+      "text": "Nome da arma",
+      "options": [
+        {
+          "id": "menor",
+          "label": "Menor (margem +1)",
+          "rollOptions": [
+            {
+              "id": "ameacadora",
+              "label": "Ameaçadora",
+              "critRange": 1,
+              "filter": {
+                "chosenWeapon": true
+              },
+              "locked": true
+            }
+          ]
+        },
+        {
+          "id": "medio",
+          "label": "Médio (margem +2)",
+          "rollOptions": [
+            {
+              "id": "ameacadora",
+              "label": "Ameaçadora",
+              "critRange": 2,
+              "filter": {
+                "chosenWeapon": true
+              },
+              "locked": true
+            }
+          ]
+        },
+        {
+          "id": "maior",
+          "label": "Maior (margem +3)",
+          "rollOptions": [
+            {
+              "id": "ameacadora",
+              "label": "Ameaçadora",
+              "critRange": 3,
+              "filter": {
+                "chosenWeapon": true
+              },
+              "locked": true
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "Caçadora": {
+    "status": "parcial",
+    "notes": "Ignora falha por camuflagem e invisibilidade; médio: cobertura; maior: ataques de toque."
+  },
+  "Cáustica": {
+    "choice": {
+      "label": "Categoria do item",
+      "count": 1,
+      "text": "Nome da arma",
+      "options": [
+        {
+          "id": "menor",
+          "label": "Menor (+1d4)",
+          "rollOptions": [
+            {
+              "id": "caustica",
+              "label": "Cáustica",
+              "damage": "1d4",
+              "type": "acido",
+              "noCrit": true,
+              "filter": {
+                "chosenWeapon": true
+              },
+              "locked": true
+            }
+          ]
+        },
+        {
+          "id": "medio",
+          "label": "Médio (+1d6)",
+          "rollOptions": [
+            {
+              "id": "caustica",
+              "label": "Cáustica",
+              "damage": "1d6",
+              "type": "acido",
+              "noCrit": true,
+              "filter": {
+                "chosenWeapon": true
+              },
+              "locked": true
+            }
+          ]
+        },
+        {
+          "id": "maior",
+          "label": "Maior (+1d8)",
+          "rollOptions": [
+            {
+              "id": "caustica",
+              "label": "Cáustica",
+              "damage": "1d8",
+              "type": "acido",
+              "noCrit": true,
+              "filter": {
+                "chosenWeapon": true
+              },
+              "locked": true
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "Congelante": {
+    "choice": {
+      "label": "Categoria do item",
+      "count": 1,
+      "text": "Nome da arma",
+      "options": [
+        {
+          "id": "menor",
+          "label": "Menor (+1d6)",
+          "rollOptions": [
+            {
+              "id": "congelante",
+              "label": "Congelante",
+              "damage": "1d6",
+              "type": "frio",
+              "noCrit": true,
+              "filter": {
+                "chosenWeapon": true
+              },
+              "locked": true
+            }
+          ]
+        },
+        {
+          "id": "medio",
+          "label": "Médio (+1d8)",
+          "rollOptions": [
+            {
+              "id": "congelante",
+              "label": "Congelante",
+              "damage": "1d8",
+              "type": "frio",
+              "noCrit": true,
+              "filter": {
+                "chosenWeapon": true
+              },
+              "locked": true
+            }
+          ]
+        },
+        {
+          "id": "maior",
+          "label": "Maior (+1d10)",
+          "rollOptions": [
+            {
+              "id": "congelante",
+              "label": "Congelante",
+              "damage": "1d10",
+              "type": "frio",
+              "noCrit": true,
+              "filter": {
+                "chosenWeapon": true
+              },
+              "locked": true
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "Defensora": {
+    "choice": {
+      "label": "Categoria do item",
+      "count": 1,
+      "text": "Nome da arma",
+      "options": [
+        {
+          "id": "menor",
+          "label": "Menor (CA +2)",
+          "passive": [
+            {
+              "key": "system.attributes.ca.bonus",
+              "value": 2
+            }
+          ]
+        },
+        {
+          "id": "medio",
+          "label": "Médio (CA +4)",
+          "passive": [
+            {
+              "key": "system.attributes.ca.bonus",
+              "value": 4
+            }
+          ]
+        },
+        {
+          "id": "maior",
+          "label": "Maior (CA +6)",
+          "passive": [
+            {
+              "key": "system.attributes.ca.bonus",
+              "value": 6
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "Destrutiva": {
+    "status": "parcial",
+    "notes": "Construto atingido faz Vontade ou cai a –1 PV (o livro não dá a CD).",
+    "choice": {
+      "label": "Categoria do item",
+      "count": 1,
+      "text": "Nome da arma",
+      "options": [
+        {
+          "id": "medio",
+          "label": "Médio"
+        },
+        {
+          "id": "maior",
+          "label": "Maior (+5d6 de vácuo)",
+          "rollOptions": [
+            {
+              "id": "destrutiva",
+              "label": "Destrutiva (construto)",
+              "damage": "5d6",
+              "type": "vacuo",
+              "noCrit": true,
+              "filter": {
+                "chosenWeapon": true
+              },
+              "optional": true
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "Digníssima": {
+    "passive": [
+      {
+        "key": "system.attributes.negativeLevels",
+        "value": "min(1, max(0, 10 - @honra))"
+      }
+    ],
+    "choice": {
+      "label": "Categoria do item",
+      "count": 1,
+      "text": "Nome da arma",
+      "options": [
+        {
+          "id": "menor",
+          "label": "Menor (+2d6)",
+          "rollOptions": [
+            {
+              "id": "dignissima",
+              "label": "Digníssima (Honra 9 ou menos)",
+              "damage": "2d6",
+              "type": "vacuo",
+              "noCrit": true,
+              "filter": {
+                "chosenWeapon": true
+              },
+              "when": "vsDishonored",
+              "locked": true,
+              "strict": true
+            }
+          ]
+        },
+        {
+          "id": "medio",
+          "label": "Médio (+3d6)",
+          "rollOptions": [
+            {
+              "id": "dignissima",
+              "label": "Digníssima (Honra 9 ou menos)",
+              "damage": "3d6",
+              "type": "vacuo",
+              "noCrit": true,
+              "filter": {
+                "chosenWeapon": true
+              },
+              "when": "vsDishonored",
+              "locked": true,
+              "strict": true
+            }
+          ]
+        },
+        {
+          "id": "maior",
+          "label": "Maior (+4d6)",
+          "rollOptions": [
+            {
+              "id": "dignissima",
+              "label": "Digníssima (Honra 9 ou menos)",
+              "damage": "4d6",
+              "type": "vacuo",
+              "noCrit": true,
+              "filter": {
+                "chosenWeapon": true
+              },
+              "when": "vsDishonored",
+              "locked": true,
+              "strict": true
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "Disruptiva": {
+    "status": "parcial",
+    "notes": "Contra construtos, marque a opção. Maior: todo o dano vira vácuo (à mão).",
+    "choice": {
+      "label": "Categoria do item",
+      "count": 1,
+      "text": "Nome da arma",
+      "options": [
+        {
+          "id": "menor",
+          "label": "Menor (+2d6)",
+          "rollOptions": [
+            {
+              "id": "disruptiva",
+              "label": "Disruptiva (construtos e youkai)",
+              "damage": "2d6",
+              "type": "vacuo",
+              "noCrit": true,
+              "filter": {
+                "chosenWeapon": true
+              },
+              "when": "vsYoukai",
+              "note": "construto: marque"
+            }
+          ]
+        },
+        {
+          "id": "medio",
+          "label": "Médio (+3d6)",
+          "rollOptions": [
+            {
+              "id": "disruptiva",
+              "label": "Disruptiva (construtos e youkai)",
+              "damage": "3d6",
+              "type": "vacuo",
+              "noCrit": true,
+              "filter": {
+                "chosenWeapon": true
+              },
+              "when": "vsYoukai",
+              "note": "construto: marque"
+            }
+          ]
+        },
+        {
+          "id": "maior",
+          "label": "Maior (+3d6; dano todo de vácuo)",
+          "rollOptions": [
+            {
+              "id": "disruptiva",
+              "label": "Disruptiva (construtos e youkai)",
+              "damage": "3d6",
+              "type": "vacuo",
+              "noCrit": true,
+              "filter": {
+                "chosenWeapon": true
+              },
+              "when": "vsYoukai",
+              "note": "construto: marque"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "Elétrica": {
+    "choice": {
+      "label": "Categoria do item",
+      "count": 1,
+      "text": "Nome da arma",
+      "options": [
+        {
+          "id": "menor",
+          "label": "Menor (+1d6)",
+          "rollOptions": [
+            {
+              "id": "eletrica",
+              "label": "Elétrica",
+              "damage": "1d6",
+              "type": "eletricidade",
+              "noCrit": true,
+              "filter": {
+                "chosenWeapon": true
+              },
+              "locked": true
+            }
+          ]
+        },
+        {
+          "id": "medio",
+          "label": "Médio (+1d8)",
+          "rollOptions": [
+            {
+              "id": "eletrica",
+              "label": "Elétrica",
+              "damage": "1d8",
+              "type": "eletricidade",
+              "noCrit": true,
+              "filter": {
+                "chosenWeapon": true
+              },
+              "locked": true
+            }
+          ]
+        },
+        {
+          "id": "maior",
+          "label": "Maior (+1d10)",
+          "rollOptions": [
+            {
+              "id": "eletrica",
+              "label": "Elétrica",
+              "damage": "1d10",
+              "type": "eletricidade",
+              "noCrit": true,
+              "filter": {
+                "chosenWeapon": true
+              },
+              "locked": true
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "Energética": {
+    "status": "parcial",
+    "notes": "Os ataques da arma são de toque; maior: todo o dano vira luz ou trevas.",
+    "traits": {
+      "touchIncorporeal": true
+    }
+  },
+  "Exorcista": {
+    "status": "parcial",
+    "notes": "Shiryou atingido faz Vontade ou cai a –1 PV (o livro não dá a CD).",
+    "choice": {
+      "label": "Categoria do item",
+      "count": 1,
+      "text": "Nome da arma",
+      "options": [
+        {
+          "id": "medio",
+          "label": "Médio"
+        },
+        {
+          "id": "maior",
+          "label": "Maior (+5d6 de luz)",
+          "rollOptions": [
+            {
+              "id": "exorcista",
+              "label": "Exorcista (shiryou)",
+              "damage": "5d6",
+              "type": "luz",
+              "noCrit": true,
+              "filter": {
+                "chosenWeapon": true
+              },
+              "optional": true
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "Fantasma": {
+    "status": "parcial",
+    "notes": "Maior: os ataques com a arma são de toque (à mão).",
+    "traits": {
+      "touchIncorporeal": true
+    },
+    "choice": {
+      "label": "Categoria do item",
+      "count": 1,
+      "text": "Nome da arma",
+      "options": [
+        {
+          "id": "menor",
+          "label": "Menor (+1d6)",
+          "rollOptions": [
+            {
+              "id": "fantasma",
+              "label": "Fantasma (incorpóreo contra corpóreo, ou o inverso)",
+              "damage": "1d6",
+              "type": "vacuo",
+              "noCrit": true,
+              "filter": {
+                "chosenWeapon": true
+              },
+              "optional": true
+            }
+          ]
+        },
+        {
+          "id": "medio",
+          "label": "Médio (+2d6)",
+          "rollOptions": [
+            {
+              "id": "fantasma",
+              "label": "Fantasma (incorpóreo contra corpóreo, ou o inverso)",
+              "damage": "2d6",
+              "type": "vacuo",
+              "noCrit": true,
+              "filter": {
+                "chosenWeapon": true
+              },
+              "optional": true
+            }
+          ]
+        },
+        {
+          "id": "maior",
+          "label": "Maior (+2d6; ataques de toque)",
+          "rollOptions": [
+            {
+              "id": "fantasma",
+              "label": "Fantasma (incorpóreo contra corpóreo, ou o inverso)",
+              "damage": "2d6",
+              "type": "vacuo",
+              "noCrit": true,
+              "filter": {
+                "chosenWeapon": true
+              },
+              "optional": true
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "Flamejante": {
+    "choice": {
+      "label": "Categoria do item",
+      "count": 1,
+      "text": "Nome da arma",
+      "options": [
+        {
+          "id": "menor",
+          "label": "Menor (+1d6)",
+          "rollOptions": [
+            {
+              "id": "flamejante",
+              "label": "Flamejante",
+              "damage": "1d6",
+              "type": "fogo",
+              "noCrit": true,
+              "filter": {
+                "chosenWeapon": true
+              },
+              "locked": true
+            }
+          ]
+        },
+        {
+          "id": "medio",
+          "label": "Médio (+1d8)",
+          "rollOptions": [
+            {
+              "id": "flamejante",
+              "label": "Flamejante",
+              "damage": "1d8",
+              "type": "fogo",
+              "noCrit": true,
+              "filter": {
+                "chosenWeapon": true
+              },
+              "locked": true
+            }
+          ]
+        },
+        {
+          "id": "maior",
+          "label": "Maior (+1d10)",
+          "rollOptions": [
+            {
+              "id": "flamejante",
+              "label": "Flamejante",
+              "damage": "1d10",
+              "type": "fogo",
+              "noCrit": true,
+              "filter": {
+                "chosenWeapon": true
+              },
+              "locked": true
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "Longínqua": {
+    "status": "narrativo",
+    "notes": "Dobra o alcance da arma (maior: triplica); ajuste o campo de alcance."
+  },
+  "Mortal": {
+    "status": "parcial",
+    "notes": "No 20 natural (maior: qualquer crítico), Fortitude: +5d6 de vácuo, ou cai a –1 PV."
+  },
+  "Piedosa": {
+    "status": "parcial",
+    "notes": "Com o poder ligado, todo o dano da arma é não letal (à mão).",
+    "choice": {
+      "label": "Categoria do item",
+      "count": 1,
+      "text": "Nome da arma",
+      "options": [
+        {
+          "id": "menor",
+          "label": "Menor (+2d6)",
+          "rollOptions": [
+            {
+              "id": "piedosa",
+              "label": "Piedosa (dano não letal)",
+              "damage": "2d6",
+              "noCrit": true,
+              "filter": {
+                "chosenWeapon": true
+              },
+              "optional": true
+            }
+          ]
+        },
+        {
+          "id": "medio",
+          "label": "Médio (+2d8)",
+          "rollOptions": [
+            {
+              "id": "piedosa",
+              "label": "Piedosa (dano não letal)",
+              "damage": "2d8",
+              "noCrit": true,
+              "filter": {
+                "chosenWeapon": true
+              },
+              "optional": true
+            }
+          ]
+        },
+        {
+          "id": "maior",
+          "label": "Maior (+4d10)",
+          "rollOptions": [
+            {
+              "id": "piedosa",
+              "label": "Piedosa (dano não letal)",
+              "damage": "4d10",
+              "noCrit": true,
+              "filter": {
+                "chosenWeapon": true
+              },
+              "optional": true
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "Radiante": {
+    "status": "parcial",
+    "notes": "Contra shiryou e oni, marque a opção. Maior: todo o dano vira luz (à mão).",
+    "choice": {
+      "label": "Categoria do item",
+      "count": 1,
+      "text": "Nome da arma",
+      "options": [
+        {
+          "id": "menor",
+          "label": "Menor (+2d6)",
+          "rollOptions": [
+            {
+              "id": "radiante",
+              "label": "Radiante (monstros, shiryou e oni)",
+              "damage": "2d6",
+              "type": "luz",
+              "noCrit": true,
+              "filter": {
+                "chosenWeapon": true
+              },
+              "when": "vsMonster",
+              "note": "shiryou e oni: marque"
+            }
+          ]
+        },
+        {
+          "id": "medio",
+          "label": "Médio (+3d6)",
+          "rollOptions": [
+            {
+              "id": "radiante",
+              "label": "Radiante (monstros, shiryou e oni)",
+              "damage": "3d6",
+              "type": "luz",
+              "noCrit": true,
+              "filter": {
+                "chosenWeapon": true
+              },
+              "when": "vsMonster",
+              "note": "shiryou e oni: marque"
+            }
+          ]
+        },
+        {
+          "id": "maior",
+          "label": "Maior (+3d6; dano todo de luz)",
+          "rollOptions": [
+            {
+              "id": "radiante",
+              "label": "Radiante (monstros, shiryou e oni)",
+              "damage": "3d6",
+              "type": "luz",
+              "noCrit": true,
+              "filter": {
+                "chosenWeapon": true
+              },
+              "when": "vsMonster",
+              "note": "shiryou e oni: marque"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "Retornável": {
+    "status": "narrativo"
+  },
+  "Sanguinária": {
+    "status": "parcial",
+    "notes": "Cada acerto: 1 de dano de Constituição e sangrando (maior: 1d3). Usar: violação moderada."
+  },
+  "Sórdida": {
+    "status": "parcial",
+    "notes": "Alvo de Honra 10 a 15: marque a opção. Empunhar: violação leve; usar: severa.",
+    "choice": {
+      "label": "Categoria do item",
+      "count": 1,
+      "text": "Nome da arma",
+      "options": [
+        {
+          "id": "menor",
+          "label": "Menor (+2d6)",
+          "rollOptions": [
+            {
+              "id": "sordida",
+              "label": "Sórdida (Honra 10 ou mais)",
+              "damage": "2d6",
+              "type": "vacuo",
+              "noCrit": true,
+              "filter": {
+                "chosenWeapon": true
+              },
+              "when": "vsHonored",
+              "note": "Honra 10 a 15: marque"
+            }
+          ]
+        },
+        {
+          "id": "medio",
+          "label": "Médio (+3d6)",
+          "rollOptions": [
+            {
+              "id": "sordida",
+              "label": "Sórdida (Honra 10 ou mais)",
+              "damage": "3d6",
+              "type": "vacuo",
+              "noCrit": true,
+              "filter": {
+                "chosenWeapon": true
+              },
+              "when": "vsHonored",
+              "note": "Honra 10 a 15: marque"
+            }
+          ]
+        },
+        {
+          "id": "maior",
+          "label": "Maior (+4d6)",
+          "rollOptions": [
+            {
+              "id": "sordida",
+              "label": "Sórdida (Honra 10 ou mais)",
+              "damage": "4d6",
+              "type": "vacuo",
+              "noCrit": true,
+              "filter": {
+                "chosenWeapon": true
+              },
+              "when": "vsHonored",
+              "note": "Honra 10 a 15: marque"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "Soturna": {
+    "status": "parcial",
+    "notes": "Contra tenshi, marque a opção. Maior: todo o dano vira trevas (à mão).",
+    "choice": {
+      "label": "Categoria do item",
+      "count": 1,
+      "text": "Nome da arma",
+      "options": [
+        {
+          "id": "menor",
+          "label": "Menor (+2d6)",
+          "rollOptions": [
+            {
+              "id": "soturna",
+              "label": "Soturna (animais, humanoides e tenshi)",
+              "damage": "2d6",
+              "type": "trevas",
+              "noCrit": true,
+              "filter": {
+                "chosenWeapon": true
+              },
+              "when": "vsAnimal|vsHumanoid",
+              "note": "tenshi: marque"
+            }
+          ]
+        },
+        {
+          "id": "medio",
+          "label": "Médio (+3d6)",
+          "rollOptions": [
+            {
+              "id": "soturna",
+              "label": "Soturna (animais, humanoides e tenshi)",
+              "damage": "3d6",
+              "type": "trevas",
+              "noCrit": true,
+              "filter": {
+                "chosenWeapon": true
+              },
+              "when": "vsAnimal|vsHumanoid",
+              "note": "tenshi: marque"
+            }
+          ]
+        },
+        {
+          "id": "maior",
+          "label": "Maior (+3d6; dano todo de trevas)",
+          "rollOptions": [
+            {
+              "id": "soturna",
+              "label": "Soturna (animais, humanoides e tenshi)",
+              "damage": "3d6",
+              "type": "trevas",
+              "noCrit": true,
+              "filter": {
+                "chosenWeapon": true
+              },
+              "when": "vsAnimal|vsHumanoid",
+              "note": "tenshi: marque"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "Trovejante": {
+    "choice": {
+      "label": "Categoria do item",
+      "count": 1,
+      "text": "Nome da arma",
+      "options": [
+        {
+          "id": "menor",
+          "label": "Menor (+1d4)",
+          "rollOptions": [
+            {
+              "id": "trovejante",
+              "label": "Trovejante",
+              "damage": "1d4",
+              "type": "vento",
+              "noCrit": true,
+              "filter": {
+                "chosenWeapon": true
+              },
+              "locked": true
+            }
+          ]
+        },
+        {
+          "id": "medio",
+          "label": "Médio (+1d6)",
+          "rollOptions": [
+            {
+              "id": "trovejante",
+              "label": "Trovejante",
+              "damage": "1d6",
+              "type": "vento",
+              "noCrit": true,
+              "filter": {
+                "chosenWeapon": true
+              },
+              "locked": true
+            }
+          ]
+        },
+        {
+          "id": "maior",
+          "label": "Maior (+1d8)",
+          "rollOptions": [
+            {
+              "id": "trovejante",
+              "label": "Trovejante",
+              "damage": "1d8",
+              "type": "vento",
+              "noCrit": true,
+              "filter": {
+                "chosenWeapon": true
+              },
+              "locked": true
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "Veloz": {
+    "choice": {
+      "label": "Arma encantada",
+      "text": "Nome da arma"
+    },
+    "rollOptions": [
+      {
+        "id": "veloz",
+        "label": "Veloz: ataque adicional (maior: dois)",
+        "extraAttack": true,
+        "filter": {
+          "chosenWeapon": true
+        },
+        "locked": true
+      }
+    ]
+  },
+  "Abençoada": {
+    "traits": {
+      "immune": [
+        "nivelNegativo"
+      ]
+    },
+    "choice": {
+      "label": "Categoria do item",
+      "count": 1,
+      "options": [
+        {
+          "id": "menor",
+          "label": "Menor (resistência a trevas 10)",
+          "traits": {
+            "resist": {
+              "trevas": 10
+            }
+          }
+        },
+        {
+          "id": "medio",
+          "label": "Médio (resistência a trevas 20)",
+          "traits": {
+            "resist": {
+              "trevas": 20
+            }
+          }
+        },
+        {
+          "id": "maior",
+          "label": "Maior (resistência a trevas 30)",
+          "traits": {
+            "resist": {
+              "trevas": 30
+            }
+          }
+        }
+      ]
+    }
+  },
+  "Acrobática": {
+    "rollOptions": [
+      {
+        "id": "semPenalidade",
+        "label": "Acrobática: sem penalidade de armadura",
+        "for": "skill",
+        "filter": {
+          "skills": [
+            "acrobacia"
+          ]
+        },
+        "value": "abs(@armor.penalty)",
+        "locked": true
+      }
+    ],
+    "choice": {
+      "label": "Categoria do item",
+      "count": 1,
+      "options": [
+        {
+          "id": "menor",
+          "label": "Menor (+5)",
+          "passive": [
+            {
+              "key": "system.skills.acrobacia.bonus",
+              "value": 5
+            }
+          ]
+        },
+        {
+          "id": "medio",
+          "label": "Médio (+10)",
+          "passive": [
+            {
+              "key": "system.skills.acrobacia.bonus",
+              "value": 10
+            }
+          ]
+        },
+        {
+          "id": "maior",
+          "label": "Maior (+15)",
+          "passive": [
+            {
+              "key": "system.skills.acrobacia.bonus",
+              "value": 15
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "Assustadora": {
+    "choice": {
+      "label": "Categoria do item",
+      "count": 1,
+      "options": [
+        {
+          "id": "menor",
+          "label": "Menor (+5)",
+          "passive": [
+            {
+              "key": "system.skills.intimidacao.bonus",
+              "value": 5
+            }
+          ]
+        },
+        {
+          "id": "medio",
+          "label": "Médio (+10)",
+          "passive": [
+            {
+              "key": "system.skills.intimidacao.bonus",
+              "value": 10
+            }
+          ]
+        },
+        {
+          "id": "maior",
+          "label": "Maior (+15)",
+          "passive": [
+            {
+              "key": "system.skills.intimidacao.bonus",
+              "value": 15
+            }
+          ]
+        }
+      ]
+    },
+    "activation": {
+      "cost": 6,
+      "action": "padrão",
+      "uses": {
+        "max": 1,
+        "per": "cena"
+      },
+      "targets": {
+        "who": "enemies",
+        "save": {
+          "type": "von",
+          "dc": 15
+        },
+        "conditions": [
+          {
+            "id": "abalado",
+            "duration": {
+              "unit": "cena"
+            }
+          }
+        ]
+      },
+      "note": "Inimigos a até 9m; efeito de medo."
+    }
+  },
+  "Atlética": {
+    "choice": {
+      "label": "Categoria do item",
+      "count": 1,
+      "options": [
+        {
+          "id": "menor",
+          "label": "Menor (+5)",
+          "passive": [
+            {
+              "key": "system.skills.atletismo.bonus",
+              "value": 5
+            }
+          ]
+        },
+        {
+          "id": "medio",
+          "label": "Médio (+10)",
+          "passive": [
+            {
+              "key": "system.skills.atletismo.bonus",
+              "value": 10
+            }
+          ]
+        },
+        {
+          "id": "maior",
+          "label": "Maior (+15)",
+          "passive": [
+            {
+              "key": "system.skills.atletismo.bonus",
+              "value": 15
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "Corrosiva": {
+    "traits": {
+      "retaliate": [
+        {
+          "formula": "1d4",
+          "type": "acido",
+          "label": "Corrosiva"
+        }
+      ]
+    },
+    "choice": {
+      "label": "Categoria do item",
+      "count": 1,
+      "options": [
+        {
+          "id": "menor",
+          "label": "Menor (resistência a ácido 10)",
+          "traits": {
+            "resist": {
+              "acido": 10
+            }
+          }
+        },
+        {
+          "id": "medio",
+          "label": "Médio (resistência a ácido 20)",
+          "traits": {
+            "resist": {
+              "acido": 20
+            }
+          }
+        },
+        {
+          "id": "maior",
+          "label": "Maior (imune a ácido)",
+          "traits": {
+            "immune": [
+              "acido"
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "Corrupta": {
+    "choice": {
+      "label": "Categoria do item",
+      "count": 1,
+      "options": [
+        {
+          "id": "menor",
+          "label": "Menor (resistência a luz 10)",
+          "traits": {
+            "resist": {
+              "luz": 10
+            }
+          }
+        },
+        {
+          "id": "medio",
+          "label": "Médio (resistência a luz 20)",
+          "traits": {
+            "resist": {
+              "luz": 20
+            }
+          }
+        },
+        {
+          "id": "maior",
+          "label": "Maior (resistência a luz 30)",
+          "traits": {
+            "resist": {
+              "luz": 30
+            }
+          }
+        }
+      ]
+    }
+  },
+  "Desonrada": {
+    "status": "parcial",
+    "notes": "Contra efeitos que pegam desonrados, sua Honra conta +2 (maior: +4). Usar: violação severa."
+  },
+  "Divergente": {
+    "status": "parcial",
+    "notes": "Novo alvo resolvido à mão; uma vez por rodada (maior: usos extras a 10 PM).",
+    "reactions": [
+      {
+        "on": "attacked",
+        "label": "Divergente: desviar o ataque",
+        "effect": "note",
+        "note": "O ataque vai para um inimigo adjacente e é resolvido contra ele."
+      }
+    ]
+  },
+  "Energizada": {
+    "choice": {
+      "label": "Categoria do item",
+      "count": 1,
+      "options": [
+        {
+          "id": "base",
+          "label": "Menor ou médio (resistência 10)",
+          "traits": {
+            "resist": {
+              "luz": 10,
+              "trevas": 10,
+              "vacuo": 10
+            }
+          }
+        },
+        {
+          "id": "maior",
+          "label": "Maior (resistência 20)",
+          "traits": {
+            "resist": {
+              "luz": 20,
+              "trevas": 20,
+              "vacuo": 20
+            }
+          }
+        }
+      ]
+    }
+  },
+  "Espiritual": {
+    "traits": {
+      "touchUsesCa": true
+    },
+    "choice": {
+      "label": "Categoria do item",
+      "count": 1,
+      "options": [
+        {
+          "id": "menor",
+          "label": "Menor"
+        },
+        {
+          "id": "medio",
+          "label": "Médio (fantasma vivo)",
+          "grants": [
+            {
+              "name": "Fantasma Vivo",
+              "type": "jutsu"
+            }
+          ]
+        },
+        {
+          "id": "maior",
+          "label": "Maior (forma espiritual)",
+          "grants": [
+            {
+              "name": "Forma Espiritual",
+              "type": "jutsu"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "Fortificada": {
+    "choice": {
+      "label": "Categoria do item",
+      "count": 1,
+      "options": [
+        {
+          "id": "menor",
+          "label": "Menor (25%)",
+          "traits": {
+            "fortification": 25
+          }
+        },
+        {
+          "id": "medio",
+          "label": "Médio (75%)",
+          "traits": {
+            "fortification": 75
+          }
+        },
+        {
+          "id": "maior",
+          "label": "Maior (imune a críticos)",
+          "traits": {
+            "immune": [
+              "critico"
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "Gélida": {
+    "traits": {
+      "retaliate": [
+        {
+          "formula": "1d4",
+          "type": "frio",
+          "label": "Gélida"
+        }
+      ]
+    },
+    "choice": {
+      "label": "Categoria do item",
+      "count": 1,
+      "options": [
+        {
+          "id": "menor",
+          "label": "Menor (resistência a frio 10)",
+          "traits": {
+            "resist": {
+              "frio": 10
+            }
+          }
+        },
+        {
+          "id": "medio",
+          "label": "Médio (resistência a frio 20)",
+          "traits": {
+            "resist": {
+              "frio": 20
+            }
+          }
+        },
+        {
+          "id": "maior",
+          "label": "Maior (imune a frio)",
+          "traits": {
+            "immune": [
+              "frio"
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "Guardiã": {
+    "status": "parcial",
+    "notes": "A troca de alvo é feita à mão; menor: uma vez por rodada.",
+    "choice": {
+      "label": "Categoria do item",
+      "count": 1,
+      "options": [
+        {
+          "id": "menor",
+          "label": "Menor"
+        },
+        {
+          "id": "medio",
+          "label": "Médio (sem limite por rodada)"
+        },
+        {
+          "id": "maior",
+          "label": "Maior (sem PM)"
+        }
+      ]
+    },
+    "activation": {
+      "cost": 1,
+      "action": "livre",
+      "note": "Um nakama adjacente é atacado: você vira o alvo (declare antes da rolagem).",
+      "options": [
+        {
+          "id": "proteger",
+          "label": "Proteger nakama (1 PM)"
+        },
+        {
+          "id": "protegerGratis",
+          "label": "Proteger nakama (sem PM)",
+          "option": "maior",
+          "cost": 0
+        }
+      ]
+    }
+  },
+  "Hipnótica": {
+    "status": "parcial",
+    "notes": "O livro não dá a CD (usamos 15); o fascínio acaba se um afetado for atacado.",
+    "choice": {
+      "label": "Categoria do item",
+      "count": 1,
+      "options": [
+        {
+          "id": "menor",
+          "label": "Menor"
+        },
+        {
+          "id": "medio",
+          "label": "Médio (vertigem)",
+          "grants": [
+            {
+              "name": "Vertigem",
+              "type": "jutsu"
+            }
+          ]
+        },
+        {
+          "id": "maior",
+          "label": "Maior (aura de fascinação)",
+          "grants": [
+            {
+              "name": "Aura de Fascinação",
+              "type": "jutsu"
+            }
+          ]
+        }
+      ]
+    },
+    "activation": {
+      "cost": 3,
+      "action": "padrão",
+      "honorViolation": "leve",
+      "targets": {
+        "who": "enemies",
+        "save": {
+          "type": "von",
+          "dc": 15
+        },
+        "conditions": [
+          {
+            "id": "fascinado",
+            "duration": {
+              "unit": "cena"
+            }
+          }
+        ]
+      },
+      "note": "Inimigos a até 6m que vejam a armadura; encantamento."
+    }
+  },
+  "Honrada": {
+    "passive": [
+      {
+        "key": "system.attributes.negativeLevels",
+        "value": "min(1, max(0, 10 - @honra))"
+      }
+    ],
+    "choice": {
+      "label": "Bônus de Honra (escolha o da CA e, se maior, o das resistências)",
+      "count": 2,
+      "options": [
+        {
+          "id": "ca",
+          "label": "Honra na CA",
+          "passive": [
+            {
+              "key": "system.attributes.ca.bonus",
+              "value": "max(0, @hon)"
+            }
+          ]
+        },
+        {
+          "id": "rd",
+          "label": "Já somava Honra na CA: RD",
+          "passive": [
+            {
+              "key": "system.attributes.rd",
+              "value": "max(0, @hon)"
+            }
+          ]
+        },
+        {
+          "id": "maior",
+          "label": "Maior: Honra nos testes de resistência",
+          "passive": [
+            {
+              "key": "system.saves.fort.bonus",
+              "value": "max(0, @hon)"
+            },
+            {
+              "key": "system.saves.ref.bonus",
+              "value": "max(0, @hon)"
+            },
+            {
+              "key": "system.saves.von.bonus",
+              "value": "max(0, @hon)"
+            }
+          ]
+        },
+        {
+          "id": "maiorEnergia",
+          "label": "Maior, já com Honra nos testes: resistência a energia",
+          "traits": {
+            "resist": {
+              "energia": "2 * max(0, @hon)"
+            }
+          }
+        }
+      ]
+    }
+  },
+  "Ilusória": {
+    "choice": {
+      "label": "Categoria do item",
+      "count": 1,
+      "options": [
+        {
+          "id": "menor",
+          "label": "Menor"
+        },
+        {
+          "id": "medio",
+          "label": "Médio (véu das múltiplas faces)",
+          "grants": [
+            {
+              "name": "Véu das Múltiplas Faces",
+              "type": "jutsu"
+            }
+          ]
+        },
+        {
+          "id": "maior",
+          "label": "Maior (truque das cópias sólidas)",
+          "grants": [
+            {
+              "name": "Truque das Cópias Sólidas",
+              "type": "jutsu"
+            }
+          ]
+        }
+      ]
+    },
+    "activation": {
+      "action": "padrão",
+      "honorViolation": "leve",
+      "note": "A armadura parece uma vestimenta comum (ilusão), sem mudar as estatísticas."
+    }
+  },
+  "Incandescente": {
+    "traits": {
+      "retaliate": [
+        {
+          "formula": "1d4",
+          "type": "fogo",
+          "label": "Incandescente"
+        }
+      ]
+    },
+    "choice": {
+      "label": "Categoria do item",
+      "count": 1,
+      "options": [
+        {
+          "id": "menor",
+          "label": "Menor (resistência a fogo 10)",
+          "traits": {
+            "resist": {
+              "fogo": 10
+            }
+          }
+        },
+        {
+          "id": "medio",
+          "label": "Médio (resistência a fogo 20)",
+          "traits": {
+            "resist": {
+              "fogo": 20
+            }
+          }
+        },
+        {
+          "id": "maior",
+          "label": "Maior (imune a fogo)",
+          "traits": {
+            "immune": [
+              "fogo"
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "Invulnerável": {
+    "choice": {
+      "label": "Categoria do item",
+      "count": 1,
+      "options": [
+        {
+          "id": "base",
+          "label": "Menor ou médio (RD 5)",
+          "passive": [
+            {
+              "key": "system.attributes.rd",
+              "value": 5
+            }
+          ]
+        },
+        {
+          "id": "maior",
+          "label": "Maior (RD 15)",
+          "passive": [
+            {
+              "key": "system.attributes.rd",
+              "value": 15
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "Opaca": {
+    "choice": {
+      "label": "Categoria do item",
+      "count": 1,
+      "options": [
+        {
+          "id": "base",
+          "label": "Menor ou médio (resistência a energia 10)",
+          "traits": {
+            "resist": {
+              "energia": 10
+            }
+          }
+        },
+        {
+          "id": "maior",
+          "label": "Maior (resistência a energia 20)",
+          "traits": {
+            "resist": {
+              "energia": 20
+            }
+          }
+        }
+      ]
+    }
+  },
+  "Reflexiva": {
+    "status": "parcial",
+    "notes": "Reação: gaste os PM do jutsu sofrido e devolva-o ao conjurador (até sublime)."
+  },
+  "Relampejante": {
+    "traits": {
+      "retaliate": [
+        {
+          "formula": "1d4",
+          "type": "eletricidade",
+          "label": "Relampejante"
+        }
+      ]
+    },
+    "choice": {
+      "label": "Categoria do item",
+      "count": 1,
+      "options": [
+        {
+          "id": "menor",
+          "label": "Menor (resistência a eletricidade 10)",
+          "traits": {
+            "resist": {
+              "eletricidade": 10
+            }
+          }
+        },
+        {
+          "id": "medio",
+          "label": "Médio (resistência a eletricidade 20)",
+          "traits": {
+            "resist": {
+              "eletricidade": 20
+            }
+          }
+        },
+        {
+          "id": "maior",
+          "label": "Maior (imune a eletricidade)",
+          "traits": {
+            "immune": [
+              "eletricidade"
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "Reluzente": {
+    "status": "parcial",
+    "notes": "O livro não dá a CD dos testes de Reflexos: usamos 15.",
+    "choice": {
+      "label": "Categoria do item",
+      "count": 1,
+      "options": [
+        {
+          "id": "menor",
+          "label": "Menor (ofuscar)"
+        },
+        {
+          "id": "medio",
+          "label": "Médio (também cegar)"
+        },
+        {
+          "id": "maior",
+          "label": "Maior (também cegar e atordoar)"
+        }
+      ]
+    },
+    "activation": {
+      "action": "movimento",
+      "note": "Lampejos atingem os inimigos a até 6m.",
+      "options": [
+        {
+          "id": "ofuscar",
+          "label": "Ofuscar pela cena",
+          "targets": {
+            "who": "enemies",
+            "save": {
+              "type": "ref",
+              "dc": 15
+            },
+            "conditions": [
+              {
+                "id": "ofuscado",
+                "duration": {
+                  "unit": "cena"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "id": "cegarMedio",
+          "label": "Cegar por 1 rodada (6 PM)",
+          "option": "medio",
+          "cost": 6,
+          "targets": {
+            "who": "enemies",
+            "save": {
+              "type": "ref",
+              "dc": 15
+            },
+            "conditions": [
+              {
+                "id": "cego",
+                "duration": {
+                  "value": 1,
+                  "unit": "rodada"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "id": "cegarMaior",
+          "label": "Cegar por 1 rodada (6 PM)",
+          "option": "maior",
+          "cost": 6,
+          "targets": {
+            "who": "enemies",
+            "save": {
+              "type": "ref",
+              "dc": 15
+            },
+            "conditions": [
+              {
+                "id": "cego",
+                "duration": {
+                  "value": 1,
+                  "unit": "rodada"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "id": "atordoar",
+          "label": "Atordoar por 1 rodada (10 PM)",
+          "option": "maior",
+          "cost": 10,
+          "targets": {
+            "who": "enemies",
+            "save": {
+              "type": "ref",
+              "dc": 15
+            },
+            "conditions": [
+              {
+                "id": "atordoado",
+                "duration": {
+                  "value": 1,
+                  "unit": "rodada"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "Resistente": {
+    "choice": {
+      "label": "Categoria do item",
+      "count": 1,
+      "options": [
+        {
+          "id": "menor",
+          "label": "Menor (+1)",
+          "passive": [
+            {
+              "key": "system.saves.fort.bonus",
+              "value": 1
+            },
+            {
+              "key": "system.saves.ref.bonus",
+              "value": 1
+            },
+            {
+              "key": "system.saves.von.bonus",
+              "value": 1
+            }
+          ]
+        },
+        {
+          "id": "medio",
+          "label": "Médio (+3)",
+          "passive": [
+            {
+              "key": "system.saves.fort.bonus",
+              "value": 3
+            },
+            {
+              "key": "system.saves.ref.bonus",
+              "value": 3
+            },
+            {
+              "key": "system.saves.von.bonus",
+              "value": 3
+            }
+          ]
+        },
+        {
+          "id": "maior",
+          "label": "Maior (+5)",
+          "passive": [
+            {
+              "key": "system.saves.fort.bonus",
+              "value": 5
+            },
+            {
+              "key": "system.saves.ref.bonus",
+              "value": 5
+            },
+            {
+              "key": "system.saves.von.bonus",
+              "value": 5
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "Sombria": {
+    "rollOptions": [
+      {
+        "id": "semPenalidade",
+        "label": "Sombria: sem penalidade de armadura",
+        "for": "skill",
+        "filter": {
+          "skills": [
+            "furtividade"
+          ]
+        },
+        "value": "abs(@armor.penalty)",
+        "locked": true
+      }
+    ],
+    "choice": {
+      "label": "Categoria do item",
+      "count": 1,
+      "options": [
+        {
+          "id": "menor",
+          "label": "Menor (+5)",
+          "passive": [
+            {
+              "key": "system.skills.furtividade.bonus",
+              "value": 5
+            }
+          ]
+        },
+        {
+          "id": "medio",
+          "label": "Médio (+10)",
+          "passive": [
+            {
+              "key": "system.skills.furtividade.bonus",
+              "value": 10
+            }
+          ]
+        },
+        {
+          "id": "maior",
+          "label": "Maior (+15)",
+          "passive": [
+            {
+              "key": "system.skills.furtividade.bonus",
+              "value": 15
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "Tempestuosa": {
+    "choice": {
+      "label": "Categoria do item",
+      "count": 1,
+      "options": [
+        {
+          "id": "menor",
+          "label": "Menor (resistência a vento 10)",
+          "traits": {
+            "resist": {
+              "vento": 10
+            }
+          }
+        },
+        {
+          "id": "medio",
+          "label": "Médio (resistência a vento 20)",
+          "traits": {
+            "resist": {
+              "vento": 20
+            }
+          }
+        },
+        {
+          "id": "maior",
+          "label": "Maior (imune a vento)",
+          "traits": {
+            "immune": [
+              "vento"
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "Bordão do artista marcial": {
+    "status": "parcial",
+    "notes": "Monge ou kensei: dano de ataque desarmado e –1 PM nas habilidades de classe (à mão)."
+  },
+  "Cauda do tigre branco": {
+    "status": "parcial",
+    "notes": "Manobras (+4) e a expulsão do alvo ficam à mão.",
+    "rollOptions": [
+      {
+        "id": "outroMundo",
+        "label": "Fora do Plano Material ou contra nativo de outro mundo (+4 no total)",
+        "attack": 3,
+        "damage": 3,
+        "optional": true
+      }
+    ],
+    "activation": {
+      "cost": 16,
+      "action": "livre",
+      "targets": {
+        "who": "enemies",
+        "save": {
+          "type": "von",
+          "dc": 22
+        }
+      },
+      "note": "Depois de acertar: quem falhar volta ao seu mundo nativo (expulsar, do rito do exorcista)."
+    }
+  },
+  "Ceifadora de demônios": {
+    "rollOptions": [
+      {
+        "id": "radiante",
+        "label": "Radiante (monstros, shiryou e oni)",
+        "damage": "2d6",
+        "type": "luz",
+        "noCrit": true,
+        "when": "vsMonster",
+        "note": "shiryou e oni: marque; perde o poder em área de Tormenta"
+      }
+    ]
+  },
+  "Chakram gritante": {
+    "activation": {
+      "cost": 7,
+      "action": "livre",
+      "targets": {
+        "who": "enemies",
+        "save": {
+          "type": "von",
+          "dc": 15
+        },
+        "conditions": [
+          {
+            "id": "abalado",
+            "duration": {
+              "unit": "cena"
+            }
+          }
+        ]
+      },
+      "note": "Ao arremessar: o grito atinge os inimigos a até 6m do trajeto."
+    }
+  },
+  "Chifre das cerejeiras celestiais": {
+    "status": "parcial",
+    "notes": "O jutsu exige Honra 10+; com a piedosa ligada, todo o dano é não letal.",
+    "rollOptions": [
+      {
+        "id": "piedosa",
+        "label": "Piedosa (dano não letal)",
+        "damage": "2d6",
+        "noCrit": true,
+        "optional": true
+      }
+    ],
+    "grants": [
+      {
+        "name": "Cura das Cerejeiras em Flor",
+        "type": "jutsu"
+      }
+    ],
+    "choice": {
+      "label": "Cura das Cerejeiras em Flor",
+      "count": 1,
+      "options": [
+        {
+          "id": "novo",
+          "label": "Não conhecia o jutsu"
+        },
+        {
+          "id": "conhecia",
+          "label": "Já conhecia o jutsu (–5 PM)",
+          "traits": {
+            "jutsuCost": [
+              {
+                "value": -5,
+                "filter": {
+                  "jutsu": "Cura das Cerejeiras em Flor"
+                },
+                "min": 1
+              }
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "Corrente do rio das almas": {
+    "status": "parcial",
+    "notes": "Alvo de Honra 10 a 15: marque a opção sórdida. Manobras (+4) ficam à mão.",
+    "rollOptions": [
+      {
+        "id": "sordida",
+        "label": "Sórdida (Honra 10 ou mais)",
+        "damage": "2d6",
+        "type": "vacuo",
+        "noCrit": true,
+        "when": "vsHonored",
+        "note": "Honra 10 a 15: marque"
+      }
+    ],
+    "activation": {
+      "action": "livre",
+      "self": {
+        "duration": {
+          "unit": "cena"
+        }
+      },
+      "tempPv": 10,
+      "targets": {
+        "who": "enemies",
+        "changes": [
+          {
+            "key": "system.attributes.negativeLevels",
+            "value": 1
+          }
+        ]
+      },
+      "note": "Depois de um acerto crítico em criatura viva: ela ganha um nível negativo."
+    }
+  },
+  "Cortadora profunda": {
+    "rollOptions": [
+      {
+        "id": "soturna",
+        "label": "Soturna (animais, humanoides e tenshi)",
+        "damage": "2d6",
+        "type": "trevas",
+        "noCrit": true,
+        "when": "vsAnimal|vsHumanoid",
+        "note": "tenshi: marque"
+      }
+    ],
+    "activation": {
+      "cost": 21,
+      "action": "livre",
+      "targets": {
+        "who": "enemies",
+        "save": {
+          "type": "fort",
+          "dc": 22
+        },
+        "conditions": [
+          {
+            "id": "inconsciente"
+          },
+          {
+            "id": "inerte"
+          }
+        ]
+      },
+      "note": "Depois de um acerto crítico: a alma fica presa na lâmina (uma por vez, até 19 níveis)."
+    }
+  },
+  "Crescente lunar": {
+    "status": "parcial",
+    "notes": "O dano dobrado contra mortos-vivos fica à mão.",
+    "rollOptions": [
+      {
+        "id": "radiante",
+        "label": "Radiante (monstros, shiryou e oni)",
+        "damage": "2d6",
+        "type": "luz",
+        "noCrit": true,
+        "when": "vsMonster",
+        "note": "shiryou e oni: marque"
+      },
+      {
+        "id": "desonrado",
+        "label": "Contra desonrado",
+        "attack": 2,
+        "damage": 2,
+        "when": "vsDishonored",
+        "locked": true,
+        "strict": true
+      }
+    ],
+    "activation": {
+      "action": "movimento",
+      "note": "Girada acima da cabeça, a arma brilha como brilho de Tai’Yang (luz intensa em 6m)."
+    }
+  },
+  "Daisho imperial": {
+    "status": "parcial",
+    "notes": "Os aumentos vão todos para a katana; a divisão com a wakizashi fica à mão.",
+    "choice": {
+      "label": "Condições cumpridas (+1 cada)",
+      "count": 4,
+      "options": [
+        {
+          "id": "honra",
+          "label": "Honra 16 ou mais",
+          "rollOptions": [
+            {
+              "id": "honra",
+              "label": "Daisho: Honra 16+",
+              "attack": 1,
+              "damage": 1,
+              "locked": true
+            }
+          ]
+        },
+        {
+          "id": "devoto",
+          "label": "Devoto de Lin-Wu",
+          "rollOptions": [
+            {
+              "id": "devoto",
+              "label": "Daisho: Devoto de Lin-Wu",
+              "attack": 1,
+              "damage": 1,
+              "locked": true
+            }
+          ]
+        },
+        {
+          "id": "diplomacia",
+          "label": "Treinado em Diplomacia",
+          "rollOptions": [
+            {
+              "id": "diplomacia",
+              "label": "Daisho: Diplomacia",
+              "attack": 1,
+              "damage": 1,
+              "locked": true
+            }
+          ]
+        },
+        {
+          "id": "nobreza",
+          "label": "Treinado em Conhecimento (nobreza)",
+          "rollOptions": [
+            {
+              "id": "nobreza",
+              "label": "Daisho: Conhecimento (nobreza)",
+              "attack": 1,
+              "damage": 1,
+              "locked": true
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "Dente gélido do cão-leão": {
+    "rollOptions": [
+      {
+        "id": "congelante",
+        "label": "Congelante",
+        "damage": "1d6",
+        "type": "frio",
+        "noCrit": true,
+        "locked": true
+      }
+    ],
+    "traits": {
+      "resist": {
+        "fogo": 10
+      }
+    },
+    "activation": {
+      "action": "padrão",
+      "note": "Extinguir chama (dominar chamas): fumaça em 3m de raio, camuflagem total dentro."
+    }
+  },
+  "Digníssima determinação": {
+    "status": "parcial",
+    "notes": "Samurai: +4 contra jutsus para você e nakama a até 9m (à mão).",
+    "grants": [
+      {
+        "name": "Anulação",
+        "type": "jutsu"
+      }
+    ],
+    "traits": {
+      "jutsuCost": [
+        {
+          "value": -3,
+          "filter": {
+            "jutsu": "Anulação",
+            "chakra": "int"
+          },
+          "min": 1
+        }
+      ]
+    },
+    "choice": {
+      "label": "Usuário",
+      "count": 1,
+      "options": [
+        {
+          "id": "samurai",
+          "label": "Samurai (digníssima defensora +5)",
+          "passive": [
+            {
+              "key": "system.attributes.ca.bonus",
+              "value": 2
+            }
+          ],
+          "rollOptions": [
+            {
+              "id": "samurai",
+              "label": "Nas mãos do samurai (+5 no total)",
+              "attack": 3,
+              "damage": 3,
+              "locked": true
+            },
+            {
+              "id": "dignissima",
+              "label": "Digníssima (Honra 9 ou menos)",
+              "damage": "2d6",
+              "type": "vacuo",
+              "noCrit": true,
+              "when": "vsDishonored",
+              "locked": true,
+              "strict": true
+            }
+          ]
+        },
+        {
+          "id": "outro",
+          "label": "Outro usuário"
+        }
+      ]
+    },
+    "activation": {
+      "action": "livre",
+      "self": {
+        "duration": {
+          "unit": "cena"
+        }
+      },
+      "tempPv": 20,
+      "note": "Ao derrotar um akumushi com esta arma."
+    }
+  },
+  "Estrela elemental": {
+    "status": "parcial",
+    "notes": "O dano sobe dois passos e vira todo do elemento escolhido: ajuste à mão.",
+    "rollOptions": [
+      {
+        "id": "elemental",
+        "label": "Estrela elemental",
+        "cost": 3,
+        "optional": true,
+        "note": "ácido, eletricidade, fogo, frio ou vento"
+      }
+    ]
+  },
+  "Feixe da mente límpida": {
+    "status": "parcial",
+    "notes": "No 1 natural, Vontade CD 22 ou perde o bônus até meditar 1 hora.",
+    "rollOptions": [
+      {
+        "id": "imovel",
+        "label": "Disparo sem se mover (Sabedoria)",
+        "attack": "max(0, @sab)",
+        "damage": "max(0, @sab)"
+      }
+    ]
+  },
+  "Garganta da naja": {
+    "status": "parcial",
+    "notes": "O dano de Constituição do bote da naja fica à mão.",
+    "activation": {
+      "cost": 9,
+      "action": "livre",
+      "note": "Depois de acertar um disparo: o alvo sofre bote da naja (2 de dano de Constituição; Fortitude após 1 minuto)."
+    }
+  },
+  "Kakko'dai krrat'kharn": {
+    "status": "parcial",
+    "notes": "Nezumi: +8 para separar (à mão). A RD ignorada é só de objetos e construtos.",
+    "rollOptions": [
+      {
+        "id": "ignorarRd",
+        "label": "Ignorar RD (objetos e construtos)",
+        "cost": 3,
+        "ignoreRd": "all",
+        "optional": true
+      }
+    ]
+  },
+  "Kra'tann sh'kann'shmin": {
+    "passive": [
+      {
+        "key": "system.skills.intimidacao.bonus",
+        "value": 2
+      }
+    ],
+    "activation": {
+      "cost": 6,
+      "action": "livre",
+      "targets": {
+        "who": "enemies",
+        "save": {
+          "type": "von",
+          "dc": 22
+        },
+        "conditions": [
+          {
+            "id": "apavorado",
+            "duration": {
+              "value": "1d4",
+              "unit": "rodada"
+            }
+          }
+        ]
+      },
+      "note": "Uma criatura a até 9m."
+    }
+  },
+  "Lâmina da bruxa aberrante": {
+    "status": "parcial",
+    "notes": "Akamono: você sofre 1 de dano por acerto. Fusão com o onimusha à mão.",
+    "rollOptions": [
+      {
+        "id": "akamono",
+        "label": "Akamono",
+        "damage": "1d4",
+        "noCrit": true,
+        "note": "exceto kaijin e akumushi"
+      }
+    ]
+  },
+  "Maestria marcial do magistrado": {
+    "status": "parcial",
+    "notes": "+4 para desarmar e separar; magistrado: +8 para resistir a manobras (à mão).",
+    "passive": [
+      {
+        "key": "system.attributes.ca.bonus",
+        "value": 2
+      }
+    ],
+    "choice": {
+      "label": "Usuário",
+      "count": 1,
+      "options": [
+        {
+          "id": "magistrado",
+          "label": "Magistrado (CA +6 no total)",
+          "passive": [
+            {
+              "key": "system.attributes.ca.bonus",
+              "value": 4
+            }
+          ]
+        },
+        {
+          "id": "outro",
+          "label": "Outro usuário"
+        }
+      ]
+    }
+  },
+  "Pilar derrubado": {
+    "status": "parcial",
+    "notes": "Sórdido: dano como arma duas categorias maior (à mão). Com o desconto, mínimo 1 PM.",
+    "rollOptions": [
+      {
+        "id": "caustico",
+        "label": "Cáustico",
+        "damage": "1d4",
+        "type": "acido",
+        "noCrit": true,
+        "locked": true
+      }
+    ],
+    "grants": [
+      {
+        "name": "Pisão do Bisonte",
+        "type": "jutsu"
+      }
+    ],
+    "choice": {
+      "label": "Usuário e Pisão do Bisonte",
+      "count": 2,
+      "options": [
+        {
+          "id": "sordido",
+          "label": "Usuário sórdido (+4)",
+          "rollOptions": [
+            {
+              "id": "sordido",
+              "label": "Nas mãos de um sórdido",
+              "attack": 4,
+              "damage": 4,
+              "locked": true
+            }
+          ]
+        },
+        {
+          "id": "comum",
+          "label": "Usuário não sórdido"
+        },
+        {
+          "id": "novo",
+          "label": "Não conhecia o jutsu"
+        },
+        {
+          "id": "conhecia",
+          "label": "Já conhecia o jutsu (–5 PM)",
+          "traits": {
+            "jutsuCost": [
+              {
+                "value": -5,
+                "filter": {
+                  "jutsu": "Pisão do Bisonte"
+                },
+                "min": 1
+              }
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "Rastilho flamejante de Hinotori": {
+    "rollOptions": [
+      {
+        "id": "flamejante",
+        "label": "Flamejante",
+        "damage": "1d6",
+        "type": "fogo",
+        "noCrit": true,
+        "locked": true
+      }
+    ],
+    "grants": [
+      {
+        "name": "Voo de Hinotori",
+        "type": "jutsu"
+      }
+    ],
+    "choice": {
+      "label": "Voo de Hinotori",
+      "count": 1,
+      "options": [
+        {
+          "id": "novo",
+          "label": "Não conhecia o jutsu"
+        },
+        {
+          "id": "conhecia",
+          "label": "Já conhecia o jutsu ou tem Bênção de Hinotori (–5 PM)",
+          "traits": {
+            "jutsuCost": [
+              {
+                "value": -5,
+                "filter": {
+                  "jutsu": "Voo de Hinotori"
+                },
+                "min": 1
+              }
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "Salvação no relâmpago sólido": {
+    "status": "parcial",
+    "notes": "O jutsu só vale durante tempestades; com o desconto, mínimo 1 PM.",
+    "rollOptions": [
+      {
+        "id": "eletrica",
+        "label": "Elétrica",
+        "damage": "1d6",
+        "type": "eletricidade",
+        "noCrit": true,
+        "locked": true
+      }
+    ],
+    "grants": [
+      {
+        "name": "Retirada Relâmpago",
+        "type": "jutsu"
+      }
+    ],
+    "choice": {
+      "label": "Retirada Relâmpago",
+      "count": 1,
+      "options": [
+        {
+          "id": "novo",
+          "label": "Não conhecia o jutsu"
+        },
+        {
+          "id": "conhecia",
+          "label": "Já conhecia o jutsu (–10 PM)",
+          "traits": {
+            "jutsuCost": [
+              {
+                "value": -10,
+                "filter": {
+                  "jutsu": "Retirada Relâmpago"
+                },
+                "min": 1
+              }
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "Silêncio das sentinelas no roseiral": {
+    "activation": {
+      "cost": 7,
+      "action": "livre",
+      "targets": {
+        "who": "enemies",
+        "save": {
+          "type": "von",
+          "dc": 15
+        },
+        "conditions": [
+          {
+            "id": "inconsciente",
+            "duration": {
+              "unit": "cena"
+            }
+          }
+        ]
+      },
+      "note": "Depois de acertar um disparo: sono de Mizuha (só nível até o seu + Carisma)."
+    }
+  },
+  "Surpresa mortal": {
+    "status": "parcial",
+    "notes": "Seu ataque furtivo usa d8 em vez de d6, rolando de novo os 1 (à mão)."
+  },
+  "Unha do gato sortudo": {
+    "status": "narrativo",
+    "notes": "Escalada 6m, sem testes de Atletismo e sem ficar desprevenido; exige mãos livres."
+  },
+  "Vento silvante no bambuzal": {
+    "rollOptions": [
+      {
+        "id": "suchiiru",
+        "label": "Bambu suchiiru",
+        "damage": 1,
+        "locked": true
+      },
+      {
+        "id": "ermo",
+        "label": "Cenário ermo e aberto",
+        "damage": "2d6",
+        "type": "vento",
+        "noCrit": true,
+        "optional": true
+      }
+    ],
+    "grants": [
+      {
+        "name": "Dança dos Cinco Ventos",
+        "type": "jutsu"
+      }
+    ],
+    "choice": {
+      "label": "Dança dos Cinco Ventos",
+      "count": 1,
+      "options": [
+        {
+          "id": "novo",
+          "label": "Não conhecia o jutsu"
+        },
+        {
+          "id": "conhecia",
+          "label": "Já conhecia o jutsu (–2 PM)",
+          "traits": {
+            "jutsuCost": [
+              {
+                "value": -2,
+                "filter": {
+                  "jutsu": "Dança dos Cinco Ventos"
+                },
+                "min": 1
+              }
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "Vingança traiçoeira": {
+    "rollOptions": [
+      {
+        "id": "traicoeira",
+        "label": "Golpe ninja ou ataque furtivo",
+        "attack": 4,
+        "damage": 4,
+        "when": "vsFlatFooted",
+        "note": "com golpe ninja: marque"
+      }
+    ]
+  },
+  "Blindagem elemental": {
+    "choice": {
+      "label": "Cura elemental (1 sorteado; mashin com Blindagem escolhe 2)",
+      "count": 2,
+      "options": [
+        {
+          "id": "acido",
+          "label": "Ácido",
+          "hint": "1–2 no d10",
+          "traits": {
+            "immune": [
+              "acido"
+            ],
+            "healFrom": [
+              "acido"
+            ]
+          }
+        },
+        {
+          "id": "eletricidade",
+          "label": "Eletricidade",
+          "hint": "3–4 no d10",
+          "traits": {
+            "immune": [
+              "eletricidade"
+            ],
+            "healFrom": [
+              "eletricidade"
+            ]
+          }
+        },
+        {
+          "id": "fogo",
+          "label": "Fogo",
+          "hint": "5–6 no d10",
+          "traits": {
+            "immune": [
+              "fogo"
+            ],
+            "healFrom": [
+              "fogo"
+            ]
+          }
+        },
+        {
+          "id": "frio",
+          "label": "Frio",
+          "hint": "7–8 no d10",
+          "traits": {
+            "immune": [
+              "frio"
+            ],
+            "healFrom": [
+              "frio"
+            ]
+          }
+        },
+        {
+          "id": "vento",
+          "label": "Vento",
+          "hint": "9–10 no d10",
+          "traits": {
+            "immune": [
+              "vento"
+            ],
+            "healFrom": [
+              "vento"
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "Broto de bambu suchiiru": {
+    "status": "narrativo",
+    "notes": "RD 1 e penalidade zero já estão nos números da armadura."
+  },
+  "Couro huna'bito": {
+    "status": "parcial",
+    "notes": "A paralisia do atacante é aplicada à mão.",
+    "traits": {
+      "resist": {
+        "frio": 10
+      },
+      "retaliate": [
+        {
+          "formula": "1d4",
+          "type": "frio",
+          "label": "Gélida"
+        }
+      ]
+    },
+    "reactions": [
+      {
+        "on": "attacked",
+        "label": "Frio intenso (crítico)",
+        "cost": 10,
+        "effect": "note",
+        "note": "Se foi crítico: o atacante fica paralisado por 1 rodada."
+      }
+    ]
+  },
+  "Escama do dragão azul do leste": {
+    "status": "parcial",
+    "notes": "O ataque repetido é rolado à mão. A Constituição do jade não acumula.",
+    "reactions": [
+      {
+        "on": "attacked",
+        "label": "Escama do dragão: repetir o ataque",
+        "cost": 10,
+        "effect": "note",
+        "note": "O atacante rola de novo e fica com a segunda rolagem, mesmo melhor."
+      }
+    ]
+  },
+  "Escudo do dragão": {
+    "status": "parcial",
+    "notes": "O dano no escudo é aplicado à mão. A Constituição do jade não acumula.",
+    "reactions": [
+      {
+        "on": "attacked",
+        "label": "Escudo do dragão: receber o golpe",
+        "cost": 1,
+        "effect": "note",
+        "note": "O golpe vai para o escudo, como separar (RD 12, 40 PV)."
+      }
+    ]
+  },
+  "Fortaleza do coração das trevas": {
+    "traits": {
+      "fortification": 25,
+      "resist": {
+        "luz": 10
+      }
+    },
+    "grants": [
+      {
+        "name": "Cripta de Liu’Yan",
+        "type": "jutsu"
+      }
+    ],
+    "choice": {
+      "label": "Cripta de Liu’Yan",
+      "count": 1,
+      "options": [
+        {
+          "id": "novo",
+          "label": "Não conhecia o jutsu"
+        },
+        {
+          "id": "conhecia",
+          "label": "Já conhecia o jutsu (–5 PM)",
+          "traits": {
+            "jutsuCost": [
+              {
+                "value": -5,
+                "filter": {
+                  "jutsu": "Cripta de Liu’Yan"
+                },
+                "min": 1
+              }
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "Guarda inabalável": {
+    "status": "parcial",
+    "notes": "Bushi: o bônus também soma na RD da resolução (à mão). Troca de alvo à mão.",
+    "choice": {
+      "label": "Usuário",
+      "count": 1,
+      "options": [
+        {
+          "id": "bushi",
+          "label": "Bushi (+5 e fortificada)",
+          "passive": [
+            {
+              "key": "system.attributes.ca.bonus",
+              "value": 5
+            }
+          ],
+          "traits": {
+            "fortification": 25
+          }
+        },
+        {
+          "id": "outro",
+          "label": "Outro usuário"
+        }
+      ]
+    },
+    "activation": {
+      "cost": 1,
+      "action": "livre",
+      "note": "Guardiã: um nakama adjacente é atacado e você vira o alvo (declare antes da rolagem)."
+    }
+  },
+  "Humilde uniforme": {
+    "passive": [
+      {
+        "key": "system.skills.acrobacia.bonus",
+        "value": 5
+      },
+      {
+        "key": "system.skills.atletismo.bonus",
+        "value": 5
+      }
+    ],
+    "choice": {
+      "label": "Usuário",
+      "count": 1,
+      "options": [
+        {
+          "id": "kensei",
+          "label": "Kensei ou monge (CA +5 e +3m)",
+          "passive": [
+            {
+              "key": "system.attributes.ca.bonus",
+              "value": 5
+            },
+            {
+              "key": "system.attributes.movement.bonus",
+              "value": 3
+            }
+          ]
+        },
+        {
+          "id": "outro",
+          "label": "Outro usuário"
+        }
+      ]
+    }
+  },
+  "Manto do feiticeiro do caos": {
+    "passive": [
+      {
+        "key": "system.saves.fort.bonus",
+        "value": 3
+      },
+      {
+        "key": "system.saves.ref.bonus",
+        "value": 3
+      },
+      {
+        "key": "system.saves.von.bonus",
+        "value": 3
+      }
+    ],
+    "choice": {
+      "label": "Usuário",
+      "count": 1,
+      "options": [
+        {
+          "id": "wujen",
+          "label": "Wu-jen (CD dos jutsus +2)",
+          "traits": {
+            "jutsuDc": [
+              {
+                "value": 2
+              }
+            ]
+          }
+        },
+        {
+          "id": "outro",
+          "label": "Outro usuário"
+        }
+      ]
+    }
+  },
+  "Ossos inquietos": {
+    "status": "parcial",
+    "notes": "A margem 19 da farpa não entra na rolagem automática.",
+    "activation": {
+      "cost": 1,
+      "action": "padrão",
+      "attack": {
+        "type": "toqueDistancia"
+      },
+      "damage": {
+        "formula": "1d10",
+        "type": "perfuracao"
+      },
+      "note": "Farpa de osso: 36m, crítico 19."
+    }
+  },
+  "Quimono celestial": {
+    "status": "parcial",
+    "notes": "Ryuujin: voo igual ao deslocamento (narrativo). A Constituição do jade não acumula.",
+    "passive": [
+      {
+        "key": "system.saves.fort.bonus",
+        "value": 3
+      },
+      {
+        "key": "system.saves.ref.bonus",
+        "value": 3
+      },
+      {
+        "key": "system.saves.von.bonus",
+        "value": 3
+      }
+    ],
+    "grants": [
+      {
+        "name": "Palanquim Celestial",
+        "type": "jutsu"
+      }
+    ],
+    "choice": {
+      "label": "Palanquim Celestial",
+      "count": 1,
+      "options": [
+        {
+          "id": "novo",
+          "label": "Não conhecia o jutsu"
+        },
+        {
+          "id": "conhecia",
+          "label": "Já conhecia o jutsu (–9 PM)",
+          "traits": {
+            "jutsuCost": [
+              {
+                "value": -9,
+                "filter": {
+                  "jutsu": "Palanquim Celestial"
+                },
+                "min": 1
+              }
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "Rancor nos quatro espelhos": {
+    "status": "parcial",
+    "notes": "Refletir jutsus (reflexiva) fica à mão.",
+    "reactions": [
+      {
+        "on": "attacked",
+        "label": "Golpe desintegrador (crítico)",
+        "cost": 15,
+        "effect": "note",
+        "note": "Se foi crítico: o agressor sofre 20d6 que ignoram RD (Fortitude CD 25: 5d6)."
+      }
+    ]
+  },
+  "Sobrevivente maldita": {
+    "status": "parcial",
+    "notes": "Akamono: cada golpe recebido tem 30% de falha (exceto kaijin e akumushi). Fusão à mão."
+  },
+  "Thai'rrokhan": {
+    "status": "parcial",
+    "notes": "Não é flanqueado; caído, ganha cobertura (CA +4). Natação e respiração na água: narrativo."
+  },
+  "Traje das sombras eternas": {
+    "status": "parcial",
+    "notes": "Contra efeitos que pegam desonrados, sua Honra conta +2 (à mão). Visão no escuro: narrativo.",
+    "passive": [
+      {
+        "key": "system.skills.furtividade.bonus",
+        "value": 2
+      },
+      {
+        "key": "system.skills.intimidacao.bonus",
+        "value": 2
+      }
+    ]
+  },
+  "Tufão sublime": {
+    "status": "parcial",
+    "notes": "Com o desconto, o jutsu custa no mínimo 1 PM (o sistema desce a 0).",
+    "traits": {
+      "resist": {
+        "vento": 10
+      }
+    },
+    "grants": [
+      {
+        "name": "Velocidade Sobrenatural",
+        "type": "jutsu"
+      }
+    ],
+    "choice": {
+      "label": "Velocidade Sobrenatural",
+      "count": 1,
+      "options": [
+        {
+          "id": "novo",
+          "label": "Não conhecia o jutsu"
+        },
+        {
+          "id": "conhecia",
+          "label": "Já conhecia o jutsu (–5 PM)",
+          "traits": {
+            "jutsuCost": [
+              {
+                "value": -5,
+                "filter": {
+                  "jutsu": "Velocidade Sobrenatural"
+                },
+                "min": 1
+              }
+            ]
+          }
+        }
+      ]
+    }
+  }
+}

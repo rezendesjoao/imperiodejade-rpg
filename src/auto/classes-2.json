@@ -1,0 +1,796 @@
+{
+  "_sobre": "Automação das habilidades de Kensei, Monge e Onimusha (docs/automacao.md). A chave é Classe/Habilidade.",
+  "Kensei/Arma eleita": {
+    "status": "parcial",
+    "notes": "Ponha a arma obra-prima do tipo no inventário; o Foco em Arma vem com a arma escrita aqui.",
+    "grants": [
+      {
+        "name": "Foco em Arma",
+        "type": "feat",
+        "choiceText": "@choice"
+      }
+    ],
+    "choice": {
+      "label": "Arma eleita",
+      "count": 1,
+      "text": "Arma eleita",
+      "options": [
+        {
+          "id": "arma",
+          "label": "Uma arma",
+          "hint": "Ganha uma obra-prima do tipo"
+        },
+        {
+          "id": "desarmado",
+          "label": "Ataque desarmado",
+          "grants": [
+            {
+              "name": "Ataque Desarmado Aprimorado",
+              "type": "feat"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "Kensei/Técnica de luta": {
+    "status": "narrativo",
+    "notes": "Arraste o talento de combate escolhido do compêndio; se pedir arma, use a eleita."
+  },
+  "Kensei/Dano desarmado": {
+    "choice": {
+      "label": "Arma eleita",
+      "count": 1,
+      "options": [
+        {
+          "id": "desarmado",
+          "label": "Ataque desarmado",
+          "traits": {
+            "unarmed": "dice(1d6, 1d8, 1d10, 2d6, 2d8, 2d10)"
+          }
+        },
+        {
+          "id": "outra",
+          "label": "Outra arma",
+          "hint": "Esta habilidade não faz nada"
+        }
+      ]
+    }
+  },
+  "Kensei/Poder marcial": {
+    "rollOptions": [
+      {
+        "id": "poder",
+        "label": "Poder marcial",
+        "pm": {
+          "max": "@pmLimit",
+          "each": "rank(2, 4)",
+          "split": true,
+          "cap": "@nivel"
+        },
+        "optional": true,
+        "filter": {
+          "chosenWeaponOf": "Arma eleita"
+        }
+      }
+    ]
+  },
+  "Kensei/Aprendiz de golpes": {
+    "status": "narrativo"
+  },
+  "Kensei/Versado em arma": {
+    "rollOptions": [
+      {
+        "id": "versado",
+        "label": "Versado em arma (teste ligado à arma eleita)",
+        "for": [
+          "skill",
+          "initiative"
+        ],
+        "value": "rank(2, 4, 6, 8)",
+        "optional": true
+      }
+    ]
+  },
+  "Kensei/Golpe extra": {
+    "rollOptions": [
+      {
+        "id": "extra",
+        "label": "Golpe extra",
+        "cost": 2,
+        "extraAttack": true,
+        "filter": {
+          "chosenWeaponOf": "Arma eleita"
+        },
+        "optional": true,
+        "note": "um ataque a mais com o mesmo bônus"
+      }
+    ]
+  },
+  "Kensei/Meditação": {
+    "activation": {
+      "restore": {
+        "pv": "2 * @nivel",
+        "pm": "@nivel"
+      },
+      "self": {
+        "duration": {
+          "value": 1,
+          "unit": "dia"
+        },
+        "rollOptions": [
+          {
+            "id": "meditacao",
+            "label": "Meditação (veneno ou doença que já o afeta)",
+            "for": "save",
+            "filter": {
+              "saves": [
+                "fort"
+              ]
+            },
+            "value": 5,
+            "optional": true
+          }
+        ]
+      },
+      "note": "Transe de 2 h (1 h no 11º nível, 30 min no 17º), com a arma eleita consigo."
+    }
+  },
+  "Kensei/Arma polivalente": {
+    "grants": [
+      {
+        "name": "Arma de Dai’Gun",
+        "type": "jutsu"
+      }
+    ]
+  },
+  "Kensei/Arma querida": {
+    "rollOptions": [
+      {
+        "id": "desarmar",
+        "label": "Arma querida (resistir a desarmar ou separar)",
+        "attack": 4,
+        "optional": true,
+        "filter": {
+          "chosenWeaponOf": "Arma eleita"
+        }
+      },
+      {
+        "id": "agarrar",
+        "label": "Arma querida (desarmado: resistir a agarrar)",
+        "attack": 4,
+        "filter": {
+          "unarmed": true
+        },
+        "optional": true
+      },
+      {
+        "id": "roubo",
+        "label": "Arma querida (impedir o roubo da arma eleita)",
+        "for": "skill",
+        "filter": {
+          "skills": [
+            "percepcao"
+          ]
+        },
+        "value": 8,
+        "optional": true
+      }
+    ]
+  },
+  "Kensei/Arma indestrutível": {
+    "status": "parcial",
+    "notes": "A RD dobrada e os PV da arma eleita ficam com a mesa.",
+    "rollOptions": [
+      {
+        "id": "manobras",
+        "label": "Arma indestrutível (desarmado: resistir a atropelar, empurrar ou derrubar)",
+        "attack": 4,
+        "filter": {
+          "unarmed": true
+        },
+        "optional": true
+      }
+    ]
+  },
+  "Kensei/Golpe mortal": {
+    "status": "parcial",
+    "notes": "No crítico, role a 2ª jogada com a opção marcada e use o dano crítico dela.",
+    "rollOptions": [
+      {
+        "id": "mortal",
+        "label": "Golpe mortal",
+        "critMult": 2,
+        "optional": true,
+        "note": "se a 2ª jogada acertar; no 20º nível, sempre",
+        "filter": {
+          "chosenWeaponOf": "Arma eleita"
+        }
+      }
+    ]
+  },
+  "Monge/Dano desarmado": {
+    "traits": {
+      "unarmed": "dice(1d6, 1d8, 1d10, 2d6, 2d8, 2d10)"
+    }
+  },
+  "Monge/Rajada de golpes": {
+    "requires": {
+      "noArmor": true,
+      "noShield": true
+    },
+    "activation": {
+      "action": "livre",
+      "duration": {
+        "value": 1,
+        "unit": "rodada"
+      },
+      "options": [
+        {
+          "id": "rajada",
+          "label": "Rajada de golpes",
+          "hint": "−2 em todos os ataques até o 10º nível",
+          "cost": 0,
+          "self": {
+            "changes": [
+              {
+                "key": "system.attributes.mods.attack",
+                "value": "rank(-2, 0)"
+              }
+            ]
+          },
+          "note": "Um ataque extra com arma de monge nesta rodada."
+        },
+        {
+          "id": "pm",
+          "label": "Rajada de golpes com 1 PM",
+          "hint": "Sem o −2; no 11º nível, um 2º ataque extra",
+          "cost": 1,
+          "note": "Ataque extra sem penalidade (no 11º nível, dois ataques extras)."
+        }
+      ]
+    }
+  },
+  "Monge/Sexto sentido": {
+    "requires": {
+      "noArmor": true,
+      "noShield": true
+    },
+    "passive": [
+      {
+        "key": "system.attributes.ca.bonus",
+        "value": "max(1, @sab) + @rank - 1"
+      },
+      {
+        "key": "system.saves.ref.bonus",
+        "value": "max(1, @sab) + @rank - 1"
+      }
+    ]
+  },
+  "Monge/Técnica de luta": {
+    "status": "narrativo",
+    "notes": "Arraste o talento de combate escolhido do compêndio."
+  },
+  "Monge/Evasão": {
+    "traits": {
+      "evasion": "rank(1, 2)"
+    },
+    "requires": {
+      "noArmor": true,
+      "noShield": true
+    }
+  },
+  "Monge/Movimento rápido": {
+    "passive": [
+      {
+        "key": "system.attributes.movement.bonus",
+        "value": "3 * @rank"
+      }
+    ]
+  },
+  "Monge/Ataque chi": {
+    "rollOptions": [
+      {
+        "id": "chi",
+        "label": "Ataque chi",
+        "ignoreRd": "rank(5, 10, 15)",
+        "filter": {
+          "monk": true
+        },
+        "locked": true
+      }
+    ]
+  },
+  "Monge/Movimento ágil": {
+    "requires": {
+      "noArmor": true,
+      "noShield": true
+    },
+    "passive": [
+      {
+        "key": "system.skills.acrobacia.bonus",
+        "value": "rank(5, 10, 15, 20)"
+      },
+      {
+        "key": "system.skills.atletismo.bonus",
+        "value": "rank(5, 10, 15, 20)"
+      }
+    ]
+  },
+  "Monge/Meditação": {
+    "activation": {
+      "restore": {
+        "pv": "2 * @nivel",
+        "pm": "@nivel"
+      },
+      "self": {
+        "duration": {
+          "value": 1,
+          "unit": "dia"
+        },
+        "rollOptions": [
+          {
+            "id": "meditacao",
+            "label": "Meditação (veneno ou doença que já o afeta)",
+            "for": "save",
+            "filter": {
+              "saves": [
+                "fort"
+              ]
+            },
+            "value": 5,
+            "optional": true
+          }
+        ]
+      },
+      "note": "Transe de 2 h (1 h no 11º nível, 30 min no 17º)."
+    }
+  },
+  "Monge/Integridade corporal": {
+    "grants": [
+      {
+        "name": "Integridade Corporal",
+        "type": "jutsu"
+      }
+    ]
+  },
+  "Monge/Aperfeiçoamento": {
+    "status": "parcial",
+    "notes": "Idiomas, penalidades de idade e perícias só treinadas ficam com a mesa.",
+    "choice": {
+      "label": "Aperfeiçoamentos",
+      "count": "@rank",
+      "options": [
+        {
+          "id": "almaAtemporal",
+          "label": "Alma atemporal",
+          "rollOptions": [
+            {
+              "id": "almaTreinada",
+              "label": "Alma atemporal (perícia treinada)",
+              "for": [
+                "skill",
+                "initiative"
+              ],
+              "value": 4,
+              "cost": 1,
+              "optional": true
+            },
+            {
+              "id": "almaSemTreino",
+              "label": "Alma atemporal (perícia sem treino, como treinada)",
+              "for": [
+                "skill",
+                "initiative"
+              ],
+              "value": "@nivel + 3 - @meionivel",
+              "cost": 1,
+              "optional": true
+            }
+          ]
+        },
+        {
+          "id": "almaDiamante",
+          "label": "Alma de diamante",
+          "passive": [
+            {
+              "key": "system.attributes.mods.saves",
+              "value": 4
+            }
+          ]
+        },
+        {
+          "id": "almaVazia",
+          "label": "Alma vazia",
+          "grants": [
+            {
+              "name": "Mente Ausente",
+              "type": "jutsu"
+            }
+          ]
+        },
+        {
+          "id": "corpoAtemporal",
+          "label": "Corpo atemporal",
+          "traits": {
+            "immune": [
+              "envelhecimento"
+            ]
+          }
+        },
+        {
+          "id": "corpoDiamante",
+          "label": "Corpo de diamante",
+          "traits": {
+            "immune": [
+              "doenca",
+              "veneno"
+            ]
+          }
+        },
+        {
+          "id": "corpoVazio",
+          "label": "Corpo vazio",
+          "grants": [
+            {
+              "name": "Forma Espiritual",
+              "type": "jutsu"
+            }
+          ]
+        },
+        {
+          "id": "idiomas",
+          "label": "Idiomas do sol e da lua"
+        }
+      ]
+    }
+  },
+  "Monge/Autoperfeição": {
+    "traits": {
+      "autoSave": true
+    }
+  },
+  "Onimusha/Caminhos aberrantes": {
+    "status": "parcial",
+    "notes": "Bônus da arma e armadura simbiontes vão no item; evoluções e troca de nakama, na mão.",
+    "choice": {
+      "label": "Caminhos aberrantes",
+      "count": "@rank",
+      "options": [
+        {
+          "id": "arma",
+          "label": "Arma simbionte",
+          "hint": "+1 de bônus mágico por repetição, nos campos da arma"
+        },
+        {
+          "id": "armadura",
+          "label": "Armadura simbionte",
+          "hint": "+1 de bônus mágico por repetição, nos campos da armadura"
+        },
+        {
+          "id": "feroz",
+          "label": "Companheiro: animal feroz",
+          "hint": "Um só companheiro; o dado de dano sobe a cada repetição",
+          "rollOptions": [
+            {
+              "id": "feroz",
+              "label": "Animal feroz",
+              "damage": "1d3"
+            }
+          ]
+        },
+        {
+          "id": "guardiao",
+          "label": "Companheiro: animal guardião",
+          "hint": "Um só companheiro; CA +1 a cada repetição",
+          "passive": [
+            {
+              "key": "system.attributes.ca.bonus",
+              "value": 1
+            }
+          ]
+        },
+        {
+          "id": "montaria",
+          "label": "Companheiro: animal de montaria",
+          "hint": "Um só companheiro; +3 m a cada repetição (voo a partir de +9 m)",
+          "passive": [
+            {
+              "key": "system.attributes.movement.bonus",
+              "value": 3
+            }
+          ]
+        },
+        {
+          "id": "rep2",
+          "label": "Repetição (2º)",
+          "hint": "Neste nível, evoluiu um caminho que já tinha"
+        },
+        {
+          "id": "rep4",
+          "label": "Repetição (4º)",
+          "hint": "Neste nível, evoluiu um caminho que já tinha"
+        },
+        {
+          "id": "rep6",
+          "label": "Repetição (6º)",
+          "hint": "Neste nível, evoluiu um caminho que já tinha"
+        },
+        {
+          "id": "rep8",
+          "label": "Repetição (8º)",
+          "hint": "Neste nível, evoluiu um caminho que já tinha"
+        },
+        {
+          "id": "rep10",
+          "label": "Repetição (10º)",
+          "hint": "Neste nível, evoluiu um caminho que já tinha"
+        },
+        {
+          "id": "rep12",
+          "label": "Repetição (12º)",
+          "hint": "Neste nível, evoluiu um caminho que já tinha"
+        },
+        {
+          "id": "rep14",
+          "label": "Repetição (14º)",
+          "hint": "Neste nível, evoluiu um caminho que já tinha"
+        },
+        {
+          "id": "rep16",
+          "label": "Repetição (16º)",
+          "hint": "Neste nível, evoluiu um caminho que já tinha"
+        },
+        {
+          "id": "rep18",
+          "label": "Repetição (18º)",
+          "hint": "Neste nível, evoluiu um caminho que já tinha"
+        },
+        {
+          "id": "rep20",
+          "label": "Repetição (20º)",
+          "hint": "Neste nível, evoluiu um caminho que já tinha"
+        }
+      ]
+    }
+  },
+  "Onimusha/Faro para monstros": {
+    "status": "narrativo"
+  },
+  "Onimusha/Potência aberrante": {
+    "status": "parcial",
+    "notes": "Talento potente: conte os talentos da Tormenta extras à mão, só nos efeitos deles.",
+    "activation": {
+      "cost": 2,
+      "action": "livre",
+      "duration": {
+        "unit": "cena"
+      },
+      "variable": {
+        "min": 0,
+        "max": "@pmLimit - 2",
+        "label": "PM extras"
+      },
+      "options": [
+        {
+          "id": "arma",
+          "label": "Arma potente",
+          "hint": "+1 em ataque e dano com a arma simbionte, +1 por PM extra (até +5)",
+          "self": {
+            "rollOptions": [
+              {
+                "id": "armaPotente",
+                "label": "Arma potente (arma simbionte)",
+                "attack": "min(5, 1 + @spent)",
+                "damage": "min(5, 1 + @spent)"
+              }
+            ]
+          }
+        },
+        {
+          "id": "armadura",
+          "label": "Armadura potente",
+          "hint": "+1 na CA e nas resistências, +1 por PM extra (até +5)",
+          "self": {
+            "changes": [
+              {
+                "key": "system.attributes.ca.bonus",
+                "value": "min(5, 1 + @spent)"
+              },
+              {
+                "key": "system.attributes.mods.saves",
+                "value": "min(5, 1 + @spent)"
+              }
+            ]
+          }
+        },
+        {
+          "id": "feroz",
+          "label": "Companheiro potente (animal feroz)",
+          "hint": "+1 no dano, +1 por PM extra (até +5)",
+          "self": {
+            "rollOptions": [
+              {
+                "id": "ferozPotente",
+                "label": "Companheiro potente (animal feroz)",
+                "damage": "min(5, 1 + @spent)"
+              }
+            ]
+          }
+        },
+        {
+          "id": "guardiao",
+          "label": "Companheiro potente (animal guardião)",
+          "hint": "+1 na CA, +1 por PM extra (até +5)",
+          "self": {
+            "changes": [
+              {
+                "key": "system.attributes.ca.bonus",
+                "value": "min(5, 1 + @spent)"
+              }
+            ]
+          }
+        },
+        {
+          "id": "montaria",
+          "label": "Companheiro potente (animal de montaria)",
+          "hint": "+3 m, +3 m por PM extra (até +15 m)",
+          "self": {
+            "changes": [
+              {
+                "key": "system.attributes.movement.bonus",
+                "value": "3 * min(5, 1 + @spent)"
+              }
+            ]
+          }
+        },
+        {
+          "id": "talento",
+          "label": "Talento potente",
+          "hint": "Violação de honra severa",
+          "honorViolation": "severa",
+          "note": "Conte dois talentos da Tormenta a mais, e um por PM extra, só nos efeitos deles."
+        }
+      ]
+    }
+  },
+  "Onimusha/Devorador de almas": {
+    "status": "parcial",
+    "notes": "A mesa desconta criaturas de ND baixo demais para render XP.",
+    "triggers": [
+      {
+        "on": "creatureDown",
+        "range": 9,
+        "gainPm": "rank(1, 2)"
+      }
+    ]
+  },
+  "Onimusha/Inimigo de monstros": {
+    "rollOptions": [
+      {
+        "id": "dano",
+        "label": "Inimigo de monstros",
+        "damage": "rank(2, 4, 8)",
+        "when": "vsMonster",
+        "locked": true,
+        "strict": true
+      },
+      {
+        "id": "pericias",
+        "label": "Inimigo de monstros (perícia contra monstro)",
+        "for": "skill",
+        "value": "rank(2, 4, 8)",
+        "when": "vsMonster"
+      }
+    ]
+  },
+  "Onimusha/Momento de Tormenta": {
+    "status": "parcial",
+    "notes": "O 1d6 de cada turno e o dano de Constituição ficam com a mesa.",
+    "activation": {
+      "action": "movimento",
+      "options": [
+        {
+          "id": "criar",
+          "label": "Criar a área de Tormenta",
+          "cost": 6,
+          "duration": {
+            "unit": "cena"
+          },
+          "honorViolation": "severa",
+          "self": {
+            "key": "momentoTormenta"
+          },
+          "note": "Área de 9 m de raio em você; role 1d6 agora e no início de cada turno seu."
+        },
+        {
+          "id": "chuva",
+          "label": "1-2: chuva ácida",
+          "cost": 0,
+          "action": "",
+          "damage": {
+            "formula": "4d4",
+            "type": "acido"
+          },
+          "note": "Todos na área, sem teste."
+        },
+        {
+          "id": "neblina",
+          "label": "3-4: neblina venenosa",
+          "cost": 0,
+          "action": "",
+          "save": {
+            "type": "fort",
+            "dc": 22
+          },
+          "note": "Quem falhar sofre 1d6 de dano de Constituição."
+        },
+        {
+          "id": "raio",
+          "label": "5-6: tempestade elétrica",
+          "cost": 0,
+          "action": "",
+          "damage": {
+            "formula": "5d10",
+            "type": "eletricidade"
+          },
+          "save": {
+            "type": "ref",
+            "dc": 22,
+            "half": true
+          },
+          "note": "Atinge uma criatura aleatória na área, talvez você."
+        }
+      ]
+    }
+  },
+  "Onimusha/Resistente a monstros": {
+    "traits": {
+      "defense": [
+        {
+          "value": "rank(2, 4)",
+          "when": "vsMonster",
+          "label": "Resistente a monstros"
+        }
+      ]
+    },
+    "rollOptions": [
+      {
+        "id": "resistencia",
+        "label": "Resistente a monstros",
+        "for": "save",
+        "value": "rank(2, 4)",
+        "when": "vsMonster",
+        "locked": true
+      }
+    ]
+  },
+  "Onimusha/Matador": {
+    "status": "parcial",
+    "notes": "Jutsus contra monstros: a mesa ignora a RD e as resistências do alvo.",
+    "rollOptions": [
+      {
+        "id": "matador",
+        "label": "Matador",
+        "ignoreRd": "all",
+        "when": "vsMonster",
+        "locked": true,
+        "strict": true
+      }
+    ]
+  },
+  "Onimusha/Matador supremo": {
+    "status": "parcial",
+    "notes": "Contra monstro imune a crítico com ND menor que seu nível, a mesa aplica o crítico.",
+    "rollOptions": [
+      {
+        "id": "supremo",
+        "label": "Matador supremo",
+        "critMult": 2,
+        "when": "vsMonster",
+        "locked": true,
+        "strict": true
+      }
+    ]
+  }
+}

@@ -1,0 +1,2483 @@
+{
+  "_sobre": "Automação dos itens mágicos de magic-b.json: ofuda, amuletos, acessórios e artefatos (docs/automacao.md). A chave é o nome do item. Bônus que já estão nos effects do dado não se repetem aqui. Amuletos concedem os jutsus que contêm; o desconto por já conhecer o jutsu fica à mão. Talismãs: a escolha 'Já tinha o talento' liga o desconto.",
+  "Ofuda (jutsu básico)": {
+    "activation": {
+      "action": "padrão",
+      "note": "Executa o jutsu inscrito, sem aprimoramentos. Quem já o conhece não paga o PM-base."
+    },
+    "status": "parcial",
+    "notes": "O jutsu inscrito varia: resolva-o pela ficha ou pelo compêndio."
+  },
+  "Ofuda (jutsu mediano)": {
+    "activation": {
+      "action": "padrão",
+      "note": "Executa o jutsu inscrito, sem aprimoramentos. Quem já o conhece não paga o PM-base."
+    },
+    "status": "parcial",
+    "notes": "O jutsu inscrito varia: resolva-o pela ficha ou pelo compêndio."
+  },
+  "Amuleto da água": {
+    "grants": [
+      {
+        "name": "Onda de Frio",
+        "type": "jutsu"
+      },
+      {
+        "name": "Dominar Água",
+        "type": "jutsu"
+      },
+      {
+        "name": "Criar Elemento",
+        "type": "jutsu"
+      },
+      {
+        "name": "Camada de Gelo",
+        "type": "jutsu"
+      }
+    ],
+    "status": "parcial",
+    "notes": "Criar elemento só de água; desconto por já conhecer o jutsu à mão."
+  },
+  "Amuleto da anulação": {
+    "grants": [
+      {
+        "name": "Mandala da Anulação",
+        "type": "jutsu"
+      },
+      {
+        "name": "Anulação",
+        "type": "jutsu"
+      },
+      {
+        "name": "Segredos da Anulação",
+        "type": "power"
+      }
+    ],
+    "status": "parcial",
+    "notes": "Desconto por já conhecer o jutsu: à mão."
+  },
+  "Amuleto da comunicação": {
+    "grants": [
+      {
+        "name": "Verdade dos Ancestrais",
+        "type": "jutsu"
+      },
+      {
+        "name": "Língua de Prata",
+        "type": "jutsu"
+      },
+      {
+        "name": "Compreensão dos Ancestrais",
+        "type": "jutsu"
+      }
+    ],
+    "status": "parcial",
+    "notes": "Desconto por já conhecer o jutsu: à mão."
+  },
+  "Amuleto da cura": {
+    "grants": [
+      {
+        "name": "Bênção de Fuyuan",
+        "type": "feat"
+      },
+      {
+        "name": "Purificação",
+        "type": "jutsu"
+      },
+      {
+        "name": "Toque Curativo",
+        "type": "jutsu"
+      }
+    ],
+    "status": "parcial",
+    "notes": "Desconto por já conhecer o jutsu: à mão."
+  },
+  "Amuleto da força interior": {
+    "grants": [
+      {
+        "name": "Duro de Matar",
+        "type": "feat"
+      },
+      {
+        "name": "Fôlego Concentrado",
+        "type": "jutsu"
+      },
+      {
+        "name": "Integridade Corporal",
+        "type": "jutsu"
+      }
+    ],
+    "status": "parcial",
+    "notes": "Fôlego renovado entra como fôlego concentrado; desconto por conhecer o jutsu à mão."
+  },
+  "Amuleto da mudança rápida": {
+    "grants": [
+      {
+        "name": "Véu das Múltiplas Faces",
+        "type": "jutsu"
+      }
+    ],
+    "status": "parcial",
+    "notes": "Acelerar o véu com Atuação e o desconto por conhecer o jutsu: à mão."
+  },
+  "Amuleto da natureza": {
+    "grants": [
+      {
+        "name": "Tecelão Vegetal",
+        "type": "jutsu"
+      },
+      {
+        "name": "Pacto com a Natureza",
+        "type": "jutsu"
+      },
+      {
+        "name": "Comunhão com a Terra",
+        "type": "jutsu"
+      }
+    ],
+    "status": "parcial",
+    "notes": "+1 dado em canalizar energia e desconto por conhecer o jutsu: à mão."
+  },
+  "Amuleto da noite": {
+    "grants": [
+      {
+        "name": "Sombras da Noite",
+        "type": "jutsu"
+      }
+    ],
+    "status": "parcial",
+    "notes": "+1 dado em canalizar energia (trevas) e desconto por conhecer o jutsu: à mão."
+  },
+  "Amuleto da terra": {
+    "grants": [
+      {
+        "name": "Moldar Terra",
+        "type": "jutsu"
+      },
+      {
+        "name": "Ferida da Terra",
+        "type": "jutsu"
+      },
+      {
+        "name": "Barreira de Terra",
+        "type": "jutsu"
+      },
+      {
+        "name": "Criar Elemento",
+        "type": "jutsu"
+      }
+    ],
+    "status": "parcial",
+    "notes": "Criar elemento só de terra; desconto por já conhecer o jutsu à mão."
+  },
+  "Amuleto da transformação": {
+    "grants": [
+      {
+        "name": "Transformação",
+        "type": "jutsu"
+      },
+      {
+        "name": "Maldição da Transformação",
+        "type": "jutsu"
+      }
+    ],
+    "status": "parcial",
+    "notes": "Desconto por já conhecer o jutsu: à mão."
+  },
+  "Amuleto das auras": {
+    "grants": [
+      {
+        "name": "Leitura de Chacras",
+        "type": "jutsu"
+      }
+    ],
+    "status": "parcial",
+    "notes": "Escolher 10 (vanara) e desconto por já conhecer o jutsu: à mão."
+  },
+  "Amuleto das barreiras": {
+    "grants": [
+      {
+        "name": "Barreira Vulcânica",
+        "type": "jutsu"
+      },
+      {
+        "name": "Barreira dos Ancestrais",
+        "type": "jutsu"
+      },
+      {
+        "name": "Barreira de Lanças de Gelo",
+        "type": "jutsu"
+      },
+      {
+        "name": "Barreira da Tempestade",
+        "type": "jutsu"
+      }
+    ],
+    "status": "parcial",
+    "notes": "Ampliar barreiras pela metade do custo e desconto por conhecer o jutsu: à mão."
+  },
+  "Amuleto das ilusões": {
+    "grants": [
+      {
+        "name": "Voz de Wang-Ho",
+        "type": "jutsu"
+      },
+      {
+        "name": "Truque das Cópias",
+        "type": "jutsu"
+      },
+      {
+        "name": "Teatro de Sombras",
+        "type": "jutsu"
+      },
+      {
+        "name": "Miragem Mística",
+        "type": "jutsu"
+      }
+    ],
+    "status": "parcial",
+    "notes": "−5 na Intuição contra suas ilusões e desconto por conhecer o jutsu: à mão."
+  },
+  "Amuleto das mandalas": {
+    "grants": [
+      {
+        "name": "Mandala de Proteção",
+        "type": "jutsu"
+      },
+      {
+        "name": "Mandala-escudo",
+        "type": "jutsu"
+      },
+      {
+        "name": "Mandala Elemental",
+        "type": "jutsu"
+      }
+    ],
+    "status": "parcial",
+    "notes": "Con de jade não acumula; desconto por já conhecer o jutsu à mão."
+  },
+  "Amuleto das tradições": {
+    "grants": [
+      {
+        "name": "Honra Precavida",
+        "type": "feat"
+      },
+      {
+        "name": "Apreciar Arte",
+        "type": "jutsu"
+      },
+      {
+        "name": "Refeição Respeitosa",
+        "type": "jutsu"
+      }
+    ],
+    "status": "parcial",
+    "notes": "Desconto por já conhecer o jutsu: à mão."
+  },
+  "Amuleto das visões": {
+    "grants": [
+      {
+        "name": "Visão Perfeita",
+        "type": "jutsu"
+      },
+      {
+        "name": "Vidência dos Ancestrais",
+        "type": "jutsu"
+      },
+      {
+        "name": "Percepção Elevada",
+        "type": "jutsu"
+      },
+      {
+        "name": "Localização",
+        "type": "jutsu"
+      }
+    ],
+    "status": "parcial",
+    "notes": "Sonho ou pesadelo a cada noite e desconto por conhecer o jutsu: à mão."
+  },
+  "Amuleto de Lin-Wu": {
+    "grants": [
+      {
+        "name": "Voz de Lin-Wu",
+        "type": "jutsu"
+      },
+      {
+        "name": "Missão de Honra",
+        "type": "jutsu"
+      },
+      {
+        "name": "Lágrimas de Wang-Ho",
+        "type": "jutsu"
+      }
+    ],
+    "status": "parcial",
+    "notes": "Desconto por já conhecer o jutsu: à mão."
+  },
+  "Amuleto do ar": {
+    "grants": [
+      {
+        "name": "Sopro da Montanha",
+        "type": "jutsu"
+      },
+      {
+        "name": "Dominar o Clima",
+        "type": "jutsu"
+      },
+      {
+        "name": "Lâmina de Vento",
+        "type": "jutsu"
+      },
+      {
+        "name": "Criar Elemento",
+        "type": "jutsu"
+      }
+    ],
+    "status": "parcial",
+    "notes": "Criar elemento só de ar; desconto por já conhecer o jutsu à mão."
+  },
+  "Amuleto do dia": {
+    "grants": [
+      {
+        "name": "Fogo-fátuo",
+        "type": "jutsu"
+      }
+    ],
+    "activation": {
+      "action": "padrão",
+      "duration": {
+        "unit": "cena"
+      },
+      "note": "O amuleto brilha como uma tocha."
+    },
+    "status": "parcial",
+    "notes": "+1 dado em canalizar energia (luz) e desconto por conhecer o jutsu: à mão."
+  },
+  "Amuleto do dragão": {
+    "grants": [
+      {
+        "name": "Físico do Dragão",
+        "type": "jutsu"
+      },
+      {
+        "name": "Mente do Dragão",
+        "type": "jutsu"
+      }
+    ],
+    "status": "parcial",
+    "notes": "Perfeição do dragão (Honra 22+), Con de jade e desconto por conhecer: à mão."
+  },
+  "Amuleto do encantamento": {
+    "grants": [
+      {
+        "name": "Sono de Mizuha",
+        "type": "jutsu"
+      },
+      {
+        "name": "Mestre Verdadeiro",
+        "type": "jutsu"
+      },
+      {
+        "name": "Influência Invisível",
+        "type": "jutsu"
+      },
+      {
+        "name": "Feitiço de Kazuko",
+        "type": "jutsu"
+      }
+    ],
+    "status": "parcial",
+    "notes": "+5 no número de criaturas e desconto por conhecer o jutsu: à mão."
+  },
+  "Amuleto do fogo": {
+    "grants": [
+      {
+        "name": "Leque de Chamas",
+        "type": "jutsu"
+      },
+      {
+        "name": "Explosão de Fogo",
+        "type": "jutsu"
+      },
+      {
+        "name": "Dominar Chamas",
+        "type": "jutsu"
+      },
+      {
+        "name": "Criar Elemento",
+        "type": "jutsu"
+      }
+    ],
+    "status": "parcial",
+    "notes": "Criar elemento só de fogo; desconto por já conhecer o jutsu à mão."
+  },
+  "Amuleto do relâmpago": {
+    "grants": [
+      {
+        "name": "Relâmpago Divino",
+        "type": "jutsu"
+      },
+      {
+        "name": "Esfera Elétrica",
+        "type": "jutsu"
+      },
+      {
+        "name": "Barreira da Tempestade",
+        "type": "jutsu"
+      }
+    ],
+    "rollOptions": [
+      {
+        "id": "eletricidade",
+        "label": "Amuleto do relâmpago (contra eletricidade)",
+        "for": "save",
+        "value": 4,
+        "optional": true
+      }
+    ],
+    "status": "parcial",
+    "notes": "Desconto por já conhecer o jutsu: à mão."
+  },
+  "Amuleto do tamanho": {
+    "grants": [
+      {
+        "name": "Tamanho Gigante",
+        "type": "jutsu"
+      }
+    ],
+    "status": "parcial",
+    "notes": "Desconto por já conhecer o jutsu: à mão."
+  },
+  "Amuleto do teletransporte": {
+    "grants": [
+      {
+        "name": "Movimento Instantâneo",
+        "type": "jutsu"
+      }
+    ],
+    "status": "parcial",
+    "notes": "Aprimoramento de +5 PM sempre ativo e desconto por conhecer o jutsu: à mão."
+  },
+  "Amuleto dos caminhos secretos": {
+    "grants": [
+      {
+        "name": "Esconderijo Secreto",
+        "type": "jutsu"
+      },
+      {
+        "name": "Caminhos Invisíveis",
+        "type": "jutsu"
+      }
+    ],
+    "choice": {
+      "label": "Raça de quem usa",
+      "count": 1,
+      "options": [
+        {
+          "id": "outra",
+          "label": "Outra raça"
+        },
+        {
+          "id": "hanyo",
+          "label": "Hanyô (de graça em perigo)",
+          "traits": {
+            "jutsuCost": [
+              {
+                "value": -99,
+                "when": "inDanger",
+                "filter": {
+                  "jutsu": [
+                    "esconderijo secreto",
+                    "caminhos invisiveis"
+                  ]
+                },
+                "min": 1
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "status": "parcial",
+    "notes": "Desconto por já conhecer o jutsu: à mão."
+  },
+  "Amuleto dos espíritos": {
+    "grants": [
+      {
+        "name": "Espírito Guardião",
+        "type": "jutsu"
+      },
+      {
+        "name": "Espíritos Espiões",
+        "type": "jutsu"
+      },
+      {
+        "name": "Pequeno Kami",
+        "type": "jutsu"
+      }
+    ],
+    "choice": {
+      "label": "Talento Jutsu Acelerado",
+      "count": 1,
+      "options": [
+        {
+          "id": "nao",
+          "label": "Não tem"
+        },
+        {
+          "id": "sim",
+          "label": "Tem (−3 PM em invocação)",
+          "traits": {
+            "jutsuEnhancements": [
+              {
+                "id": "acelerado",
+                "label": "Jutsu Acelerado",
+                "cost": 3,
+                "max": 3,
+                "effect": "note",
+                "discount": 3,
+                "filter": {
+                  "descriptor": "invocacao"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "status": "parcial",
+    "notes": "Con de jade não acumula; desconto por já conhecer o jutsu à mão."
+  },
+  "Amuleto dos kata": {
+    "grants": [
+      {
+        "name": "Kata da Toupeira",
+        "type": "jutsu"
+      },
+      {
+        "name": "Kata do Polvo",
+        "type": "jutsu"
+      },
+      {
+        "name": "Kata do Grou",
+        "type": "jutsu"
+      },
+      {
+        "name": "Kata do Gorila",
+        "type": "jutsu"
+      }
+    ],
+    "status": "parcial",
+    "notes": "Desconto por já conhecer o jutsu: à mão."
+  },
+  "Amuleto dos mortos": {
+    "grants": [
+      {
+        "name": "Lamento dos Malditos",
+        "type": "jutsu"
+      },
+      {
+        "name": "Círculo das Trevas",
+        "type": "jutsu"
+      },
+      {
+        "name": "Cântico dos Mortos",
+        "type": "jutsu"
+      }
+    ],
+    "status": "parcial",
+    "notes": "+5 níveis para controlar shiryou e desconto por conhecer o jutsu: à mão."
+  },
+  "Amuleto dos mundos": {
+    "grants": [
+      {
+        "name": "Viagem Espiritual",
+        "type": "jutsu"
+      },
+      {
+        "name": "Rito do Exorcista",
+        "type": "jutsu"
+      }
+    ],
+    "choice": {
+      "label": "Raça de quem usa",
+      "count": 1,
+      "options": [
+        {
+          "id": "outra",
+          "label": "Outra raça"
+        },
+        {
+          "id": "hanyo",
+          "label": "Hanyô (de graça em perigo)",
+          "traits": {
+            "jutsuCost": [
+              {
+                "value": -99,
+                "when": "inDanger",
+                "filter": {
+                  "jutsu": [
+                    "viagem espiritual",
+                    "rito do exorcista"
+                  ]
+                },
+                "min": 1
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "status": "parcial",
+    "notes": "Desconto por já conhecer o jutsu: à mão."
+  },
+  "Amuleto dos ninjas": {
+    "grants": [
+      {
+        "name": "Pernas do Gafanhoto",
+        "type": "jutsu"
+      },
+      {
+        "name": "Terror Ninja",
+        "type": "jutsu"
+      },
+      {
+        "name": "Invisibilidade Ninja",
+        "type": "jutsu"
+      },
+      {
+        "name": "Hipnotismo Ninja",
+        "type": "jutsu"
+      },
+      {
+        "name": "Escalada Ninja",
+        "type": "jutsu"
+      },
+      {
+        "name": "Corrida Ninja",
+        "type": "jutsu"
+      }
+    ],
+    "activation": {
+      "action": "livre",
+      "honorViolation": "leve",
+      "note": "Usar o amuleto é violação de honra leve."
+    },
+    "status": "parcial",
+    "notes": "Desconto por já conhecer o jutsu: à mão."
+  },
+  "Amuleto zen": {
+    "grants": [
+      {
+        "name": "Aura Zen",
+        "type": "jutsu"
+      },
+      {
+        "name": "Ataque Zen",
+        "type": "jutsu"
+      },
+      {
+        "name": "Sexto sentido",
+        "type": "power"
+      }
+    ],
+    "status": "parcial",
+    "notes": "Desconto por já conhecer o jutsu: à mão."
+  },
+  "Água sagrada": {
+    "activation": {
+      "action": "padrão",
+      "attack": {
+        "type": "distancia"
+      },
+      "damage": {
+        "formula": "2d6",
+        "type": "luz",
+        "alt": {
+          "label": "Trevas (contra tenshi)",
+          "type": "trevas"
+        }
+      },
+      "note": "Contra CA 7, a até 9m. Fere só oni e shiryou (luz) ou tenshi (trevas).",
+      "consume": true
+    },
+    "status": "parcial",
+    "notes": "Compare o ataque com CA 7 à mão."
+  },
+  "Wagh'Zarr (pintura de guerra)": {
+    "activation": {
+      "action": "completa",
+      "duration": {
+        "unit": "cena"
+      },
+      "honorViolation": "moderada",
+      "options": [
+        {
+          "id": "comum",
+          "label": "Comum (+1 por tamanho)",
+          "self": {
+            "rollOptions": [
+              {
+                "id": "t1",
+                "label": "Pintura de guerra (alvo 1 tamanho acima)",
+                "damage": 1,
+                "optional": true
+              },
+              {
+                "id": "t2",
+                "label": "Pintura de guerra (alvo 2 tamanhos acima)",
+                "damage": 2,
+                "optional": true
+              },
+              {
+                "id": "t3",
+                "label": "Pintura de guerra (alvo 3 tamanhos acima)",
+                "damage": 3,
+                "optional": true
+              },
+              {
+                "id": "t4",
+                "label": "Pintura de guerra (alvo 4 tamanhos acima)",
+                "damage": 4,
+                "optional": true
+              }
+            ]
+          }
+        },
+        {
+          "id": "nezumi",
+          "label": "Nezumi (+2 por tamanho)",
+          "self": {
+            "rollOptions": [
+              {
+                "id": "t1",
+                "label": "Pintura de guerra (alvo 1 tamanho acima)",
+                "damage": 2,
+                "optional": true
+              },
+              {
+                "id": "t2",
+                "label": "Pintura de guerra (alvo 2 tamanhos acima)",
+                "damage": 4,
+                "optional": true
+              },
+              {
+                "id": "t3",
+                "label": "Pintura de guerra (alvo 3 tamanhos acima)",
+                "damage": 6,
+                "optional": true
+              },
+              {
+                "id": "t4",
+                "label": "Pintura de guerra (alvo 4 tamanhos acima)",
+                "damage": 8,
+                "optional": true
+              },
+              {
+                "id": "t5",
+                "label": "Pintura de guerra (alvo 5 tamanhos acima)",
+                "damage": 10,
+                "optional": true
+              }
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "Bomba da invisibilidade": {
+    "activation": {
+      "action": "padrão",
+      "duration": {
+        "unit": "cena"
+      },
+      "honorViolation": "leve",
+      "self": {
+        "conditions": [
+          "invisivel"
+        ],
+        "rollOptions": [
+          {
+            "id": "furtividade",
+            "label": "Invisibilidade (Furtividade)",
+            "for": "skill",
+            "filter": {
+              "skills": [
+                "furtividade"
+              ]
+            },
+            "best": true
+          }
+        ]
+      },
+      "note": "Como invisibilidade ninja, sem aprimoramentos.",
+      "consume": true
+    },
+    "status": "parcial",
+    "notes": "Mover-se troca por camuflagem total e atacar encerra."
+  },
+  "Bastões moxa da renovação": {
+    "rollOptions": [
+      {
+        "id": "moxa",
+        "label": "Bastões moxa",
+        "for": "skill",
+        "filter": {
+          "skills": [
+            "cura"
+          ]
+        },
+        "value": 15,
+        "optional": true
+      }
+    ],
+    "status": "parcial",
+    "notes": "O +15 é a opção marcada no teste de Cura.",
+    "activation": {
+      "anywhere": true,
+      "consume": true,
+      "action": "completa",
+      "note": "Teste de Cura com +15; os bastões se apagam."
+    }
+  },
+  "Pó de apagar rastros": {
+    "status": "narrativo"
+  },
+  "Saquê fervente": {
+    "activation": {
+      "action": "padrão",
+      "save": {
+        "type": "ref",
+        "dc": 15,
+        "half": true
+      },
+      "damage": {
+        "formula": "2d6",
+        "type": "fogo",
+        "magic": true
+      },
+      "note": "Como leque de chamas: cone de 6m. Antes, beba um gole (ação de movimento).",
+      "uses": {
+        "max": 2,
+        "per": "total"
+      },
+      "anywhere": true
+    }
+  },
+  "Travesseiro do descanso final": {
+    "status": "narrativo"
+  },
+  "Soro da verdade": {
+    "activation": {
+      "action": "padrão",
+      "save": {
+        "type": "von",
+        "dc": 15
+      },
+      "note": "Quem falhar responde com sinceridade durante a cena (ainda pode se calar)."
+    }
+  },
+  "Incenso da meditação": {
+    "activation": {
+      "restore": {
+        "pv": "2 * @nivel",
+        "pm": "@nivel"
+      },
+      "self": {
+        "duration": {
+          "value": 1,
+          "unit": "dia"
+        },
+        "rollOptions": [
+          {
+            "id": "meditacao",
+            "label": "Meditação (veneno ou doença que já o afeta)",
+            "for": "save",
+            "filter": {
+              "saves": [
+                "fort"
+              ]
+            },
+            "value": 5,
+            "optional": true
+          }
+        ]
+      },
+      "note": "Use ao fim de 2 horas meditando junto ao incenso aceso.",
+      "consume": true
+    }
+  },
+  "Chá da revigoração honrada": {
+    "activation": {
+      "restore": {
+        "pm": "max(0, @hon)"
+      },
+      "targets": {
+        "who": "any",
+        "variants": [
+          {
+            "when": "vsSordid",
+            "conditions": [
+              {
+                "id": "enjoado",
+                "duration": {
+                  "unit": "cena"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "note": "Quem bebe recupera PM igual ao bônus de Honra de quem preparou (desonrado: metade).",
+      "uses": {
+        "max": 5,
+        "per": "total"
+      },
+      "anywhere": true
+    },
+    "status": "parcial",
+    "notes": "Os PM dos outros bebedores são à mão."
+  },
+  "Pena de Hinotori": {
+    "activation": {
+      "action": "padrão",
+      "note": "Aliado a 0 PV ou menos, caído há menos de uma rodada, volta a 1 PV.",
+      "consume": true
+    },
+    "status": "parcial",
+    "notes": "Ponha os PV do aliado em 1 à mão; a pena se desfaz."
+  },
+  "Varinha da orientação": {
+    "activation": {
+      "cost": 1,
+      "action": "padrão",
+      "duration": {
+        "unit": "cena"
+      },
+      "targets": {
+        "who": "any",
+        "changes": [
+          {
+            "key": "system.attributes.mods.saves",
+            "value": 1
+          }
+        ]
+      },
+      "note": "Uma criatura a até 9m."
+    }
+  },
+  "Anel místico +1": {
+    "choice": {
+      "label": "Quem usa",
+      "count": 1,
+      "options": [
+        {
+          "id": "outro",
+          "label": "Outra classe"
+        },
+        {
+          "id": "wujen",
+          "label": "Wu-jen (limite +2)",
+          "passive": [
+            {
+              "key": "system.attributes.pm.limitBonus",
+              "value": 1
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "Anel místico +3": {
+    "choice": {
+      "label": "Quem usa",
+      "count": 1,
+      "options": [
+        {
+          "id": "outro",
+          "label": "Outra classe"
+        },
+        {
+          "id": "wujen",
+          "label": "Wu-jen (limite +5)",
+          "passive": [
+            {
+              "key": "system.attributes.pm.limitBonus",
+              "value": 2
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "Anel místico +6": {
+    "choice": {
+      "label": "Quem usa",
+      "count": 1,
+      "options": [
+        {
+          "id": "outro",
+          "label": "Outra classe"
+        },
+        {
+          "id": "wujen",
+          "label": "Wu-jen (limite +9)",
+          "passive": [
+            {
+              "key": "system.attributes.pm.limitBonus",
+              "value": 3
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "Bálsamo transmutador": {
+    "activation": {
+      "options": [
+        {
+          "id": "cancelar",
+          "label": "Cancelar transmutação",
+          "action": "padrão",
+          "note": "Cancela um jutsu de transmutação permanente na criatura untada."
+        },
+        {
+          "id": "terracota",
+          "label": "Corpo de terracota",
+          "action": "completa",
+          "duration": {
+            "unit": "cena"
+          },
+          "self": {
+            "changes": [
+              {
+                "key": "system.attributes.rd",
+                "value": 8
+              },
+              {
+                "key": "system.skills.acrobacia.bonus",
+                "value": -5
+              },
+              {
+                "key": "system.skills.furtividade.bonus",
+                "value": -5
+              },
+              {
+                "key": "system.skills.ladinagem.bonus",
+                "value": -5
+              }
+            ],
+            "traits": {
+              "immune": [
+                "veneno",
+                "doenca",
+                "cego",
+                "surdo",
+                "atordoamento",
+                "danoHabilidade"
+              ],
+              "resist": {
+                "fogo": 20
+              }
+            }
+          },
+          "note": "Não precisa respirar nem comer; com uma ação de movimento, fica inerte."
+        }
+      ]
+    },
+    "status": "parcial",
+    "notes": "Um pote, um uso: apague o item depois."
+  },
+  "Pingente da leveza": {
+    "status": "narrativo"
+  },
+  "Colar do sustento": {
+    "status": "narrativo"
+  },
+  "Sandálias acrobáticas": {
+    "status": "narrativo"
+  },
+  "Omamori da invisibilidade específica": {
+    "choice": {
+      "label": "Tipo protegido (1d6)",
+      "count": 1,
+      "options": [
+        {
+          "id": "animais",
+          "label": "Animais (1)"
+        },
+        {
+          "id": "construtos",
+          "label": "Construtos (2)"
+        },
+        {
+          "id": "oni",
+          "label": "Oni (3)"
+        },
+        {
+          "id": "shiryou",
+          "label": "Shiryou (4)"
+        },
+        {
+          "id": "youkai",
+          "label": "Youkai (5)"
+        },
+        {
+          "id": "monstros",
+          "label": "Monstros (6)"
+        }
+      ]
+    },
+    "activation": {
+      "cost": 1,
+      "action": "padrão",
+      "duration": {
+        "unit": "cena"
+      },
+      "note": "Invisibilidade ninja, sem aprimoramentos, só contra o tipo protegido."
+    },
+    "status": "parcial",
+    "notes": "A invisibilidade vale só contra um tipo: aplique à mão."
+  },
+  "Tsuba elemental": {
+    "choice": {
+      "label": "Descritor",
+      "count": 1,
+      "options": [
+        {
+          "id": "acido",
+          "label": "Ácido",
+          "rollOptions": [
+            {
+              "id": "tsuba",
+              "label": "Tsuba elemental (ácido)",
+              "damage": "1d6",
+              "type": "acido",
+              "cost": 1,
+              "optional": true,
+              "filter": {
+                "melee": true
+              }
+            }
+          ]
+        },
+        {
+          "id": "eletricidade",
+          "label": "Eletricidade",
+          "rollOptions": [
+            {
+              "id": "tsuba",
+              "label": "Tsuba elemental (eletricidade)",
+              "damage": "1d6",
+              "type": "eletricidade",
+              "cost": 1,
+              "optional": true,
+              "filter": {
+                "melee": true
+              }
+            }
+          ]
+        },
+        {
+          "id": "fogo",
+          "label": "Fogo",
+          "rollOptions": [
+            {
+              "id": "tsuba",
+              "label": "Tsuba elemental (fogo)",
+              "damage": "1d6",
+              "type": "fogo",
+              "cost": 1,
+              "optional": true,
+              "filter": {
+                "melee": true
+              }
+            }
+          ]
+        },
+        {
+          "id": "frio",
+          "label": "Frio",
+          "rollOptions": [
+            {
+              "id": "tsuba",
+              "label": "Tsuba elemental (frio)",
+              "damage": "1d6",
+              "type": "frio",
+              "cost": 1,
+              "optional": true,
+              "filter": {
+                "melee": true
+              }
+            }
+          ]
+        },
+        {
+          "id": "vento",
+          "label": "Vento",
+          "rollOptions": [
+            {
+              "id": "tsuba",
+              "label": "Tsuba elemental (vento)",
+              "damage": "1d6",
+              "type": "vento",
+              "cost": 1,
+              "optional": true,
+              "filter": {
+                "melee": true
+              }
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "Máscara do kabuki": {
+    "grants": [
+      {
+        "name": "Véu das Múltiplas Faces",
+        "type": "jutsu"
+      }
+    ],
+    "rollOptions": [
+      {
+        "id": "kabuki",
+        "label": "Máscara do kabuki (dramaturgia)",
+        "for": "skill",
+        "filter": {
+          "skills": [
+            "atuacao"
+          ]
+        },
+        "value": 5,
+        "optional": true
+      }
+    ],
+    "status": "parcial",
+    "notes": "O véu da máscara sai sem aprimoramentos: não os pague."
+  },
+  "Jingasa do bushi sortudo": {
+    "traits": {
+      "fortification": 25
+    }
+  },
+  "Corda da escalada": {
+    "status": "narrativo"
+  },
+  "Talismã do aprimoramento (Jutsu Longínquo)": {
+    "grants": [
+      {
+        "name": "Jutsu Longínquo",
+        "type": "feat"
+      }
+    ],
+    "choice": {
+      "label": "Já tinha o talento",
+      "count": 1,
+      "options": [
+        {
+          "id": "nao",
+          "label": "Não (veio do talismã)"
+        },
+        {
+          "id": "sim",
+          "label": "Sim (−1 PM no jutsu)",
+          "traits": {
+            "jutsuEnhancements": [
+              {
+                "id": "longinquo",
+                "label": "Jutsu Longínquo",
+                "cost": 1,
+                "max": 1,
+                "effect": "note",
+                "discount": 1
+              }
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "Talismã do aprimoramento (Jutsu sem Mantras)": {
+    "grants": [
+      {
+        "name": "Jutsu sem Mantras",
+        "type": "feat"
+      }
+    ],
+    "choice": {
+      "label": "Já tinha o talento",
+      "count": 1,
+      "options": [
+        {
+          "id": "nao",
+          "label": "Não (veio do talismã)"
+        },
+        {
+          "id": "sim",
+          "label": "Sim (−1 PM no jutsu)",
+          "traits": {
+            "jutsuEnhancements": [
+              {
+                "id": "semMantras",
+                "label": "Jutsu sem Mantras",
+                "cost": 1,
+                "max": 1,
+                "effect": "note",
+                "discount": 1
+              }
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "Talismã do aprimoramento (Jutsu sem Selos)": {
+    "grants": [
+      {
+        "name": "Jutsu sem Selos",
+        "type": "feat"
+      }
+    ],
+    "choice": {
+      "label": "Já tinha o talento",
+      "count": 1,
+      "options": [
+        {
+          "id": "nao",
+          "label": "Não (veio do talismã)"
+        },
+        {
+          "id": "sim",
+          "label": "Sim (−1 PM no jutsu)",
+          "traits": {
+            "jutsuEnhancements": [
+              {
+                "id": "semSelos",
+                "label": "Jutsu sem Selos",
+                "cost": 1,
+                "max": 1,
+                "effect": "note",
+                "discount": 1
+              }
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "Talismã do aprimoramento (Jutsu Compartilhado)": {
+    "grants": [
+      {
+        "name": "Jutsu Compartilhado",
+        "type": "feat"
+      }
+    ],
+    "choice": {
+      "label": "Já tinha o talento",
+      "count": 1,
+      "options": [
+        {
+          "id": "nao",
+          "label": "Não (veio do talismã)"
+        },
+        {
+          "id": "sim",
+          "label": "Sim (−2 PM no jutsu)",
+          "traits": {
+            "jutsuEnhancements": [
+              {
+                "id": "compartilhado",
+                "label": "Jutsu Compartilhado",
+                "cost": 2,
+                "max": 1,
+                "effect": "note",
+                "discount": 2
+              }
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "Talismã do aprimoramento (Jutsu Estendido)": {
+    "grants": [
+      {
+        "name": "Jutsu Estendido",
+        "type": "feat"
+      }
+    ],
+    "choice": {
+      "label": "Já tinha o talento",
+      "count": 1,
+      "options": [
+        {
+          "id": "nao",
+          "label": "Não (veio do talismã)"
+        },
+        {
+          "id": "sim",
+          "label": "Sim (−2 PM no jutsu)",
+          "traits": {
+            "jutsuEnhancements": [
+              {
+                "id": "estendido",
+                "label": "Jutsu Estendido",
+                "cost": 2,
+                "max": 10,
+                "effect": "note",
+                "discount": 2
+              }
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "Talismã do aprimoramento (Jutsu Ampliado)": {
+    "grants": [
+      {
+        "name": "Jutsu Ampliado",
+        "type": "feat"
+      }
+    ],
+    "choice": {
+      "label": "Já tinha o talento",
+      "count": 1,
+      "options": [
+        {
+          "id": "nao",
+          "label": "Não (veio do talismã)"
+        },
+        {
+          "id": "sim",
+          "label": "Sim (−2 PM no jutsu)",
+          "traits": {
+            "jutsuEnhancements": [
+              {
+                "id": "ampliado",
+                "label": "Jutsu Ampliado",
+                "cost": 6,
+                "max": 10,
+                "effect": "note",
+                "discount": 2
+              }
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "Talismã do aprimoramento (Jutsu Acelerado)": {
+    "grants": [
+      {
+        "name": "Jutsu Acelerado",
+        "type": "feat"
+      }
+    ],
+    "choice": {
+      "label": "Já tinha o talento",
+      "count": 1,
+      "options": [
+        {
+          "id": "nao",
+          "label": "Não (veio do talismã)"
+        },
+        {
+          "id": "sim",
+          "label": "Sim (−3 PM no jutsu)",
+          "traits": {
+            "jutsuEnhancements": [
+              {
+                "id": "acelerado",
+                "label": "Jutsu Acelerado",
+                "cost": 3,
+                "max": 3,
+                "effect": "note",
+                "discount": 3
+              }
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "Talismã do aprimoramento (Jutsu Irresistível)": {
+    "grants": [
+      {
+        "name": "Jutsu Irresistível",
+        "type": "feat"
+      }
+    ],
+    "choice": {
+      "label": "Já tinha o talento",
+      "count": 1,
+      "options": [
+        {
+          "id": "nao",
+          "label": "Não (veio do talismã)"
+        },
+        {
+          "id": "sim",
+          "label": "Sim (−3 PM no jutsu)",
+          "traits": {
+            "jutsuEnhancements": [
+              {
+                "id": "irresistivel",
+                "label": "Jutsu Irresistível",
+                "cost": 2,
+                "max": 10,
+                "effect": "dc",
+                "value": 1,
+                "discount": 3
+              }
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "Talismã do aprimoramento (Jutsu Maximizado)": {
+    "grants": [
+      {
+        "name": "Jutsu Maximizado",
+        "type": "feat"
+      }
+    ],
+    "choice": {
+      "label": "Já tinha o talento",
+      "count": 1,
+      "options": [
+        {
+          "id": "nao",
+          "label": "Não (veio do talismã)"
+        },
+        {
+          "id": "sim",
+          "label": "Sim (−3 PM no jutsu)",
+          "traits": {
+            "jutsuEnhancements": [
+              {
+                "id": "maximizado",
+                "label": "Jutsu Maximizado",
+                "cost": 6,
+                "max": 1,
+                "effect": "maximize",
+                "discount": 3
+              }
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "Maquiagem celestial": {
+    "activation": {
+      "duration": {
+        "unit": "cena"
+      },
+      "self": {
+        "traits": {
+          "immune": [
+            "encantamento"
+          ]
+        }
+      },
+      "note": "A aplicação leva 10 minutos.",
+      "uses": {
+        "max": 5,
+        "per": "total"
+      },
+      "anywhere": true
+    }
+  },
+  "Cinturão da pedra real": {},
+  "Karakuri das armadilhas": {
+    "activation": {
+      "action": "padrão",
+      "note": "Desarma uma armadilha a até 9m; com 1 a 5 em 1d100, ela dispara."
+    },
+    "status": "parcial",
+    "notes": "Role os 5% de acidente à mão."
+  },
+  "Bainha da surpresa": {
+    "rollOptions": [
+      {
+        "id": "surpresa",
+        "label": "Bainha da surpresa (sacando desta bainha)",
+        "for": "initiative",
+        "best": true,
+        "optional": true
+      }
+    ]
+  },
+  "Braçadeiras do arqueiro": {},
+  "Corda do aprisionamento": {
+    "activation": {
+      "action": "padrão",
+      "targets": {
+        "who": "any",
+        "conditions": [
+          {
+            "id": "enredado"
+          }
+        ]
+      },
+      "note": "Amarra criatura até Enorme. Romper: Força CD 30 (corda com 4 PV, RD 5)."
+    },
+    "status": "parcial",
+    "notes": "Amarrado entra como enredado; tire a condição quando a corda romper."
+  },
+  "Tokkuri da fumaça eterna": {
+    "activation": {
+      "action": "movimento",
+      "note": "Nuvem de bomba de fumaça (6m de raio) até tampar, com outra ação de movimento."
+    },
+    "status": "parcial",
+    "notes": "A camuflagem dentro da nuvem é à mão."
+  },
+  "Aljava abençoada": {
+    "rollOptions": [
+      {
+        "id": "aljava",
+        "label": "Aljava abençoada",
+        "damage": "1d6",
+        "type": "luz",
+        "filter": {
+          "ranged": true,
+          "weapon": "arco|hankyu|daikyu"
+        },
+        "note": "só depois de uma cena com a aljava"
+      }
+    ]
+  },
+  "Bainha do vento divino": {
+    "grants": [
+      {
+        "name": "Dança dos Cinco Ventos",
+        "type": "jutsu"
+      },
+      {
+        "name": "Golpe do Vento Distante",
+        "type": "jutsu"
+      }
+    ],
+    "status": "parcial",
+    "notes": "Só vale na rodada em que sacar a arma desta bainha."
+  },
+  "Anel de proteção": {
+    "traits": {
+      "touchUsesCa": true
+    }
+  },
+  "Anel do escudo mental": {
+    "status": "narrativo",
+    "notes": "Imunidade a adivinhação até grau avançado: o mestre aplica."
+  },
+  "Manoplas dos dois princípios": {
+    "grants": [
+      {
+        "name": "Combater com Duas Armas",
+        "type": "feat"
+      }
+    ],
+    "choice": {
+      "label": "Já tinha o talento",
+      "count": 1,
+      "options": [
+        {
+          "id": "nao",
+          "label": "Não (veio das manoplas)"
+        },
+        {
+          "id": "sim",
+          "label": "Sim (+1 no ataque)",
+          "rollOptions": [
+            {
+              "id": "manoplas",
+              "label": "Manoplas (combatendo com duas armas)",
+              "attack": 1,
+              "optional": true
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "Papel das muitas formas": {
+    "status": "narrativo"
+  },
+  "Furoshiki profundo": {
+    "status": "narrativo"
+  },
+  "Biwa encantador": {
+    "activation": {
+      "action": "padrão",
+      "save": {
+        "type": "von",
+        "dc": 18
+      },
+      "note": "Como influência invisível, em qualquer criatura ouvinte. Ordens ocultas: Intuição contra sua Enganação."
+    },
+    "status": "parcial",
+    "notes": "Antes, passe em Atuação (música) CD 25; falhando, nada acontece."
+  },
+  "Faixa do monge": {
+    "grants": [
+      {
+        "name": "Ataque Desarmado Aprimorado",
+        "type": "feat"
+      }
+    ],
+    "choice": {
+      "label": "Já tinha o talento",
+      "count": 1,
+      "options": [
+        {
+          "id": "nao",
+          "label": "Não (veio da faixa)"
+        },
+        {
+          "id": "sim",
+          "label": "Sim (dano desarmado 1d6)",
+          "traits": {
+            "unarmed": "1d6"
+          }
+        }
+      ]
+    },
+    "status": "parcial",
+    "notes": "Com dano desarmado de classe, suba duas categorias de dano à mão."
+  },
+  "Sandálias da velocidade": {
+    "status": "narrativo"
+  },
+  "Jogo de chá ancestral": {
+    "rollOptions": [
+      {
+        "id": "cha",
+        "label": "Jogo de chá (arte tradicional)",
+        "for": "skill",
+        "filter": {
+          "skills": [
+            "atuacao"
+          ]
+        },
+        "value": 5,
+        "optional": true
+      }
+    ],
+    "activation": {
+      "action": "completa",
+      "save": {
+        "type": "von",
+        "dc": 18
+      },
+      "note": "Verdade dos ancestrais em 18m: ninguém mente nem omite. Sustente com ação padrão por rodada."
+    },
+    "status": "parcial",
+    "notes": "Antes, passe em Atuação (arte tradicional) CD 25."
+  },
+  "Faixa do vanara incompleto": {
+    "grants": [
+      {
+        "name": "Cauda Preênsil",
+        "type": "power"
+      }
+    ],
+    "choice": {
+      "label": "Raça de quem usa",
+      "count": 1,
+      "options": [
+        {
+          "id": "outra",
+          "label": "Outra raça"
+        },
+        {
+          "id": "vanara",
+          "label": "Vanara",
+          "rollOptions": [
+            {
+              "id": "cauda",
+              "label": "Ataque extra com a cauda",
+              "cost": 1,
+              "optional": true,
+              "extraAttack": true,
+              "filter": {
+                "melee": true
+              },
+              "note": "desarmado, arma leve ou de uma mão"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "Remo voador": {
+    "status": "narrativo"
+  },
+  "Botas das nuvens": {
+    "activation": {
+      "cost": 6,
+      "action": "livre",
+      "duration": {
+        "unit": "cena"
+      },
+      "note": "Deslocamento de voo 18m."
+    }
+  },
+  "Elmo monstruoso": {
+    "activation": {
+      "action": "livre",
+      "honorViolation": "severa",
+      "note": "Usar o elmo é violação de honra severa."
+    },
+    "status": "parcial",
+    "notes": "20% de falha nos ataques contra você e o bônus do kaijin: à mão."
+  },
+  "Fantasia de cão-leão": {
+    "traits": {
+      "immune": [
+        "medo"
+      ]
+    },
+    "rollOptions": [
+      {
+        "id": "danca",
+        "label": "Fantasia de cão-leão (dança)",
+        "for": "skill",
+        "filter": {
+          "skills": [
+            "atuacao"
+          ]
+        },
+        "value": 5,
+        "optional": true
+      }
+    ],
+    "activation": {
+      "action": "movimento",
+      "duration": {
+        "unit": "cena"
+      },
+      "targets": {
+        "who": "any",
+        "traits": {
+          "immune": [
+            "medo"
+          ]
+        }
+      },
+      "note": "Criaturas escolhidas a até 30m."
+    },
+    "status": "parcial",
+    "notes": "Antes, passe em Atuação (dança) CD 25."
+  },
+  "Periapto da saúde": {
+    "traits": {
+      "immune": [
+        "doenca",
+        "veneno"
+      ]
+    }
+  },
+  "Pincel do poeta andarilho": {
+    "rollOptions": [
+      {
+        "id": "pincel",
+        "label": "Pincel do poeta (oratória ou escriba)",
+        "for": "skill",
+        "filter": {
+          "skills": [
+            "atuacao",
+            "oficio"
+          ]
+        },
+        "value": 5,
+        "optional": true
+      }
+    ],
+    "activation": {
+      "action": "padrão",
+      "note": "Atuação (oratória) CD 25: a frase vira ilusão de teatro de sombras, até 45m."
+    }
+  },
+  "Lanterna da revelação": {
+    "traits": {
+      "seeInvisible": true
+    },
+    "status": "parcial",
+    "notes": "Vale só até 9m; quem mais estiver sob a luz também enxerga: à mão."
+  },
+  "Taiko de Dai'Gun": {
+    "rollOptions": [
+      {
+        "id": "taiko",
+        "label": "Taiko de Dai'Gun (música)",
+        "for": "skill",
+        "filter": {
+          "skills": [
+            "atuacao"
+          ]
+        },
+        "value": 5,
+        "optional": true
+      }
+    ],
+    "activation": {
+      "cost": 2,
+      "action": "padrão",
+      "variable": {
+        "min": 0,
+        "max": "floor((@pmLimit - 2) / 2)",
+        "label": "Dados extras (+2 PM cada)",
+        "costPer": 2
+      },
+      "save": {
+        "type": "ref",
+        "dc": 25,
+        "half": true
+      },
+      "damage": {
+        "formula": "(6 + @spent)d6"
+      },
+      "note": "Cone de 9m. Falhando em Atuação (música) CD 25, o dano também atinge você."
+    },
+    "status": "parcial",
+    "notes": "Teste de Atuação, RD de objetos e construtos e +6m em viagem: à mão."
+  },
+  "Elmo do kiai invencível": {
+    "activation": {
+      "action": "padrão",
+      "damage": {
+        "formula": "1d8",
+        "type": "vento",
+        "magic": true
+      },
+      "save": {
+        "type": "fort",
+        "dc": 18,
+        "onFail": {
+          "conditions": [
+            {
+              "id": "atordoado",
+              "duration": {
+                "value": 1,
+                "unit": "rodada"
+              }
+            }
+          ]
+        }
+      },
+      "note": "Como kiai atordoante: cone de 9m. Surdos sofrem o dano, mas não ficam atordoados."
+    },
+    "choice": {
+      "label": "Quem usa",
+      "count": 1,
+      "options": [
+        {
+          "id": "outro",
+          "label": "Outra classe"
+        },
+        {
+          "id": "samurai",
+          "label": "Samurai (−1 PM em kiai)",
+          "traits": {
+            "jutsuCost": [
+              {
+                "value": -1,
+                "filter": {
+                  "jutsu": "kiai"
+                },
+                "min": 1
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "status": "parcial",
+    "notes": "Samurai: o −1 PM do grito de kiai é à mão."
+  },
+  "Sandálias da liberdade": {
+    "traits": {
+      "immune": [
+        "agarrado",
+        "enredado",
+        "lento",
+        "paralisado",
+        "movimento"
+      ]
+    },
+    "status": "parcial",
+    "notes": "Habilidades que pedem estar sem armadura seguem desligadas na ficha."
+  },
+  "Pérola da fúria divina": {
+    "activation": {
+      "action": "padrão",
+      "duration": {
+        "unit": "cena"
+      },
+      "self": {
+        "changes": [
+          {
+            "key": "system.attributes.mods.attack",
+            "value": 2
+          },
+          {
+            "key": "system.attributes.attack.damage",
+            "value": 2
+          },
+          {
+            "key": "system.attributes.ca.bonus",
+            "value": -2
+          }
+        ]
+      },
+      "options": [
+        {
+          "id": "comum",
+          "label": "Comum"
+        },
+        {
+          "id": "shugenja",
+          "label": "Shugenja (soma o bônus de Honra)",
+          "self": {
+            "changes": [
+              {
+                "key": "system.attributes.mods.attack",
+                "value": "2 + @hon"
+              },
+              {
+                "key": "system.attributes.attack.damage",
+                "value": "2 + @hon"
+              },
+              {
+                "key": "system.attributes.ca.bonus",
+                "value": "@hon - 2"
+              }
+            ],
+            "traits": {
+              "jutsuDc": [
+                {
+                  "value": "@hon"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    }
+  },
+  "Gerador arcano externo": {
+    "grants": [
+      {
+        "name": "Gerador Arcano",
+        "type": "feat"
+      }
+    ]
+  },
+  "Bola de cristal": {
+    "activation": {
+      "action": "padrão",
+      "save": {
+        "type": "von",
+        "dc": 22
+      },
+      "note": "Vidência dos ancestrais, mantida com concentração; telepatia com alvo de Int 3+."
+    }
+  },
+  "Anel de Sugora": {
+    "traits": {
+      "fastHealing": 5
+    }
+  },
+  "Estandarte da honra": {
+    "choice": {
+      "label": "Honra de quem usa",
+      "count": 1,
+      "options": [
+        {
+          "id": "honrado",
+          "label": "10 ou mais"
+        },
+        {
+          "id": "desonrado",
+          "label": "9 ou menos (só nível negativo)",
+          "passive": [
+            {
+              "key": "system.attributes.negativeLevels",
+              "value": 1
+            }
+          ]
+        }
+      ]
+    },
+    "status": "parcial",
+    "notes": "Segunda reserva de força na sessão (ou na cena, com honra suprema): à mão."
+  },
+  "Máscara aberrante": {
+    "passive": [
+      {
+        "key": "system.attributes.mods.attack",
+        "value": "@sab"
+      },
+      {
+        "key": "system.attributes.ca.bonus",
+        "value": "@sab"
+      },
+      {
+        "key": "system.saves.ref.bonus",
+        "value": "@sab"
+      }
+    ],
+    "activation": {
+      "action": "livre",
+      "honorViolation": "severa",
+      "note": "Usar a máscara é violação de honra severa."
+    },
+    "status": "parcial",
+    "notes": "10% de falha nos ataques contra você: à mão."
+  },
+  "Varinha da repulsão": {
+    "rollOptions": [
+      {
+        "id": "exorcista",
+        "label": "Varinha da repulsão (rito do exorcista contra youkai)",
+        "attack": 5,
+        "optional": true
+      }
+    ]
+  },
+  "Cetro de Yumeno": {
+    "grants": [
+      {
+        "name": "Explosão Radiante",
+        "type": "jutsu"
+      },
+      {
+        "name": "Estrela da Invencibilidade",
+        "type": "jutsu"
+      },
+      {
+        "name": "Círculo das Trevas",
+        "type": "jutsu"
+      },
+      {
+        "name": "Círculo de Luz",
+        "type": "jutsu"
+      }
+    ],
+    "status": "parcial",
+    "notes": "Risco de amnésia (1% cumulativo por noite com o cetro): à mão."
+  },
+  "Lágrima do norte branco": {
+    "traits": {
+      "immune": [
+        "frio"
+      ]
+    },
+    "activation": {
+      "cost": 6,
+      "action": "completa",
+      "note": "Muda o clima como dominar o clima, só para neblina, neve ou granizo."
+    }
+  },
+  "Anel da estabilidade": {
+    "traits": {
+      "immune": [
+        "transmutacao"
+      ]
+    },
+    "status": "parcial",
+    "notes": "Não acumula Con com outros objetos de jade: confira à mão."
+  },
+  "Flauta das Eras": {
+    "activation": {
+      "note": "Melodia perfeita (uma cena, Atuação CD 40): milagre dos ancestrais sem PM."
+    },
+    "status": "parcial",
+    "notes": "Perde 5 PM permanentes por dia com ela: ajuste à mão."
+  },
+  "Kaminari, o Trovão Divino": {
+    "choice": {
+      "label": "Quem empunha",
+      "count": 1,
+      "options": [
+        {
+          "id": "outro",
+          "label": "Outra classe (katana +1)",
+          "rollOptions": [
+            {
+              "id": "kaminari",
+              "label": "Kaminari +1",
+              "attack": 1,
+              "damage": 1,
+              "filter": {
+                "weapon": "katana|kaminari"
+              }
+            }
+          ]
+        },
+        {
+          "id": "samurai",
+          "label": "Samurai ou shugenja",
+          "traits": {
+            "touchIncorporeal": true
+          },
+          "rollOptions": [
+            {
+              "id": "eletrica",
+              "label": "Kaminari (elétrica)",
+              "damage": "1d10",
+              "type": "eletricidade",
+              "filter": {
+                "weapon": "katana|kaminari"
+              }
+            },
+            {
+              "id": "trovejante",
+              "label": "Kaminari (trovejante)",
+              "damage": "1d8",
+              "type": "vento",
+              "filter": {
+                "weapon": "katana|kaminari"
+              }
+            },
+            {
+              "id": "dignissima",
+              "label": "Kaminari (digníssima)",
+              "damage": "4d6",
+              "type": "vacuo",
+              "when": "vsDishonored",
+              "locked": true,
+              "strict": true,
+              "filter": {
+                "weapon": "katana|kaminari"
+              }
+            },
+            {
+              "id": "veloz",
+              "label": "Kaminari (veloz: dois ataques extras)",
+              "extraAttack": true,
+              "filter": {
+                "weapon": "katana|kaminari"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "status": "parcial",
+    "notes": "Ataques de toque (fantasma), radiante e castigos a desonrados e sórdidos: à mão."
+  },
+  "Orbe Dourado das Quatro Direções": {
+    "status": "narrativo"
+  },
+  "O-Yoroi do Samurai de Sangue": {
+    "passive": [
+      {
+        "key": "system.skills.intimidacao.bonus",
+        "value": 15
+      },
+      {
+        "key": "system.attributes.mods.saves",
+        "value": "5 + @hon"
+      },
+      {
+        "key": "system.attributes.ca.bonus",
+        "value": "@hon"
+      }
+    ],
+    "traits": {
+      "immune": [
+        "critico"
+      ]
+    },
+    "activation": {
+      "cost": 6,
+      "action": "padrão",
+      "uses": {
+        "max": 1,
+        "per": "cena"
+      },
+      "duration": {
+        "unit": "cena"
+      },
+      "targets": {
+        "who": "enemies",
+        "save": {
+          "type": "von",
+          "dc": 15
+        },
+        "conditions": [
+          {
+            "id": "abalado",
+            "duration": {
+              "unit": "cena"
+            }
+          }
+        ]
+      },
+      "note": "Assustadora: inimigos a até 9m."
+    },
+    "status": "parcial",
+    "notes": "A armadura +5 vai na aba de armaduras; guardiã e espectral: à mão."
+  },
+  "Sasori'Ken, a Espada-Escorpião": {
+    "choice": {
+      "label": "Quem empunha",
+      "count": 1,
+      "options": [
+        {
+          "id": "outro",
+          "label": "Outra classe (ninja-to +1)",
+          "rollOptions": [
+            {
+              "id": "sasori",
+              "label": "Sasori'Ken +1",
+              "attack": 1,
+              "damage": 1,
+              "filter": {
+                "weapon": "ninja to|ninjato|sasori"
+              }
+            }
+          ]
+        },
+        {
+          "id": "ninja",
+          "label": "Ninja (+5 ameaçadora, sanguinária, sórdida)",
+          "rollOptions": [
+            {
+              "id": "sasori",
+              "label": "Sasori'Ken +5",
+              "attack": 5,
+              "damage": 5,
+              "critRange": 3,
+              "filter": {
+                "weapon": "ninja to|ninjato|sasori"
+              }
+            },
+            {
+              "id": "sordida",
+              "label": "Sasori'Ken (sórdida: alvo com Honra 10+)",
+              "damage": "4d6",
+              "type": "vacuo",
+              "optional": true,
+              "filter": {
+                "weapon": "ninja to|ninjato|sasori"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "activation": {
+      "cost": 10,
+      "action": "livre",
+      "note": "Jura matar uma criatura a até 9m: contra ela, todo ataque da espada é crítico."
+    },
+    "status": "parcial",
+    "notes": "Críticos do juramento, sangramento, mortal contra ninjas e violações de honra: à mão."
+  },
+  "A Última Flecha": {
+    "rollOptions": [
+      {
+        "id": "flecha",
+        "label": "A Última Flecha +5",
+        "attack": 5,
+        "damage": 5,
+        "optional": true,
+        "filter": {
+          "ranged": true,
+          "weapon": "arco|hankyu|daikyu|besta"
+        }
+      },
+      {
+        "id": "akumushi",
+        "label": "A Última Flecha (contra akumushi)",
+        "ignoreRd": "all",
+        "optional": true,
+        "filter": {
+          "ranged": true,
+          "weapon": "arco|hankyu|daikyu|besta"
+        }
+      }
+    ],
+    "status": "parcial",
+    "notes": "Toque à distância, mortal, crítico pela Percepção e crítico em akumushi: à mão."
+  },
+  "Wakizashi da Morte": {
+    "rollOptions": [
+      {
+        "id": "wakizashi",
+        "label": "Wakizashi da Morte +1",
+        "attack": 1,
+        "damage": 1,
+        "filter": {
+          "weapon": "wakizashi"
+        }
+      }
+    ],
+    "choice": {
+      "label": "Viu a própria morte na lâmina",
+      "count": 1,
+      "options": [
+        {
+          "id": "nao",
+          "label": "Não"
+        },
+        {
+          "id": "viu",
+          "label": "Sim (+4 em combate)",
+          "traits": {
+            "defense": [
+              {
+                "value": 4,
+                "when": "inCombat",
+                "label": "Wakizashi da Morte"
+              }
+            ]
+          },
+          "rollOptions": [
+            {
+              "id": "visao",
+              "label": "Wakizashi da Morte (visão)",
+              "for": "save",
+              "value": 4,
+              "when": "inCombat",
+              "locked": true,
+              "strict": true
+            }
+          ]
+        },
+        {
+          "id": "fatal",
+          "label": "Encontro fatal (−4)",
+          "traits": {
+            "defense": [
+              {
+                "value": -4,
+                "when": "inCombat",
+                "label": "Encontro fatal"
+              }
+            ]
+          },
+          "rollOptions": [
+            {
+              "id": "fatal",
+              "label": "Encontro fatal",
+              "for": "save",
+              "value": -4,
+              "when": "inCombat",
+              "locked": true,
+              "strict": true
+            }
+          ]
+        }
+      ]
+    },
+    "status": "parcial",
+    "notes": "No encontro fatal, todo acerto contra você é crítico: à mão."
+  }
+}

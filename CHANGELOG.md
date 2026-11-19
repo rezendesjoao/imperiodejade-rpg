@@ -1,5 +1,45 @@
 # Changelog
 
+## 0.3.0 — 2026-11-19
+
+As habilidades fazem sozinhas o que o texto diz: um motor de automação para todo o livro, com cada habilidade de classe e
+de raça, talento, jutsu, item mágico e criatura codificados.
+
+### Adicionado
+- Motor de automação (`module/auto/`), com os dados de cada item em `src/auto/*.json` (formato em `docs/automacao.md`):
+  - bônus que crescem com o nível da habilidade (`@rank`), desligados sem a Honra mínima ou com armadura quando a
+    habilidade pede sem;
+  - **usar**: variante e PM à escolha, custo, usos por rodada/cena/dia, efeitos com duração em você e nos alvos marcados,
+    PV temporários, cura, recuperação, e o cartão com ataque, dano e teste de resistência; quem falha recebe a condição;
+  - **opções de rolagem** no diálogo do ataque e dos testes (ataque furtivo, Ataque Poderoso, Poder Marcial, contra
+    monstros, contra Honra menor...), já marcadas quando a situação vale; Alt pula o diálogo;
+  - **ataque contra os alvos**: acerto ou erro contra a CA de cada um, com as condições, ataques de toque contra
+    Reflexos, chance de falha, críticos; o dano vai para quem foi atingido;
+  - **dano** com RD (e RD/esmagamento), resistências, imunidades, vulnerabilidade, fortificação, evasão e PV temporários;
+    quem cai a 0 PV fica inconsciente e sangrando;
+  - **reações** na hora certa (Hoje não, Duro de Matar, Demônio Ninja, Bateu Levou, Aparar, Vingança, Resistência
+    Honrada, Dignidade de Aço) e gatilhos (Devorador de Almas);
+  - **jutsus**: talentos de aprimoramento no diálogo, reduções de custo, +CD das Bênçãos, dano do Wu-Jen de Batalha,
+    variante escolhida ao executar, violação de honra, "aumentar o dano" à parte;
+  - **escolhas** na ficha da habilidade (estilo de combate, opções da Extorsão e da Orientação, elemento do mashin,
+    arma do Foco em Arma), com os talentos e efeitos da escolha;
+  - efeitos no começo do turno (dano contínuo, regeneração, teste para se livrar), sangramento, confusão e cura
+    acelerada;
+  - proficiência com armas e armaduras pelos talentos; Acuidade com Arma, Ataque Preciso, Na Mosca, Golpe com Duas Mãos,
+    Casca Grossa.
+- As 25 condições do livro no HUD do token, com as penalidades aplicadas e a regra na dica; faixa das condições na ficha.
+- Ficha da Ameaça: CA e resistências já com condições e efeitos; defesas do bloco (imunidades, resistências,
+  vulnerabilidade, fortificação, cura acelerada, RD/tipo) lidas do próprio texto.
+- Botão "usar o poder" de armas, armaduras e acessórios; marca de automação e usos restantes na aba Habilidades; caixa
+  "Faz sozinho" na ficha do item.
+- "Encerrar cena" (ampulheta nos controles de token, só o mestre): efeitos de cena acabam e usos por cena voltam.
+- Personagens já criados ganham a automação ao abrir o mundo (e pelo botão de engrenagem no alto da ficha).
+- `tools/check-auto.mjs` confere os blocos de automação; a verificação de texto também lê os textos deles.
+
+### Alterado
+- Efeitos e dano em atores de outros jogadores passam pelo mestre ativo (socket do sistema).
+- Iniciativa do controle de combate usa as opções do personagem.
+
 ## 0.2.1 — 2026-11-19
 
 ### Adicionado

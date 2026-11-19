@@ -93,6 +93,7 @@
         <div class="ij-card__body">
           <h3 class="ij-card__title">
             <a data-action="itemUse" data-tooltip="{{localize 'IJ.Weapon.attackTip'}}">{{w.name}}</a>
+            {{#if w.power}}<a class="ij-power-btn" data-action="itemActivate" data-tooltip="{{localize 'IJ.Auto.usePower'}}"><i class="fa-solid fa-wand-sparkles"></i></a>{{/if}}
             {{#if w.dishonorable}}<span class="ij-tag ij-tag--warn" data-tooltip="{{localize 'IJ.Item.dishonorableTip'}}">{{localize "IJ.Item.dishonorable"}}</span>{{/if}}
             {{#unless w.proficient}}<span class="ij-tag ij-tag--warn">{{localize "IJ.Weapon.notProficientShort"}}</span>{{/unless}}
           </h3>
@@ -136,6 +137,7 @@
         <div class="ij-card__body">
           <h3 class="ij-card__title">
             <a data-action="itemEdit">{{a.name}}</a>
+            {{#if a.power}}<a class="ij-power-btn" data-action="itemActivate" data-tooltip="{{localize 'IJ.Auto.usePower'}}"><i class="fa-solid fa-wand-sparkles"></i></a>{{/if}}
             {{#if a.dishonorable}}<span class="ij-tag ij-tag--warn">{{localize "IJ.Item.dishonorable"}}</span>{{/if}}
           </h3>
           <table class="ij-grid-table">

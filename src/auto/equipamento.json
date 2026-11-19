@@ -1,0 +1,256 @@
+{
+  "_sobre": "Automação dos itens de equipamento (docs/automacao.md). A chave é o nome do item. Opções de rolagem de arma só valem nos ataques com ela; de equipamento e material, só com o item equipado. Bomba de fumaça fica sem bloco: a chave é a mesma do jutsu Bomba de Fumaça. Escudo leve e Escudo pesado dividem o bloco entre a arma e a armadura.",
+
+  "Ataque desarmado": { "status": "narrativo", "notes": "Dano não letal: o sistema não separa dano não letal." },
+  "Kunai (adaga)": { "status": "narrativo", "notes": "+4 em Ladinagem para escondê-la e o arremesso (3 m) ficam à mão." },
+  "Tanto": {
+    "status": "parcial",
+    "notes": "+2 em Ladinagem para escondê-lo fica à mão.",
+    "rollOptions": [{ "id": "obraPrima", "label": "Obra-prima", "attack": 1, "locked": true }]
+  },
+  "Yari (lança)": {
+    "status": "parcial",
+    "notes": "O dano dobrado e o arremesso (6 m) ficam à mão.",
+    "rollOptions": [{ "id": "investidaMontada", "label": "Investida montada", "optional": true, "note": "dano dobrado" }]
+  },
+  "Bo (bordão)": { "status": "narrativo", "notes": "Arma dupla: o ataque com a outra ponta fica à mão." },
+  "Azagaia": {
+    "status": "parcial",
+    "notes": "Corpo a corpo, o ataque ainda usa o bônus à distância do item.",
+    "rollOptions": [{ "id": "corpo", "label": "Usada corpo a corpo", "attack": -4, "optional": true }]
+  },
+  "Besta leve": { "status": "narrativo", "notes": "Recarregar é uma ação de movimento." },
+  "Fukiya (zarabatana)": { "status": "narrativo", "notes": "–2 na Fortitude contra o veneno do dardo e violação severa ficam à mão." },
+  "Hankyu (arco curto)": { "status": "narrativo", "notes": "Usar é violação de honra severa: registre à mão." },
+  "Escudo leve": {
+    "status": "parcial",
+    "notes": "Ao bater com o escudo, use o item de armadura para perder o bônus.",
+    "activation": {
+      "duration": { "value": 1, "unit": "rodada" },
+      "self": { "changes": [{ "key": "system.attributes.ca.bonus", "value": -1 }] },
+      "note": "Bateu com o escudo: sem o bônus dele na CA até o próximo turno."
+    }
+  },
+  "Jitte": {
+    "status": "parcial",
+    "notes": "Usar é violação de honra severa (exceto magistrados): registre à mão.",
+    "rollOptions": [{ "id": "desarmar", "label": "Desarmar ou separar", "attack": 4, "optional": true }]
+  },
+  "Machadinha": { "status": "narrativo", "notes": "Arremesso (3 m): o item só ataca corpo a corpo." },
+  "Neko-te": { "status": "narrativo", "notes": "+2 em Atletismo para escalar e violação severa ficam à mão." },
+  "Ninja-to": { "status": "narrativo", "notes": "Pimenta, compartimento secreto e violação severa à mão: arma não tem ativação." },
+  "Sai": {
+    "rollOptions": [{ "id": "desarmar", "label": "Desarmar", "attack": 4, "optional": true }]
+  },
+  "Tonfa": {
+    "choice": {
+      "label": "Bloqueio Ambidestro ou Especialização em Combate", "count": 1,
+      "options": [
+        { "id": "talento", "label": "Tenho um deles: +1 na CA", "passive": [{ "key": "system.attributes.ca.bonus", "value": 1 }] },
+        { "id": "sem", "label": "Não tenho" }
+      ]
+    }
+  },
+  "Wakizashi": {
+    "rollOptions": [{ "id": "obraPrima", "label": "Obra-prima", "attack": 1, "locked": true }]
+  },
+  "Cimitarra": {
+    "choice": {
+      "label": "Acuidade com Arma", "count": 1,
+      "options": [
+        { "id": "acuidade", "label": "Tenho o talento", "rollOptions": [{ "id": "acuidade", "label": "Acuidade com Arma", "attack": "max(0, @des - @for)", "locked": true }] },
+        { "id": "sem", "label": "Não tenho" }
+      ]
+    }
+  },
+  "Escudo pesado": {
+    "status": "parcial",
+    "notes": "Ao bater com o escudo, use o item de armadura para perder o bônus.",
+    "activation": {
+      "duration": { "value": 1, "unit": "rodada" },
+      "self": { "changes": [{ "key": "system.attributes.ca.bonus", "value": -2 }] },
+      "note": "Bateu com o escudo: sem o bônus dele na CA até o próximo turno."
+    }
+  },
+  "Kra'tann": {
+    "status": "parcial",
+    "notes": "Usar é violação de honra moderada: registre à mão.",
+    "passive": [{ "key": "system.skills.intimidacao.bonus", "value": 2 }]
+  },
+  "Mangual": {
+    "rollOptions": [{ "id": "desarmar", "label": "Desarmar", "attack": 4, "optional": true }]
+  },
+  "Tridente": {
+    "rollOptions": [{ "id": "derrubar", "label": "Derrubar", "attack": 4, "optional": true }]
+  },
+  "Naginata": { "status": "narrativo", "notes": "Alcance dobrado, mas não ataca adjacentes: posicione à mão." },
+  "Nodachi": {
+    "rollOptions": [{ "id": "obraPrima", "label": "Obra-prima", "attack": 1, "locked": true }]
+  },
+  "Besta pesada": { "status": "narrativo", "notes": "Recarregar é uma ação padrão." },
+  "Jian": {
+    "rollOptions": [{ "id": "manobra", "label": "Manobra de combate", "attack": 4, "optional": true }]
+  },
+  "Leque": {
+    "status": "parcial",
+    "notes": "Uma vez por combate; ataque furtivo, leque fechado (1d4) e Ladinagem +4 à mão.",
+    "rollOptions": [{ "id": "abrir", "label": "Abrir e atacar", "attack": 4, "optional": true, "note": "o alvo fica desprevenido contra este ataque" }]
+  },
+  "Chicote": {
+    "rollOptions": [{ "id": "manobra", "label": "Derrubar ou desarmar", "attack": 4, "optional": true }],
+    "choice": {
+      "label": "Acuidade com Arma", "count": 1,
+      "options": [
+        { "id": "acuidade", "label": "Tenho o talento", "rollOptions": [{ "id": "acuidade", "label": "Acuidade com Arma", "attack": "max(0, @des - @for)", "locked": true }] },
+        { "id": "sem", "label": "Não tenho" }
+      ]
+    }
+  },
+  "Chuan": {
+    "rollOptions": [{ "id": "manobra", "label": "Manobra de combate", "attack": 4, "optional": true }],
+    "choice": {
+      "label": "Acuidade com Arma", "count": 1,
+      "options": [
+        { "id": "acuidade", "label": "Tenho o talento", "rollOptions": [{ "id": "acuidade", "label": "Acuidade com Arma", "attack": "max(0, @des - @for)", "locked": true }] },
+        { "id": "sem", "label": "Não tenho" }
+      ]
+    }
+  },
+  "Katana": {
+    "status": "parcial",
+    "notes": "Com duas mãos, sem o talento exótico, conta como marcial: o sistema não troca.",
+    "rollOptions": [{ "id": "obraPrima", "label": "Obra-prima", "attack": 1, "locked": true }],
+    "choice": {
+      "label": "Acuidade com Arma", "count": 1,
+      "options": [
+        { "id": "acuidade", "label": "Tenho o talento", "rollOptions": [{ "id": "acuidade", "label": "Acuidade com Arma", "attack": "max(0, @des - @for)", "locked": true }] },
+        { "id": "sem", "label": "Não tenho" }
+      ]
+    }
+  },
+  "Corrente": { "status": "narrativo", "notes": "Arma dupla; com uma mão causa 1d8: ajuste à mão." },
+  "Kakko'dai": {
+    "status": "parcial",
+    "notes": "Usar é violação de honra moderada: registre à mão.",
+    "passive": [{ "key": "system.attributes.ca.bonus", "value": -1 }]
+  },
+  "Kusari-gama": {
+    "status": "parcial",
+    "notes": "Arma dupla: o peso da corrente (1d6, esmagamento, x2) fica à mão.",
+    "rollOptions": [{ "id": "manobra", "label": "Derrubar ou desarmar", "attack": 4, "optional": true }],
+    "choice": {
+      "label": "Acuidade com Arma", "count": 1,
+      "options": [
+        { "id": "acuidade", "label": "Tenho o talento", "rollOptions": [{ "id": "acuidade", "label": "Acuidade com Arma", "attack": "max(0, @des - @for)", "locked": true }] },
+        { "id": "sem", "label": "Não tenho" }
+      ]
+    }
+  },
+  "Lajatang": { "status": "narrativo", "notes": "Arma dupla: o ataque com a outra lâmina fica à mão." },
+  "Sansetsukon": { "status": "narrativo", "notes": "Arma dupla com duas mãos, ou alcance 3 m com uma: à mão." },
+  "Zanbatou": { "status": "narrativo", "notes": "Exige Força 19 para empunhar." },
+  "Chakram": {
+    "status": "parcial",
+    "notes": "Cada ricochete seguinte soma mais –4: use o modificador do diálogo.",
+    "rollOptions": [{ "id": "ricochete", "label": "Ricochete", "attack": -4, "optional": true }]
+  },
+  "Granada": {
+    "status": "parcial",
+    "notes": "Área, metade com Reflexos, truque ninja e violação severa ficam à mão.",
+    "rollOptions": [{ "id": "explosao", "label": "Explosão", "locked": true, "note": "todos a até 3 m; Reflexos (CD = resultado do ataque) reduz à metade" }]
+  },
+  "Rede": { "status": "narrativo", "notes": "Toque à distância; acertando, aplique enredado. Escapa com Acrobacia CD 20." },
+  "Shuriken": {
+    "status": "parcial",
+    "notes": "Usar é violação de honra severa: registre à mão.",
+    "rollOptions": [
+      { "id": "extra", "label": "Mais uma shuriken", "cost": 1, "optional": true, "extraAttack": true },
+      { "id": "extraNinja", "label": "Mais uma shuriken (truques ninjas)", "optional": true, "extraAttack": true }
+    ]
+  },
+
+  "Armadura de couro": { "status": "narrativo", "notes": "Para tamuranianos, vestir é violação de honra leve: registre à mão." },
+  "Armadura de ossos": { "status": "narrativo", "notes": "Vestir é violação de honra moderada: registre à mão." },
+  "Char-aina": {
+    "status": "parcial",
+    "notes": "Sobre outra armadura, a ficha conta só uma; kaijin podem usá-la.",
+    "passive": [{ "key": "system.attributes.movement.bonus", "value": -3 }]
+  },
+  "Haramaki": { "passive": [{ "key": "system.attributes.movement.bonus", "value": -3 }] },
+  "Lamelar": { "passive": [{ "key": "system.attributes.movement.bonus", "value": -3 }] },
+  "Suchiiru": { "passive": [{ "key": "system.attributes.movement.bonus", "value": -3 }] },
+  "Carapaça kappa": {
+    "status": "parcial",
+    "notes": "Sem flanco, CA +4 caído, uso sobre outra armadura e violação moderada à mão.",
+    "passive": [{ "key": "system.attributes.movement.bonus", "value": -3 }]
+  },
+  "Yoroi": { "passive": [{ "key": "system.attributes.movement.bonus", "value": -3 }] },
+  "O-Yoroi": { "passive": [{ "key": "system.attributes.movement.bonus", "value": -3 }] },
+
+  "Bálsamo restaurador": {
+    "activation": { "action": "completa", "heal": "2d4", "healTargets": true }
+  },
+  "Corda de seda (15m)": {
+    "rollOptions": [{ "id": "nos", "label": "Dar nós (corda de seda)", "for": "ability", "filter": { "abilities": ["des"] }, "value": 2, "optional": true }]
+  },
+  "Kit de artesão": { "status": "narrativo", "notes": "Sem o kit, –5 nos testes do Ofício: aplique à mão." },
+  "Kit de disfarces": { "status": "narrativo", "notes": "Sem o kit, –5 em Enganação para disfarces: aplique à mão." },
+  "Kit de ladrão": { "status": "narrativo", "notes": "Sem o kit, –5 em Ladinagem para fechaduras e sabotagem: aplique à mão." },
+  "Kit de medicamentos": { "status": "narrativo", "notes": "Sem o kit, –5 nos testes de Cura: aplique à mão." },
+  "Pé de Cabra": {
+    "status": "parcial",
+    "notes": "Para lutar com ele, use a clava.",
+    "rollOptions": [{ "id": "abrir", "label": "Abrir porta ou baú (pé de cabra)", "for": "ability", "filter": { "abilities": ["for"] }, "value": 4, "optional": true }]
+  },
+  "Tocha": { "status": "narrativo", "notes": "Como arma: 1d4 de esmagamento mais 1 de fogo; crie a arma à mão." },
+  "Peças Obra-primas": { "status": "narrativo", "notes": "Arma +1 no ataque; armadura com penalidade 1 menor; kit +2 na perícia." },
+  "Shinobi shozoku": {
+    "status": "parcial",
+    "notes": "Vestir é violação de honra severa: registre à mão.",
+    "passive": [
+      { "key": "system.skills.furtividade.bonus", "value": 2 },
+      { "key": "system.skills.intimidacao.bonus", "value": 2 }
+    ],
+    "rollOptions": [{ "id": "cla", "label": "Diplomacia com ninjas do clã", "for": "skill", "filter": { "skills": ["diplomacia"] }, "value": 2, "optional": true }]
+  },
+  "Cavalo": { "status": "narrativo", "notes": "Sem treino, em combate: Cavalgar CD 20 a cada rodada para não cair." },
+  "Pipa Ninja": {
+    "status": "parcial",
+    "notes": "O teste de Acrobacia (CD 20) e a queda ficam à mão.",
+    "activation": {
+      "action": "movimento", "honorViolation": "severa",
+      "note": "Acrobacia CD 20: voa até 9 m. Falha: desce flutuando; por 5+, dano de queda."
+    }
+  },
+  "Aço-Rubi": {
+    "rollOptions": [{ "id": "acoRubi", "label": "Arma de aço-rubi", "ignoreRd": 100, "optional": true }]
+  },
+  "Akamono": {
+    "status": "parcial",
+    "notes": "1 de dano em você por acerto, falha em armaduras e violação moderada à mão.",
+    "rollOptions": [{ "id": "akamono", "label": "Arma de akamono", "damage": "1d4", "noCrit": true, "optional": true, "note": "não vale contra kaijin e akumushi" }]
+  },
+  "Bambu Suchiiru": {
+    "choice": {
+      "label": "Bambu suchiiru em", "count": 1,
+      "options": [
+        { "id": "arma", "label": "Arma de madeira: +1 de dano", "rollOptions": [{ "id": "suchiiru", "label": "Arma de bambu suchiiru", "damage": 1, "optional": true }] },
+        { "id": "armadura", "label": "Armadura ou escudo leve: RD 1", "passive": [{ "key": "system.attributes.rd", "value": 1 }] }
+      ]
+    }
+  },
+  "Jade": {
+    "status": "parcial",
+    "notes": "Só em Tamu-ra ou com nativo; CA contra incorpóreos e o não acúmulo ficam à mão.",
+    "choice": {
+      "label": "Objeto de jade", "count": 1,
+      "options": [
+        { "id": "arma", "label": "Arma", "traits": { "touchIncorporeal": true }, "rollOptions": [{ "id": "jade", "label": "Arma de jade (contra youkai)", "attack": 1, "damage": 1, "when": "vsYoukai", "strict": true }] },
+        { "id": "leve", "label": "Armadura leve: Con +1", "passive": [{ "key": "system.abilities.con.bonus", "value": 1 }] },
+        { "id": "media", "label": "Armadura média: Con +2", "passive": [{ "key": "system.abilities.con.bonus", "value": 2 }] },
+        { "id": "pesada", "label": "Armadura pesada: Con +3", "passive": [{ "key": "system.abilities.con.bonus", "value": 3 }] },
+        { "id": "peca", "label": "Peça junto ao corpo: Con +1", "passive": [{ "key": "system.abilities.con.bonus", "value": 1 }] }
+      ]
+    }
+  }
+}

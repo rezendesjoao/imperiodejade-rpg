@@ -1,0 +1,2340 @@
+{
+  "_sobre": "Automação dos talentos de src/data/feats-b.json (docs/automacao.md): perícia, destino, jutsu, aprimoramento, poderes concedidos e Tormenta. A chave é o nome do talento. Quem já tem effects no dado não os repete aqui; bloco vazio = os effects já fazem tudo.",
+  "Acrobacia Audaz": {
+    "status": "narrativo"
+  },
+  "Ágil": {},
+  "Autossuficiente": {
+    "rollOptions": [
+      {
+        "id": "sozinho",
+        "label": "Autossuficiente (nenhum companheiro a 30m)",
+        "for": [
+          "skill",
+          "initiative"
+        ],
+        "value": 4,
+        "optional": true
+      }
+    ]
+  },
+  "Cauda Ágil": {
+    "rollOptions": [
+      {
+        "id": "prestidigitacao",
+        "label": "Cauda ágil (prestidigitação)",
+        "for": "skill",
+        "filter": {
+          "skills": [
+            "ladinagem"
+          ]
+        },
+        "value": 2,
+        "optional": true
+      }
+    ]
+  },
+  "Cauda Hipnótica": {
+    "rollOptions": [
+      {
+        "id": "blefar",
+        "label": "Cauda hipnótica (blefar)",
+        "for": "skill",
+        "filter": {
+          "skills": [
+            "enganacao"
+          ]
+        },
+        "value": 2,
+        "optional": true
+      }
+    ]
+  },
+  "Criar Obra-Prima": {
+    "status": "narrativo"
+  },
+  "Diligente": {
+    "rollOptions": [
+      {
+        "id": "foco",
+        "label": "Diligente (gastou uma ação de movimento focando)",
+        "for": "skill",
+        "value": 2,
+        "optional": true
+      }
+    ]
+  },
+  "Dissimular Honra": {
+    "rollOptions": [
+      {
+        "id": "honra",
+        "label": "Dissimular honra",
+        "for": "skill",
+        "filter": {
+          "skills": [
+            "enganacao"
+          ]
+        },
+        "value": 10,
+        "optional": true
+      }
+    ]
+  },
+  "Foco em Perícia": {
+    "choice": {
+      "label": "Perícia em foco",
+      "count": 1,
+      "options": [
+        {
+          "id": "acrobacia",
+          "label": "Acrobacia",
+          "passive": [
+            {
+              "key": "system.skills.acrobacia.bonus",
+              "value": 4
+            }
+          ]
+        },
+        {
+          "id": "adestrarAnimais",
+          "label": "Adestrar Animais",
+          "passive": [
+            {
+              "key": "system.skills.adestrarAnimais.bonus",
+              "value": 4
+            }
+          ]
+        },
+        {
+          "id": "atletismo",
+          "label": "Atletismo",
+          "passive": [
+            {
+              "key": "system.skills.atletismo.bonus",
+              "value": 4
+            }
+          ]
+        },
+        {
+          "id": "atuacao",
+          "label": "Atuação",
+          "rollOptions": [
+            {
+              "id": "foco",
+              "label": "Foco em perícia",
+              "for": "skill",
+              "filter": {
+                "skills": [
+                  "atuacao"
+                ]
+              },
+              "value": 4,
+              "locked": true
+            }
+          ]
+        },
+        {
+          "id": "cavalgar",
+          "label": "Cavalgar",
+          "passive": [
+            {
+              "key": "system.skills.cavalgar.bonus",
+              "value": 4
+            }
+          ]
+        },
+        {
+          "id": "conhecimento",
+          "label": "Conhecimento",
+          "rollOptions": [
+            {
+              "id": "foco",
+              "label": "Foco em perícia",
+              "for": "skill",
+              "filter": {
+                "skills": [
+                  "conhecimento"
+                ]
+              },
+              "value": 4,
+              "locked": true
+            }
+          ]
+        },
+        {
+          "id": "cura",
+          "label": "Cura",
+          "passive": [
+            {
+              "key": "system.skills.cura.bonus",
+              "value": 4
+            }
+          ]
+        },
+        {
+          "id": "diplomacia",
+          "label": "Diplomacia",
+          "passive": [
+            {
+              "key": "system.skills.diplomacia.bonus",
+              "value": 4
+            }
+          ]
+        },
+        {
+          "id": "enganacao",
+          "label": "Enganação",
+          "passive": [
+            {
+              "key": "system.skills.enganacao.bonus",
+              "value": 4
+            }
+          ]
+        },
+        {
+          "id": "furtividade",
+          "label": "Furtividade",
+          "passive": [
+            {
+              "key": "system.skills.furtividade.bonus",
+              "value": 4
+            }
+          ]
+        },
+        {
+          "id": "identificarMagia",
+          "label": "Identificar Magia",
+          "passive": [
+            {
+              "key": "system.skills.identificarMagia.bonus",
+              "value": 4
+            }
+          ]
+        },
+        {
+          "id": "iniciativa",
+          "label": "Iniciativa",
+          "passive": [
+            {
+              "key": "system.skills.iniciativa.bonus",
+              "value": 4
+            }
+          ]
+        },
+        {
+          "id": "intimidacao",
+          "label": "Intimidação",
+          "passive": [
+            {
+              "key": "system.skills.intimidacao.bonus",
+              "value": 4
+            }
+          ]
+        },
+        {
+          "id": "intuicao",
+          "label": "Intuição",
+          "passive": [
+            {
+              "key": "system.skills.intuicao.bonus",
+              "value": 4
+            }
+          ]
+        },
+        {
+          "id": "ladinagem",
+          "label": "Ladinagem",
+          "passive": [
+            {
+              "key": "system.skills.ladinagem.bonus",
+              "value": 4
+            }
+          ]
+        },
+        {
+          "id": "obterInformacao",
+          "label": "Obter Informação",
+          "passive": [
+            {
+              "key": "system.skills.obterInformacao.bonus",
+              "value": 4
+            }
+          ]
+        },
+        {
+          "id": "oficio",
+          "label": "Ofício",
+          "rollOptions": [
+            {
+              "id": "foco",
+              "label": "Foco em perícia",
+              "for": "skill",
+              "filter": {
+                "skills": [
+                  "oficio"
+                ]
+              },
+              "value": 4,
+              "locked": true
+            }
+          ]
+        },
+        {
+          "id": "percepcao",
+          "label": "Percepção",
+          "passive": [
+            {
+              "key": "system.skills.percepcao.bonus",
+              "value": 4
+            }
+          ]
+        },
+        {
+          "id": "sobrevivencia",
+          "label": "Sobrevivência",
+          "passive": [
+            {
+              "key": "system.skills.sobrevivencia.bonus",
+              "value": 4
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "Investigador": {
+    "passive": [
+      {
+        "key": "system.skills.obterInformacao.bonus",
+        "value": "max(0, @int)"
+      },
+      {
+        "key": "system.skills.percepcao.bonus",
+        "value": "max(0, @int)"
+      }
+    ]
+  },
+  "Mãos Rápidas": {
+    "rollOptions": [
+      {
+        "id": "extra",
+        "label": "Mãos rápidas (prestidigitação extra na rodada)",
+        "for": "skill",
+        "filter": {
+          "skills": [
+            "ladinagem"
+          ]
+        },
+        "cost": 1,
+        "optional": true
+      }
+    ]
+  },
+  "Memória Eidética": {
+    "status": "narrativo"
+  },
+  "Obra de Arte": {},
+  "Perícia Aprimorada": {
+    "status": "narrativo",
+    "notes": "Role de novo o teste da perícia escolhida; vale o segundo resultado.",
+    "choice": {
+      "label": "Perícia aprimorada",
+      "text": "Perícia"
+    }
+  },
+  "Rastrear": {
+    "rollOptions": [
+      {
+        "id": "rastros",
+        "label": "Rastrear (seguir rastros)",
+        "for": "skill",
+        "filter": {
+          "skills": [
+            "sobrevivencia"
+          ]
+        },
+        "value": 4,
+        "optional": true
+      }
+    ]
+  },
+  "Treino em Perícia": {
+    "choice": {
+      "label": "Perícia treinada",
+      "count": 1,
+      "options": [
+        {
+          "id": "acrobacia",
+          "label": "Acrobacia",
+          "traits": {
+            "trainedSkills": [
+              "acrobacia"
+            ]
+          }
+        },
+        {
+          "id": "adestrarAnimais",
+          "label": "Adestrar Animais",
+          "traits": {
+            "trainedSkills": [
+              "adestrarAnimais"
+            ]
+          }
+        },
+        {
+          "id": "atletismo",
+          "label": "Atletismo",
+          "traits": {
+            "trainedSkills": [
+              "atletismo"
+            ]
+          }
+        },
+        {
+          "id": "atuacao",
+          "label": "Atuação",
+          "traits": {
+            "trainedSkills": [
+              "atuacao"
+            ]
+          }
+        },
+        {
+          "id": "cavalgar",
+          "label": "Cavalgar",
+          "traits": {
+            "trainedSkills": [
+              "cavalgar"
+            ]
+          }
+        },
+        {
+          "id": "conhecimento",
+          "label": "Conhecimento",
+          "traits": {
+            "trainedSkills": [
+              "conhecimento"
+            ]
+          }
+        },
+        {
+          "id": "cura",
+          "label": "Cura",
+          "traits": {
+            "trainedSkills": [
+              "cura"
+            ]
+          }
+        },
+        {
+          "id": "diplomacia",
+          "label": "Diplomacia",
+          "traits": {
+            "trainedSkills": [
+              "diplomacia"
+            ]
+          }
+        },
+        {
+          "id": "enganacao",
+          "label": "Enganação",
+          "hint": "violação moderada",
+          "traits": {
+            "trainedSkills": [
+              "enganacao"
+            ]
+          }
+        },
+        {
+          "id": "furtividade",
+          "label": "Furtividade",
+          "hint": "violação moderada",
+          "traits": {
+            "trainedSkills": [
+              "furtividade"
+            ]
+          }
+        },
+        {
+          "id": "identificarMagia",
+          "label": "Identificar Magia",
+          "traits": {
+            "trainedSkills": [
+              "identificarMagia"
+            ]
+          }
+        },
+        {
+          "id": "iniciativa",
+          "label": "Iniciativa",
+          "traits": {
+            "trainedSkills": [
+              "iniciativa"
+            ]
+          }
+        },
+        {
+          "id": "intimidacao",
+          "label": "Intimidação",
+          "traits": {
+            "trainedSkills": [
+              "intimidacao"
+            ]
+          }
+        },
+        {
+          "id": "intuicao",
+          "label": "Intuição",
+          "traits": {
+            "trainedSkills": [
+              "intuicao"
+            ]
+          }
+        },
+        {
+          "id": "ladinagem",
+          "label": "Ladinagem",
+          "hint": "violação severa",
+          "traits": {
+            "trainedSkills": [
+              "ladinagem"
+            ]
+          }
+        },
+        {
+          "id": "obterInformacao",
+          "label": "Obter Informação",
+          "traits": {
+            "trainedSkills": [
+              "obterInformacao"
+            ]
+          }
+        },
+        {
+          "id": "oficio",
+          "label": "Ofício",
+          "traits": {
+            "trainedSkills": [
+              "oficio"
+            ]
+          }
+        },
+        {
+          "id": "percepcao",
+          "label": "Percepção",
+          "traits": {
+            "trainedSkills": [
+              "percepcao"
+            ]
+          }
+        },
+        {
+          "id": "sobrevivencia",
+          "label": "Sobrevivência",
+          "traits": {
+            "trainedSkills": [
+              "sobrevivencia"
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "Violência Velada": {},
+  "Ajuda dos Ancestrais": {
+    "traits": {
+      "reserveExtra": [
+        "Executar conselhos dos ancestrais sem custo em PM (aprimoramentos pagos à parte)"
+      ]
+    },
+    "status": "parcial",
+    "notes": "Pela reserva o jutsu sai de graça: devolva os PM do grau dele."
+  },
+  "Animal Falante": {
+    "status": "narrativo"
+  },
+  "Camuflagem": {
+    "grants": [
+      {
+        "name": "Invisibilidade Ninja",
+        "type": "jutsu"
+      }
+    ]
+  },
+  "Comandar": {
+    "activation": {
+      "cost": 1,
+      "action": "movimento",
+      "duration": {
+        "unit": "cena"
+      },
+      "targets": {
+        "who": "allies",
+        "includeSelf": true,
+        "changes": [
+          {
+            "key": "system.attributes.mods.attack",
+            "value": 1
+          },
+          {
+            "key": "system.attributes.mods.skills",
+            "value": 1
+          }
+        ]
+      }
+    }
+  },
+  "Companheiro Animal": {
+    "status": "narrativo",
+    "notes": "O animal é um aliado iniciante (Capítulo 8): use uma ficha à parte."
+  },
+  "Coração Gelado": {
+    "passive": [
+      {
+        "key": "system.chakras.car.open",
+        "value": false,
+        "mode": "override"
+      }
+    ],
+    "choice": {
+      "label": "Brincar com os sentimentos passa para",
+      "count": 1,
+      "options": [
+        {
+          "id": "for",
+          "label": "Braços (Força)",
+          "passive": [
+            {
+              "key": "system.chakras.for.open",
+              "value": true,
+              "mode": "override"
+            }
+          ]
+        },
+        {
+          "id": "des",
+          "label": "Pernas (Destreza)",
+          "passive": [
+            {
+              "key": "system.chakras.des.open",
+              "value": true,
+              "mode": "override"
+            }
+          ]
+        },
+        {
+          "id": "con",
+          "label": "Torso (Constituição)",
+          "passive": [
+            {
+              "key": "system.chakras.con.open",
+              "value": true,
+              "mode": "override"
+            }
+          ]
+        },
+        {
+          "id": "int",
+          "label": "Mente (Inteligência)",
+          "passive": [
+            {
+              "key": "system.chakras.int.open",
+              "value": true,
+              "mode": "override"
+            }
+          ]
+        },
+        {
+          "id": "sab",
+          "label": "Espírito (Sabedoria)",
+          "passive": [
+            {
+              "key": "system.chakras.sab.open",
+              "value": true,
+              "mode": "override"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "Corrida": {},
+  "Cura Elemental Adicional": {
+    "choice": {
+      "label": "Elemento adicional",
+      "count": 1,
+      "options": [
+        {
+          "id": "fogo",
+          "label": "Fogo",
+          "traits": {
+            "immune": [
+              "fogo"
+            ],
+            "healFrom": [
+              "fogo"
+            ]
+          }
+        },
+        {
+          "id": "frio",
+          "label": "Frio",
+          "traits": {
+            "immune": [
+              "frio"
+            ],
+            "healFrom": [
+              "frio"
+            ]
+          }
+        },
+        {
+          "id": "vento",
+          "label": "Vento",
+          "traits": {
+            "immune": [
+              "vento"
+            ],
+            "healFrom": [
+              "vento"
+            ]
+          }
+        },
+        {
+          "id": "acido",
+          "label": "Ácido",
+          "traits": {
+            "immune": [
+              "acido"
+            ],
+            "healFrom": [
+              "acido"
+            ]
+          }
+        },
+        {
+          "id": "eletricidade",
+          "label": "Eletricidade",
+          "traits": {
+            "immune": [
+              "eletricidade"
+            ],
+            "healFrom": [
+              "eletricidade"
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "Dignidade de Aço": {
+    "reactions": [
+      {
+        "on": "honorDamage",
+        "label": "Dignidade de aço",
+        "effect": "honorTest",
+        "skill": "diplomacia",
+        "dc": 15,
+        "severities": [
+          "leve"
+        ]
+      }
+    ]
+  },
+  "Fortitude Maior": {},
+  "Gerador Arcano": {
+    "activation": {
+      "action": "completa",
+      "uses": {
+        "max": 1,
+        "per": "dia"
+      },
+      "restore": {
+        "pm": "@nivel"
+      },
+      "save": {
+        "type": "von",
+        "dc": 20
+      },
+      "note": "Em transe: vê e ouve, mas não fala nem se move; distrações pedem Vontade."
+    },
+    "status": "parcial",
+    "notes": "Falhou na Vontade por uma distração: tire os PM recuperados à mão."
+  },
+  "Leveza Celestial": {
+    "rollOptions": [
+      {
+        "id": "saltar",
+        "label": "Leveza celestial (saltar)",
+        "for": "skill",
+        "filter": {
+          "skills": [
+            "atletismo"
+          ]
+        },
+        "value": 4,
+        "optional": true
+      }
+    ]
+  },
+  "Liderança": {
+    "choice": {
+      "label": "Liderança",
+      "count": 1,
+      "options": [
+        {
+          "id": "parceiro",
+          "label": "Parceiro"
+        },
+        {
+          "id": "seguidores",
+          "label": "Seguidores"
+        }
+      ]
+    },
+    "activation": {
+      "action": "livre",
+      "options": [
+        {
+          "id": "simples",
+          "label": "Tarefa muito simples (CD = seu nível)",
+          "option": "seguidores",
+          "cost": 1,
+          "note": "Os seguidores resolvem: sucesso garantido num teste de perícia à escolha, no tempo normal."
+        },
+        {
+          "id": "dificil",
+          "label": "Tarefa difícil ou trabalhosa (CD 5 + seu nível)",
+          "option": "seguidores",
+          "cost": 2,
+          "note": "Os seguidores resolvem: sucesso garantido num teste de perícia à escolha, no tempo normal."
+        }
+      ]
+    },
+    "status": "parcial",
+    "notes": "O parceiro é um aliado iniciante: crie a ficha dele à parte."
+  },
+  "Linguista": {
+    "status": "narrativo"
+  },
+  "Mudança Rápida": {
+    "status": "narrativo"
+  },
+  "Nekomimi": {
+    "rollOptions": [
+      {
+        "id": "atracao",
+        "label": "Nekomimi (forma quase humana, alvo atraído por você)",
+        "for": "skill",
+        "filter": {
+          "skills": [
+            "diplomacia",
+            "enganacao"
+          ]
+        },
+        "value": 4,
+        "optional": true
+      }
+    ]
+  },
+  "Reconfiguração": {
+    "activation": {
+      "cost": 0,
+      "action": "completa",
+      "variable": {
+        "min": 1,
+        "max": "@pmLimit",
+        "label": "Qual uso do dia (1 PM por uso)",
+        "costPer": 1
+      },
+      "note": "Troque um talento por outro do mesmo grupo (nem este nem talentos bônus)."
+    },
+    "status": "parcial",
+    "notes": "A troca do talento é feita à mão na ficha."
+  },
+  "Reflexos Rápidos": {},
+  "Terreno Familiar": {
+    "choice": {
+      "label": "Terreno familiar",
+      "text": "Terreno ou local"
+    },
+    "activation": {
+      "duration": {
+        "unit": "cena"
+      },
+      "self": {
+        "changes": [
+          {
+            "key": "system.attributes.ca.bonus",
+            "value": 2
+          },
+          {
+            "key": "system.attributes.mods.skills",
+            "value": 2
+          }
+        ]
+      },
+      "note": "Use ao entrar no terreno escolhido."
+    }
+  },
+  "Tolerância": {
+    "rollOptions": [
+      {
+        "id": "tolerancia",
+        "label": "Tolerância (corrida, fôlego, fome, sede, calor ou frio)",
+        "for": [
+          "skill",
+          "ability",
+          "save"
+        ],
+        "value": 4,
+        "optional": true
+      }
+    ]
+  },
+  "Ver a Vergonha": {
+    "activation": {
+      "cost": 3,
+      "action": "padrão",
+      "duration": {
+        "unit": "cena"
+      },
+      "note": "Desonrados não se escondem de você: Furtividade, camuflagem e invisibilidade falham."
+    },
+    "status": "parcial",
+    "notes": "Contra desonrados invisíveis, o sistema ainda aplica chance de falha e desprevenido."
+  },
+  "Visão Térmica": {
+    "rollOptions": [
+      {
+        "id": "termica",
+        "label": "Visão térmica (criaturas vivas no escuro)",
+        "for": "skill",
+        "filter": {
+          "skills": [
+            "percepcao"
+          ]
+        },
+        "value": 8,
+        "optional": true
+      }
+    ],
+    "status": "parcial",
+    "notes": "Vale só no escuro e só contra criaturas vivas: desligue quando não valer.",
+    "traits": {
+      "seeInvisible": true
+    }
+  },
+  "Vontade de Ferro": {},
+  "Abrir Chacra": {
+    "choice": {
+      "label": "Chacra aberto",
+      "count": 1,
+      "options": [
+        {
+          "id": "for",
+          "label": "Braços (Força)",
+          "passive": [
+            {
+              "key": "system.chakras.for.open",
+              "value": true,
+              "mode": "override"
+            }
+          ]
+        },
+        {
+          "id": "des",
+          "label": "Pernas (Destreza)",
+          "passive": [
+            {
+              "key": "system.chakras.des.open",
+              "value": true,
+              "mode": "override"
+            }
+          ]
+        },
+        {
+          "id": "con",
+          "label": "Torso (Constituição)",
+          "passive": [
+            {
+              "key": "system.chakras.con.open",
+              "value": true,
+              "mode": "override"
+            }
+          ]
+        },
+        {
+          "id": "int",
+          "label": "Mente (Inteligência)",
+          "passive": [
+            {
+              "key": "system.chakras.int.open",
+              "value": true,
+              "mode": "override"
+            }
+          ]
+        },
+        {
+          "id": "sab",
+          "label": "Espírito (Sabedoria)",
+          "passive": [
+            {
+              "key": "system.chakras.sab.open",
+              "value": true,
+              "mode": "override"
+            }
+          ]
+        },
+        {
+          "id": "car",
+          "label": "Emoções (Carisma)",
+          "passive": [
+            {
+              "key": "system.chakras.car.open",
+              "value": true,
+              "mode": "override"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "Chacra Mediano": {
+    "choice": {
+      "label": "Chacra (já aberto)",
+      "count": 1,
+      "options": [
+        {
+          "id": "for",
+          "label": "Braços (Força)",
+          "passive": [
+            {
+              "key": "system.chakras.for.grade",
+              "value": "mediano",
+              "mode": "override"
+            }
+          ]
+        },
+        {
+          "id": "des",
+          "label": "Pernas (Destreza)",
+          "passive": [
+            {
+              "key": "system.chakras.des.grade",
+              "value": "mediano",
+              "mode": "override"
+            }
+          ]
+        },
+        {
+          "id": "con",
+          "label": "Torso (Constituição)",
+          "passive": [
+            {
+              "key": "system.chakras.con.grade",
+              "value": "mediano",
+              "mode": "override"
+            }
+          ]
+        },
+        {
+          "id": "int",
+          "label": "Mente (Inteligência)",
+          "passive": [
+            {
+              "key": "system.chakras.int.grade",
+              "value": "mediano",
+              "mode": "override"
+            }
+          ]
+        },
+        {
+          "id": "sab",
+          "label": "Espírito (Sabedoria)",
+          "passive": [
+            {
+              "key": "system.chakras.sab.grade",
+              "value": "mediano",
+              "mode": "override"
+            }
+          ]
+        },
+        {
+          "id": "car",
+          "label": "Emoções (Carisma)",
+          "passive": [
+            {
+              "key": "system.chakras.car.grade",
+              "value": "mediano",
+              "mode": "override"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "Chacra Avançado": {
+    "choice": {
+      "label": "Chacra (já mediano)",
+      "count": 1,
+      "options": [
+        {
+          "id": "for",
+          "label": "Braços (Força)",
+          "passive": [
+            {
+              "key": "system.chakras.for.grade",
+              "value": "avancado",
+              "mode": "override"
+            }
+          ]
+        },
+        {
+          "id": "des",
+          "label": "Pernas (Destreza)",
+          "passive": [
+            {
+              "key": "system.chakras.des.grade",
+              "value": "avancado",
+              "mode": "override"
+            }
+          ]
+        },
+        {
+          "id": "con",
+          "label": "Torso (Constituição)",
+          "passive": [
+            {
+              "key": "system.chakras.con.grade",
+              "value": "avancado",
+              "mode": "override"
+            }
+          ]
+        },
+        {
+          "id": "int",
+          "label": "Mente (Inteligência)",
+          "passive": [
+            {
+              "key": "system.chakras.int.grade",
+              "value": "avancado",
+              "mode": "override"
+            }
+          ]
+        },
+        {
+          "id": "sab",
+          "label": "Espírito (Sabedoria)",
+          "passive": [
+            {
+              "key": "system.chakras.sab.grade",
+              "value": "avancado",
+              "mode": "override"
+            }
+          ]
+        },
+        {
+          "id": "car",
+          "label": "Emoções (Carisma)",
+          "passive": [
+            {
+              "key": "system.chakras.car.grade",
+              "value": "avancado",
+              "mode": "override"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "Chacra Sublime": {
+    "choice": {
+      "label": "Chacra (já avançado)",
+      "count": 1,
+      "options": [
+        {
+          "id": "for",
+          "label": "Braços (Força)",
+          "passive": [
+            {
+              "key": "system.chakras.for.grade",
+              "value": "sublime",
+              "mode": "override"
+            }
+          ]
+        },
+        {
+          "id": "des",
+          "label": "Pernas (Destreza)",
+          "passive": [
+            {
+              "key": "system.chakras.des.grade",
+              "value": "sublime",
+              "mode": "override"
+            }
+          ]
+        },
+        {
+          "id": "con",
+          "label": "Torso (Constituição)",
+          "passive": [
+            {
+              "key": "system.chakras.con.grade",
+              "value": "sublime",
+              "mode": "override"
+            }
+          ]
+        },
+        {
+          "id": "int",
+          "label": "Mente (Inteligência)",
+          "passive": [
+            {
+              "key": "system.chakras.int.grade",
+              "value": "sublime",
+              "mode": "override"
+            }
+          ]
+        },
+        {
+          "id": "sab",
+          "label": "Espírito (Sabedoria)",
+          "passive": [
+            {
+              "key": "system.chakras.sab.grade",
+              "value": "sublime",
+              "mode": "override"
+            }
+          ]
+        },
+        {
+          "id": "car",
+          "label": "Emoções (Carisma)",
+          "passive": [
+            {
+              "key": "system.chakras.car.grade",
+              "value": "sublime",
+              "mode": "override"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "Chacra Lendário": {
+    "choice": {
+      "label": "Chacra (já sublime)",
+      "count": 1,
+      "options": [
+        {
+          "id": "for",
+          "label": "Braços (Força)",
+          "passive": [
+            {
+              "key": "system.chakras.for.grade",
+              "value": "lendario",
+              "mode": "override"
+            }
+          ]
+        },
+        {
+          "id": "des",
+          "label": "Pernas (Destreza)",
+          "passive": [
+            {
+              "key": "system.chakras.des.grade",
+              "value": "lendario",
+              "mode": "override"
+            }
+          ]
+        },
+        {
+          "id": "con",
+          "label": "Torso (Constituição)",
+          "passive": [
+            {
+              "key": "system.chakras.con.grade",
+              "value": "lendario",
+              "mode": "override"
+            }
+          ]
+        },
+        {
+          "id": "int",
+          "label": "Mente (Inteligência)",
+          "passive": [
+            {
+              "key": "system.chakras.int.grade",
+              "value": "lendario",
+              "mode": "override"
+            }
+          ]
+        },
+        {
+          "id": "sab",
+          "label": "Espírito (Sabedoria)",
+          "passive": [
+            {
+              "key": "system.chakras.sab.grade",
+              "value": "lendario",
+              "mode": "override"
+            }
+          ]
+        },
+        {
+          "id": "car",
+          "label": "Emoções (Carisma)",
+          "passive": [
+            {
+              "key": "system.chakras.car.grade",
+              "value": "lendario",
+              "mode": "override"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "Concentração Mística": {
+    "rollOptions": [
+      {
+        "id": "concentracao",
+        "label": "Concentração mística (jutsu em condição difícil)",
+        "for": "save",
+        "filter": {
+          "saves": [
+            "von"
+          ]
+        },
+        "value": 4,
+        "optional": true
+      }
+    ]
+  },
+  "Conhecimento de Jutsus": {
+    "status": "narrativo",
+    "notes": "Arraste os dois jutsus escolhidos do compêndio."
+  },
+  "Devoto da Família Celestial": {},
+  "Devoto de Lin-Wu": {},
+  "Devoto do Bushintau": {},
+  "Dominar Jutsu": {
+    "choice": {
+      "label": "Jutsu dominado",
+      "text": "Jutsu"
+    },
+    "traits": {
+      "jutsuGradeDown": [
+        {
+          "filter": {
+            "chosenJutsu": true
+          }
+        }
+      ]
+    }
+  },
+  "Jutsu Acelerado": {
+    "traits": {
+      "jutsuEnhancements": [
+        {
+          "id": "acelerado",
+          "label": "Jutsu Acelerado",
+          "cost": 3,
+          "max": 3,
+          "effect": "note"
+        }
+      ]
+    }
+  },
+  "Jutsu Ampliado": {
+    "traits": {
+      "jutsuEnhancements": [
+        {
+          "id": "ampliado",
+          "label": "Jutsu Ampliado",
+          "cost": 6,
+          "max": 10,
+          "effect": "note"
+        }
+      ]
+    }
+  },
+  "Jutsu Compartilhado": {
+    "traits": {
+      "jutsuEnhancements": [
+        {
+          "id": "compartilhado",
+          "label": "Jutsu Compartilhado",
+          "cost": 2,
+          "max": 1,
+          "effect": "note"
+        }
+      ]
+    },
+    "status": "parcial",
+    "notes": "O efeito pessoal vai para o alvo tocado: aplique-o nele à mão."
+  },
+  "Jutsu Distante": {
+    "traits": {
+      "jutsuEnhancements": [
+        {
+          "id": "distante",
+          "label": "Jutsu Distante",
+          "cost": 2,
+          "max": 10,
+          "effect": "note"
+        }
+      ]
+    }
+  },
+  "Jutsu Estendido": {
+    "traits": {
+      "jutsuEnhancements": [
+        {
+          "id": "estendido",
+          "label": "Jutsu Estendido",
+          "cost": 2,
+          "max": 10,
+          "effect": "note"
+        }
+      ]
+    },
+    "status": "parcial",
+    "notes": "Durações em rodadas não dobram sozinhas: ajuste as condições aplicadas à mão."
+  },
+  "Jutsu Irresistível": {
+    "traits": {
+      "jutsuEnhancements": [
+        {
+          "id": "irresistivel",
+          "label": "Jutsu Irresistível",
+          "cost": 2,
+          "max": 10,
+          "effect": "dc",
+          "value": 1
+        }
+      ]
+    }
+  },
+  "Jutsu Longínquo": {
+    "traits": {
+      "jutsuEnhancements": [
+        {
+          "id": "longinquo",
+          "label": "Jutsu Longínquo",
+          "cost": 1,
+          "max": 1,
+          "effect": "note"
+        }
+      ]
+    },
+    "status": "parcial",
+    "notes": "O cartão rola toque corpo a corpo; role o toque à distância à parte."
+  },
+  "Jutsu Maximizado": {
+    "traits": {
+      "jutsuEnhancements": [
+        {
+          "id": "maximizado",
+          "label": "Jutsu Maximizado",
+          "cost": 6,
+          "max": 1,
+          "effect": "maximize"
+        }
+      ]
+    }
+  },
+  "Jutsu sem Mantras": {
+    "traits": {
+      "jutsuEnhancements": [
+        {
+          "id": "semMantras",
+          "label": "Jutsu sem Mantras",
+          "cost": 1,
+          "max": 1,
+          "effect": "note"
+        }
+      ]
+    }
+  },
+  "Jutsu sem Selos": {
+    "traits": {
+      "jutsuEnhancements": [
+        {
+          "id": "semSelos",
+          "label": "Jutsu sem Selos",
+          "cost": 1,
+          "max": 1,
+          "effect": "note"
+        }
+      ]
+    }
+  },
+  "Poder Mágico": {
+    "passive": [
+      {
+        "key": "system.attributes.pm.bonus",
+        "value": "floor(@nivel / 2)"
+      }
+    ]
+  },
+  "Wu-Jen de Batalha": {
+    "traits": {
+      "jutsuDamage": [
+        {
+          "value": "@int"
+        }
+      ]
+    }
+  },
+  "Armadura Honrada": {
+    "activation": {
+      "cost": 1,
+      "action": "livre",
+      "duration": {
+        "value": 1,
+        "unit": "rodada"
+      },
+      "self": {
+        "changes": [
+          {
+            "key": "system.attributes.ca.bonus",
+            "value": "max(0, @hon)"
+          }
+        ]
+      }
+    }
+  },
+  "Ataque Honrado": {
+    "activation": {
+      "cost": 1,
+      "action": "livre",
+      "duration": {
+        "value": 1,
+        "unit": "rodada"
+      },
+      "self": {
+        "changes": [
+          {
+            "key": "system.attributes.mods.attack",
+            "value": "max(0, @hon)"
+          }
+        ]
+      }
+    }
+  },
+  "Coragem Total": {
+    "traits": {
+      "immune": [
+        "medo"
+      ]
+    }
+  },
+  "Dano Honrado": {
+    "activation": {
+      "cost": 1,
+      "action": "livre",
+      "duration": {
+        "value": 1,
+        "unit": "rodada"
+      },
+      "self": {
+        "changes": [
+          {
+            "key": "system.attributes.attack.damage",
+            "value": "max(0, @hon)"
+          }
+        ]
+      }
+    }
+  },
+  "Detectar Desonra": {
+    "status": "narrativo",
+    "activation": {
+      "action": "padrão",
+      "note": "Concentrando-se: 1 rodada, há desonrados; 2, quantos; 3, onde e quão desonrados."
+    }
+  },
+  "Detectar Mentiras": {
+    "passive": [
+      {
+        "key": "system.skills.intuicao.bonus",
+        "value": "2 * max(0, @hon)"
+      }
+    ]
+  },
+  "Determinação Honrada": {
+    "reactions": [
+      {
+        "on": "dropToZero",
+        "label": "Determinação honrada",
+        "cost": 1,
+        "effect": "stayUp"
+      }
+    ],
+    "activation": {
+      "cost": 1,
+      "note": "Mais uma rodada consciente com 0 PV ou menos; o sangramento continua."
+    }
+  },
+  "Honra Precavida": {
+    "status": "narrativo"
+  },
+  "Jutsu Honrado": {
+    "traits": {
+      "jutsuEnhancements": [
+        {
+          "id": "honrado",
+          "label": "Jutsu Honrado",
+          "cost": 2,
+          "max": 1,
+          "effect": "dcHonor"
+        }
+      ]
+    }
+  },
+  "Lâmina de Lin-Wu": {
+    "traits": {
+      "exotic": [
+        "katana"
+      ]
+    },
+    "status": "parcial",
+    "notes": "Mude a empunhadura da katana para leve na ficha da arma."
+  },
+  "Recuperação Honrada": {
+    "activation": {
+      "cost": 3,
+      "action": "movimento",
+      "heal": "@honra"
+    }
+  },
+  "Resistência Honrada": {
+    "reactions": [
+      {
+        "on": "saveRolled",
+        "label": "Resistência honrada",
+        "cost": 1,
+        "effect": "addBonus",
+        "value": "max(0, @hon)"
+      }
+    ]
+  },
+  "Respeito de Lin-Wu": {
+    "rollOptions": [
+      {
+        "id": "diplomacia",
+        "label": "Respeito de Lin-Wu (alvo com Honra 10 ou mais)",
+        "for": "skill",
+        "filter": {
+          "skills": [
+            "diplomacia"
+          ]
+        },
+        "value": "max(0, @hon)",
+        "when": "vsHonored"
+      },
+      {
+        "id": "intimidacao",
+        "label": "Respeito de Lin-Wu (alvo com Honra 9 ou menos)",
+        "for": "skill",
+        "filter": {
+          "skills": [
+            "intimidacao"
+          ]
+        },
+        "value": "max(0, @hon)",
+        "when": "vsDishonored"
+      }
+    ]
+  },
+  "Terror de Lin-Wu": {
+    "activation": {
+      "cost": 1,
+      "action": "movimento",
+      "duration": {
+        "value": 1,
+        "unit": "rodada"
+      },
+      "targets": {
+        "who": "enemies",
+        "save": {
+          "type": "von",
+          "dc": "15 + max(0, @hon)"
+        },
+        "conditions": [
+          {
+            "id": "abalado",
+            "duration": {
+              "value": 1,
+              "unit": "rodada"
+            }
+          }
+        ]
+      },
+      "note": "Só criaturas a até 9m com Honra 9 ou menos."
+    }
+  },
+  "Bênção de Dai’Gun": {
+    "traits": {
+      "proficiencyShift": 1
+    }
+  },
+  "Bênção de Doragami": {
+    "traits": {
+      "jutsuDc": [
+        {
+          "value": 2,
+          "filter": {
+            "chakra": "int"
+          }
+        }
+      ]
+    }
+  },
+  "Bênção de Fuyuan": {
+    "traits": {
+      "jutsuHeal": [
+        {
+          "value": "max(0, @sab)"
+        }
+      ]
+    }
+  },
+  "Bênção de Hikari": {
+    "traits": {
+      "reserveHonorBonus": 4
+    }
+  },
+  "Bênção de Hinotori": {
+    "traits": {
+      "jutsuDc": [
+        {
+          "value": 2,
+          "filter": {
+            "descriptor": "fogo"
+          }
+        }
+      ]
+    }
+  },
+  "Bênção de Hyaku-nen": {
+    "status": "narrativo",
+    "notes": "Voltar após 1d4 dias e perder 1d4 de Honra fica com o mestre."
+  },
+  "Bênção de Kazuko": {
+    "status": "narrativo"
+  },
+  "Bênção de Leen": {
+    "traits": {
+      "jutsuDc": [
+        {
+          "value": 2,
+          "filter": {
+            "descriptor": "trevas"
+          }
+        }
+      ]
+    }
+  },
+  "Bênção de Liu’Yan": {
+    "reactions": [
+      {
+        "on": "honorDamage",
+        "label": "Bênção de Liu’Yan (perícia desonrada)",
+        "effect": "reduceHonor",
+        "value": 1
+      }
+    ],
+    "status": "parcial",
+    "notes": "Só para perícias desonradas; com dano 1, devolva o ponto à mão."
+  },
+  "Bênção de Mizuha": {
+    "traits": {
+      "jutsuDc": [
+        {
+          "value": 2,
+          "filter": {
+            "chakra": "car"
+          }
+        }
+      ]
+    }
+  },
+  "Bênção de Nozomi": {},
+  "Bênção de Okoreeji": {
+    "reactions": [
+      {
+        "on": "honorDamage",
+        "label": "Bênção de Okoreeji",
+        "cost": 1,
+        "effect": "reduceHonor",
+        "value": 1
+      }
+    ]
+  },
+  "Bênção de Shunka’Shuuto": {
+    "traits": {
+      "jutsuDc": [
+        {
+          "value": 2,
+          "filter": {
+            "chakra": "sab"
+          }
+        }
+      ]
+    }
+  },
+  "Bênção de Sugora": {
+    "status": "narrativo",
+    "notes": "Na ficha da armadura, mude a categoria: média vira leve, pesada vira média."
+  },
+  "Bênção de Tai’Yang": {
+    "rollOptions": [
+      {
+        "id": "youkai",
+        "label": "Bênção de Tai’Yang (jutsus e poderes de youkai)",
+        "for": "save",
+        "value": 4,
+        "when": "vsYoukai"
+      }
+    ]
+  },
+  "Bênção de Tanadora": {
+    "status": "narrativo"
+  },
+  "Bênção de Tikauromu": {
+    "traits": {
+      "jutsuMeleeAbility": "sab"
+    }
+  },
+  "Bênção de Wang-Ho": {
+    "traits": {
+      "jutsuDc": [
+        {
+          "value": 2,
+          "filter": {
+            "chakra": "des"
+          }
+        }
+      ]
+    }
+  },
+  "Bênção de Yumeno": {
+    "status": "narrativo"
+  },
+  "Canalização Seletiva": {
+    "activation": {
+      "cost": 2,
+      "note": "Pague junto com o canalizar energia: só as criaturas escolhidas são afetadas."
+    }
+  },
+  "Canalizar Energia Aprimorado": {
+    "status": "narrativo",
+    "notes": "Some +2 à CD do canalizar energia à mão."
+  },
+  "Canalizar o Vácuo": {
+    "activation": {
+      "cost": 0,
+      "action": "padrão",
+      "variable": {
+        "min": 1,
+        "max": "ceil(@nivel / 2)",
+        "label": "Dados de canalizar energia (1 PM cada)",
+        "costPer": 1
+      },
+      "damage": {
+        "formula": "(@spent)d6",
+        "type": "vacuo"
+      },
+      "heal": "(@spent)d6",
+      "healTargets": true,
+      "save": {
+        "type": "von",
+        "dc": "15 + @spent",
+        "half": true
+      },
+      "note": "Canalizar energia de vácuo: escolha quem sofre o dano e quem é curado."
+    }
+  },
+  "Companheiro Espiritual": {
+    "status": "narrativo",
+    "notes": "O espírito é um aliado iniciante (Capítulo 8): use uma ficha à parte."
+  },
+  "Consertar a Alma": {
+    "status": "narrativo",
+    "notes": "A ficha bloqueia cura mágica em mashin: aplique essa cura à mão."
+  },
+  "Espírito das Coisas": {
+    "rollOptions": [
+      {
+        "id": "objeto",
+        "label": "Espírito das coisas (objeto que está tocando)",
+        "for": "skill",
+        "filter": {
+          "skills": [
+            "conhecimento",
+            "oficio",
+            "percepcao"
+          ]
+        },
+        "value": 4,
+        "optional": true
+      }
+    ]
+  },
+  "Espírito dos Animais": {
+    "status": "narrativo"
+  },
+  "Energia Apavorante": {
+    "activation": {
+      "cost": 2,
+      "action": "padrão",
+      "variable": {
+        "min": 1,
+        "max": "ceil(@nivel / 2)",
+        "label": "Dados de canalizar energia (1 PM cada)",
+        "costPer": 1
+      },
+      "duration": {
+        "unit": "cena"
+      },
+      "targets": {
+        "who": "any",
+        "save": {
+          "type": "von",
+          "dc": "15 + @spent"
+        },
+        "conditions": [
+          {
+            "id": "apavorado",
+            "duration": {
+              "unit": "cena"
+            }
+          }
+        ]
+      },
+      "note": "Canalizar energia que não fere: quem falhar fica apavorado até o fim da cena."
+    }
+  },
+  "Energia Dominadora": {
+    "activation": {
+      "honorViolation": "leve",
+      "note": "Criatura fascinada de Int 1–2 obedece a até 9m; soma de níveis até o seu."
+    },
+    "status": "parcial",
+    "notes": "O controle da criatura dominada fica por conta do mestre."
+  },
+  "Energia Fascinante": {
+    "activation": {
+      "cost": 2,
+      "action": "padrão",
+      "variable": {
+        "min": 1,
+        "max": "ceil(@nivel / 2)",
+        "label": "Dados de canalizar energia (1 PM cada)",
+        "costPer": 1
+      },
+      "duration": {
+        "unit": "cena"
+      },
+      "targets": {
+        "who": "any",
+        "save": {
+          "type": "von",
+          "dc": "15 + @spent"
+        },
+        "conditions": [
+          {
+            "id": "fascinado",
+            "duration": {
+              "unit": "cena"
+            }
+          }
+        ]
+      },
+      "note": "Canalizar energia que não fere: quem falhar fica fascinado até o fim da cena."
+    }
+  },
+  "Segredos de Família": {},
+  "Solidez Espiritual": {
+    "traits": {
+      "touchIncorporeal": true
+    },
+    "notes": "O +1 PM vem do efeito do próprio talento."
+  },
+  "Ver o Invisível": {
+    "traits": {
+      "seeInvisible": true
+    },
+    "notes": "O +1 PM vem do efeito do próprio talento."
+  },
+  "Ver a Verdade": {},
+  "Anatomia Insana": {
+    "traits": {
+      "fortification": "25 + 25 * floor((@tormenta - 1) / 2)"
+    }
+  },
+  "Armamento da Tormenta": {
+    "activation": {
+      "action": "movimento",
+      "duration": {
+        "unit": "cena"
+      },
+      "damage": {
+        "formula": "1d6"
+      },
+      "self": {
+        "rollOptions": [
+          {
+            "id": "akamono",
+            "label": "Arma de akamono (Armamento da Tormenta)",
+            "damage": "floor((@tormenta - 1) / 2)",
+            "optional": true
+          }
+        ]
+      },
+      "note": "Arma de akamono (corpo a corpo ou arremesso) que saiba usar; dura a cena."
+    },
+    "status": "parcial",
+    "notes": "Crie a arma de akamono na ficha e aplique o 1d6 em você."
+  },
+  "Asas Insetoides": {
+    "activation": {
+      "cost": 1,
+      "duration": {
+        "value": 1,
+        "unit": "rodada"
+      },
+      "note": "Voo de 1,5m por talento da Tormenta, contando este."
+    }
+  },
+  "Carapaça": {
+    "passive": [
+      {
+        "key": "system.attributes.ca.bonus",
+        "value": "floor((@tormenta - 1) / 2)"
+      }
+    ]
+  },
+  "Corpo Aberrante": {
+    "passive": [
+      {
+        "key": "system.attributes.rd",
+        "value": "floor((@tormenta - 1) / 2)"
+      }
+    ]
+  },
+  "Braço Armado": {
+    "choice": {
+      "label": "Arma natural",
+      "count": 1,
+      "options": [
+        {
+          "id": "tentaculo",
+          "label": "Tentáculo (esmagamento 1d4, x2, alcance 4,5m)",
+          "rollOptions": [
+            {
+              "id": "dano",
+              "label": "Braço armado (tentáculo)",
+              "filter": {
+                "weapon": "tentaculo"
+              },
+              "damage": "floor((@tormenta - 1) / 2)",
+              "locked": true
+            }
+          ]
+        },
+        {
+          "id": "garra",
+          "label": "Garra (corte 1d8, x3)",
+          "rollOptions": [
+            {
+              "id": "dano",
+              "label": "Braço armado (garra)",
+              "filter": {
+                "weapon": "garra"
+              },
+              "damage": "floor((@tormenta - 1) / 2)",
+              "locked": true
+            }
+          ]
+        },
+        {
+          "id": "ferrao",
+          "label": "Ferrão (perfuração 1d6, 18)",
+          "rollOptions": [
+            {
+              "id": "dano",
+              "label": "Braço armado (ferrão)",
+              "filter": {
+                "weapon": "ferrao"
+              },
+              "damage": "floor((@tormenta - 1) / 2)",
+              "locked": true
+            }
+          ]
+        },
+        {
+          "id": "pinca",
+          "label": "Pinça (corte 1d6, x2)",
+          "rollOptions": [
+            {
+              "id": "dano",
+              "label": "Braço armado (pinça)",
+              "filter": {
+                "weapon": "pinca"
+              },
+              "damage": "floor((@tormenta - 1) / 2)",
+              "locked": true
+            }
+          ]
+        },
+        {
+          "id": "clava",
+          "label": "Clava (esmagamento 1d8, x2)",
+          "rollOptions": [
+            {
+              "id": "dano",
+              "label": "Braço armado (clava)",
+              "filter": {
+                "weapon": "clava"
+              },
+              "damage": "floor((@tormenta - 1) / 2)",
+              "locked": true
+            }
+          ]
+        }
+      ]
+    },
+    "rollOptions": [
+      {
+        "id": "duasMaos",
+        "label": "Braço armado (perícia de For ou Des que pede as duas mãos)",
+        "for": "skill",
+        "filter": {
+          "abilities": [
+            "for",
+            "des"
+          ]
+        },
+        "value": -2,
+        "optional": true
+      }
+    ],
+    "status": "parcial",
+    "notes": "Crie a arma natural com o nome do tipo; bônus de manobra à mão."
+  },
+  "Golpes da Tempestade": {
+    "rollOptions": [
+      {
+        "id": "desarmado",
+        "label": "Golpes da tempestade",
+        "filter": {
+          "unarmed": true
+        },
+        "damage": "1 + floor((@tormenta - 1) / 2)",
+        "locked": true
+      },
+      {
+        "id": "natural",
+        "label": "Golpes da tempestade (arma natural)",
+        "filter": {
+          "melee": true
+        },
+        "damage": "1 + floor((@tormenta - 1) / 2)",
+        "optional": true
+      }
+    ]
+  },
+  "Manto Mucoso": {
+    "traits": {
+      "resist": {
+        "acido": "@tormenta"
+      }
+    },
+    "rollOptions": [
+      {
+        "id": "manto",
+        "label": "Manto mucoso (contra toque ou agarrar)",
+        "for": "save",
+        "filter": {
+          "saves": [
+            "ref"
+          ]
+        },
+        "value": "@tormenta",
+        "optional": true
+      }
+    ],
+    "status": "parcial",
+    "notes": "O Reflexos automático contra ataque de toque fica sem o bônus; agarrar à mão."
+  },
+  "Membros Estendidos": {
+    "status": "narrativo"
+  },
+  "Patas Articuladas": {
+    "rollOptions": [
+      {
+        "id": "escalar",
+        "label": "Patas articuladas (escalar)",
+        "for": "skill",
+        "filter": {
+          "skills": [
+            "atletismo"
+          ]
+        },
+        "value": "4 + floor((@tormenta - 1) / 2)",
+        "optional": true
+      },
+      {
+        "id": "manobra",
+        "label": "Patas articuladas (manobra de combate)",
+        "filter": {
+          "melee": true
+        },
+        "attack": "1 + floor((@tormenta - 1) / 2)",
+        "optional": true
+      }
+    ]
+  },
+  "Recuperação Aberrante": {
+    "status": "narrativo",
+    "notes": "Encurte à mão a duração dos efeitos nocivos que você recebe."
+  },
+  "Resistência Aberrante": {
+    "choice": {
+      "label": "Descritor",
+      "count": 1,
+      "options": [
+        {
+          "id": "acido",
+          "label": "Ácido",
+          "traits": {
+            "resist": {
+              "acido": "2 + 2 * (@tormenta - 1)"
+            }
+          }
+        },
+        {
+          "id": "eletricidade",
+          "label": "Eletricidade",
+          "traits": {
+            "resist": {
+              "eletricidade": "2 + 2 * (@tormenta - 1)"
+            }
+          }
+        },
+        {
+          "id": "fogo",
+          "label": "Fogo",
+          "traits": {
+            "resist": {
+              "fogo": "2 + 2 * (@tormenta - 1)"
+            }
+          }
+        },
+        {
+          "id": "frio",
+          "label": "Frio",
+          "traits": {
+            "resist": {
+              "frio": "2 + 2 * (@tormenta - 1)"
+            }
+          }
+        },
+        {
+          "id": "luz",
+          "label": "Luz",
+          "traits": {
+            "resist": {
+              "luz": "2 + 2 * (@tormenta - 1)"
+            }
+          }
+        },
+        {
+          "id": "trevas",
+          "label": "Trevas",
+          "traits": {
+            "resist": {
+              "trevas": "2 + 2 * (@tormenta - 1)"
+            }
+          }
+        },
+        {
+          "id": "vento",
+          "label": "Vento",
+          "traits": {
+            "resist": {
+              "vento": "2 + 2 * (@tormenta - 1)"
+            }
+          }
+        }
+      ]
+    }
+  },
+  "Sangue Ácido": {
+    "traits": {
+      "retaliate": [
+        {
+          "formula": "1d4 + floor((@tormenta - 1) / 2)",
+          "type": "acido",
+          "label": "Sangue ácido"
+        }
+      ]
+    }
+  },
+  "Sentido Sísmico": {
+    "status": "narrativo"
+  },
+  "Toque da Erosão": {
+    "rollOptions": [
+      {
+        "id": "erosao",
+        "label": "Toque da erosão (objeto não mágico; desarmado ou arma natural)",
+        "filter": {
+          "melee": true
+        },
+        "ignoreRd": "all",
+        "optional": true
+      }
+    ]
+  },
+  "Toque da Corrosão": {
+    "status": "narrativo",
+    "notes": "No crítico, reduza à mão o bônus da armadura ou escudo do alvo."
+  },
+  "Toque da Destruição": {
+    "status": "narrativo"
+  },
+  "Visão Ampla": {
+    "traits": {
+      "immune": [
+        "surpreendido"
+      ]
+    },
+    "rollOptions": [
+      {
+        "id": "observar",
+        "label": "Visão ampla (observar)",
+        "for": "skill",
+        "filter": {
+          "skills": [
+            "percepcao"
+          ]
+        },
+        "value": 4,
+        "optional": true
+      }
+    ]
+  },
+  "Visco Rubro": {
+    "passive": [
+      {
+        "key": "system.attributes.attack.melee",
+        "value": "floor((@tormenta - 1) / 2)"
+      }
+    ]
+  }
+}

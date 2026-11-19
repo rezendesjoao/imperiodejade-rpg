@@ -1,0 +1,235 @@
+{
+  "_sobre": "Automação das habilidades de Bushi, Ninja, Samurai e Yakuza (docs/automacao.md). A chave é Classe/Habilidade.",
+
+  "Bushi/Resolução": {
+    "activation": {
+      "cost": 1, "action": "livre", "duration": { "unit": "cena" },
+      "self": { "key": "resolucao", "changes": [{ "key": "system.attributes.rd", "value": "rank(2, 5, 10, 15)" }] },
+      "tempPv": "rank(5, 15, 25, 50)"
+    }
+  },
+  "Bushi/Sucateiro": { "status": "narrativo" },
+  "Bushi/Movimento rápido": {},
+  "Bushi/Bateu levou": {
+    "reactions": [{ "on": "attacked", "melee": true, "label": "Bateu levou", "cost": 1, "effect": "counterattack" }]
+  },
+  "Bushi/Talento de sobrevivente": {
+    "choice": {
+      "label": "Talentos de sobrevivente", "count": "@rank",
+      "options": [
+        { "id": "periciaAprimorada", "label": "Perícia Aprimorada (Atletismo, Percepção ou Sobrevivência)", "grants": [{ "name": "Perícia Aprimorada", "type": "feat" }] },
+        { "id": "autossuficiente", "label": "Autossuficiente", "grants": [{ "name": "Autossuficiente", "type": "feat" }] },
+        { "id": "cascaGrossa", "label": "Casca Grossa", "grants": [{ "name": "Casca Grossa", "type": "feat" }] },
+        { "id": "corrida", "label": "Corrida", "grants": [{ "name": "Corrida", "type": "feat" }] },
+        { "id": "duroDeMatar", "label": "Duro de Matar", "grants": [{ "name": "Duro de Matar", "type": "feat" }] },
+        { "id": "fortitudeMaior", "label": "Fortitude Maior", "grants": [{ "name": "Fortitude Maior", "type": "feat" }] },
+        { "id": "vontadeDeFerro", "label": "Vontade de Ferro", "grants": [{ "name": "Vontade de Ferro", "type": "feat" }] },
+        { "id": "rastrear", "label": "Rastrear", "grants": [{ "name": "Rastrear", "type": "feat" }] },
+        { "id": "reflexosRapidos", "label": "Reflexos Rápidos", "grants": [{ "name": "Reflexos Rápidos", "type": "feat" }] },
+        { "id": "vitalidade", "label": "Vitalidade", "grants": [{ "name": "Vitalidade", "type": "feat" }] },
+        { "id": "tolerancia", "label": "Tolerância", "grants": [{ "name": "Tolerância", "type": "feat" }] },
+        { "id": "violenciaVelada", "label": "Violência Velada", "grants": [{ "name": "Violência Velada", "type": "feat" }] }
+      ]
+    }
+  },
+  "Bushi/Alvo irresistível": { "traits": { "guardAllies": "rank(2, 4, 6)" } },
+  "Bushi/Fortificação": { "traits": { "fortification": "rank(25, 50, 75)" } },
+  "Bushi/Esquiva sobrenatural": { "traits": { "uncannyDodge": "rank(1, 2)" } },
+  "Bushi/Nem morto": { "traits": { "nemMorto": true, "deathAtFull": "rank(0, 1)" } },
+  "Bushi/Perto da morte": {
+    "rollOptions": [
+      { "id": "metade", "label": "Perto da morte", "attack": "rank(4, 8)", "damage": "rank(4, 8)", "when": "hpHalf", "locked": true, "strict": true },
+      { "id": "dez", "label": "Perto da morte (10 PV ou menos)", "attack": 4, "damage": 4, "when": "hp10", "locked": true, "strict": true, "minRank": 1 },
+      { "id": "vinte", "label": "Perto da morte (20 PV ou menos)", "attack": "rank(0, 8)", "damage": "rank(0, 8)", "when": "hp20", "locked": true, "strict": true, "minRank": 2 }
+    ]
+  },
+  "Bushi/Hoje não": {
+    "reactions": [{ "on": "saveFailed", "label": "Hoje não", "cost": 2, "effect": "reroll" }]
+  },
+  "Bushi/Fortificação total": { "traits": { "immune": ["critico", "furtivo"] } },
+
+  "Ninja/Esquiva engenhosa": {
+    "passive": [
+      { "key": "system.attributes.ca.bonus", "value": "max(1, @int) + @rank - 1" },
+      { "key": "system.saves.ref.bonus", "value": "max(1, @int) + @rank - 1" }
+    ]
+  },
+  "Ninja/Hierarquia do clã": {
+    "activation": {
+      "action": "livre",
+      "options": [
+        { "id": "simples", "label": "Tarefa simples (CD = seu nível)", "cost": 1, "note": "Os subordinados resolvem: sucesso automático num teste de perícia à escolha, no tempo normal." },
+        { "id": "dificil", "label": "Tarefa difícil ou trabalhosa (CD = nível + 5)", "cost": 2, "note": "Os subordinados resolvem: sucesso automático num teste de perícia à escolha, no tempo normal." }
+      ]
+    }
+  },
+  "Ninja/Passo do ninja": {
+    "passive": [
+      { "key": "system.attributes.movement.bonus", "value": "rank(3, 6, 9)" },
+      { "key": "system.skills.acrobacia.bonus", "value": "rank(5, 10, 15)" },
+      { "key": "system.skills.furtividade.bonus", "value": "rank(5, 10, 15)" }
+    ]
+  },
+  "Ninja/Evasão": { "traits": { "evasion": "rank(1, 2)" } },
+  "Ninja/Dano desarmado": { "traits": { "unarmed": "dice(1d6, 1d8, 1d10, 2d6)" } },
+  "Ninja/Sentir armadilhas": {
+    "rollOptions": [{ "id": "armadilhas", "label": "Sentir armadilhas (contra armadilhas)", "for": "save", "filter": { "saves": ["ref"] }, "value": "@rank", "optional": true }]
+  },
+  "Ninja/Truques ninjas": {
+    "grants": [
+      { "name": "Hipnotismo Ninja", "type": "jutsu" }, { "name": "Estrepes Invisíveis", "type": "jutsu" }, { "name": "Bomba de Fumaça", "type": "jutsu" },
+      { "name": "Truque do Gato", "type": "jutsu" }, { "name": "Corrida Ninja", "type": "jutsu" }, { "name": "Passos Leves", "type": "jutsu" },
+      { "name": "Rajada de Disparos", "type": "jutsu" }, { "name": "Pernas do Gafanhoto", "type": "jutsu" }, { "name": "Truque do Tronco", "type": "jutsu" },
+      { "name": "Truque das Cópias", "type": "jutsu" }, { "name": "Invisibilidade Ninja", "type": "jutsu" }, { "name": "Falsificação", "type": "jutsu" },
+      { "name": "Escalada Ninja", "type": "jutsu" }, { "name": "Terror Ninja", "type": "jutsu" }, { "name": "Kata do Grou", "type": "jutsu" },
+      { "name": "Golpe Desonrado", "type": "jutsu" }, { "name": "Toque da Morte", "type": "jutsu" }, { "name": "Dominar o Clima", "type": "jutsu" }
+    ],
+    "traits": {
+      "jutsuCost": [{ "value": "lvl(10:-1, 17:-3)", "filter": { "descriptor": "ninja" } }],
+      "jutsuEnhancements": [
+        { "id": "acelerado", "label": "Jutsu Acelerado", "cost": 3, "max": 3, "effect": "note", "minLevel": 11 },
+        { "id": "acelerado", "label": "Jutsu Acelerado", "cost": 3, "max": 3, "effect": "note", "minLevel": 11, "discount": "lvl(11:3, 19:6)", "filter": { "descriptor": "ninja" } }
+      ]
+    }
+  },
+  "Ninja/Esquiva sobrenatural": { "traits": { "uncannyDodge": "rank(1, 2)" } },
+  "Ninja/Destemido": { "traits": { "immune": ["medo"] } },
+  "Ninja/Golpe ninja": {
+    "rollOptions": [{ "id": "golpe", "label": "Golpe ninja", "cost": 1, "attack": 4, "damage": "@classe", "filter": { "ninja": true }, "optional": true, "onHit": { "gainPm": 2 } }]
+  },
+  "Ninja/Letalidade": {
+    "passive": [
+      { "key": "system.attributes.critMult", "value": 1 },
+      { "key": "system.attributes.critBonus", "value": "rank(0, 1)" }
+    ]
+  },
+  "Ninja/Demônio ninja": {
+    "reactions": [{ "on": "dropToZero", "label": "Demônio ninja", "cost": 2, "effect": "negateDamage" }]
+  },
+
+  "Samurai/Devoto de Lin-Wu": { "grants": [{ "name": "Devoto de Lin-Wu", "type": "feat" }] },
+  "Samurai/Detectar Desonra": { "grants": [{ "name": "Detectar Desonra", "type": "feat" }] },
+  "Samurai/Espadas Ancestrais": { "status": "parcial", "notes": "O bônus mágico vai nos campos de bônus de ataque e dano da katana e da wakizashi." },
+  "Samurai/Estilo de Combate": {
+    "choice": {
+      "label": "Estilo de combate", "count": 1,
+      "options": [
+        { "id": "iaijutsu", "label": "Iaijutsu", "grants": [{ "name": "Saque Rápido", "type": "feat" }] },
+        { "id": "kyudo", "label": "Kyudo (arquearia)", "grants": [{ "name": "Mira Apurada", "type": "feat" }] },
+        { "id": "nitoichi", "label": "Nitoichi (duas armas)", "grants": [{ "name": "Usar Arma Exótica", "type": "feat", "choiceText": "katana", "choices": ["katana"] }, { "name": "Combater com Duas Armas", "type": "feat" }] }
+      ]
+    }
+  },
+  "Samurai/Grito de Kiai": {
+    "activation": {
+      "cost": 1, "action": "livre", "duration": { "value": 1, "unit": "rodada" },
+      "self": { "changes": [
+        { "key": "system.attributes.mods.attack", "value": "rank(2, 4, 8)" },
+        { "key": "system.attributes.attack.damage", "value": "rank(2, 4, 8)" }
+      ] }
+    }
+  },
+  "Samurai/Técnica de Luta": { "status": "narrativo", "notes": "Arraste o talento de combate escolhido do compêndio." },
+  "Samurai/Poder Concedido": { "status": "narrativo", "notes": "Arraste o poder concedido escolhido do compêndio." },
+  "Samurai/Estilo de Combate Aprimorado": {
+    "choice": {
+      "label": "Estilo de combate (o mesmo do 2º nível)", "count": 1,
+      "options": [
+        { "id": "iaijutsu", "label": "Iaijutsu", "grants": [{ "name": "Foco em Perícia", "type": "feat", "choiceText": "Iniciativa", "choices": ["iniciativa"] }] },
+        { "id": "kyudo", "label": "Kyudo", "grants": [{ "name": "Tiro Montado", "type": "feat" }] },
+        { "id": "nitoichi", "label": "Nitoichi", "grants": [{ "name": "Combater com Duas Armas Aprimorado", "type": "feat" }] }
+      ]
+    }
+  },
+  "Samurai/Olhar Assustador": { "grants": [{ "name": "Face Horripilante", "type": "jutsu" }] },
+  "Samurai/Domínio do Estilo de Combate": {
+    "choice": {
+      "label": "Estilo de combate (o mesmo do 2º nível)", "count": 1,
+      "options": [
+        { "id": "iaijutsu", "label": "Iaijutsu", "grants": [{ "name": "Perícia Aprimorada", "type": "feat", "choiceText": "Iniciativa" }] },
+        { "id": "kyudo", "label": "Kyudo", "grants": [{ "name": "Mira Mortal", "type": "feat" }] },
+        { "id": "nitoichi", "label": "Nitoichi", "grants": [{ "name": "Combater com Duas Armas Maior", "type": "feat" }] }
+      ]
+    }
+  },
+  "Samurai/Honra Absoluta": { "traits": { "reservePerScene": true } },
+  "Samurai/Honra Suprema": {
+    "rollOptions": [
+      { "id": "desonrado", "label": "Honra Suprema (desonrado)", "damage": "4d6", "type": "vacuo", "noCrit": true, "when": "vsDishonored", "locked": true, "strict": true },
+      { "id": "sordido", "label": "Honra Suprema (sórdido: crítico)", "critRange": 19, "when": "vsSordid", "locked": true, "strict": true },
+      { "id": "desumano", "label": "Honra Suprema (desumano: golpe de misericórdia)", "note": "conta como golpe de misericórdia", "when": "vsInhuman", "locked": true, "strict": true }
+    ]
+  },
+
+  "Yakuza/Ataque Furtivo": {
+    "rollOptions": [{ "id": "furtivo", "label": "Ataque furtivo", "damage": "(@rank)d6", "precision": true, "noCrit": true, "when": "vsFlatFooted", "note": "corpo a corpo, ou à distância até 9m" }]
+  },
+  "Yakuza/Hierarquia do Kumi": {
+    "activation": {
+      "action": "livre",
+      "options": [
+        { "id": "simples", "label": "Tarefa muito simples (CD = seu nível)", "cost": 1, "note": "Sucesso automático num teste de perícia à escolha, no tempo normal." },
+        { "id": "dificil", "label": "Tarefa difícil (CD 5 + nível)", "cost": 2, "note": "Sucesso automático num teste de perícia à escolha, no tempo normal." }
+      ]
+    }
+  },
+  "Yakuza/Rede de Informantes": { "traits": { "trainedSkills": ["conhecimento"] } },
+  "Yakuza/Evasão": { "traits": { "evasion": "rank(1, 2)" }, "requires": { "noArmor": true, "noShield": true } },
+  "Yakuza/Extorsão": {
+    "choice": {
+      "label": "Efeitos de extorsão", "count": "@rank",
+      "options": [
+        { "id": "abalar", "label": "Abalar" }, { "id": "apavorar", "label": "Apavorar" }, { "id": "ameacar", "label": "Ameaçar" },
+        { "id": "cabecaBaixa", "label": "Cabeça baixa" }, { "id": "dedoDuro", "label": "Dedo-duro" }, { "id": "horaDoPagamento", "label": "Hora do pagamento" },
+        { "id": "lutarOutroDia", "label": "Lutar outro dia" }, { "id": "maoDeAlface", "label": "Mão de alface" }, { "id": "pedeDesculpas", "label": "Pede desculpas" }
+      ]
+    },
+    "activation": {
+      "cost": 1, "action": "movimento", "duration": { "value": 1, "unit": "rodada" },
+      "options": [
+        { "id": "abalar", "label": "Abalar", "option": "abalar",
+          "targets": { "who": "enemies", "save": { "type": "von", "dc": "15 + @nivel" }, "conditions": [{ "id": "abalado", "duration": { "unit": "cena" } }] } },
+        { "id": "apavorar", "label": "Apavorar", "option": "apavorar",
+          "targets": { "who": "enemies", "save": { "type": "von", "dc": "15 + @nivel" }, "conditions": [{ "id": "apavorado", "duration": { "value": 1, "unit": "rodada" } }] } },
+        { "id": "ameacar", "label": "Ameaçar", "option": "ameacar",
+          "targets": { "who": "enemies", "changes": [{ "key": "system.attributes.mods.saves", "value": "lvl(1:-1, 11:-2, 20:-4)" }] } },
+        { "id": "cabecaBaixa", "label": "Cabeça baixa", "option": "cabecaBaixa",
+          "targets": { "who": "allies", "includeSelf": true, "changes": [{ "key": "system.attributes.mods.saves", "value": "lvl(1:2, 8:4, 17:8)" }] } },
+        { "id": "dedoDuro", "label": "Dedo-duro", "option": "dedoDuro", "note": "Contra o inimigo indicado: marque a opção no ataque contra ele.",
+          "targets": { "who": "allies", "includeSelf": true, "rollOptions": [{ "id": "dedoDuro", "label": "Dedo-duro (inimigo indicado)", "damage": "dlvl(1:1d4, 8:1d6, 12:1d8, 16:1d10, 20:1d12)", "noCrit": true, "optional": true }] } },
+        { "id": "horaDoPagamento", "label": "Hora do pagamento", "option": "horaDoPagamento", "minLevel": 8,
+          "targets": { "who": "enemies", "save": { "type": "von", "dc": "15 + @nivel" }, "traits": { "costMods": [{ "multiply": 2 }] } } },
+        { "id": "lutarOutroDia", "label": "Lutar outro dia", "option": "lutarOutroDia", "minLevel": 5,
+          "targets": { "who": "allies", "includeSelf": true, "duration": { "unit": "cena" }, "changes": [{ "key": "system.attributes.movement.bonus", "value": "lvl(1:3, 11:6, 17:9)" }] } },
+        { "id": "maoDeAlface", "label": "Mão de alface", "option": "maoDeAlface",
+          "targets": { "who": "enemies", "changes": [{ "key": "system.attributes.mods.skills", "value": "lvl(1:-4, 11:-6, 17:-8)" }] } },
+        { "id": "pedeDesculpas", "label": "Pede desculpas", "option": "pedeDesculpas",
+          "note": "Um inimigo já abalado sofre o efeito do jutsu voz de Lin-Wu se falhar.",
+          "save": { "type": "von", "dc": "15 + @nivel" } }
+      ]
+    }
+  },
+  "Yakuza/Recursos Escusos": {
+    "activation": {
+      "options": [
+        { "id": "t1", "label": "Até 1.000 ¥o", "cost": 2 }, { "id": "t2", "label": "1.001 a 2.000 ¥o", "cost": 4 },
+        { "id": "t3", "label": "2.001 a 5.000 ¥o", "cost": 8 }, { "id": "t4", "label": "5.001 a 10.000 ¥o", "cost": 12 },
+        { "id": "t5", "label": "10.001 a 20.000 ¥o", "cost": 15 }, { "id": "t6", "label": "20.001 a 50.000 ¥o", "cost": 18 },
+        { "id": "t7", "label": "50.001 a 100.000 ¥o", "cost": 20 }
+      ],
+      "note": "Esses PM só voltam com descanso depois que o item (ou o valor) volta à organização."
+    }
+  },
+  "Yakuza/Esquiva Sobrenatural": { "traits": { "uncannyDodge": "rank(1, 2)" } },
+  "Yakuza/Capangas": { "grants": [{ "name": "Liderança", "type": "feat" }] },
+  "Yakuza/Vingança": {
+    "reactions": [{ "on": "allyDown", "label": "Vingança", "cost": 1, "effect": "counterattack" }]
+  },
+  "Yakuza/Mente Escorregadia": {
+    "reactions": [{ "on": "saveFailed", "saves": ["von"], "label": "Mente escorregadia", "effect": "reroll" }]
+  },
+  "Yakuza/Vingança Final": {
+    "reactions": [{ "on": "allyDown", "label": "Vingança final", "cost": 6, "effect": "note", "note": "Até o fim da cena, ataques seus e dos nakama contra o agressor: marque Vingança final no ataque." }],
+    "rollOptions": [{ "id": "vinganca", "label": "Vingança final (contra o agressor)", "damage": "4d6", "type": "vacuo", "noCrit": true, "optional": true }]
+  }
+}
