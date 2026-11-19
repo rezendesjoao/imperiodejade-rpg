@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.2.1 — 2026-11-19
+
+### Adicionado
+- Configuração do mundo "Arquivo com o texto do livro": aponta para o `textos.json` que o importador pessoal gera do
+  seu próprio PDF e foi enviado pelo navegador de arquivos. Serve para servidores hospedados, onde instalar um módulo
+  novo exige reiniciar. O sistema continua sem nenhum texto do livro.
+
 ## 0.2.0 — 2026-11-19
 
 Os compêndios do livro, com as habilidades concedidas automaticamente, e a ficha das Ameaças.

@@ -588,7 +588,9 @@
     },
     "BookText": {
       "title": "Texto do livro",
-      "local": "do seu módulo local"
+      "local": "da sua cópia do livro",
+      "setting": "Arquivo com o texto do livro",
+      "settingHint": "Opcional. O textos.json que o importador pessoal gera a partir do seu próprio PDF, enviado ao servidor. Com ele, as fichas mostram o quadro \"Texto do livro\". O sistema não traz nenhum texto do livro."
     }
   }
 }

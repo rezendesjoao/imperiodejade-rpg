@@ -13,7 +13,7 @@ import { CharacterSheet } from "./sheets/character-sheet.mjs";
 import { NpcSheet } from "./sheets/npc-sheet.mjs";
 import { ItemSheet } from "./sheets/item-sheet.mjs";
 import { registerChatListeners, signed, applyDamage } from "./dice/rolls.mjs";
-import { bookText } from "./book-text.mjs";
+import { bookText, registerBookTextSetting, loadBookTextFile } from "./book-text.mjs";
 
 const PARTIALS = {
   "ij-shield": `systems/${SYSTEM_ID}/templates/partials/shield.hbs`,
@@ -53,9 +53,12 @@ Hooks.once("init", () => {
   // Macros and other modules
   // bookText: the original wording of the rules, only when a local module built from the player's own book fills it
   game[SYSTEM_ID] = { config: IJ, applyDamage, bookText };
+  registerBookTextSetting();
 
   registerChatListeners();
 });
+
+Hooks.once("setup", () => loadBookTextFile());
 
 Hooks.once("ready", () => {
   console.log(`${SYSTEM_ID} | pronto`);

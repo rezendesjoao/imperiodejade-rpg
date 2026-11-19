@@ -10,6 +10,36 @@ const texts = new Map();
 
 const norm = s => String(s ?? "").normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
 
+/**
+ * A hosted game can't take a new module without a server restart, so the same texts can also come from a JSON file
+ * uploaded through the file browser: the world setting "bookTextFile" holds its path and every client reads it at setup.
+ */
+export function registerBookTextSetting() {
+  game.settings.register("imperiodejade", "bookTextFile", {
+    name: "IJ.BookText.setting",
+    hint: "IJ.BookText.settingHint",
+    scope: "world",
+    config: true,
+    type: String,
+    default: "",
+    filePicker: "any",
+    requiresReload: true
+  });
+}
+
+export async function loadBookTextFile() {
+  const path = game.settings.get("imperiodejade", "bookTextFile");
+  if (!path) return;
+  try {
+    const response = await fetch(foundry.utils.getRoute(path.replace(/^\/+/, "")));
+    if (!response.ok) throw new Error(`${response.status} ${response.statusText}`);
+    bookText.register(await response.json());
+    console.log(`imperiodejade | ${bookText.size} textos do livro carregados de ${path}`);
+  } catch (err) {
+    console.warn(`imperiodejade | não foi possível ler o texto do livro em ${path}:`, err);
+  }
+}
+
 export const bookText = {
   /** Add (or replace) texts, keyed by compendium uuid or by "type:name". */
   register(entries = {}) {
