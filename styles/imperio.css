@@ -1,8 +1,7 @@
 /* =====================================================================================================
-   IMPÉRIO DE JADE — ficha de personagem, fichas de item, cartões de chat.
-   O visual segue a ficha impressa: papel claro, painéis taupe, molduras de linha dupla, placas
-   octogonais, medalhões, escudos coloridos, títulos em versalete — com o jade, o ouro e o laca
-   vermelha do Império.
+   IMPÉRIO DE JADE — as cores e as fontes do sistema, a janela das fichas, a ficha de item, a ficha
+   da Ameaça, os cartões de chat e os diálogos. A ficha de personagem está em sheet.css; os
+   assistentes de criação e de nível, em creation.css.
    ===================================================================================================== */
 
 .imperiodejade {
@@ -38,7 +37,13 @@
   /* tipografia */
   --ij-serif: "Gelasio", "Georgia", "Times New Roman", serif;
   --ij-caps: "Cinzel", "Gelasio", "Georgia", serif;
-  --ij-jp: "Noto Serif JP", "Yu Mincho", "Hiragino Mincho ProN", "MS Mincho", serif;
+  /* os kanji a pincel (Yuji Boku, do Google Fonts); sem internet, a Noto Serif JP embutida */
+  --ij-jp: "Yuji Boku", "Noto Serif JP", "Yu Mincho", "Hiragino Mincho ProN", "MS Mincho", serif;
+  /* nomes e títulos da ficha de personagem e o nome das outras fichas */
+  --ij-title: "Yuji Syuku", "Gelasio", "Georgia", serif;
+  /* a laca de jade escura das janelas */
+  --ij-lacquer: #11241c;
+  --ij-lacquer-2: #0a1612;
   /* texturas */
   --ij-noise: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .32 0 0 0 0 .27 0 0 0 0 .2 0 0 0 .075 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
   --ij-frame-svg: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='36' height='36' viewBox='0 0 36 36'><path d='M6 1.5H30A4.5 4.5 0 0 0 34.5 6V30A4.5 4.5 0 0 0 30 34.5H6A4.5 4.5 0 0 0 1.5 30V6A4.5 4.5 0 0 0 6 1.5Z' fill='none' stroke='%234b4339' stroke-width='1.3'/><path d='M7.5 4.5H28.5L31.5 7.5V28.5L28.5 31.5H7.5L4.5 28.5V7.5Z' fill='none' stroke='%238b8072' stroke-width='.8'/></svg>");
@@ -72,17 +77,17 @@
 }
 
 .application.imperiodejade.ij-sheet > .window-header {
-  background: linear-gradient(180deg, #2b2620 0%, #1a1612 100%);
-  border-bottom: 2px solid var(--ij-gold);
+  background: linear-gradient(180deg, var(--ij-lacquer-2) 0%, var(--ij-lacquer) 100%);
+  border-bottom: 1px solid var(--ij-gold);
   color: #f4ead6;
-  font-family: var(--ij-caps);
-  letter-spacing: .06em;
+  font-family: var(--ij-title);
+  letter-spacing: .07em;
   padding: 4px 10px;
 }
 .application.imperiodejade.ij-sheet > .window-header .window-title {
-  font-family: var(--ij-caps);
-  font-weight: 700;
-  font-size: 15px;
+  font-family: var(--ij-title);
+  font-weight: 400;
+  font-size: 14px;
   color: #f4ead6;
 }
 .application.imperiodejade.ij-sheet > .window-header button,
@@ -117,8 +122,9 @@
 .imperiodejade.ij-sheet input[type="number"]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
 .imperiodejade.ij-sheet :is(input, select, textarea):focus { background: #fff8e6; box-shadow: 0 0 0 1px var(--ij-gold); }
 .imperiodejade.ij-sheet select { cursor: pointer; }
-.imperiodejade.ij-sheet a { color: inherit; cursor: pointer; text-decoration: none; }
-.imperiodejade.ij-sheet a:hover { text-shadow: none; }
+/* :where keeps these as weak as a class pair, so the color of any link can be set by its own class */
+.imperiodejade.ij-sheet :where(a) { color: inherit; cursor: pointer; text-decoration: none; }
+.imperiodejade.ij-sheet :where(a:hover) { text-shadow: none; }
 .imperiodejade .ij-muted { color: var(--ij-ink-3); font-style: italic; }
 
 /* Campos do modo de edição: um sublinhado pontilhado de tinta */
@@ -128,126 +134,10 @@
 }
 
 /* =====================================================================================================
-   Estrutura da ficha de personagem: trilho de abas + aba ativa
+   Abas: só a aberta aparece
    ===================================================================================================== */
 
-.imperiodejade.ij-character > .window-content {
-  display: grid;
-  grid-template-columns: 54px 1fr;
-  grid-template-rows: 1fr;
-}
-.imperiodejade.ij-character .ij-tab {
-  grid-column: 2;
-  grid-row: 1;
-  overflow-y: auto;
-  overflow-x: hidden;
-  padding: 14px 16px 18px 14px;
-  scrollbar-width: thin;
-  scrollbar-color: var(--ij-line-2) transparent;
-  container-type: inline-size;
-}
 .imperiodejade .tab:not(.active) { display: none; }
-
-/* Trilho de abas de seda */
-.ij-rail {
-  grid-column: 1;
-  grid-row: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
-  gap: 6px;
-  padding: 12px 0 10px 6px;
-  background:
-    linear-gradient(90deg, #00000014, transparent 70%),
-    var(--ij-wave),
-    linear-gradient(180deg, #d9d1c1, #cfc6b4);
-  border-right: 1px solid var(--ij-line-2);
-  box-shadow: inset -3px 0 6px -4px #00000040;
-  position: relative;
-  z-index: 2;
-}
-.ij-rail__edit {
-  align-self: center;
-  margin: 0 6px 6px 0;
-  width: 34px;
-  height: 34px;
-  display: grid;
-  place-items: center;
-  border-radius: 50%;
-  background: radial-gradient(circle at 35% 30%, #fffaf0, #e6dccb);
-  border: 1px solid var(--ij-line);
-  box-shadow: 0 0 0 2px var(--ij-paper-2), 0 0 0 3px var(--ij-line-2), 0 2px 4px #0003;
-  color: var(--ij-ink-2);
-  font-size: 14px;
-  transition: transform .15s, background .15s;
-}
-.ij-rail__edit:hover { transform: rotate(-12deg); }
-.ij-rail__edit.active {
-  background: radial-gradient(circle at 35% 30%, #f6e3b5, var(--ij-gold));
-  color: var(--ij-ink);
-}
-.ij-rail__tab {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 3px;
-  padding: 7px 4px 8px;
-  margin-right: -1px;
-  border-radius: 8px 0 0 8px;
-  background: linear-gradient(90deg, #b9ae9a, #c9bfac);
-  border: 1px solid #8b8072;
-  border-right: none;
-  color: #4b4339;
-  box-shadow: inset 0 1px 0 #ffffff55;
-  transition: background .15s, color .15s, transform .15s;
-}
-.ij-rail__tab > * { pointer-events: none; }
-.ij-rail__tab:hover { background: linear-gradient(90deg, #c8bda9, #d8cfbe); color: var(--ij-ink); transform: translateX(-2px); }
-.ij-rail__tab.active {
-  background: linear-gradient(90deg, var(--ij-jade-dark), var(--ij-jade) 60%, var(--ij-jade-2));
-  border-color: var(--ij-jade-dark);
-  color: #f6efdc;
-  box-shadow: inset 0 1px 0 #ffffff33, -2px 2px 6px #0004;
-}
-.ij-rail__tab.active::after {
-  content: "";
-  position: absolute;
-  right: -1px;
-  top: 0;
-  bottom: 0;
-  width: 3px;
-  background: var(--ij-gold);
-}
-.ij-rail__kanji {
-  font-family: var(--ij-jp);
-  font-size: 19px;
-  line-height: 1;
-}
-.ij-rail__label {
-  writing-mode: vertical-rl;
-  text-orientation: mixed;
-  font-family: var(--ij-caps);
-  font-size: 9px;
-  font-weight: 700;
-  letter-spacing: .08em;
-  text-transform: uppercase;
-}
-.ij-rail__foot {
-  margin-top: auto;
-  align-self: center;
-  margin-right: 6px;
-  font-family: var(--ij-jp);
-  writing-mode: vertical-rl;
-  font-size: 15px;
-  color: #ffffff;
-  background: var(--ij-cinnabar);
-  padding: 6px 3px;
-  border-radius: 3px;
-  box-shadow: inset 0 0 0 1.5px #ffffff88, 0 1px 2px #0005;
-  transform: rotate(-3deg);
-  opacity: .9;
-}
 
 /* =====================================================================================================
    Peças comuns
@@ -288,63 +178,7 @@
   font-variant: small-caps;
   color: var(--ij-ink);
 }
-.ij-box__head--big { font-size: 15px; justify-content: center; letter-spacing: .1em; }
-.ij-head-btn {
-  font-size: 11px;
-  width: 20px;
-  height: 20px;
-  display: grid;
-  place-items: center;
-  border-radius: 50%;
-  border: 1px solid var(--ij-line-2);
-  background: var(--ij-paper-3);
-}
-.ij-head-btn:hover { background: var(--ij-gold-pale); }
-.ij-glow { animation: ij-glow 1.6s ease-in-out infinite; background: var(--ij-gold-2); }
 @keyframes ij-glow { 50% { box-shadow: 0 0 0 4px #e0b45a55; } }
-
-/* Tabela de linhas brancas (Classes, Origem, Perícias) */
-.ij-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin: 0;
-  background: transparent;
-  border: none;
-  font-size: 13px;
-}
-.ij-table :is(td, th) {
-  border: none;
-  border-top: 1px solid var(--ij-line-3);
-  padding: 3px 6px;
-  text-align: left;
-  vertical-align: middle;
-  background: transparent;
-}
-.ij-table tr:first-child :is(td, th) { border-top: none; }
-.ij-table thead th { border-bottom: 1px solid var(--ij-line); }
-.ij-table__name { font-weight: 600; }
-.ij-table__name input { width: 100%; font-weight: 600; }
-.ij-table__num {
-  width: 30px;
-  text-align: center !important;
-  font-weight: 700;
-  background: #ece6da !important;
-  border-left: 1px solid var(--ij-line-3) !important;
-}
-.ij-table__note { color: var(--ij-ink-3); font-size: 11px; width: 52px; }
-.ij-table--details th {
-  width: 42%;
-  font-family: var(--ij-caps);
-  font-size: 10.5px;
-  font-weight: 700;
-  letter-spacing: .04em;
-  color: var(--ij-ink-2);
-  background: #f1ece2;
-  border-right: 1px solid var(--ij-line-3);
-}
-.ij-table--details td { font-size: 13px; }
-.ij-table--details :is(input, select) { width: 100%; }
-.ij-primary { color: var(--ij-gold); font-size: 9px; }
 
 /* Barras finas (PV, PM, XP) */
 .ij-bar {
@@ -356,8 +190,6 @@
 }
 .ij-bar > span { display: block; height: 100%; border-radius: 3px; transition: width .3s; }
 .ij-bar--pv > span { background: linear-gradient(90deg, var(--ij-cinnabar-dark), var(--ij-cinnabar)); }
-.ij-bar--pm > span { background: linear-gradient(90deg, #4d3260, var(--ij-plum)); }
-.ij-bar--xp > span { background: linear-gradient(90deg, var(--ij-gold), var(--ij-gold-2)); }
 
 /* Botões */
 .ij-btn {
@@ -381,9 +213,6 @@
 .ij-btn--ghost { background: transparent; border-style: dashed; box-shadow: none; }
 .ij-btn--jade { background: linear-gradient(180deg, var(--ij-jade-2), var(--ij-jade)); color: #f6efdc; border-color: var(--ij-jade-dark); }
 .ij-btn--jade:hover { background: linear-gradient(180deg, #4b9a77, var(--ij-jade-2)); }
-.ij-btn--cinnabar { background: linear-gradient(180deg, #d35a47, var(--ij-cinnabar)); color: #fff4ea; border-color: var(--ij-cinnabar-dark); }
-.ij-btn--cinnabar:hover { background: linear-gradient(180deg, #e06a56, #d04a37); }
-.ij-mini-btn { font-size: 10px; color: var(--ij-ink-3); margin-left: 2px; }
 .ij-ctl { font-size: 11px; color: var(--ij-ink-3); padding: 0 3px; }
 .ij-ctl:hover { color: var(--ij-ink); }
 .ij-ctl--danger:hover { color: var(--ij-cinnabar); }
@@ -456,9 +285,6 @@
 .ij-shield--sm .ij-shield__value { font-size: 21px; }
 .ij-shield--md { width: 76px; }
 .ij-shield--md .ij-shield__value { font-size: 27px; }
-.ij-shield--ca { width: 92px; }
-.ij-shield--ca .ij-shield__label { font-size: 10px; }
-.ij-shield--ca .ij-shield__value { font-size: 36px; }
 
 /* Medalhão (SVG) */
 .ij-medal {
@@ -502,165 +328,12 @@
   font-variant-numeric: lining-nums;
 }
 .ij-medal__value small { font-size: 12px; color: var(--ij-ink-3); }
-.ij-medal--over .ij-medal__value { color: var(--ij-cinnabar); }
-.ij-medal--reserve .ij-medal__outer { fill: var(--ij-gold); stroke: #8e6516; }
-.ij-medal--reserve .ij-medal__notch { stroke: #8e6516; }
-.ij-medal--reserve .ij-medal__value { font-size: 18px; color: #6e5214; }
-.ij-medal--spent { opacity: .65; }
-.ij-medal--spent .ij-medal__outer { fill: #a59c8c; stroke: #6d6455; }
-.ij-medal--off { opacity: .45; filter: grayscale(1); }
 
 /* =====================================================================================================
-   FICHA (primeira aba)
+   Peças da ficha da Ameaça: PV, números das armas, PM e RD
    ===================================================================================================== */
 
-.ij-page {
-  display: grid;
-  grid-template-columns: 218px minmax(430px, 1fr) 252px;
-  grid-template-areas:
-    "id core gear"
-    "badges badges badges";
-  gap: 12px 14px;
-  align-items: start;
-  max-width: 1000px;
-  margin: 0 auto;
-}
-.ij-col--id { grid-area: id; display: flex; flex-direction: column; gap: 9px; }
-.ij-col--core { grid-area: core; display: flex; flex-direction: column; gap: 10px; }
-.ij-col--gear { grid-area: gear; display: grid; grid-template-columns: 1fr 1fr; grid-auto-rows: min-content; gap: 10px 8px; align-self: start; }
-.ij-badges { grid-area: badges; }
-
-/* Retrato e nível */
-.ij-portrait { position: relative; }
-.ij-portrait__frame {
-  height: 250px;
-  background:
-    radial-gradient(90% 70% at 50% 40%, #ffffff, #e9e3d7 80%),
-    var(--ij-paper-3);
-  background-clip: padding-box;
-}
-.ij-portrait__img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: top center;
-  border: none;
-  cursor: pointer;
-}
-.ij-level {
-  position: absolute;
-  right: 8px;
-  bottom: 6px;
-  width: 64px;
-  min-height: 66px;
-  padding: 4px 3px 3px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  background: var(--ij-white);
-  border: 1.5px solid var(--ij-line);
-  border-radius: 6px;
-  outline: 1px solid var(--ij-line-2);
-  outline-offset: -5px;
-  box-shadow: 0 2px 6px #0004;
-}
-.ij-level__label {
-  font-family: var(--ij-caps);
-  font-weight: 700;
-  font-size: 8px;
-  letter-spacing: .04em;
-  text-align: center;
-  line-height: 1.05;
-  margin-top: 3px;
-}
-.ij-level__value, .ij-level__input {
-  font-family: var(--ij-serif);
-  font-weight: 700;
-  font-size: 34px !important;
-  line-height: 1 !important;
-  width: 54px;
-  text-align: center;
-  font-variant-numeric: lining-nums;
-}
-
 /* Placa do nome */
-.ij-nameplate {
-  margin-top: -2px;
-  padding: 5px 8px 3px;
-  background: linear-gradient(180deg, #d6cebf 0%, #c3b9a6 100%);
-  border: 1px solid var(--ij-line);
-  border-radius: 4px;
-  outline: 1px solid var(--ij-line-2);
-  outline-offset: 2px;
-  box-shadow: 0 2px 3px #0002;
-}
-.ij-nameplate__name {
-  width: 100%;
-  text-align: center;
-  font-family: var(--ij-caps) !important;
-  font-weight: 800;
-  font-size: 18px !important;
-  letter-spacing: .04em;
-  color: var(--ij-ink) !important;
-}
-.ij-nameplate__sub {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  margin-top: 1px;
-  font-size: 10px;
-}
-.ij-nameplate__tag { font-family: var(--ij-caps); font-weight: 700; color: var(--ij-ink-2); font-size: 8.5px; }
-.ij-nameplate__race { font-family: var(--ij-caps); font-weight: 700; font-size: 12px; letter-spacing: .06em; }
-
-/* Experiência */
-.ij-xp__row { display: flex; align-items: baseline; justify-content: center; gap: 4px; padding: 4px 8px 2px; }
-.ij-xp__input { width: 80px; text-align: right; font-weight: 700; font-size: 16px !important; }
-.ij-xp__next { color: var(--ij-ink-3); font-size: 13px; }
-.ij-xp .ij-bar { margin: 2px 8px 7px; }
-.ij-xp--ready .ij-box__head { background: linear-gradient(180deg, #ecd39a, var(--ij-gold-pale)); }
-
-/* Topo do centro: logo, PV, CA */
-.ij-core-top {
-  display: grid;
-  grid-template-columns: 1fr 178px auto;
-  align-items: center;
-  gap: 10px;
-}
-.ij-logo { display: flex; align-items: center; gap: 8px; justify-content: center; }
-.ij-logo__seal {
-  font-family: var(--ij-jp);
-  font-size: 15px;
-  line-height: 1.05;
-  color: #fff;
-  background: var(--ij-cinnabar);
-  padding: 5px 4px;
-  border-radius: 3px;
-  box-shadow: inset 0 0 0 1.5px #ffffffa0, 0 1px 2px #0005;
-  transform: rotate(-4deg);
-  text-align: center;
-}
-.ij-logo__words { display: flex; flex-direction: column; align-items: center; line-height: .9; }
-.ij-logo__imperio {
-  font-family: var(--ij-caps);
-  font-weight: 900;
-  font-size: 23px;
-  letter-spacing: .03em;
-  color: var(--ij-ink);
-  text-shadow: 0 1px 0 #fff;
-}
-.ij-logo__de { font-family: var(--ij-caps); font-weight: 700; font-size: 10px; letter-spacing: .3em; color: var(--ij-gold); margin: 1px 0; }
-.ij-logo__jade {
-  font-family: var(--ij-caps);
-  font-weight: 900;
-  font-size: 27px;
-  letter-spacing: .08em;
-  background: linear-gradient(180deg, var(--ij-jade-2), var(--ij-jade-dark));
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-}
 
 /* Caixa de PV com a barra diagonal */
 .ij-hp {
@@ -727,291 +400,15 @@
 .ij-hp__temp input { width: 26px; font-weight: 700; font-size: 11px !important; text-align: center; }
 .ij-hp .ij-bar { margin-top: 2px; }
 
-/* O tabuleiro de habilidades */
-.ij-board {
-  --row-h: 72px;
-  position: relative;
-  display: grid;
-  grid-template-columns: 124px 150px 46px 100px;
-  grid-template-rows: repeat(7, var(--row-h));
-  justify-content: center;
-  column-gap: 0;
-  margin-top: 4px;
-}
-.ij-board__panel {
-  grid-column: 1;
-  grid-row: 1 / -1;
-  margin: -4px 10px -4px 0;
-  border-radius: 6px;
-  background:
-    var(--ij-wave),
-    linear-gradient(180deg, #cdc3b0, #c2b8a4);
-  border: 1px solid #a99e8a;
-  box-shadow: inset 0 0 0 3px #d9d1c2, inset 0 0 0 4px #a99e8a;
-}
-.ij-band {
-  grid-row: var(--row);
-  grid-column: 1 / 3;
-  align-self: center;
-  height: 22px;
-  margin-left: 40px;
-  background: linear-gradient(180deg, #b7ac97, #a59a85);
-  box-shadow: inset 0 1px 0 #ffffff40;
-  z-index: 0;
-}
-.ij-band--right { grid-column: 3 / 5; margin-left: 10px; margin-right: 30px; }
-.ij-band--gold { background: linear-gradient(180deg, #e6c27a, #cfa046); }
-.ij-board__medals {
-  grid-column: 1;
-  grid-row: var(--row);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding-right: 10px;
-  z-index: 1;
-}
-.ij-board__medals--pair .ij-medal + .ij-medal { margin-left: -6px; }
-.ij-board__medals--pair .ij-medal { width: 63px; height: 63px; }
-.ij-board__medals--pair .ij-medal__label { font-size: 7.1px; letter-spacing: 0; max-width: 52px; }
-.ij-board__modhead {
-  grid-column: 3;
-  grid-row: 1;
-  align-self: start;
-  justify-self: center;
-  margin-top: -14px;
-  font-family: var(--ij-caps);
-  font-weight: 700;
-  font-size: 8.5px;
-  color: var(--ij-ink-2);
-  z-index: 1;
-}
-
-/* Placa octogonal da habilidade */
-.ij-plaque {
-  grid-column: 2;
-  grid-row: var(--row);
-  position: relative;
-  align-self: center;
-  width: 150px;
-  height: 56px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  z-index: 1;
-  filter: drop-shadow(0 1.5px 1.2px #00000030);
-}
-.ij-plaque__svg { position: absolute; inset: 0; width: 100%; height: 100%; }
-.ij-plaque__outer { fill: var(--ij-white); stroke: var(--ij-line); stroke-width: 1.6; }
-.ij-plaque__fill { fill: var(--ij-white); }
-.ij-plaque__line { fill: none; stroke: var(--ij-line-2); stroke-width: 1; }
-.ij-plaque__kanji {
-  position: absolute;
-  left: 14px;
-  top: 50%;
-  transform: translateY(-52%);
-  font-family: var(--ij-jp);
-  font-size: 34px;
-  color: var(--ij-jade);
-  opacity: .13;
-  pointer-events: none;
-}
-.ij-plaque__value, .ij-plaque__input {
-  position: relative;
-  font-family: var(--ij-serif) !important;
-  font-weight: 700;
-  font-size: 28px !important;
-  line-height: 1 !important;
-  margin-top: 2px;
-  font-variant-numeric: lining-nums;
-}
-.ij-plaque__value:hover { color: var(--ij-jade); }
-.ij-plaque__input { width: 54px; text-align: center; }
-.ij-plaque__bonus {
-  position: absolute !important;
-  right: 16px;
-  top: 7px;
-  width: 26px;
-  font-size: 11px !important;
-  color: var(--ij-ink-3) !important;
-}
-.ij-plaque__label {
-  position: relative;
-  font-family: var(--ij-caps);
-  font-weight: 700;
-  font-size: 9.5px;
-  letter-spacing: .1em;
-  text-transform: uppercase;
-  margin-top: 1px;
-}
-.ij-plaque--honor .ij-plaque__outer { stroke: #8e6516; }
-.ij-plaque--honor .ij-plaque__line { stroke: var(--ij-gold); }
-.ij-plaque--honor .ij-plaque__kanji { color: var(--ij-gold); opacity: .22; }
-
-/* Círculo do modificador */
-.ij-mod {
-  grid-column: 3;
-  grid-row: var(--row);
-  align-self: center;
-  justify-self: start;
-  margin-left: -9px;
-  width: 46px;
-  height: 46px;
-  display: grid;
-  place-items: center;
-  border-radius: 50%;
-  background: var(--ij-white);
-  border: 1.6px solid var(--ij-line);
-  box-shadow: inset 0 0 0 2.5px var(--ij-white), inset 0 0 0 3.5px var(--ij-line-2), 0 1.5px 2px #0003;
-  font-family: var(--ij-serif);
-  font-weight: 700;
-  font-size: 19px;
-  font-variant-numeric: lining-nums;
-  z-index: 2;
-}
-.ij-mod:hover { background: #fff6df; }
-.ij-mod--neg { color: var(--ij-cinnabar-dark); }
-
 /* Coluna da direita do tabuleiro */
-.ij-board__shield {
-  grid-column: 4;
-  grid-row: var(--row);
-  align-self: center;
-  justify-self: center;
-  z-index: 1;
-}
-.ij-board__shield .ij-shield { width: 60px; }
-.ij-board__shield .ij-shield__label { font-size: 7.5px; margin-top: 16%; }
-.ij-board__shield .ij-shield__value { font-size: 22px; }
-.ij-board__honor {
-  grid-column: 4;
-  grid-row: var(--row);
-  align-self: center;
-  justify-self: end;
-  z-index: 1;
-  min-width: 96px;
-  padding: 4px 10px 5px;
-  text-align: center;
-  background: var(--ij-white);
-  border: 2px solid var(--ij-gold);
-  border-radius: 6px;
-  box-shadow: inset 0 0 0 2px var(--ij-white), inset 0 0 0 3px #e6c27a, 0 1.5px 2px #0003;
-}
-.ij-board__honor-label { display: block; font-family: var(--ij-caps); font-weight: 700; font-size: 7.5px; letter-spacing: .06em; color: var(--ij-ink-2); }
-.ij-board__honor-value { display: block; font-family: var(--ij-caps); font-weight: 800; font-size: 13px; letter-spacing: .04em; }
-.ij-honor-tier--dignissimo .ij-board__honor-value { color: var(--ij-jade-dark); }
-.ij-honor-tier--honrado .ij-board__honor-value { color: var(--ij-jade); }
-.ij-honor-tier--honesto .ij-board__honor-value { color: var(--ij-ink-2); }
 .ij-honor-tier--desonrado { border-color: #b8742a; }
-.ij-honor-tier--desonrado .ij-board__honor-value { color: #8a4f12; }
 .ij-honor-tier--sordido { border-color: var(--ij-cinnabar); }
-.ij-honor-tier--sordido .ij-board__honor-value { color: var(--ij-cinnabar-dark); }
 .ij-honor-tier--desumano { border-color: #1f1b16; background: #2b2620; }
-.ij-honor-tier--desumano :is(.ij-board__honor-value, .ij-board__honor-label) { color: #f2e6cf; }
 
 /* Raça e talentos (duas caixas) */
-.ij-duo { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 2px; }
-.ij-chips { display: flex; flex-wrap: wrap; gap: 3px 6px; padding: 6px 8px 8px; min-height: 52px; align-content: flex-start; font-size: 12.5px; }
 .ij-chip:hover { color: var(--ij-jade); }
-.ij-chip--race { font-weight: 600; }
-
-/* Cartões altos da armadura e do escudo */
-.ij-gear {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 6px;
-  padding-bottom: 10px;
-  background: var(--ij-noise), linear-gradient(180deg, #f6f3ec, #ece7dd);
-  border: 1px solid var(--ij-line-2);
-  border-radius: 9px 9px 6px 6px;
-  box-shadow: 0 2px 6px #0002;
-  overflow: hidden;
-}
-.ij-gear__tab {
-  align-self: stretch;
-  padding: 6px 4px 5px;
-  text-align: center;
-  font-family: var(--ij-caps);
-  font-weight: 700;
-  font-size: 11px;
-  letter-spacing: .08em;
-  line-height: 1.1;
-  color: #fbf6ea;
-  background: linear-gradient(180deg, #776d5d, var(--ij-taupe-dark));
-  text-transform: uppercase;
-  border-bottom: 1px solid #4b4339;
-}
-.ij-gear--shield .ij-gear__tab { background: linear-gradient(180deg, #9a9893, #7e7c77); }
-.ij-gear__name {
-  min-height: 34px;
-  padding: 0 6px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  font-family: var(--ij-caps);
-  font-weight: 700;
-  font-size: 12.5px;
-  letter-spacing: .08em;
-  line-height: 1.15;
-  color: #6b6255;
-  text-transform: uppercase;
-}
-.ij-gear__name:hover { color: var(--ij-ink); }
-.ij-gear .ij-shield { margin: -2px 0; }
-.ij-gear__art {
-  width: calc(100% - 12px);
-  aspect-ratio: 1 / 1.08;
-  display: grid;
-  place-items: center;
-  margin-top: 2px;
-}
-.ij-gear__art img { width: 100%; height: 100%; object-fit: contain; border: none; filter: drop-shadow(0 3px 3px #0004); }
-.ij-gear__art--empty { color: #c5bba9; font-size: 46px; cursor: pointer; }
-.ij-gear__art--empty:hover { color: var(--ij-jade-2); }
-.ij-gear__info {
-  align-self: stretch;
-  margin: 0 10px;
-  font-size: 12px;
-  line-height: 1.35;
-  color: var(--ij-ink-2);
-}
-.ij-gear__info p { margin: 0; display: flex; align-items: center; gap: 4px; }
-.ij-gear__info strong { color: var(--ij-ink); }
-.ij-gear__cat { font-style: italic; color: var(--ij-ink-3); }
-.ij-gear__hint { margin: 0 8px; font-size: 10.5px; text-align: center; color: var(--ij-ink-3); font-style: italic; line-height: 1.25; }
-.ij-gear__unequip {
-  position: absolute;
-  top: 4px;
-  right: 5px;
-  font-size: 10px;
-  color: #f2e6cf;
-  opacity: 0;
-  transition: opacity .15s;
-}
-.ij-gear:hover .ij-gear__unequip { opacity: .85; }
 
 /* Armas em punho (cartão largo embaixo da armadura e do escudo) */
-.ij-gear--weapons { grid-column: 1 / -1; gap: 0; padding-bottom: 6px; }
-.ij-gear--weapons .ij-gear__tab { background: linear-gradient(180deg, #c95a46, var(--ij-cinnabar-dark)); border-bottom-color: #5e1b12; }
-.ij-gear--weapons .ij-gear__hint { margin: 10px 8px 4px; }
-.ij-wield {
-  align-self: stretch;
-  display: grid;
-  grid-template-columns: 34px 1fr;
-  grid-template-rows: auto auto;
-  gap: 2px 8px;
-  align-items: center;
-  margin: 7px 8px 0;
-  padding-bottom: 7px;
-  border-bottom: 1px dashed var(--ij-line-3);
-}
-.ij-wield:last-child { border-bottom: none; padding-bottom: 0; }
-.ij-wield__img { grid-row: span 2; width: 34px; height: 34px; border: 1px solid var(--ij-line-2); border-radius: 4px; object-fit: cover; background: var(--ij-white); }
-.ij-wield__name { font-family: var(--ij-caps); font-weight: 700; font-size: 12px; letter-spacing: .05em; line-height: 1.1; color: var(--ij-ink); }
-.ij-wield__name:hover { color: var(--ij-cinnabar); }
 .ij-wield__stats { display: grid; grid-template-columns: 1fr 1.4fr 1fr; border: 1.5px solid var(--ij-line); border-radius: 4px; background: var(--ij-white); overflow: hidden; }
 .ij-wield__stat { display: flex; flex-direction: column; align-items: center; padding: 1px 2px 2px; border-left: 1px solid var(--ij-line-3); }
 .ij-wield__stat:first-child { border-left: none; }
@@ -1020,30 +417,7 @@
 .ij-wield__stat:hover { background: var(--ij-gold-pale); }
 .ij-wield__stat--atk strong { color: var(--ij-cinnabar-dark); }
 
-/* Moedas Yan (com o furo quadrado) */
-.ij-coin {
-  display: inline-block;
-  width: 15px;
-  height: 15px;
-  border-radius: 50%;
-  vertical-align: middle;
-  background:
-    linear-gradient(var(--ij-white), var(--ij-white)) center / 5px 5px no-repeat,
-    radial-gradient(circle at 35% 30%, #fff3c4, #d9a63c 55%, #9c6d16);
-  box-shadow: inset 0 0 0 1px #7a5410, 0 1px 1px #0003;
-}
-.ij-coin--yo { background: linear-gradient(var(--ij-paper-3), var(--ij-paper-3)) center / 6px 6px no-repeat, radial-gradient(circle at 35% 30%, #fff3c4, #d9a63c 55%, #9c6d16); }
-.ij-coin--yp { background: linear-gradient(var(--ij-paper-3), var(--ij-paper-3)) center / 6px 6px no-repeat, radial-gradient(circle at 35% 30%, #ffffff, #bcbcbc 55%, #7b7b7b); box-shadow: inset 0 0 0 1px #6b6b6b, 0 1px 1px #0003; }
-.ij-coin--y { background: linear-gradient(var(--ij-paper-3), var(--ij-paper-3)) center / 6px 6px no-repeat, radial-gradient(circle at 35% 30%, #ffd2b0, #c27a45 55%, #7e4520); box-shadow: inset 0 0 0 1px #6e3c1a, 0 1px 1px #0003; }
-
 /* Faixa de baixo: PM, limite, BBA, RD, Honra, descanso */
-.ij-badges {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 12px 10px;
-  padding-top: 4px;
-}
 .ij-badge {
   --badge: var(--ij-line);
   position: relative;
@@ -1071,7 +445,7 @@
 }
 .ij-badge__label small { font-size: 7.5px; font-weight: 700; letter-spacing: .03em; color: var(--ij-ink-3); }
 .ij-badge__pair { display: flex; align-items: baseline; gap: 2px; }
-.ij-badge__input, .ij-badge__max, .ij-badge__max-input, .ij-badge__current {
+.ij-badge__input, .ij-badge__max, .ij-badge__max-input {
   font-family: var(--ij-serif) !important;
   font-weight: 700;
   font-size: 30px !important;
@@ -1080,11 +454,10 @@
   text-align: center;
   font-variant-numeric: lining-nums;
 }
-.ij-badge__current { width: auto; min-width: 30px; }
 .ij-badge__sep { font-size: 22px; color: var(--ij-ink-3); }
 .ij-badge__max { color: var(--ij-ink-2); width: auto; min-width: 30px; }
 .ij-badge .ij-bar { width: 100%; margin-top: 2px; }
-.ij-badge__big, .ij-badge__big-input {
+.ij-badge__big {
   font-family: var(--ij-serif) !important;
   font-weight: 700;
   font-size: 36px !important;
@@ -1094,208 +467,14 @@
   font-variant-numeric: lining-nums;
 }
 .ij-badge--pm { --badge: var(--ij-plum); min-width: 140px; }
-.ij-badge--bba { --badge: var(--ij-indigo); }
 .ij-badge--rd { --badge: var(--ij-cinnabar); }
-.ij-badge--honor { --badge: var(--ij-gold); min-width: 190px; gap: 5px; }
-.ij-badge--rest {
-  --badge: var(--ij-jade);
-  min-width: 70px;
-  gap: 3px;
-  color: var(--ij-jade-dark);
-  font-family: var(--ij-caps);
-  font-weight: 800;
-  font-size: 10.5px;
-  letter-spacing: .06em;
-}
-.ij-badge--rest i { font-size: 22px; }
-.ij-badge--rest:hover { background: var(--ij-jade-pale); }
-/* Fita atrás dos crachás (como a de Accuracy e Damage) */
-.ij-ribbon::before {
-  content: "";
-  position: absolute;
-  left: 50%;
-  bottom: -12px;
-  width: 54%;
-  height: 22px;
-  transform: translateX(-50%);
-  background: color-mix(in srgb, var(--badge) 70%, white);
-  clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 70%, 0 100%);
-  z-index: -1;
-}
-.ij-ribbon::after {
-  content: "";
-  position: absolute;
-  inset: 8px -7px;
-  border-left: 4px solid var(--badge);
-  border-right: 4px solid var(--badge);
-  border-radius: 3px;
-  z-index: -1;
-}
-.ij-honor-actions { display: flex; align-items: center; gap: 5px; }
-.ij-violation-select {
-  font-size: 11px !important;
-  border: 1px solid var(--ij-line-3) !important;
-  border-radius: 4px !important;
-  padding: 2px 2px !important;
-  background: var(--ij-paper-2) !important;
-  max-width: 96px;
-}
-
-/* Medalhão do limite de PM, com aro pincelado */
-.ij-ink-medal {
-  position: relative;
-  width: 84px;
-  height: 84px;
-  margin-left: -26px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  z-index: 1;
-}
-.ij-ink-medal__ring { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
-.ij-ink-medal__fill { fill: var(--ij-white); }
-.ij-ink-medal__brush { fill: none; stroke: var(--ij-plum); stroke-width: 9; stroke-linecap: round; stroke-dasharray: 230 18 12 10; opacity: .92; }
-.ij-ink-medal__label { position: relative; font-family: var(--ij-caps); font-weight: 800; font-size: 9px; letter-spacing: .06em; }
-.ij-ink-medal__value { position: relative; font-weight: 700; font-size: 26px; line-height: 1; font-variant-numeric: lining-nums; }
 
 /* =====================================================================================================
-   Outras abas
+   Listas: ataques, habilidades que se abrem, textos
    ===================================================================================================== */
 
-.ij-sheet-title {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin: 0 0 12px;
-  padding-bottom: 6px;
-  border-bottom: 1px solid var(--ij-line-2);
-  box-shadow: 0 2px 0 -1px var(--ij-line-3);
-}
-.ij-sheet-title h2 {
-  margin: 0;
-  border: none;
-  font-family: var(--ij-caps);
-  font-weight: 800;
-  font-size: 22px;
-  letter-spacing: .08em;
-  color: var(--ij-ink);
-}
-.ij-sheet-title__kanji {
-  font-family: var(--ij-jp);
-  font-size: 22px;
-  color: #fff;
-  background: var(--ij-jade);
-  width: 36px;
-  height: 36px;
-  display: grid;
-  place-items: center;
-  border-radius: 4px;
-  box-shadow: inset 0 0 0 1.5px #ffffff70, 0 1px 3px #0004;
-}
-.ij-sheet-title__note { margin-left: auto; font-size: 12px; color: var(--ij-ink-3); text-align: right; }
 .ij-empty { margin: 6px 4px; font-style: italic; color: var(--ij-ink-3); font-size: 12.5px; }
-.ij-hint { font-size: 11.5px; color: var(--ij-ink-3); font-style: italic; text-align: center; margin: 10px 0 0; }
-.ij-num-xs { width: 34px !important; }
 .ij-num-sm { width: 46px !important; }
-
-/* Perícias */
-.ij-skills { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; align-items: start; }
-.ij-table--skills { font-size: 13px; }
-.ij-table--skills thead th {
-  font-family: var(--ij-caps);
-  font-size: 9.5px;
-  font-weight: 700;
-  letter-spacing: .04em;
-  color: var(--ij-ink-2);
-  background: linear-gradient(180deg, #d3cab9, #e7e1d5);
-  padding: 4px 4px;
-}
-.ij-table--skills td { padding: 2px 4px; height: 27px; }
-.ij-table--skills tbody tr:nth-child(even) td { background: #faf7f0; }
-.ij-c-train { width: 22px; text-align: center !important; }
-.ij-c-abl { width: 40px; text-align: center !important; font-size: 11.5px; color: var(--ij-ink-2); }
-.ij-c-abl select { width: 44px; font-size: 11px; }
-.ij-c-num { width: 34px; text-align: center !important; color: var(--ij-ink-2); font-size: 12px; }
-.ij-c-total { width: 44px; text-align: center !important; }
-.ij-pip {
-  display: inline-block;
-  width: 13px;
-  height: 13px;
-  border-radius: 50%;
-  border: 1.5px solid var(--ij-line-2);
-  background: var(--ij-white);
-  vertical-align: middle;
-}
-.ij-pip.on { background: radial-gradient(circle at 35% 35%, #5aa883, var(--ij-jade) 60%, var(--ij-jade-dark)); border-color: var(--ij-jade-dark); }
-.ij-skill__name { font-weight: 600; }
-.ij-skill__name:hover { color: var(--ij-jade); }
-.ij-skill--trained .ij-skill__name { color: var(--ij-jade-dark); }
-.ij-skill--locked { opacity: .6; }
-.ij-skill--spec .ij-c-name { padding-left: 14px; }
-.ij-skill__parent { font-size: 11px; color: var(--ij-ink-3); margin-right: 3px; }
-.ij-skill__spec-input { width: 96px !important; font-size: 12.5px !important; }
-.ij-skill__flag { font-size: 10px; color: var(--ij-gold); margin-left: 2px; }
-.ij-skill__flag--armor { color: var(--ij-ink-3); }
-.ij-total {
-  display: inline-grid;
-  place-items: center;
-  min-width: 36px;
-  height: 23px;
-  padding: 0 4px;
-  border-radius: 12px;
-  border: 1.5px solid var(--ij-line);
-  background: var(--ij-white);
-  box-shadow: inset 0 0 0 1.5px var(--ij-white), inset 0 0 0 2.5px var(--ij-line-3);
-  font-weight: 700;
-  font-size: 13px;
-  font-variant-numeric: lining-nums;
-}
-.ij-total:hover { background: var(--ij-jade-pale); border-color: var(--ij-jade); }
-.ij-skill--trained .ij-total { border-color: var(--ij-jade); }
-.ij-legend { display: flex; flex-wrap: wrap; gap: 6px 16px; margin-top: 10px; font-size: 11.5px; color: var(--ij-ink-3); }
-.ij-legend kbd { font-size: 10px; padding: 0 4px; border: 1px solid var(--ij-line-3); border-radius: 3px; background: var(--ij-white); }
-
-/* Combate: a fórmula da CA */
-.ij-formula-box { margin-bottom: 12px; }
-.ij-formula { display: flex; align-items: center; flex-wrap: wrap; gap: 6px 8px; padding: 8px 12px 10px; }
-.ij-formula__eq, .ij-formula__plus { font-size: 20px; color: var(--ij-ink-3); }
-.ij-formula__part { display: flex; flex-direction: column; align-items: center; min-width: 42px; }
-.ij-formula__value, .ij-formula__input {
-  min-width: 40px;
-  padding: 2px 6px;
-  border: 1.5px solid var(--ij-line);
-  border-radius: 6px;
-  background: var(--ij-white);
-  text-align: center;
-  font-weight: 700;
-  font-size: 18px !important;
-  font-variant-numeric: lining-nums;
-}
-.ij-formula__input { width: 46px !important; }
-.ij-formula__label { font-family: var(--ij-caps); font-size: 8.5px; font-weight: 700; letter-spacing: .04em; color: var(--ij-ink-2); margin-top: 2px; text-align: center; }
-.ij-combat-grid { display: grid; grid-template-columns: 1.2fr 1fr 1fr; gap: 12px; margin-bottom: 14px; }
-.ij-saves { display: flex; justify-content: space-around; padding: 8px 6px; }
-.ij-save { display: flex; flex-direction: column; align-items: center; gap: 3px; }
-.ij-save__parts { font-size: 10px; color: var(--ij-ink-3); }
-.ij-save__bonus { font-size: 10px; display: flex; align-items: center; gap: 2px; }
-.ij-attack-stats, .ij-defense { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; padding: 8px; }
-.ij-stat {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 4px 6px;
-  border: 1px solid var(--ij-line-3);
-  border-radius: 6px;
-  background: var(--ij-paper-3);
-}
-.ij-stat--roll:hover { background: var(--ij-jade-pale); border-color: var(--ij-jade); }
-.ij-stat__label { font-family: var(--ij-caps); font-weight: 700; font-size: 8.5px; letter-spacing: .04em; color: var(--ij-ink-2); text-align: center; }
-.ij-stat__value { font-weight: 700; font-size: 20px; line-height: 1.1; font-variant-numeric: lining-nums; }
-.ij-attack-bonus { display: flex; justify-content: space-around; gap: 6px; padding: 0 8px 8px; font-size: 11px; }
-.ij-defense { grid-template-columns: 1fr; }
-.ij-defense__energy { display: flex; flex-direction: column; gap: 2px; }
-.ij-defense__energy input { border-bottom: 1px dotted var(--ij-line-2) !important; font-size: 13px; }
 
 /* Listas de cartões (armas, armaduras) — como os cartões de erva e poção */
 .ij-cardlist { margin-bottom: 14px; }
@@ -1312,96 +491,6 @@
   letter-spacing: .1em;
   color: var(--ij-ink);
 }
-.ij-card:not(.ij-card--chat) {
-  --side: var(--ij-jade);
-  position: relative;
-  display: grid;
-  grid-template-columns: 30px 1fr;
-  margin-bottom: 8px;
-  border-radius: 9px;
-  border: 1px solid var(--ij-line-2);
-  background: var(--ij-noise), linear-gradient(180deg, #eef1f0, #e5e9e7);
-  box-shadow: 0 2px 4px #0002;
-  overflow: hidden;
-}
-.ij-card--armor { --side: var(--ij-taupe-dark) !important; }
-.ij-card--stowed { opacity: .72; }
-.ij-card__side {
-  writing-mode: vertical-rl;
-  transform: rotate(180deg);
-  display: grid;
-  place-items: center;
-  background: linear-gradient(90deg, color-mix(in srgb, var(--side) 85%, black), var(--side));
-  color: #f6efdc;
-  font-family: var(--ij-caps);
-  font-weight: 700;
-  font-size: 11px;
-  letter-spacing: .14em;
-  text-transform: uppercase;
-}
-.ij-card__inner {
-  display: grid;
-  grid-template-columns: 78px 1fr auto;
-  gap: 10px;
-  align-items: center;
-  margin: 5px;
-  padding: 6px 8px;
-  border: 1px solid #93a39b;
-  border-radius: 6px;
-}
-.ij-card__art { width: 74px; height: 74px; display: grid; place-items: center; }
-.ij-card__art img { max-width: 100%; max-height: 100%; border: none; filter: drop-shadow(0 2px 2px #0004); }
-.ij-card__title {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 6px;
-  margin: 0 0 4px;
-  border: none;
-  font-family: var(--ij-caps);
-  font-weight: 800;
-  font-size: 15.5px;
-  letter-spacing: .06em;
-  color: var(--ij-jade-dark);
-}
-.ij-card__title a:hover { color: var(--ij-jade-2); }
-.ij-card__meta { margin: 3px 0 0; font-size: 11px; color: var(--ij-ink-3); font-style: italic; }
-.ij-card__ctl { display: flex; flex-direction: column; align-items: center; gap: 6px; }
-.ij-grid-table {
-  border-collapse: separate;
-  border-spacing: 0;
-  margin: 0;
-  width: auto;
-  background: var(--ij-white);
-  border: 1.5px solid var(--ij-line);
-  border-radius: 4px;
-  box-shadow: inset 0 0 0 1px var(--ij-white), 0 0 0 1px var(--ij-line-3);
-  font-size: 12.5px;
-}
-.ij-grid-table :is(th, td) {
-  padding: 1px 9px;
-  text-align: center;
-  border: none;
-  border-left: 1px solid var(--ij-line-3);
-  background: transparent;
-}
-.ij-grid-table :is(th, td):first-child { border-left: none; }
-.ij-grid-table th { font-family: var(--ij-caps); font-size: 8.5px; font-weight: 700; color: var(--ij-ink-2); border-bottom: 1px solid var(--ij-line-3); }
-.ij-grid-table td { font-weight: 700; }
-.ij-roll-link:hover { color: var(--ij-jade); text-decoration: underline dotted; }
-.ij-equip {
-  width: 26px;
-  height: 26px;
-  display: grid;
-  place-items: center;
-  border-radius: 50%;
-  border: 1.5px solid var(--ij-line-3);
-  color: var(--ij-line-3);
-  background: var(--ij-white);
-  font-size: 12px;
-}
-.ij-equip.on { border-color: var(--ij-jade); color: var(--ij-white); background: var(--ij-jade); }
-.ij-equip--sm { width: 20px; height: 20px; font-size: 9px; }
 
 /* Habilidades, talentos e jutsus (linhas que se abrem) */
 .ij-power {
@@ -1413,10 +502,7 @@
   background: var(--ij-white);
   box-shadow: 0 1px 2px #0001;
 }
-.ij-power--raca { --accent: var(--ij-gold); }
 .ij-power--outra { --accent: var(--ij-indigo); }
-.ij-power--feat { --accent: var(--ij-plum); }
-.ij-power--locked { opacity: .65; }
 .ij-power__head { display: flex; align-items: center; gap: 8px; padding: 4px 8px; }
 .ij-power__img { width: 28px; height: 28px; border: 1px solid var(--ij-line-3); border-radius: 4px; object-fit: cover; }
 .ij-power__name { font-family: var(--ij-caps); font-weight: 700; font-size: 13.5px; letter-spacing: .03em; flex: 1; }
@@ -1433,178 +519,9 @@
 }
 .ij-power.expanded .ij-power__desc { display: block; }
 .ij-power__desc p { margin: 5px 0; }
-.ij-power__prereq { font-size: 12px; }
-
-/* Jutsus: os chacras */
-.ij-chakra-board { display: grid; grid-template-columns: 1fr 250px; gap: 14px; margin-bottom: 14px; align-items: start; }
-.ij-chakras__row { display: grid; grid-template-columns: repeat(6, 1fr); gap: 6px; padding: 12px 8px 10px; }
-.ij-chakra { display: flex; flex-direction: column; align-items: center; gap: 3px; text-align: center; }
-.ij-chakra__orb {
-  width: 62px;
-  height: 62px;
-  display: grid;
-  place-items: center;
-  border-radius: 50%;
-  background: radial-gradient(circle at 40% 35%, #fbf9f3, #e2dbcd 70%, #cfc6b4);
-  border: 1.6px solid var(--ij-line-2);
-  box-shadow: inset 0 0 0 3px #f4f0e7, inset 0 0 0 4px var(--ij-line-3), 0 2px 3px #0002;
-  transition: box-shadow .2s, background .2s;
-}
-.ij-chakra__kanji { font-family: var(--ij-jp); font-size: 26px; color: #b1a794; }
-.ij-chakra--open .ij-chakra__orb {
-  background: radial-gradient(circle at 40% 35%, #e9fff3, #7fc3a0 55%, var(--ij-jade));
-  border-color: var(--ij-jade-dark);
-  box-shadow: inset 0 0 0 3px #ffffff55, 0 0 0 3px #3f856633, 0 0 14px #3f856688;
-}
-.ij-chakra--open .ij-chakra__kanji { color: #fff; text-shadow: 0 1px 2px #1d4a38; }
-.ij-chakra__label { font-family: var(--ij-caps); font-weight: 700; font-size: 10px; letter-spacing: .04em; }
-.ij-chakra__ability { font-size: 11px; color: var(--ij-ink-3); }
-.ij-chakra__grade, .ij-chakra__grade-label { font-size: 10.5px !important; }
-.ij-chakra--open .ij-chakra__grade-label { color: var(--ij-jade-dark); font-weight: 700; }
-.ij-jutsu-side { display: flex; flex-direction: column; gap: 10px; align-items: stretch; }
-.ij-jutsu-side .ij-badge { min-height: 64px; }
-.ij-limit {
-  display: grid;
-  grid-template-columns: auto 1fr;
-  align-items: center;
-  gap: 0 10px;
-  padding: 6px 12px;
-  border: 3px solid var(--ij-plum);
-  border-radius: 40px;
-  background: var(--ij-white);
-}
-.ij-limit__label { font-family: var(--ij-caps); font-weight: 800; font-size: 11px; letter-spacing: .06em; }
-.ij-limit__value { grid-row: span 2; justify-self: end; font-weight: 700; font-size: 30px; line-height: 1; color: var(--ij-plum); }
-.ij-limit__note { font-size: 9.5px; color: var(--ij-ink-3); }
-.ij-limit__bonus { grid-column: 1 / -1; font-size: 10px; }
-.ij-grade-table {
-  border-collapse: separate;
-  border-spacing: 0;
-  margin: 0;
-  background: var(--ij-white);
-  border: 1.5px solid var(--ij-line);
-  border-radius: 5px;
-  font-size: 11px;
-  text-align: center;
-}
-.ij-grade-table :is(th, td) { padding: 2px 4px; border: none; border-left: 1px solid var(--ij-line-3); border-top: 1px solid var(--ij-line-3); background: transparent; }
-.ij-grade-table tr:first-child :is(th, td) { border-top: none; }
-.ij-grade-table th { border-left: none; font-family: var(--ij-caps); font-size: 8.5px; background: #f1ece2; }
-.ij-grade-table td { font-weight: 700; }
-.ij-grade-table tr:first-child td { font-family: var(--ij-caps); font-size: 7.5px; font-weight: 700; }
-.ij-grade-head {
-  display: flex;
-  align-items: baseline;
-  gap: 8px;
-  margin: 10px 2px 5px;
-  border-bottom: 1px solid var(--ij-line-3);
-  font-family: var(--ij-caps);
-  font-weight: 800;
-  font-size: 13px;
-  letter-spacing: .08em;
-  color: var(--ij-jade-dark);
-}
-.ij-grade-head small { font-family: var(--ij-serif); font-weight: 400; font-size: 11px; color: var(--ij-ink-3); letter-spacing: 0; }
-.ij-jutsu__chakra {
-  width: 28px;
-  height: 28px;
-  display: grid;
-  place-items: center;
-  border-radius: 50%;
-  background: var(--ij-jade);
-  color: #fff;
-  font-family: var(--ij-jp);
-  font-size: 15px;
-  box-shadow: inset 0 0 0 1.5px #ffffff66;
-}
-.ij-jutsu--for { --accent: #b5543c; } .ij-jutsu--for .ij-jutsu__chakra { background: #b5543c; }
-.ij-jutsu--des { --accent: #3f5d82; } .ij-jutsu--des .ij-jutsu__chakra { background: #3f5d82; }
-.ij-jutsu--con { --accent: #8a6a2c; } .ij-jutsu--con .ij-jutsu__chakra { background: #8a6a2c; }
-.ij-jutsu--int { --accent: #6e4a82; } .ij-jutsu--int .ij-jutsu__chakra { background: #6e4a82; }
-.ij-jutsu--sab { --accent: #2f6b52; } .ij-jutsu--sab .ij-jutsu__chakra { background: #2f6b52; }
-.ij-jutsu--car { --accent: #a8456e; } .ij-jutsu--car .ij-jutsu__chakra { background: #a8456e; }
-.ij-jutsu__stats { display: grid; grid-template-columns: auto 1fr; gap: 1px 10px; margin: 6px 0; font-size: 12px; }
-.ij-jutsu__stats dt { font-family: var(--ij-caps); font-weight: 700; font-size: 9.5px; color: var(--ij-ink-2); align-self: center; }
-.ij-jutsu__stats dd { margin: 0; }
-
-/* Inventário */
-.ij-purse {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 10px 14px;
-  margin: 0 0 12px;
-  padding: 8px 12px;
-  border: 1px solid var(--ij-line-2);
-  border-radius: 8px;
-  background: linear-gradient(180deg, #f8f4ea, #ece5d6);
-}
-.ij-coin-field { display: flex; align-items: center; gap: 6px; }
-.ij-coin-field .ij-coin { width: 26px; height: 26px; }
-.ij-coin-field__label { font-family: var(--ij-caps); font-weight: 700; font-size: 10px; letter-spacing: .04em; color: var(--ij-ink-2); }
-.ij-coin-field input {
-  width: 76px;
-  padding: 2px 6px !important;
-  border: 1.5px solid var(--ij-line) !important;
-  border-radius: 5px !important;
-  background: var(--ij-white) !important;
-  font-weight: 700;
-  font-size: 16px !important;
-  text-align: right;
-}
-.ij-coin-field__abbr { font-weight: 700; color: var(--ij-ink-3); font-size: 12px; }
-.ij-purse__note { margin-left: auto; font-size: 11px; color: var(--ij-ink-3); font-style: italic; }
-.ij-inventory { padding-bottom: 6px; }
-.ij-inv-group { margin: 6px 8px 8px; }
-.ij-inv-group__head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  font-weight: 700;
-  font-size: 12.5px;
-  border-bottom: 1px solid var(--ij-line);
-  padding: 0 2px 2px;
-  font-family: var(--ij-caps);
-  letter-spacing: .04em;
-}
-.ij-inv-list { list-style: none; margin: 0; padding: 0; }
-.ij-inv-row {
-  display: grid;
-  grid-template-columns: 26px 1fr auto auto 54px 64px auto;
-  align-items: center;
-  gap: 8px;
-  min-height: 30px;
-  padding: 2px 4px;
-  border-bottom: 1px solid var(--ij-line-3);
-  font-size: 13px;
-}
-.ij-inv-row--consumable { grid-template-columns: 26px 1fr auto auto 64px auto; }
-.ij-inv-row--empty { display: block; color: var(--ij-ink-3); font-style: italic; }
-.ij-inv-row__img { width: 24px; height: 24px; border: 1px solid var(--ij-line-3); border-radius: 3px; object-fit: cover; }
-.ij-inv-row__name { font-weight: 600; }
-.ij-inv-row__name:hover { color: var(--ij-jade); }
-.ij-inv-row__weight, .ij-inv-row__price, .ij-inv-row__kind { font-size: 11.5px; color: var(--ij-ink-3); text-align: right; }
-.ij-qty { display: inline-flex; align-items: center; gap: 5px; font-weight: 700; font-size: 12.5px; }
-.ij-qty a { font-size: 9px; color: var(--ij-ink-3); }
-.ij-qty a:hover { color: var(--ij-ink); }
-.ij-boxes { display: inline-flex; gap: 3px; }
-.ij-box-pip {
-  width: 14px;
-  height: 14px;
-  border: 1.5px solid var(--ij-line-2);
-  border-radius: 2px;
-  background: var(--ij-white);
-}
-.ij-box-pip.on { background: linear-gradient(135deg, var(--ij-jade-2), var(--ij-jade)); border-color: var(--ij-jade-dark); }
 
 /* Biografia */
-.ij-bio-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px 14px; padding: 8px 10px 10px; }
-.ij-bio-grid label, .ij-bio-static { display: flex; flex-direction: column; gap: 1px; }
-.ij-bio-grid label span, .ij-bio-static span { font-family: var(--ij-caps); font-weight: 700; font-size: 9px; letter-spacing: .04em; color: var(--ij-ink-2); }
-.ij-bio-grid :is(input, select) { border-bottom: 1px dotted var(--ij-line-2) !important; font-size: 13.5px; padding: 1px 2px; }
-.ij-bio-static strong { font-size: 13.5px; font-weight: 400; padding: 1px 2px; }
 .ij-bio-texts { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 12px; }
-.ij-bio-text--wide { grid-column: 1 / -1; }
 .ij-bio-text prose-mirror, .ij-item-desc prose-mirror {
   display: flex;
   flex-direction: column;
@@ -1614,7 +531,6 @@
   line-height: 1.45;
   color: var(--ij-ink);
 }
-.ij-bio-text--wide prose-mirror { min-height: 200px; }
 .imperiodejade prose-mirror .editor-content { position: relative; inset: auto; }
 .imperiodejade prose-mirror .editor-content p { margin: 0 0 .5em; }
 
@@ -1654,10 +570,10 @@
   display: block;
   width: 100%;
   margin: 3px 0 4px;
-  font-family: var(--ij-caps) !important;
-  font-weight: 800;
-  font-size: 22px !important;
-  letter-spacing: .04em;
+  font-family: var(--ij-title) !important;
+  font-weight: 400;
+  font-size: 23px !important;
+  letter-spacing: .02em;
   color: var(--ij-jade-dark) !important;
 }
 .ij-item-head__stats { display: flex; flex-wrap: wrap; gap: 6px; }
@@ -1888,25 +804,11 @@
 .ij-dialog-mod input { width: 70px; text-align: center; }
 
 /* =====================================================================================================
-   Ficha estreita: a coluna dos equipamentos desce, depois tudo vira uma coluna
+   Janela estreita
    ===================================================================================================== */
 
-@container (max-width: 927px) {
-  .ij-page {
-    grid-template-columns: 218px minmax(400px, 1fr);
-    grid-template-areas:
-      "id core"
-      "badges badges"
-      "gear gear";
-  }
-  .ij-col--gear { grid-template-columns: repeat(2, minmax(0, 220px)); justify-content: center; }
-}
 @container (max-width: 700px) {
-  .ij-page { grid-template-columns: 1fr; grid-template-areas: "id" "core" "badges" "gear"; }
-  .ij-col--id { max-width: 320px; justify-self: center; width: 100%; }
-  .ij-skills, .ij-bio-texts, .ij-combat-grid, .ij-chakra-board { grid-template-columns: 1fr; }
-  .ij-chakras__row { grid-template-columns: repeat(3, 1fr); }
-  .ij-bio-grid { grid-template-columns: 1fr 1fr; }
+  .ij-bio-texts { grid-template-columns: 1fr; }
 }
 
 /* =====================================================================================================
@@ -1929,10 +831,10 @@
 .ij-npc-head__art img { width: 100%; height: 100%; object-fit: cover; object-position: top; border: none; cursor: pointer; }
 .ij-npc-head__name {
   width: 100%;
-  font-family: var(--ij-caps) !important;
-  font-weight: 800;
-  font-size: 24px !important;
-  letter-spacing: .04em;
+  font-family: var(--ij-title) !important;
+  font-weight: 400;
+  font-size: 26px !important;
+  letter-spacing: .02em;
   color: var(--ij-ink) !important;
 }
 .ij-npc-head__line { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 6px; margin-top: 4px; font-family: var(--ij-caps); font-weight: 700; font-size: 12.5px; color: var(--ij-ink-2); }
@@ -2043,20 +945,10 @@
 .ij-linklist .content-link { background: var(--ij-paper-2); border: 1px solid var(--ij-line-3); border-radius: 4px; padding: 0 5px; color: var(--ij-ink); }
 .ij-linklist__lvl { font-family: var(--ij-caps); font-weight: 700; font-size: 10px; color: var(--ij-ink-3); margin-left: 4px; }
 .ij-linklist__lvl.on { color: var(--ij-jade); }
-.ij-plaque__racial {
-  position: absolute;
-  left: 16px;
-  top: 7px;
-  font-size: 10.5px;
-  font-weight: 700;
-  color: var(--ij-jade);
-}
-.ij-pending { color: var(--ij-cinnabar); animation: ij-glow 1.6s ease-in-out infinite; border-radius: 50%; }
 .ij-item-effects { display: flex; flex-wrap: wrap; align-items: center; gap: 5px; margin: 0 0 10px; padding: 6px 8px; border: 1px dashed var(--ij-jade); border-radius: 6px; background: #eef5f0; }
 .ij-item-effects__label { font-family: var(--ij-caps); font-weight: 700; font-size: 10px; letter-spacing: .04em; color: var(--ij-jade-dark); }
 .ij-item-effects__note { font-size: 11px; color: var(--ij-ink-3); font-style: italic; }
 .ij-tag--effect { background: var(--ij-jade-pale); border-color: #8fbfa3; color: var(--ij-jade-dark); }
-
 
 /* =====================================================================================================
    Texto do livro (módulo local de cada jogador; o sistema não traz texto do livro)
@@ -2143,7 +1035,6 @@
 }
 .ij-condition img { width: 14px; height: 14px; border: none; filter: invert(20%) sepia(60%) saturate(1500%) hue-rotate(340deg); }
 .ij-condition a { color: inherit; }
-.ij-uses { margin-left: 4px; padding: 0 6px; border-radius: 8px; background: var(--ij-gold-pale); border: 1px solid var(--ij-gold); font-size: 10.5px; font-weight: 700; color: #8e6516; }
 
 .imperiodejade .ij-power-btn { display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 22px; margin-left: 4px;
   border-radius: 50%; border: 1px solid var(--ij-plum); background: #f1e9f5; color: var(--ij-plum); font-size: 11px; }
@@ -2151,8 +1042,5 @@
 .imperiodejade .ij-item-head__use--power { right: 52px; background: var(--ij-plum); }
 
 .imperiodejade .ij-maneuvers { display: flex; flex-wrap: wrap; align-items: center; gap: 4px; margin: 6px 0 10px; }
-.imperiodejade .ij-maneuvers__label { font-family: var(--ij-caps); font-size: 11px; font-weight: 700; letter-spacing: .05em; color: var(--ij-ink-2); margin-right: 4px; }
 .imperiodejade .ij-maneuvers--npc { margin: 0 0 0 8px; }
 
-.imperiodejade .ij-plaque__damage { position: absolute; top: 2px; right: 10px; padding: 0 5px; border-radius: 8px; background: var(--ij-cinnabar);
-  color: #fff; font-size: 10.5px; font-weight: 700; line-height: 15px; z-index: 2; }

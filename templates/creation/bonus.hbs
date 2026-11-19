@@ -1,0 +1,24 @@
+{{!-- The benefit of a level (p. 44), in the creation and level-up wizards: a feat, or +1 in a basic ability. --}}
+<section class="wz-bonus{{#if levelBonus.done}} done{{/if}}">
+  <header>
+    <span class="wz-bonus-seal"><i class="fa-solid fa-arrow-up-wide-short"></i></span>
+    <div>
+      <span class="wz-page-eyebrow">{{levelBonus.eyebrow}}</span>
+      <h5>{{localize "IJ.Wizard.Bonus.title"}}</h5>
+    </div>
+    <div class="wz-bonus-kinds">
+      <button type="button" class="wz-option{{#if levelBonus.feat}} on{{/if}}" data-action="levelBonus" data-kind="feat"><i class="fa-solid fa-star"></i><span>{{localize "IJ.Wizard.Bonus.feat"}}</span></button>
+      <button type="button" class="wz-option{{#if levelBonus.ability}} on{{/if}}" data-action="levelBonus" data-kind="ability"><i class="fa-solid fa-plus"></i><span>{{localize "IJ.Wizard.Bonus.ability"}}</span></button>
+    </div>
+  </header>
+  {{#if levelBonus.ability}}
+  <div class="wz-toggles">
+    {{#each levelBonus.abilities}}
+    <button type="button" class="wz-toggle{{#if on}} on{{/if}}" data-action="levelBonus" data-ability="{{key}}">
+      <b>{{abbr}}</b><small>{{label}}</small>{{#if on}}<em>+1</em>{{/if}}{{#if after}}<span class="wz-toggle-after">{{after}}</span>{{/if}}
+    </button>
+    {{/each}}
+  </div>
+  {{/if}}
+  <p class="wz-note">{{levelBonus.note}}</p>
+</section>

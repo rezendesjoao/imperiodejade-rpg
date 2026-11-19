@@ -1,0 +1,91 @@
+{{!-- SUMMARY: the character's page before it is made. The portrait and the name (both can still change) with what it
+     is; its details (age by the class's dice), languages and texts; then its abilities, numbers, skills, abilities of
+     race and class, feats, jutsus, gear and the Honor violations of its creation. --}}
+<div class="wz-summary wz-scroll">
+  <section class="wz-hero">
+    <a class="wz-hero-portrait" data-action="portrait" data-tooltip-text="{{localize 'IJ.Wizard.Summary.portrait'}}">
+      <img src="{{img}}" alt="">
+      <span><i class="fa-solid fa-image"></i>{{localize "IJ.Wizard.Summary.portrait"}}</span>
+    </a>
+    <div class="wz-hero-text">
+      <span class="wz-eyebrow">{{localize "IJ.Wizard.Summary.eyebrow"}}</span>
+      <label class="wz-name">
+        <input type="text" data-field="name" value="{{name}}" placeholder="{{localize 'IJ.Sheet.namePlaceholder'}}" aria-label="{{localize 'IJ.Sheet.name'}}" autocomplete="off" spellcheck="false" maxlength="80">
+        <i class="fa-solid fa-pen" aria-hidden="true"></i>
+      </label>
+      {{#if identity.length}}<p class="wz-hero-line">{{#each identity}}<span>{{this}}</span>{{/each}}</p>{{/if}}
+    </div>
+    <ul class="wz-hero-stats">
+      <li class="level"><small>{{localize "IJ.Level.label"}}</small><b>1</b></li>
+      {{#each hero}}<li><i class="{{icon}}"></i><b>{{value}}</b><small>{{label}}</small></li>{{/each}}
+      <li class="tier tier-{{tierKey}}"><small>{{localize "IJ.Honor.measure"}}</small><b>{{tier}}</b></li>
+    </ul>
+  </section>
+  {{#if rebuild}}<p class="wz-warn"><i class="fa-solid fa-triangle-exclamation"></i><span>{{localize "IJ.Wizard.Summary.rebuild"}}</span></p>{{/if}}
+
+  <div class="wz-sum-grid">
+    <section class="wz-sum-card wide">
+      <h4><i class="fa-solid fa-id-card"></i>{{localize "IJ.Wizard.Summary.details"}}</h4>
+      <div class="wz-details">
+        <label><span>{{localize "IJ.Details.gender"}}</span><input type="text" data-field="detail" data-key="gender" value="{{details.gender}}"></label>
+        <label class="age"><span>{{localize "IJ.Details.age"}}</span><input type="text" data-field="detail" data-key="age" value="{{details.age}}">
+          <button type="button" class="wz-round" data-action="rollAge" data-tooltip-text="{{localize 'IJ.Wizard.Summary.rollAge' dice=ageDice}}"><i class="fa-solid fa-dice"></i></button></label>
+        <label><span>{{localize "IJ.Details.height"}}</span><input type="text" data-field="detail" data-key="height" value="{{details.height}}"></label>
+        <label><span>{{localize "IJ.Details.weight"}}</span><input type="text" data-field="detail" data-key="weight" value="{{details.weight}}"></label>
+        <label><span>{{localize "IJ.Details.clan"}}</span><input type="text" data-field="detail" data-key="clan" value="{{details.clan}}"></label>
+        <label><span>{{localize "IJ.Details.title"}}</span><input type="text" data-field="detail" data-key="title" value="{{details.title}}" placeholder="{{localize 'IJ.Details.titlePlaceholder'}}"></label>
+        <div class="wz-static"><span>{{localize "IJ.Details.religion"}}</span><b>{{#if religion}}{{religion}}{{else}}—{{/if}}</b></div>
+      </div>
+      <div class="wz-languages">
+        <span class="wz-page-eyebrow">{{localize "IJ.Details.languages"}} · {{localize "IJ.Wizard.Summary.languagesHint" n=languages.max}}</span>
+        <ul class="wz-chips">
+          {{#each languages.fixed}}<li class="fixed"><i class="fa-solid fa-lock"></i><span>{{this}}</span></li>{{/each}}
+          {{#each languages.options}}<li><button type="button" class="wz-option{{#if on}} on{{/if}}" data-action="language" data-name="{{name}}" {{#if disabled}}disabled{{/if}}>{{name}}</button></li>{{/each}}
+        </ul>
+      </div>
+    </section>
+
+    <section class="wz-sum-card">
+      <h4><i class="fa-solid fa-chart-simple"></i>{{localize "IJ.Wizard.Summary.abilities"}}</h4>
+      <div class="wz-sum-abilities">
+        {{#each abilities}}<div class="{{#if (eq key 'hon')}}honor{{/if}}" data-tooltip-text="{{label}}"><span class="wz-sum-kanji">{{kanji}}</span><b>{{total}}</b><small>{{abbr}} {{mod}}</small></div>{{/each}}
+      </div>
+      <p class="wz-note">{{honorLine}}</p>
+      <ul class="wz-sum-numbers">{{#each numbers}}<li><i class="{{icon}}"></i><span>{{label}}</span><b>{{value}}</b></li>{{/each}}</ul>
+    </section>
+
+    <section class="wz-sum-card">
+      <h4><i class="fa-solid fa-scroll"></i>{{localize "IJ.Wizard.Summary.skills"}} <small>{{skills.length}}</small></h4>
+      <ul class="wz-sum-list two">{{#each skills}}<li><span>{{label}}</span><b>{{total}}</b></li>{{/each}}</ul>
+      <h4><i class="fa-solid fa-dragon"></i>{{localize "IJ.Wizard.Summary.powers"}} <small>{{powers.length}}</small></h4>
+      <ul class="wz-sum-tiles">{{#each powers}}<li><img src="{{img}}" alt=""><span>{{name}}</span></li>{{/each}}</ul>
+    </section>
+
+    <section class="wz-sum-card">
+      <h4><i class="fa-solid fa-star"></i>{{localize "IJ.Wizard.Summary.feats"}} <small>{{feats.length}}</small></h4>
+      <ul class="wz-sum-tiles">{{#each feats}}<li><img src="{{img}}" alt=""><span>{{name}}</span></li>{{/each}}</ul>
+      {{#if jutsus.length}}
+      <h4><i class="fa-solid fa-hand-sparkles"></i>{{localize "IJ.Wizard.Summary.jutsus"}} <small>{{jutsus.length}}</small></h4>
+      <ul class="wz-sum-tiles">{{#each jutsus}}<li><span class="wz-sum-kanji small">{{kanji}}</span><span>{{name}}</span></li>{{/each}}</ul>
+      {{/if}}
+    </section>
+
+    <section class="wz-sum-card">
+      <h4><i class="fa-solid fa-sack"></i>{{localize "IJ.Wizard.Summary.gear"}} <small>{{money}}</small></h4>
+      <ul class="wz-sum-tiles">{{#each gear}}<li class="{{#if equipped}}equipped{{/if}}"><img src="{{img}}" alt=""><span>{{name}}</span>{{#if equipped}}<i class="fa-solid fa-hand-fist" data-tooltip-text="{{localize 'IJ.Wizard.Summary.equipped'}}"></i>{{/if}}</li>{{else}}<li class="wz-empty">{{localize "IJ.Wizard.Gear.cartEmpty"}}</li>{{/each}}</ul>
+      {{#if violations.length}}
+      <h4><i class="fa-solid fa-yin-yang"></i>{{localize "IJ.Wizard.Summary.violations"}}</h4>
+      <ul class="wz-violations">{{#each violations}}<li class="{{#if ignored}}ignored{{/if}}"><span>{{label}}</span><em>{{severityLabel}}</em><b>{{#if damage}}−{{damage}}{{else}}{{localize "IJ.Wizard.ignored"}}{{/if}}</b></li>{{/each}}</ul>
+      {{/if}}
+    </section>
+
+    <section class="wz-sum-card wide">
+      <h4><i class="fa-solid fa-feather"></i>{{localize "IJ.Wizard.Summary.story"}}</h4>
+      <div class="wz-bio">
+        <label><span>{{localize "IJ.Bio.appearance"}}</span><textarea data-field="bio" data-key="appearance" rows="3">{{bio.appearance}}</textarea></label>
+        <label><span>{{localize "IJ.Bio.personality"}}</span><textarea data-field="bio" data-key="personality" rows="3">{{bio.personality}}</textarea></label>
+        <label class="wide"><span>{{localize "IJ.Bio.history"}}</span><textarea data-field="bio" data-key="history" rows="4">{{bio.history}}</textarea></label>
+      </div>
+    </section>
+  </div>
+</div>

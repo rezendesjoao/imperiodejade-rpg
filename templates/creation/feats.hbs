@@ -1,0 +1,99 @@
+{{!-- FEATS: on the left, what the character already receives and the pools to fill (the feat of the 1st level, the
+     human's two, the technique, the kaijin's Tormenta feats), each pick with its problems and the choice it asks; on
+     the right, every feat with its prerequisites checked (a click opens its text; + puts it in the first pool that
+     takes it). --}}
+<div class="wz-browse">
+  <div class="wz-side wz-scroll">
+    {{#if granted.length}}
+    <section class="wz-granted">
+      <h4><i class="fa-solid fa-gift"></i>{{localize "IJ.Wizard.Feats.granted"}}</h4>
+      <ul class="wz-chips">{{#each granted}}<li data-tooltip-html="{{tip}}" data-tooltip-class="ij-wz-tip"><img src="{{img}}" alt=""><span>{{name}}</span></li>{{/each}}</ul>
+    </section>
+    {{/if}}
+
+    {{#each pools}}
+    <section class="wz-pool">
+      <header>
+        <h4>{{label}}</h4>
+        <span class="wz-quota-mini">{{picks.length}}/{{count}}</span>
+      </header>
+      <p class="wz-note">{{hint}}</p>
+      <ul class="wz-slots">
+        {{#each picks}}
+        <li class="wz-slot{{#unless ok}} bad{{/unless}}" data-key="{{key}}" data-uuid="{{uuid}}">
+          <div class="wz-slot-head">
+            <img src="{{img}}" alt="" data-tooltip-html="{{tip}}" data-tooltip-class="ij-wz-tip">
+            <b data-tooltip-html="{{tip}}" data-tooltip-class="ij-wz-tip">{{name}}</b>
+            <button type="button" class="wz-x" data-action="featRemove" aria-label="{{localize 'IJ.Wizard.remove'}}"><i class="fa-solid fa-xmark"></i></button>
+          </div>
+          {{#if choice}}
+          <div class="wz-slot-choice">
+            {{#if choice.label}}<small>{{choice.label}}</small>{{/if}}
+            {{#if choice.options.length}}
+              {{#if choice.select}}
+              <select data-field="featSelect" data-key="{{key}}">
+                <option value="">—</option>
+                {{#each choice.options}}<option value="{{id}}" {{#if on}}selected{{/if}} {{#if taken}}disabled{{/if}}>{{label}}{{#if taken}} ✓{{/if}}</option>{{/each}}
+              </select>
+              {{else}}
+              <span class="wz-options mini">{{#each choice.options}}<button type="button" class="wz-option{{#if on}} on{{/if}}" data-action="featOption" data-option="{{id}}" {{#if taken}}disabled data-tooltip-text="{{localize 'IJ.Wizard.Feats.taken'}}"{{/if}}>{{label}}{{#if taken}} ✓{{/if}}</button>{{/each}}</span>
+              {{/if}}
+            {{/if}}
+            {{#if choice.text}}
+            <input type="text" data-field="featText" data-key="{{key}}" value="{{choice.textValue}}" placeholder="{{choice.text}}" autocomplete="off"
+              {{#if choice.weapons}}list="wz-feat-weapons"{{/if}}{{#if choice.skills}}list="wz-feat-skills"{{/if}}{{#if choice.jutsus}}list="wz-feat-jutsus"{{/if}}>
+            {{/if}}
+          </div>
+          {{/if}}
+          {{#each problems}}<p class="wz-problem"><i class="fa-solid fa-triangle-exclamation"></i><span>{{this}}</span></p>{{/each}}
+        </li>
+        {{/each}}
+        {{#each empty}}<li class="wz-slot empty"><i class="fa-regular fa-square-plus"></i><span>{{localize "IJ.Wizard.Feats.emptySlot"}}</span></li>{{/each}}
+      </ul>
+    </section>
+    {{/each}}
+    <datalist id="wz-feat-weapons">{{#each weaponNames}}<option value="{{this}}"></option>{{/each}}</datalist>
+    <datalist id="wz-feat-skills">{{#each skillNames}}<option value="{{this}}"></option>{{/each}}</datalist>
+    <datalist id="wz-feat-jutsus">{{#each jutsuNames}}<option value="{{this}}"></option>{{/each}}</datalist>
+  </div>
+
+  <div class="wz-browser">
+    <div class="wz-toolbar">
+      <label class="wz-search"><i class="fa-solid fa-magnifying-glass"></i>
+        <input type="search" data-field="query" data-key="featQuery" value="{{query}}" placeholder="{{localize 'IJ.Wizard.Feats.search'}}" autocomplete="off">
+      </label>
+      <div class="wz-chips-row">
+        {{#each filters}}<button type="button" class="wz-chip{{#if active}} active{{/if}}" data-action="filter" data-list="feats" data-filter="{{id}}">{{label}} <b>{{count}}</b></button>{{/each}}
+      </div>
+    </div>
+    <ul class="wz-list">
+      {{#each feats}}
+      <li class="wz-feat{{#if expanded}} expanded{{/if}}{{#unless available}} unavailable{{/unless}}" data-uuid="{{uuid}}" data-category="{{category}}"
+        data-available="{{#if available}}true{{else}}false{{/if}}" data-search="{{search}}">
+        <div class="wz-row" data-action="expand">
+          <img src="{{img}}" alt="">
+          <div class="wz-row-main">
+            <span class="wz-row-title">
+              <b>{{name}}</b>
+              <span class="wz-tag">{{categoryLabel}}</span>
+              {{#if honorMin}}<span class="wz-tag honor">{{localize "IJ.AbilityAbbr.hon"}} {{honorMin}}</span>{{/if}}
+              {{#if cost}}<span class="wz-tag">{{cost}} PM</span>{{/if}}
+              {{#if owned}}<span class="wz-tag owned"><i class="fa-solid fa-check"></i>{{localize "IJ.Wizard.Feats.have"}}</span>{{/if}}
+              {{#if violation}}<span class="wz-tag viol{{#if violation.ignored}} ignored{{/if}}">{{#if violation.ignored}}{{localize "IJ.Wizard.Skills.violationIgnored" severity=violation.label}}{{else}}{{localize "IJ.Wizard.Skills.violation" severity=violation.label n=violation.damage}}{{/if}}</span>{{/if}}
+            </span>
+            {{#if prereqs.length}}
+            <span class="wz-prereqs">{{#each prereqs}}<em class="{{#if ok}}ok{{/if}}{{#if fail}}fail{{/if}}{{#if unknown}}unknown{{/if}}">{{#if ok}}<i class="fa-solid fa-check"></i>{{/if}}{{#if fail}}<i class="fa-solid fa-xmark"></i>{{/if}}{{#if unknown}}<i class="fa-solid fa-question"></i>{{/if}}{{text}}</em>{{/each}}</span>
+            {{else}}
+            <span class="wz-row-text">{{text}}</span>
+            {{/if}}
+          </div>
+          <button type="button" class="wz-add" data-action="featAdd" {{#unless pickable}}disabled{{/unless}}
+            data-tooltip-text="{{#if reason}}{{reason}}{{else}}{{localize 'IJ.Wizard.Feats.add'}}{{/if}}" aria-label="{{localize 'IJ.Wizard.Feats.add'}}"><i class="fa-solid fa-plus"></i></button>
+        </div>
+        <div class="wz-row-full">{{{html}}}</div>
+      </li>
+      {{/each}}
+      <li class="wz-feat-empty wz-empty" hidden>{{localize "IJ.Wizard.nothingFound"}}</li>
+    </ul>
+  </div>
+</div>

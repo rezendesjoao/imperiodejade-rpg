@@ -1,0 +1,51 @@
+{{!-- LEVEL — SUMMARY: the character before and at the new level, what comes with it, and the Honor of the level. --}}
+<div class="wz-summary wz-scroll">
+  <section class="wz-hero">
+    <span class="wz-lv-seal"><b>{{level}}</b><small>{{localize "IJ.Level.Summary.level"}}</small></span>
+    <div class="wz-hero-text">
+      <span class="wz-eyebrow">{{localize "IJ.Level.Summary.eyebrow"}}</span>
+      <h3 class="wz-lv-title">{{classAfter}}</h3>
+      {{#if bonus}}<p class="wz-hero-line"><span><i class="fa-solid fa-plus"></i> {{bonus}}</span></p>{{/if}}
+    </div>
+  </section>
+
+  <div class="wz-sum-grid">
+    <section class="wz-sum-card">
+      <h4><i class="fa-solid fa-scale-balanced"></i>{{localize "IJ.Level.Summary.numbers"}}</h4>
+      <table class="wz-lv-table">
+        <thead><tr><th></th><th>{{localize "IJ.Level.Summary.before"}}</th><th></th><th>{{localize "IJ.Level.Summary.after"}}</th></tr></thead>
+        <tbody>
+          {{#each rows}}<tr class="{{#if changed}}changed{{/if}}{{#if up}} up{{/if}}"><td>{{label}}</td><td>{{before}}</td><td><i class="fa-solid fa-arrow-right-long"></i></td><td><b>{{after}}</b></td></tr>{{/each}}
+        </tbody>
+      </table>
+    </section>
+
+    <section class="wz-sum-card">
+      <h4><i class="fa-solid fa-gift"></i>{{localize "IJ.Level.Summary.comes"}}</h4>
+      {{#if powers.length}}<span class="wz-sum-group-label">{{localize "IJ.Wizard.Summary.powers"}}</span>
+      <ul class="wz-sum-tiles">{{#each powers}}<li><img src="{{img}}" alt=""><span>{{name}}</span></li>{{/each}}</ul>{{/if}}
+      {{#if feats.length}}<span class="wz-sum-group-label">{{localize "IJ.Wizard.Summary.feats"}}</span>
+      <ul class="wz-sum-tiles">{{#each feats}}<li><img src="{{img}}" alt=""><span>{{name}}</span></li>{{/each}}</ul>{{/if}}
+      {{#if jutsus.length}}<span class="wz-sum-group-label">{{localize "IJ.Wizard.Summary.jutsus"}}</span>
+      <ul class="wz-sum-tiles">{{#each jutsus}}<li><img src="{{img}}" alt=""><span>{{name}}</span></li>{{/each}}</ul>{{/if}}
+      {{#if gear.length}}<span class="wz-sum-group-label">{{localize "IJ.Wizard.Summary.gear"}}</span>
+      <ul class="wz-sum-tiles">{{#each gear}}<li><img src="{{img}}" alt=""><span>{{name}}</span></li>{{/each}}</ul>{{/if}}
+      {{#if changed.length}}<span class="wz-sum-group-label">{{localize "IJ.Level.Summary.choices"}}</span>
+      <ul class="wz-sum-list">{{#each changed}}<li><span>{{name}}</span><b>+ {{added}}</b></li>{{/each}}</ul>{{/if}}
+      {{#if sword}}<p class="wz-text"><i class="fa-solid fa-khanda"></i> {{sword}}</p>{{/if}}
+      {{#if skills.length}}<span class="wz-sum-group-label">{{localize "IJ.Wizard.Summary.skills"}}</span>
+      <ul class="wz-sum-tiles">{{#each skills}}<li><span>{{this}}</span></li>{{/each}}</ul>{{/if}}
+      {{#each chakras}}<p class="wz-text"><i class="fa-solid fa-yin-yang"></i> {{this}}</p>{{/each}}
+    </section>
+
+    <section class="wz-sum-card wide">
+      <h4><i class="fa-solid fa-yin-yang"></i>{{localize "IJ.Ability.hon"}} <small>{{honor.before}} → {{honor.final}}</small></h4>
+      {{#if honor.gain}}<p class="wz-text">{{localize "IJ.Level.Summary.honorGain"}}</p>{{/if}}
+      {{#if honor.list.length}}
+      <ul class="wz-violations">{{#each honor.list}}<li class="{{#if ignored}}ignored{{/if}}"><span>{{label}}</span><em>{{severityLabel}}</em><b>{{#if damage}}−{{damage}}{{else}}{{localize "IJ.Wizard.ignored"}}{{/if}}</b></li>{{/each}}</ul>
+      {{else}}
+      <p class="wz-note">{{localize "IJ.Level.Summary.noViolations"}}</p>
+      {{/if}}
+    </section>
+  </div>
+</div>

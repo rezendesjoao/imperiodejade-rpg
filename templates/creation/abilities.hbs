@@ -1,0 +1,144 @@
+{{!-- ABILITIES: the seven scores (Honor included) by the method the GM allows: points (24, the cost of each step
+     beside the score), rolls (4d6 with the lowest dropped, seven times; each value goes to one ability) or typed. A row
+     per ability: the score, the race's and the class's adjustments, the total and the modifier; then Honor, with its
+     Measure and what the class asks of it, and the numbers of play. --}}
+<div class="wz-abilities wz-scroll">
+  <div class="wz-methods">
+    {{#each methods}}
+    <button type="button" class="wz-method{{#if active}} active{{/if}}" data-action="method" data-method="{{id}}">
+      <b>{{label}}</b><small>{{hint}}</small>
+    </button>
+    {{/each}}
+  </div>
+
+  <div class="wz-ability-tools">
+    {{#if isPoints}}
+    <div class="wz-points{{#unless points.left}} done{{/unless}}">
+      <span class="wz-gems" aria-hidden="true">{{#each points.gems}}<i class="{{#if on}}on{{/if}}"></i>{{/each}}</span>
+      <div class="wz-points-text">
+        <span class="wz-page-eyebrow">{{localize "IJ.Wizard.Abilities.points"}}</span>
+        <b>{{#if points.left}}{{localize "IJ.Wizard.Abilities.left" n=points.left total=points.budget}}{{else}}<i class="fa-solid fa-circle-check"></i> {{localize "IJ.Wizard.Abilities.allSpent"}}{{/if}}</b>
+      </div>
+      <button type="button" class="wz-round" data-action="resetScores" data-tooltip-text="{{localize 'IJ.Wizard.Abilities.reset'}}" aria-label="{{localize 'IJ.Wizard.Abilities.reset'}}"><i class="fa-solid fa-rotate-left"></i></button>
+    </div>
+    {{/if}}
+
+    {{#if isRoll}}
+    <div class="wz-rolls">
+      {{#if roll.has}}
+      <ul class="wz-roll-values">
+        {{#each roll.values}}<li class="{{#if used}}used{{/if}}"><b>{{v}}</b><small>{{mod}}</small>{{#if key}}<em>{{key}}</em>{{/if}}</li>{{/each}}
+      </ul>
+      <div class="wz-roll-info">
+        <span>{{localize "IJ.Wizard.Abilities.rollMods" mods=roll.mods high=roll.high}}{{#if roll.sets}} · {{localize "IJ.Wizard.Abilities.rollSets" n=roll.sets}}{{/if}}</span>
+        <span class="wz-roll-buttons">
+          <button type="button" class="wz-chip" data-action="autoAssign"><i class="fa-solid fa-wand-magic-sparkles"></i>{{localize "IJ.Wizard.Abilities.autoAssign"}}</button>
+          {{#if roll.canReroll}}<button type="button" class="wz-chip" data-action="roll" data-tooltip-text="{{localize 'IJ.Wizard.Abilities.rerollWhy'}}"><i class="fa-solid fa-dice"></i>{{localize "IJ.Wizard.Abilities.reroll"}}</button>{{/if}}
+          {{#if roll.gm}}<button type="button" class="wz-chip gm" data-action="resetRolls"><i class="fa-solid fa-rotate"></i>{{localize "IJ.Wizard.Abilities.resetRolls"}}</button>{{/if}}
+        </span>
+      </div>
+      {{else}}
+      <button type="button" class="wz-roll-button" data-action="roll">
+        <i class="fa-solid fa-dice-d6"></i>
+        <span><b>{{localize "IJ.Wizard.Abilities.rollButton"}}</b><small>{{localize "IJ.Wizard.Abilities.rollHint"}}</small></span>
+      </button>
+      {{/if}}
+    </div>
+    {{/if}}
+
+    {{#if isFree}}
+    <p class="wz-note"><i class="fa-solid fa-dice"></i> {{localize "IJ.Wizard.Abilities.freeNote"}}</p>
+    {{/if}}
+
+    {{#if suggest}}{{#if suggest.available}}
+    <div class="wz-advice{{#if suggest.applied}} on{{/if}}">
+      <span class="wz-advice-icon"><i class="fa-solid fa-lightbulb"></i></span>
+      <div class="wz-advice-text">
+        <b>{{suggest.title}}</b>
+        <span>{{#each suggest.parts}}<em><small>{{abbr}}</small>{{n}}</em>{{/each}}</span>
+      </div>
+      <button type="button" class="wz-chip{{#if suggest.applied}} active{{/if}}" data-action="suggest" {{#if suggest.applied}}disabled{{/if}}>
+        <i class="fa-solid {{#if suggest.applied}}fa-check{{else}}fa-wand-magic-sparkles{{/if}}"></i>{{#if suggest.applied}}{{localize "IJ.Wizard.Abilities.suggestOn"}}{{else}}{{localize "IJ.Wizard.Abilities.suggestUse"}}{{/if}}
+      </button>
+    </div>
+    {{/if}}{{/if}}
+  </div>
+
+  {{> "systems/imperiodejade/templates/creation/bonus.hbs"}}
+
+  <div class="wz-ability-table" role="table">
+    <div class="wz-ability-row head" role="row">
+      <span role="columnheader">{{localize "IJ.Wizard.Abilities.col.ability"}}</span>
+      <span role="columnheader">{{localize "IJ.Wizard.Abilities.col.base"}}</span>
+      <span role="columnheader">{{localize "IJ.Wizard.Step.race"}}</span>
+      <span role="columnheader">{{localize "IJ.Wizard.Step.class"}}</span>
+      <span role="columnheader">{{localize "IJ.Wizard.Abilities.col.total"}}</span>
+      <span role="columnheader">{{localize "IJ.Wizard.Abilities.col.mod"}}</span>
+    </div>
+    {{#each rows}}
+    <section class="wz-ability-row{{#if honor}} honor{{/if}}{{#if empty}} empty{{/if}}" role="row" data-key="{{key}}">
+      <div class="wz-ability-name" role="cell">
+        <span class="wz-ability-kanji">{{kanji}}</span>
+        <div><b>{{label}}</b><small>{{hint}}</small></div>
+      </div>
+      <div class="wz-ability-base" role="cell">
+        {{#if ../isPoints}}
+        <button type="button" data-action="point" data-key="{{key}}" data-delta="-1" aria-label="−1 {{label}}" {{#unless canDown}}disabled{{/unless}}><i class="fa-solid fa-minus"></i></button>
+        <b>{{point}}</b>
+        <button type="button" data-action="point" data-key="{{key}}" data-delta="1" aria-label="+1 {{label}}" {{#unless canUp}}disabled{{/unless}}><i class="fa-solid fa-plus"></i></button>
+        <small class="wz-cost">{{localize "IJ.Wizard.Abilities.cost" n=cost}}</small>
+        {{/if}}
+        {{#if plusOne}}<em class="wz-plus-one" data-tooltip-text="{{localize 'IJ.Wizard.Bonus.ability'}}">+1</em>{{/if}}
+        {{#if ../isRoll}}
+        <select data-field="assign" data-key="{{key}}" {{#unless ../roll.has}}disabled{{/unless}} aria-label="{{label}}">
+          <option value="">—</option>
+          {{#each rollOptions}}<option value="{{i}}" {{#if selected}}selected{{/if}}>{{v}}{{#if taken}} ↺{{/if}}</option>{{/each}}
+        </select>
+        {{/if}}
+        {{#if ../isFree}}
+        <input type="number" min="3" max="18" step="1" data-field="free" data-key="{{key}}" value="{{free}}" aria-label="{{label}}">
+        {{/if}}
+      </div>
+      <span class="wz-ability-src" role="cell">{{raceMod}}</span>
+      <span class="wz-ability-src" role="cell">{{clsMod}}{{#if violations}} <em class="viol" data-tooltip-text="{{localize 'IJ.Wizard.Abilities.violationsTip'}}">{{violations}}</em>{{/if}}</span>
+      <span class="wz-ability-total" role="cell">{{total}}</span>
+      <span class="wz-ability-mod{{#if negative}} neg{{/if}}" role="cell">{{mod}}</span>
+    </section>
+    {{/each}}
+  </div>
+
+  <div class="wz-ability-bottom">
+    <section class="wz-honor-box tier-{{honor.tierKey}}">
+      <header>
+        <span class="wz-honor-kanji">誉</span>
+        <div>
+          <span class="wz-page-eyebrow">{{localize "IJ.Honor.measure"}}</span>
+          <h4>{{honor.tier}} <small>{{honor.total}}</small></h4>
+        </div>
+      </header>
+      <p class="wz-honor-sum">{{localize "IJ.Wizard.Abilities.honorSum" base=honor.base race=honor.race cls=honor.cls before=honor.before}}{{#if honor.damage}} {{localize "IJ.Wizard.Abilities.honorDamage" n=honor.damage total=honor.total}}{{/if}}</p>
+      {{#if honor.reqs.length}}
+      <ul class="wz-reqs">
+        {{#each honor.reqs}}<li class="{{#if ok}}ok{{else}}fail{{/if}}"><i class="fa-solid {{#if ok}}fa-check{{else}}fa-xmark{{/if}}"></i>{{localize "IJ.Wizard.Abilities.honorReq" name=name n=n}}</li>{{/each}}
+      </ul>
+      {{/if}}
+      {{#if honor.violations.length}}
+      <ul class="wz-violations">
+        {{#each honor.violations}}<li class="{{#unless damage}}ignored{{/unless}}"><span>{{label}}</span><b>{{#if damage}}−{{damage}}{{else}}{{localize "IJ.Wizard.ignored"}}{{/if}}</b></li>{{/each}}
+      </ul>
+      {{/if}}
+      <p class="wz-note">{{localize "IJ.Wizard.Abilities.honorNote"}}</p>
+    </section>
+    <section class="wz-numbers">
+      <span class="wz-page-eyebrow">{{localize "IJ.Wizard.Abilities.numbers"}}</span>
+      <ul>{{#each numbers}}<li><i class="{{icon}}"></i><b>{{value}}</b><small>{{label}}</small></li>{{/each}}</ul>
+    </section>
+  </div>
+
+  {{#if isPoints}}
+  <details class="wz-table wz-cost-table">
+    <summary><i class="fa-solid fa-table-list"></i>{{localize "IJ.Wizard.Abilities.costTable"}}</summary>
+    <ul>{{#each costTable}}<li><b>{{score}}</b><small>{{cost}}</small></li>{{/each}}</ul>
+  </details>
+  {{/if}}
+</div>

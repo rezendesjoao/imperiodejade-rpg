@@ -1328,6 +1328,16 @@
               "tonfa"
             ]
           }
+        },
+        {
+          "id": "naginata",
+          "label": "Naginata",
+          "hint": "Marcial: escolha do monge (arma de monge)",
+          "traits": {
+            "exotic": [
+              "naginata"
+            ]
+          }
         }
       ]
     }

@@ -1,0 +1,80 @@
+{{!-- JUTSUS: who teaches the character jutsus at the 1st level (the class's apprentice ability, the hanyô's chakra,
+     Conhecimento de Jutsus) and how many; the basic jutsus they take, with their numbers and the violations some of
+     them are. A character no one teaches sees why, and goes on. --}}
+{{#if none}}
+<div class="wz-none wz-scroll">
+  <span class="wz-none-kanji">術</span>
+  <h3>{{localize "IJ.Wizard.Jutsus.noneTitle"}}</h3>
+  <p>{{localize "IJ.Wizard.Jutsus.noneText"}}</p>
+  <ul class="wz-guide-steps">
+    <li><i class="fa-solid fa-yin-yang"></i><p>{{localize "IJ.Wizard.Jutsus.noneOne"}}</p></li>
+    <li><i class="fa-solid fa-star"></i><p>{{localize "IJ.Wizard.Jutsus.noneTwo"}}</p></li>
+    <li><i class="fa-solid fa-stairs"></i><p>{{localize "IJ.Wizard.Jutsus.noneThree"}}</p></li>
+  </ul>
+</div>
+{{else}}
+<div class="wz-browse">
+  <div class="wz-side wz-scroll">
+    {{#each pools}}
+    <section class="wz-pool">
+      <header>
+        <img src="{{img}}" alt="">
+        <h4>{{name}}</h4>
+        <span class="wz-quota-mini">{{picks.length}}/{{count}}</span>
+      </header>
+      <p class="wz-note">{{rule}}</p>
+      <ul class="wz-slots">
+        {{#each picks}}
+        <li class="wz-slot{{#unless ok}} bad{{/unless}}" data-uuid="{{uuid}}">
+          <div class="wz-slot-head">
+            <span class="wz-slot-kanji">{{kanji}}</span>
+            <b data-tooltip-html="{{tip}}" data-tooltip-class="ij-wz-tip">{{name}}</b>
+            <button type="button" class="wz-x" data-action="jutsuRemove" aria-label="{{localize 'IJ.Wizard.remove'}}"><i class="fa-solid fa-xmark"></i></button>
+          </div>
+        </li>
+        {{/each}}
+        {{#each empty}}<li class="wz-slot empty"><i class="fa-regular fa-square-plus"></i><span>{{localize "IJ.Wizard.Jutsus.emptySlot"}}</span></li>{{/each}}
+      </ul>
+    </section>
+    {{/each}}
+  </div>
+
+  <div class="wz-browser">
+    <div class="wz-toolbar">
+      <label class="wz-search"><i class="fa-solid fa-magnifying-glass"></i>
+        <input type="search" data-field="query" data-key="jutsuQuery" value="{{query}}" placeholder="{{localize 'IJ.Wizard.Jutsus.search'}}" autocomplete="off">
+      </label>
+      <div class="wz-chips-row">
+        {{#each filters}}<button type="button" class="wz-chip{{#if active}} active{{/if}}" data-action="filter" data-list="jutsus" data-filter="{{id}}">{{#if kanji}}<span class="wz-chip-kanji">{{kanji}}</span>{{/if}}{{label}} <b>{{count}}</b></button>{{/each}}
+      </div>
+    </div>
+    <ul class="wz-list">
+      {{#each jutsus}}
+      <li class="wz-jutsu{{#if expanded}} expanded{{/if}}{{#if picked}} picked{{/if}}" data-uuid="{{uuid}}" data-chakra="{{chakra}}" data-search="{{search}}">
+        <div class="wz-row" data-action="expand">
+          <span class="wz-row-kanji">{{kanji}}</span>
+          <div class="wz-row-main">
+            <span class="wz-row-title">
+              <b>{{name}}</b>
+              <span class="wz-tag">{{chakraLabel}}</span>
+              <span class="wz-tag">{{cost}} PM · CD {{dc}}</span>
+              {{#if descriptorsLabel}}<span class="wz-tag plain">{{descriptorsLabel}}</span>{{/if}}
+              {{#if violation}}<span class="wz-tag viol{{#if violation.ignored}} ignored{{/if}}">{{#if violation.ignored}}{{localize "IJ.Wizard.Skills.violationIgnored" severity=violation.label}}{{else}}{{localize "IJ.Wizard.Skills.violation" severity=violation.label n=violation.damage}}{{/if}}</span>{{/if}}
+            </span>
+            <span class="wz-row-text">{{line}}</span>
+          </div>
+          {{#if picked}}
+          <button type="button" class="wz-add on" data-action="jutsuRemove" data-tooltip-text="{{localize 'IJ.Wizard.remove'}}" aria-label="{{localize 'IJ.Wizard.remove'}}"><i class="fa-solid fa-check"></i></button>
+          {{else}}
+          <button type="button" class="wz-add" data-action="jutsuAdd" {{#unless pickable}}disabled{{/unless}}
+            data-tooltip-text="{{#if reason}}{{reason}}{{else}}{{localize 'IJ.Wizard.Jutsus.add'}}{{/if}}" aria-label="{{localize 'IJ.Wizard.Jutsus.add'}}"><i class="fa-solid fa-plus"></i></button>
+          {{/if}}
+        </div>
+        <div class="wz-row-full">{{{html}}}</div>
+      </li>
+      {{/each}}
+      <li class="wz-jutsu-empty wz-empty" hidden>{{localize "IJ.Wizard.nothingFound"}}</li>
+    </ul>
+  </div>
+</div>
+{{/if}}

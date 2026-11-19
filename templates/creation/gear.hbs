@@ -1,0 +1,119 @@
+{{!-- GEAR: on the left, the caste (and its money: shimin 100 ¥o, nobles +50%, nai'nin −50%), the purse, the kit
+     recommended for the class, what the race and the class give, what was bought and how the character stands armed;
+     on the right, the shop by kind, with what the character can't use or what dishonors. --}}
+<div class="wz-browse">
+  <div class="wz-side wz-scroll">
+    <section class="wz-castes">
+      <h4><i class="fa-solid fa-landmark"></i>{{localize "IJ.Wizard.Gear.caste"}}</h4>
+      <ul>
+        {{#each castes}}
+        <li>
+          <button type="button" class="wz-caste{{#if active}} active{{/if}}{{#unless ok}} warn{{/unless}}" data-action="caste" data-caste="{{id}}">
+            <span class="wz-caste-kanji">{{kanji}}</span>
+            <span class="wz-caste-text"><b>{{label}}</b><small>{{money}}</small>{{#if note}}<em>{{note}}</em>{{/if}}</span>
+          </button>
+        </li>
+        {{/each}}
+      </ul>
+    </section>
+
+    <section class="wz-purse{{#if money.over}} over{{/if}}">
+      <div class="wz-purse-bar"><i style="width: {{money.pct}}%"></i></div>
+      <dl>
+        <div><dt>{{localize "IJ.Wizard.Gear.budget"}}</dt><dd>{{money.budget}}</dd></div>
+        <div><dt>{{localize "IJ.Wizard.Gear.spent"}}</dt><dd>{{money.spent}}</dd></div>
+        <div class="left"><dt>{{localize "IJ.Wizard.Gear.left"}}</dt><dd>{{money.left}}</dd></div>
+      </dl>
+    </section>
+
+    {{#with kit as |k|}}
+    <section class="wz-kit{{#if k.taken}} taken{{/if}}">
+      <header>
+        <img src="{{k.img}}" alt="">
+        <div><span class="wz-page-eyebrow">{{localize "IJ.Wizard.Gear.kitEyebrow"}}</span><h4>{{k.className}}</h4></div>
+        <span class="wz-kit-cost">{{k.cost}}</span>
+      </header>
+      {{#if k.note}}<p class="wz-note">{{k.note}}</p>{{/if}}
+      <ul class="wz-chips">{{#each k.pieces}}<li><img src="{{img}}" alt=""><span>{{name}}</span><small>{{priceLabel}}</small></li>{{/each}}</ul>
+      <div class="wz-kit-buttons">
+        <button type="button" class="wz-chip{{#if k.taken}} active{{/if}}" data-action="kit" {{#if k.taken}}disabled{{/if}}><i class="fa-solid {{#if k.taken}}fa-check{{else}}fa-sack{{/if}}"></i>{{#if k.taken}}{{localize "IJ.Wizard.Gear.kitOn"}}{{else}}{{localize "IJ.Wizard.Gear.kitUse"}}{{/if}}</button>
+        <button type="button" class="wz-chip" data-action="emptyCart" {{#unless ../hasCart}}disabled{{/unless}}><i class="fa-solid fa-trash-can"></i>{{localize "IJ.Wizard.Gear.empty"}}</button>
+      </div>
+    </section>
+    {{/with}}
+
+    {{#if gifts.length}}
+    <section class="wz-gifts">
+      <h4><i class="fa-solid fa-gift"></i>{{localize "IJ.Wizard.Gear.gifts"}}</h4>
+      <ul class="wz-chips">{{#each gifts}}<li><img src="{{img}}" alt=""><span>{{name}}</span></li>{{/each}}</ul>
+    </section>
+    {{/if}}
+
+    <section class="wz-cart">
+      <h4><i class="fa-solid fa-basket-shopping"></i>{{localize "IJ.Wizard.Gear.cart"}}</h4>
+      <ul>
+        {{#each cart}}
+        <li data-uuid="{{uuid}}">
+          <img src="{{img}}" alt="">
+          <span class="wz-cart-name">{{name}}{{#if (gt count 1)}} <em>×{{count}}</em>{{/if}}
+            {{#if noProf}}<i class="fa-solid fa-triangle-exclamation warn" data-tooltip-text="{{localize 'IJ.Wizard.Gear.noProf'}}"></i>{{/if}}
+            {{#if dishonorable}}<i class="fa-solid fa-yin-yang viol" data-tooltip-text="{{localize 'IJ.Wizard.Gear.dishonorable'}}"></i>{{/if}}
+          </span>
+          <span class="wz-cart-price">{{priceLabel}}</span>
+          <button type="button" data-action="sell" aria-label="{{localize 'IJ.Wizard.Gear.sell'}}"><i class="fa-solid fa-minus"></i></button>
+          <button type="button" data-action="buy" aria-label="{{localize 'IJ.Wizard.Gear.buy'}}"><i class="fa-solid fa-plus"></i></button>
+        </li>
+        {{else}}
+        <li class="wz-empty">{{localize "IJ.Wizard.Gear.cartEmpty"}}</li>
+        {{/each}}
+      </ul>
+    </section>
+
+    <section class="wz-worn">
+      <h4><i class="fa-solid fa-shield-halved"></i>{{localize "IJ.Wizard.Gear.worn"}}</h4>
+      <ul class="wz-worn-stats">
+        <li><b>{{numbers.ca}}</b><small>{{localize "IJ.CA.abbr"}}</small></li>
+        <li><b>{{numbers.maxDex}}</b><small>{{localize "IJ.Wizard.Gear.maxDex"}}</small></li>
+        <li><b>{{numbers.penalty}}</b><small>{{localize "IJ.Armor.penalty"}}</small></li>
+        <li><b>{{numbers.weight}}</b><small>kg</small></li>
+      </ul>
+      <ul class="wz-worn-list">
+        {{#if worn.armor}}<li><img src="{{worn.armor.img}}" alt=""><span>{{worn.armor.name}}</span><small>{{localize "IJ.Armor.body"}}</small></li>{{/if}}
+        {{#if worn.shield}}<li><img src="{{worn.shield.img}}" alt=""><span>{{worn.shield.name}}</span><small>{{localize "IJ.Armor.shield"}}</small></li>{{/if}}
+        {{#each worn.weapons}}<li><img src="{{img}}" alt=""><span>{{name}}</span><small>{{attack}} · {{damage}} · {{crit}}</small></li>{{/each}}
+      </ul>
+    </section>
+  </div>
+
+  <div class="wz-browser">
+    <div class="wz-toolbar">
+      <label class="wz-search"><i class="fa-solid fa-magnifying-glass"></i>
+        <input type="search" data-field="query" data-key="shopQuery" value="{{query}}" placeholder="{{localize 'IJ.Wizard.Gear.search'}}" autocomplete="off">
+      </label>
+      <div class="wz-chips-row">
+        {{#each filters}}<button type="button" class="wz-chip{{#if active}} active{{/if}}" data-action="filter" data-list="shop" data-filter="{{id}}"><i class="{{icon}}"></i>{{label}} <b>{{count}}</b></button>{{/each}}
+      </div>
+    </div>
+    <ul class="wz-shop-list">
+      {{#each wares}}
+      <li class="wz-ware{{#if count}} owned{{/if}}" data-uuid="{{uuid}}" data-filter="{{filter}}" data-search="{{search}}" {{#if hidden}}hidden{{/if}}>
+        <img src="{{img}}" alt="" data-tooltip-html="{{tip}}" data-tooltip-class="ij-wz-tip">
+        <div class="wz-ware-main">
+          <b>{{name}}{{#if count}} <em>×{{count}}</em>{{/if}}</b>
+          <small>{{line}}</small>
+          <span class="wz-ware-tags">
+            {{#if noProf}}<em class="warn">{{localize "IJ.Wizard.Gear.noProfShort"}}</em>{{/if}}
+            {{#if dishonorable}}<em class="viol">{{localize "IJ.Wizard.Gear.dishonorableShort"}}</em>{{/if}}
+          </span>
+        </div>
+        <span class="wz-price">{{priceLabel}}</span>
+        <span class="wz-ware-buttons">
+          {{#if count}}<button type="button" data-action="sell" aria-label="{{localize 'IJ.Wizard.Gear.sell'}}"><i class="fa-solid fa-minus"></i></button>{{/if}}
+          <button type="button" class="buy" data-action="buy" {{#unless canBuy}}disabled data-tooltip-text="{{reason}}"{{/unless}} aria-label="{{localize 'IJ.Wizard.Gear.buy'}}"><i class="fa-solid fa-plus"></i></button>
+        </span>
+      </li>
+      {{/each}}
+      <li class="wz-ware-empty wz-empty" hidden>{{localize "IJ.Wizard.nothingFound"}}</li>
+    </ul>
+  </div>
+</div>

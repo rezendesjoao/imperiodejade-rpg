@@ -331,6 +331,8 @@ feats.forEach((f, i) => {
 function featsFor(text) {
   const n = norm(text);
   if (featIndex.has(n)) return [{ name: text, uuid: featIndex.get(n) }];
+  // "Usar Armas Exóticas (escolha três armas de monge)": the exotic weapon feat, never the simple or martial ones
+  if (n.startsWith("usar armas exoticas") && featIndex.has("usar arma exotica")) return [{ name: text, uuid: featIndex.get("usar arma exotica") }];
   // "Usar Armaduras (leves, médias e pesadas)" / "Usar Armas (simples e marciais)": one feat per kind
   const m = /^(usar armaduras|usar armas|usar escudos)\s+(.*)$/.exec(n);
   if (m) {

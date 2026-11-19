@@ -1,0 +1,32 @@
+{{!-- The character at the new level, beside every step of the level-up wizard: the level and classes before and
+     after, the abilities (what grew is marked), the numbers of play with their change and the Measure of Honor. --}}
+<aside class="wz-rail">
+  <div class="wz-rail-card">
+    <div class="wz-portrait"><img src="{{portrait}}" alt=""></div>
+    <h3 class="wz-rail-name">{{name}}</h3>
+    <span class="wz-rail-level"><b>{{levelBefore}}</b><i class="fa-solid fa-angles-right"></i><b class="up">{{levelAfter}}</b></span>
+    <span class="wz-rail-sub">{{classAfter}}</span>
+  </div>
+  <div class="wz-rail-abilities">
+    {{#each abilities}}<div class="{{#if honor}}honor{{/if}}{{#if up}} up{{/if}}{{#if down}} down{{/if}}"><small>{{abbr}}</small><b>{{total}}</b><span>{{mod}}</span></div>{{/each}}
+  </div>
+  <ul class="wz-rail-deltas">
+    {{#each numbers}}
+    <li class="{{#if up}}up{{/if}}{{#if down}} down{{/if}}">
+      <i class="{{icon}}"></i><small>{{label}}</small>
+      <span>{{before}}</span><i class="fa-solid fa-arrow-right-long wz-arrow"></i><b>{{after}}</b>
+    </li>
+    {{/each}}
+    {{#each saves}}
+    <li class="{{#if up}}up{{/if}}{{#if down}} down{{/if}}">
+      <i class="fa-solid fa-shield"></i><small>{{label}}</small>
+      <span>{{before}}</span><i class="fa-solid fa-arrow-right-long wz-arrow"></i><b>{{after}}</b>
+    </li>
+    {{/each}}
+  </ul>
+  <div class="wz-rail-honor tier-{{honor.key}}">
+    <span>{{localize "IJ.Honor.measure"}}</span>
+    <b>{{honor.tier}}</b>
+    <em>{{#if up}}{{/if}}{{honor.total}}</em>
+  </div>
+</aside>

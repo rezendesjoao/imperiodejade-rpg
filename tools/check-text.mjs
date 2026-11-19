@@ -1,6 +1,6 @@
 /**
  * Copy check: no compendium text may reproduce the book. Compares every description in src/data/*.json (and the short
- * texts of the automation blocks in src/auto) with the
+ * texts of the automation blocks in src/auto, and every interface string of lang/pt-BR.json) with the
  * book's text (extracted from your own PDF; it never goes into the repository) and lists the entries that share a
  * long run of identical words with it.
  *
@@ -108,6 +108,15 @@ if (fs.existsSync(AUTO)) {
     }
   }
 }
+// The interface (lang/pt-BR.json): the rule notes of the wizards and the hints are our own words too
+const LANG = path.join(ROOT, "lang", "pt-BR.json");
+const langTexts = (node, key) => {
+  if (typeof node === "string") {
+    const r = compare(node);
+    if (r.longest >= minRun) report.push({ file: "pt-BR.json", name: key, field: "lang", longest: r.longest, ratio: Math.round(r.ratio * 100), sample: r.sample });
+  } else if (node && typeof node === "object") for (const [k, v] of Object.entries(node)) langTexts(v, key ? `${key}.${k}` : k);
+};
+if (fs.existsSync(LANG)) langTexts(JSON.parse(fs.readFileSync(LANG, "utf8")), "");
 report.sort((a, b) => b.longest - a.longest);
 for (const r of report) console.log(`${r.file} · ${r.name} · ${r.field}: ${r.longest} palavras seguidas (${r.ratio}%) — "${r.sample}"`);
 console.log(`\n${report.length} trecho(s) com ${minRun}+ palavras iguais ao livro.`);

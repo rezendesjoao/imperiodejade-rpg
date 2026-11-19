@@ -1,0 +1,1634 @@
+/* =====================================================================================================
+   IMPÉRIO DE JADE — the character sheet.
+
+   A page of washi paper held by a tray of dark jade lacquer. Ink says what is, stones do things:
+   - jade stones roll dice; indigo stones spend PM; the gold one is Honor's;
+   - cinnabar is for seals (the open tab, the level) and for what hurts (PV, conditions, violations);
+   - Honor is a katana that shines as far as the score reaches; the chakras are a lotus; a class grows
+     like bamboo, one segment per level; feats bloom on a branch, each from the one it needs.
+   ===================================================================================================== */
+
+.application.imperiodejade.ij-character {
+  --washi: #f6f1e6;
+  --washi-2: #eee7d7;
+  --washi-3: #e2d8c2;
+  --sumi: #1b1814;
+  --sumi-2: #453d33;
+  --sumi-3: #7a7062;
+  --hair: #1b181424;
+  --hair-2: #1b181440;
+  --lacquer: var(--ij-lacquer);
+  --lacquer-2: var(--ij-lacquer-2);
+  --cream: #f3e9d2;
+  --cream-2: #d6cab0;
+  --gilt: #d9b563;
+  --vermilion: #e2573f;
+  --ki: #8fa3ea;
+  --ki-deep: #3d5391;
+  --twig: #6a5340;
+  --ij-brush: var(--ij-jp);
+  --wave-gold: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='40' height='20' viewBox='0 0 40 20'><g fill='none' stroke='%23d9b563' stroke-opacity='.075' stroke-width='1'><path d='M0 20a20 20 0 0 1 40 0'/><path d='M6 20a14 14 0 0 1 28 0'/><path d='M12 20a8 8 0 0 1 16 0'/><path d='M-20 10a20 20 0 0 1 40 0M20 10a20 20 0 0 1 40 0'/><path d='M-14 10a14 14 0 0 1 28 0M26 10a14 14 0 0 1 28 0'/></g></svg>");
+  --brush-mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 24' preserveAspectRatio='none'><path d='M3,12.5 C2,6 7,2.5 16,3 C60,1.2 108,4.2 158,2.6 C204,1.4 244,3.6 272,2.8 L297,1.8 L287,5.6 L300,7 L284,10.4 L298,13 L283,15.6 L295,19 L270,21 C230,22.6 188,20.4 150,22 C100,23.6 52,20.8 18,22 C8,22.4 2.5,19 3,12.5 Z'/></svg>");
+
+  background: var(--washi);
+  border: 1px solid #060d0a;
+  border-radius: 8px;
+  box-shadow: 0 0 0 1px #00000050, 0 20px 56px #00000080;
+  min-width: 600px;
+}
+
+.application.imperiodejade.ij-character > .window-header {
+  background: var(--lacquer-2);
+  border-bottom: 1px solid #d9b56326;
+  padding: 3px 10px;
+}
+.application.imperiodejade.ij-character > .window-header .window-title {
+  font-family: var(--ij-title);
+  font-weight: 400;
+  font-size: 13px;
+  letter-spacing: .07em;
+  color: var(--cream-2);
+}
+
+.imperiodejade.ij-character > .window-content {
+  container: ij-sheet / inline-size;
+  display: grid;
+  grid-template-columns: 52px minmax(0, 1fr);
+  grid-template-rows: auto minmax(0, 1fr);
+  background:
+    radial-gradient(55% 38% at 100% 100%, #2f6b5216, transparent 72%),
+    radial-gradient(45% 30% at 0% 62%, #1b18140b, transparent 70%),
+    var(--ij-noise),
+    var(--washi);
+  color: var(--sumi);
+}
+
+.ij-character a { color: inherit; cursor: pointer; text-decoration: none; }
+.ij-character :is(h2, h3, h4) { margin: 0; border: none; }
+.ij-character :is(ul, ol, dl, dd) { margin: 0; padding: 0; list-style: none; }
+.ij-character li { margin: 0; }
+.ij-character img { border: none; }
+
+/* =====================================================================================================
+   The rail: the tabs are seals. The open one is stamped in cinnabar.
+   ===================================================================================================== */
+
+.ij-character .ij-rail {
+  grid-column: 1;
+  grid-row: 1 / -1;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 2px;
+  padding: 10px 0;
+  background: var(--wave-gold), linear-gradient(180deg, var(--lacquer) 0%, var(--lacquer-2) 100%);
+  border: none;
+  box-shadow: inset -1px 0 0 #d9b56366, inset -8px 0 12px -8px #000;
+  z-index: 3;
+}
+.ij-character .ij-rail__tab {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  margin: 0;
+  padding: 7px 0 9px;
+  border: none;
+  border-radius: 0;
+  background: none;
+  box-shadow: none;
+  color: var(--cream);
+  opacity: .58;
+  transition: opacity .15s;
+}
+.ij-character .ij-rail__tab > * { pointer-events: none; }
+.ij-character .ij-rail__tab:hover { opacity: .95; background: none; transform: none; color: var(--cream); }
+.ij-character .ij-rail__tab.active { opacity: 1; background: none; color: var(--cream); box-shadow: none; }
+.ij-character .ij-rail__tab.active::after {
+  content: "";
+  position: absolute;
+  inset: 4px 0 4px auto;
+  width: 2px;
+  background: var(--gilt);
+}
+.ij-character .ij-rail__seal {
+  width: 32px;
+  height: 32px;
+  display: grid;
+  place-items: center;
+  border-radius: 4px;
+  font-family: var(--ij-brush);
+  font-size: 22px;
+  line-height: 1;
+  transition: background .15s, transform .15s, box-shadow .15s;
+}
+.ij-character .ij-rail__tab.active .ij-rail__seal {
+  background: linear-gradient(160deg, #d6513b, var(--ij-cinnabar-dark));
+  color: #fff;
+  transform: rotate(-3deg);
+  box-shadow: inset 0 0 0 1.5px #ffffff80, 0 3px 6px #000a;
+}
+.ij-character .ij-rail__label {
+  writing-mode: vertical-rl;
+  font-family: var(--ij-title);
+  font-size: 8.5px;
+  font-weight: 400;
+  letter-spacing: .13em;
+  text-transform: uppercase;
+}
+.ij-character .ij-rail__tab.active .ij-rail__label { color: var(--gilt); }
+.ij-character .ij-rail__space { flex: 1; }
+.ij-character .ij-rail__edit {
+  align-self: center;
+  width: 34px;
+  height: 34px;
+  margin: 0;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  border: 1px solid #d9b56380;
+  background: none;
+  box-shadow: none;
+  color: var(--gilt);
+  font-family: var(--ij-brush);
+  font-size: 17px;
+  line-height: 1;
+  transition: background .15s, color .15s, transform .15s;
+}
+.ij-character .ij-rail__edit:hover { background: #d9b56326; transform: rotate(-8deg); }
+.ij-character .ij-rail__edit.active {
+  background: radial-gradient(circle at 35% 30%, #ffe9a8, var(--ij-gold));
+  border-color: #fff3c4;
+  color: var(--sumi);
+  box-shadow: 0 0 0 3px #d9b56338, 0 0 14px #d9b56380;
+}
+
+/* =====================================================================================================
+   The hero: who the character is and how it stands, on every tab. Whole on the first tab (with the
+   katana of Honor), a slim bar on the others.
+   ===================================================================================================== */
+
+.ij-character .ij-hero {
+  grid-column: 2;
+  grid-row: 1;
+  position: relative;
+  display: grid;
+  grid-template-columns: 106px minmax(0, 1fr) 292px 86px;
+  grid-template-areas: "art id vitals guard" "honor honor honor honor";
+  column-gap: 18px;
+  padding: 12px 18px 0 16px;
+  color: var(--cream);
+  background:
+    var(--wave-gold),
+    radial-gradient(60% 130% at 8% 0%, #2f6b5266 0%, transparent 62%),
+    linear-gradient(180deg, var(--lacquer-2) 0%, var(--lacquer) 100%);
+  border-bottom: 1px solid var(--ij-gold);
+  box-shadow: 0 8px 14px -10px #000c;
+  overflow: hidden;
+  z-index: 2;
+}
+/* The kanji of the class, brushed across the lacquer */
+.ij-character .ij-hero__kanji {
+  position: absolute;
+  right: 96px;
+  top: -30px;
+  font-family: var(--ij-brush);
+  font-size: 186px;
+  line-height: 1;
+  white-space: nowrap;
+  color: #6fc7a0;
+  opacity: .085;
+  pointer-events: none;
+  user-select: none;
+}
+.ij-character .ij-hero__kanji[data-len="2"] { font-size: 150px; top: -14px; }
+.ij-character .ij-hero__kanji[data-len="3"] { font-size: 116px; top: 2px; }
+.ij-character .ij-hero > :not(.ij-hero__kanji) { position: relative; }
+
+/* Portrait, with the level sealed on its corner */
+.ij-character .ij-hero__art {
+  grid-area: art;
+  align-self: start;
+  width: 106px;
+  height: 130px;
+}
+.ij-character .ij-hero__img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+  border: 1px solid #d9b563;
+  border-radius: 2px;
+  background: radial-gradient(circle at 50% 35%, #2a5a48, #0c1c16);
+  box-shadow: 0 0 0 3px var(--lacquer-2), 0 0 0 4px #d9b56355, 0 10px 16px -8px #000;
+  cursor: pointer;
+}
+.ij-character .ij-level {
+  position: absolute;
+  right: -13px;
+  bottom: -7px;
+  width: 42px;
+  height: 42px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  background: linear-gradient(160deg, #d6513b, var(--ij-cinnabar-dark));
+  color: #fff;
+  transform: rotate(-4deg);
+  box-shadow: inset 0 0 0 1.5px #ffffff8c, 0 3px 7px #000b;
+}
+.ij-character .ij-level small {
+  font-family: var(--ij-title);
+  font-size: 6.5px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  line-height: 1;
+  opacity: .92;
+}
+.ij-character .ij-level strong,
+.imperiodejade.ij-character input.ij-level__input {
+  font-family: var(--ij-serif);
+  font-weight: 700;
+  font-size: 23px;
+  line-height: 1;
+  color: #fff;
+  font-variant-numeric: lining-nums;
+}
+.imperiodejade.ij-character input.ij-level__input { width: 34px; padding: 0; background: #0000002e; }
+.ij-character .ij-level--ready {
+  background: radial-gradient(circle at 35% 30%, #ffe9a8, var(--ij-gold) 70%);
+  color: var(--sumi);
+  animation: ij-ready 1.6s ease-in-out infinite;
+}
+.ij-character .ij-level--ready strong { color: var(--sumi); }
+@keyframes ij-ready { 50% { box-shadow: inset 0 0 0 1.5px #ffffff8c, 0 0 0 5px #d9b56340, 0 0 18px #d9b563; } }
+
+/* Name, lineage, the facts of origin and the experience */
+.ij-character .ij-hero__id {
+  grid-area: id;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding-top: 1px;
+}
+.imperiodejade.ij-character input.ij-hero__name {
+  width: 100%;
+  padding: 0;
+  font-family: var(--ij-title);
+  font-weight: 400;
+  font-size: 31px;
+  line-height: 1.18;
+  letter-spacing: 0;
+  color: #fbf3de;
+  text-shadow: 0 2px 8px #000a;
+  text-overflow: ellipsis;
+}
+.imperiodejade.ij-character .ij-hero :is(input, select):focus { background: #ffffff12; box-shadow: 0 1px 0 var(--gilt); }
+/* The fields of the edit mode, on the lacquer: a pale wash and a line of gold */
+.imperiodejade.ij-character.ij-editing .ij-hero :is(input[type="text"], input[type="number"], select):not(.ij-plain) {
+  background: #ffffff14;
+  box-shadow: inset 0 -1px 0 #d9b56399;
+}
+.imperiodejade.ij-character .ij-hero__line input { width: 168px; padding: 0 3px; font-family: var(--ij-title); font-size: 11.5px; letter-spacing: .05em; color: var(--cream); }
+.ij-character .ij-hero__line {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0 8px;
+  font-family: var(--ij-title);
+  font-size: 11.5px;
+  line-height: 1.35;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--gilt);
+}
+.ij-character .ij-hero__line a:hover { color: #fff3c4; }
+.ij-character .ij-hero__line .ij-sep { opacity: .5; }
+.ij-character .ij-hero__line .ij-none { opacity: .6; font-style: italic; letter-spacing: .05em; text-transform: none; }
+.ij-character .ij-hero__add {
+  font-size: 10px;
+  letter-spacing: .05em;
+  padding: 0 7px;
+  border: 1px dashed #d9b56380;
+  border-radius: 9px;
+}
+.ij-character .ij-hero__add:hover { background: #d9b56326; }
+.ij-character .ij-hero__facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px 16px;
+  margin-top: 3px;
+  font-size: 12.5px;
+  line-height: 1.4;
+  color: #e6dabf;
+}
+.ij-character .ij-fact { display: inline-flex; align-items: baseline; gap: 5px; white-space: nowrap; }
+.ij-character .ij-fact > small {
+  font-family: var(--ij-title);
+  font-size: 8.5px;
+  letter-spacing: .09em;
+  text-transform: uppercase;
+  color: #bfa461;
+}
+.imperiodejade.ij-character .ij-hero__facts :is(input, select) { color: var(--cream); font-size: 12.5px; max-width: 124px; }
+.imperiodejade.ij-character .ij-hero__facts select option { color: var(--sumi); }
+.ij-character .ij-hero__xp {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin-top: auto;
+  padding: 2px 0 9px;
+  font-size: 11px;
+  color: #b9ad92;
+  font-variant-numeric: lining-nums;
+}
+.ij-character .ij-hero__xp > small {
+  font-family: var(--ij-title);
+  font-size: 8.5px;
+  letter-spacing: .09em;
+  text-transform: uppercase;
+  color: #bfa461;
+}
+.imperiodejade.ij-character input.ij-xp__value { width: 56px; padding: 0 2px; text-align: right; font-weight: 700; font-size: 12.5px; color: var(--cream); }
+.ij-character .ij-xp__bar { flex: 1; max-width: 190px; height: 3px; border-radius: 2px; background: #ffffff1f; overflow: hidden; }
+.ij-character .ij-xp__bar > span { display: block; height: 100%; background: linear-gradient(90deg, #a87a22, #ffe9a8); transition: width .4s; }
+
+/* PV and PM: a number and a stroke of the brush */
+.ij-character .ij-hero__vitals {
+  grid-area: vitals;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  padding-top: 3px;
+}
+.ij-character .ij-vital {
+  --tone: var(--vermilion);
+  display: grid;
+  grid-template-columns: auto auto auto minmax(0, 1fr);
+  grid-template-areas: "mark value max extra" "bar bar bar bar";
+  align-items: end;
+  column-gap: 6px;
+  row-gap: 3px;
+}
+.ij-character .ij-vital--pm { --tone: var(--ki); }
+.ij-character .ij-vital__mark {
+  grid-area: mark;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1px;
+  padding-bottom: 2px;
+  color: var(--tone);
+}
+.ij-character .ij-vital__mark b { font-family: var(--ij-brush); font-weight: 400; font-size: 19px; line-height: 1; }
+.ij-character .ij-vital__mark small { font-family: var(--ij-title); font-size: 7.5px; letter-spacing: .1em; line-height: 1; color: var(--cream-2); }
+.imperiodejade.ij-character input.ij-vital__value {
+  grid-area: value;
+  width: 58px;
+  padding: 0;
+  text-align: right;
+  font-family: var(--ij-serif);
+  font-weight: 700;
+  font-size: 31px;
+  line-height: .95;
+  color: #fff8e6;
+  font-variant-numeric: lining-nums;
+}
+.ij-character .ij-vital.is-down input.ij-vital__value { color: #ff8f7a; }
+.ij-character .ij-vital__max {
+  grid-area: max;
+  padding-bottom: 2px;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 1;
+  color: #d6cab0b8;
+  font-variant-numeric: lining-nums;
+  white-space: nowrap;
+}
+.imperiodejade.ij-character input.ij-vital__max-input { width: 40px; padding: 0; font-weight: 600; font-size: 16px; color: var(--cream); }
+.ij-character .ij-vital__extra {
+  grid-area: extra;
+  justify-self: end;
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  padding-bottom: 2px;
+  font-family: var(--ij-title);
+  font-size: 8.5px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: #b9ad92;
+  white-space: nowrap;
+}
+.ij-character .ij-vital__extra label { display: inline-flex; align-items: baseline; gap: 3px; }
+.ij-character .ij-vital__extra strong { font-family: var(--ij-serif); font-size: 13px; letter-spacing: 0; color: var(--cream); font-variant-numeric: lining-nums; }
+.imperiodejade.ij-character .ij-vital__extra input {
+  width: 24px;
+  padding: 0;
+  text-align: center;
+  font-family: var(--ij-serif);
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 0;
+  color: var(--cream);
+  box-shadow: 0 1px 0 #ffffff33;
+}
+.ij-character .ij-stroke {
+  grid-area: bar;
+  height: 11px;
+  background: #ffffff21;
+  -webkit-mask: var(--brush-mask) center / 100% 100% no-repeat;
+  mask: var(--brush-mask) center / 100% 100% no-repeat;
+}
+.ij-character .ij-stroke > span {
+  display: block;
+  height: 100%;
+  background: linear-gradient(90deg, color-mix(in srgb, var(--tone) 62%, #000), var(--tone) 70%, color-mix(in srgb, var(--tone) 70%, #fff));
+  transition: width .45s cubic-bezier(.2, .8, .2, 1);
+}
+.ij-character .ij-hero__conds { display: flex; flex-wrap: wrap; gap: 4px; }
+.ij-character .ij-cond {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 0 7px;
+  border: 1px solid #e2573fb0;
+  border-radius: 3px;
+  background: #e2573f26;
+  color: #ffc3b5;
+  font-size: 11px;
+  line-height: 17px;
+}
+.ij-character .ij-cond a { opacity: .7; font-size: 9px; }
+.ij-character .ij-cond a:hover { opacity: 1; }
+
+/* The armor class on a sword guard, and the night of rest under it */
+.ij-character .ij-hero__guard {
+  grid-area: guard;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  padding-top: 1px;
+}
+.ij-character .ij-tsuba {
+  position: relative;
+  width: 86px;
+  height: 86px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  filter: drop-shadow(0 4px 5px #000a);
+}
+.ij-character .ij-tsuba svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+.ij-character .ij-tsuba__iron { fill: #2b2a27; stroke: #d9b563; stroke-width: 1.4; }
+.ij-character .ij-tsuba__ring { fill: none; stroke: #d9b56373; stroke-width: 1; }
+.ij-character .ij-tsuba__hole { fill: #0a1612; stroke: #d9b56359; stroke-width: .8; }
+.ij-character .ij-tsuba small {
+  position: relative;
+  margin-top: 2px;
+  font-family: var(--ij-title);
+  font-size: 8.5px;
+  letter-spacing: .12em;
+  color: var(--gilt);
+  line-height: 1;
+}
+.ij-character .ij-tsuba strong {
+  position: relative;
+  font-family: var(--ij-serif);
+  font-weight: 700;
+  font-size: 29px;
+  line-height: 1.05;
+  color: #fff8e6;
+  font-variant-numeric: lining-nums;
+}
+.ij-character .ij-rest {
+  width: 26px;
+  height: 26px;
+  display: grid;
+  place-items: center;
+  border: 1px solid #d9b56366;
+  border-radius: 50%;
+  font-family: var(--ij-brush);
+  font-size: 14px;
+  line-height: 1;
+  color: var(--gilt);
+  transition: background .15s, color .15s;
+}
+.ij-character .ij-rest:hover { background: var(--gilt); color: var(--lacquer-2); }
+
+/* -----------------------------------------------------------------------------------------------------
+   The katana of Honor: the score on the hilt's side, the measure along the blade, what changes it at the end
+   ----------------------------------------------------------------------------------------------------- */
+
+.ij-character .ij-honor {
+  grid-area: honor;
+  display: grid;
+  grid-template-columns: 150px minmax(0, 1fr) 148px;
+  align-items: center;
+  column-gap: 12px;
+  margin: 10px -18px 0 -16px;
+  padding: 6px 18px 7px 16px;
+  background: linear-gradient(180deg, #0000004d, #00000021);
+  border-top: 1px solid #d9b56338;
+}
+.ij-character .ij-honor__tile {
+  display: grid;
+  grid-template-columns: 34px minmax(0, 1fr) auto;
+  grid-template-areas: "kanji label stone" "kanji score stone";
+  align-items: center;
+  column-gap: 8px;
+}
+.ij-character .ij-honor__kanji { grid-area: kanji; font-family: var(--ij-brush); font-size: 32px; line-height: 1; color: var(--gilt); }
+.ij-character .ij-honor__label {
+  grid-area: label;
+  align-self: end;
+  font-family: var(--ij-title);
+  font-size: 9px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--gilt);
+  line-height: 1.2;
+}
+.ij-character .ij-honor__score {
+  grid-area: score;
+  align-self: start;
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+  font-weight: 700;
+  font-size: 23px;
+  line-height: 1;
+  color: #fff8e6;
+  font-variant-numeric: lining-nums;
+}
+.ij-character .ij-honor__score small { font-weight: 400; font-size: 10.5px; color: #8fd9b5; }
+.imperiodejade.ij-character .ij-honor__score input { width: 34px; padding: 0; font-weight: 700; font-size: 21px; color: #fff8e6; }
+.imperiodejade.ij-character .ij-honor__score input.ij-bonus { width: 24px; font-size: 12px; font-weight: 400; color: var(--cream-2); }
+.ij-character .ij-honor__tile .ij-stone { grid-area: stone; }
+.ij-character .ij-honor__tile .ij-wound { grid-column: 1 / -1; }
+
+.ij-character .ij-katana { display: block; width: 100%; height: auto; overflow: visible; }
+.ij-character .ij-katana__ghost { fill: #ffffff12; stroke: #ffffff3d; stroke-width: .9; }
+.ij-character .ij-katana__blade { stroke: #56646a; stroke-width: .7; }
+.ij-character .ij-katana__hamon { fill: #fff; opacity: .92; }
+.ij-character .ij-katana__ridge { fill: none; stroke: #66757c; stroke-width: .7; opacity: .85; }
+.ij-character .ij-katana__mark { stroke: #0a1612; stroke-width: 1.2; opacity: .5; }
+.ij-character .ij-katana__tick { stroke: var(--cream); stroke-width: 1; opacity: .42; }
+.ij-character .ij-katana__num { fill: var(--cream); opacity: .5; font: 11px var(--ij-serif); text-anchor: middle; font-variant-numeric: lining-nums; }
+.ij-character .ij-katana__name {
+  fill: var(--cream);
+  opacity: .4;
+  font: 13.5px var(--ij-title);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  text-anchor: middle;
+}
+.ij-character .ij-katana__name.on { fill: #ffe9a8; opacity: 1; font-size: 15.5px; }
+.ij-character .ij-katana__hilt { fill: #1c4a39; stroke: #06120d; stroke-width: 1; }
+.ij-character .ij-katana__diamonds { fill: #e9dfc8; }
+.ij-character .ij-katana__metal { stroke: #5e430f; stroke-width: .8; }
+.ij-character .ij-katana__beadline { stroke: #ffe9a8; stroke-width: 1.3; }
+.ij-character .ij-katana__bead { fill: #ffe9a8; stroke: #8e6516; stroke-width: .8; }
+.ij-character .ij-katana__glint { fill: #ffe9a8; opacity: 0; }
+.ij-character .ij-katana.is-full .ij-katana__glint { opacity: .9; animation: ij-glint 2.4s ease-in-out infinite; }
+@keyframes ij-glint { 50% { opacity: .25; } }
+/* Honor so low that the blade is dark: the names of the measures turn to cinnabar */
+.ij-character .ij-honor--sordido .ij-katana__name.on,
+.ij-character .ij-honor--desumano .ij-katana__name.on,
+.ij-character .ij-honor--desonrado .ij-katana__name.on { fill: #ff9d8a; }
+.ij-character .ij-honor--sordido .ij-katana__bead,
+.ij-character .ij-honor--desumano .ij-katana__bead { fill: #ff9d8a; stroke: var(--ij-cinnabar-dark); }
+
+.ij-character .ij-honor__acts {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 3px;
+  font-family: var(--ij-title);
+  font-size: 8.5px;
+  letter-spacing: .07em;
+  text-transform: uppercase;
+  color: #b9ad92;
+}
+.ij-character .ij-reserve {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  padding: 2px 8px 2px 6px;
+  border: 1px solid #d9b56399;
+  border-radius: 3px;
+  background: linear-gradient(180deg, #d9b56333, #d9b5630f);
+  color: #ffe9a8;
+  transition: background .15s;
+}
+.ij-character .ij-reserve b { font-family: var(--ij-brush); font-weight: 400; font-size: 13px; letter-spacing: 0; line-height: 1; }
+.ij-character .ij-reserve strong { font-family: var(--ij-serif); font-size: 14px; letter-spacing: 0; line-height: 1; font-variant-numeric: lining-nums; }
+.ij-character .ij-reserve:hover { background: #d9b56355; }
+.ij-character .ij-reserve.is-spent { border-style: dashed; border-color: #b9ad9266; background: none; color: #b9ad92; }
+.ij-character .ij-reserve.is-off { opacity: .45; }
+.ij-character .ij-honor__row { display: flex; align-items: center; gap: 4px; }
+.ij-character .ij-honor__row > span { margin-right: auto; }
+.ij-character .ij-honor__row a {
+  min-width: 17px;
+  padding: 1px 0 0;
+  border: 1px solid #e2573f8c;
+  border-radius: 2px;
+  color: #ffb3a3;
+  font-size: 9px;
+  letter-spacing: 0;
+  line-height: 13px;
+  text-align: center;
+  transition: background .15s, color .15s, border-color .15s;
+}
+.ij-character .ij-honor__row a:hover { background: var(--ij-cinnabar); border-color: var(--ij-cinnabar); color: #fff; }
+.ij-character .ij-honor__row a.ij-gain { min-width: 26px; border-color: #d9b56399; color: #ffe9a8; }
+.ij-character .ij-honor__row a.ij-gain:hover { background: var(--ij-gold); border-color: var(--ij-gold); color: var(--sumi); }
+
+/* -----------------------------------------------------------------------------------------------------
+   On the other tabs the hero is one slim bar
+   ----------------------------------------------------------------------------------------------------- */
+
+.ij-character:not([data-tab="ficha"]) .ij-hero {
+  grid-template-columns: 44px minmax(0, 1fr) minmax(0, 404px) 46px;
+  grid-template-areas: "art id vitals guard";
+  align-items: center;
+  column-gap: 14px;
+  padding: 7px 16px 7px 14px;
+}
+.ij-character:not([data-tab="ficha"]) .ij-hero__kanji { font-size: 96px; top: -18px; right: 70px; }
+.ij-character:not([data-tab="ficha"]) .ij-hero__art { width: 44px; height: 44px; }
+.ij-character:not([data-tab="ficha"]) .ij-hero__img { box-shadow: 0 0 0 2px var(--lacquer-2), 0 0 0 3px #d9b56355; }
+.ij-character:not([data-tab="ficha"]) .ij-level { right: -9px; bottom: -6px; width: 22px; height: 22px; border-radius: 3px; }
+.ij-character:not([data-tab="ficha"]) .ij-level small { display: none; }
+.ij-character:not([data-tab="ficha"]) .ij-level strong,
+.imperiodejade.ij-character:not([data-tab="ficha"]) input.ij-level__input { font-size: 13px; width: 20px; }
+.ij-character:not([data-tab="ficha"]) .ij-hero__id { gap: 0; padding: 0; }
+.imperiodejade.ij-character:not([data-tab="ficha"]) input.ij-hero__name { font-size: 20px; line-height: 1.2; }
+.ij-character:not([data-tab="ficha"]) .ij-hero__line { font-size: 9.5px; flex-wrap: nowrap; overflow: hidden; white-space: nowrap; }
+.ij-character:not([data-tab="ficha"]) :is(.ij-hero__facts, .ij-hero__xp, .ij-honor, .ij-hero__conds, .ij-rest, .ij-hero__add) { display: none; }
+.ij-character:not([data-tab="ficha"]) .ij-hero__vitals { flex-direction: row; gap: 18px; padding: 0; }
+.ij-character:not([data-tab="ficha"]) .ij-vital { flex: 1; min-width: 0; }
+.imperiodejade.ij-character:not([data-tab="ficha"]) input.ij-vital__value { font-size: 22px; width: 42px; }
+.ij-character:not([data-tab="ficha"]) .ij-vital__max { font-size: 13px; }
+.ij-character:not([data-tab="ficha"]) .ij-vital__mark b { font-size: 15px; }
+.ij-character:not([data-tab="ficha"]) .ij-stroke { height: 7px; }
+.ij-character:not([data-tab="ficha"]) .ij-hero__guard { padding: 0; }
+.ij-character:not([data-tab="ficha"]) .ij-tsuba { width: 46px; height: 46px; }
+.ij-character:not([data-tab="ficha"]) .ij-tsuba small { font-size: 6px; margin-top: 1px; }
+.ij-character:not([data-tab="ficha"]) .ij-tsuba strong { font-size: 16px; }
+
+/* =====================================================================================================
+   Tabs, stones and the small things every tab shares
+   ===================================================================================================== */
+
+.ij-character .ij-tab {
+  grid-column: 2;
+  grid-row: 2;
+  min-height: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  padding: 12px 18px 18px 16px;
+  scrollbar-width: thin;
+  scrollbar-color: #1b181440 transparent;
+  container-type: inline-size;
+}
+.ij-character .ij-tab.ij-tab--split { overflow: hidden; padding: 0; }
+
+/* A stone: a number that does something when clicked */
+.ij-character .ij-stone {
+  --a: #84d6ae;
+  --b: #3f8f6c;
+  --c: #1c5540;
+  display: inline-grid;
+  place-items: center;
+  box-sizing: border-box;
+  min-width: 36px;
+  height: 25px;
+  padding: 0 8px;
+  border-radius: 13px;
+  background: radial-gradient(130% 150% at 28% 10%, var(--a) 0%, var(--b) 44%, var(--c) 100%);
+  box-shadow: inset 0 1px 0 #ffffff85, inset 0 -4px 5px -3px #00000066, 0 1px 2px #00000052;
+  color: #fffdf4;
+  font-family: var(--ij-serif);
+  font-weight: 700;
+  font-size: 13.5px;
+  line-height: 1;
+  font-variant-numeric: lining-nums;
+  text-shadow: 0 1px 1px #06241899;
+  white-space: nowrap;
+  cursor: pointer;
+  user-select: none;
+  transition: transform .12s, filter .12s, box-shadow .12s;
+}
+.ij-character .ij-stone:hover {
+  filter: brightness(1.13);
+  transform: translateY(-1px);
+  box-shadow: inset 0 1px 0 #ffffff85, inset 0 -4px 5px -3px #00000066, 0 2px 4px #00000052, 0 0 0 3px color-mix(in srgb, var(--b) 28%, transparent);
+}
+.ij-character .ij-stone:active { transform: translateY(0); filter: brightness(.94); }
+.ij-character .ij-stone--lg { min-width: 40px; height: 40px; padding: 0; border-radius: 50%; font-size: 18px; }
+.ij-character .ij-stone--sm { min-width: 31px; height: 21px; padding: 0 6px; border-radius: 11px; font-size: 12.5px; }
+.ij-character .ij-stone--gold { --a: #fff0bd; --b: #d9a63c; --c: #8e6516; text-shadow: 0 1px 1px #5e430fcc; }
+.ij-character .ij-stone--ki { --a: #c2ccf7; --b: #6278c8; --c: #2f3f7c; text-shadow: 0 1px 1px #1b2450cc; }
+.ij-character .ij-stone--cinnabar { --a: #f5a595; --b: #cf4a35; --c: #86271a; text-shadow: 0 1px 1px #4a120bcc; }
+.ij-character .ij-stone.is-neg { color: #ffe1da; }
+.ij-character .ij-stone.is-off { filter: grayscale(.9) brightness(.92); opacity: .6; }
+/* The orb of a technique or jutsu: a small indigo stone with its cost */
+.ij-character .ij-orb {
+  --a: #c2ccf7;
+  --b: #6278c8;
+  --c: #2f3f7c;
+  flex: none;
+  display: inline-grid;
+  place-items: center;
+  width: 19px;
+  height: 19px;
+  border-radius: 50%;
+  background: radial-gradient(130% 150% at 28% 10%, var(--a) 0%, var(--b) 46%, var(--c) 100%);
+  box-shadow: inset 0 1px 0 #ffffff80, inset 0 -3px 4px -2px #0000005c, 0 1px 1.5px #0000004d;
+  color: #fff;
+  font-family: var(--ij-serif);
+  font-weight: 700;
+  font-size: 10.5px;
+  line-height: 1;
+  font-variant-numeric: lining-nums;
+  text-shadow: 0 1px 1px #1b2450cc;
+  cursor: pointer;
+  user-select: none;
+  transition: transform .12s, filter .12s, box-shadow .12s;
+}
+.ij-character .ij-orb:hover { filter: brightness(1.15); transform: scale(1.12); box-shadow: inset 0 1px 0 #ffffff80, 0 0 0 3px #6278c840; }
+.ij-character .ij-orb--free { --a: #a9e3c6; --b: #3f8f6c; --c: #1c5540; }
+.ij-character .ij-orb.is-off { filter: grayscale(1); opacity: .5; }
+
+/* The head of a block: a brushed kanji, a title, a note at the end of the line */
+.ij-character .ij-head {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin: 0 0 6px;
+  padding-bottom: 4px;
+  background: linear-gradient(90deg, var(--sumi) 0%, var(--sumi) 26%, #1b181455 62%, transparent 100%) left bottom / 100% 1.5px no-repeat;
+}
+.ij-character .ij-head__kanji { font-family: var(--ij-brush); font-size: 21px; line-height: 1; color: var(--ij-jade); }
+.ij-character .ij-head h3 {
+  font-family: var(--ij-title);
+  font-weight: 400;
+  font-size: 15px;
+  line-height: 1.1;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--sumi);
+}
+.ij-character .ij-head__note { margin-left: auto; font-size: 11.5px; color: var(--sumi-3); font-variant-numeric: lining-nums; white-space: nowrap; }
+.ij-character .ij-head__note strong { color: var(--sumi); }
+.ij-character .ij-head__note.is-over strong { color: var(--ij-cinnabar); }
+.ij-character .ij-sub {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin: 11px 0 3px;
+  font-family: var(--ij-title);
+  font-weight: 400;
+  font-size: 9.5px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--sumi-3);
+}
+.ij-character .ij-sub::after { content: ""; flex: 1; border-bottom: 1px solid var(--hair); transform: translateY(-3px); }
+.ij-character .ij-sub > a { order: 2; letter-spacing: .05em; color: var(--ij-jade); }
+.ij-character .ij-sub > a:hover { color: var(--ij-jade-dark); }
+.ij-character .ij-cap {
+  font-family: var(--ij-title);
+  font-size: 8.5px;
+  letter-spacing: .09em;
+  text-transform: uppercase;
+  color: var(--sumi-3);
+}
+.ij-character .ij-none { color: var(--sumi-3); font-style: italic; font-size: 12.5px; }
+.ij-character .ij-plus {
+  display: inline-grid;
+  place-items: center;
+  width: 17px;
+  height: 17px;
+  border: 1px dashed var(--hair-2);
+  border-radius: 50%;
+  font-size: 12px;
+  line-height: 1;
+  color: var(--sumi-3);
+  letter-spacing: 0;
+}
+.ij-character .ij-plus:hover { border-style: solid; border-color: var(--ij-jade); color: var(--ij-jade); background: var(--ij-jade-pale); }
+/* A mark that is on or off: trained, in hand, worn */
+.ij-character .ij-pip {
+  flex: none;
+  display: inline-block;
+  width: 9px;
+  height: 9px;
+  border: 1.4px solid var(--sumi-3);
+  border-radius: 50%;
+  background: none;
+  vertical-align: middle;
+}
+.ij-character .ij-pip.on { border-color: var(--ij-jade-dark); background: radial-gradient(circle at 35% 30%, #84d6ae, var(--ij-jade) 60%, var(--ij-jade-dark)); }
+.ij-character a.ij-pip { cursor: pointer; }
+.ij-character a.ij-pip:hover { box-shadow: 0 0 0 3px #2f6b5233; }
+.ij-character .ij-wound {
+  display: inline-block;
+  padding: 0 5px;
+  border-radius: 8px;
+  background: var(--ij-cinnabar);
+  color: #fff;
+  font-size: 10.5px;
+  font-weight: 700;
+  line-height: 15px;
+}
+.ij-character .ij-hint { margin: 10px 0 0; font-size: 11.5px; font-style: italic; color: var(--sumi-3); text-align: left; }
+.ij-character .ij-hint kbd { font: 10px var(--ij-serif); padding: 0 4px; border: 1px solid var(--hair-2); border-radius: 3px; background: #fff8; }
+.imperiodejade.ij-character.ij-editing .ij-tab :is(input[type="text"], input[type="number"], select):not(.ij-plain) {
+  background: #fffdf7c7;
+  box-shadow: inset 0 -1px 0 var(--sumi-3);
+}
+
+/* =====================================================================================================
+   FICHA: the six abilities, then what is rolled at the table — skills, combat, techniques
+   ===================================================================================================== */
+
+.ij-character .ij-abilities {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  margin: 0 0 14px;
+  padding-bottom: 9px;
+  background: linear-gradient(90deg, transparent 0%, #1b181466 12%, var(--sumi) 50%, #1b181466 88%, transparent 100%) left bottom / 100% 1.5px no-repeat;
+}
+.ij-character .ij-ability {
+  position: relative;
+  display: grid;
+  grid-template-columns: 40px minmax(0, 1fr) auto;
+  grid-template-areas: "kanji label label" "kanji score stone";
+  align-items: center;
+  column-gap: 7px;
+  padding: 0 10px;
+  border-left: 1px solid var(--hair);
+}
+.ij-character .ij-ability:first-child { border-left: none; padding-left: 2px; }
+.ij-character .ij-ability__kanji {
+  grid-area: kanji;
+  font-family: var(--ij-brush);
+  font-size: 38px;
+  line-height: 1;
+  color: var(--ij-jade-dark);
+  text-align: center;
+}
+.ij-character .ij-ability__label {
+  grid-area: label;
+  font-family: var(--ij-title);
+  font-size: 9px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  line-height: 1.3;
+  color: var(--sumi-2);
+  white-space: nowrap;
+}
+.ij-character .ij-ability__score {
+  grid-area: score;
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+  font-weight: 700;
+  font-size: 25px;
+  line-height: 1;
+  font-variant-numeric: lining-nums;
+}
+.ij-character .ij-ability__label small { font-family: var(--ij-serif); font-size: 10.5px; letter-spacing: 0; color: var(--ij-jade); }
+.imperiodejade.ij-character .ij-ability__score input { width: 36px; padding: 0; font-weight: 700; font-size: 22px; line-height: 1; }
+.imperiodejade.ij-character .ij-ability__score input.ij-bonus { width: 24px; font-size: 12.5px; font-weight: 400; color: var(--sumi-2); }
+.ij-character .ij-ability .ij-stone { grid-area: stone; min-width: 36px; height: 36px; }
+.ij-character .ij-ability .ij-wound { position: absolute; right: 8px; top: -3px; }
+
+.ij-character .ij-play {
+  display: grid;
+  grid-template-columns: minmax(0, 29fr) minmax(0, 39fr) minmax(0, 30fr);
+  gap: 0 22px;
+  align-items: start;
+}
+.ij-character .ij-panel { min-width: 0; }
+
+/* Skills: the trained ones wear a stone */
+.ij-character .ij-skill {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 22px;
+  padding: 0 2px 0 1px;
+  border-radius: 3px;
+  font-size: 13px;
+  line-height: 1.15;
+}
+.ij-character .ij-skill:hover { background: #2f6b5212; }
+.ij-character .ij-skill__name { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ij-character .ij-skill__name:hover { color: var(--ij-jade); }
+.ij-character .ij-skill.is-trained .ij-skill__name { font-weight: 700; }
+.ij-character .ij-skill.is-locked :is(.ij-skill__name, .ij-skill__abl) { color: var(--sumi-3); font-style: italic; }
+.ij-character .ij-skill.is-spec { padding-left: 15px; }
+.ij-character .ij-skill.is-spec .ij-skill__name::before { content: "› "; color: var(--sumi-3); }
+.ij-character .ij-skill__flag { flex: none; font-size: 9px; color: var(--ij-gold); cursor: help; }
+.ij-character .ij-skill__flag--armor { color: var(--sumi-3); }
+.ij-character .ij-skill__lead { flex: 1; min-width: 6px; align-self: flex-end; margin-bottom: 5px; border-bottom: 1px dotted var(--hair-2); }
+.ij-character .ij-skill__abl { flex: none; width: 24px; font-size: 10.5px; color: var(--sumi-3); text-align: right; }
+.ij-character .ij-skill__total {
+  flex: none;
+  min-width: 36px;
+  text-align: center;
+  font-weight: 700;
+  font-size: 13px;
+  font-variant-numeric: lining-nums;
+}
+.ij-character .ij-skill__total:not(.ij-stone) { color: var(--sumi-2); }
+.ij-character .ij-skill__total:not(.ij-stone):hover { color: var(--ij-jade); }
+.ij-character .ij-skill.is-trained .ij-stone { height: 19px; font-size: 12.5px; }
+.imperiodejade.ij-character .ij-skill select { flex: none; width: 44px; font-size: 11px; padding: 0; }
+.imperiodejade.ij-character .ij-skill input.ij-skill__bonus { flex: none; width: 26px; padding: 0; font-size: 12px; }
+.imperiodejade.ij-character .ij-skill input.ij-skill__spec { flex: 1; min-width: 40px; font-size: 12.5px; padding: 0 2px; }
+.ij-character .ij-skill__x { flex: none; font-size: 10px; color: var(--sumi-3); }
+.ij-character .ij-skill__x:hover { color: var(--ij-cinnabar); }
+.ij-character .ij-skills__legend { margin-top: 7px; display: flex; flex-wrap: wrap; gap: 2px 12px; font-size: 10.5px; color: var(--sumi-3); }
+
+/* Combat: saves, attacks, what is in hand and what is worn */
+.ij-character .ij-saves { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; }
+.ij-character .ij-save {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  min-width: 0;
+  cursor: pointer;
+}
+.ij-character .ij-save__text { min-width: 0; display: flex; flex-direction: column; line-height: 1.15; }
+.ij-character .ij-save__text b { font-family: var(--ij-title); font-weight: 400; font-size: 10.5px; letter-spacing: .06em; text-transform: uppercase; overflow: hidden; text-overflow: ellipsis; }
+.ij-character .ij-save__text small { font-size: 10px; color: var(--sumi-3); white-space: nowrap; }
+.imperiodejade.ij-character .ij-save input { width: 26px; padding: 0; font-size: 11px; }
+.ij-character .ij-save:hover .ij-stone { filter: brightness(1.13); }
+.ij-character .ij-strikes {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-items: center;
+  gap: 6px;
+  margin-top: 9px;
+}
+.ij-character .ij-strike { display: flex; align-items: center; gap: 6px; min-width: 0; cursor: pointer; }
+.ij-character .ij-strike > span:last-child {
+  min-width: 0;
+  font-family: var(--ij-title);
+  font-size: 9.5px;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+  line-height: 1.15;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.ij-character .ij-strike:hover .ij-stone { filter: brightness(1.13); }
+.ij-character .ij-bba { font-family: var(--ij-title); font-size: 9.5px; letter-spacing: .08em; }
+.ij-character .ij-bba strong { font-family: var(--ij-serif); font-size: 16px; letter-spacing: 0; line-height: 1; }
+.imperiodejade.ij-character .ij-bba input { width: 30px; padding: 0; font-weight: 700; font-size: 15px; }
+.ij-character .ij-tweaks { display: flex; flex-wrap: wrap; gap: 3px 12px; margin-top: 6px; font-size: 11px; color: var(--sumi-2); }
+.ij-character .ij-tweaks label { display: inline-flex; align-items: baseline; gap: 4px; }
+.imperiodejade.ij-character .ij-tweaks input { width: 28px; padding: 0; font-size: 12px; }
+
+.ij-character .ij-arm {
+  display: grid;
+  grid-template-columns: 24px minmax(0, 1fr) auto auto auto;
+  align-items: center;
+  column-gap: 8px;
+  min-height: 29px;
+  border-bottom: 1px solid var(--hair);
+  font-size: 13px;
+}
+.ij-character .ij-arm:last-child { border-bottom: none; }
+.ij-character .ij-arm__img { width: 22px; height: 22px; border-radius: 3px; object-fit: cover; box-shadow: 0 0 0 1px var(--hair-2); }
+.ij-character .ij-arm__name { min-width: 0; font-weight: 700; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ij-character .ij-arm__name:hover { color: var(--ij-jade); }
+.ij-character .ij-arm__name small { font-weight: 400; font-style: italic; font-size: 10.5px; color: var(--ij-cinnabar-dark); }
+.ij-character .ij-roll {
+  padding: 1px 6px;
+  border: 1px solid var(--hair-2);
+  border-radius: 10px;
+  font-weight: 700;
+  font-size: 12px;
+  line-height: 1.35;
+  font-variant-numeric: lining-nums;
+  white-space: nowrap;
+  transition: background .12s, border-color .12s, color .12s;
+}
+.ij-character .ij-roll:hover { background: var(--ij-jade-pale); border-color: var(--ij-jade); color: var(--ij-jade-dark); }
+.ij-character .ij-roll--crit { border-style: dashed; font-weight: 400; color: var(--sumi-2); }
+.ij-character .ij-worn {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  min-height: 22px;
+  font-size: 12.5px;
+}
+.ij-character .ij-worn__name { font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.ij-character .ij-worn__name:hover { color: var(--ij-jade); }
+.ij-character .ij-worn__stats { margin-left: auto; color: var(--sumi-2); white-space: nowrap; font-variant-numeric: lining-nums; }
+.ij-character .ij-worn__stats b { color: var(--sumi); }
+.ij-character .ij-worn__off { font-size: 10px; color: var(--sumi-3); opacity: 0; transition: opacity .12s; }
+.ij-character .ij-worn:hover .ij-worn__off { opacity: 1; }
+.ij-character .ij-worn__off:hover { color: var(--ij-cinnabar); }
+.ij-character .ij-sum {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 1px 7px;
+  margin-top: 5px;
+  font-size: 11.5px;
+  color: var(--sumi-2);
+  font-variant-numeric: lining-nums;
+}
+.ij-character .ij-sum b { color: var(--sumi); }
+.ij-character .ij-sum .ij-cap { margin-right: 1px; }
+.imperiodejade.ij-character .ij-sum input { width: 28px; padding: 0; font-size: 12px; }
+.imperiodejade.ij-character .ij-sum input.ij-wide { width: 150px; text-align: left; }
+.ij-character .ij-moves { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0 9px; margin-top: 8px; font-size: 12px; }
+.ij-character .ij-moves a { border-bottom: 1px dotted var(--hair-2); }
+.ij-character .ij-moves a:hover { color: var(--ij-jade); border-color: var(--ij-jade); }
+
+/* Effects in course */
+.ij-character .ij-fx { display: flex; align-items: center; gap: 7px; min-height: 26px; font-size: 13px; }
+.ij-character .ij-fx__name { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ij-character .ij-fx__time { margin-left: auto; flex: none; font-size: 11px; font-style: italic; color: var(--ki-deep); white-space: nowrap; }
+.ij-character .ij-fx__end { flex: none; font-size: 10px; color: var(--sumi-3); }
+.ij-character .ij-fx__end:hover { color: var(--ij-cinnabar); }
+
+/* Techniques: what spends PM or has uses, one click away */
+.ij-character .ij-art {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  min-height: 24px;
+  padding: 0 2px;
+  border-radius: 3px;
+  font-size: 13px;
+}
+.ij-character .ij-art:hover { background: #3d53911a; }
+.ij-character .ij-art__name { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ij-character .ij-art__name:hover { color: var(--ki-deep); }
+.ij-character .ij-art.is-off .ij-art__name { color: var(--sumi-3); font-style: italic; }
+.ij-character .ij-art__meta { margin-left: auto; flex: none; font-size: 10.5px; color: var(--sumi-3); white-space: nowrap; font-variant-numeric: lining-nums; }
+.ij-character .ij-art__meta b { color: #8e6516; }
+.ij-character .ij-boxes { display: inline-flex; flex-wrap: wrap; gap: 2px; max-width: 96px; justify-content: flex-end; }
+.ij-character .ij-box-pip { width: 8px; height: 8px; border: 1.2px solid var(--sumi-3); border-radius: 1.5px; background: none; cursor: pointer; }
+.ij-character .ij-box-pip.on { border-color: var(--ij-jade-dark); background: var(--ij-jade); }
+.ij-character .ij-qty { display: inline-flex; align-items: center; gap: 4px; font-weight: 700; font-size: 12px; font-variant-numeric: lining-nums; }
+.ij-character .ij-qty a { width: 13px; text-align: center; font-weight: 400; color: var(--sumi-3); opacity: 0; transition: opacity .12s; }
+.ij-character :is(.ij-art, .ij-ware):hover .ij-qty a { opacity: 1; }
+.ij-character .ij-qty a:hover { color: var(--sumi); }
+
+/* =====================================================================================================
+   Tabs with a scroll at the side: what is clicked on the left unrolls on the right
+   ===================================================================================================== */
+
+.ij-character .ij-split {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 316px;
+  height: 100%;
+  min-height: 0;
+}
+.ij-character .ij-pane {
+  min-width: 0;
+  min-height: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  padding: 12px 18px 18px 16px;
+  scrollbar-width: thin;
+  scrollbar-color: #1b181440 transparent;
+}
+.ij-character .ij-drawer {
+  position: relative;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  margin: 16px 16px 16px 0;
+  padding: 0;
+  background: linear-gradient(180deg, #fffdf8, #f9f4e8);
+  border-left: 1px solid var(--hair);
+  border-right: 1px solid var(--hair);
+  box-shadow: 0 10px 22px -14px #000a;
+}
+/* The two rods of a hanging scroll */
+.ij-character .ij-drawer::before,
+.ij-character .ij-drawer::after {
+  content: "";
+  flex: none;
+  height: 7px;
+  margin: 0 -6px;
+  border-radius: 4px;
+  background: linear-gradient(90deg, var(--ij-gold) 0, var(--ij-gold) 5px, var(--lacquer) 5px, var(--lacquer) calc(100% - 5px), var(--ij-gold) calc(100% - 5px));
+  box-shadow: 0 2px 3px #0005;
+}
+.ij-character .ij-drawer::after { order: 9; }
+.ij-character .ij-detail { flex: 1; min-height: 0; display: flex; flex-direction: column; }
+.ij-character .ij-detail__head { position: relative; padding: 12px 14px 8px; overflow: hidden; }
+.ij-character .ij-detail__kanji {
+  position: absolute;
+  right: 4px;
+  top: -8px;
+  font-family: var(--ij-brush);
+  font-size: 74px;
+  line-height: 1;
+  color: var(--ij-jade);
+  opacity: .11;
+  pointer-events: none;
+}
+.ij-character .ij-detail__type { position: relative; display: block; font-family: var(--ij-title); font-size: 9px; letter-spacing: .1em; text-transform: uppercase; color: var(--ij-jade); }
+.ij-character .ij-detail__name {
+  position: relative;
+  margin-top: 2px;
+  font-family: var(--ij-title);
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 1.2;
+  letter-spacing: 0;
+  color: var(--sumi);
+}
+.ij-character .ij-detail__tags { position: relative; display: flex; flex-wrap: wrap; gap: 3px 5px; margin-top: 7px; }
+.ij-character .ij-chip2 {
+  padding: 0 7px;
+  border: 1px solid var(--hair-2);
+  border-radius: 9px;
+  font-size: 10.5px;
+  line-height: 16px;
+  color: var(--sumi-2);
+  white-space: nowrap;
+}
+.ij-character .ij-chip2--ki { border-color: #6278c880; background: #6278c81f; color: var(--ki-deep); }
+.ij-character .ij-chip2--gold { border-color: #c9952f99; background: var(--ij-gold-pale); color: #6e5214; }
+.ij-character .ij-chip2--warn { border-color: #c2412f80; background: #c2412f17; color: var(--ij-cinnabar-dark); }
+.ij-character .ij-chip2--jade { border-color: #2f6b5273; background: var(--ij-jade-pale); color: var(--ij-jade-dark); }
+.ij-character .ij-detail__stats {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 2px 10px;
+  margin: 0 14px;
+  padding: 7px 0;
+  border-top: 1px solid var(--hair);
+  font-size: 12px;
+  line-height: 1.35;
+}
+.ij-character .ij-detail__stats dt { font-family: var(--ij-title); font-size: 8.5px; letter-spacing: .08em; text-transform: uppercase; color: var(--sumi-3); align-self: center; }
+.ij-character .ij-detail__body {
+  flex: 1;
+  min-height: 60px;
+  overflow-y: auto;
+  margin: 0 4px 0 14px;
+  padding: 8px 10px 10px 0;
+  border-top: 1px solid var(--hair);
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--sumi-2);
+  scrollbar-width: thin;
+  scrollbar-color: #1b181433 transparent;
+}
+.ij-character .ij-detail__body p { margin: 0 0 .55em; }
+.ij-character .ij-detail__body :is(ul, ol) { margin: 0 0 .55em; padding-left: 18px; list-style: disc; }
+.ij-character .ij-detail__body table { font-size: 12px; }
+.ij-character .ij-detail__pre { margin: 0 0 .6em; padding: 4px 8px; border-left: 2px solid var(--ij-gold); background: #c9952f14; font-size: 12px; }
+.ij-character .ij-detail__foot {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px 10px;
+  border-top: 1px solid var(--hair);
+}
+.ij-character .ij-do {
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  height: 30px;
+  border-radius: 4px;
+  background: linear-gradient(180deg, var(--ij-jade-2), var(--ij-jade-dark));
+  box-shadow: inset 0 1px 0 #ffffff59, 0 2px 4px #0000004d;
+  color: #fbf5e3;
+  font-family: var(--ij-title);
+  font-size: 11.5px;
+  letter-spacing: .09em;
+  text-transform: uppercase;
+  transition: filter .12s, transform .12s;
+}
+.ij-character .ij-do:hover { filter: brightness(1.13); transform: translateY(-1px); }
+.ij-character .ij-do--ki { background: linear-gradient(180deg, #6f84d2, #33437f); }
+.ij-character .ij-do b { font-family: var(--ij-serif); font-size: 13px; letter-spacing: 0; }
+.ij-character .ij-detail__link {
+  font-family: var(--ij-title);
+  font-size: 9px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--sumi-3);
+  padding: 2px 4px;
+  border-bottom: 1px dotted transparent;
+}
+.ij-character .ij-detail__link:hover { color: var(--sumi); border-color: var(--sumi-3); }
+.ij-character .ij-detail__link--danger:hover { color: var(--ij-cinnabar); border-color: var(--ij-cinnabar); }
+.ij-character .ij-detail--empty { align-items: center; justify-content: center; gap: 10px; padding: 24px; text-align: center; color: var(--sumi-3); }
+.ij-character .ij-detail--empty b { font-family: var(--ij-brush); font-weight: 400; font-size: 84px; line-height: 1; color: var(--ij-jade); opacity: .16; }
+.ij-character .ij-detail--empty p { margin: 0; font-size: 12.5px; font-style: italic; line-height: 1.5; }
+/* What is chosen on the left */
+.ij-character .is-picked { background: #2f6b521f; box-shadow: inset 2px 0 0 var(--ij-jade); }
+
+/* =====================================================================================================
+   CAMINHO: the class grows like bamboo, the feats bloom on a branch
+   ===================================================================================================== */
+
+.ij-character .ij-grove { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 0 24px; align-items: start; }
+.ij-character .ij-grove > section { min-width: 0; }
+
+.ij-character .ij-bamboo { margin-bottom: 14px; }
+.ij-character .ij-bamboo__more {
+  display: block;
+  margin: 0 0 3px 31px;
+  font-family: var(--ij-title);
+  font-size: 8.5px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--ij-jade);
+}
+.ij-character .ij-bamboo__more:hover { color: var(--ij-jade-dark); }
+.ij-character .ij-bamboo__row {
+  display: grid;
+  grid-template-columns: 22px 13px minmax(0, 1fr);
+  column-gap: 9px;
+  min-height: 27px;
+}
+.ij-character .ij-bamboo__lvl {
+  align-self: center;
+  justify-self: end;
+  font-weight: 700;
+  font-size: 12px;
+  line-height: 1;
+  color: var(--sumi-2);
+  font-variant-numeric: lining-nums;
+}
+.ij-character .ij-bamboo__cane {
+  position: relative;
+  margin: 1.5px 0;
+  border-radius: 6px / 4px;
+  background: linear-gradient(90deg, #23604a 0%, #66b58f 34%, #3f8566 60%, #17402f 100%);
+  box-shadow: 0 1px 2px #0003;
+}
+/* The knot between two segments */
+.ij-character .ij-bamboo__cane::after {
+  content: "";
+  position: absolute;
+  left: -1.5px;
+  right: -1.5px;
+  bottom: -3px;
+  height: 3px;
+  border-radius: 2px;
+  background: #143629;
+  z-index: 1;
+}
+.ij-character .ij-bamboo__leaves { display: flex; flex-direction: column; justify-content: center; padding: 2px 0; min-width: 0; }
+.ij-character .ij-leaf {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 21px;
+  padding: 0 4px 0 0;
+  border-radius: 3px;
+  font-size: 13px;
+  line-height: 1.15;
+}
+.ij-character .ij-leaf::before {
+  content: "";
+  flex: none;
+  width: 11px;
+  height: 6px;
+  border-radius: 0 100% 0 100%;
+  background: linear-gradient(120deg, #66b58f, var(--ij-jade-dark));
+  transform: rotate(-14deg);
+}
+.ij-character a.ij-leaf__name { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ij-character a.ij-leaf__name:hover { color: var(--ij-jade); }
+.ij-character .ij-leaf small { flex: 0 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; font-size: 10.5px; color: var(--sumi-3); font-variant-numeric: lining-nums; white-space: nowrap; }
+.ij-character a.ij-leaf__name { flex: 0 0 auto; max-width: 100%; }
+.ij-character .ij-leaf.is-off .ij-leaf__name { color: var(--sumi-3); font-style: italic; }
+/* The level the character is on, and the ones still to come */
+.ij-character .ij-bamboo__row.is-now .ij-bamboo__lvl {
+  width: 20px;
+  height: 20px;
+  display: grid;
+  place-items: center;
+  border-radius: 3px;
+  background: linear-gradient(160deg, #d6513b, var(--ij-cinnabar-dark));
+  color: #fff;
+  transform: rotate(-4deg);
+  box-shadow: inset 0 0 0 1px #ffffff80, 0 1px 3px #0006;
+}
+.ij-character .ij-bamboo__row.is-ahead .ij-bamboo__lvl { color: var(--sumi-3); font-weight: 400; }
+.ij-character .ij-bamboo__row.is-ahead .ij-bamboo__cane { background: none; box-shadow: inset 0 0 0 1.2px #2f6b5266; }
+.ij-character .ij-bamboo__row.is-ahead .ij-bamboo__cane::after { background: #2f6b5266; height: 1.5px; bottom: -2.5px; }
+.ij-character .ij-bamboo__row.is-ahead .ij-leaf { color: var(--sumi-3); font-size: 12.5px; }
+.ij-character .ij-bamboo__row.is-ahead .ij-leaf::before { background: none; box-shadow: inset 0 0 0 1.2px #2f6b5273; }
+/* The root: where the character comes from */
+.ij-character .ij-root { display: grid; grid-template-columns: 22px 13px minmax(0, 1fr); column-gap: 9px; margin-top: 1px; }
+.ij-character .ij-root__kanji { align-self: start; justify-self: end; padding-top: 5px; font-family: var(--ij-brush); font-size: 15px; line-height: 1; color: var(--twig); }
+.ij-character .ij-root__cane {
+  position: relative;
+  margin-bottom: 4px;
+  border-radius: 0 0 7px 7px;
+  background: linear-gradient(180deg, #17402f 0, var(--twig) 14px, #6a534000 100%);
+}
+.ij-character .ij-root__body { padding: 3px 0 6px; min-width: 0; }
+.ij-character .ij-root .ij-leaf::before { background: linear-gradient(120deg, #a08060, var(--twig)); }
+
+/* The blossoming branch of the feats */
+.ij-character .ij-branch { margin-bottom: 12px; }
+.ij-character .ij-bloom {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 23px;
+  padding: 0 4px 0 2px;
+  border-radius: 3px;
+  font-size: 13px;
+  line-height: 1.15;
+}
+.ij-character .ij-blossom { flex: none; width: 14px; height: 14px; color: var(--ij-cinnabar); filter: drop-shadow(0 .5px .5px #0004); }
+.ij-character .ij-bloom[data-category="combate"] .ij-blossom { color: #c9523f; }
+.ij-character .ij-bloom[data-category="pericia"] .ij-blossom { color: #3f8f6c; }
+.ij-character .ij-bloom[data-category="destino"] .ij-blossom { color: #d9a63c; }
+.ij-character .ij-bloom[data-category="jutsu"] .ij-blossom { color: #6278c8; }
+.ij-character .ij-bloom[data-category="aprimoramento"] .ij-blossom { color: #8a7b68; }
+.ij-character .ij-bloom[data-category="poder"] .ij-blossom { color: #d98fa6; }
+.ij-character .ij-bloom[data-category="tormenta"] .ij-blossom { color: #6b1420; }
+.ij-character a.ij-bloom__name { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ij-character a.ij-bloom__name:hover { color: var(--ij-jade); }
+.ij-character .ij-bloom small { flex: 0 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; font-size: 10.5px; color: var(--sumi-3); white-space: nowrap; }
+.ij-character a.ij-bloom__name { flex: 0 0 auto; max-width: 100%; }
+.ij-character .ij-bloom.is-off .ij-bloom__name { color: var(--sumi-3); font-style: italic; }
+/* A bud: a feat this one opens the way to */
+.ij-character .ij-bloom.is-bud { color: var(--sumi-3); font-size: 12.5px; }
+.ij-character .ij-bloom.is-bud .ij-blossom { width: 9px; height: 9px; margin: 0 2.5px; border-radius: 50%; box-shadow: inset 0 0 0 1.3px currentColor; opacity: .7; }
+.ij-character .ij-bloom.is-bud .ij-blossom use { display: none; }
+.ij-character .ij-bloom.is-bud.is-ripe { color: var(--sumi-2); }
+.ij-character .ij-bloom.is-bud.is-ripe .ij-blossom { background: currentColor; opacity: .55; box-shadow: none; }
+.ij-character .ij-twigs { margin-left: 8px; }
+.ij-character .ij-twigs > li { position: relative; padding-left: 17px; }
+.ij-character .ij-twigs > li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 13px;
+  height: 12px;
+  border-left: 1.5px solid var(--twig);
+  border-bottom: 1.5px solid var(--twig);
+  border-bottom-left-radius: 9px;
+}
+.ij-character .ij-twigs > li:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  border-left: 1.5px solid var(--twig);
+}
+.ij-character .ij-legend { display: flex; flex-wrap: wrap; gap: 2px 11px; margin: 0 0 7px; font-size: 10.5px; color: var(--sumi-3); }
+.ij-character .ij-legend span { display: inline-flex; align-items: center; gap: 4px; }
+.ij-character .ij-legend .ij-blossom { width: 10px; height: 10px; }
+
+/* =====================================================================================================
+   JUTSUS: the lotus of the six chakras, and the jutsus each open chakra feeds
+   ===================================================================================================== */
+
+.ij-character .ij-ki { display: grid; grid-template-columns: 290px minmax(0, 1fr); gap: 0 20px; align-items: start; }
+.ij-character .ij-ki__side { min-width: 0; }
+.ij-character .ij-lotus { display: block; width: 100%; height: auto; margin: -6px 0 0; overflow: visible; }
+.ij-character .ij-lotus__back { fill: #cfe3d652; stroke: #2f6b5233; stroke-width: 1; }
+.ij-character .ij-lotus__petal { fill: #f1ebdc; stroke: #8b8072; stroke-width: 1.2; stroke-dasharray: 3 3; transition: fill .2s; }
+.ij-character .ij-lotus__petal.open { fill: url(#ij-lotus-jade); stroke: var(--ij-gold); stroke-dasharray: none; filter: drop-shadow(0 0 5px #4fa37f80); }
+.ij-character .ij-lotus g[data-action] { cursor: pointer; }
+.ij-character .ij-lotus g[data-action]:hover .ij-lotus__petal { stroke: var(--ij-cinnabar); stroke-width: 1.8; }
+.ij-character .ij-lotus__heart { fill: #11241c; stroke: var(--ij-gold); stroke-width: 1.5; }
+.ij-character .ij-lotus__track { fill: none; stroke: #ffffff21; stroke-width: 5; }
+.ij-character .ij-lotus__ring { fill: none; stroke: var(--ki); stroke-width: 5; stroke-linecap: round; transition: stroke-dasharray .45s; }
+.ij-character .ij-lotus__pm { fill: #fff8e6; font: 700 30px var(--ij-serif); text-anchor: middle; font-variant-numeric: lining-nums; }
+.ij-character .ij-lotus__max { fill: var(--cream-2); font: 12px var(--ij-serif); text-anchor: middle; font-variant-numeric: lining-nums; }
+.ij-character .ij-lotus__ki { fill: var(--ki); font: 15px var(--ij-brush); text-anchor: middle; }
+.ij-character .ij-lotus__kanji { font: 30px var(--ij-brush); text-anchor: middle; fill: #9a8f7e; pointer-events: none; }
+.ij-character .ij-lotus__kanji.open { fill: #fff; paint-order: stroke; stroke: #1d4a3880; stroke-width: 2px; }
+.ij-character .ij-lotus__label { font: 15px var(--ij-title); letter-spacing: .08em; text-transform: uppercase; fill: var(--sumi-3); }
+.ij-character .ij-lotus__label.open { fill: var(--ij-jade-dark); }
+.ij-character .ij-limit { display: flex; align-items: baseline; gap: 8px; margin-top: 2px; font-size: 11.5px; color: var(--sumi-3); }
+.ij-character .ij-limit strong { font-size: 24px; line-height: 1; color: var(--ki-deep); font-variant-numeric: lining-nums; }
+.imperiodejade.ij-character .ij-limit input { width: 28px; padding: 0; font-size: 12px; }
+.ij-character .ij-grades { width: 100%; margin: 9px 0 0; border-collapse: collapse; border: none; background: none; font-size: 12px; font-variant-numeric: lining-nums; }
+.ij-character .ij-grades :is(thead, tbody, tr) { border: none; background: none; }
+.ij-character .ij-grades :is(th, td) { padding: 2px 4px; border: none; border-bottom: 1px solid var(--hair); background: none; text-align: right; text-shadow: none; }
+.ij-character .ij-grades tr:last-child :is(th, td) { border-bottom: none; }
+.ij-character .ij-grades th { font-family: var(--ij-title); font-weight: 400; font-size: 8.5px; letter-spacing: .08em; text-transform: uppercase; color: var(--sumi-3); }
+.ij-character .ij-grades :is(th, td):first-child { text-align: left; }
+.ij-character .ij-grades td:first-child { display: flex; align-items: center; gap: 6px; }
+.ij-character .ij-grades tr.is-far td { color: var(--sumi-3); }
+.ij-character .ij-dots { display: inline-flex; gap: 2px; }
+.ij-character .ij-dots i { width: 5px; height: 5px; border-radius: 50%; box-shadow: inset 0 0 0 1px var(--sumi-3); }
+.ij-character .ij-dots i.on { background: var(--ki-deep); box-shadow: none; }
+.ij-character .ij-chakra-edit { margin-top: 10px; }
+.ij-character .ij-chakra-edit li { display: flex; align-items: center; gap: 7px; min-height: 23px; font-size: 12.5px; }
+.ij-character .ij-chakra-edit b { font-family: var(--ij-brush); font-weight: 400; font-size: 15px; color: var(--ij-jade-dark); }
+.imperiodejade.ij-character .ij-chakra-edit select { margin-left: auto; width: 96px; font-size: 12px; }
+
+.ij-character .ij-vein { margin-bottom: 13px; }
+.ij-character .ij-vein__head { display: flex; align-items: baseline; gap: 8px; }
+.ij-character .ij-vein__kanji {
+  flex: none;
+  width: 26px;
+  height: 26px;
+  display: grid;
+  place-items: center;
+  align-self: center;
+  border-radius: 50%;
+  background: radial-gradient(130% 150% at 28% 10%, #84d6ae 0%, #3f8f6c 44%, #1c5540 100%);
+  box-shadow: inset 0 1px 0 #ffffff80, 0 0 0 1px var(--ij-gold), 0 1px 3px #0005;
+  font-family: var(--ij-brush);
+  font-size: 15px;
+  line-height: 1;
+  color: #fff;
+}
+.ij-character .ij-vein.is-closed .ij-vein__kanji { background: var(--washi-2); box-shadow: inset 0 0 0 1px var(--sumi-3); color: var(--sumi-3); }
+.ij-character .ij-vein__head h3 { font-family: var(--ij-title); font-weight: 400; font-size: 14px; letter-spacing: .08em; text-transform: uppercase; }
+.ij-character .ij-vein__head small { font-size: 11.5px; color: var(--sumi-3); }
+.ij-character .ij-vein .ij-twigs { margin-left: 12px; }
+.ij-character .ij-vein__grade { display: flex; align-items: baseline; gap: 6px; min-height: 22px; padding-top: 3px; }
+.ij-character .ij-vein__grade b { font-family: var(--ij-title); font-weight: 400; font-size: 9.5px; letter-spacing: .09em; text-transform: uppercase; color: var(--sumi-2); }
+.ij-character .ij-vein__grade small { font-size: 10.5px; color: var(--sumi-3); font-variant-numeric: lining-nums; }
+.ij-character .ij-scrolls { display: flex; flex-wrap: wrap; gap: 3px 4px; padding: 1px 0 5px; }
+.ij-character .ij-scroll {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  max-width: 100%;
+  padding: 2px 9px 2px 3px;
+  border: 1px solid var(--hair);
+  border-radius: 12px;
+  background: #fffdf7b3;
+  font-size: 12.5px;
+  line-height: 1.2;
+  transition: border-color .12s, background .12s;
+}
+.ij-character .ij-scroll:hover { border-color: #6278c899; background: #fff; }
+.ij-character .ij-scroll.is-picked { border-color: var(--ij-jade); background: var(--ij-jade-pale); box-shadow: none; }
+.ij-character .ij-scroll__name { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ij-character .ij-scroll.is-off { opacity: .6; font-style: italic; }
+/* On the first tab the jutsus are smaller: a name and its cost, to be clicked */
+.ij-character .ij-scrolls--quick { gap: 3px; padding: 2px 0 2px; }
+.ij-character .ij-scrolls--quick .ij-scroll { padding: 1px 8px 1px 2px; font-size: 12px; }
+.ij-character .ij-scrolls--quick .ij-orb { width: 17px; height: 17px; font-size: 10px; }
+.ij-character .ij-scrolls--quick .ij-scroll__name:hover { color: var(--ki-deep); }
+
+/* =====================================================================================================
+   EQUIPAMENTO: the purse, then what is carried
+   ===================================================================================================== */
+
+.ij-character .ij-purse {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 18px;
+  margin: 0 0 12px;
+  padding: 0 0 9px;
+  border: none;
+  border-radius: 0;
+  background: linear-gradient(90deg, var(--sumi) 0%, #1b181455 55%, transparent 100%) left bottom / 100% 1.5px no-repeat;
+}
+.ij-character .ij-coinbox { display: inline-flex; align-items: center; gap: 6px; }
+.ij-character .ij-coin {
+  display: inline-block;
+  width: 21px;
+  height: 21px;
+  border-radius: 50%;
+  background: linear-gradient(var(--washi), var(--washi)) center / 7px 7px no-repeat, radial-gradient(circle at 35% 30%, #fff3c4, #d9a63c 55%, #9c6d16);
+  box-shadow: inset 0 0 0 1px #7a5410, 0 1px 2px #0004;
+}
+.ij-character .ij-coin--yp { background: linear-gradient(var(--washi), var(--washi)) center / 7px 7px no-repeat, radial-gradient(circle at 35% 30%, #fff, #bcbcbc 55%, #7b7b7b); box-shadow: inset 0 0 0 1px #6b6b6b, 0 1px 2px #0004; }
+.ij-character .ij-coin--y { background: linear-gradient(var(--washi), var(--washi)) center / 7px 7px no-repeat, radial-gradient(circle at 35% 30%, #ffd2b0, #c27a45 55%, #7e4520); box-shadow: inset 0 0 0 1px #6e3c1a, 0 1px 2px #0004; }
+.imperiodejade.ij-character .ij-coinbox input {
+  width: 62px;
+  padding: 0 2px;
+  text-align: right;
+  font-weight: 700;
+  font-size: 19px;
+  font-variant-numeric: lining-nums;
+  box-shadow: inset 0 -1px 0 var(--hair-2);
+}
+.ij-character .ij-coinbox small { font-size: 12px; color: var(--sumi-3); }
+.ij-character .ij-purse__note { margin-left: auto; font-size: 11.5px; color: var(--sumi-3); font-variant-numeric: lining-nums; }
+.ij-character .ij-purse__note strong { color: var(--sumi); }
+.ij-character .ij-stock { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 0 24px; align-items: start; }
+.ij-character .ij-stock > div { min-width: 0; }
+.ij-character .ij-stock .ij-head { margin-top: 2px; }
+.ij-character .ij-stock section + section { margin-top: 14px; }
+.ij-character .ij-ware {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  min-height: 27px;
+  padding: 0 4px 0 2px;
+  border-bottom: 1px solid var(--hair);
+  font-size: 13px;
+}
+.ij-character .ij-ware:last-child { border-bottom: none; }
+.ij-character .ij-ware:hover { background: #2f6b5212; }
+.ij-character .ij-ware.is-picked { background: #2f6b521f; }
+.ij-character .ij-ware__img { flex: none; width: 21px; height: 21px; border-radius: 3px; object-fit: cover; box-shadow: 0 0 0 1px var(--hair-2); }
+.ij-character .ij-ware__name { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ij-character .ij-ware__name:hover { color: var(--ij-jade); }
+.ij-character .ij-ware.is-on .ij-ware__name { font-weight: 700; }
+.ij-character .ij-ware__stats { margin-left: auto; flex: none; display: inline-flex; align-items: center; gap: 6px; font-size: 11.5px; color: var(--sumi-2); white-space: nowrap; font-variant-numeric: lining-nums; }
+.ij-character .ij-ware__stats b { color: var(--sumi); }
+.ij-character .ij-ware__kind { font-size: 10.5px; color: var(--sumi-3); font-style: italic; }
+
+/* =====================================================================================================
+   BIOGRAFIA
+   ===================================================================================================== */
+
+.ij-character .ij-life { display: grid; grid-template-columns: 250px minmax(0, 1fr); gap: 0 24px; align-items: start; }
+.ij-character .ij-life__facts { display: flex; flex-direction: column; gap: 7px; }
+.ij-character .ij-life__facts label, .ij-character .ij-life__facts div { display: flex; flex-direction: column; gap: 0; }
+.ij-character .ij-life__facts strong { font-weight: 400; font-size: 13.5px; padding: 1px 2px; }
+.imperiodejade.ij-character .ij-life__facts input {
+  width: 100%;
+  padding: 1px 2px;
+  font-size: 13.5px;
+  box-shadow: inset 0 -1px 0 var(--hair-2);
+}
+.ij-character .ij-life__texts { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 14px 22px; }
+.ij-character .ij-life__text { min-width: 0; }
+.ij-character .ij-life__text--wide { grid-column: 1 / -1; }
+.ij-character .ij-life__text prose-mirror {
+  display: flex;
+  flex-direction: column;
+  min-height: 96px;
+  padding: 2px 2px 6px;
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: var(--sumi);
+}
+.ij-character .ij-life__text--wide prose-mirror { min-height: 170px; }
+
+/* =====================================================================================================
+   A narrower window: the columns fold
+   ===================================================================================================== */
+
+/* The hero: PV and PM drop under the name, and the katana keeps only the name of the character's measure */
+@container ij-sheet (max-width: 960px) {
+  .ij-character[data-tab="ficha"] .ij-hero {
+    grid-template-columns: 96px minmax(0, 1fr) 86px;
+    grid-template-areas: "art id guard" "vitals vitals vitals" "honor honor honor";
+  }
+  .ij-character[data-tab="ficha"] .ij-hero__art { width: 96px; height: 118px; }
+  .ij-character[data-tab="ficha"] .ij-hero__vitals { flex-direction: row; flex-wrap: wrap; gap: 6px 18px; padding: 8px 0 0; }
+  .ij-character[data-tab="ficha"] .ij-vital { flex: 1 1 240px; min-width: 0; }
+  .ij-character[data-tab="ficha"] .ij-hero__conds { flex: 1 1 100%; }
+  .ij-character .ij-katana__name:not(.on), .ij-character .ij-katana__num { display: none; }
+  .ij-character .ij-katana__name.on { font-size: 25px; }
+}
+@container ij-sheet (max-width: 780px) {
+  .ij-character .ij-honor { grid-template-columns: 138px minmax(0, 1fr); row-gap: 5px; }
+  .ij-character .ij-honor__acts { grid-column: 1 / -1; flex-direction: row; align-items: center; gap: 16px; }
+  .ij-character .ij-honor__row { gap: 7px; }
+  .ij-character:not([data-tab="ficha"]) .ij-hero { grid-template-columns: 44px minmax(0, 1fr) minmax(0, 250px) 46px; }
+  .ij-character:not([data-tab="ficha"]) .ij-vital__extra { display: none; }
+}
+
+/* The tabs: the scroll at the side goes under the list, the columns fold */
+@container (max-width: 900px) {
+  .ij-character .ij-split { grid-template-columns: minmax(0, 1fr); grid-template-rows: minmax(0, 3fr) minmax(0, 2fr); }
+  .ij-character .ij-drawer { margin: 0 18px 14px 16px; }
+  .ij-character .ij-detail { display: block; overflow-y: auto; scrollbar-width: thin; }
+  .ij-character .ij-detail__body { overflow: visible; margin-right: 14px; padding-right: 0; }
+  .ij-character .ij-detail__foot { position: sticky; bottom: 0; background: #f9f4e8; }
+  .ij-character .ij-detail--empty { display: flex; }
+}
+@container (max-width: 860px) {
+  .ij-character .ij-play { grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr); gap: 16px 20px; }
+  .ij-character .ij-panel--arts { grid-column: 1 / -1; }
+  .ij-character .ij-abilities { grid-template-columns: repeat(3, minmax(0, 1fr)); row-gap: 8px; }
+  .ij-character .ij-ability:nth-child(4) { border-left: none; padding-left: 2px; }
+}
+@container (max-width: 640px) {
+  .ij-character .ij-play, .ij-character .ij-grove, .ij-character .ij-stock, .ij-character .ij-ki, .ij-character .ij-life { grid-template-columns: minmax(0, 1fr); row-gap: 16px; }
+  .ij-character .ij-life__texts { grid-template-columns: minmax(0, 1fr); }
+  .ij-character .ij-lotus { max-width: 320px; margin-inline: auto; }
+}

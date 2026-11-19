@@ -1,12 +1,13 @@
 /*
  * Fontes da ficha.
- * - Cinzel (títulos em versalete), carregada do Google Fonts pelo navegador de cada jogador;
- *   sem internet, os títulos caem para a Gelasio em versalete.
+ * - Cinzel (títulos em versalete), Yuji Boku (os kanji a pincel da ficha de personagem) e Yuji Syuku
+ *   (o nome e os títulos da ficha de personagem), carregadas do Google Fonts pelo navegador de cada
+ *   jogador; sem internet, os títulos caem para a Gelasio e os kanji para a Noto Serif JP.
  * - Gelasio (texto e números) e Noto Serif JP (os kanji decorativos), embutidas no sistema.
  *   Ambas sob a SIL Open Font License 1.1 (veja o OFL.txt de cada pasta em assets/fonts).
  *   A Noto Serif JP vem partida por unicode-range: o navegador só baixa os pedaços que usa.
  */
-@import url("https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800;900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800;900&family=Yuji+Boku&family=Yuji+Syuku&display=swap");
 
 @font-face {
   font-family: "Gelasio";

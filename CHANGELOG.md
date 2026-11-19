@@ -1,5 +1,93 @@
 # Changelog
 
+## 0.6.0 — 2026-11-19
+
+### Adicionado
+- **Assistente de criação de personagem**: ao abrir a ficha de um personagem em branco (sem raça nem classe), o dono dela
+  vê um assistente que monta o personagem de 1º nível passo a passo, nos oito passos do livro, e só grava na ficha no
+  fim, tudo de uma vez:
+  1. **Raça**: cartões das oito raças; a página mostra ajustes, Honra, tamanho, deslocamento e habilidades, e pede as
+     escolhas (o +2 de humanos e mashin, o ataque natural e a forma animal do henge, o elemento do mashin, as
+     resistências do ryuujin).
+  2. **Classe**: PV, PM, BBA, perícias, Honra, talentos iniciais, habilidades do 1º nível e a tabela; pede a arma eleita
+     do kensei, a religião do shugenja, o caminho do onimusha, as armas exóticas do ninja (4) e do monge (3) e qual
+     espada ancestral do samurai recebe o primeiro +1.
+  3. **Habilidades** (as sete, Honra incluída): compra por 24 pontos, rolagem de 4d6 sete vezes (vai para o chat, fica
+     guardada na ficha e só rola de novo quando o livro permite) ou valores rolados à mesa; sugestão por classe num
+     clique; a raça e a classe já somadas e os números de jogo ao lado. Ali se escolhe também o benefício do 1º nível:
+     um talento ou +1 em uma habilidade (p. 44).
+  4. **Perícias**: classe + Int (mínimo 1), só da lista da classe; as duas extras do humano podem vir de fora;
+     especialidades de Atuação, Conhecimento e Ofício.
+  5. **Talentos**: o do 1º nível (quando não ficou o +1), os dois do humano, a técnica de luta do kensei e do monge e
+     os dois talentos da Tormenta do kaijin, com os pré-requisitos conferidos contra a ficha (habilidades, BBA, raça,
+     classe, perícias, outros talentos, Honra) e a escolha de cada talento feita ali mesmo; um talento que se repete
+     não aceita de novo a mesma escolha (Foco em Arma com a mesma arma).
+  6. **Jutsus**: o que as habilidades de aprendiz, o chacra do hanyô e Conhecimento de Jutsus ensinam.
+  7. **Equipamento**: a casta define o dinheiro (100 ¥o shimin, 150 nobres, 50 nai'nin); loja com o kit sugerido da
+     classe, aviso de arma sem proficiência e de item desonrado.
+  8. **Toques finais**: retrato, nome, idade rolada pela classe, idiomas (Ningo, o da raça e um por bônus de Int),
+     aparência, personalidade e história.
+- As **violações de honra da criação** (perícia de outra classe, Ladinagem, Enganação, Furtividade, talento da Tormenta,
+  treinar arma desonrada, que é severa, e jutsu de trevas, encantamento ou ilusão, mais grave quanto maior o grau)
+  aplicam o dano fixo da p. 84, respeitando a Medida de Honra.
+- O personagem nasce completo: raça, classe e tudo que elas dão (com as escolhas feitas), talentos, jutsus,
+  equipamento vestido e empunhado, dinheiro que sobrou, PV e PM cheios, e um cartão no chat.
+- Botão **Assistente de criação** no cabeçalho da ficha de personagens de 1º nível (refazer troca só o que a criação
+  anterior deu) e uma faixa na ficha em branco.
+- Configurações: abrir o assistente sozinho (por jogador), métodos de geração permitidos, aplicar as violações da
+  criação e anunciar no chat (mundo).
+- **Assistente de subida de nível**: a cada nível novo, um assistente pede, em ordem, só o que esse nível pede, e grava
+  tudo de uma vez no fim. Abre pelo botão de subir de nível da ficha (e pelo cabeçalho dela) e sozinho quando a
+  experiência basta para o próximo nível (e de novo, se ainda sobrar experiência). Os passos aparecem conforme o nível:
+  1. **Classe**: seguir na classe ou ganhar o primeiro nível em outra; PV, PM, BBA, habilidades do nível e a tabela da
+     classe; a violação de honra da multiclasse (leve, moderada ou severa, pela Honra das duas classes) e o +1 de Honra
+     por nível da classe inicial.
+  2. **Escolhas**: das habilidades que chegam e das que crescem com o nível (estilos do samurai, a espada ancestral que
+     recebe o +1, os caminhos do onimusha); o que foi escolhido antes continua marcado e o que segue outra escolha
+     (as armas do kensei seguem a arma eleita) vem sozinho. Na multiclasse, uma perícia da classe nova ou um dos
+     talentos iniciais dela.
+  3. **Talento**: o benefício do nível (talento ou +1 em uma habilidade) e os talentos que a classe dá no nível
+     (técnica de luta, poderes concedidos, lições espirituais, estudos caóticos), com os pré-requisitos conferidos.
+  4. **Jutsus**: Conhecimento de Jutsus das classes conjuradoras (do 4º nível da classe em diante, de qualquer grau que
+     o personagem execute), os talentos de chacra (Abrir Chacra e os de grau maior ensinam um jutsu do chacra escolhido),
+     o talento Conhecimento de Jutsus, Segredos dos Chacras e o aprendiz de uma classe conjuradora nova.
+  5. **Perícias**: a perícia treinada nova quando o +1 em Inteligência sobe o modificador.
+  6. **Resumo**: antes e depois (PV, PM, CA, BBA, ataques, resistências, iniciativa, Honra), o que chega e as violações
+     de honra do nível.
+  No fim, as habilidades que já estavam na ficha crescem, os itens novos entram com o que dão, os PV e PM ganhos somam
+  aos atuais, o nível fica registrado na ficha e um cartão vai para o chat. Configuração por jogador para abrir sozinho.
+- Campo **Idiomas** na biografia.
+
+### Mudado
+- **A ficha de personagem foi redesenhada** — papel washi numa bandeja de laca de jade, kanji a pincel, e uma regra
+  só para os números: pedra de jade rola, pedra índigo gasta PM, o resto é tinta.
+  - O **cabeçalho** (retrato com o selo do nível, nome, raça e classes, PV e PM em pinceladas, a CA numa guarda de
+    espada, condições, descanso) fica em todas as abas; fora da primeira, vira uma barra fina.
+  - A **Honra é uma katana**: a lâmina brilha até onde o valor chega, com uma marca onde cada Medida de Honra começa;
+    ao lado, a Reserva de Força, as quatro violações e o +1.
+  - **Ficha** junta o que antes eram três abas: as seis habilidades, as perícias (as treinadas ganham uma pedra), as
+    resistências, os ataques, as armas em punho, a armadura e a conta da CA numa linha, as manobras, os efeitos em
+    curso (com a duração e um ✕ para encerrar), as técnicas que gastam PM ou têm usos, os jutsus e os consumíveis.
+  - **Caminho**: a classe cresce como um **bambu**, um gomo por nível (o nível atual com selo, os próximos em
+    contorno, ou a trilha inteira até o 20º); as habilidades são as folhas e a raça é a raiz. Os talentos são um
+    **galho florido**: cada talento nasce do talento que ele exige, com a cor da flor pelo tipo; os **brotos**
+    mostram o que cada talento libera (cheio: pré-requisitos cumpridos).
+  - **Jutsus**: os seis chacras são um **lótus** (pétala de jade: aberto; o anel do miolo: PM que restam) e os jutsus
+    saem de cada chacra, grau por grau.
+  - **Equipamento**: a bolsa de Yan e o que se carrega, com a marca de em punho / vestido.
+  - Nas abas Caminho, Jutsus e Equipamento, um clique no nome desenrola o item num **pergaminho ao lado** (texto,
+    números e os botões de usar, abrir e apagar): as linhas não repetem mais ícones.
+  - **Treinar perícia e abrir chacra** agora só no modo de edição (o pincel, ao pé do trilho), para não mudar por
+    engano no meio do jogo.
+  - Os kanji usam a Yuji Boku e os títulos a Yuji Syuku (Google Fonts, como a Cinzel; sem internet caem para as
+    fontes embutidas). As fichas de item e de Ameaça ganharam a mesma laca no cabeçalho e os mesmos kanji a pincel.
+- A conferência de texto do livro (`tools/check-text.mjs`) cobre também os textos da interface (`lang/pt-BR.json`); dois
+  textos antigos (reserva de Honra, confusão) foram reescritos.
+
+### Corrigido
+- O monge recebia Usar Armas Marciais no lugar das três armas de monge (Usar Arma Exótica); a naginata entrou nas
+  opções do talento.
+
 ## 0.5.1 — 2026-11-19
 
 ### Mudado

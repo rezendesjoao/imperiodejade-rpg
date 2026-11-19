@@ -1,0 +1,17 @@
+{{!-- The chat card of a character made in the creation wizard. --}}
+<div class="imperiodejade ij-wz-card ij-wz-new">
+  <header>
+    <img src="{{img}}" alt="">
+    <div>
+      <small>{{localize "IJ.Wizard.Chat.eyebrow"}}</small>
+      <h3>{{name}}</h3>
+    </div>
+  </header>
+  <ul class="ij-wz-card-lines">
+    {{#each lines}}<li>{{#if img}}<img src="{{img}}" alt="">{{/if}}<span><small>{{label}}</small>{{value}}</span></li>{{/each}}
+  </ul>
+  <ul class="ij-wz-card-values">{{#each numbers}}<li><b>{{value}}</b><small>{{label}}</small></li>{{/each}}</ul>
+  {{#if violations.length}}
+  <ul class="ij-wz-card-viol">{{#each violations}}<li><span>{{label}}</span><b>−{{damage}}</b></li>{{/each}}</ul>
+  {{/if}}
+</div>

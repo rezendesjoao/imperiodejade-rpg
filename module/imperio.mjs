@@ -10,17 +10,20 @@ import { ImperioActor } from "./documents/actor.mjs";
 import { ImperioItem } from "./documents/item.mjs";
 import { ImperioActiveEffect } from "./documents/active-effect.mjs";
 import { ImperioCombatant } from "./documents/combatant.mjs";
-import { CharacterSheet } from "./sheets/character-sheet.mjs";
+import { CharacterSheet, SHEET_PARTIALS } from "./sheets/character-sheet.mjs";
 import { NpcSheet } from "./sheets/npc-sheet.mjs";
 import { ItemSheet } from "./sheets/item-sheet.mjs";
 import { registerChatListeners, signed, applyDamage } from "./dice/rolls.mjs";
 import { bookText, registerBookTextSetting, loadBookTextFile } from "./book-text.mjs";
 import * as auto from "./auto/index.mjs";
+import { CreationWizard, LevelUpWizard, registerCreation } from "./creation/index.mjs";
 
 const PARTIALS = {
   "ij-shield": `systems/${SYSTEM_ID}/templates/partials/shield.hbs`,
   "ij-medallion": `systems/${SYSTEM_ID}/templates/partials/medallion.hbs`,
-  "ij-item-controls": `systems/${SYSTEM_ID}/templates/partials/item-controls.hbs`
+  "ij-item-controls": `systems/${SYSTEM_ID}/templates/partials/item-controls.hbs`,
+  // The scroll at the side of the character sheet and the branch of its feats
+  ...SHEET_PARTIALS
 };
 
 Hooks.once("init", () => {
@@ -56,8 +59,13 @@ Hooks.once("init", () => {
   // Macros and other modules
   // bookText: the original wording of the rules, only when a local module built from the player's own book fills it
   // auto: the automation engine (conditions, effects, attacks, damage); endScene for the GM's macro
-  game[SYSTEM_ID] = { config: IJ, applyDamage, bookText, auto, endScene: auto.endScene };
+  // creation: the creation wizard (game.imperiodejade.creation.open(actor))
+  game[SYSTEM_ID] = {
+    config: IJ, applyDamage, bookText, auto, endScene: auto.endScene,
+    creation: { open: (actor, options) => CreationWizard.open(actor, options), levelUp: actor => LevelUpWizard.open(actor), CreationWizard, LevelUpWizard }
+  };
   registerBookTextSetting();
+  registerCreation();
   auto.registerAutomation();
 
   registerChatListeners();

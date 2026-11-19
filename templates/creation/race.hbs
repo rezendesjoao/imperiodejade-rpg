@@ -1,0 +1,88 @@
+{{!-- RACE: the eight races as cards and, beside them, the page of the one under the pointer (or chosen): its numbers,
+     the human's and mashin's +2, the choices its abilities ask, and its abilities (the whole text on the pointer). --}}
+<div class="wz-split">
+  <ol class="wz-grid wz-grid-race" role="listbox" aria-label="{{localize 'IJ.Wizard.Step.race'}}">
+    {{#each races}}
+    <li class="wz-card{{#if selected}} selected{{/if}}" role="option" aria-selected="{{#if selected}}true{{else}}false{{/if}}" tabindex="0"
+      data-kind="race" data-key="{{uuid}}" data-action="pick">
+      <span class="wz-card-kanji" aria-hidden="true">{{kanji}}</span>
+      <span class="wz-medal"><img src="{{img}}" alt=""></span>
+      <span class="wz-card-text">
+        <span class="wz-card-name">{{name}}</span>
+        <span class="wz-card-line">{{modsLabel}}</span>
+        {{#if honorLabel}}<span class="wz-card-tag">{{honorLabel}}</span>{{/if}}
+      </span>
+      <i class="wz-card-check fa-solid fa-check"></i>
+    </li>
+    {{/each}}
+  </ol>
+
+  <aside class="wz-detail">
+    <article class="wz-page wz-guide">
+      <header class="wz-page-head">
+        <span class="wz-seal">族</span>
+        <div>
+          <span class="wz-page-eyebrow">{{localize "IJ.Wizard.Guide.eyebrow"}}</span>
+          <h3>{{localize "IJ.Wizard.Guide.race.title"}}</h3>
+        </div>
+      </header>
+      <ol class="wz-guide-steps">
+        <li><i class="fa-solid fa-chart-simple"></i><p>{{localize "IJ.Wizard.Guide.race.one"}}</p></li>
+        <li><i class="fa-solid fa-yin-yang"></i><p>{{localize "IJ.Wizard.Guide.race.two"}}</p></li>
+        <li><i class="fa-solid fa-hand-sparkles"></i><p>{{localize "IJ.Wizard.Guide.race.three"}}</p></li>
+      </ol>
+    </article>
+
+    {{#each races as |race|}}
+    <article class="wz-page" data-key="{{race.uuid}}" hidden>
+      <header class="wz-page-head">
+        <span class="wz-medal big"><img src="{{race.img}}" alt=""></span>
+        <div>
+          <span class="wz-page-eyebrow">{{localize "IJ.Wizard.Race.eyebrow"}}{{#if race.page}} · {{race.page}}{{/if}}</span>
+          <h3>{{race.name}} <span class="wz-kanji">{{race.kanji}}</span></h3>
+          <div class="wz-stats">
+            {{#if race.choice.count}}<span class="wz-stat">{{race.modsLabel}}</span>
+            {{else}}{{#each race.mods}}<span class="wz-stat{{#if (lt value 0)}} neg{{/if}}">{{label}}</span>{{/each}}{{/if}}
+            {{#if race.honorLabel}}<span class="wz-stat honor">{{race.honorLabel}}</span>{{/if}}
+            <span class="wz-stat plain"><i class="fa-solid fa-ruler-vertical"></i>{{race.sizeLabel}}</span>
+            <span class="wz-stat plain"><i class="fa-solid fa-shoe-prints"></i>{{race.movement}} m</span>
+            {{#each race.extras}}<span class="wz-stat gold">{{this}}</span>{{/each}}
+          </div>
+        </div>
+      </header>
+      {{#if race.lead}}<p class="wz-lore">{{race.lead}}</p>{{/if}}
+
+      {{#if race.abilityPick}}
+      <section class="wz-choice{{#unless race.selected}} inactive{{/unless}}">
+        <header>
+          <div>
+            <span class="wz-page-eyebrow">{{race.name}}</span>
+            <h5>{{localize "IJ.Wizard.Race.pickTitle" n=race.choice.count value=race.choice.value}}</h5>
+          </div>
+        </header>
+        <div class="wz-toggles">
+          {{#each race.abilityPick}}
+          <button type="button" class="wz-toggle{{#if on}} on{{/if}}" data-action="raceAbility" data-ability="{{key}}" {{#if disabled}}disabled{{/if}}>
+            <b>{{abbr}}</b><small>{{label}}</small>{{#if on}}<em>+{{../race.choice.value}}</em>{{/if}}
+          </button>
+          {{/each}}
+        </div>
+      </section>
+      {{/if}}
+
+      {{#each race.choices}}{{> "systems/imperiodejade/templates/creation/choice.hbs" this}}{{/each}}
+      {{#unless race.selected}}{{#if race.abilityPick}}<p class="wz-note">{{localize "IJ.Wizard.pickFirst"}}</p>{{else if race.choices.length}}<p class="wz-note">{{localize "IJ.Wizard.pickFirst"}}</p>{{/if}}{{/unless}}
+
+      <h4><i class="fa-solid fa-dragon"></i>{{localize "IJ.Wizard.Race.features"}}</h4>
+      <ul class="wz-features">
+        {{#each race.features}}
+        <li class="wz-feature" data-tooltip-html="{{tip}}" data-tooltip-class="ij-wz-tip" data-tooltip-direction="LEFT">
+          <img src="{{img}}" alt="">
+          <div><b>{{name}}</b><p>{{text}}</p></div>
+        </li>
+        {{/each}}
+      </ul>
+    </article>
+    {{/each}}
+  </aside>
+</div>

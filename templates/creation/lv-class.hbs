@@ -1,0 +1,79 @@
+{{!-- LEVEL — CLASS: the classes the character has (one level more) and the others (a first level: multiclass, with
+     its Honor violation); the page of the one under the pointer (or chosen) shows what that level gives. --}}
+<div class="wz-split">
+  <ol class="wz-grid wz-grid-class" role="listbox" aria-label="{{localize 'IJ.Level.Step.class'}}">
+    <li class="wz-grid-label">{{localize "IJ.Level.Class.continue"}}</li>
+    {{#each own}}
+    <li class="wz-card class{{#if selected}} selected{{/if}}" role="option" aria-selected="{{#if selected}}true{{else}}false{{/if}}" tabindex="0"
+      data-key="{{uuid}}" data-action="pick">
+      <span class="wz-card-kanji" aria-hidden="true">{{kanji}}</span>
+      <span class="wz-medal"><img src="{{img}}" alt=""></span>
+      <span class="wz-card-text">
+        <span class="wz-card-name">{{name}}{{#if primary}} <i class="fa-solid fa-star wz-primary"></i>{{/if}}</span>
+        <span class="wz-card-line">{{line}}</span>
+      </span>
+      <i class="wz-card-check fa-solid fa-check"></i>
+    </li>
+    {{/each}}
+    <li class="wz-grid-label">{{localize "IJ.Level.Class.others"}}</li>
+    {{#each others}}
+    <li class="wz-card class{{#if selected}} selected{{/if}}" role="option" aria-selected="{{#if selected}}true{{else}}false{{/if}}" tabindex="0"
+      data-key="{{uuid}}" data-action="pick">
+      <span class="wz-card-kanji" aria-hidden="true">{{kanji}}</span>
+      <span class="wz-medal"><img src="{{img}}" alt=""></span>
+      <span class="wz-card-text">
+        <span class="wz-card-name">{{name}}</span>
+        <span class="wz-card-line">{{line}}</span>
+        {{#if violation}}<span class="wz-card-tag viol{{#if violation.ignored}} ignored{{/if}}">{{localize "IJ.Level.Class.violationShort" severity=violation.label}}</span>{{/if}}
+      </span>
+      <i class="wz-card-check fa-solid fa-check"></i>
+    </li>
+    {{/each}}
+  </ol>
+
+  <aside class="wz-detail">
+    {{#each classes as |c|}}
+    <article class="wz-page" data-key="{{c.uuid}}" hidden>
+      <header class="wz-page-head">
+        <span class="wz-medal big"><img src="{{c.img}}" alt=""></span>
+        <div>
+          <span class="wz-page-eyebrow">{{#if c.isNew}}{{localize "IJ.Level.Class.multiclassEyebrow"}}{{else}}{{localize "IJ.Level.Class.eyebrow" n=c.next}}{{/if}}</span>
+          <h3>{{c.name}} {{c.next}} <span class="wz-kanji">{{c.kanji}}</span></h3>
+          <div class="wz-stats">{{#each c.gains}}<span class="wz-stat"><i class="{{icon}}"></i>{{label}}</span>{{/each}}</div>
+        </div>
+      </header>
+
+      {{#if c.isNew}}
+      <div class="wz-multiclass-note">
+        <p><i class="fa-solid fa-code-branch"></i>{{localize "IJ.Level.Class.multiclassText"}}</p>
+        {{#if c.violation}}<p class="wz-warn"><i class="fa-solid fa-yin-yang"></i><span>{{#if c.violation.ignored}}{{localize "IJ.Level.Class.violationIgnored" severity=c.violation.label}}{{else}}{{localize "IJ.Level.Class.violation" severity=c.violation.label n=c.violation.damage}}{{/if}}</span></p>{{/if}}
+        <p class="wz-text"><b>{{localize "IJ.Wizard.Class.classSkills"}}:</b> {{c.classSkills}}</p>
+        <p class="wz-text"><b>{{localize "IJ.Wizard.Class.startingFeats"}}:</b> {{c.startingFeats}}</p>
+      </div>
+      {{/if}}
+
+      <h4><i class="fa-solid fa-torii-gate"></i>{{localize "IJ.Level.Class.features" n=c.next}}</h4>
+      {{#if c.features.length}}
+      <ul class="wz-features">
+        {{#each c.features}}
+        <li class="wz-feature" data-tooltip-html="{{tip}}" data-tooltip-class="ij-wz-tip" data-tooltip-direction="LEFT">
+          <img src="{{img}}" alt="">
+          <div><b>{{name}}</b><p>{{text}}</p></div>
+        </li>
+        {{/each}}
+      </ul>
+      {{else}}
+      <p class="wz-note">{{localize "IJ.Level.Class.noFeatures"}}</p>
+      {{/if}}
+
+      <details class="wz-table" open>
+        <summary><i class="fa-solid fa-table-list"></i>{{localize "IJ.Wizard.Class.table"}}</summary>
+        <table>
+          <thead><tr><th>{{localize "IJ.Wizard.Class.tableLevel"}}</th><th>{{localize "IJ.BBA.abbr"}}</th><th>{{localize "IJ.Wizard.Class.tableFeatures"}}</th></tr></thead>
+          <tbody>{{#each c.table}}<tr class="{{#if on}}on{{/if}}"><td>{{level}}º</td><td>{{bba}}</td><td>{{features}}</td></tr>{{/each}}</tbody>
+        </table>
+      </details>
+    </article>
+    {{/each}}
+  </aside>
+</div>

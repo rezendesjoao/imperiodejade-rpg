@@ -1,0 +1,42 @@
+{{!-- The scroll at the side of a tab: the item chosen on the left, whole, with what can be done with it. --}}
+{{#if id}}
+<div class="ij-detail ij-item" data-item-id="{{id}}">
+  <header class="ij-detail__head">
+    {{#if kanji}}<span class="ij-detail__kanji" aria-hidden="true">{{kanji}}</span>{{/if}}
+    <span class="ij-detail__type">{{type}}</span>
+    <h3 class="ij-detail__name">{{name}}</h3>
+    {{#if tags.length}}
+    <div class="ij-detail__tags">
+      {{#each tags as |t|}}<span class="ij-chip2 {{#if t.cls}}ij-chip2--{{t.cls}}{{/if}}" {{#if t.tip}}data-tooltip="{{t.tip}}"{{/if}}>{{t.label}}</span>{{/each}}
+    </div>
+    {{/if}}
+  </header>
+  {{#if stats.length}}
+  <dl class="ij-detail__stats">
+    {{#each stats as |s|}}<dt>{{s.label}}</dt><dd>{{s.value}}</dd>{{/each}}
+  </dl>
+  {{/if}}
+  <div class="ij-detail__body">
+    {{#if prerequisites}}<p class="ij-detail__pre"><strong>{{localize "IJ.Feat.prerequisites"}}:</strong> {{prerequisites}}</p>{{/if}}
+    {{{description}}}
+    {{#if enhancements}}
+    <p class="ij-cap">{{localize "IJ.Jutsu.enhancements"}}</p>
+    {{{enhancements}}}
+    {{/if}}
+  </div>
+  <footer class="ij-detail__foot">
+    {{#if use}}
+    <a class="ij-do {{#if use.ki}}ij-do--ki{{/if}}" data-action="itemUse">{{use.label}}{{#if use.cost}} <b>{{use.cost}} {{localize "IJ.PM.abbr"}}</b>{{/if}}</a>
+    {{else}}
+    <span style="flex: 1"></span>
+    {{/if}}
+    <a class="ij-detail__link" data-action="itemEdit">{{localize "IJ.Item.edit"}}</a>
+    {{#if editable}}<a class="ij-detail__link ij-detail__link--danger" data-action="itemDelete">{{localize "IJ.Item.delete"}}</a>{{/if}}
+  </footer>
+</div>
+{{else}}
+<div class="ij-detail ij-detail--empty">
+  <b aria-hidden="true">{{kanji}}</b>
+  <p>{{hint}}</p>
+</div>
+{{/if}}

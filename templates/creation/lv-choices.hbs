@@ -1,0 +1,41 @@
+{{!-- LEVEL — CHOICES: what the level asks to be chosen: the choices of the abilities it brings and of those that grow
+     with the level (what was chosen before stays marked), the ancestral sword that gets the +1, and the skill or
+     starting feat of a new class. --}}
+<div class="wz-scroll wz-lv-choices">
+  {{#each choices}}{{> "systems/imperiodejade/templates/creation/choice.hbs" this}}{{/each}}
+  {{#if ancestral}}{{> "systems/imperiodejade/templates/creation/choice.hbs" ancestral}}{{/if}}
+
+  {{#with multiclass as |m|}}
+  <section class="wz-choice{{#if m.done}} done{{/if}}">
+    <header>
+      <div>
+        <span class="wz-page-eyebrow">{{localize "IJ.Level.Choices.multiclassEyebrow" name=m.className}}</span>
+        <h5>{{localize "IJ.Level.Choices.multiclass"}}</h5>
+      </div>
+      <i class="wz-choice-state fa-solid {{#if m.done}}fa-circle-check{{else}}fa-circle-exclamation{{/if}}"></i>
+    </header>
+    <div class="wz-bonus-kinds">
+      <button type="button" class="wz-option{{#if m.isFeat}} on{{/if}}" data-action="multiclass" data-kind="feat"><i class="fa-solid fa-star"></i><span>{{localize "IJ.Level.Choices.multiclassFeat"}}</span></button>
+      <button type="button" class="wz-option{{#if m.isSkill}} on{{/if}}" data-action="multiclass" data-kind="skill"><i class="fa-solid fa-scroll"></i><span>{{localize "IJ.Level.Choices.multiclassSkill"}}</span></button>
+    </div>
+    {{#if m.isFeat}}
+    <ul class="wz-options">
+      {{#each m.feats}}<li><button type="button" class="wz-option{{#if on}} on{{/if}}" data-action="multiclass" data-feat="{{uuid}}" data-tooltip-html="{{tip}}" data-tooltip-class="ij-wz-tip"><i class="fa-{{#if on}}solid fa-circle-dot{{else}}regular fa-circle{{/if}}"></i><span>{{name}}</span></button></li>{{else}}<li class="wz-empty">{{localize "IJ.Level.Choices.noFeats"}}</li>{{/each}}
+    </ul>
+    {{#with m.featChoice as |fc|}}
+    <div class="wz-slot-choice">
+      {{#if fc.label}}<small>{{fc.label}}</small>{{/if}}
+      {{#if fc.options.length}}<span class="wz-options mini">{{#each fc.options}}<button type="button" class="wz-option{{#if on}} on{{/if}}" data-action="multiclass" data-option="{{id}}">{{label}}</button>{{/each}}</span>{{/if}}
+      {{#if fc.text}}<input type="text" data-field="multiclassText" value="{{fc.textValue}}" placeholder="{{fc.text}}" autocomplete="off">{{/if}}
+    </div>
+    {{/with}}
+    {{else}}
+    <ul class="wz-options">
+      {{#each m.skills}}<li><button type="button" class="wz-option{{#if on}} on{{/if}}" data-action="multiclass" data-skill="{{key}}"><i class="fa-{{#if on}}solid fa-circle-dot{{else}}regular fa-circle{{/if}}"></i><span>{{label}}</span>{{#if violation}}<em class="wz-tag viol{{#if violation.ignored}} ignored{{/if}}">{{violation.label}}</em>{{/if}}</button></li>{{/each}}
+    </ul>
+    {{/if}}
+  </section>
+  {{/with}}
+
+  {{#if nothing}}<p class="wz-note">{{localize "IJ.Level.Choices.nothing"}}</p>{{/if}}
+</div>

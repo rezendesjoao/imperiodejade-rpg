@@ -40,7 +40,8 @@ export class ImperioItem extends Item {
   /** A class or race added to a character brings its abilities; any item brings what its automation grants. */
   _onCreate(data, options, userId) {
     super._onCreate(data, options, userId);
-    if ((userId !== game.user.id) || !this.actor) return;
+    // The creation wizard creates a whole character at once, with everything already granted (module/creation/)
+    if ((userId !== game.user.id) || !this.actor || options.ijCreation) return;
     if (this.actor.type === "character") {
       if (this.type === "class") grantClassFeatures(this);
       else if (this.type === "race") {
@@ -67,7 +68,8 @@ export class ImperioItem extends Item {
    */
   _onUpdate(changed, options, userId) {
     super._onUpdate(changed, options, userId);
-    if ((userId !== game.user.id) || !this.actor) return;
+    // The level-up wizard writes a level whole: what it grants and the Honor are in its plan (module/creation/)
+    if ((userId !== game.user.id) || !this.actor || options.ijLevelUp) return;
     if ((foundry.utils.getProperty(changed, "system.choices") !== undefined) || (foundry.utils.getProperty(changed, "system.choiceText") !== undefined)
       || ((foundry.utils.getProperty(changed, "system.equipped") !== undefined) && (this.system.auto?.grants?.length || this.system.auto?.choice))) syncItemGrants(this);
     if ((this.type !== "class") || (this.actor.type !== "character")) return;
@@ -90,7 +92,8 @@ export class ImperioItem extends Item {
   /** An item leaving takes what it granted. */
   _onDelete(options, userId) {
     super._onDelete(options, userId);
-    if ((userId !== game.user.id) || !this.actor) return;
+    // The creation wizard takes out an earlier creation whole, what was granted included
+    if ((userId !== game.user.id) || !this.actor || options.ijCreation) return;
     if (["class", "race"].includes(this.type) || this.system.auto?.grants?.length || this.system.auto?.choice) removeGranted(this);
   }
 

@@ -1,0 +1,20 @@
+{{!-- The creation wizard's head (module/creation/wizard.mjs): the step's kanji, what it asks, and the eight steps (a
+     done one with a check; a step opens when every step before it is done). --}}
+<header class="wz-head">
+  <span class="wz-head-kanji" aria-hidden="true">{{kanji}}</span>
+  <div class="wz-head-text">
+    <span class="wz-eyebrow">{{eyebrow}}</span>
+    <h2>{{heading}}</h2>
+    <p>{{lead}}</p>
+  </div>
+  <ol class="wz-steps">
+    {{#each steps}}
+    <li class="wz-stepper{{#if done}} done{{/if}}{{#if current}} current{{/if}}{{#unless reachable}} locked{{/unless}}">
+      <a {{#if reachable}}data-action="step" data-step="{{id}}"{{/if}} aria-label="{{label}}" aria-current="{{#if current}}step{{else}}false{{/if}}">
+        <span class="wz-step-node"><span class="wz-step-kanji">{{kanji}}</span>{{#if done}}{{#unless current}}<i class="fa-solid fa-check wz-step-check"></i>{{/unless}}{{/if}}</span>
+        <span class="wz-step-label"><small>{{n}}</small>{{label}}</span>
+      </a>
+    </li>
+    {{/each}}
+  </ol>
+</header>

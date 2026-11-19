@@ -13,10 +13,30 @@ chacras e jutsus com custo e CD por grau.
   itens antes dos próprios derivados).
 - `module/documents/`: rolagens, Honra, descanso, PM (ator); ataque, dano, jutsu, uso (item).
 - `module/dice/rolls.mjs`: os cartões de chat (`templates/chat/roll-card.hbs`) e os botões deles (dano, aplicar dano).
-- `module/sheets/`: ficha de personagem (ApplicationV2, uma parte por aba) e ficha de item.
+- `module/sheets/`: ficha de personagem (ApplicationV2: o trilho, o cabeçalho que fica em todas as abas e uma parte
+  por aba; `templates/actor/parts/`), ficha de item e ficha da Ameaça. `graphics.mjs` tem a geometria da katana da
+  Honra e do lótus dos chacras (funções puras: dá para conferir fora do Foundry). O bambu de cada classe sai da
+  tabela da classe (`#paths`), o galho dos talentos sai dos pré-requisitos (`#featTree`, com os brotos lidos do
+  catálogo do assistente) e o pergaminho ao lado mostra o item escolhido (`#detail`, parcial `detail.hbs`).
 - `module/auto/`: o motor de automação (condições, efeitos com duração, usos, opções de rolagem, ataque contra a CA dos
   alvos, dano com RD/resistências/evasão/fortificação, reações, jutsus). O formato dos dados está em `docs/automacao.md`.
-- `styles/imperio.css`: todo o visual; `styles/fonts.css`: Cinzel (Google Fonts), Gelasio e Noto Serif JP (embutidas).
+- `module/creation/`: o assistente de criação (8 passos; `templates/creation/`, `styles/creation.css`). `rules.mjs` tem as
+  regras puras (pontos, rolagem, dinheiro por casta, kits por classe, violações da criação, pré-requisitos de talentos);
+  `catalog.mjs` lê os compêndios uma vez por sessão; `plan.mjs` transforma o rascunho em itens (com as concessões de
+  `grants.mjs#grantData`, sem criar nada) e numa **prévia em memória** (um Actor não salvo, preparado como a ficha) e
+  grava tudo de uma vez (`ijCreation: true` faz `item.mjs` pular as concessões automáticas). O rascunho fica em
+  `flags.imperiodejade.creation.draft` (as escolhas em lista: chave com ponto vira objeto aninhado no banco); as rolagens
+  em `flags.imperiodejade.creationRolls`.
+- O assistente de nível (`module/creation/levelup.mjs`, passos dinâmicos; templates `lv-*.hbs`) usa `level-plan.mjs`:
+  `planLevelUp` monta o nível (escolhas por `id:<item>` ou `uuid:<fonte>`, itens novos com concessões, prévia em
+  memória), `levelRequirements` diz o que falta e `applyLevelUp` grava (`ijLevelUp: true` faz `item.mjs` pular o
+  `_onUpdate`; o histórico fica em `flags.imperiodejade.levelLog`). Abre sozinho no `updateActor` quando a experiência
+  basta (`maybeOpenLevelUp`). `views.mjs` tem o que os dois assistentes dividem (linhas de talentos e jutsus, dicas).
+- `styles/imperio.css`: cores, fontes, janela, ficha de item, ficha da Ameaça, chat e diálogos; `styles/sheet.css`: a
+  ficha de personagem (tudo sob `.ij-character`); `styles/fonts.css`: Cinzel, Yuji Boku (kanji a pincel) e Yuji Syuku
+  (títulos) do Google Fonts, Gelasio e Noto Serif JP embutidas.
+- Na ficha de personagem: pedra de jade (`.ij-stone`) rola, pedra índigo (`.ij-orb`) gasta PM; item de lista leva
+  `.ij-item` + `data-item-id` (botão direito abre a ficha dele). Treino de perícia e chacra só mudam no modo de edição.
 
 ## Compêndios
 - A fonte é `src/data/*.json` (as regras do livro **resumidas com palavras próprias**, com a página). `npm run build` roda
@@ -24,7 +44,8 @@ chacras e jutsus com custo e CD por grau.
   habilidades e aos talentos iniciais, raças às habilidades raciais) e `tools/packs.mjs` (compila em `packs/`, com o
   Foundry desligado). `src/packs` e `packs` não vão para o git; o zip da release leva `packs`.
 - **Nenhum texto exato do livro.** Antes de cada release: `node tools/check-text.mjs <texto-do-PDF.txt> --min 10`
-  tem de sair sem trechos; o texto do PDF fica fora do repositório. Créditos em `CREDITOS.md`.
+  (compêndios, automação e `lang/pt-BR.json`) tem de sair sem trechos; o texto do PDF fica fora do repositório.
+  Créditos em `CREDITOS.md`.
 - Classe e raça concedem itens ao entrar na ficha (`module/documents/grants.mjs`, flags `grantedBy`/`sourceUuid`);
   a classe inicial dá +1 de Honra por nível ganho. Efeitos de item equipável só valem equipado (`active-effect.mjs`).
 - `game.imperiodejade.bookText` mostra o texto original de um módulo local que cada jogador gera do próprio PDF
@@ -43,7 +64,8 @@ chacras e jutsus com custo e CD por grau.
 - Código e comentários em inglês; interface em `lang/pt-BR.json` (registrado também para `en`).
 - Um campo `name` aparece uma vez só no formulário inteiro: as abas são partes do mesmo `<form>` e dois campos com o
   mesmo nome brigam no envio (o último ganha). Valor repetido em outra aba é só exibição.
-- Kanji novo na ficha: rode de novo o recorte da Noto Serif JP (só os pedaços com os kanji usados vão no sistema).
+- Os kanji aparecem na Yuji Boku (Google Fonts); a Noto Serif JP embutida é a reserva de quem está sem internet.
+  Kanji novo na ficha: rode de novo o recorte da Noto Serif JP (só os pedaços com os kanji usados vão no sistema).
 - No Foundry 14, a mensagem de chat usa `{ messageMode }` (não `rollMode`) e apagar chave é `ForcedDeletion`.
 
 ## Teste local

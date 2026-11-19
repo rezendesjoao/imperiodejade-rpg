@@ -3,13 +3,16 @@
  * the first class), a race brings its racial abilities. Granted items remember who granted them
  * (flags.imperiodejade.grantedBy) and where they came from (flags.imperiodejade.sourceUuid), so they are never
  * granted twice and leave with the item that brought them.
+ *
+ * The data of what a list of entries grants (grantData) is built apart from its creation, so the creation wizard
+ * (module/creation/) plans a whole character with the same rules before anything is created.
  */
 import { SYSTEM_ID } from "../config.mjs";
 import { expandMacros } from "../auto/formula.mjs";
 
 const flagOf = item => item.flags?.[SYSTEM_ID] ?? {};
 
-const normText = s => String(s ?? "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().trim();
+const normText = s => String(s ?? "").normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase().trim();
 
 /**
  * Whether the actor already has the item that `uuid` points to (granted, dropped from the compendium or by name).
@@ -23,20 +26,46 @@ function alreadyHas(actor, uuid, name, type, choiceText = null) {
   });
 }
 
+/** The entries a class grants from `fromLevel` (exclusive) to its level: its abilities, its starting feats as first class. */
+export function classGrantEntries(cls, { fromLevel = 0 } = {}) {
+  const levels = cls.system.levels;
+  const entries = (cls.system.features ?? []).filter(f => (f.level > fromLevel) && (f.level <= levels));
+  // Starting feats: only for the first class (multiclass characters don't get them, p. 45)
+  if ((fromLevel === 0) && cls.system.primary) entries.push(...(cls.system.startingFeatList ?? []));
+  return entries;
+}
+
+/** The entries an item's automation grants: its own, and those of the options chosen on it. */
+export function itemGrantEntries(item) {
+  const auto = item.system?.auto ?? {};
+  const picks = item.system?.choices ?? [];
+  const entries = [...(auto.grants ?? [])];
+  for (const opt of auto.choice?.options ?? []) {
+    if (picks.includes(opt.id)) entries.push(...(opt.grants ?? []).map(g => ({ ...g, option: opt.id })));
+  }
+  return entries;
+}
+
 /**
- * Create the items of a list of {uuid, name} on the actor, flagged as granted by `source`.
- * @returns {Promise<Item[]>} The created items.
+ * The data of the items a list of {uuid, name} entries grants, flagged as granted by `source` (nothing is created).
+ * @param {{id: string, name?: string, system?: object}} source   The granting item (an Item, or planned item data)
+ * @param {object[]} entries
+ * @param {object} [options]
+ * @param {Function} [options.has]    ({inline, uuid, name, type, choiceText, entry}) => true when the item is already there
+ * @param {Function} [options.load]   uuids => Promise<Map<uuid, Document>>: fetch the documents in one go
+ * @returns {Promise<object[]>}
  */
-async function grant(actor, source, entries) {
+export async function grantData(source, entries, { has = () => false, load = null } = {}) {
   const data = [];
   const pending = new Set();
+  const docs = load ? await load(entries.map(e => e.uuid).filter(Boolean)) : null;
   for (const entry of entries) {
     // An item written in the data itself (a natural weapon: Mordida de Rato, Braço Armado)
     if (entry.item?.name) {
       const key = `inline:${entry.item.name}`;
       if (pending.has(key)) continue;
       pending.add(key);
-      if (actor.items.some(i => (flagOf(i).grantedBy === source.id) && (flagOf(i).sourceUuid === key))) continue;
+      if (has({ inline: key, name: entry.item.name, type: entry.item.type, entry })) continue;
       const itemData = foundry.utils.deepClone(entry.item);
       foundry.utils.setProperty(itemData, `flags.${SYSTEM_ID}.grantedBy`, source.id);
       foundry.utils.setProperty(itemData, `flags.${SYSTEM_ID}.sourceUuid`, key);
@@ -60,7 +89,7 @@ async function grant(actor, source, entries) {
     const key = `${entry.uuid}|${entry.choiceText ?? ""}`;
     if (pending.has(key)) continue;
     pending.add(key);
-    const doc = await fromUuid(entry.uuid).catch(() => null);
+    const doc = docs ? (docs.get(entry.uuid) ?? null) : await fromUuid(entry.uuid).catch(() => null);
     if (!doc) {
       console.warn(`${SYSTEM_ID} | ${source.name}: não achei ${entry.name} (${entry.uuid})`);
       continue;
@@ -68,7 +97,7 @@ async function grant(actor, source, entries) {
     // "@choice": the granted item takes the choice made on the item that grants it (the kensei's Arma eleita)
     const choiceText = entry.choiceText === "@choice" ? (source.system?.choiceText ?? "") : (entry.choiceText ?? null);
     if (entry.choiceText === "@choice" && !choiceText) continue;
-    if (alreadyHas(actor, entry.uuid, doc.name, doc.type, choiceText)) continue;
+    if (has({ uuid: entry.uuid, name: doc.name, type: doc.type, choiceText, entry })) continue;
     const itemData = game.items.fromCompendium(doc, { clearFolder: true, keepId: false });
     foundry.utils.setProperty(itemData, `flags.${SYSTEM_ID}.grantedBy`, source.id);
     foundry.utils.setProperty(itemData, `flags.${SYSTEM_ID}.sourceUuid`, entry.uuid);
@@ -80,6 +109,19 @@ async function grant(actor, source, entries) {
     if (entry.choices?.length) foundry.utils.setProperty(itemData, "system.choices", [...entry.choices]);
     data.push(itemData);
   }
+  return data;
+}
+
+/**
+ * Create the items of a list of {uuid, name} entries on the actor, flagged as granted by `source`.
+ * @returns {Promise<Item[]>} The created items.
+ */
+async function grant(actor, source, entries) {
+  const data = await grantData(source, entries, {
+    has: ({ inline, uuid, name, type, choiceText }) => (inline
+      ? actor.items.some(i => (flagOf(i).grantedBy === source.id) && (flagOf(i).sourceUuid === inline))
+      : alreadyHas(actor, uuid, name, type, choiceText))
+  });
   if (!data.length) return [];
   const created = await actor.createEmbeddedDocuments("Item", data, { ijGranted: true });
   ui.notifications.info(game.i18n.format("IJ.Grant.received", {
@@ -92,12 +134,7 @@ async function grant(actor, source, entries) {
 export async function grantClassFeatures(cls, { fromLevel = 0 } = {}) {
   const actor = cls.actor;
   if (!actor || actor.type !== "character") return [];
-  const levels = cls.system.levels;
-  const features = (cls.system.features ?? []).filter(f => (f.level > fromLevel) && (f.level <= levels));
-  const entries = [...features];
-  // Starting feats: only for the first class (multiclass characters don't get them, p. 45)
-  if ((fromLevel === 0) && cls.system.primary) entries.push(...(cls.system.startingFeatList ?? []));
-  return grant(actor, cls, entries);
+  return grant(actor, cls, classGrantEntries(cls, { fromLevel }));
 }
 
 /** A race was added: grant its racial abilities. */
@@ -119,12 +156,8 @@ export async function syncItemGrants(item) {
     await removeGranted(item);
     return [];
   }
-  const auto = item.system.auto ?? {};
   const picks = item.system.choices ?? [];
-  const entries = [...(auto.grants ?? [])];
-  for (const opt of auto.choice?.options ?? []) {
-    if (picks.includes(opt.id)) entries.push(...(opt.grants ?? []).map(g => ({ ...g, option: opt.id })));
-  }
+  const entries = itemGrantEntries(item);
   // Grants of options that were unchosen
   const stale = actor.items.filter(i => (flagOf(i).grantedBy === item.id) && flagOf(i).grantedOption && !picks.includes(flagOf(i).grantedOption)).map(i => i.id);
   if (stale.length) await actor.deleteEmbeddedDocuments("Item", stale, { ijGranted: true });

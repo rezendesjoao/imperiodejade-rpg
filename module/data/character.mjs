@@ -99,7 +99,9 @@ export class CharacterData extends foundry.abstract.TypeDataModel {
         age: text(),
         height: text(),
         weight: text(),
-        title: text()
+        title: text(),
+        // Ningo and the others (p. 88), written by the creation wizard
+        languages: text()
       }),
       currency: new fields.SchemaField({ yo: int(0, { min: 0 }), yp: int(0, { min: 0 }), y: int(0, { min: 0 }) }),
       biography: new fields.SchemaField({

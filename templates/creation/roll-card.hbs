@@ -1,0 +1,13 @@
+{{!-- The chat card of the seven rolls of a creation (4d6, the lowest die dropped): the values, their modifiers, and
+     whether the book lets the set be rolled again. --}}
+<div class="imperiodejade ij-wz-card ij-wz-rolls">
+  <header>
+    <span class="ij-wz-card-kanji">力</span>
+    <div>
+      <small>{{localize "IJ.Wizard.Chat.rollsEyebrow"}}</small>
+      <h3>{{#if again}}{{localize "IJ.Wizard.Chat.rollsAgain" name=name}}{{else}}{{localize "IJ.Wizard.Chat.rolls" name=name}}{{/if}}</h3>
+    </div>
+  </header>
+  <ul class="ij-wz-card-values">{{#each values}}<li><b>{{v}}</b><small>{{mod}}</small></li>{{/each}}</ul>
+  <p>{{localize "IJ.Wizard.Chat.rollsMods" mods=mods}}{{#if reroll}} {{localize "IJ.Wizard.Chat.rollsReroll"}}{{/if}}</p>
+</div>

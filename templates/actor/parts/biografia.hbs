@@ -1,43 +1,44 @@
-{{!-- BIOGRAFIA: personal details and the four texts (appearance, personality, history, notes). --}}
+{{!-- BIOGRAFIA: who the character is away from the dice, and the four texts (appearance, personality, history, notes). --}}
 <section class="tab ij-tab ij-biografia {{tab.cssClass}}" data-tab="biografia" data-group="primary">
-  <div class="ij-sheet-title">
-    <span class="ij-sheet-title__kanji">伝</span>
-    <h2>{{localize "IJ.Tab.biografia"}}</h2>
-  </div>
+  <div class="ij-life">
+    <div>
+      <header class="ij-head">
+        <span class="ij-head__kanji" aria-hidden="true">名</span>
+        <h3>{{localize "IJ.Details.label"}}</h3>
+      </header>
+      <div class="ij-life__facts">
+        <label><span class="ij-cap">{{localize "IJ.Details.player"}}</span><input type="text" name="system.details.player" value="{{source.details.player}}"></label>
+        <label><span class="ij-cap">{{localize "IJ.Details.title"}}</span><input type="text" name="system.details.title" value="{{source.details.title}}" placeholder="{{localize 'IJ.Details.titlePlaceholder'}}"></label>
+        <label><span class="ij-cap">{{localize "IJ.Details.sentai"}}</span><input type="text" name="system.details.sentai" value="{{source.details.sentai}}" placeholder="{{localize 'IJ.Details.sentaiPlaceholder'}}"></label>
+        <label><span class="ij-cap">{{localize "IJ.Details.languages"}}</span><input type="text" name="system.details.languages" value="{{source.details.languages}}" placeholder="Ningo"></label>
+        <label><span class="ij-cap">{{localize "IJ.Details.gender"}}</span><input type="text" name="system.details.gender" value="{{source.details.gender}}"></label>
+        <label><span class="ij-cap">{{localize "IJ.Details.age"}}</span><input type="text" name="system.details.age" value="{{source.details.age}}"></label>
+        <label><span class="ij-cap">{{localize "IJ.Details.height"}}</span><input type="text" name="system.details.height" value="{{source.details.height}}"></label>
+        <label><span class="ij-cap">{{localize "IJ.Details.weight"}}</span><input type="text" name="system.details.weight" value="{{source.details.weight}}"></label>
+        {{!-- Caste, clan and religion are edited on the hero (one field per name in the form) --}}
+        <div><span class="ij-cap">{{localize "IJ.Details.caste"}}</span><strong>{{casteLabel}}</strong></div>
+        <div><span class="ij-cap">{{localize "IJ.Details.clan"}}</span><strong>{{#if source.details.clan}}{{source.details.clan}}{{else}}—{{/if}}</strong></div>
+        <div><span class="ij-cap">{{localize "IJ.Details.religion"}}</span><strong>{{#if source.details.religion}}{{source.details.religion}}{{else}}—{{/if}}</strong></div>
+      </div>
+    </div>
 
-  <div class="ij-box ij-box--table ij-bio-details">
-    <header class="ij-box__head"><span>{{localize "IJ.Details.label"}}</span></header>
-    <div class="ij-bio-grid">
-      <label><span>{{localize "IJ.Details.player"}}</span><input type="text" name="system.details.player" value="{{source.details.player}}"></label>
-      <label><span>{{localize "IJ.Details.title"}}</span><input type="text" name="system.details.title" value="{{source.details.title}}" placeholder="{{localize 'IJ.Details.titlePlaceholder'}}"></label>
-      <label><span>{{localize "IJ.Details.gender"}}</span><input type="text" name="system.details.gender" value="{{source.details.gender}}"></label>
-      <label><span>{{localize "IJ.Details.age"}}</span><input type="text" name="system.details.age" value="{{source.details.age}}"></label>
-      <label><span>{{localize "IJ.Details.height"}}</span><input type="text" name="system.details.height" value="{{source.details.height}}"></label>
-      <label><span>{{localize "IJ.Details.weight"}}</span><input type="text" name="system.details.weight" value="{{source.details.weight}}"></label>
-      <label><span>{{localize "IJ.Details.sentai"}}</span><input type="text" name="system.details.sentai" value="{{source.details.sentai}}" placeholder="{{localize 'IJ.Details.sentaiPlaceholder'}}"></label>
-      {{!-- Caste, religion and clan are edited in the Origin table of the first tab (one field per name in the form) --}}
-      <div class="ij-bio-static"><span>{{localize "IJ.Details.caste"}}</span><strong>{{casteLabel}}</strong></div>
-      <div class="ij-bio-static"><span>{{localize "IJ.Details.religion"}}</span><strong>{{#if source.details.religion}}{{source.details.religion}}{{else}}—{{/if}}</strong></div>
-      <div class="ij-bio-static"><span>{{localize "IJ.Details.clan"}}</span><strong>{{#if source.details.clan}}{{source.details.clan}}{{else}}—{{/if}}</strong></div>
-    </div>
-  </div>
-
-  <div class="ij-bio-texts">
-    <div class="ij-box ij-bio-text">
-      <header class="ij-box__head"><span>{{localize "IJ.Bio.appearance"}}</span></header>
-      <prose-mirror name="system.biography.appearance" value="{{source.biography.appearance}}" {{#if editable}}toggled{{/if}} {{#unless editable}}disabled{{/unless}}>{{{bio.appearance}}}</prose-mirror>
-    </div>
-    <div class="ij-box ij-bio-text">
-      <header class="ij-box__head"><span>{{localize "IJ.Bio.personality"}}</span></header>
-      <prose-mirror name="system.biography.personality" value="{{source.biography.personality}}" {{#if editable}}toggled{{/if}} {{#unless editable}}disabled{{/unless}}>{{{bio.personality}}}</prose-mirror>
-    </div>
-    <div class="ij-box ij-bio-text ij-bio-text--wide">
-      <header class="ij-box__head ij-box__head--big"><span>{{localize "IJ.Bio.history"}}</span></header>
-      <prose-mirror name="system.biography.history" value="{{source.biography.history}}" {{#if editable}}toggled{{/if}} {{#unless editable}}disabled{{/unless}}>{{{bio.history}}}</prose-mirror>
-    </div>
-    <div class="ij-box ij-bio-text ij-bio-text--wide">
-      <header class="ij-box__head"><span>{{localize "IJ.Bio.notes"}}</span></header>
-      <prose-mirror name="system.biography.notes" value="{{source.biography.notes}}" {{#if editable}}toggled{{/if}} {{#unless editable}}disabled{{/unless}}>{{{bio.notes}}}</prose-mirror>
+    <div class="ij-life__texts">
+      <div class="ij-life__text">
+        <header class="ij-head"><span class="ij-head__kanji" aria-hidden="true">身</span><h3>{{localize "IJ.Bio.appearance"}}</h3></header>
+        <prose-mirror name="system.biography.appearance" value="{{source.biography.appearance}}" {{#if editable}}toggled{{/if}} {{#unless editable}}disabled{{/unless}}>{{{bio.appearance}}}</prose-mirror>
+      </div>
+      <div class="ij-life__text">
+        <header class="ij-head"><span class="ij-head__kanji" aria-hidden="true">心</span><h3>{{localize "IJ.Bio.personality"}}</h3></header>
+        <prose-mirror name="system.biography.personality" value="{{source.biography.personality}}" {{#if editable}}toggled{{/if}} {{#unless editable}}disabled{{/unless}}>{{{bio.personality}}}</prose-mirror>
+      </div>
+      <div class="ij-life__text ij-life__text--wide">
+        <header class="ij-head"><span class="ij-head__kanji" aria-hidden="true">伝</span><h3>{{localize "IJ.Bio.history"}}</h3></header>
+        <prose-mirror name="system.biography.history" value="{{source.biography.history}}" {{#if editable}}toggled{{/if}} {{#unless editable}}disabled{{/unless}}>{{{bio.history}}}</prose-mirror>
+      </div>
+      <div class="ij-life__text ij-life__text--wide">
+        <header class="ij-head"><span class="ij-head__kanji" aria-hidden="true">記</span><h3>{{localize "IJ.Bio.notes"}}</h3></header>
+        <prose-mirror name="system.biography.notes" value="{{source.biography.notes}}" {{#if editable}}toggled{{/if}} {{#unless editable}}disabled{{/unless}}>{{{bio.notes}}}</prose-mirror>
+      </div>
     </div>
   </div>
 </section>

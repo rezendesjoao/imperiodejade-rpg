@@ -1,0 +1,132 @@
+{{!--
+  EQUIPAMENTO: the purse of Yan and everything carried. The mark before a name says it is in hand or worn; a click on
+  the name unrolls the item on the scroll at the side.
+--}}
+<section class="tab ij-tab ij-tab--split ij-equipamento {{tab.cssClass}}" data-tab="equipamento" data-group="primary">
+  <div class="ij-split">
+    <div class="ij-pane">
+      <div class="ij-purse">
+        {{#each currencies as |c|}}
+        <label class="ij-coinbox" data-tooltip="{{c.label}}">
+          <span class="ij-coin ij-coin--{{c.key}}" aria-hidden="true"></span>
+          <input class="ij-select-on-focus" type="text" inputmode="numeric" name="system.currency.{{c.key}}" value="{{c.value}}">
+          <small>{{c.abbr}}</small>
+        </label>
+        {{/each}}
+        <span class="ij-purse__note" data-tooltip="{{localize 'IJ.Currency.note'}}">{{localize "IJ.Inventory.weight"}} <strong>{{weight}} kg</strong></span>
+      </div>
+
+      <div class="ij-stock">
+        <div>
+          <section>
+            <header class="ij-head">
+              <span class="ij-head__kanji" aria-hidden="true">刀</span>
+              <h3>{{localize "IJ.Weapon.plural"}}</h3>
+              {{#if editable}}<span class="ij-head__note"><a class="ij-plus" data-action="itemCreate" data-type="weapon" data-tooltip="{{localize 'IJ.Weapon.add'}}">+</a></span>{{/if}}
+            </header>
+            <ul>
+              {{#each weapons as |w|}}
+              <li class="ij-ware ij-item draggable {{#if w.equipped}}is-on{{/if}} {{#if w.picked}}is-picked{{/if}}" data-item-id="{{w.id}}">
+                <a class="ij-pip {{#if w.equipped}}on{{/if}}" data-action="itemEquip" data-tooltip="{{#if w.equipped}}{{localize 'IJ.Weapon.inHandOn'}}{{else}}{{localize 'IJ.Weapon.inHandOff'}}{{/if}}"></a>
+                <img class="ij-ware__img" src="{{w.img}}" alt="">
+                <a class="ij-ware__name" data-action="itemSelect" data-drawer="equipamento">{{w.name}}</a>
+                <span class="ij-ware__stats">
+                  <a class="ij-stone ij-stone--sm" data-action="itemUse" data-tooltip="{{localize 'IJ.Weapon.attackTip'}}">{{w.attack}}</a>
+                  <a class="ij-roll" data-action="itemDamage" data-tooltip="{{localize 'IJ.Weapon.rollDamage'}} · {{w.typeLabel}}">{{w.damage}}</a>
+                  <span>{{w.crit}}</span>
+                </span>
+              </li>
+              {{else}}
+              <li class="ij-none">{{localize "IJ.Weapon.empty"}}</li>
+              {{/each}}
+            </ul>
+          </section>
+
+          <section>
+            <header class="ij-head">
+              <span class="ij-head__kanji" aria-hidden="true">鎧</span>
+              <h3>{{localize "IJ.Armor.plural"}}</h3>
+              {{#if editable}}<span class="ij-head__note"><a class="ij-plus" data-action="itemCreate" data-type="armor" data-tooltip="{{localize 'IJ.Armor.add'}}">+</a></span>{{/if}}
+            </header>
+            <ul>
+              {{#each armors as |a|}}
+              <li class="ij-ware ij-item draggable {{#if a.equipped}}is-on{{/if}} {{#if a.picked}}is-picked{{/if}}" data-item-id="{{a.id}}">
+                <a class="ij-pip {{#if a.equipped}}on{{/if}}" data-action="itemEquip" data-tooltip="{{#if a.equipped}}{{localize 'IJ.Item.equipped'}}{{else}}{{localize 'IJ.Item.stowed'}}{{/if}}"></a>
+                <img class="ij-ware__img" src="{{a.img}}" alt="">
+                <a class="ij-ware__name" data-action="itemSelect" data-drawer="equipamento">{{a.name}}</a>
+                <span class="ij-ware__stats"><span>{{localize "IJ.CA.abbr"}} <b>{{a.bonus}}</b>{{#unless a.isShield}} · {{localize "IJ.Armor.maxDexShort"}} <b>{{a.maxDex}}</b>{{/unless}} · {{localize "IJ.Armor.penaltyShort"}} <b>{{a.penalty}}</b></span></span>
+              </li>
+              {{else}}
+              <li class="ij-none">{{localize "IJ.Armor.empty"}}</li>
+              {{/each}}
+            </ul>
+          </section>
+        </div>
+
+        <div>
+          <section>
+            <header class="ij-head">
+              <span class="ij-head__kanji" aria-hidden="true">具</span>
+              <h3>{{localize "IJ.Inventory.gear"}}</h3>
+              {{#if editable}}<span class="ij-head__note"><a class="ij-plus" data-action="itemCreate" data-type="gear" data-tooltip="{{localize 'IJ.Item.create'}}">+</a></span>{{/if}}
+            </header>
+            <ul>
+              {{#each gear as |g|}}
+              <li class="ij-ware ij-item draggable {{#if g.equipped}}is-on{{/if}} {{#if g.picked}}is-picked{{/if}}" data-item-id="{{g.id}}">
+                <a class="ij-pip {{#if g.equipped}}on{{/if}}" data-action="itemEquip" data-tooltip="{{#if g.equipped}}{{localize 'IJ.Item.equipped'}}{{else}}{{localize 'IJ.Item.stowed'}}{{/if}}"></a>
+                <img class="ij-ware__img" src="{{g.img}}" alt="">
+                <a class="ij-ware__name" data-action="itemSelect" data-drawer="equipamento">{{g.name}}</a>
+                <span class="ij-ware__stats">
+                  {{#if g.power}}<a class="ij-orb" data-action="itemActivate" data-tooltip="{{localize 'IJ.Auto.usePower'}}">◆</a>{{/if}}
+                  <span class="ij-qty">
+                    {{#if @root.editable}}<a data-action="itemQuantity" data-delta="-1">−</a>{{/if}}
+                    <span>{{g.quantity}}</span>
+                    {{#if @root.editable}}<a data-action="itemQuantity" data-delta="1">+</a>{{/if}}
+                  </span>
+                </span>
+              </li>
+              {{else}}
+              <li class="ij-none">—</li>
+              {{/each}}
+            </ul>
+          </section>
+
+          <section>
+            <header class="ij-head">
+              <span class="ij-head__kanji" aria-hidden="true">薬</span>
+              <h3>{{localize "IJ.Inventory.consumables"}}</h3>
+              {{#if editable}}<span class="ij-head__note"><a class="ij-plus" data-action="itemCreate" data-type="consumable" data-tooltip="{{localize 'IJ.Item.create'}}">+</a></span>{{/if}}
+            </header>
+            <ul>
+              {{#each consumables as |c|}}
+              <li class="ij-ware ij-item draggable {{#if c.picked}}is-picked{{/if}}" data-item-id="{{c.id}}">
+                <a class="ij-orb ij-orb--free" data-action="itemUse" data-tooltip="{{localize 'IJ.Consumable.useTip'}}">◆</a>
+                <img class="ij-ware__img" src="{{c.img}}" alt="">
+                <a class="ij-ware__name" data-action="itemSelect" data-drawer="equipamento">{{c.name}}</a>
+                <span class="ij-ware__stats">
+                  <span class="ij-ware__kind">{{c.kind}}</span>
+                  {{#if c.uses}}
+                  <span class="ij-boxes">{{#each c.uses as |u|}}<a class="ij-box-pip {{#if u.full}}on{{/if}}" data-action="usesPip" data-n="{{u.n}}"></a>{{/each}}</span>
+                  {{else}}
+                  <span class="ij-qty">
+                    {{#if @root.editable}}<a data-action="itemQuantity" data-delta="-1">−</a>{{/if}}
+                    <span>{{c.quantity}}</span>
+                    {{#if @root.editable}}<a data-action="itemQuantity" data-delta="1">+</a>{{/if}}
+                  </span>
+                  {{/if}}
+                </span>
+              </li>
+              {{else}}
+              <li class="ij-none">—</li>
+              {{/each}}
+            </ul>
+          </section>
+        </div>
+      </div>
+
+      <p class="ij-hint">{{localize "IJ.Inventory.dropHint"}}</p>
+    </div>
+
+    <aside class="ij-drawer" data-drawer="equipamento">{{> ij-detail detail}}</aside>
+  </div>
+</section>

@@ -1,0 +1,90 @@
+{{!-- CLASS: the ten classes as cards and, beside them, the page of the one under the pointer (or chosen): its numbers,
+     its Honor, the choices of the 1st level, its abilities of the 1st level, its starting feats, its skills and its
+     table. --}}
+<div class="wz-split">
+  <ol class="wz-grid wz-grid-class" role="listbox" aria-label="{{localize 'IJ.Wizard.Step.class'}}">
+    {{#each classes}}
+    <li class="wz-card class{{#if selected}} selected{{/if}}" role="option" aria-selected="{{#if selected}}true{{else}}false{{/if}}" tabindex="0"
+      data-kind="class" data-key="{{uuid}}" data-action="pick">
+      <span class="wz-card-kanji" aria-hidden="true">{{kanji}}</span>
+      <span class="wz-medal"><img src="{{img}}" alt=""></span>
+      <span class="wz-card-text">
+        <span class="wz-card-name">{{name}}</span>
+        <span class="wz-card-line">{{localize "IJ.Wizard.Class.cardLine" pv=pv.initial bba=bbaLabel}}</span>
+        <span class="wz-card-tag">{{localize "IJ.AbilityAbbr.hon"}} {{honorLabel}}</span>
+      </span>
+      <i class="wz-card-check fa-solid fa-check"></i>
+    </li>
+    {{/each}}
+  </ol>
+
+  <aside class="wz-detail">
+    <article class="wz-page wz-guide">
+      <header class="wz-page-head">
+        <span class="wz-seal">道</span>
+        <div>
+          <span class="wz-page-eyebrow">{{localize "IJ.Wizard.Guide.eyebrow"}}</span>
+          <h3>{{localize "IJ.Wizard.Guide.class.title"}}</h3>
+        </div>
+      </header>
+      <ol class="wz-guide-steps">
+        <li><i class="fa-solid fa-heart"></i><p>{{localize "IJ.Wizard.Guide.class.one"}}</p></li>
+        <li><i class="fa-solid fa-yin-yang"></i><p>{{localize "IJ.Wizard.Guide.class.two"}}</p></li>
+        <li><i class="fa-solid fa-hand-sparkles"></i><p>{{localize "IJ.Wizard.Guide.class.three"}}</p></li>
+      </ol>
+    </article>
+
+    {{#each classes as |cls|}}
+    <article class="wz-page" data-key="{{cls.uuid}}" hidden>
+      <header class="wz-page-head">
+        <span class="wz-medal big"><img src="{{cls.img}}" alt=""></span>
+        <div>
+          <span class="wz-page-eyebrow">{{localize "IJ.Wizard.Class.eyebrow"}}{{#if cls.page}} · {{cls.page}}{{/if}}</span>
+          <h3>{{cls.name}} <span class="wz-kanji">{{cls.kanji}}</span></h3>
+        </div>
+      </header>
+      <ul class="wz-base">
+        <li><b>{{cls.pv.initial}}</b><small>{{cls.pvLabel}}</small></li>
+        <li><b>{{cls.pm.initial}}</b><small>{{cls.pmLabel}}</small></li>
+        <li data-tooltip-text="{{cls.bbaLong}}"><b>{{cls.bbaLabel}}</b><small>{{localize "IJ.BBA.label"}}</small></li>
+        <li><b>{{cls.skills}} + Int</b><small>{{localize "IJ.Wizard.Class.skillsShort"}}</small></li>
+        <li class="honor"><b>{{cls.honorLabel}}</b><small>{{localize "IJ.Wizard.Class.honorShort"}}</small></li>
+      </ul>
+      {{#if cls.lead}}<p class="wz-lore">{{cls.lead}}</p>{{/if}}
+      {{#if cls.honorReq}}<p class="wz-warn"><i class="fa-solid fa-yin-yang"></i><span>{{localize "IJ.Wizard.Class.honorWarn" n=cls.honorReq}}</span></p>{{/if}}
+
+      {{#if cls.choices.length}}
+      <h4><i class="fa-solid fa-hand-pointer"></i>{{localize "IJ.Wizard.Class.choices"}}</h4>
+      {{#each cls.choices}}{{> "systems/imperiodejade/templates/creation/choice.hbs" this}}{{/each}}
+      {{#unless cls.selected}}<p class="wz-note">{{localize "IJ.Wizard.pickFirst"}}</p>{{/unless}}
+      {{/if}}
+
+      <h4><i class="fa-solid fa-torii-gate"></i>{{localize "IJ.Wizard.Class.level1"}}</h4>
+      <ul class="wz-features">
+        {{#each cls.level1}}
+        <li class="wz-feature" data-tooltip-html="{{tip}}" data-tooltip-class="ij-wz-tip" data-tooltip-direction="LEFT">
+          <img src="{{img}}" alt="">
+          <div><b>{{name}}{{#if honor}} <em class="wz-tag honor">{{honor}}</em>{{/if}}</b><p>{{text}}</p></div>
+        </li>
+        {{/each}}
+      </ul>
+
+      <h4><i class="fa-solid fa-star"></i>{{localize "IJ.Wizard.Class.startingFeats"}}</h4>
+      <ul class="wz-chips">
+        {{#each cls.startingFeats}}<li{{#if tip}} data-tooltip-html="{{tip}}" data-tooltip-class="ij-wz-tip"{{/if}}>{{#if img}}<img src="{{img}}" alt="">{{/if}}<span>{{name}}</span></li>{{/each}}
+      </ul>
+
+      <h4><i class="fa-solid fa-scroll"></i>{{localize "IJ.Wizard.Class.classSkills"}}</h4>
+      <p class="wz-text">{{cls.classSkills}}</p>
+
+      <details class="wz-table">
+        <summary><i class="fa-solid fa-table-list"></i>{{localize "IJ.Wizard.Class.table"}}</summary>
+        <table>
+          <thead><tr><th>{{localize "IJ.Wizard.Class.tableLevel"}}</th><th>{{localize "IJ.BBA.abbr"}}</th><th>{{localize "IJ.Wizard.Class.tableFeatures"}}</th></tr></thead>
+          <tbody>{{#each cls.table}}<tr><td>{{level}}º</td><td>{{bba}}</td><td>{{features}}</td></tr>{{/each}}</tbody>
+        </table>
+      </details>
+    </article>
+    {{/each}}
+  </aside>
+</div>

@@ -35,7 +35,9 @@
       "habilidades": "Habilidades",
       "jutsus": "Jutsus",
       "inventario": "Inventário",
-      "biografia": "Biografia"
+      "biografia": "Biografia",
+      "caminho": "Caminho",
+      "equipamento": "Equipamento"
     },
     "Ability": {
       "for": "Força",
@@ -99,7 +101,9 @@
       "specialtyAdd": "Adicionar especialidade",
       "specialtyDelete": "Remover especialidade",
       "specialtyPlaceholder": "especialidade",
-      "specialtyLegend": "Atuação, Conhecimento e Ofício: uma perícia por especialidade"
+      "specialtyLegend": "Atuação, Conhecimento e Ofício: uma perícia por especialidade",
+      "trainedLower": "treinadas",
+      "armorShort": "Penalidade de armadura"
     },
     "Save": {
       "fort": "Fortitude",
@@ -158,12 +162,14 @@
       "reserveNoMod": "Só personagens com modificador de Honra positivo usam a Reserva de Força.",
       "reserveUsedWarn": "A Reserva de Força já foi usada nesta sessão.",
       "reserveChoose": "Escolha um dos efeitos:",
-      "reserveOpt1": "Somar {n} a uma jogada de ataque, teste de habilidade, resistência ou perícia (mesmo depois do resultado).",
+      "reserveOpt1": "Somar {n} a um ataque ou a um teste de perícia, de habilidade ou de resistência (mesmo depois do resultado).",
       "reserveOpt2": "Somar {n} à classe de armadura até o início do próximo turno.",
       "reserveOpt3": "Rolar de novo um teste de resistência contra um efeito nocivo, com {n}.",
       "reserveOpt4": "Recuperar {n} pontos de vida.",
       "reserveOpt5": "Realizar uma ação padrão ou de movimento adicional nesta rodada.",
-      "reserveOpt6": "Somar {n} a uma habilidade básica até o fim da cena."
+      "reserveOpt6": "Somar {n} a uma habilidade básica até o fim da cena.",
+      "reserveSpent": "Usada",
+      "gainShort": "Conquista"
     },
     "BBA": {
       "abbr": "BBA",
@@ -191,11 +197,127 @@
       "label": "Nível",
       "short": "nível",
       "half": "½ nível",
-      "tooltip": "Nível de personagem: soma dos níveis das classes (ou digitado no modo de edição)"
+      "tooltip": "Nível de personagem: soma dos níveis das classes (ou digitado no modo de edição)",
+      "open": "Subir de nível",
+      "notAllowed": "O assistente de nível sobe personagens com classe, abaixo do 20º nível, dos quais você é dono.",
+      "noClass": "Classe não encontrada no compêndio.",
+      "title": "Subir de nível — {name} (nível {level})",
+      "stepOf": "Nível {level} · passo {n} de {total}",
+      "apply": "Subir para o nível {level}",
+      "done": "{name} chegou ao nível {level}!",
+      "error": "Não foi possível subir de nível: {error}",
+      "ready": "{name} tem experiência para o nível {level}: o assistente de nível vai abrir.",
+      "Step": {
+        "class": "Classe",
+        "choices": "Escolhas",
+        "feats": "Talento",
+        "jutsus": "Jutsus",
+        "skills": "Perícias",
+        "summary": "Resumo"
+      },
+      "Heading": {
+        "class": "Em que classe você sobe?",
+        "choices": "O que o novo nível pede",
+        "feats": "Talento ou habilidade",
+        "jutsus": "Jutsus novos",
+        "skills": "Perícias novas",
+        "summary": "O novo nível, por inteiro"
+      },
+      "Lead": {
+        "class": "Continue na sua classe ou ganhe o primeiro nível em outra (multiclasse). Ao lado, o que esse nível dá: PV, PM, BBA e habilidades.",
+        "choices": "Escolhas das habilidades que chegam e das que crescem com o nível. O que você escolheu antes continua marcado.",
+        "feats": "Todo nível dá um talento ou +1 em uma habilidade básica. Algumas classes dão talentos próprios neste nível.",
+        "jutsus": "O que este nível ensina: Conhecimento de Jutsus das classes conjuradoras, os talentos de chacra e uma classe conjuradora nova.",
+        "skills": "Sua Inteligência subiu: cada +1 no modificador traz uma perícia treinada nova, das suas classes.",
+        "summary": "Confira antes e depois. Nada muda na ficha antes do botão."
+      },
+      "Done": {
+        "class": "Classe escolhida.",
+        "choices": "Escolhas feitas.",
+        "feats": "Benefício do nível escolhido.",
+        "jutsus": "Jutsus escolhidos.",
+        "skills": "Perícias escolhidas.",
+        "summary": "Tudo pronto: suba de nível."
+      },
+      "Hint": {
+        "bonusAbility": "Escolha a habilidade que ganha +1.",
+        "ancestral": "Escolha a espada ancestral que recebe o +1.",
+        "multiclass": "Escolha a perícia ou o talento da nova classe."
+      },
+      "Class": {
+        "continue": "Continuar",
+        "others": "Multiclasse",
+        "continueCard": "Nível {n} na classe",
+        "multiclassCard": "Primeiro nível (multiclasse)",
+        "eyebrow": "{n}º nível na classe",
+        "multiclassEyebrow": "Multiclasse · primeiro nível",
+        "multiclassText": "Uma classe nova dá só os PV e PM por nível (os iniciais são da primeira classe) e não dá os talentos iniciais: no lugar, você escolhe uma perícia de classe ou um dos talentos iniciais dela.",
+        "violation": "Ganhar o primeiro nível nesta classe é violação de honra {severity} (−{n} de Honra).",
+        "violationIgnored": "Ganhar o primeiro nível nesta classe é violação de honra {severity}, que a sua Honra já ignora.",
+        "violationShort": "violação {severity}",
+        "features": "Habilidades do {n}º nível",
+        "noFeatures": "Este nível não traz habilidade nova: só os números da classe e o benefício do nível.",
+        "pv": "+{n} PV + Con",
+        "pm": "+{n} PM",
+        "bba": "+{n} BBA",
+        "honor": "+1 Honra (classe inicial)"
+      },
+      "Choices": {
+        "prior": "Escolhido num nível anterior",
+        "ancestralName": "Espadas Ancestrais",
+        "ancestral": "Espada que recebe +1 de bônus mágico",
+        "multiclassEyebrow": "Primeiro nível de {name}",
+        "multiclass": "Uma perícia de classe ou um talento inicial da nova classe",
+        "multiclassFeat": "Talento inicial",
+        "multiclassSkill": "Perícia treinada",
+        "noFeats": "Você já tem todos os talentos iniciais desta classe.",
+        "nothing": "Nada a escolher neste nível."
+      },
+      "Bonus": {
+        "eyebrow": "Benefício do {level}º nível",
+        "note": "Com +1 em habilidade, o talento do nível some. Um +1 em Inteligência que sobe o modificador traz uma perícia treinada nova."
+      },
+      "Feats": {
+        "levelPool": "Talento do nível",
+        "levelHint": "Qualquer talento cujos pré-requisitos você cumpra.",
+        "classHint": "Talento que a classe dá neste nível.",
+        "none": "Nenhum talento a escolher neste nível: você ficou com +1 em habilidade."
+      },
+      "Jutsus": {
+        "anyGrade": "de qualquer grau que você execute",
+        "poolRule": "{n} jutsu(s) {grade}: {chakras}."
+      },
+      "Skills": {
+        "lead": "Escolha {n} perícia(s) treinada(s) nova(s) entre as perícias das suas classes."
+      },
+      "Summary": {
+        "eyebrow": "Novo nível",
+        "level": "nível",
+        "numbers": "Antes e depois",
+        "before": "Antes",
+        "after": "Depois",
+        "comes": "O que chega",
+        "choices": "Escolhas novas",
+        "ability": "+1 em {name} (agora {n})",
+        "chakra": "Chacra {chakra}: grau {grade}",
+        "honorGain": "+1 de Honra por seguir na classe que você escolheu no 1º nível.",
+        "noViolations": "Nenhuma violação de honra neste nível."
+      },
+      "Violation": {
+        "multiclass": "Primeiro nível de outra classe: {name}"
+      },
+      "Chat": {
+        "eyebrow": "Subiu para o nível {level}"
+      },
+      "Setting": {
+        "auto": "Abrir o assistente de nível",
+        "autoHint": "Quando a experiência de um personagem seu bastar para o próximo nível, o assistente de nível abre sozinho."
+      }
     },
     "XP": {
       "label": "Experiência",
-      "levelUp": "XP suficiente: subir de nível"
+      "levelUp": "XP suficiente: subir de nível",
+      "short": "XP"
     },
     "PV": {
       "current": "PV Atuais",
@@ -205,7 +327,9 @@
       "maxBase": "PV máximos (sem classe na ficha)",
       "fromClasses": "Calculados pelas classes + Con por nível",
       "nonlethal": "Não letal",
-      "nonlethalHint": "Dano não letal: com tanto quanto os PV atuais, a criatura desmaia (sem sangrar). Cura tira o mesmo tanto; o descanso zera."
+      "nonlethalHint": "Dano não letal: com tanto quanto os PV atuais, a criatura desmaia (sem sangrar). Cura tira o mesmo tanto; o descanso zera.",
+      "abbr": "PV",
+      "label": "Pontos de Vida"
     },
     "PM": {
       "label": "PM",
@@ -214,13 +338,16 @@
       "limitTip": "Limite de PM por jutsu ou habilidade: nível + modificadores dos chacras abertos",
       "limitFormula": "nível + chacras abertos",
       "maxBase": "PM máximos (sem classe na ficha); os chacras abertos somam por cima",
-      "notEnough": "PM insuficientes: precisa de {n}, tem {have}."
+      "notEnough": "PM insuficientes: precisa de {n}, tem {have}.",
+      "abbr": "PM",
+      "limitLong": "Limite por jutsu"
     },
     "CA": {
       "abbr": "CA",
       "label": "Classe de Armadura",
       "base": "Base",
-      "tooltip": "Classe de armadura: 10 + metade do nível + Des (limitada pela armadura) + armadura + escudo"
+      "tooltip": "Classe de armadura: 10 + metade do nível + Des (limitada pela armadura) + armadura + escudo",
+      "effects": "efeitos"
     },
     "RD": {
       "abbr": "RD",
@@ -229,13 +356,15 @@
     },
     "Energy": {
       "label": "Resistência a energia",
-      "placeholder": "ex.: fogo 5, frio 10"
+      "placeholder": "ex.: fogo 5, frio 10",
+      "short": "Resist. energia"
     },
     "Defense": {
       "label": "Defesas"
     },
     "Combat": {
-      "note": "Clique nos números para rolar · Shift: condição favorável ou desfavorável"
+      "note": "Clique nos números para rolar · Shift: condição favorável ou desfavorável",
+      "hint": "Shift: favorável ou desfavorável"
     },
     "Movement": {
       "label": "Deslocamento"
@@ -256,7 +385,8 @@
       "height": "Altura",
       "weight": "Peso",
       "sentai": "Sentai",
-      "sentaiPlaceholder": "nome do sentai e dos nakama"
+      "sentaiPlaceholder": "nome do sentai e dos nakama",
+      "languages": "Idiomas"
     },
     "Class": {
       "plural": "Classes",
@@ -329,7 +459,9 @@
         "duasMaos": "Duas mãos"
       },
       "throw": "Arremessar ({range})",
-      "meleeUse": "Usar corpo a corpo ({n})"
+      "meleeUse": "Usar corpo a corpo ({n})",
+      "inHandOn": "Em punho",
+      "inHandOff": "Guardada: clique para empunhar"
     },
     "Damage": {
       "C": "Corte",
@@ -446,7 +578,10 @@
       "enhancementFeats": "Talentos de aprimoramento",
       "total": "Total",
       "scaleSteps": "Aumentar o dano ({cost} PM cada)",
-      "otherPm": "PM em outros aprimoramentos do jutsu"
+      "otherPm": "PM em outros aprimoramentos do jutsu",
+      "emptyHint": "Nenhum jutsu. Abra um chacra e arraste jutsus do compêndio.",
+      "hint": "A pedra executa · o nome desenrola o jutsu ao lado · duplo clique também executa",
+      "pick": "Escolha um jutsu para ler aqui."
     },
     "Chakra": {
       "plural": "Chacras",
@@ -458,7 +593,10 @@
       "car": "Emoções",
       "closed": "fechado",
       "openTip": "Chacra aberto: soma o modificador aos PM e ao limite. Clique para fechar",
-      "closedTip": "Chacra fechado. Clique para abrir"
+      "closedTip": "Chacra fechado. Clique para abrir",
+      "openNote": "Chacra aberto: soma o modificador aos PM e ao limite (abre e fecha no modo de edição)",
+      "closedNote": "Chacra fechado (abre no modo de edição)",
+      "openCount": "{n} abertos"
     },
     "Grade": {
       "basico": "Básico",
@@ -492,7 +630,8 @@
       "gear": "Equipamentos",
       "consumables": "Consumíveis",
       "weight": "Carga total",
-      "dropHint": "Arraste itens do diretório ou de compêndios para a ficha"
+      "dropHint": "Arraste itens do diretório ou de compêndios para a ficha",
+      "pick": "Escolha um item para ler aqui."
     },
     "Bio": {
       "appearance": "Aparência",
@@ -522,7 +661,8 @@
       "slotPlaceholder": "pescoço, dedo...",
       "magic": "Item mágico",
       "effects": "Automático",
-      "effectsEquipped": "vale com o item equipado"
+      "effectsEquipped": "vale com o item equipado",
+      "toChat": "Mostrar no chat"
     },
     "Roll": {
       "abilityTest": "Teste de {name}",
@@ -626,7 +766,7 @@
       "confusion": {
         "move": "anda numa direção qualquer.",
         "nothing": "não faz nada nesta rodada, balbuciando.",
-        "attack": "ataca a criatura mais próxima (ou a si mesmo, se estiver sozinho).",
+        "attack": "ataca quem estiver mais perto (ou a si mesmo, se não houver mais ninguém).",
         "normal": "age normalmente."
       },
       "critHit": "Crítico",
@@ -886,6 +1026,408 @@
         "atropelar": "Vencendo, você passa pelo alvo e ele fica caído.",
         "separar": "Vencendo, você golpeia o objeto que o alvo empunha."
       }
+    },
+    "Wizard": {
+      "title": "Criação de personagem — {name}",
+      "open": "Assistente de criação",
+      "back": "Voltar",
+      "next": "Próximo: {step}",
+      "create": "Criar personagem",
+      "stepOf": "Passo {n} de {total}",
+      "pickFirst": "Escolha esta opção (clique no cartão) para decidir as escolhas dela.",
+      "choiceTextPlaceholder": "Digite ou escolha da lista",
+      "remove": "Tirar",
+      "nothingFound": "Nada encontrado com esse filtro.",
+      "ignored": "ignorada",
+      "notAllowed": "O assistente monta personagens de 1º nível dos quais você é dono.",
+      "notDone": "Ainda falta completar algum passo.",
+      "created": "{name} está pronto para o Império!",
+      "error": "Não foi possível criar o personagem: {error}",
+      "Step": {
+        "race": "Raça",
+        "class": "Classe",
+        "abilities": "Habilidades",
+        "skills": "Perícias",
+        "feats": "Talentos",
+        "jutsus": "Jutsus",
+        "gear": "Equipamento",
+        "summary": "Toques finais"
+      },
+      "Heading": {
+        "race": "De que povo você nasceu?",
+        "class": "Que caminho você trilha?",
+        "abilities": "Força, mente, espírito… e Honra",
+        "skills": "No que você foi treinado",
+        "feats": "Seus talentos",
+        "jutsus": "Os jutsus que você conhece",
+        "gear": "Casta, dinheiro e equipamento",
+        "summary": "O herói, por inteiro"
+      },
+      "Lead": {
+        "race": "A raça ajusta suas habilidades e a Honra, define tamanho e deslocamento e traz habilidades próprias. Passe o mouse num cartão para ler; clique para escolher.",
+        "class": "A classe dá PV, PM, BBA, perícias, talentos iniciais e as habilidades de cada nível. Escolha raça e classe juntas: as boas combinações nascem daí.",
+        "abilities": "Gere as sete habilidades — a Honra também. A raça e a classe já estão somadas, e os números de jogo ao lado mudam enquanto você distribui.",
+        "skills": "Perícias treinadas têm graduação nível + 3; as outras, metade do nível. Escolha entre as perícias da sua classe.",
+        "feats": "No 1º nível cada personagem escolhe um talento, e raça e classe podem dar outros. Os pré-requisitos são conferidos contra a sua ficha como ela está agora.",
+        "jutsus": "Jutsus vêm de chacras abertos e de quem ensina: as habilidades de aprendiz das classes conjuradoras, o chacra do hanyô e o talento Conhecimento de Jutsus.",
+        "gear": "A casta define o dinheiro inicial (100 ¥o para shimin; nobres +50%, nai'nin −50%). Use o kit sugerido para a classe ou monte o seu.",
+        "summary": "Dê nome e rosto ao personagem, confira tudo e crie. Nada muda na ficha antes deste botão."
+      },
+      "Done": {
+        "race": "Raça escolhida.",
+        "class": "Classe escolhida, com as escolhas do 1º nível.",
+        "abilities": "Habilidades completas.",
+        "skills": "Perícias escolhidas.",
+        "feats": "Talentos escolhidos, com os pré-requisitos cumpridos.",
+        "jutsus": "Jutsus escolhidos (ou nenhum a aprender agora).",
+        "gear": "Equipamento pronto; o que sobrar fica na bolsa.",
+        "summary": "Tudo pronto. Confira e crie o personagem."
+      },
+      "Hint": {
+        "race": "Escolha uma raça.",
+        "raceAbilities": "Escolha mais {n} habilidade(s) para o +{value}.",
+        "choices": "Complete as escolhas de {name}.",
+        "class": "Escolha uma classe.",
+        "points": "Faltam {n} pontos para gastar.",
+        "roll": "Role as sete habilidades.",
+        "assign": "Leve cada valor rolado para uma habilidade.",
+        "free": "Digite valores de 3 a 18.",
+        "skills": "Escolha mais {n} perícia(s).",
+        "skillsOver": "Perícias demais: tire {n}.",
+        "skillsOutside": "Só {n} perícia(s) podem ser de fora da lista da classe.",
+        "specialty": "Dê nome a cada especialidade.",
+        "featsInvalid": "Algum talento escolhido não pode ser tomado: veja o aviso dele.",
+        "featsOver": "Há talentos demais num dos grupos.",
+        "feats": "Escolha mais {n} talento(s).",
+        "jutsusInvalid": "Algum jutsu escolhido não serve mais: troque-o.",
+        "jutsusOver": "Há jutsus demais num dos grupos.",
+        "jutsus": "Escolha mais {n} jutsu(s).",
+        "gearOver": "Faltam {n}: devolva alguma coisa.",
+        "caste": "Escolha a casta.",
+        "summary": "Dê um nome ao personagem.",
+        "bonusAbility": "Escolha a habilidade que ganha +1."
+      },
+      "Rail": {
+        "empty": "Sem raça nem classe",
+        "feats": "{n} talento(s)",
+        "jutsus": "{n} jutsu(s)",
+        "caste": "Casta"
+      },
+      "Guide": {
+        "eyebrow": "Como funciona",
+        "race": {
+          "title": "Oito povos de Tamu-ra",
+          "one": "Cada raça soma e subtrai em habilidades; humanos e mashin escolhem onde ganham +2.",
+          "two": "Algumas mexem na Honra: ryuujin, mashin e vanara começam mais honrados; kaijin e nezumi, menos.",
+          "three": "As habilidades de raça vêm sozinhas para a ficha; as que pedem escolha (ataque natural, elemento) você decide aqui."
+        },
+        "class": {
+          "title": "Dez caminhos",
+          "one": "PV e PM iniciais, BBA e o número de perícias treinadas saem da classe.",
+          "two": "A classe também ajusta a Honra, e algumas habilidades só funcionam com Honra alta (samurai e shugenja pedem 16).",
+          "three": "Shugenja, shinkan e wu-jen são conjuradores: aprendem jutsus já no 1º nível."
+        }
+      },
+      "Race": {
+        "eyebrow": "Raça",
+        "choiceShort": "+{value} em {n} à escolha",
+        "bonusSkills": "+{n} perícias",
+        "bonusFeats": "+{n} talentos",
+        "pickTitle": "+{value} em {n} habilidades à escolha",
+        "features": "Habilidades de raça"
+      },
+      "Class": {
+        "eyebrow": "Classe",
+        "cardLine": "PV {pv} · BBA {bba}",
+        "pv": "PV + Con (+{per} por nível)",
+        "pm": "PM (+{per} por nível)",
+        "skills": "{n} + Int",
+        "skillsShort": "Perícias treinadas",
+        "honorShort": "Honra",
+        "honorReq": "Honra {n}+",
+        "honorWarn": "Habilidades desta classe só funcionam com Honra {n} ou mais: guarde pontos para ela.",
+        "choices": "Escolhas do 1º nível",
+        "level1": "Habilidades do 1º nível",
+        "startingFeats": "Talentos iniciais",
+        "classSkills": "Perícias de classe",
+        "table": "Progressão da classe",
+        "tableLevel": "Nível",
+        "tableFeatures": "Habilidades",
+        "exoticPick": "Armas exóticas que você sabe usar",
+        "ancestral": "Arma ancestral que recebe o primeiro +1"
+      },
+      "Abilities": {
+        "method": {
+          "points": "Compra por pontos",
+          "roll": "Rolagem",
+          "free": "Valores da mesa"
+        },
+        "methodHint": {
+          "points": "24 pontos para as sete habilidades, de 8 a 18",
+          "roll": "4d6 sem o menor dado, sete vezes; você distribui",
+          "free": "Digite os valores rolados com dados de verdade"
+        },
+        "points": "Pontos",
+        "left": "{n} de {total} pontos para gastar",
+        "allSpent": "Todos os pontos gastos",
+        "reset": "Voltar tudo para 10",
+        "cost": "{n} pt",
+        "costTable": "Custo de cada valor",
+        "rollButton": "Rolar as sete habilidades",
+        "rollHint": "A rolagem vai para o chat e fica guardada na ficha.",
+        "rollMods": "Modificadores somam {mods}; maior valor {high}",
+        "rollSets": "rolagem nº {n}",
+        "reroll": "Rolar de novo",
+        "rerollWhy": "Permitido: os modificadores somam menos de +4 ou nenhum valor chega a 14",
+        "autoAssign": "Distribuir pela classe",
+        "resetRolls": "Liberar nova rolagem",
+        "resetRollsConfirm": "Apagar as rolagens de {name} para que o jogador role de novo?",
+        "freeNote": "Use valores rolados à mesa (4d6, descartando o menor). O mestre pode limitar os métodos nas configurações.",
+        "suggest": "Sugestão para {name}",
+        "suggestUse": "Usar",
+        "suggestOn": "Em uso",
+        "col": {
+          "ability": "Habilidade",
+          "base": "Valor",
+          "total": "Total",
+          "mod": "Mod."
+        },
+        "violationsTip": "Dano de Honra das violações da criação (perícias, talentos, jutsus)",
+        "honorSum": "Valor {base} · raça {race} · classe {cls} = {before}",
+        "honorDamage": "· violações −{n} = {total}",
+        "honorReq": "{name}: Honra {n}+",
+        "honorNote": "Honra 16+ abre poderes de samurais e shugenja; abaixo de 10 o personagem não é cidadão (shimin). Cada nível na classe inicial dará +1 de Honra.",
+        "numbers": "Números de jogo",
+        "hint": {
+          "for": "Ataque e dano corpo a corpo, Atletismo",
+          "des": "CA, ataques à distância, Reflexos, Iniciativa",
+          "con": "PV por nível e Fortitude",
+          "int": "Perícias treinadas e idiomas",
+          "sab": "Vontade, Percepção e o chacra do espírito",
+          "car": "Perícias sociais e o chacra das emoções",
+          "hon": "Posição social e poderes ligados à honra"
+        }
+      },
+      "Skills": {
+        "lead": "{class}: {n} perícia(s) treinada(s) com Int {int}. Treinadas somam nível + 3.",
+        "classSkills": "Perícias de {class}",
+        "otherSkills": "De outras classes",
+        "humanNote": "Humano: {n} das suas perícias podem vir de fora da lista da classe (cada uma é violação de honra leve).",
+        "always": "Já treinada",
+        "notClass": "Não é perícia da sua classe",
+        "full": "Todas as perícias já foram escolhidas",
+        "outsideFull": "As perícias de fora da classe já foram usadas",
+        "armor": "armadura",
+        "outsideTag": "outra classe",
+        "violation": "violação {severity} −{n}",
+        "otherSpecialty": "Outra",
+        "totalTip": "Treinada (sem treino abaixo)",
+        "note": "Violações de honra da criação têm dano fixo (p. 84). Honra até {n} não sofre dano por violações leves.",
+        "violationIgnored": "violação {severity} (a Honra ignora)"
+      },
+      "Feats": {
+        "pool": {
+          "base": "Talento do 1º nível",
+          "race": "Talentos extras",
+          "technique": "Técnica de luta",
+          "tormenta": "Talentos da Tormenta"
+        },
+        "poolHint": {
+          "base": "Qualquer talento cujos pré-requisitos você cumpra.",
+          "race": "Os talentos extras da sua raça, com os pré-requisitos normais.",
+          "technique": "Um talento de combate (habilidade de classe).",
+          "tormenta": "Dois talentos da Tormenta da raça: estes não causam dano de Honra."
+        },
+        "granted": "Você já recebe",
+        "emptySlot": "Escolha na lista ao lado",
+        "search": "Procurar talento",
+        "all": "Todos",
+        "available": "Disponíveis",
+        "have": "tem",
+        "add": "Escolher",
+        "owned": "Você já tem este talento",
+        "blocked": "Pré-requisitos não cumpridos",
+        "full": "Nenhum grupo com espaço para este talento",
+        "missing": "Talento não encontrado no compêndio",
+        "badPool": "Não cabe neste grupo",
+        "unmet": "Falta: {text}",
+        "honor": "Exige Honra {n}",
+        "twice": "Você já tem este talento",
+        "choose": "Faça a escolha deste talento",
+        "chooseText": "Escreva a escolha deste talento",
+        "sameChoice": "Outra cópia deste talento já tem essa escolha: escolha outra",
+        "taken": "Outra cópia deste talento já tem esta escolha"
+      },
+      "Jutsus": {
+        "poolRule": "{n} jutsu(s) básico(s): {chakras}.",
+        "poolNames": "Também com {names} no nome.",
+        "anyChakra": "de qualquer chacra aberto",
+        "emptySlot": "Escolha na lista ao lado",
+        "search": "Procurar jutsu",
+        "all": "Todos",
+        "add": "Aprender",
+        "owned": "Você já conhece este jutsu",
+        "full": "Nenhum grupo com espaço para este jutsu",
+        "noneTitle": "Nenhum jutsu para aprender agora",
+        "noneText": "Ninguém ensina jutsus a este personagem no 1º nível. Ele pode seguir sem eles.",
+        "noneOne": "Um chacra aberto (por exemplo, por um talento de devoto) deixa aprender jutsus básicos dele.",
+        "noneTwo": "O talento Conhecimento de Jutsus ensina dois jutsus de chacras que você já usa.",
+        "noneThree": "Do 3º nível em diante, o talento Abrir Chacra libera um chacra novo e ensina um jutsu básico dele."
+      },
+      "Gear": {
+        "caste": "Casta",
+        "money": "{n} ¥o",
+        "budget": "Dinheiro",
+        "spent": "Gasto",
+        "left": "Sobra",
+        "free": "grátis",
+        "noMoney": "Dinheiro insuficiente",
+        "kitEyebrow": "Kit sugerido",
+        "kitUse": "Usar o kit",
+        "kitOn": "Kit em uso",
+        "empty": "Devolver tudo",
+        "gifts": "Da raça e da classe",
+        "cart": "Comprado",
+        "cartEmpty": "Nada comprado ainda.",
+        "worn": "Como você fica",
+        "maxDex": "Des máx.",
+        "search": "Procurar na loja",
+        "all": "Tudo",
+        "sell": "Devolver um",
+        "buy": "Comprar um",
+        "noProf": "Você não sabe usar: −4 nos ataques (armas) ou a penalidade nos ataques (armaduras)",
+        "noProfShort": "sem proficiência",
+        "dishonorable": "Item desonrado: usá-lo é violação de honra",
+        "dishonorableShort": "desonrado",
+        "masterwork": "{name} (obra-prima)",
+        "ancestral": "{name} Ancestral",
+        "ancestralPlus": "{name} Ancestral +{n}",
+        "filter": {
+          "armor": "Armaduras",
+          "adventure": "Aventura",
+          "tools": "Ferramentas e kits",
+          "clothes": "Vestuário",
+          "ammo": "Munição",
+          "food": "Comida e estadia",
+          "animals": "Animais",
+          "vehicles": "Veículos"
+        },
+        "kit": {
+          "bushi": "Naginata de duas mãos, armadura leve e o kit de viagem — o resto vira reserva para sobreviver.",
+          "kensei": "A arma eleita já vem obra-prima, de graça: aqui entram a armadura e o kit.",
+          "monge": "Monges lutam de mãos nuas: um bordão, o kit de viagem e um quimono.",
+          "ninja": "Kunai, traje shinobi, ferramentas de ladrão e uma bomba de fumaça; as armas exóticas escolhidas vêm depois.",
+          "onimusha": "Machado e escudo leve sobre a armadura ashigaru.",
+          "samurai": "O daisho vem com a classe: aqui, a armadura, o kit e um quimono digno.",
+          "shinkan": "Lança, armadura leve e um kit de medicamentos para cuidar dos aliados.",
+          "shugenja": "Sem armadura: lança, kit de medicamentos e um quimono.",
+          "wujen": "Bordão e kunai para emergências, e tinta e pincel para os estudos.",
+          "yakuza": "Maça, armadura leve, kunai e as ferramentas do ofício."
+        }
+      },
+      "Caste": {
+        "kaijin": "Kaijin não têm lugar entre os cidadãos: são sempre nai'nin.",
+        "honesty": "Shimin precisam de Honra 10 ou mais.",
+        "noble": "Só quem nasce numa família tradicional de samurais ou shugenja."
+      },
+      "Summary": {
+        "eyebrow": "Personagem de 1º nível",
+        "portrait": "Trocar retrato",
+        "details": "Detalhes",
+        "rollAge": "Rolar a idade ({dice})",
+        "languagesHint": "Ningo e mais {n} pelo bônus de Inteligência",
+        "abilities": "Habilidades e números",
+        "skills": "Perícias treinadas",
+        "powers": "Habilidades de raça e classe",
+        "feats": "Talentos",
+        "jutsus": "Jutsus",
+        "gear": "Equipamento",
+        "equipped": "Equipado",
+        "violations": "Violações de honra da criação",
+        "story": "Aparência, personalidade e história",
+        "pmLimit": "Limite de PM",
+        "honorLine": "Honra: valor {base}, raça {race}, classe {cls} → {final}.",
+        "rebuild": "Este personagem já tinha raça ou classe: criar de novo troca a raça, a classe, o que elas deram e o que o assistente deu antes.",
+        "rebuildTitle": "Refazer o personagem",
+        "rebuildConfirm": "A raça, a classe, as habilidades e os itens que elas deram, e os talentos, jutsus e compras feitos pelo assistente serão substituídos. Continuar?"
+      },
+      "Violation": {
+        "outOfClass": "Perícia de outra classe: {name}",
+        "skill": "Treinado em {name}",
+        "tormenta": "Talento da Tormenta: {name}",
+        "weapon": "Treinado em arma desonrada: {name}",
+        "jutsu": "Jutsu desonroso: {name}"
+      },
+      "Chat": {
+        "eyebrow": "Novo personagem",
+        "rollsEyebrow": "Criação · 4d6, descartando o menor",
+        "rolls": "Habilidades de {name}",
+        "rollsAgain": "Habilidades de {name} (nova rolagem)",
+        "rollsMods": "Modificadores somam {mods}.",
+        "rollsReroll": "Pode rolar de novo (menos de +4 ou nenhum 14)."
+      },
+      "Banner": {
+        "title": "Ficha em branco",
+        "text": "O assistente de criação monta o personagem passo a passo: raça, classe, habilidades, perícias, talentos, jutsus e equipamento."
+      },
+      "Setting": {
+        "auto": "Abrir o assistente de criação",
+        "autoHint": "Abre o assistente sozinho quando você abre a ficha de um personagem em branco (sem raça nem classe).",
+        "methods": "Geração de habilidades",
+        "methodsHint": "Que métodos os jogadores podem usar no assistente de criação. O mestre sempre pode usar todos.",
+        "methodChoose": "O jogador escolhe: pontos ou rolagem",
+        "methodPoints": "Só compra por pontos (24)",
+        "methodRoll": "Só rolagem (4d6, sete vezes)",
+        "methodFree": "Valores rolados à mesa (digitados)",
+        "methodAll": "Pontos, rolagem ou valores da mesa",
+        "violations": "Violações de honra da criação",
+        "violationsHint": "Aplica o dano fixo de Honra (p. 84) das violações cometidas na criação: perícias de outra classe, Ladinagem, Enganação, Furtividade, talentos da Tormenta, armas desonradas e jutsus desonrosos.",
+        "card": "Anunciar personagens novos no chat",
+        "cardHint": "Ao criar um personagem pelo assistente, um cartão no chat mostra raça, classe e números."
+      },
+      "Bonus": {
+        "title": "Um talento ou +1 em uma habilidade",
+        "feat": "Talento",
+        "ability": "+1 em habilidade",
+        "eyebrow1": "Benefício do 1º nível",
+        "note1": "Todo nível, inclusive o 1º, dá um talento ou +1 em uma habilidade básica (p. 44). Com +1, o talento do 1º nível some do passo de talentos."
+      }
+    },
+    "Arts": {
+      "label": "Técnicas",
+      "jutsus": "jutsus",
+      "empty": "Nada que gaste PM ou tenha usos. O que vale o tempo todo está na aba Caminho.",
+      "hint": "A pedra usa · o botão direito abre a página",
+      "off": {
+        "honor": "Honra {n}+",
+        "armor": "sem armadura",
+        "shield": "sem escudo",
+        "armorType": "outra armadura"
+      },
+      "jutsusTip": "Abrir a aba Jutsus"
+    },
+    "Path": {
+      "label": "Caminho",
+      "note": "cresce de baixo para cima",
+      "level": "nível {n}",
+      "classTip": "BBA {bba} · {pv} PV e {pm} PM por nível · abrir a classe",
+      "more": "▲ ver até o 20º nível",
+      "less": "▼ só os próximos níveis",
+      "ahead": "Ainda por vir: abre a página no compêndio",
+      "noClass": "Nenhuma classe na ficha. Arraste uma do compêndio ou use o assistente de criação.",
+      "roots": "Raiz",
+      "levels": "níveis {list}",
+      "pick": "Escolha uma habilidade ou um talento para ler aqui.",
+      "budsOn": "mostrar brotos",
+      "budsOff": "esconder brotos",
+      "budsTip": "Brotos: os talentos do compêndio que os seus talentos liberam",
+      "budsHint": "Broto cheio: pré-requisitos cumpridos. Broto vazio: ainda falta algo (passe o ponteiro). Um clique abre o talento.",
+      "budUnmet": "Falta: {list}",
+      "budRipe": "Pré-requisitos cumpridos"
+    },
+    "Effects": {
+      "label": "Efeitos em curso",
+      "end": "Encerrar o efeito"
     }
   }
 }

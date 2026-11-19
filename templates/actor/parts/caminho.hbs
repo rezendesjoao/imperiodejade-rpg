@@ -1,0 +1,137 @@
+{{!--
+  CAMINHO: the class grows like bamboo (one segment per level, the abilities are its leaves, the race its root) and the
+  feats bloom on a branch, each from the feat it needs. A click on a name unrolls it on the scroll at the side.
+--}}
+<section class="tab ij-tab ij-tab--split ij-caminho {{tab.cssClass}}" data-tab="caminho" data-group="primary">
+  <svg width="0" height="0" style="position: absolute" aria-hidden="true">
+    <defs>
+      <symbol id="ij-sakura" viewBox="-10 -10 20 20">
+        <g fill="currentColor">
+          <path id="ij-sakura-petal" d="M0,-.8 C-3.7,-3 -4.3,-7 -1.3,-9.3 L0,-7.8 L1.3,-9.3 C4.3,-7 3.7,-3 0,-.8 Z"/>
+          <use href="#ij-sakura-petal" transform="rotate(72)"/>
+          <use href="#ij-sakura-petal" transform="rotate(144)"/>
+          <use href="#ij-sakura-petal" transform="rotate(216)"/>
+          <use href="#ij-sakura-petal" transform="rotate(288)"/>
+        </g>
+        <circle r="1.5" fill="#fff8e6"/>
+      </symbol>
+    </defs>
+  </svg>
+
+  <div class="ij-split">
+    <div class="ij-pane">
+      <div class="ij-grove">
+
+        {{!-- ============ The bamboo of each class, the newest on top; the race is the root ============ --}}
+        <section>
+          <header class="ij-head">
+            <span class="ij-head__kanji" aria-hidden="true">道</span>
+            <h3>{{localize "IJ.Path.label"}}</h3>
+            <span class="ij-head__note">{{localize "IJ.Path.note"}}</span>
+          </header>
+
+          {{#each paths as |path|}}
+          <div class="ij-bamboo">
+            <h4 class="ij-sub ij-item" data-item-id="{{path.id}}">
+              <span>{{path.name}}{{#if path.kanji}} {{path.kanji}}{{/if}}</span>
+              <a data-action="itemEdit" data-tooltip="{{path.tip}}">{{path.summary}}</a>
+            </h4>
+            {{#if path.more}}
+            <a class="ij-bamboo__more" data-action="pathToggle" data-class="{{path.id}}">{{path.more}}</a>
+            {{/if}}
+            {{#each path.rows as |row|}}
+            <div class="ij-bamboo__row {{#if row.now}}is-now{{/if}} {{#unless row.reached}}is-ahead{{/unless}}">
+              <span class="ij-bamboo__lvl">{{row.level}}</span>
+              <span class="ij-bamboo__cane"></span>
+              <ul class="ij-bamboo__leaves">
+                {{#each row.entries as |e|}}
+                <li class="ij-leaf {{#if e.id}}ij-item draggable{{/if}} {{#if e.off}}is-off{{/if}} {{#if e.picked}}is-picked{{/if}}" {{#if e.id}}data-item-id="{{e.id}}"{{/if}}>
+                  {{#if e.usable}}<a class="ij-orb {{#unless e.cost}}ij-orb--free{{/unless}} {{#if e.off}}is-off{{/if}}" data-action="itemUse" data-tooltip="{{localize 'IJ.Item.useTip'}}">{{#if e.cost}}{{e.cost}}{{else}}◆{{/if}}</a>{{/if}}
+                  {{#if e.id}}
+                  <a class="ij-leaf__name" data-action="itemSelect" data-drawer="caminho">{{e.name}}</a>
+                  {{else if e.uuid}}
+                  <a class="ij-leaf__name" data-action="openUuid" data-uuid="{{e.uuid}}" data-tooltip="{{localize 'IJ.Path.ahead'}}">{{e.name}}</a>
+                  {{else}}
+                  <span class="ij-leaf__name">{{e.name}}</span>
+                  {{/if}}
+                  {{#if e.note}}<small>{{e.note}}</small>{{/if}}
+                </li>
+                {{/each}}
+              </ul>
+            </div>
+            {{/each}}
+          </div>
+          {{else}}
+          <p class="ij-none">{{localize "IJ.Path.noClass"}}</p>
+          {{/each}}
+
+          {{#if roots}}
+          <div class="ij-root">
+            <span class="ij-root__kanji" aria-hidden="true">根</span>
+            <span class="ij-root__cane"></span>
+            <div class="ij-root__body">
+              <span class="ij-cap ij-item" data-item-id="{{roots.id}}">{{localize "IJ.Path.roots"}} · <a data-action="itemEdit">{{roots.name}}{{#if roots.kanji}} {{roots.kanji}}{{/if}}</a></span>
+              <ul>
+                {{#each roots.powers as |e|}}
+                <li class="ij-leaf ij-item draggable {{#if e.off}}is-off{{/if}} {{#if e.picked}}is-picked{{/if}}" data-item-id="{{e.id}}">
+                  {{#if e.usable}}<a class="ij-orb {{#unless e.cost}}ij-orb--free{{/unless}} {{#if e.off}}is-off{{/if}}" data-action="itemUse" data-tooltip="{{localize 'IJ.Item.useTip'}}">{{#if e.cost}}{{e.cost}}{{else}}◆{{/if}}</a>{{/if}}
+                  <a class="ij-leaf__name" data-action="itemSelect" data-drawer="caminho">{{e.name}}</a>
+                  {{#if e.note}}<small>{{e.note}}</small>{{/if}}
+                </li>
+                {{/each}}
+              </ul>
+            </div>
+          </div>
+          {{/if}}
+
+          {{#if loose.length}}
+          <h4 class="ij-sub"><span>{{localize "IJ.Power.source.outra"}}</span></h4>
+          <ul>
+            {{#each loose as |e|}}
+            <li class="ij-leaf ij-item draggable {{#if e.off}}is-off{{/if}} {{#if e.picked}}is-picked{{/if}}" data-item-id="{{e.id}}">
+              {{#if e.usable}}<a class="ij-orb {{#unless e.cost}}ij-orb--free{{/unless}} {{#if e.off}}is-off{{/if}}" data-action="itemUse" data-tooltip="{{localize 'IJ.Item.useTip'}}">{{#if e.cost}}{{e.cost}}{{else}}◆{{/if}}</a>{{/if}}
+              <a class="ij-leaf__name" data-action="itemSelect" data-drawer="caminho">{{e.name}}</a>
+              {{#if e.note}}<small>{{e.note}}</small>{{/if}}
+            </li>
+            {{/each}}
+          </ul>
+          {{/if}}
+
+          {{#if editMode}}
+          <p class="ij-hint">
+            <a class="ij-plus" data-action="itemCreate" data-type="power" data-origin="classe" data-tooltip="{{localize 'IJ.Power.add'}}: {{localize 'IJ.Power.source.classe'}}">+</a>
+            <a class="ij-plus" data-action="itemCreate" data-type="power" data-origin="raca" data-tooltip="{{localize 'IJ.Power.add'}}: {{localize 'IJ.Power.source.raca'}}">+</a>
+            <a class="ij-plus" data-action="itemCreate" data-type="power" data-origin="outra" data-tooltip="{{localize 'IJ.Power.add'}}: {{localize 'IJ.Power.source.outra'}}">+</a>
+            {{localize "IJ.Power.add"}}
+          </p>
+          {{/if}}
+        </section>
+
+        {{!-- ============ The branch of the feats ============ --}}
+        <section>
+          <header class="ij-head">
+            <span class="ij-head__kanji" aria-hidden="true">才</span>
+            <h3>{{localize "IJ.Feat.plural"}}</h3>
+            <span class="ij-head__note">
+              <a data-action="budsToggle" data-tooltip="{{localize 'IJ.Path.budsTip'}}">{{#if buds}}{{localize "IJ.Path.budsOff"}}{{else}}{{localize "IJ.Path.budsOn"}}{{/if}}</a>
+              {{#if editable}}<a class="ij-plus" data-action="itemCreate" data-type="feat" data-tooltip="{{localize 'IJ.Feat.add'}}">+</a>{{/if}}
+            </span>
+          </header>
+          {{#if featLegend.length}}
+          <div class="ij-legend">
+            {{#each featLegend as |c|}}
+            <span class="ij-bloom" data-category="{{c.key}}"><svg class="ij-blossom" aria-hidden="true"><use href="#ij-sakura"/></svg>{{c.label}} {{c.count}}</span>
+            {{/each}}
+          </div>
+          {{/if}}
+          <ul class="ij-branch">
+            {{#each featTree as |node|}}{{> ij-feat-node node}}{{else}}<li class="ij-none">{{localize "IJ.Feat.empty"}}</li>{{/each}}
+          </ul>
+          {{#if buds}}<p class="ij-hint">{{localize "IJ.Path.budsHint"}}</p>{{/if}}
+        </section>
+      </div>
+    </div>
+
+    <aside class="ij-drawer" data-drawer="caminho">{{> ij-detail detail}}</aside>
+  </div>
+</section>

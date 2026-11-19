@@ -1,0 +1,10 @@
+{{!-- LEVEL — FEAT: the benefit of the level (a feat or +1 in an ability) and the feat browser for the feat of the
+     level and the class's own feats of that level (technique, granted powers, studies, lessons). --}}
+<div class="wz-lv-feats">
+  {{> "systems/imperiodejade/templates/creation/bonus.hbs"}}
+  {{#if noPools}}
+  <p class="wz-note wz-lv-nofeats"><i class="fa-solid fa-circle-info"></i> {{localize "IJ.Level.Feats.none"}}</p>
+  {{else}}
+  {{> "systems/imperiodejade/templates/creation/feats.hbs"}}
+  {{/if}}
+</div>

@@ -1,0 +1,204 @@
+{{!--
+  The hero, on every tab: portrait and level, name and lineage, PV and PM as strokes of the brush, the armor class on a
+  sword guard. On the first tab it also holds the katana of Honor. Every field here exists once in the whole form.
+--}}
+<header class="ij-hero">
+  {{#if hero.kanji}}<span class="ij-hero__kanji" data-len="{{hero.kanjiLen}}" aria-hidden="true">{{hero.kanji}}</span>{{/if}}
+
+  <div class="ij-hero__art">
+    <img class="ij-hero__img" src="{{actor.img}}" alt="{{actor.name}}" {{#if editable}}data-action="editImage" data-edit="img"{{/if}}>
+    {{#if (and editMode (not auto.classes))}}
+    <label class="ij-level" data-tooltip="{{localize 'IJ.Level.tooltip'}}">
+      <small>{{localize "IJ.Level.label"}}</small>
+      <input class="ij-level__input" type="number" name="system.attributes.level" value="{{source.attributes.level}}" min="1" max="20" step="1">
+    </label>
+    {{else if xp.canLevel}}
+    <a class="ij-level ij-level--ready" data-action="levelUp" data-tooltip="{{localize 'IJ.XP.levelUp'}}">
+      <small>{{localize "IJ.Level.label"}}</small><strong>{{level}}</strong>
+    </a>
+    {{else}}
+    <span class="ij-level" data-tooltip="{{localize 'IJ.Level.tooltip'}}">
+      <small>{{localize "IJ.Level.label"}}</small><strong>{{level}}</strong>
+    </span>
+    {{/if}}
+  </div>
+
+  <div class="ij-hero__id">
+    <input class="ij-hero__name ij-plain" type="text" name="name" value="{{actor.name}}" placeholder="{{localize 'IJ.Sheet.namePlaceholder'}}" spellcheck="false">
+
+    <div class="ij-hero__line">
+      {{#if hero.race}}
+      <a class="ij-item" data-item-id="{{hero.race.id}}" data-action="itemEdit">{{hero.race.name}}</a>
+      {{#if hero.racePending}}<a class="ij-hero__add ij-item" data-item-id="{{hero.race.id}}" data-action="itemEdit" data-tooltip="{{localize 'IJ.Race.choosePending'}}">!</a>{{/if}}
+      {{else if editMode}}
+      <input type="text" name="system.details.race" value="{{source.details.race}}" placeholder="{{localize 'IJ.Details.racePlaceholder'}}">
+      {{else if source.details.race}}
+      <span>{{source.details.race}}</span>
+      {{else}}
+      <span class="ij-none">{{localize "IJ.Details.race"}}</span>
+      {{/if}}
+      <span class="ij-sep">·</span>
+      {{#each hero.classes as |c|}}
+      <a class="ij-item" data-item-id="{{c.id}}" data-action="itemEdit" {{#if c.primary}}data-tooltip="{{localize 'IJ.Class.primary'}}"{{/if}}>{{c.name}} {{c.levels}}</a>{{#unless @last}}<span class="ij-sep">/</span>{{/unless}}
+      {{else}}
+        {{#if editMode}}
+        <input type="text" name="system.details.className" value="{{source.details.className}}" placeholder="{{localize 'IJ.Class.placeholder'}}">
+        {{else if source.details.className}}
+        <span>{{source.details.className}} {{level}}</span>
+        {{else}}
+        <span class="ij-none">{{localize "IJ.Class.none"}}</span>
+        {{/if}}
+      {{/each}}
+      {{#if editMode}}<a class="ij-hero__add" data-action="itemCreate" data-type="class" data-tooltip="{{localize 'IJ.Class.add'}}">+</a>{{/if}}
+    </div>
+
+    <div class="ij-hero__facts">
+      {{#if editMode}}
+      <span class="ij-fact"><small>{{localize "IJ.Details.caste"}}</small><select name="system.details.caste">{{selectOptions choices.castes selected=source.details.caste}}</select></span>
+      <span class="ij-fact"><small>{{localize "IJ.Details.clan"}}</small><input type="text" name="system.details.clan" value="{{source.details.clan}}"></span>
+      <span class="ij-fact"><small>{{localize "IJ.Details.religion"}}</small><input type="text" name="system.details.religion" value="{{source.details.religion}}" placeholder="Lin-Wu"></span>
+      {{else}}
+      {{#if source.details.caste}}<span class="ij-fact" data-tooltip="{{casteLabel}}"><small>{{localize "IJ.Details.caste"}}</small>{{hero.caste}}</span>{{/if}}
+      {{#if source.details.clan}}<span class="ij-fact"><small>{{localize "IJ.Details.clan"}}</small>{{source.details.clan}}</span>{{/if}}
+      {{#if source.details.religion}}<span class="ij-fact"><small>{{localize "IJ.Details.religion"}}</small>{{source.details.religion}}</span>{{/if}}
+      {{/if}}
+      <span class="ij-fact"><small>{{localize "IJ.Size.label"}}</small>{{#if (and editMode (not hero.race))}}<select name="system.details.size">{{selectOptions choices.sizes selected=source.details.size}}</select>{{else}}{{sizeLabel}}{{/if}}</span>
+      <span class="ij-fact"><small>{{localize "IJ.Movement.label"}}</small>{{#if (and editMode (not hero.race))}}<input type="number" name="system.attributes.movement.base" value="{{source.attributes.movement.base}}" step="1.5" style="width: 38px"> m{{else}}{{movement}} m{{/if}}</span>
+    </div>
+
+    <div class="ij-hero__xp">
+      <small>{{localize "IJ.XP.short"}}</small>
+      <input class="ij-xp__value ij-plain ij-select-on-focus" type="text" inputmode="numeric" name="system.attributes.xp" value="{{xp.value}}" data-tooltip="{{localize 'IJ.Sheet.deltaHint'}}">
+      <span>/ {{xp.next}}</span>
+      <span class="ij-xp__bar"><span style="width: {{xp.pct}}%"></span></span>
+    </div>
+  </div>
+
+  <div class="ij-hero__vitals">
+    <div class="ij-vital ij-vital--pv {{#if (lte pv.value 0)}}is-down{{/if}}">
+      <span class="ij-vital__mark" data-tooltip="{{localize 'IJ.PV.label'}}"><b>生</b><small>{{localize "IJ.PV.abbr"}}</small></span>
+      <input class="ij-vital__value ij-plain ij-select-on-focus" type="text" inputmode="numeric" name="system.attributes.pv.value" value="{{pv.value}}" data-tooltip="{{localize 'IJ.Sheet.deltaHint'}}">
+      {{#if (and editMode (not auto.classes))}}
+      <span class="ij-vital__max">/ <input class="ij-vital__max-input" type="number" name="system.attributes.pv.max" value="{{source.attributes.pv.max}}" min="0" data-tooltip="{{localize 'IJ.PV.maxBase'}}"></span>
+      {{else}}
+      <span class="ij-vital__max" data-tooltip="{{#if auto.classes}}{{localize 'IJ.PV.fromClasses'}}{{else}}{{localize 'IJ.PV.max'}}{{/if}}">/ {{pv.max}}</span>
+      {{/if}}
+      <span class="ij-vital__extra">
+        <label data-tooltip="{{localize 'IJ.PV.tempHint'}}">{{localize "IJ.PV.temp"}} <input class="ij-plain ij-select-on-focus" type="text" inputmode="numeric" name="system.attributes.pv.temp" value="{{pv.temp}}"></label>
+        {{#if pv.nonlethal}}<label data-tooltip="{{localize 'IJ.PV.nonlethalHint'}}">{{localize "IJ.PV.nonlethal"}} <input class="ij-plain ij-select-on-focus" type="text" inputmode="numeric" name="system.attributes.pv.nonlethal" value="{{pv.nonlethal}}"></label>{{/if}}
+      </span>
+      <div class="ij-stroke"><span style="width: {{pv.pct}}%"></span></div>
+    </div>
+
+    <div class="ij-vital ij-vital--pm">
+      <span class="ij-vital__mark" data-tooltip="{{localize 'IJ.PM.long'}}"><b>気</b><small>{{localize "IJ.PM.abbr"}}</small></span>
+      <input class="ij-vital__value ij-plain ij-select-on-focus" type="text" inputmode="numeric" name="system.attributes.pm.value" value="{{pm.value}}" data-tooltip="{{localize 'IJ.Sheet.deltaHint'}}">
+      {{#if (and editMode (not auto.classes))}}
+      <span class="ij-vital__max">/ <input class="ij-vital__max-input" type="number" name="system.attributes.pm.max" value="{{source.attributes.pm.max}}" min="0" data-tooltip="{{localize 'IJ.PM.maxBase'}}"></span>
+      {{else}}
+      <span class="ij-vital__max">/ {{pm.max}}</span>
+      {{/if}}
+      <span class="ij-vital__extra">
+        <span data-tooltip="{{localize 'IJ.PM.limitTip'}}">{{localize "IJ.PM.limit"}} <strong>{{pm.limit}}</strong></span>
+      </span>
+      <div class="ij-stroke"><span style="width: {{pm.pct}}%"></span></div>
+    </div>
+
+    {{#if hero.conditions.length}}
+    <div class="ij-hero__conds">
+      {{#each hero.conditions as |c|}}<span class="ij-cond" data-tooltip="{{c.hint}}">{{c.label}}{{#if @root.editable}}<a data-action="removeCondition" data-condition="{{c.id}}">✕</a>{{/if}}</span>{{/each}}
+    </div>
+    {{/if}}
+  </div>
+
+  <div class="ij-hero__guard">
+    <div class="ij-tsuba" data-tooltip="{{hero.caTip}}" data-tooltip-direction="LEFT">
+      <svg viewBox="0 0 100 100" aria-hidden="true">
+        <path class="ij-tsuba__iron" d="M21,21 C28,8 40,3 50,3 C60,3 72,8 79,21 C92,28 97,40 97,50 C97,60 92,72 79,79 C72,92 60,97 50,97 C40,97 28,92 21,79 C8,72 3,60 3,50 C3,40 8,28 21,21 Z"/>
+        <circle class="ij-tsuba__ring" cx="50" cy="50" r="38.5"/>
+        <path class="ij-tsuba__hole" d="M12.5,42 q5.5,8 0,16 q-4.5,-8 0,-16 Z"/>
+        <path class="ij-tsuba__hole" d="M87.5,42 q-5.5,8 0,16 q4.5,-8 0,-16 Z"/>
+      </svg>
+      <small>{{localize "IJ.CA.abbr"}}</small>
+      <strong>{{ca}}</strong>
+    </div>
+    <a class="ij-rest" data-action="rest" data-tooltip="{{localize 'IJ.Rest.tooltip'}}" data-tooltip-direction="LEFT">休</a>
+  </div>
+
+  {{!-- The katana of Honor: the blade shines as far as the score reaches, the marks are where each measure begins --}}
+  <div class="ij-honor ij-honor--{{honor.tierKey}}">
+    <div class="ij-honor__tile">
+      <span class="ij-honor__kanji" aria-hidden="true">誉</span>
+      <span class="ij-honor__label">{{honor.label}}</span>
+      <span class="ij-honor__score">
+        {{#if editMode}}
+        <input type="number" name="system.abilities.hon.value" value="{{honor.value}}" min="0" step="1">
+        <input class="ij-bonus" type="number" name="system.abilities.hon.bonus" value="{{honor.bonus}}" step="1" data-tooltip="{{localize 'IJ.Ability.bonusTip'}}">
+        {{#if honor.racial}}<small data-tooltip="{{localize 'IJ.Ability.racialTip'}}">{{honor.racial}}</small>{{/if}}
+        {{else}}
+        {{honor.total}}
+        {{/if}}
+      </span>
+      <a class="ij-stone ij-stone--lg ij-stone--gold {{#if honor.negative}}is-neg{{/if}}" data-action="rollAbility" data-ability="hon" data-tooltip="{{localize 'IJ.Roll.abilityTip'}}">{{honor.mod}}</a>
+      {{#if honor.damage}}<a class="ij-wound" data-action="healAbility" data-ability="hon" data-tooltip="{{localize 'IJ.Ability.damageTip'}}">−{{honor.damage}}</a>{{/if}}
+    </div>
+
+    {{#with honor.katana as |k|}}
+    <svg class="ij-katana {{#if k.full}}is-full{{/if}}" viewBox="{{k.viewBox}}" role="img" aria-label="{{@root.honor.tier}}" data-tooltip="{{localize 'IJ.Honor.tierTip'}}">
+      <defs>
+        <linearGradient id="ij-steel-{{@root.actor.id}}" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#b9c6cb"/><stop offset=".3" stop-color="#eef3f4"/><stop offset=".36" stop-color="#8f9da4"/>
+          <stop offset=".62" stop-color="#c9d4d8"/><stop offset="1" stop-color="#ffffff"/>
+        </linearGradient>
+        <linearGradient id="ij-gilt-{{@root.actor.id}}" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#f3d68a"/><stop offset=".5" stop-color="#c9952f"/><stop offset="1" stop-color="#8e6516"/>
+        </linearGradient>
+        <clipPath id="ij-shine-{{@root.actor.id}}"><rect x="0" y="0" width="{{k.shine}}" height="120"/></clipPath>
+      </defs>
+      <path class="ij-katana__ghost" d="{{k.blade}}"/>
+      <g clip-path="url(#ij-shine-{{@root.actor.id}})">
+        <path class="ij-katana__blade" d="{{k.blade}}" fill="url(#ij-steel-{{@root.actor.id}})"/>
+        <path class="ij-katana__hamon" d="{{k.hamon}}"/>
+        <path class="ij-katana__ridge" d="{{k.ridge}}"/>
+        <line class="ij-katana__ridge" x1="{{k.yokote.x}}" x2="{{k.yokote.x}}" y1="{{k.yokote.y1}}" y2="{{k.yokote.y2}}"/>
+      </g>
+      {{#each k.marks as |m|}}
+      <line class="ij-katana__mark" x1="{{m.x}}" x2="{{m.x}}" y1="{{m.y1}}" y2="{{m.y2}}"/>
+      <line class="ij-katana__tick" x1="{{m.x}}" x2="{{m.x}}" y1="{{m.y3}}" y2="{{m.y4}}"/>
+      <text class="ij-katana__num" x="{{m.x}}" y="{{m.y5}}">{{m.value}}</text>
+      {{/each}}
+      {{#each k.names as |n|}}
+      <text class="ij-katana__name {{#if n.current}}on{{/if}}" x="{{n.x}}" y="{{n.y}}" {{#if n.anchor}}style="text-anchor: {{n.anchor}}"{{/if}}>{{n.label}}</text>
+      {{/each}}
+      <path class="ij-katana__hilt" d="{{k.hilt}}"/>
+      <path class="ij-katana__diamonds" d="{{k.diamonds}}"/>
+      <rect class="ij-katana__metal" x="{{k.cap.x}}" y="{{k.cap.y}}" width="{{k.cap.w}}" height="{{k.cap.h}}" rx="3" fill="url(#ij-gilt-{{@root.actor.id}})"/>
+      <rect class="ij-katana__metal" x="{{k.guard.x}}" y="{{k.guard.y}}" width="{{k.guard.w}}" height="{{k.guard.h}}" rx="3.5" fill="url(#ij-gilt-{{@root.actor.id}})"/>
+      <path class="ij-katana__metal" d="{{k.collar}}" fill="url(#ij-gilt-{{@root.actor.id}})"/>
+      <line class="ij-katana__beadline" x1="{{k.bead.x}}" x2="{{k.bead.x}}" y1="{{k.bead.y1}}" y2="{{k.bead.y2}}"/>
+      <path class="ij-katana__bead" d="{{k.bead.path}}"/>
+      <path class="ij-katana__glint" d="{{k.glint}}"/>
+    </svg>
+    {{/with}}
+
+    <div class="ij-honor__acts">
+      {{#if honor.reserve.used}}
+      <a class="ij-reserve is-spent" {{#if editable}}data-action="honorReserveReset"{{/if}} data-tooltip="{{localize 'IJ.Honor.reserveReset'}}" data-tooltip-direction="LEFT">
+        <span><b>力</b> {{localize "IJ.Honor.reserveSpent"}}</span><strong>↺</strong>
+      </a>
+      {{else}}
+      <a class="ij-reserve {{#unless honor.reserve.available}}is-off{{/unless}}" data-action="honorReserve" data-tooltip="{{localize 'IJ.Honor.reserveTip'}}" data-tooltip-direction="LEFT">
+        <span><b>力</b> {{localize "IJ.Honor.reserveShort"}}</span><strong>{{honor.reserve.bonus}}</strong>
+      </a>
+      {{/if}}
+      <div class="ij-honor__row" data-tooltip="{{localize 'IJ.Honor.violationTip'}}" data-tooltip-direction="LEFT">
+        <span>{{localize "IJ.Honor.violation.short"}}</span>
+        {{#each honor.violations as |v|}}<a data-action="honorViolation" data-severity="{{v.key}}" data-tooltip="{{v.label}}">{{v.short}}</a>{{/each}}
+      </div>
+      <div class="ij-honor__row">
+        <span>{{localize "IJ.Honor.gainShort"}}</span>
+        <a class="ij-gain" data-action="honorGain" data-tooltip="{{localize 'IJ.Honor.gainTip'}}" data-tooltip-direction="LEFT">+1</a>
+      </div>
+    </div>
+  </div>
+</header>

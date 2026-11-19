@@ -1,18 +1,32 @@
 import {
-  ABILITIES, ABILITY_SOURCES, ARMOR_CATEGORIES, CASTES, CHAKRAS, CONSUMABLE_KINDS, CURRENCIES, DAMAGE_TYPES,
-  FEAT_CATEGORIES, JUTSU_GRADES, KEY_ABILITIES, SAVES, SIZES, SKILLS, SPECIALTIES, SYSTEM_ID, VIOLATIONS, WEAPON_KINDS
+  ABILITIES, ABILITY_SOURCES, ARMOR_CATEGORIES, BBA_PROGRESSIONS, CASTES, CHAKRAS, CONSUMABLE_KINDS, CURRENCIES,
+  DAMAGE_TYPES, FEAT_CATEGORIES, HONOR_TIERS, JUTSU_GRADES, KEY_ABILITIES, SAVES, SIZES, SKILLS, SPECIALTIES, SYSTEM_ID,
+  VIOLATIONS, WEAPON_CATEGORIES, WEAPON_GRIPS, WEAPON_KINDS
 } from "../config.mjs";
 import { signed } from "../dice/rolls.mjs";
 import { bookText } from "../book-text.mjs";
 import { usesLeft } from "../auto/effects.mjs";
-import { dataFor, inactiveReason } from "../auto/context.mjs";
+import { dataFor, inactiveReason, norm } from "../auto/context.mjs";
+import { CreationWizard, LevelUpWizard, canLevel, maybeOpenWizard } from "../creation/index.mjs";
+import { loadCatalog } from "../creation/catalog.mjs";
+import { featContext, whoFor } from "../creation/plan.mjs";
+import { checkPrerequisites, parsePrerequisites } from "../creation/rules.mjs";
+import { katana, lotus } from "./graphics.mjs";
 
 const { HandlebarsApplicationMixin } = foundry.applications.api;
 const { ActorSheetV2 } = foundry.applications.sheets;
 const { TextEditor } = foundry.applications.ux;
 
 const L = key => game.i18n.localize(key);
+const F = (key, data) => game.i18n.format(key, data);
 const DIR = `systems/${SYSTEM_ID}/templates/actor`;
+const DETAIL = `${DIR}/parts/detail.hbs`;
+
+/** Partials of the sheet (registered in imperio.mjs). */
+export const SHEET_PARTIALS = {
+  "ij-detail": DETAIL,
+  "ij-feat-node": `${DIR}/parts/feat-node.hbs`
+};
 
 /** Number fields that also accept "+5" / "-3" (relative) or "=7" (absolute) typed in the sheet. */
 const DELTA_FIELDS = [
@@ -20,9 +34,48 @@ const DELTA_FIELDS = [
   "system.currency.yo", "system.currency.yp", "system.currency.y"
 ];
 
+/** The tabs with a scroll at the side, and what the scroll shows while nothing is chosen. */
+const DRAWERS = {
+  caminho: { kanji: "道", hint: "IJ.Path.pick" },
+  jutsus: { kanji: "術", hint: "IJ.Jutsu.pick" },
+  equipamento: { kanji: "袋", hint: "IJ.Inventory.pick" }
+};
+
+const GRADE_KEYS = Object.keys(JUTSU_GRADES);
+const flagsOf = item => item?.flags?.[SYSTEM_ID] ?? {};
+
+/** "detectar desonra" → "Detectar desonra". */
+const capitalize = text => (text ? text.charAt(0).toLocaleUpperCase("pt-BR") + text.slice(1) : "");
+
+/** The abilities a level of a class table lists ("Resolução (RD 5, 15 PV), bateu levou"): commas outside parentheses. */
+const splitFeatures = text => String(text ?? "").split(/,\s*(?![^()]*\))/).map(s => s.trim()).filter(Boolean);
+
+/** How long an effect still lasts, in the words of the book ("2 rodadas", "uma cena"). */
+function effectTime(effect) {
+  const d = effect.duration ?? {};
+  if (effect.flags?.[SYSTEM_ID]?.scene || (d.expiry === "combatEnd")) return L("IJ.Duration.cena");
+  if ((d.units === "rounds") && !d.value) return L("IJ.Duration.turno");
+  const unit = { rounds: "rodada", minutes: "minuto", hours: "hora", days: "dia" }[d.units];
+  if (!unit || !d.value) return "";
+  const n = Number.isFinite(d.remaining) && (d.units === "rounds") ? Math.max(1, Math.ceil(d.remaining)) : d.value;
+  return F(`IJ.Duration.${unit}${n > 1 ? "Plural" : ""}`, { n });
+}
+
+/** What was chosen on an ability or feat: the text typed (Foco em Arma: katana) or the options marked (a fighting style). */
+function choiceLabel(item) {
+  const sys = item.system;
+  if (sys.choiceText) return sys.choiceText;
+  const options = sys.auto?.choice?.options ?? [];
+  return (sys.choices ?? []).map(id => options.find(o => o.id === id)?.label).filter(Boolean).join(", ");
+}
+
+/** Does using the item do something (its automation, or PM to pay)? */
+const isUsable = item => item.hasActivation || ((item.system.cost ?? 0) > 0);
+
 /**
- * The character sheet: a parchment page in the style of a printed character sheet, with a vertical rail of silk
- * tabs. Values are shown as totals; the edit mode (the brush button) turns the base values into fields.
+ * The character sheet: a page of washi held by a tray of jade lacquer. The hero (portrait, PV, PM, armor class and, on
+ * the first tab, the katana of Honor) stays on every tab; the tabs are seals on the rail. Values are shown as totals;
+ * the edit mode (the brush at the foot of the rail) turns the base values into fields.
  */
 export class CharacterSheet extends HandlebarsApplicationMixin(ActorSheetV2) {
 
@@ -31,10 +84,23 @@ export class CharacterSheet extends HandlebarsApplicationMixin(ActorSheetV2) {
     position: { width: 1100, height: 900 },
     window: {
       resizable: true,
-      controls: [{ icon: "fa-solid fa-gears", label: "IJ.Auto.syncActor", action: "syncAuto", ownership: "OWNER" }]
+      controls: [
+        // The creation wizard: for a character of the 1st level (made, or made again)
+        {
+          icon: "fa-solid fa-feather-pointed", label: "IJ.Wizard.open", action: "openWizard", ownership: "OWNER",
+          visible: function() { return CreationWizard.canCreate(this.actor); }
+        },
+        // The level-up wizard: a level more (also without the experience, for groups that level by milestones)
+        {
+          icon: "fa-solid fa-angles-up", label: "IJ.Level.open", action: "levelUp", ownership: "OWNER",
+          visible: function() { return canLevel(this.actor); }
+        },
+        { icon: "fa-solid fa-gears", label: "IJ.Auto.syncActor", action: "syncAuto", ownership: "OWNER" }
+      ]
     },
     form: { submitOnChange: true },
     actions: {
+      openWizard: CharacterSheet.#onOpenWizard,
       syncAuto: CharacterSheet.#onSyncAuto,
       toggleEdit: CharacterSheet.#onToggleEdit,
       rollAbility: CharacterSheet.#onRollAbility,
@@ -52,6 +118,10 @@ export class CharacterSheet extends HandlebarsApplicationMixin(ActorSheetV2) {
       itemDamage: CharacterSheet.#onItemDamage,
       itemEquip: CharacterSheet.#onItemEquip,
       itemQuantity: CharacterSheet.#onItemQuantity,
+      itemSelect: CharacterSheet.#onItemSelect,
+      openUuid: CharacterSheet.#onOpenUuid,
+      pathToggle: CharacterSheet.#onPathToggle,
+      budsToggle: CharacterSheet.#onBudsToggle,
       usesPip: CharacterSheet.#onUsesPip,
       specialtyAdd: CharacterSheet.#onSpecialtyAdd,
       specialtyDelete: CharacterSheet.#onSpecialtyDelete,
@@ -64,18 +134,17 @@ export class CharacterSheet extends HandlebarsApplicationMixin(ActorSheetV2) {
       rest: CharacterSheet.#onRest,
       levelUp: CharacterSheet.#onLevelUp,
       removeCondition: CharacterSheet.#onRemoveCondition,
-      toggleCollapse: CharacterSheet.#onToggleCollapse
+      effectEnd: CharacterSheet.#onEffectEnd
     }
   };
 
   static PARTS = {
     nav: { template: `${DIR}/parts/nav.hbs` },
+    hero: { template: `${DIR}/parts/hero.hbs` },
     ficha: { template: `${DIR}/parts/ficha.hbs`, scrollable: [""] },
-    pericias: { template: `${DIR}/parts/pericias.hbs`, scrollable: [""] },
-    combate: { template: `${DIR}/parts/combate.hbs`, scrollable: [""] },
-    habilidades: { template: `${DIR}/parts/habilidades.hbs`, scrollable: [""] },
-    jutsus: { template: `${DIR}/parts/jutsus.hbs`, scrollable: [""] },
-    inventario: { template: `${DIR}/parts/inventario.hbs`, scrollable: [""] },
+    caminho: { template: `${DIR}/parts/caminho.hbs`, scrollable: [".ij-pane", ".ij-detail__body"] },
+    jutsus: { template: `${DIR}/parts/jutsus.hbs`, scrollable: [".ij-pane", ".ij-detail__body"] },
+    equipamento: { template: `${DIR}/parts/equipamento.hbs`, scrollable: [".ij-pane", ".ij-detail__body"] },
     biografia: { template: `${DIR}/parts/biografia.hbs`, scrollable: [""] }
   };
 
@@ -85,11 +154,9 @@ export class CharacterSheet extends HandlebarsApplicationMixin(ActorSheetV2) {
       labelPrefix: "IJ.Tab",
       tabs: [
         { id: "ficha", kanji: "人" },
-        { id: "pericias", kanji: "技" },
-        { id: "combate", kanji: "戦" },
-        { id: "habilidades", kanji: "能" },
+        { id: "caminho", kanji: "道" },
         { id: "jutsus", kanji: "術" },
-        { id: "inventario", kanji: "袋" },
+        { id: "equipamento", kanji: "袋" },
         { id: "biografia", kanji: "伝" }
       ]
     }
@@ -98,8 +165,14 @@ export class CharacterSheet extends HandlebarsApplicationMixin(ActorSheetV2) {
   /** Edit mode: base values become fields. Starts on for a brand-new character. */
   #editMode = null;
 
-  /** Collapsed item descriptions, by item id. */
-  #expanded = new Set();
+  /** The item unrolled on the scroll of each tab that has one. */
+  #picked = { caminho: null, jutsus: null, equipamento: null };
+
+  /** Classes whose bamboo shows every level up to the 20th. */
+  #wholePaths = new Set();
+
+  /** Show the feats the character's own feats open the way to. */
+  #buds = false;
 
   get editMode() {
     if (this.#editMode === null) this.#editMode = this.actor.system.abilities.for.value === 10
@@ -126,51 +199,91 @@ export class CharacterSheet extends HandlebarsApplicationMixin(ActorSheetV2) {
 
     const itemsOf = type => items.filter(i => i.type === type).sort((a, b) => a.sort - b.sort);
 
-    // Abilities (plaques)
-    const abilities = Object.entries(ABILITIES).map(([key, cfg], index) => {
+    // Abilities: the six on the first tab, Honor on the hilt of its katana
+    const abilityView = key => {
+      const cfg = ABILITIES[key];
       const a = sys.abilities[key];
       return {
-        key, row: index + 1, kanji: cfg.kanji, label: L(cfg.label), abbr: L(cfg.abbr),
+        key, kanji: cfg.kanji, label: L(cfg.label), abbr: L(cfg.abbr),
         value: source.abilities[key].value, bonus: source.abilities[key].bonus,
         racial: a.racial ? signed(a.racial) : "",
-        total: a.total, mod: signed(a.mod), negative: a.mod < 0, isHonor: key === "hon",
-        damage: a.damage ?? 0
+        total: a.total, mod: signed(a.mod), negative: a.mod < 0, damage: a.damage ?? 0
       };
-    });
+    };
+    const abilities = KEY_ABILITIES.map(abilityView);
 
     // Classes and race
-    const classes = itemsOf("class").map(c => ({
-      id: c.id, name: c.name, img: c.img, levels: c.system.levels, primary: c.system.primary,
-      bba: L(CONFIG.IJ.BBA_PROGRESSIONS[c.system.bba]?.label ?? "")
-    }));
+    const classItems = itemsOf("class");
+    const primary = classItems.find(c => c.system.primary) ?? classItems[0] ?? null;
     const race = items.get(sys.auto.raceId) ?? null;
-    // A race with ability picks still to make ("+2 em duas habilidades à escolha")
-    const raceChoicePending = race && (race.system.abilityChoice?.count ?? 0) > (race.system.chosen?.length ?? 0);
 
-    // Equipped armor and shield (the two cards of the first tab)
-    const armorCard = item => item ? {
-      id: item.id, name: item.name, img: item.img,
-      bonus: signed(item.system.bonus),
-      maxDex: item.system.maxDex === null ? "—" : signed(item.system.maxDex),
-      penalty: item.system.penalty ? signed(item.system.penalty) : "0",
-      rd: item.system.rd, price: item.system.price,
-      category: L(ARMOR_CATEGORIES[item.system.category])
-    } : null;
+    // Honor: the score, the measure and the katana that shows both
+    const tiers = [...HONOR_TIERS].reverse().map(t => ({ key: t.key, min: Number.isFinite(t.min) ? t.min : 0, label: L(t.label) }));
+    const honor = {
+      ...abilityView("hon"),
+      tier: L(sys.honorTier.label), tierKey: sys.honorTier.key,
+      katana: katana(sys.abilities.hon.total, tiers),
+      reserve: { used: sys.honor.reserveUsed, available: sys.honorReserve.available, bonus: signed(sys.honorReserve.bonus) },
+      violations: Object.entries(VIOLATIONS).map(([key, v]) => ({ key, label: L(v.label), short: L(v.label).charAt(0) }))
+    };
 
-    // Skills
+    // Armor class: the parts for the line of the first tab and for the tooltip of the sword guard
+    const caParts = [
+      { label: L("IJ.CA.base"), value: 10, fixed: true },
+      { label: L("IJ.Level.half"), value: sys.halfLevel },
+      { label: L("IJ.AbilityAbbr.des"), value: sys.ca.dex },
+      { label: L("IJ.Armor.body"), value: sys.armor.bodyBonus },
+      { label: L("IJ.Armor.shield"), value: sys.armor.shieldBonus },
+      { label: L("IJ.Size.label"), value: sys.size.ca },
+      { label: L("IJ.Skill.other"), value: source.attributes.ca.bonus, field: "system.attributes.ca.bonus" }
+    ];
+    // What effects and conditions add or take (Constitution of Casca Grossa, conditions, the helpless override)
+    const rest = sys.ca.total - caParts.reduce((t, p) => t + p.value, 0);
+    if (rest) caParts.push({ label: L("IJ.CA.effects"), value: rest });
+    for (const p of caParts) {
+      p.text = p.fixed ? String(p.value) : signed(p.value);
+      p.show = p.fixed || (p.value !== 0);
+    }
+
+    // The hero
+    const kanji = primary?.system.kanji || race?.system.kanji || "";
+    const casteLabel = source.details.caste ? L(CASTES[source.details.caste]) : "—";
+    const hero = {
+      kanji, kanjiLen: Math.min(3, [...kanji].length),
+      race: race ? { id: race.id, name: race.name } : null,
+      // A race with ability picks still to make ("+2 em duas habilidades à escolha")
+      racePending: !!race && ((race.system.abilityChoice?.count ?? 0) > (race.system.chosen?.length ?? 0)),
+      classes: classItems.map(c => ({ id: c.id, name: c.name, levels: c.system.levels, primary: c === primary })),
+      caste: casteLabel.replace(/\s*\(.*\)\s*$/, ""),
+      caTip: caParts.filter(p => p.show).map(p => `${p.text} ${p.label}`).join(" · "),
+      // Conditions on the character (status effects), with the rule as tooltip
+      conditions: [...(actor.statuses ?? [])].filter(id => CONFIG.statusEffects.find(s => s.id === id)).map(id => {
+        const st = CONFIG.statusEffects.find(s => s.id === id);
+        return { id, label: L(st.name), hint: st.description ? L(st.description) : "" };
+      })
+    };
+
+    // Skills, with the specialties of Atuação, Conhecimento and Ofício under their skill
     const skillRow = (key, data, spec = null, specId = null) => {
       const cfg = SKILLS[key];
+      const abbr = L(ABILITIES[data.ability].abbr);
+      const tip = [
+        `${L("IJ.Skill.ranksShort")} ${data.ranks}`,
+        `${abbr} ${signed(data.abilityMod)}`,
+        data.bonus ? `${L("IJ.Skill.other")} ${signed(data.bonus)}` : "",
+        data.penalty ? `${L("IJ.Armor.body")} ${signed(data.penalty)}` : "",
+        data.sizeBonus ? `${L("IJ.Size.label")} ${signed(data.sizeBonus)}` : "",
+        data.condition ? `${L("IJ.Auto.conditions")} ${signed(data.condition)}` : ""
+      ].filterJoin(" · ");
       return {
         key, specialtyId: specId, isSpecialty: !!spec,
-        label: L(cfg.label), specialty: spec?.label ?? "",
-        ability: data.ability, abilityAbbr: L(ABILITIES[data.ability].abbr),
-        trained: data.trained, ranks: data.ranks, abilityMod: signed(data.abilityMod),
-        bonus: data.bonus, penalty: data.penalty ? signed(data.penalty) : "",
-        sizeBonus: data.sizeBonus ? signed(data.sizeBonus) : "",
-        total: signed(data.total), usable: data.usable,
-        trainedOnly: !!cfg.trainedOnly, armor: !!cfg.armor, multi: !!cfg.specialty,
+        display: spec ? (spec.label || "—") : L(cfg.label), specialty: spec?.label ?? "",
+        ability: data.ability, abilityAbbr: abbr,
+        trained: data.trained, bonus: data.bonus,
+        total: signed(data.total), usable: data.usable, stone: data.trained && data.usable,
+        trainedOnly: !spec && !!cfg.trainedOnly, armor: !spec && !!cfg.armor, multi: !spec && !!cfg.specialty,
         inputName: spec ? `system.specialties.${specId}` : `system.skills.${key}`,
-        source: spec ? source.specialties?.[specId] : source.skills[key]
+        tip: data.usable ? tip : L("IJ.Skill.trainedOnly")
       };
     };
     const skills = [];
@@ -181,84 +294,109 @@ export class CharacterSheet extends HandlebarsApplicationMixin(ActorSheetV2) {
         skills.push(skillRow(key, spec, spec, id));
       }
     }
-    const half = Math.ceil(skills.length / 2);
 
-    // Weapons, armor, inventory
+    // What is carried
+    const picked = this.#pick(items);
+    const armorView = item => (item ? {
+      id: item.id, name: item.name, img: item.img,
+      bonus: signed(item.system.bonus),
+      maxDex: item.system.maxDex === null ? "—" : signed(item.system.maxDex),
+      penalty: item.system.penalty ? signed(item.system.penalty) : "0",
+      rd: item.system.rd,
+      equipped: item.system.equipped, isShield: item.system.category === "escudo",
+      picked: item.id === picked.equipamento
+    } : null);
     const weapons = itemsOf("weapon").map(w => ({
       id: w.id, name: w.name, img: w.img, equipped: w.system.equipped,
       attack: signed(w.system.attackTotal), damage: w.system.damageFormula, crit: w.system.critLabel,
-      type: w.system.damageType, typeLabel: L(DAMAGE_TYPES[w.system.damageType] ?? ""),
-      kind: L(WEAPON_KINDS[w.system.kind]?.label ?? ""), range: w.system.range ? `${w.system.range} m` : "—",
-      proficient: w.system.isProficient ?? w.system.proficient, dishonorable: w.system.dishonorable,
-      power: w.hasActivation
+      typeLabel: L(DAMAGE_TYPES[w.system.damageType] ?? ""),
+      kind: L(WEAPON_KINDS[w.system.kind]?.label ?? ""),
+      proficient: w.system.isProficient ?? w.system.proficient,
+      picked: w.id === picked.equipamento
     }));
-    const armors = itemsOf("armor").map(a => ({
-      ...armorCard(a), equipped: a.system.equipped, isShield: a.system.category === "escudo",
-      dishonorable: a.system.dishonorable, power: a.hasActivation
+    const armors = itemsOf("armor").map(armorView);
+    const gear = itemsOf("gear").map(g => ({
+      id: g.id, name: g.name, img: g.img, quantity: g.system.quantity, equipped: g.system.equipped,
+      power: g.hasActivation, picked: g.id === picked.equipamento
     }));
-    const physical = item => ({
-      id: item.id, name: item.name, img: item.img, type: item.type,
-      quantity: item.system.quantity, weight: item.system.weight, price: item.system.price,
-      equipped: item.system.equipped ?? null, power: item.hasActivation && (item.type !== "consumable")
-    });
     const consumables = itemsOf("consumable").map(c => ({
-      ...physical(c),
+      id: c.id, name: c.name, img: c.img, quantity: c.system.quantity,
       kind: L(CONSUMABLE_KINDS[c.system.kind]),
       uses: c.system.uses.max > 0
         ? Array.fromRange(c.system.uses.max).map(i => ({ n: i + 1, full: i < c.system.uses.value }))
-        : null
+        : null,
+      picked: c.id === picked.equipamento
     }));
-    const inventory = [
-      { type: "weapon", label: L("IJ.Weapon.plural"), items: itemsOf("weapon").map(physical) },
-      { type: "armor", label: L("IJ.Armor.plural"), items: itemsOf("armor").map(physical) },
-      { type: "gear", label: L("IJ.Inventory.gear"), items: itemsOf("gear").map(physical) }
-    ];
     const weight = items.reduce((t, i) => t + ((i.system.weight ?? 0) * (i.system.quantity ?? 0)), 0);
 
-    // Abilities, feats and jutsus (with their descriptions, enriched)
-    const enrich = async item => TextEditor.implementation.enrichHTML(bookText.of(item) ?? item.system.description ?? "", {
-      secrets: actor.isOwner, rollData: actor.getRollData(), relativeTo: item
+    // Abilities and feats: a leaf of the bamboo, a blossom of the branch, a line among the techniques
+    const offLabel = item => {
+      const reason = inactiveReason(item);
+      if (reason === "honor") return F("IJ.Arts.off.honor", { n: Math.max(item.system.honorMin ?? 0, item.system.auto?.requires?.honorMin ?? 0) });
+      return ["armor", "shield", "armorType"].includes(reason) ? L(`IJ.Arts.off.${reason}`) : "";
+    };
+    const leaf = (item, extra = {}) => ({
+      id: item.id, name: item.name, note: choiceLabel(item),
+      usable: isUsable(item), cost: item.system.cost ?? 0, off: !!offLabel(item),
+      picked: item.id === picked.caminho, ...extra
     });
-    const powerView = async item => ({
-      id: item.id, name: item.name, img: item.img, type: item.type,
-      cost: item.system.cost, honorMin: item.system.honorMin, level: item.system.level,
-      action: item.system.action, prerequisites: item.system.prerequisites,
-      origin: item.system.originName || (item.system.origin ? L(ABILITY_SOURCES[item.system.origin]) : ""),
-      category: item.system.category ? L(FEAT_CATEGORIES[item.system.category]) : "",
-      honorLocked: item.system.honorMin > 0 && sys.abilities.hon.total < item.system.honorMin,
-      // Automation: uses left this period, and whether it is off (armor, Honor)
+    const powers = itemsOf("power");
+    const feats = itemsOf("feat");
+
+    const { paths, placed } = this.#paths(classItems, primary, powers, leaf);
+    const racePowers = powers.filter(p => p.system.origin === "raca");
+    const roots = race ? {
+      id: race.id, name: race.name, kanji: race.system.kanji ?? "",
+      powers: racePowers.map(p => leaf(p))
+    } : null;
+    // Abilities with no class or race on the sheet to hang from
+    const loose = powers.filter(p => !placed.has(p.id) && !(race && (p.system.origin === "raca"))).map(p => leaf(p, { note: [p.system.originName, choiceLabel(p)].filterJoin(" · ") }));
+
+    const { tree: featTree, legend: featLegend } = await this.#featTree(feats, leaf);
+
+    // Techniques: what spends PM or has uses, one click away on the first tab
+    const arts = [...powers, ...feats].filter(isUsable).map(item => ({
+      id: item.id, name: item.name, cost: item.system.cost ?? 0,
       uses: item.system.auto?.activation?.uses ? `${usesLeft(item, dataFor(item))}/${item.system.auto.activation.uses.per}` : "",
-      autoOff: item.system.auto && Object.keys(item.system.auto).length ? ["armor", "shield", "honor"].includes(inactiveReason(item)) : false,
-      automated: !!(item.system.auto && Object.keys(item.system.auto).length && !item.system.auto.status),
-      expanded: this.#expanded.has(item.id),
-      description: await enrich(item)
-    });
-    const powers = await Promise.all(itemsOf("power").map(powerView));
-    const feats = await Promise.all(itemsOf("feat").map(powerView));
-    const powerGroups = Object.entries(ABILITY_SOURCES).map(([key, label]) => ({
-      key, label: L(label), items: powers.filter(p => items.get(p.id).system.origin === key)
+      off: !!offLabel(item), offLabel: offLabel(item),
+      tip: [item.system.originName || (item.type === "feat" ? L("TYPES.Item.feat") : ""), item.system.action].filterJoin(" · ")
     }));
 
-    const jutsus = await Promise.all(itemsOf("jutsu").map(async j => ({
-      id: j.id, name: j.name, img: j.img,
-      chakra: j.system.chakra, chakraLabel: L(CHAKRAS[j.system.chakra].label), chakraKanji: CHAKRAS[j.system.chakra].kanji,
-      grade: j.system.grade, cost: j.system.cost, dc: j.system.dc,
-      execution: j.system.execution, range: j.system.range, target: j.system.target,
-      duration: j.system.duration, resistance: j.system.resistance, descriptors: j.system.descriptors,
-      expanded: this.#expanded.has(j.id),
-      description: await enrich(j)
-    })));
-    const jutsuGroups = Object.entries(JUTSU_GRADES).map(([key, g]) => ({
-      key, label: L(g.label), cost: g.cost, dc: g.dc, items: jutsus.filter(j => j.grade === key)
-    })).filter(g => g.items.length);
-
+    // Jutsus: the lotus of the chakras and what each chakra feeds
+    const jutsus = itemsOf("jutsu");
     const chakras = Object.entries(CHAKRAS).map(([key, cfg]) => {
       const c = sys.chakras[key];
+      const abbr = L(ABILITIES[key].abbr);
+      const gradeLabel = L(JUTSU_GRADES[c.grade].label);
       return {
-        key, kanji: cfg.kanji, label: L(cfg.label), ability: L(ABILITIES[key].abbr),
-        open: c.open, grade: c.grade, gradeLabel: L(JUTSU_GRADES[c.grade].label), mod: signed(c.mod)
+        key, kanji: cfg.kanji, label: L(cfg.label), open: c.open, grade: c.grade, gradeLabel,
+        note: c.open ? `${abbr} ${signed(c.mod)} · ${gradeLabel}` : L("IJ.Chakra.closed"),
+        tip: editMode ? L(c.open ? "IJ.Chakra.openTip" : "IJ.Chakra.closedTip") : L(c.open ? "IJ.Chakra.openNote" : "IJ.Chakra.closedNote")
       };
     });
+    const openChakras = chakras.filter(c => c.open);
+    // On the first tab: every jutsu one click away, the cheapest first
+    const quickJutsus = jutsus.map(j => ({
+      id: j.id, name: j.name, cost: j.system.cost, off: !sys.chakras[j.system.chakra]?.open,
+      tip: [L(CHAKRAS[j.system.chakra].label), j.system.execution, j.system.range, j.system.duration, j.system.resistance].filterJoin(" · ")
+    })).sort((a, b) => (a.cost - b.cost) || a.name.localeCompare(b.name, "pt-BR"));
+
+    // Effects in course: what abilities, jutsus and items left on the character for a while (conditions are on the hero)
+    const effects = actor.effects.filter(e => !e.disabled && e.isTemporary && !e.statuses.size).map(e => ({
+      id: e.id, name: e.name, img: e.img, time: effectTime(e),
+      tip: e.description ?? ""
+    }));
+    const reach = Math.max(-1, ...openChakras.map(c => GRADE_KEYS.indexOf(c.grade)));
+    const veins = chakras.map(c => ({
+      ...c,
+      grades: GRADE_KEYS.map(g => ({
+        key: g, label: L(JUTSU_GRADES[g].label), cost: JUTSU_GRADES[g].cost, dc: JUTSU_GRADES[g].dc,
+        items: jutsus.filter(j => (j.system.chakra === c.key) && (j.system.grade === g)).map(j => ({
+          id: j.id, name: j.name, cost: j.system.cost, picked: j.id === picked.jutsus,
+          tip: [j.system.execution, j.system.range, j.system.duration].filterJoin(" · ")
+        }))
+      })).filter(g => g.items.length)
+    })).filter(v => v.open || v.grades.length);
 
     Object.assign(context, {
       actor, system: sys, source, editMode,
@@ -266,63 +404,53 @@ export class CharacterSheet extends HandlebarsApplicationMixin(ActorSheetV2) {
       owner: actor.isOwner,
       config: CONFIG.IJ,
       auto: sys.auto,
-      abilities,
-      classes,
-      race: race ? { id: race.id, name: race.name, img: race.img } : null,
-      raceChoicePending,
-      honorTier: L(sys.honorTier.label),
-      honorTierKey: sys.honorTier.key,
-      reserve: { used: sys.honor.reserveUsed, available: sys.honorReserve.available, bonus: signed(sys.honorReserve.bonus) },
+      hero, abilities, honor,
       level: sys.level,
       xp: sys.xp,
-      bba: signed(sys.bba),
-      melee: signed(sys.attack.melee),
-      ranged: signed(sys.attack.ranged),
-      initiative: signed(sys.initiative),
-      perception: signed(sys.skills.percepcao.total),
-      intuition: signed(sys.skills.intuicao.total),
+      pv: sys.attributes.pv,
+      pm: sys.attributes.pm,
       ca: sys.ca.total,
-      caParts: [
-        { label: L("IJ.CA.base"), value: 10, fixed: true },
-        { label: L("IJ.Level.half"), value: sys.halfLevel },
-        { label: L("IJ.AbilityAbbr.des"), value: sys.ca.dex },
-        { label: L("IJ.Armor.body"), value: sys.armor.bodyBonus },
-        { label: L("IJ.Armor.shield"), value: sys.armor.shieldBonus },
-        { label: L("IJ.Size.label"), value: sys.size.ca },
-        { label: L("IJ.Skill.other"), value: source.attributes.ca.bonus, field: "system.attributes.ca.bonus" }
-      ],
+      caParts,
+      movement: sys.movement,
+      sizeLabel: L(sys.size.label),
+      casteLabel,
+      // First tab
+      skills,
+      skillCount: sys.skillCount,
+      skillOver: !!sys.skillCount.allowed && (sys.skillCount.trained > sys.skillCount.allowed),
+      specialties: SPECIALTIES,
+      armorPenalty: sys.armor.penalty,
       saves: Object.entries(SAVES).map(([key, cfg]) => ({
         key, label: L(cfg.label), ability: L(ABILITIES[cfg.ability].abbr),
         total: signed(sys.saves[key].total), mod: signed(sys.saves[key].mod), bonus: source.saves[key].bonus
       })),
-      save: Object.fromEntries(Object.keys(SAVES).map(k => [k, signed(sys.saves[k].total)])),
-      pv: sys.attributes.pv,
-      pm: sys.attributes.pm,
-      movement: sys.movement,
-      sizeLabel: L(sys.size.label),
+      bba: signed(sys.bba),
+      melee: signed(sys.attack.melee),
+      ranged: signed(sys.attack.ranged),
+      initiative: signed(sys.initiative),
       rd: sys.rd,
-      armorPenalty: sys.armor.penalty,
-      bodyArmor: armorCard(items.get(sys.armor.bodyId)),
-      shield: armorCard(items.get(sys.armor.shieldId)),
-      skillColumns: [skills.slice(0, half), skills.slice(half)],
-      skillCount: sys.skillCount,
-      specialties: SPECIALTIES,
-      weapons, armors, consumables, inventory,
-      equippedWeapons: weapons.filter(w => w.equipped).slice(0, 4),
-      weight: Math.round(weight * 10) / 10,
-      powerGroups, feats, jutsus, jutsuGroups, chakras,
+      weaponsInHand: weapons.filter(w => w.equipped).slice(0, 6),
+      bodyArmor: armorView(items.get(sys.armor.bodyId)),
+      shield: armorView(items.get(sys.armor.shieldId)),
       maneuvers: ["agarrar", "derrubar", "desarmar", "empurrar", "atropelar", "separar"].map(key => ({
         key, label: L(`IJ.Maneuver.${key}`), tip: L(`IJ.Maneuver.note.${key}`)
       })),
-      // Conditions on the character (status effects), with the book rule as tooltip
-      activeConditions: [...(actor.statuses ?? [])].filter(id => CONFIG.statusEffects.find(s => s.id === id)).map(id => {
-        const st = CONFIG.statusEffects.find(s => s.id === id);
-        return { id, label: L(st.name), img: st.img, hint: st.description ? L(st.description) : "" };
-      }),
-      racePowers: powers.filter(p => items.get(p.id).system.origin === "raca"),
-      classPowers: powers.filter(p => items.get(p.id).system.origin === "classe"),
-      grades: Object.entries(JUTSU_GRADES).map(([key, g]) => ({ key, label: L(g.label), cost: g.cost, dc: g.dc })),
-      violations: Object.entries(VIOLATIONS).map(([key, v]) => ({ key, label: L(v.label) })),
+      arts, quickJutsus, effects,
+      quick: consumables.filter(c => c.uses || (c.quantity > 0)).slice(0, 6),
+      jutsuCount: jutsus.length,
+      // The path
+      paths, roots, loose, featTree, featLegend, buds: this.#buds,
+      // Jutsus
+      chakras, veins,
+      lotus: lotus(Object.fromEntries(chakras.map(c => [c.key, c])), sys.attributes.pm),
+      chakraNote: F("IJ.Chakra.openCount", { n: openChakras.length }),
+      grades: GRADE_KEYS.map((key, i) => ({
+        label: L(JUTSU_GRADES[key].label), cost: JUTSU_GRADES[key].cost, dc: JUTSU_GRADES[key].dc,
+        dots: GRADE_KEYS.map((_, n) => n <= i), far: i > reach
+      })),
+      // Equipment
+      weapons, armors, gear, consumables,
+      weight: Math.round(weight * 10) / 10,
       currencies: Object.entries(CURRENCIES).map(([key, c]) => ({ key, label: L(c.label), abbr: c.abbr, value: source.currency[key] })),
       choices: {
         abilities: Object.fromEntries(KEY_ABILITIES.map(k => [k, L(ABILITIES[k].abbr)])),
@@ -330,7 +458,10 @@ export class CharacterSheet extends HandlebarsApplicationMixin(ActorSheetV2) {
         castes: { "": "—", ...Object.fromEntries(Object.entries(CASTES).map(([k, v]) => [k, L(v)])) },
         grades: Object.fromEntries(Object.entries(JUTSU_GRADES).map(([k, g]) => [k, L(g.label)]))
       },
-      casteLabel: source.details.caste ? L(CASTES[source.details.caste]) : "—"
+      // The scroll at the side of each tab that has one
+      details: Object.fromEntries(await Promise.all(Object.keys(DRAWERS).map(async tab => [tab, await this.#detail(tab)]))),
+      // A blank character: the banner that opens the creation wizard
+      wizard: { blank: CreationWizard.isBlank(actor), can: CreationWizard.canCreate(actor) }
     });
     return context;
   }
@@ -338,6 +469,7 @@ export class CharacterSheet extends HandlebarsApplicationMixin(ActorSheetV2) {
   async _preparePartContext(partId, context, options) {
     context = await super._preparePartContext(partId, context, options);
     context.tab = context.tabs?.[partId];
+    if (partId in DRAWERS) context.detail = context.details[partId];
     if (partId === "biografia") {
       const enrich = html => TextEditor.implementation.enrichHTML(html ?? "", {
         secrets: this.actor.isOwner, rollData: this.actor.getRollData(), relativeTo: this.actor
@@ -354,24 +486,293 @@ export class CharacterSheet extends HandlebarsApplicationMixin(ActorSheetV2) {
   }
 
   /* -------------------------------------------- */
+  /*  The bamboo, the branch and the scroll       */
+  /* -------------------------------------------- */
+
+  /**
+   * What each scroll shows: the item chosen on its tab while it is still on the sheet, else the first one worth
+   * reading, so the scroll is never an empty strip.
+   */
+  #pick(items) {
+    const first = (types, test = () => true) => items.filter(i => types.includes(i.type) && test(i)).sort((a, b) => a.sort - b.sort)[0]?.id ?? null;
+    const pools = {
+      caminho: () => first(["power"], isUsable) ?? first(["power"]) ?? first(["feat"]),
+      jutsus: () => first(["jutsu"]),
+      equipamento: () => first(["weapon"], i => i.system.equipped) ?? first(["weapon", "armor", "gear", "consumable"])
+    };
+    for (const [tab, pool] of Object.entries(pools)) {
+      if (!items.get(this.#picked[tab])) this.#picked[tab] = pool();
+    }
+    return this.#picked;
+  }
+
+  /**
+   * The bamboo of each class: one segment per level, from the 1st at the foot to the levels still ahead on top. The
+   * leaves of a level are what the class table lists there, tied to the ability on the sheet when the character has it.
+   * @returns {{paths: object[], placed: Set<string>}}  `placed`: the abilities that hang from some bamboo
+   */
+  #paths(classItems, primary, powers, leaf) {
+    const placed = new Set();
+    const paths = [];
+    for (const cls of classItems) {
+      const levels = cls.system.levels;
+      const features = cls.system.features ?? [];
+      const own = powers.filter(p => (p.system.origin === "classe") && (norm(p.system.originName) === norm(cls.name)));
+      const byUuid = new Map(own.map(p => [flagsOf(p).sourceUuid, p]));
+      const byName = new Map(own.map(p => [norm(p.name), p]));
+      const known = [...features.map(f => ({ name: f.name, uuid: f.uuid })), ...own.filter(p => !features.some(f => norm(f.name) === norm(p.name))).map(p => ({ name: p.name, uuid: null }))];
+      // The ability a label of the table speaks of: the longest name the label begins with
+      const match = label => {
+        const n = norm(label);
+        let best = null;
+        for (const k of known) {
+          const key = norm(k.name);
+          if (((n === key) || n.startsWith(`${key} `)) && (!best || (key.length > norm(best.name).length))) best = k;
+        }
+        return best;
+      };
+      const top = this.#wholePaths.has(cls.id) ? 20 : Math.min(20, levels + 2);
+      const rows = [];
+      for (let level = 1; level <= top; level++) {
+        const reached = level <= levels;
+        const line = cls.system.table?.find(t => t.level === level);
+        const labels = line ? splitFeatures(line.features) : features.filter(f => f.level === level).map(f => f.name);
+        const entries = labels.map(label => {
+          const hit = match(label);
+          const item = hit ? (byUuid.get(hit.uuid) ?? byName.get(norm(hit.name)) ?? null) : null;
+          // "Espadas ancestrais +2" → the ability's own name, and "+2" beside it
+          const exact = hit && (norm(label.slice(0, hit.name.length)) === norm(hit.name));
+          const name = exact ? hit.name : capitalize(label);
+          const note = exact ? label.slice(hit.name.length).trim() : "";
+          if (item && reached) {
+            placed.add(item.id);
+            // What the table says of this level ("+2"), else what was chosen on the ability
+            return leaf(item, note ? { name, note } : { name });
+          }
+          return { id: null, uuid: hit?.uuid ?? null, name, note };
+        });
+        rows.push({ level, reached, now: level === levels, entries });
+      }
+      // Abilities of the class the table doesn't speak of (made by hand, or picked from a list): at their own level
+      for (const p of own.filter(p => !placed.has(p.id))) {
+        const row = rows[Math.clamp(p.system.level || 1, 1, levels) - 1];
+        row.entries.push(leaf(p));
+        placed.add(p.id);
+      }
+      const bba = L(BBA_PROGRESSIONS[cls.system.bba]?.label ?? "").replace(/\s*\(.*\)\s*$/, "");
+      paths.push({
+        id: cls.id, name: cls.name, kanji: cls.system.kanji ?? "", levels, primary: cls === primary,
+        summary: F("IJ.Path.level", { n: levels }),
+        tip: F("IJ.Path.classTip", { bba, pv: cls.system.pv.perLevel, pm: cls.system.pm.perLevel }),
+        more: (levels + 2 < 20) ? L(this.#wholePaths.has(cls.id) ? "IJ.Path.less" : "IJ.Path.more") : "",
+        rows: rows.reverse()
+      });
+    }
+    // The first class at the foot, right above the root; the classes taken later on top
+    paths.sort((a, b) => Number(a.primary) - Number(b.primary));
+    return { paths, placed };
+  }
+
+  /**
+   * The branch of the feats: a feat that needs another one the character has grows from it (from the deepest of them,
+   * when it needs several). With the buds on, each feat also shows the feats of the compendium it opens the way to.
+   * @returns {Promise<{tree: object[], legend: object[]}>}
+   */
+  async #featTree(feats, leaf) {
+    const key = item => norm(item.name);
+    const byKey = new Map();
+    for (const f of feats) if (!byKey.has(key(f))) byKey.set(key(f), f);
+    const names = { feats: new Set(byKey.keys()), powers: new Set(), races: new Set(), classes: new Set() };
+    const featsOf = checks => checks.flatMap(c => (c.kind === "any" ? featsOf(c.alts) : (c.kind === "feat" ? [c.name] : [])));
+    const needs = new Map(feats.map(f => [f.id, featsOf(parsePrerequisites(f.system.prerequisites, names)).filter(n => n !== key(f))]));
+    const depths = new Map();
+    const depth = (f, seen = new Set()) => {
+      if (depths.has(f.id)) return depths.get(f.id);
+      if (seen.has(f.id)) return 0;
+      seen.add(f.id);
+      const d = Math.max(0, ...needs.get(f.id).map(n => 1 + depth(byKey.get(n), seen)));
+      depths.set(f.id, d);
+      return d;
+    };
+    const deepest = parents => parents.reduce((best, n) => {
+      const p = byKey.get(n);
+      return (!best || (depth(p) > depth(best))) ? p : best;
+    }, null);
+
+    const nodes = new Map(feats.map(f => [f.id, { ...leaf(f), category: f.system.category, children: [] }]));
+    const order = Object.keys(FEAT_CATEGORIES);
+    const sort = list => list.sort((a, b) => (order.indexOf(a.category) - order.indexOf(b.category)) || a.name.localeCompare(b.name, "pt-BR"));
+    const tree = [];
+    for (const f of feats) {
+      const parent = deepest(needs.get(f.id));
+      (parent ? nodes.get(parent.id).children : tree).push(nodes.get(f.id));
+    }
+
+    // The buds: feats of the compendium that need one of the character's, under the deepest one they need
+    if (this.#buds) {
+      const catalog = await loadCatalog().catch(() => null);
+      const ctx = catalog ? featContext(this.actor) : null;
+      for (const f of catalog?.feats ?? []) {
+        if (byKey.has(f.key)) continue;
+        const parent = deepest(featsOf(f.checks).filter(n => byKey.has(n)));
+        if (!parent) continue;
+        const unmet = checkPrerequisites(f.checks, whoFor(ctx, f, false)).filter(r => r.ok === false).map(r => r.text);
+        nodes.get(parent.id).children.push({
+          bud: true, uuid: f.uuid, name: f.name, category: f.category, ripe: !unmet.length, children: [],
+          tip: unmet.length ? F("IJ.Path.budUnmet", { list: unmet.join(", ") }) : L("IJ.Path.budRipe")
+        });
+      }
+    }
+    for (const node of nodes.values()) node.children.sort((a, b) => (Number(!!a.bud) - Number(!!b.bud)) || a.name.localeCompare(b.name, "pt-BR"));
+    // Whole branches first, then the feats that stand alone
+    sort(tree).sort((a, b) => Number(!b.children.length) - Number(!a.children.length));
+
+    const legend = order.map(category => ({
+      key: category, label: L(FEAT_CATEGORIES[category]), count: feats.filter(f => f.system.category === category).length
+    })).filter(c => c.count);
+    return { tree, legend };
+  }
+
+  /** What the scroll of a tab shows of the item chosen there. */
+  async #detail(tab) {
+    const actor = this.actor;
+    const item = actor.items.get(this.#picked[tab]);
+    if (!item) return { kanji: DRAWERS[tab].kanji, hint: L(DRAWERS[tab].hint) };
+    const sys = item.system;
+    const enrich = html => TextEditor.implementation.enrichHTML(html ?? "", {
+      secrets: actor.isOwner, rollData: actor.getRollData(), relativeTo: item
+    });
+    const tags = [];
+    const stats = [];
+    const stat = (label, value) => { if (value || (value === 0)) stats.push({ label: L(label), value }); };
+    const detail = {
+      id: item.id, name: item.name, type: L(`TYPES.Item.${item.type}`), kanji: "", tags, stats,
+      editable: this.isEditable, use: null, prerequisites: "", enhancements: "",
+      description: await enrich(bookText.of(item) ?? sys.description ?? "")
+    };
+
+    if (["power", "feat"].includes(item.type)) {
+      const cls = (item.type === "power") ? actor.items.find(i => (i.type === "class") && (norm(i.name) === norm(sys.originName))) : null;
+      const race = actor.items.find(i => i.type === "race");
+      if (item.type === "power") {
+        detail.type = [sys.originName || L(ABILITY_SOURCES[sys.origin]), (sys.origin === "classe") && sys.levels ? F("IJ.Path.levels", { list: sys.levels }) : ""].filterJoin(" · ");
+        detail.kanji = cls?.system.kanji || ((sys.origin === "raca") ? (race?.system.kanji ?? "") : "") || "能";
+      } else {
+        detail.type = `${L("TYPES.Item.feat")} · ${L(FEAT_CATEGORIES[sys.category] ?? "")}`;
+        detail.kanji = "才";
+        detail.prerequisites = sys.prerequisites;
+      }
+      const chosen = choiceLabel(item);
+      if (chosen) tags.push({ label: chosen, cls: "jade" });
+      if (sys.action) tags.push({ label: sys.action });
+      if (sys.cost) tags.push({ label: `${sys.cost} ${L("IJ.PM.abbr")}`, cls: "ki" });
+      const uses = sys.auto?.activation?.uses;
+      if (uses) tags.push({ label: `${usesLeft(item, dataFor(item))}/${uses.per}`, cls: "gold", tip: L("IJ.Auto.usesTip") });
+      const honorMin = Math.max(sys.honorMin ?? 0, sys.auto?.requires?.honorMin ?? 0);
+      const reason = inactiveReason(item);
+      if (honorMin) tags.push({ label: F("IJ.Arts.off.honor", { n: honorMin }), cls: reason === "honor" ? "warn" : "gold", tip: L("IJ.Power.honorReq") });
+      if (["armor", "shield", "armorType"].includes(reason)) tags.push({ label: L(`IJ.Arts.off.${reason}`), cls: "warn" });
+      if (sys.auto && Object.keys(sys.auto).length && !sys.auto.status) tags.push({ label: L("IJ.Auto.summary"), cls: "jade", tip: L("IJ.Auto.automatedTip") });
+      detail.use = isUsable(item)
+        ? { label: L("IJ.Auto.use"), cost: sys.cost ?? 0, ki: (sys.cost ?? 0) > 0 }
+        : { label: L("IJ.Item.toChat"), cost: 0, ki: false };
+    }
+    else if (item.type === "jutsu") {
+      const chakra = CHAKRAS[sys.chakra];
+      detail.type = `${L(chakra.label)} · ${L(JUTSU_GRADES[sys.grade].label)}`;
+      detail.kanji = chakra.kanji;
+      tags.push({ label: `${sys.cost} ${L("IJ.PM.abbr")}`, cls: "ki" }, { label: `${L("IJ.Jutsu.dc")} ${sys.dc}` });
+      if (!actor.system.chakras[sys.chakra]?.open) tags.push({ label: L("IJ.Chakra.closed"), cls: "warn" });
+      stat("IJ.Jutsu.execution", sys.execution);
+      stat("IJ.Jutsu.range", sys.range);
+      stat("IJ.Jutsu.target", sys.target);
+      stat("IJ.Jutsu.duration", sys.duration);
+      stat("IJ.Jutsu.resistance", sys.resistance);
+      stat("IJ.Jutsu.descriptors", sys.descriptors);
+      detail.enhancements = sys.enhancements ? await enrich(sys.enhancements) : "";
+      detail.use = { label: L("IJ.Jutsu.execute"), cost: sys.cost, ki: true };
+    }
+    else if (item.type === "weapon") {
+      detail.type = [L(WEAPON_CATEGORIES[sys.category] ?? ""), L(WEAPON_KINDS[sys.kind]?.label ?? ""), L(WEAPON_GRIPS[sys.grip] ?? "")].filterJoin(" · ");
+      detail.kanji = "刀";
+      tags.push({ label: L(sys.equipped ? "IJ.Weapon.inHandOn" : "IJ.Item.stowed"), cls: sys.equipped ? "jade" : "" });
+      if (!(sys.isProficient ?? sys.proficient)) tags.push({ label: L("IJ.Weapon.notProficientShort"), cls: "warn" });
+      if (sys.dishonorable) tags.push({ label: L("IJ.Item.dishonorable"), cls: "warn", tip: L("IJ.Item.dishonorableTip") });
+      stat("IJ.Weapon.attack", signed(sys.attackTotal));
+      stat("IJ.Weapon.damage", `${sys.damageFormula} · ${L(DAMAGE_TYPES[sys.damageType] ?? "")}`);
+      stat("IJ.Weapon.critical", sys.critLabel);
+      stat("IJ.Weapon.range", sys.range ? `${sys.range} m` : "");
+      detail.use = { label: L("IJ.Weapon.attackTip"), cost: 0, ki: false };
+    }
+    else if (item.type === "armor") {
+      detail.type = L(ARMOR_CATEGORIES[sys.category] ?? "");
+      detail.kanji = sys.category === "escudo" ? "盾" : "鎧";
+      tags.push({ label: L(sys.equipped ? "IJ.Item.equipped" : "IJ.Item.stowed"), cls: sys.equipped ? "jade" : "" });
+      if (sys.dishonorable) tags.push({ label: L("IJ.Item.dishonorable"), cls: "warn", tip: L("IJ.Item.dishonorableTip") });
+      stat("IJ.Armor.bonus", signed(sys.bonus));
+      stat("IJ.Armor.maxDex", sys.maxDex === null ? "" : signed(sys.maxDex));
+      stat("IJ.Armor.penalty", sys.penalty ? signed(sys.penalty) : "");
+      stat("IJ.RD.label", sys.rd || "");
+    }
+    else {
+      detail.kanji = item.type === "consumable" ? "薬" : "具";
+      if (item.type === "consumable") {
+        detail.type = L(CONSUMABLE_KINDS[sys.kind]);
+        if (sys.uses.max > 0) tags.push({ label: `${L("IJ.Consumable.uses")} ${sys.uses.value}/${sys.uses.max}`, cls: "gold" });
+        detail.use = { label: L("IJ.Auto.use"), cost: 0, ki: false };
+      } else {
+        if (sys.equipped) tags.push({ label: L("IJ.Item.equipped"), cls: "jade" });
+        if (sys.magic) tags.push({ label: L("IJ.Item.magic"), cls: "ki" });
+        if (sys.slot) tags.push({ label: sys.slot });
+        if (item.hasActivation) detail.use = { label: L("IJ.Auto.use"), cost: 0, ki: false };
+      }
+      stat("IJ.Item.quantity", sys.quantity);
+    }
+    if ("weight" in sys) {
+      stat("IJ.Item.weight", sys.weight ? `${sys.weight} kg` : "");
+      stat("IJ.Item.price", sys.price);
+    }
+    return detail;
+  }
+
+  /* -------------------------------------------- */
   /*  Rendering                                   */
   /* -------------------------------------------- */
 
+  async _onFirstRender(context, options) {
+    await super._onFirstRender(context, options);
+    // Right click on anything that is an item opens its sheet; a double click on its name uses it
+    this.element.addEventListener("contextmenu", ev => {
+      const row = ev.target.closest(".ij-item[data-item-id]");
+      if (!row || ev.target.closest("input, select, prose-mirror")) return;
+      ev.preventDefault();
+      this.actor.items.get(row.dataset.itemId)?.sheet.render(true);
+    });
+    this.element.addEventListener("dblclick", ev => {
+      if (!ev.target.closest("[data-action=itemSelect]")) return;
+      const id = ev.target.closest("[data-item-id]")?.dataset.itemId;
+      this.actor.items.get(id)?.use({ event: ev });
+    });
+    // Select the whole number when a field gets focus (quick typing of PV, PM, money)
+    this.element.addEventListener("focusin", ev => {
+      if (ev.target.matches?.("input.ij-select-on-focus")) ev.target.select();
+    });
+  }
+
   async _onRender(context, options) {
     await super._onRender(context, options);
+    // A blank character opened by one of its owners: the creation wizard opens beside the sheet
+    if (options.isFirstRender) maybeOpenWizard(this.actor);
     this.element.classList.toggle("ij-editing", this.editMode);
-    this.element.dataset.honor = context.honorTierKey;
-    // Select the whole number when a field gets focus (quick typing of PV, PM, money)
-    for (const input of this.element.querySelectorAll("input.ij-select-on-focus")) {
-      input.addEventListener("focus", ev => ev.currentTarget.select());
-    }
-    // Right click on a weapon rolls the damage; on an item row opens its sheet
-    for (const row of this.element.querySelectorAll("[data-item-id].ij-item-row, [data-item-id].ij-card-row")) {
-      row.addEventListener("contextmenu", ev => {
-        ev.preventDefault();
-        this.actor.items.get(row.dataset.itemId)?.sheet.render(true);
-      });
-    }
+    this.element.dataset.honor = context.honor.tierKey;
+    // The hero is whole on the first tab and a slim bar on the others
+    this.element.dataset.tab = this.tabGroups.primary ?? "ficha";
+  }
+
+  /** @override */
+  changeTab(tab, group, options = {}) {
+    super.changeTab(tab, group, options);
+    if ((group === "primary") && this.element) this.element.dataset.tab = tab;
   }
 
   /** Relative and absolute values typed in the resource fields ("+5", "-3", "=7"). */
@@ -399,6 +800,11 @@ export class CharacterSheet extends HandlebarsApplicationMixin(ActorSheetV2) {
   #item(target) {
     const id = target.closest("[data-item-id]")?.dataset.itemId;
     return id ? this.actor.items.get(id) : null;
+  }
+
+  /** The creation wizard (module/creation/wizard.mjs). */
+  static #onOpenWizard() {
+    CreationWizard.open(this.actor);
   }
 
   /** Bring the automation of the items on this sheet up to date with the compendium. */
@@ -505,6 +911,41 @@ export class CharacterSheet extends HandlebarsApplicationMixin(ActorSheetV2) {
     await item.update({ "system.quantity": Math.max(0, item.system.quantity + delta) });
   }
 
+  /** Unroll an item on the scroll of its tab (no render: only the scroll and the mark of what is chosen change). */
+  static async #onItemSelect(event, target) {
+    const tab = target.dataset.drawer;
+    const id = target.closest("[data-item-id]")?.dataset.itemId;
+    if (!(tab in DRAWERS) || !id) return;
+    this.#picked[tab] = id;
+    const part = this.element.querySelector(`.tab[data-tab="${tab}"]`);
+    if (!part) return;
+    for (const el of part.querySelectorAll(".is-picked")) el.classList.remove("is-picked");
+    for (const el of part.querySelectorAll(`[data-item-id="${id}"]:not(.ij-detail):not(.ij-sub)`)) el.classList.add("is-picked");
+    const html = await foundry.applications.handlebars.renderTemplate(DETAIL, await this.#detail(tab));
+    // Another click may have come while this one was read
+    if (this.#picked[tab] === id) part.querySelector(".ij-drawer").innerHTML = html;
+  }
+
+  /** An ability still ahead on the bamboo, or a bud of the branch: its page in the compendium. */
+  static async #onOpenUuid(event, target) {
+    const doc = await fromUuid(target.dataset.uuid);
+    doc?.sheet.render(true);
+  }
+
+  /** Show the whole bamboo of a class (up to the 20th level), or only the next levels. */
+  static #onPathToggle(event, target) {
+    const id = target.dataset.class;
+    if (this.#wholePaths.has(id)) this.#wholePaths.delete(id);
+    else this.#wholePaths.add(id);
+    this.render({ parts: ["caminho"] });
+  }
+
+  /** Show or hide the feats the character's feats open the way to. */
+  static #onBudsToggle() {
+    this.#buds = !this.#buds;
+    this.render({ parts: ["caminho"] });
+  }
+
   static async #onUsesPip(event, target) {
     const item = this.#item(target);
     if (!item) return;
@@ -525,22 +966,23 @@ export class CharacterSheet extends HandlebarsApplicationMixin(ActorSheetV2) {
     await this.actor.update({ [`system.specialties.${id}`]: new foundry.data.operators.ForcedDeletion() });
   }
 
+  /** Training is part of building the character: only in the edit mode. */
   static async #onToggleTrained(event, target) {
-    if (!this.isEditable) return;
+    if (!this.editMode) return;
     const spec = target.dataset.specialty;
     const path = spec ? `system.specialties.${spec}.trained` : `system.skills.${target.dataset.skill}.trained`;
     await this.actor.update({ [path]: !foundry.utils.getProperty(this.actor._source, path) });
   }
 
+  /** Opening a chakra changes the PM and their limit: only in the edit mode. */
   static async #onChakraToggle(event, target) {
+    if (!this.editMode) return;
     const key = target.dataset.chakra;
     await this.actor.update({ [`system.chakras.${key}.open`]: !this.actor._source.system.chakras[key].open });
   }
 
   static async #onHonorViolation(event, target) {
-    const severity = target.dataset.severity
-      ?? this.element.querySelector("select.ij-violation-select")?.value ?? "leve";
-    await this.actor.honorViolation(severity, { fixed: event.shiftKey });
+    await this.actor.honorViolation(target.dataset.severity ?? "leve", { fixed: event.shiftKey });
   }
 
   static async #onHonorGain() {
@@ -564,7 +1006,6 @@ export class CharacterSheet extends HandlebarsApplicationMixin(ActorSheetV2) {
     if (ok) await this.actor.rest();
   }
 
-  /** Level up by hand (no class items): +1 level, and +1 Honor for staying in the class (p. 81). */
   /** Remove a condition from the character (all the effects that give it). */
   static async #onRemoveCondition(event, target) {
     const id = target.dataset.condition;
@@ -572,9 +1013,17 @@ export class CharacterSheet extends HandlebarsApplicationMixin(ActorSheetV2) {
     if (ids.length) await this.actor.deleteEmbeddedDocuments("ActiveEffect", ids);
   }
 
+  /** End an effect in course before its time. */
+  static async #onEffectEnd(event, target) {
+    await this.actor.effects.get(target.dataset.effect)?.delete();
+  }
+
+  /** A level more: the level-up wizard with classes on the sheet; without them, the typed level rises by one. */
   static async #onLevelUp() {
     const sys = this.actor.system;
     if (sys.level >= 20) return;
+    // With classes, the level-up wizard asks what the level brings, in order (module/creation/levelup.mjs)
+    if (canLevel(this.actor)) return LevelUpWizard.open(this.actor);
     if (sys.auto.classes) {
       // A new level in the first class: its abilities arrive and Honor rises by 1 (module/documents/item.mjs)
       const primary = this.actor.items.find(i => i.type === "class" && i.system.primary)
@@ -582,13 +1031,5 @@ export class CharacterSheet extends HandlebarsApplicationMixin(ActorSheetV2) {
       return primary?.update({ "system.levels": primary.system.levels + 1 });
     }
     await this.actor.update({ "system.attributes.level": sys.attributes.level + 1 });
-  }
-
-  static #onToggleCollapse(event, target) {
-    const id = target.closest("[data-item-id]")?.dataset.itemId;
-    if (!id) return;
-    if (this.#expanded.has(id)) this.#expanded.delete(id);
-    else this.#expanded.add(id);
-    target.closest("[data-item-id]")?.classList.toggle("expanded", this.#expanded.has(id));
   }
 }

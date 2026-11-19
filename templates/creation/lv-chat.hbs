@@ -1,0 +1,14 @@
+{{!-- The chat card of a level gained in the level-up wizard. --}}
+<div class="imperiodejade ij-wz-card ij-wz-level">
+  <header>
+    <img src="{{img}}" alt="">
+    <div>
+      <small>{{localize "IJ.Level.Chat.eyebrow" level=level}}</small>
+      <h3>{{name}}</h3>
+    </div>
+  </header>
+  <p class="ij-wz-card-class">{{classLine}}</p>
+  {{#if gains.length}}<ul class="ij-wz-card-values">{{#each gains}}<li><b>{{this}}</b></li>{{/each}}</ul>{{/if}}
+  {{#if items.length}}<ul class="ij-wz-card-lines">{{#each items}}<li><img src="{{img}}" alt=""><span>{{name}}</span></li>{{/each}}</ul>{{/if}}
+  {{#if violations.length}}<ul class="ij-wz-card-viol">{{#each violations}}<li><span>{{label}}</span><b>−{{damage}}</b></li>{{/each}}</ul>{{/if}}
+</div>

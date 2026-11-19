@@ -1,0 +1,27 @@
+{{!-- A choice of the race or class step (the henge's natural attack, the kensei's arma eleita, the shugenja's
+     religion, the ninja's exotic weapons...): its options and, when it asks one, the text (a weapon). --}}
+<section class="wz-choice{{#if done}} done{{/if}}{{#unless active}} inactive{{/unless}}" data-choice="{{uuid}}" data-kind="{{kind}}" data-count="{{count}}" data-eleita="{{#if eleita}}true{{else}}false{{/if}}">
+  <header>
+    {{#if img}}<img src="{{img}}" alt="">{{/if}}
+    <div>
+      <span class="wz-page-eyebrow">{{name}}</span>
+      <h5>{{label}}{{#if multi}} <small>{{picked}}/{{count}}</small>{{/if}}</h5>
+    </div>
+    <i class="wz-choice-state fa-solid {{#if done}}fa-circle-check{{else}}fa-circle-exclamation{{/if}}"></i>
+  </header>
+  {{#if options.length}}
+  <ul class="wz-options">
+    {{#each options}}
+    <li><button type="button" class="wz-option{{#if on}} on{{/if}}" data-action="option" data-option="{{id}}" {{#if disabled}}disabled{{/if}}{{#if hint}} data-tooltip-text="{{hint}}"{{/if}}>
+      {{#if ../multi}}<i class="fa-{{#if on}}solid fa-square-check{{else}}regular fa-square{{/if}}"></i>{{else}}<i class="fa-{{#if on}}solid fa-circle-dot{{else}}regular fa-circle{{/if}}"></i>{{/if}}<span>{{label}}</span></button></li>
+    {{/each}}
+  </ul>
+  {{/if}}
+  {{#if showText}}
+  <label class="wz-choice-text">
+    <span>{{text}}</span>
+    <input type="text" data-field="choiceText" data-uuid="{{uuid}}" value="{{textValue}}" {{#if weapons}}list="wz-list-{{listId}}"{{/if}} {{#unless active}}disabled{{/unless}} placeholder="{{localize 'IJ.Wizard.choiceTextPlaceholder'}}" autocomplete="off">
+    {{#if weapons}}<datalist id="wz-list-{{listId}}">{{#each weapons}}<option value="{{this}}"></option>{{/each}}</datalist>{{/if}}
+  </label>
+  {{/if}}
+</section>

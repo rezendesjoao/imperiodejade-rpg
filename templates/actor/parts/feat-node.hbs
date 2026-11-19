@@ -1,0 +1,18 @@
+{{!-- A feat on the branch, with the feats that grow from it (and, when asked, the buds it opens the way to). --}}
+<li>
+  <div class="ij-bloom {{#if id}}ij-item draggable{{/if}} {{#if off}}is-off{{/if}} {{#if bud}}is-bud{{/if}} {{#if ripe}}is-ripe{{/if}} {{#if picked}}is-picked{{/if}}" data-category="{{category}}" {{#if id}}data-item-id="{{id}}"{{/if}}>
+    <svg class="ij-blossom" aria-hidden="true"><use href="#ij-sakura"/></svg>
+    {{#if usable}}<a class="ij-orb {{#unless cost}}ij-orb--free{{/unless}} {{#if off}}is-off{{/if}}" data-action="itemUse" data-tooltip="{{localize 'IJ.Item.useTip'}}">{{#if cost}}{{cost}}{{else}}◆{{/if}}</a>{{/if}}
+    {{#if bud}}
+    <a class="ij-bloom__name" data-action="openUuid" data-uuid="{{uuid}}" data-tooltip="{{tip}}">{{name}}</a>
+    {{else}}
+    <a class="ij-bloom__name" data-action="itemSelect" data-drawer="caminho">{{name}}</a>
+    {{/if}}
+    {{#if note}}<small>{{note}}</small>{{/if}}
+  </div>
+  {{#if children.length}}
+  <ul class="ij-twigs">
+    {{#each children as |child|}}{{> ij-feat-node child}}{{/each}}
+  </ul>
+  {{/if}}
+</li>

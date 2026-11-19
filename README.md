@@ -32,22 +32,47 @@ Talentos, Jutsus, Armas, Armaduras e Escudos, Equipamento e Serviços, Itens Má
 - Os textos são **resumos com palavras próprias**, com a página do livro em cada item: o livro continua necessário para
   jogar. Veja `CREDITOS.md`.
 
+## Assistente de criação
+
+Ao abrir a ficha de um personagem em branco, o assistente de criação aparece e monta o personagem de 1º nível nos oito
+passos do livro — raça, classe, habilidades (pontos, 4d6 ou valores da mesa, Honra incluída), perícias, talentos (com os
+pré-requisitos conferidos), jutsus, casta e equipamento, e os toques finais. Ao lado de cada passo, o personagem como
+está, com os números da própria ficha. No fim, tudo entra de uma vez: raça, classe e o que elas dão (com as escolhas
+feitas), talentos, jutsus, equipamento vestido, dinheiro, PV e PM cheios, e as violações de honra da criação com o dano
+fixo do livro. O botão **Assistente de criação** no cabeçalho da ficha reabre (ou refaz) um personagem de 1º nível; as
+configurações do sistema dizem se ele abre sozinho e que métodos de geração os jogadores podem usar.
+
+## Assistente de subida de nível
+
+Quando a experiência basta para o próximo nível, o assistente de nível abre sozinho (ou pelo botão de subir de nível da
+ficha) e pede, em ordem, só o que esse nível pede: a classe (seguir nela ou multiclasse, com a violação de honra e a
+perícia ou talento inicial da classe nova), as escolhas das habilidades que chegam e das que crescem, o talento ou +1
+em uma habilidade e os talentos da classe, os jutsus novos e as perícias que um +1 em Inteligência traz. O resumo mostra
+os números antes e depois; só então tudo entra na ficha, com os PV e PM ganhos, o +1 de Honra da classe inicial e um
+cartão no chat.
+
 ## A ficha
 
-Uma página no estilo de ficha impressa — papel claro, painéis taupe, molduras de linha dupla, placas octogonais,
-medalhões e escudos — com o jade, o ouro e a laca vermelha do Império. As abas ficam num trilho de seda à esquerda.
+Uma folha de papel washi numa bandeja de laca de jade, com os kanji a pincel. As abas são selos num trilho à esquerda
+(a aberta fica carimbada em vermelho) e o **cabeçalho** acompanha todas elas: retrato com o selo do nível, nome, raça
+e classes, PV e PM em pinceladas, a **CA** numa guarda de espada, condições e descanso.
 
-- **Ficha**: retrato com o nível, nome, classes, origem (raça, casta, religião, clã, tamanho, deslocamento) e
-  experiência; as sete habilidades (Força a Carisma, mais a **Honra**) com os modificadores; Corpo a Corpo, Distância,
-  Iniciativa, Percepção e Intuição; PV com temporários; **CA**, Fortitude, Reflexos e Vontade; a **Medida de Honra**;
-  a armadura e o escudo vestidos e as armas em punho; PM e limite de PM, BBA, RD, Honra e descanso.
-- **Perícias**: as 19 perícias do livro, com graduações (nível + 3 treinada, metade do nível sem treino), habilidade-chave,
-  penalidade de armadura e as especialidades de Atuação, Conhecimento e Ofício.
-- **Combate**: a fórmula da classe de armadura, os testes de resistência, os ataques, as armas e as armaduras em cartões.
-- **Habilidades**: habilidades de classe, de raça e talentos, com custo em PM e Honra mínima.
-- **Jutsus**: os seis chacras (abrir soma o modificador aos PM e ao limite), a tabela de graus (custo e CD) e os jutsus.
-- **Inventário**: Yan de ouro, prata e cobre, os itens, consumíveis com cargas e a carga total.
+Uma regra só para os números: **pedra de jade rola o dado, pedra índigo gasta PM**, o resto é tinta.
+
+- **Ficha**: a **Honra numa katana** (a lâmina brilha até onde o valor chega; as marcas são onde cada Medida de Honra
+  começa), com a Reserva de Força, as violações e o +1; as seis habilidades; as 19 perícias (as treinadas ganham uma
+  pedra) com as especialidades de Atuação, Conhecimento e Ofício; resistências, ataques, armas em punho, armadura e a
+  conta da CA; manobras; efeitos em curso; as técnicas que gastam PM ou têm usos, os jutsus e os consumíveis.
+- **Caminho**: cada classe é um **bambu** que cresce de baixo para cima, um gomo por nível, com as habilidades como
+  folhas e a raça como raiz (os próximos níveis aparecem em contorno; dá para ver a trilha inteira até o 20º). Os
+  talentos são um **galho florido**: cada um nasce do talento que exige; os **brotos** mostram o que cada talento libera.
+- **Jutsus**: os seis chacras num **lótus** (pétala de jade: aberto; o anel do miolo: PM que restam), o limite de PM,
+  a tabela de graus e os jutsus de cada chacra, grau por grau.
+- **Equipamento**: Yan de ouro, prata e cobre, armas, armaduras, equipamentos e consumíveis com cargas, e a carga total.
 - **Biografia**: dados pessoais, aparência, personalidade, história e anotações.
+
+Em Caminho, Jutsus e Equipamento, um clique no nome desenrola o item num **pergaminho ao lado**, com o texto e os
+botões de usar, abrir e apagar.
 
 ### O que é automático
 
@@ -85,7 +110,9 @@ medalhões e escudos — com o jade, o ouro e a laca vermelha do Império. As ab
 
 ### Dicas
 
-- O **pincel** no alto do trilho liga o **modo de edição** (valores base, bônus, treinos, nível, PV/PM sem classe).
+- O **pincel** (書) ao pé do trilho liga o **modo de edição**: valores base, bônus, treinar perícias, abrir chacras,
+  origem, nível e PV/PM sem classe.
+- A **pedra** de uma técnica ou jutsu usa; o nome mostra o texto; **duplo clique** no nome também usa.
 - Nos campos de PV, PM, XP e moedas, digite `+5` ou `-3` para somar ou subtrair; `=7` define o valor.
 - **Shift + clique** numa rolagem pergunta a condição favorável (+2) ou desfavorável (−2).
 - Clique com o botão direito numa linha de item para abrir a ficha dele.

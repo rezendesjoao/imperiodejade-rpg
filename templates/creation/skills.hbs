@@ -1,0 +1,59 @@
+{{!-- SKILLS: the trained skills of the 1st level (the class's number + Int, at least one; the human's two from any
+     list). The class skills first, then the others; each with its total trained and untrained, the specialties of
+     Atuação, Conhecimento and Ofício, and the Honor violation some of them are. --}}
+{{#*inline "skillRow"}}
+<li class="wz-skill{{#if picked}} picked{{/if}}{{#if disabled}} disabled{{/if}}{{#if always}} always{{/if}}{{#if multi}} multi{{/if}}" data-skill="{{key}}">
+  {{#unless multi}}
+  <button type="button" class="wz-skill-check" data-action="skill" {{#if disabled}}disabled{{/if}}{{#if always}} disabled{{/if}}
+    aria-pressed="{{#if picked}}true{{else}}false{{/if}}" aria-label="{{label}}"{{#if reason}} data-tooltip-text="{{reason}}"{{/if}}>
+    <i class="fa-{{#if picked}}solid fa-square-check{{else}}regular fa-square{{/if}}"></i>
+  </button>
+  {{else}}
+  <span class="wz-skill-check multi"><i class="fa-solid fa-layer-group"></i></span>
+  {{/unless}}
+  <div class="wz-skill-body">
+    <b>{{label}} <small>{{ability}}</small></b>
+    <span class="wz-skill-tags">
+      {{#if always}}<em class="gold">{{localize "IJ.Wizard.Skills.always"}}</em>{{/if}}
+      {{#if trainedOnly}}<em>{{localize "IJ.Skill.trainedOnly"}}</em>{{/if}}
+      {{#if armor}}<em>{{localize "IJ.Wizard.Skills.armor"}}</em>{{/if}}
+      {{#if outside}}<em class="viol">{{localize "IJ.Wizard.Skills.outsideTag"}}</em>{{/if}}
+      {{#if violation}}<em class="viol{{#if violation.ignored}} ignored{{/if}}">{{#if violation.ignored}}{{localize "IJ.Wizard.Skills.violationIgnored" severity=violation.label}}{{else}}{{localize "IJ.Wizard.Skills.violation" severity=violation.label n=violation.damage}}{{/if}}</em>{{/if}}
+    </span>
+    {{#if multi}}
+    <div class="wz-specs">
+      {{#each specialties}}
+      <span class="wz-spec{{#if empty}} empty{{/if}}" data-id="{{id}}">
+        <input type="text" data-field="specialtyLabel" data-id="{{id}}" value="{{label}}" placeholder="{{localize 'IJ.Skill.specialtyPlaceholder'}}" autocomplete="off">
+        <button type="button" data-action="specialtyRemove" aria-label="{{localize 'IJ.Skill.specialtyDelete'}}"><i class="fa-solid fa-xmark"></i></button>
+      </span>
+      {{/each}}
+      {{#each suggestions}}<button type="button" class="wz-spec-add" data-action="specialty" data-name="{{name}}" {{#if disabled}}disabled{{/if}}><i class="fa-solid fa-plus"></i>{{name}}</button>{{/each}}
+      <button type="button" class="wz-spec-add other" data-action="specialty" data-name="" {{#if specDisabled}}disabled{{/if}}><i class="fa-solid fa-pen"></i>{{localize "IJ.Wizard.Skills.otherSpecialty"}}</button>
+    </div>
+    {{/if}}
+  </div>
+  <span class="wz-skill-total" data-tooltip-text="{{localize 'IJ.Wizard.Skills.totalTip'}}"><b>{{trainedTotal}}</b><small>{{untrainedTotal}}</small></span>
+</li>
+{{/inline}}
+
+<div class="wz-skills wz-scroll">
+  <header class="wz-skill-top">
+    <div class="wz-quota{{#unless slots.left}} full{{/unless}}">
+      <span class="wz-pips">{{#each slots.pips}}<i class="{{#if on}}on{{/if}}"></i>{{/each}}</span>
+      <b>{{slots.count}}/{{slots.total}}</b>
+    </div>
+    <div class="wz-skill-lead">
+      <p>{{#if lead}}{{lead}}{{else}}{{localize "IJ.Wizard.Skills.lead" class=className int=int n=slots.total}}{{/if}}</p>
+      {{#if humanNote}}<p class="wz-note gold"><i class="fa-solid fa-user"></i> {{humanNote}}</p>{{/if}}
+    </div>
+  </header>
+
+  <h4><i class="fa-solid fa-torii-gate"></i>{{localize "IJ.Wizard.Skills.classSkills" class=className}}</h4>
+  <ul class="wz-skill-grid">{{#each classRows}}{{> skillRow}}{{/each}}</ul>
+
+  <h4><i class="fa-solid fa-scroll"></i>{{localize "IJ.Wizard.Skills.otherSkills"}}</h4>
+  <ul class="wz-skill-grid other">{{#each otherRows}}{{> skillRow}}{{/each}}</ul>
+
+  <p class="wz-note"><i class="fa-solid fa-circle-info"></i> {{localize "IJ.Wizard.Skills.note" n=threshold}}</p>
+</div>

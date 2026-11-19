@@ -1,16 +1,14 @@
-{{!-- The rail of silk tabs on the left, with the edit-mode brush on top. --}}
+{{!-- The rail: each tab is a seal (the open one is stamped in cinnabar); the brush at the foot turns the edit mode on. --}}
 <nav class="ij-rail tabs" data-group="primary" aria-label="{{localize 'IJ.Sheet.tabs'}}">
-  {{#if editable}}
-  <a class="ij-rail__edit {{#if editMode}}active{{/if}}" data-action="toggleEdit"
-     data-tooltip="{{#if editMode}}{{localize 'IJ.Sheet.editOff'}}{{else}}{{localize 'IJ.Sheet.editOn'}}{{/if}}">
-    <i class="fa-solid {{#if editMode}}fa-lock-open{{else}}fa-feather-pointed{{/if}}"></i>
-  </a>
-  {{/if}}
   {{#each tabs as |tab|}}
   <a class="ij-rail__tab {{tab.cssClass}}" data-action="tab" data-group="primary" data-tab="{{tab.id}}">
-    <span class="ij-rail__kanji">{{tab.kanji}}</span>
+    <span class="ij-rail__seal" aria-hidden="true">{{tab.kanji}}</span>
     <span class="ij-rail__label">{{localize tab.label}}</span>
   </a>
   {{/each}}
-  <span class="ij-rail__foot">翡翠</span>
+  <span class="ij-rail__space"></span>
+  {{#if editable}}
+  <a class="ij-rail__edit {{#if editMode}}active{{/if}}" data-action="toggleEdit" data-tooltip-direction="RIGHT"
+     data-tooltip="{{#if editMode}}{{localize 'IJ.Sheet.editOff'}}{{else}}{{localize 'IJ.Sheet.editOn'}}{{/if}}">書</a>
+  {{/if}}
 </nav>
