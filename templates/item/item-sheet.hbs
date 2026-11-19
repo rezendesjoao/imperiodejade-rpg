@@ -189,15 +189,9 @@
 
     <div class="ij-box ij-item-desc">
       <header class="ij-box__head"><span>{{localize "IJ.Item.description"}}</span></header>
-      <prose-mirror name="system.description" value="{{source.description}}" {{#if editable}}toggled{{/if}} {{#unless editable}}disabled{{/unless}}>{{{enriched.description}}}</prose-mirror>
+      {{#if bookText}}<div class="ij-booktext__body">{{{bookText}}}</div>{{else}}<prose-mirror name="system.description" value="{{source.description}}" {{#if editable}}toggled{{/if}} {{#unless editable}}disabled{{/unless}}>{{{enriched.description}}}</prose-mirror>{{/if}}
     </div>
 
-    {{#if bookText}}
-    <details class="ij-box ij-booktext" open>
-      <summary class="ij-box__head"><span><i class="fa-solid fa-book"></i> {{localize "IJ.BookText.title"}}</span><small>{{localize "IJ.BookText.local"}}</small></summary>
-      <div class="ij-booktext__body">{{{bookText}}}</div>
-    </details>
-    {{/if}}
 
     {{#if isType.jutsu}}
     <div class="ij-box ij-item-desc">

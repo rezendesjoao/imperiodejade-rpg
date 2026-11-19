@@ -216,7 +216,7 @@ export class CharacterSheet extends HandlebarsApplicationMixin(ActorSheetV2) {
     const weight = items.reduce((t, i) => t + ((i.system.weight ?? 0) * (i.system.quantity ?? 0)), 0);
 
     // Abilities, feats and jutsus (with their descriptions, enriched)
-    const enrich = async item => TextEditor.implementation.enrichHTML(item.system.description ?? "", {
+    const enrich = async item => TextEditor.implementation.enrichHTML(bookText.of(item) ?? item.system.description ?? "", {
       secrets: actor.isOwner, rollData: actor.getRollData(), relativeTo: item
     });
     const powerView = async item => ({
@@ -231,8 +231,7 @@ export class CharacterSheet extends HandlebarsApplicationMixin(ActorSheetV2) {
       autoOff: item.system.auto && Object.keys(item.system.auto).length ? ["armor", "shield", "honor"].includes(inactiveReason(item)) : false,
       automated: !!(item.system.auto && Object.keys(item.system.auto).length && !item.system.auto.status),
       expanded: this.#expanded.has(item.id),
-      description: await enrich(item),
-      bookText: bookText.of(item)
+      description: await enrich(item)
     });
     const powers = await Promise.all(itemsOf("power").map(powerView));
     const feats = await Promise.all(itemsOf("feat").map(powerView));
@@ -247,8 +246,7 @@ export class CharacterSheet extends HandlebarsApplicationMixin(ActorSheetV2) {
       execution: j.system.execution, range: j.system.range, target: j.system.target,
       duration: j.system.duration, resistance: j.system.resistance, descriptors: j.system.descriptors,
       expanded: this.#expanded.has(j.id),
-      description: await enrich(j),
-      bookText: bookText.of(j)
+      description: await enrich(j)
     })));
     const jutsuGroups = Object.entries(JUTSU_GRADES).map(([key, g]) => ({
       key, label: L(g.label), cost: g.cost, dc: g.dc, items: jutsus.filter(j => j.grade === key)

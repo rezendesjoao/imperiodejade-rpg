@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.5.1 — 2026-11-19
+
+### Mudado
+- **Texto do livro**: com o módulo pessoal ativo (ou o arquivo configurado), as fichas, as linhas abertas de habilidades,
+  talentos e jutsus e os cartões no chat mostram **só** o texto do livro no lugar do resumo do sistema, sem o quadro
+  separado. Sem o módulo, nada muda. O sistema continua sem nenhum texto do livro.
+
 ## 0.5.0 — 2026-11-19
 
 Terceira rodada da automação: 672 entradas do livro fazem tudo sozinhas (antes 544), 220 fazem em parte (antes 341) e só

@@ -96,7 +96,7 @@ export class ImperioItem extends Item {
 
   /** The description, enriched for a card. */
   async enrichedDescription() {
-    return TextEditor.implementation.enrichHTML(this.system.description ?? "", {
+    return TextEditor.implementation.enrichHTML(game.imperiodejade?.bookText?.of(this) ?? this.system.description ?? "", {
       secrets: this.isOwner, rollData: this.actor?.getRollData() ?? {}, relativeTo: this
     });
   }

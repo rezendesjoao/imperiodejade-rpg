@@ -67,8 +67,7 @@ export class NpcSheet extends HandlebarsApplicationMixin(ActorSheetV2) {
     const view = async item => ({
       id: item.id, name: item.name, img: item.img,
       cost: item.system.cost ?? 0, expanded: this.#expanded.has(item.id),
-      description: await enrich(item.system.description),
-      bookText: bookText.of(item)
+      description: await enrich(bookText.of(item) ?? item.system.description)
     });
     Object.assign(context, {
       actor, system: sys, source, editMode,

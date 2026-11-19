@@ -28,7 +28,7 @@
           {{> ij-item-controls}}
         </span>
       </div>
-      <div class="ij-power__desc">{{{p.description}}}{{#if p.bookText}}<div class="ij-booktext ij-booktext--inline"><span class="ij-booktext__tag"><i class="fa-solid fa-book"></i> {{localize "IJ.BookText.title"}}</span>{{{p.bookText}}}</div>{{/if}}</div>
+      <div class="ij-power__desc">{{{p.description}}}</div>
     </article>
     {{else}}
     <p class="ij-empty">{{localize "IJ.Power.empty"}}</p>
@@ -59,7 +59,6 @@
       <div class="ij-power__desc">
         {{#if f.prerequisites}}<p class="ij-power__prereq"><strong>{{localize "IJ.Feat.prerequisites"}}:</strong> {{f.prerequisites}}</p>{{/if}}
         {{{f.description}}}
-        {{#if f.bookText}}<div class="ij-booktext ij-booktext--inline"><span class="ij-booktext__tag"><i class="fa-solid fa-book"></i> {{localize "IJ.BookText.title"}}</span>{{{f.bookText}}}</div>{{/if}}
       </div>
     </article>
     {{else}}
