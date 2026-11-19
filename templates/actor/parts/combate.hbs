@@ -1,0 +1,157 @@
+{{!-- COMBATE: armor class and saves with their parts, attacks, weapons and armor as illustrated cards. --}}
+<section class="tab ij-tab ij-combate {{tab.cssClass}}" data-tab="combate" data-group="primary">
+  <div class="ij-sheet-title">
+    <span class="ij-sheet-title__kanji">戦</span>
+    <h2>{{localize "IJ.Tab.combate"}}</h2>
+    <span class="ij-sheet-title__note">{{localize "IJ.Combat.note"}}</span>
+  </div>
+
+  {{!-- Armor class: TOTAL = 10 + half level + Dex + armor + shield + size + other --}}
+  <div class="ij-box ij-formula-box">
+    <header class="ij-box__head"><span>{{localize "IJ.CA.label"}}</span></header>
+    <div class="ij-formula">
+      {{> ij-shield label=(localize "IJ.CA.abbr") value=ca color="jade" cls="ij-shield--md"}}
+      <span class="ij-formula__eq">=</span>
+      {{#each caParts as |p|}}
+      <span class="ij-formula__part">
+        {{#if (and p.field @root.editMode)}}
+        <input class="ij-formula__input" type="number" name="{{p.field}}" value="{{p.value}}" step="1">
+        {{else}}
+        <span class="ij-formula__value">{{#if p.fixed}}{{p.value}}{{else}}{{ij-signed p.value}}{{/if}}</span>
+        {{/if}}
+        <span class="ij-formula__label">{{p.label}}</span>
+      </span>
+      {{#unless @last}}<span class="ij-formula__plus">+</span>{{/unless}}
+      {{/each}}
+    </div>
+  </div>
+
+  <div class="ij-combat-grid">
+    {{!-- Saving throws --}}
+    <div class="ij-box">
+      <header class="ij-box__head"><span>{{localize "IJ.Save.plural"}}</span></header>
+      <div class="ij-saves">
+        {{#each saves as |s|}}
+        <div class="ij-save">
+          {{> ij-shield label=s.label value=s.total color="steel" action="rollSave" save=s.key cls="ij-shield--sm"}}
+          <span class="ij-save__parts">½ {{localize "IJ.Level.short"}} + {{s.ability}} {{s.mod}}</span>
+          {{#if @root.editMode}}
+          <label class="ij-save__bonus">{{localize "IJ.Skill.otherShort"}} <input class="ij-num-xs" type="number" name="system.saves.{{s.key}}.bonus" value="{{s.bonus}}" step="1"></label>
+          {{/if}}
+        </div>
+        {{/each}}
+      </div>
+    </div>
+
+    {{!-- Attacks --}}
+    <div class="ij-box">
+      <header class="ij-box__head"><span>{{localize "IJ.Attack.plural"}}</span></header>
+      <div class="ij-attack-stats">
+        <div class="ij-stat"><span class="ij-stat__label">{{localize "IJ.BBA.abbr"}}</span><span class="ij-stat__value">{{bba}}</span></div>
+        <a class="ij-stat ij-stat--roll" data-action="rollPlainAttack" data-type="melee"><span class="ij-stat__label">{{localize "IJ.Attack.melee"}}</span><span class="ij-stat__value">{{melee}}</span></a>
+        <a class="ij-stat ij-stat--roll" data-action="rollPlainAttack" data-type="ranged"><span class="ij-stat__label">{{localize "IJ.Attack.ranged"}}</span><span class="ij-stat__value">{{ranged}}</span></a>
+        <div class="ij-stat"><span class="ij-stat__label">{{localize "IJ.Attack.damageBonus"}}</span>
+          {{#if editMode}}<input class="ij-num-sm" type="number" name="system.attributes.attack.damage" value="{{source.attributes.attack.damage}}" step="1">
+          {{else}}<span class="ij-stat__value">{{ij-signed source.attributes.attack.damage}}</span>{{/if}}
+        </div>
+      </div>
+      {{#if editMode}}
+      <div class="ij-attack-bonus">
+        <label>{{localize "IJ.Attack.meleeBonus"}} <input class="ij-num-xs" type="number" name="system.attributes.attack.melee" value="{{source.attributes.attack.melee}}" step="1"></label>
+        <label>{{localize "IJ.Attack.rangedBonus"}} <input class="ij-num-xs" type="number" name="system.attributes.attack.ranged" value="{{source.attributes.attack.ranged}}" step="1"></label>
+      </div>
+      {{/if}}
+    </div>
+
+    {{!-- Damage reduction and energy resistance --}}
+    <div class="ij-box">
+      <header class="ij-box__head"><span>{{localize "IJ.Defense.label"}}</span></header>
+      <div class="ij-defense">
+        {{!-- Display only: the field is the RD badge of the first tab (one field per name in the form) --}}
+        <div class="ij-stat" data-tooltip="{{localize 'IJ.RD.tooltip'}}"><span class="ij-stat__label">{{localize "IJ.RD.label"}}</span>
+          <span class="ij-stat__value">{{rd}}</span>
+        </div>
+        <label class="ij-defense__energy">
+          <span class="ij-stat__label">{{localize "IJ.Energy.label"}}</span>
+          <input type="text" name="system.attributes.energy" value="{{source.attributes.energy}}" placeholder="{{localize 'IJ.Energy.placeholder'}}">
+        </label>
+      </div>
+    </div>
+  </div>
+
+  {{!-- Weapons: illustrated cards with a vertical tab --}}
+  <div class="ij-cardlist ij-cardlist--weapons">
+    <header class="ij-cardlist__head">
+      <span class="ij-cardlist__title">{{localize "IJ.Weapon.plural"}}</span>
+      {{#if editable}}<a class="ij-btn ij-btn--ghost" data-action="itemCreate" data-type="weapon"><i class="fa-solid fa-plus"></i> {{localize "IJ.Weapon.add"}}</a>{{/if}}
+    </header>
+    {{#each weapons as |w|}}
+    <article class="ij-card ij-card--weapon ij-card-row draggable {{#unless w.equipped}}ij-card--stowed{{/unless}}" data-item-id="{{w.id}}">
+      <span class="ij-card__side">{{localize "IJ.Weapon.side"}}</span>
+      <div class="ij-card__inner">
+        <div class="ij-card__art"><img src="{{w.img}}" alt="{{w.name}}"></div>
+        <div class="ij-card__body">
+          <h3 class="ij-card__title">
+            <a data-action="itemUse" data-tooltip="{{localize 'IJ.Weapon.attackTip'}}">{{w.name}}</a>
+            {{#if w.dishonorable}}<span class="ij-tag ij-tag--warn" data-tooltip="{{localize 'IJ.Item.dishonorableTip'}}">{{localize "IJ.Item.dishonorable"}}</span>{{/if}}
+            {{#unless w.proficient}}<span class="ij-tag ij-tag--warn">{{localize "IJ.Weapon.notProficientShort"}}</span>{{/unless}}
+          </h3>
+          <table class="ij-grid-table">
+            <tr>
+              <th>{{localize "IJ.Weapon.attack"}}</th><th>{{localize "IJ.Weapon.damage"}}</th><th>{{localize "IJ.Weapon.critical"}}</th>
+              <th>{{localize "IJ.Weapon.type"}}</th><th>{{localize "IJ.Weapon.range"}}</th>
+            </tr>
+            <tr>
+              <td><a class="ij-roll-link" data-action="itemUse">{{w.attack}}</a></td>
+              <td><a class="ij-roll-link" data-action="itemDamage">{{w.damage}}</a></td>
+              <td><a class="ij-roll-link" data-action="itemDamage" data-crit="true" data-tooltip="{{localize 'IJ.Weapon.critTip'}}">{{w.crit}}</a></td>
+              <td data-tooltip="{{w.typeLabel}}">{{w.type}}</td>
+              <td>{{w.range}}</td>
+            </tr>
+          </table>
+          <p class="ij-card__meta">{{w.kind}}</p>
+        </div>
+        <div class="ij-card__ctl">
+          <a class="ij-equip {{#if w.equipped}}on{{/if}}" data-action="itemEquip" data-tooltip="{{#if w.equipped}}{{localize 'IJ.Item.equipped'}}{{else}}{{localize 'IJ.Item.stowed'}}{{/if}}"><i class="fa-solid fa-hand-fist"></i></a>
+          {{> ij-item-controls}}
+        </div>
+      </div>
+    </article>
+    {{else}}
+    <p class="ij-empty">{{localize "IJ.Weapon.empty"}}</p>
+    {{/each}}
+  </div>
+
+  {{!-- Armor and shields --}}
+  <div class="ij-cardlist ij-cardlist--armor">
+    <header class="ij-cardlist__head">
+      <span class="ij-cardlist__title">{{localize "IJ.Armor.plural"}}</span>
+      {{#if editable}}<a class="ij-btn ij-btn--ghost" data-action="itemCreate" data-type="armor"><i class="fa-solid fa-plus"></i> {{localize "IJ.Armor.add"}}</a>{{/if}}
+    </header>
+    {{#each armors as |a|}}
+    <article class="ij-card ij-card--armor ij-card-row draggable {{#unless a.equipped}}ij-card--stowed{{/unless}}" data-item-id="{{a.id}}">
+      <span class="ij-card__side">{{#if a.isShield}}{{localize "IJ.Armor.shield"}}{{else}}{{localize "IJ.Armor.side"}}{{/if}}</span>
+      <div class="ij-card__inner">
+        <div class="ij-card__art"><img src="{{a.img}}" alt="{{a.name}}"></div>
+        <div class="ij-card__body">
+          <h3 class="ij-card__title">
+            <a data-action="itemEdit">{{a.name}}</a>
+            {{#if a.dishonorable}}<span class="ij-tag ij-tag--warn">{{localize "IJ.Item.dishonorable"}}</span>{{/if}}
+          </h3>
+          <table class="ij-grid-table">
+            <tr><th>{{localize "IJ.Armor.bonus"}}</th><th>{{localize "IJ.Armor.maxDex"}}</th><th>{{localize "IJ.Armor.penalty"}}</th><th>{{localize "IJ.RD.abbr"}}</th></tr>
+            <tr><td>{{a.bonus}}</td><td>{{a.maxDex}}</td><td>{{a.penalty}}</td><td>{{#if a.rd}}{{a.rd}}{{else}}—{{/if}}</td></tr>
+          </table>
+          <p class="ij-card__meta">{{a.category}}</p>
+        </div>
+        <div class="ij-card__ctl">
+          <a class="ij-equip {{#if a.equipped}}on{{/if}}" data-action="itemEquip" data-tooltip="{{#if a.equipped}}{{localize 'IJ.Item.equipped'}}{{else}}{{localize 'IJ.Item.stowed'}}{{/if}}"><i class="fa-solid fa-shirt"></i></a>
+          {{> ij-item-controls}}
+        </div>
+      </div>
+    </article>
+    {{else}}
+    <p class="ij-empty">{{localize "IJ.Armor.empty"}}</p>
+    {{/each}}
+  </div>
+</section>

@@ -1,0 +1,384 @@
+{{!-- FICHA: the printed-sheet page. Identity on the left, abilities board in the middle, armor and shield on the right. --}}
+<section class="tab ij-tab ij-ficha {{tab.cssClass}}" data-tab="ficha" data-group="primary">
+  <div class="ij-page">
+
+    {{!-- ============ COLUMN 1: portrait, name, classes, origin, experience ============ --}}
+    <div class="ij-col ij-col--id">
+      <div class="ij-portrait">
+        <div class="ij-frame ij-portrait__frame">
+          <img class="ij-portrait__img" src="{{actor.img}}" alt="{{actor.name}}" {{#if editable}}data-action="editImage" data-edit="img"{{/if}}>
+        </div>
+        <div class="ij-level" data-tooltip="{{localize 'IJ.Level.tooltip'}}">
+          <span class="ij-level__label">{{localize "IJ.Level.label"}}</span>
+          {{#if (and editMode (not auto.classes))}}
+          <input class="ij-level__input" type="number" name="system.attributes.level" value="{{source.attributes.level}}" min="1" max="20" step="1">
+          {{else}}
+          <span class="ij-level__value">{{level}}</span>
+          {{/if}}
+        </div>
+      </div>
+
+      <div class="ij-nameplate">
+        <input class="ij-nameplate__name" type="text" name="name" value="{{actor.name}}" placeholder="{{localize 'IJ.Sheet.namePlaceholder'}}" spellcheck="false">
+        <div class="ij-nameplate__sub">
+          <span class="ij-nameplate__tag">{{localize "IJ.Sheet.name"}}</span>
+          <span class="ij-nameplate__race">/ {{#if system.raceLabel}}{{system.raceLabel}}{{else}}—{{/if}} /</span>
+          <span class="ij-nameplate__tag">{{localize "IJ.Details.age"}}{{#if source.details.age}} {{source.details.age}}{{/if}}</span>
+        </div>
+      </div>
+
+      <div class="ij-box ij-box--table">
+        <header class="ij-box__head">
+          <span>{{localize "IJ.Class.plural"}}</span>
+          {{#if editMode}}<a class="ij-head-btn" data-action="itemCreate" data-type="class" data-tooltip="{{localize 'IJ.Class.add'}}"><i class="fa-solid fa-plus"></i></a>{{/if}}
+        </header>
+        <table class="ij-table">
+          <tbody>
+            {{#each classes as |c|}}
+            <tr class="ij-item-row" data-item-id="{{c.id}}">
+              <td class="ij-table__name"><a data-action="itemEdit">{{c.name}}</a>{{#if c.primary}} <i class="fa-solid fa-star ij-primary" data-tooltip="{{localize 'IJ.Class.primary'}}"></i>{{/if}}</td>
+              <td class="ij-table__num">{{c.levels}}</td>
+              <td class="ij-table__note">{{c.bba}}</td>
+            </tr>
+            {{else}}
+            <tr>
+              <td class="ij-table__name">
+                {{#if editMode}}<input type="text" name="system.details.className" value="{{source.details.className}}" placeholder="{{localize 'IJ.Class.placeholder'}}">
+                {{else}}{{#if source.details.className}}{{source.details.className}}{{else}}<span class="ij-muted">{{localize "IJ.Class.none"}}</span>{{/if}}{{/if}}
+              </td>
+              <td class="ij-table__num">{{level}}</td>
+              <td class="ij-table__note"></td>
+            </tr>
+            {{/each}}
+          </tbody>
+        </table>
+      </div>
+
+      <div class="ij-box ij-box--table">
+        <header class="ij-box__head"><span>{{localize "IJ.Details.origin"}}</span></header>
+        <table class="ij-table ij-table--details">
+          <tbody>
+            <tr>
+              <th>{{localize "IJ.Details.race"}}</th>
+              <td>
+                {{#if race}}<a class="ij-item-row" data-item-id="{{race.id}}" data-action="itemEdit">{{race.name}}</a>
+                {{else if editMode}}<input type="text" name="system.details.race" value="{{source.details.race}}" placeholder="{{localize 'IJ.Details.racePlaceholder'}}">
+                {{else}}{{#if source.details.race}}{{source.details.race}}{{else}}—{{/if}}{{/if}}
+              </td>
+            </tr>
+            <tr>
+              <th>{{localize "IJ.Details.caste"}}</th>
+              <td>
+                {{#if editMode}}<select name="system.details.caste">{{selectOptions choices.castes selected=source.details.caste}}</select>
+                {{else}}{{casteLabel}}{{/if}}
+              </td>
+            </tr>
+            <tr>
+              <th>{{localize "IJ.Details.religion"}}</th>
+              <td>{{#if editMode}}<input type="text" name="system.details.religion" value="{{source.details.religion}}" placeholder="Lin-Wu">{{else}}{{#if source.details.religion}}{{source.details.religion}}{{else}}—{{/if}}{{/if}}</td>
+            </tr>
+            <tr>
+              <th>{{localize "IJ.Details.clan"}}</th>
+              <td>{{#if editMode}}<input type="text" name="system.details.clan" value="{{source.details.clan}}">{{else}}{{#if source.details.clan}}{{source.details.clan}}{{else}}—{{/if}}{{/if}}</td>
+            </tr>
+            <tr>
+              <th>{{localize "IJ.Size.label"}}</th>
+              <td>
+                {{#if (and editMode (not race))}}<select name="system.details.size">{{selectOptions choices.sizes selected=source.details.size}}</select>
+                {{else}}{{sizeLabel}}{{/if}}
+              </td>
+            </tr>
+            <tr>
+              <th>{{localize "IJ.Movement.label"}}</th>
+              <td>
+                {{#if (and editMode (not race))}}<input class="ij-num-sm" type="number" name="system.attributes.movement.base" value="{{source.attributes.movement.base}}" step="1.5"> m
+                {{else}}{{movement}} m{{/if}}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="ij-box ij-xp {{#if xp.canLevel}}ij-xp--ready{{/if}}">
+        <header class="ij-box__head">
+          <span>{{localize "IJ.XP.label"}}</span>
+          {{#if xp.canLevel}}<a class="ij-head-btn ij-glow" data-action="levelUp" data-tooltip="{{localize 'IJ.XP.levelUp'}}"><i class="fa-solid fa-angles-up"></i></a>{{/if}}
+        </header>
+        <div class="ij-xp__row">
+          <input class="ij-xp__input ij-select-on-focus" type="text" inputmode="numeric" name="system.attributes.xp" value="{{xp.value}}" data-tooltip="{{localize 'IJ.Sheet.deltaHint'}}">
+          <span class="ij-xp__next">/ {{xp.next}}</span>
+        </div>
+        <div class="ij-bar ij-bar--xp"><span style="width: {{xp.pct}}%"></span></div>
+      </div>
+    </div>
+
+    {{!-- ============ COLUMN 2: logo, PV, armor class, the abilities board ============ --}}
+    <div class="ij-col ij-col--core">
+      <div class="ij-core-top">
+        <div class="ij-logo" aria-label="Império de Jade">
+          <span class="ij-logo__seal">翡<br>翠</span>
+          <span class="ij-logo__words">
+            <span class="ij-logo__imperio">Império</span>
+            <span class="ij-logo__de">de</span>
+            <span class="ij-logo__jade">Jade</span>
+          </span>
+        </div>
+
+        <div class="ij-hp {{#if (lte pv.value 0)}}ij-hp--down{{/if}}">
+          <div class="ij-hp__labels">
+            <span>{{localize "IJ.PV.current"}}</span>
+            <span>{{localize "IJ.PV.max"}}</span>
+          </div>
+          <div class="ij-hp__values">
+            <input class="ij-hp__current ij-select-on-focus" type="text" inputmode="numeric" name="system.attributes.pv.value" value="{{pv.value}}" data-tooltip="{{localize 'IJ.Sheet.deltaHint'}}">
+            <span class="ij-hp__slash"></span>
+            {{#if (and editMode (not auto.classes))}}
+            <input class="ij-hp__max-input" type="number" name="system.attributes.pv.max" value="{{source.attributes.pv.max}}" min="0" data-tooltip="{{localize 'IJ.PV.maxBase'}}">
+            {{else}}
+            <span class="ij-hp__max" data-tooltip="{{#if auto.classes}}{{localize 'IJ.PV.fromClasses'}}{{else}}{{localize 'IJ.PV.max'}}{{/if}}">{{pv.max}}</span>
+            {{/if}}
+          </div>
+          <div class="ij-hp__temp" data-tooltip="{{localize 'IJ.PV.tempHint'}}">
+            <span>{{localize "IJ.PV.temp"}}</span>
+            <input class="ij-select-on-focus" type="text" inputmode="numeric" name="system.attributes.pv.temp" value="{{pv.temp}}">
+          </div>
+          <div class="ij-bar ij-bar--pv"><span style="width: {{pv.pct}}%"></span></div>
+        </div>
+
+        {{> ij-shield label=(localize "IJ.CA.abbr") value=ca color="jade" cls="ij-shield--ca" tooltip=(localize "IJ.CA.tooltip")}}
+      </div>
+
+      <div class="ij-board">
+        <div class="ij-board__panel"></div>
+        <span class="ij-band" style="--row: 1"></span>
+        <span class="ij-band" style="--row: 2"></span>
+        <span class="ij-band ij-band--right" style="--row: 2"></span>
+        <span class="ij-band ij-band--right" style="--row: 3"></span>
+        <span class="ij-band" style="--row: 5"></span>
+        <span class="ij-band ij-band--right" style="--row: 5"></span>
+        <span class="ij-band" style="--row: 7"></span>
+        <span class="ij-band ij-band--right ij-band--gold" style="--row: 7"></span>
+
+        {{!-- Left panel: attack and skill medallions tied to their ability --}}
+        <div class="ij-board__medals" style="--row: 1">
+          {{> ij-medallion label=(localize "IJ.Attack.meleeShort") value=melee action="rollPlainAttack" type="melee" tooltip=(localize "IJ.Attack.meleeTip")}}
+        </div>
+        <div class="ij-board__medals ij-board__medals--pair" style="--row: 2">
+          {{> ij-medallion label=(localize "IJ.Attack.rangedShort") value=ranged action="rollPlainAttack" type="ranged" tooltip=(localize "IJ.Attack.rangedTip")}}
+          {{> ij-medallion label=(localize "IJ.Skill.iniciativa") value=initiative action="rollInitiative" tooltip=(localize "IJ.Skill.initiativeTip")}}
+        </div>
+        <div class="ij-board__medals" style="--row: 4">
+          <div class="ij-medal ij-medal--count {{#if (and skillCount.allowed (gt skillCount.trained skillCount.allowed))}}ij-medal--over{{/if}}" data-action="tab" data-group="primary" data-tab="pericias" data-tooltip="{{localize 'IJ.Skill.countTip'}}">
+            <svg class="ij-medal__ring" viewBox="0 0 100 100" aria-hidden="true">
+              <circle class="ij-medal__outer" cx="50" cy="50" r="47"/><circle class="ij-medal__fill" cx="50" cy="50" r="42.5"/><circle class="ij-medal__line" cx="50" cy="50" r="39.5"/>
+              <path class="ij-medal__notch" d="M50 1 v7 M50 92 v7 M1 50 h7 M92 50 h7"/>
+            </svg>
+            <span class="ij-medal__label">{{localize "IJ.Skill.trainedPlural"}}</span>
+            <span class="ij-medal__value">{{skillCount.trained}}{{#if skillCount.allowed}}<small>/{{skillCount.allowed}}</small>{{/if}}</span>
+          </div>
+        </div>
+        <div class="ij-board__medals ij-board__medals--pair" style="--row: 5">
+          {{> ij-medallion label=(localize "IJ.Skill.percepcao") value=perception action="rollSkill" skill="percepcao"}}
+          {{> ij-medallion label=(localize "IJ.Skill.intuicao") value=intuition action="rollSkill" skill="intuicao"}}
+        </div>
+        <div class="ij-board__medals" style="--row: 7">
+          <div class="ij-medal ij-medal--reserve {{#if reserve.used}}ij-medal--spent{{/if}} {{#unless reserve.available}}{{#unless reserve.used}}ij-medal--off{{/unless}}{{/unless}}"
+               data-action="honorReserve" data-tooltip="{{localize 'IJ.Honor.reserveTip'}}">
+            <svg class="ij-medal__ring" viewBox="0 0 100 100" aria-hidden="true">
+              <circle class="ij-medal__outer" cx="50" cy="50" r="47"/><circle class="ij-medal__fill" cx="50" cy="50" r="42.5"/><circle class="ij-medal__line" cx="50" cy="50" r="39.5"/>
+              <path class="ij-medal__notch" d="M50 1 v7 M50 92 v7 M1 50 h7 M92 50 h7"/>
+            </svg>
+            <span class="ij-medal__label">{{localize "IJ.Honor.reserveShort"}}</span>
+            <span class="ij-medal__value">{{#if reserve.used}}<i class="fa-solid fa-check"></i>{{else}}{{reserve.bonus}}{{/if}}</span>
+          </div>
+          {{#if (and reserve.used editable)}}<a class="ij-mini-btn" data-action="honorReserveReset" data-tooltip="{{localize 'IJ.Honor.reserveReset'}}"><i class="fa-solid fa-rotate-left"></i></a>{{/if}}
+        </div>
+
+        {{!-- The ability plaques and their modifiers --}}
+        {{#each abilities as |a|}}
+        <div class="ij-plaque ij-plaque--{{a.key}} {{#if a.isHonor}}ij-plaque--honor{{/if}}" style="--row: {{a.row}}">
+          <svg class="ij-plaque__svg" viewBox="0 0 150 56" aria-hidden="true">
+            <path class="ij-plaque__outer" d="M14 1 H136 L149 14 V42 L136 55 H14 L1 42 V14 Z"/>
+            <path class="ij-plaque__fill" d="M16 4.5 H134 L145.5 16 V40 L134 51.5 H16 L4.5 40 V16 Z"/>
+            <path class="ij-plaque__line" d="M17.5 7 H132.5 L143 17.5 V38.5 L132.5 49 H17.5 L7 38.5 V17.5 Z"/>
+          </svg>
+          <span class="ij-plaque__kanji">{{a.kanji}}</span>
+          {{#if @root.editMode}}
+          <input class="ij-plaque__input" type="number" name="system.abilities.{{a.key}}.value" value="{{a.value}}" min="0" step="1">
+          <input class="ij-plaque__bonus" type="number" name="system.abilities.{{a.key}}.bonus" value="{{a.bonus}}" step="1" data-tooltip="{{localize 'IJ.Ability.bonusTip'}}">
+          {{else}}
+          <a class="ij-plaque__value" data-action="rollAbility" data-ability="{{a.key}}" data-tooltip="{{localize 'IJ.Roll.abilityTip'}}">{{a.total}}</a>
+          {{/if}}
+          <span class="ij-plaque__label">{{a.label}}</span>
+        </div>
+        <a class="ij-mod {{#if a.negative}}ij-mod--neg{{/if}}" style="--row: {{a.row}}" data-action="rollAbility" data-ability="{{a.key}}">
+          <span>{{a.mod}}</span>
+        </a>
+        {{/each}}
+        <span class="ij-board__modhead">{{localize "IJ.Ability.modShort"}}</span>
+
+        {{!-- Right column: saving throws on the row of their ability, the Measure of Honor on the Honor row --}}
+        <div class="ij-board__shield" style="--row: 2">
+          {{> ij-shield label=(localize "IJ.Save.ref") value=save.ref color="steel" action="rollSave" save="ref" tooltip=(localize "IJ.Save.tip")}}
+        </div>
+        <div class="ij-board__shield" style="--row: 3">
+          {{> ij-shield label=(localize "IJ.Save.fort") value=save.fort color="steel" action="rollSave" save="fort" tooltip=(localize "IJ.Save.tip")}}
+        </div>
+        <div class="ij-board__shield" style="--row: 5">
+          {{> ij-shield label=(localize "IJ.Save.von") value=save.von color="steel" action="rollSave" save="von" tooltip=(localize "IJ.Save.tip")}}
+        </div>
+        <div class="ij-board__honor ij-honor-tier--{{honorTierKey}}" style="--row: 7" data-tooltip="{{localize 'IJ.Honor.tierTip'}}">
+          <span class="ij-board__honor-label">{{localize "IJ.Honor.measure"}}</span>
+          <span class="ij-board__honor-value">{{honorTier}}</span>
+        </div>
+      </div>
+
+      <div class="ij-duo">
+        <div class="ij-box ij-box--list">
+          <header class="ij-box__head"><span>{{localize "IJ.Power.race"}}</span></header>
+          <div class="ij-chips">
+            {{#each racePowers as |p|}}<a class="ij-chip ij-chip--race ij-item-row" data-item-id="{{p.id}}" data-action="itemUse" data-tooltip="{{localize 'IJ.Item.useTip'}}">「{{p.name}}」</a>{{else}}<span class="ij-muted">—</span>{{/each}}
+          </div>
+        </div>
+        <div class="ij-box ij-box--list">
+          <header class="ij-box__head"><span>{{localize "IJ.Feat.plural"}}</span></header>
+          <div class="ij-chips">
+            {{#each feats as |f|}}<a class="ij-chip ij-chip--feat ij-item-row" data-item-id="{{f.id}}" data-action="itemUse" data-tooltip="{{localize 'IJ.Item.useTip'}}">《{{f.name}}》</a>{{else}}<span class="ij-muted">—</span>{{/each}}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {{!-- ============ COLUMN 3: equipped armor and shield, as tall cards ============ --}}
+    <div class="ij-col ij-col--gear">
+      {{#with bodyArmor as |arm|}}
+      <div class="ij-gear ij-gear--armor ij-card-row" data-item-id="{{arm.id}}">
+        <header class="ij-gear__tab">{{localize "IJ.Armor.body"}}</header>
+        <a class="ij-gear__name" data-action="itemEdit">{{arm.name}}</a>
+        {{> ij-shield label=(localize "IJ.CA.abbr") value=arm.bonus color="gold" cls="ij-shield--sm"}}
+        {{> ij-shield label=(localize "IJ.Armor.maxDexShort") value=arm.maxDex color="jade" cls="ij-shield--sm"}}
+        <div class="ij-frame ij-gear__art"><img src="{{arm.img}}" alt="{{arm.name}}"></div>
+        <div class="ij-gear__info">
+          <p>{{localize "IJ.Armor.penalty"}}: <strong>{{arm.penalty}}</strong></p>
+          {{#if arm.rd}}<p>{{localize "IJ.RD.label"}}: <strong>{{arm.rd}}</strong></p>{{/if}}
+          <p class="ij-gear__cat">{{arm.category}}</p>
+          {{#if arm.price}}<p><strong>{{arm.price}}</strong> <span class="ij-coin ij-coin--yo"></span></p>{{/if}}
+        </div>
+        <a class="ij-gear__unequip" data-action="itemEquip" data-tooltip="{{localize 'IJ.Armor.unequip'}}"><i class="fa-solid fa-xmark"></i></a>
+      </div>
+      {{else}}
+      <div class="ij-gear ij-gear--armor ij-gear--empty">
+        <header class="ij-gear__tab">{{localize "IJ.Armor.body"}}</header>
+        <span class="ij-gear__name ij-muted">{{localize "IJ.Armor.none"}}</span>
+        {{> ij-shield label=(localize "IJ.CA.abbr") value="+0" color="gold" cls="ij-shield--sm"}}
+        {{> ij-shield label=(localize "IJ.Armor.maxDexShort") value="—" color="jade" cls="ij-shield--sm"}}
+        <div class="ij-frame ij-gear__art ij-gear__art--empty" data-action="tab" data-group="primary" data-tab="combate"><i class="fa-solid fa-vest"></i></div>
+        <p class="ij-gear__hint">{{localize "IJ.Armor.hintEquip"}}</p>
+      </div>
+      {{/with}}
+
+      {{#with shield as |sh|}}
+      <div class="ij-gear ij-gear--shield ij-card-row" data-item-id="{{sh.id}}">
+        <header class="ij-gear__tab">{{localize "IJ.Armor.shield"}}</header>
+        <a class="ij-gear__name" data-action="itemEdit">{{sh.name}}</a>
+        {{> ij-shield label=(localize "IJ.CA.abbr") value=sh.bonus color="gold" cls="ij-shield--sm"}}
+        {{> ij-shield label=(localize "IJ.Armor.penaltyShort") value=sh.penalty color="steel" cls="ij-shield--sm"}}
+        <div class="ij-frame ij-gear__art"><img src="{{sh.img}}" alt="{{sh.name}}"></div>
+        <div class="ij-gear__info">
+          {{#if sh.rd}}<p>{{localize "IJ.RD.label"}}: <strong>{{sh.rd}}</strong></p>{{/if}}
+          <p class="ij-gear__cat">{{sh.category}}</p>
+          {{#if sh.price}}<p><strong>{{sh.price}}</strong> <span class="ij-coin ij-coin--yo"></span></p>{{/if}}
+        </div>
+        <a class="ij-gear__unequip" data-action="itemEquip" data-tooltip="{{localize 'IJ.Armor.unequip'}}"><i class="fa-solid fa-xmark"></i></a>
+      </div>
+      {{else}}
+      <div class="ij-gear ij-gear--shield ij-gear--empty">
+        <header class="ij-gear__tab">{{localize "IJ.Armor.shield"}}</header>
+        <span class="ij-gear__name ij-muted">{{localize "IJ.Armor.noShield"}}</span>
+        {{> ij-shield label=(localize "IJ.CA.abbr") value="+0" color="gold" cls="ij-shield--sm"}}
+        {{> ij-shield label=(localize "IJ.Armor.penaltyShort") value="0" color="steel" cls="ij-shield--sm"}}
+        <div class="ij-frame ij-gear__art ij-gear__art--empty" data-action="tab" data-group="primary" data-tab="combate"><i class="fa-solid fa-shield-halved"></i></div>
+        <p class="ij-gear__hint">{{localize "IJ.Armor.hintEquip"}}</p>
+      </div>
+      {{/with}}
+
+      {{!-- Weapons in hand: attack, damage and critical one click away --}}
+      <div class="ij-gear ij-gear--weapons">
+        <header class="ij-gear__tab">{{localize "IJ.Weapon.inHand"}}</header>
+        {{#each equippedWeapons as |w|}}
+        <div class="ij-wield ij-card-row" data-item-id="{{w.id}}">
+          <img class="ij-wield__img" src="{{w.img}}" alt="">
+          <a class="ij-wield__name" data-action="itemEdit">{{w.name}}</a>
+          <div class="ij-wield__stats">
+            <a class="ij-wield__stat ij-wield__stat--atk" data-action="itemUse" data-tooltip="{{localize 'IJ.Weapon.attackTip'}}"><small>{{localize "IJ.Weapon.attack"}}</small><strong>{{w.attack}}</strong></a>
+            <a class="ij-wield__stat" data-action="itemDamage" data-tooltip="{{localize 'IJ.Weapon.rollDamage'}}"><small>{{localize "IJ.Weapon.damage"}}</small><strong>{{w.damage}}</strong></a>
+            <a class="ij-wield__stat" data-action="itemDamage" data-crit="true" data-tooltip="{{localize 'IJ.Weapon.critTip'}}"><small>{{localize "IJ.Weapon.critical"}}</small><strong>{{w.crit}}</strong></a>
+          </div>
+        </div>
+        {{else}}
+        <p class="ij-gear__hint">{{localize "IJ.Weapon.hintEquip"}}</p>
+        {{/each}}
+      </div>
+    </div>
+
+    {{!-- ============ BOTTOM ROW: PM and limit, BBA, damage reduction, Honor ============ --}}
+    <div class="ij-badges">
+      <div class="ij-badge ij-badge--pm">
+        <span class="ij-badge__label">{{localize "IJ.PM.label"}}<small>{{localize "IJ.PM.long"}}</small></span>
+        <div class="ij-badge__pair">
+          <input class="ij-badge__input ij-select-on-focus" type="text" inputmode="numeric" name="system.attributes.pm.value" value="{{pm.value}}" data-tooltip="{{localize 'IJ.Sheet.deltaHint'}}">
+          <span class="ij-badge__sep">/</span>
+          {{#if (and editMode (not auto.classes))}}
+          <input class="ij-badge__max-input" type="number" name="system.attributes.pm.max" value="{{source.attributes.pm.max}}" min="0" data-tooltip="{{localize 'IJ.PM.maxBase'}}">
+          {{else}}
+          <span class="ij-badge__max">{{pm.max}}</span>
+          {{/if}}
+        </div>
+        <div class="ij-bar ij-bar--pm"><span style="width: {{pm.pct}}%"></span></div>
+      </div>
+      <div class="ij-ink-medal" data-tooltip="{{localize 'IJ.PM.limitTip'}}">
+        <svg class="ij-ink-medal__ring" viewBox="0 0 100 100" aria-hidden="true">
+          <circle class="ij-ink-medal__fill" cx="50" cy="50" r="38"/>
+          <circle class="ij-ink-medal__brush" cx="50" cy="50" r="42" filter="url(#ij-brush)"/>
+          <defs><filter id="ij-brush"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="4"/><feDisplacementMap in="SourceGraphic" scale="5"/></filter></defs>
+        </svg>
+        <span class="ij-ink-medal__label">{{localize "IJ.PM.limit"}}</span>
+        <span class="ij-ink-medal__value">{{pm.limit}}</span>
+      </div>
+
+      <div class="ij-badge ij-badge--bba ij-ribbon" data-tooltip="{{localize 'IJ.BBA.tooltip'}}">
+        <span class="ij-badge__label">{{localize "IJ.BBA.abbr"}}</span>
+        {{#if (and editMode (not auto.classes))}}
+        <input class="ij-badge__big-input" type="number" name="system.attributes.bba" value="{{source.attributes.bba}}" step="1">
+        {{else}}
+        <span class="ij-badge__big">{{bba}}</span>
+        {{/if}}
+      </div>
+
+      <div class="ij-badge ij-badge--rd ij-ribbon" data-tooltip="{{localize 'IJ.RD.tooltip'}}">
+        <span class="ij-badge__label">{{localize "IJ.RD.abbr"}}</span>
+        {{#if editMode}}
+        <input class="ij-badge__big-input" type="number" name="system.attributes.rd" value="{{source.attributes.rd}}" min="0" step="1">
+        {{else}}
+        <span class="ij-badge__big">{{rd}}</span>
+        {{/if}}
+      </div>
+
+      <div class="ij-badge ij-badge--honor">
+        <span class="ij-badge__label">{{localize "IJ.Ability.hon"}}<small>{{honorTier}}</small></span>
+        <div class="ij-honor-actions">
+          <select class="ij-violation-select" aria-label="{{localize 'IJ.Honor.violation.label'}}">
+            {{#each violations as |v|}}<option value="{{v.key}}">{{v.label}}</option>{{/each}}
+          </select>
+          <a class="ij-btn ij-btn--cinnabar" data-action="honorViolation" data-tooltip="{{localize 'IJ.Honor.violationTip'}}"><i class="fa-solid fa-scale-unbalanced"></i> {{localize "IJ.Honor.violation.short"}}</a>
+          <a class="ij-btn ij-btn--jade" data-action="honorGain" data-tooltip="{{localize 'IJ.Honor.gainTip'}}"><i class="fa-solid fa-plus"></i> 1</a>
+        </div>
+      </div>
+
+      <a class="ij-badge ij-badge--rest" data-action="rest" data-tooltip="{{localize 'IJ.Rest.tooltip'}}">
+        <i class="fa-solid fa-moon"></i>
+        <span>{{localize "IJ.Rest.short"}}</span>
+      </a>
+    </div>
+  </div>
+</section>

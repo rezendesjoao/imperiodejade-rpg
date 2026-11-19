@@ -1,0 +1,68 @@
+{{!-- HABILIDADES: class abilities, race abilities, other powers and feats, as cards that can be used. --}}
+<section class="tab ij-tab ij-habilidades {{tab.cssClass}}" data-tab="habilidades" data-group="primary">
+  <div class="ij-sheet-title">
+    <span class="ij-sheet-title__kanji">能</span>
+    <h2>{{localize "IJ.Tab.habilidades"}}</h2>
+    <span class="ij-sheet-title__note">{{localize "IJ.Power.note"}}</span>
+  </div>
+
+  {{#each powerGroups as |group|}}
+  <div class="ij-cardlist ij-cardlist--{{group.key}}">
+    <header class="ij-cardlist__head">
+      <span class="ij-cardlist__title">{{group.label}}</span>
+      {{#if @root.editable}}<a class="ij-btn ij-btn--ghost" data-action="itemCreate" data-type="power" data-origin="{{group.key}}"><i class="fa-solid fa-plus"></i> {{localize "IJ.Power.add"}}</a>{{/if}}
+    </header>
+    {{#each group.items as |p|}}
+    <article class="ij-power ij-power--{{group.key}} ij-card-row draggable {{#if p.expanded}}expanded{{/if}} {{#if p.honorLocked}}ij-power--locked{{/if}}" data-item-id="{{p.id}}">
+      <div class="ij-power__head">
+        <img class="ij-power__img" src="{{p.img}}" alt="">
+        <a class="ij-power__name" data-action="toggleCollapse">{{p.name}}</a>
+        <span class="ij-power__tags">
+          {{#if p.origin}}<span class="ij-tag">{{p.origin}}{{#if p.level}} · {{p.level}}º</span>{{/if}}{{/if}}
+          {{#if p.action}}<span class="ij-tag">{{p.action}}</span>{{/if}}
+          {{#if p.cost}}<span class="ij-tag ij-tag--pm">{{p.cost}} PM</span>{{/if}}
+          {{#if p.honorMin}}<span class="ij-tag ij-tag--honor" data-tooltip="{{localize 'IJ.Power.honorReq'}}">{{localize "IJ.AbilityAbbr.hon"}} {{p.honorMin}}+</span>{{/if}}
+        </span>
+        <span class="ij-power__ctl">
+          <a class="ij-btn ij-btn--small" data-action="itemUse" data-tooltip="{{localize 'IJ.Item.useTip'}}"><i class="fa-solid fa-hand-sparkles"></i></a>
+          {{> ij-item-controls}}
+        </span>
+      </div>
+      <div class="ij-power__desc">{{{p.description}}}</div>
+    </article>
+    {{else}}
+    <p class="ij-empty">{{localize "IJ.Power.empty"}}</p>
+    {{/each}}
+  </div>
+  {{/each}}
+
+  <div class="ij-cardlist ij-cardlist--feats">
+    <header class="ij-cardlist__head">
+      <span class="ij-cardlist__title">{{localize "IJ.Feat.plural"}}</span>
+      {{#if editable}}<a class="ij-btn ij-btn--ghost" data-action="itemCreate" data-type="feat"><i class="fa-solid fa-plus"></i> {{localize "IJ.Feat.add"}}</a>{{/if}}
+    </header>
+    {{#each feats as |f|}}
+    <article class="ij-power ij-power--feat ij-card-row draggable {{#if f.expanded}}expanded{{/if}} {{#if f.honorLocked}}ij-power--locked{{/if}}" data-item-id="{{f.id}}">
+      <div class="ij-power__head">
+        <img class="ij-power__img" src="{{f.img}}" alt="">
+        <a class="ij-power__name" data-action="toggleCollapse">{{f.name}}</a>
+        <span class="ij-power__tags">
+          {{#if f.category}}<span class="ij-tag">{{f.category}}</span>{{/if}}
+          {{#if f.cost}}<span class="ij-tag ij-tag--pm">{{f.cost}} PM</span>{{/if}}
+          {{#if f.honorMin}}<span class="ij-tag ij-tag--honor">{{localize "IJ.AbilityAbbr.hon"}} {{f.honorMin}}+</span>{{/if}}
+        </span>
+        <span class="ij-power__ctl">
+          <a class="ij-btn ij-btn--small" data-action="itemUse" data-tooltip="{{localize 'IJ.Item.useTip'}}"><i class="fa-solid fa-hand-sparkles"></i></a>
+          {{> ij-item-controls}}
+        </span>
+      </div>
+      <div class="ij-power__desc">
+        {{#if f.prerequisites}}<p class="ij-power__prereq"><strong>{{localize "IJ.Feat.prerequisites"}}:</strong> {{f.prerequisites}}</p>{{/if}}
+        {{{f.description}}}
+      </div>
+    </article>
+    {{else}}
+    <p class="ij-empty">{{localize "IJ.Feat.empty"}}</p>
+    {{/each}}
+  </div>
+</section>

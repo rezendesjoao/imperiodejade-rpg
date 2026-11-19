@@ -1,0 +1,7 @@
+{{!-- Edit / delete buttons of an item row. --}}
+<span class="ij-controls">
+  <a class="ij-ctl" data-action="itemEdit" data-tooltip="{{localize 'IJ.Item.edit'}}"><i class="fa-solid fa-pen-nib"></i></a>
+  {{#if @root.editable}}
+  <a class="ij-ctl ij-ctl--danger" data-action="itemDelete" data-tooltip="{{localize 'IJ.Item.delete'}}"><i class="fa-solid fa-trash-can"></i></a>
+  {{/if}}
+</span>

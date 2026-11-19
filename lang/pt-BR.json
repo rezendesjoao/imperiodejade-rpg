@@ -1,0 +1,516 @@
+{
+  "TYPES": {
+    "Actor": {
+      "character": "Personagem"
+    },
+    "Item": {
+      "class": "Classe",
+      "race": "Raça",
+      "weapon": "Arma",
+      "armor": "Armadura",
+      "gear": "Equipamento",
+      "consumable": "Consumível",
+      "feat": "Talento",
+      "power": "Habilidade",
+      "jutsu": "Jutsu"
+    }
+  },
+  "IJ": {
+    "Sheet": {
+      "character": "Ficha do Império de Jade",
+      "item": "Item do Império de Jade",
+      "tabs": "Abas da ficha",
+      "editOn": "Modo de edição: valores base, bônus e treinos",
+      "editOff": "Sair do modo de edição",
+      "name": "Nome",
+      "namePlaceholder": "Nome do personagem",
+      "deltaHint": "Digite +5 ou -3 para somar ou subtrair; =N define o valor"
+    },
+    "Tab": {
+      "ficha": "Ficha",
+      "pericias": "Perícias",
+      "combate": "Combate",
+      "habilidades": "Habilidades",
+      "jutsus": "Jutsus",
+      "inventario": "Inventário",
+      "biografia": "Biografia"
+    },
+    "Ability": {
+      "for": "Força",
+      "des": "Destreza",
+      "con": "Constituição",
+      "int": "Inteligência",
+      "sab": "Sabedoria",
+      "car": "Carisma",
+      "hon": "Honra",
+      "modShort": "Mod.",
+      "bonusTip": "Bônus ou penalidade temporária no valor (jutsus, itens, idade...)"
+    },
+    "AbilityAbbr": {
+      "for": "For",
+      "des": "Des",
+      "con": "Con",
+      "int": "Int",
+      "sab": "Sab",
+      "car": "Car",
+      "hon": "Hon"
+    },
+    "Skill": {
+      "label": "Perícia",
+      "acrobacia": "Acrobacia",
+      "adestrarAnimais": "Adestrar Animais",
+      "atletismo": "Atletismo",
+      "atuacao": "Atuação",
+      "cavalgar": "Cavalgar",
+      "conhecimento": "Conhecimento",
+      "cura": "Cura",
+      "diplomacia": "Diplomacia",
+      "enganacao": "Enganação",
+      "furtividade": "Furtividade",
+      "identificarMagia": "Identificar Magia",
+      "iniciativa": "Iniciativa",
+      "intimidacao": "Intimidação",
+      "intuicao": "Intuição",
+      "ladinagem": "Ladinagem",
+      "obterInformacao": "Obter Informação",
+      "oficio": "Ofício",
+      "percepcao": "Percepção",
+      "sobrevivencia": "Sobrevivência",
+      "trained": "Treinada",
+      "untrained": "Sem treino",
+      "trainedPlural": "Treinadas",
+      "ranks": "Graduações",
+      "ranksShort": "Grad.",
+      "ranksTip": "Treinada: nível + 3. Sem treino: metade do nível",
+      "abilityShort": "Hab.",
+      "modShort": "Mod.",
+      "other": "Outros",
+      "otherShort": "Outros",
+      "total": "Total",
+      "formula": "graduações + modificador + outros",
+      "trainedOnly": "Somente treinada",
+      "armorPenalty": "Sofre penalidade de armadura",
+      "countTip": "Perícias treinadas / permitidas pela classe (+ Int)",
+      "initiativeTip": "Teste de Iniciativa (entra no combate ativo)",
+      "specialtyAdd": "Adicionar especialidade",
+      "specialtyDelete": "Remover especialidade",
+      "specialtyPlaceholder": "especialidade",
+      "specialtyLegend": "Atuação, Conhecimento e Ofício: uma perícia por especialidade"
+    },
+    "Save": {
+      "fort": "Fortitude",
+      "ref": "Reflexos",
+      "von": "Vontade",
+      "plural": "Testes de Resistência",
+      "tip": "1d20 + metade do nível + modificador. Clique para rolar"
+    },
+    "Size": {
+      "label": "Tamanho",
+      "minimo": "Mínimo",
+      "pequeno": "Pequeno",
+      "medio": "Médio",
+      "grande": "Grande",
+      "enorme": "Enorme"
+    },
+    "Caste": {
+      "daizenshi": "Dai'zenshi (nobreza)",
+      "shimin": "Shimin (trabalhadores)",
+      "nainin": "Nai'nin (párias)"
+    },
+    "Honor": {
+      "measure": "Medida de Honra",
+      "tier": {
+        "dignissimo": "Digníssimo",
+        "honrado": "Honrado",
+        "honesto": "Honesto",
+        "desonrado": "Desonrado",
+        "sordido": "Sórdido",
+        "desumano": "Desumano"
+      },
+      "violation": {
+        "label": "Gravidade da violação",
+        "short": "Violação",
+        "leve": "Leve",
+        "moderada": "Moderada",
+        "severa": "Severa",
+        "extrema": "Extrema"
+      },
+      "violationTitle": "Violação de honra {severity}",
+      "violationTip": "Aplica a violação escolhida: rola o dano de Honra (Shift: dano fixo). Personagens de Honra baixa ignoram as violações leves",
+      "immune": "Personagens {tier}s não sofrem dano de Honra por esta violação.",
+      "lost": "Perdeu {n} ponto(s) de Honra.",
+      "tierChanged": "Agora é {tier}.",
+      "gainTitle": "Honra conquistada",
+      "gainTip": "+1 de Honra (missão cumprida, nível na classe, ato honrado...)",
+      "tierTip": "Digníssimo 22+, Honrado 16–21, Honesto 10–15, Desonrado 6–9, Sórdido 1–5, Desumano 0",
+      "reserve": "Reserva de Força",
+      "reserveShort": "Reserva",
+      "reserveTip": "Reserva de Força: uma vez por sessão, só com modificador de Honra positivo",
+      "reserveReset": "Nova sessão: liberar a Reserva de Força",
+      "reserveNoMod": "Só personagens com modificador de Honra positivo usam a Reserva de Força.",
+      "reserveUsedWarn": "A Reserva de Força já foi usada nesta sessão.",
+      "reserveChoose": "Escolha um dos efeitos:",
+      "reserveOpt1": "Somar {n} a uma jogada de ataque, teste de habilidade, resistência ou perícia (mesmo depois do resultado).",
+      "reserveOpt2": "Somar {n} à classe de armadura até o início do próximo turno.",
+      "reserveOpt3": "Rolar de novo um teste de resistência contra um efeito nocivo, com {n}.",
+      "reserveOpt4": "Recuperar {n} pontos de vida.",
+      "reserveOpt5": "Realizar uma ação padrão ou de movimento adicional nesta rodada.",
+      "reserveOpt6": "Somar {n} a uma habilidade básica até o fim da cena."
+    },
+    "BBA": {
+      "abbr": "BBA",
+      "label": "Bônus base de ataque",
+      "tooltip": "Bônus base de ataque. Corpo a corpo: BBA + For; à distância: BBA + Des",
+      "full": "Total (igual ao nível)",
+      "threeQuarters": "Médio (3/4 do nível)",
+      "half": "Baixo (metade do nível)"
+    },
+    "Attack": {
+      "plural": "Ataques",
+      "melee": "Corpo a corpo",
+      "ranged": "À distância",
+      "meleeShort": "Corpo a Corpo",
+      "rangedShort": "Distância",
+      "meleeTip": "BBA + For. Clique para um ataque sem arma",
+      "rangedTip": "BBA + Des. Clique para um ataque sem arma",
+      "noWeapon": "Sem arma",
+      "damageBonus": "Dano extra",
+      "meleeBonus": "Bônus corpo a corpo",
+      "rangedBonus": "Bônus à distância"
+    },
+    "Level": {
+      "label": "Nível",
+      "short": "nível",
+      "half": "½ nível",
+      "tooltip": "Nível de personagem: soma dos níveis das classes (ou digitado no modo de edição)"
+    },
+    "XP": {
+      "label": "Experiência",
+      "levelUp": "XP suficiente: subir de nível"
+    },
+    "PV": {
+      "current": "PV Atuais",
+      "max": "PV Máximos",
+      "temp": "Temp.",
+      "tempHint": "Pontos de vida temporários: são perdidos primeiro",
+      "maxBase": "PV máximos (sem classe na ficha)",
+      "fromClasses": "Calculados pelas classes + Con por nível"
+    },
+    "PM": {
+      "label": "PM",
+      "long": "Pontos de Magia",
+      "limit": "Limite",
+      "limitTip": "Limite de PM por jutsu ou habilidade: nível + modificadores dos chacras abertos",
+      "limitFormula": "nível + chacras abertos",
+      "maxBase": "PM máximos (sem classe na ficha); os chacras abertos somam por cima",
+      "notEnough": "PM insuficientes: precisa de {n}, tem {have}."
+    },
+    "CA": {
+      "abbr": "CA",
+      "label": "Classe de Armadura",
+      "base": "Base",
+      "tooltip": "Classe de armadura: 10 + metade do nível + Des (limitada pela armadura) + armadura + escudo"
+    },
+    "RD": {
+      "abbr": "RD",
+      "label": "Redução de Dano",
+      "tooltip": "Redução de dano (contra corte, perfuração e esmagamento). Soma a RD das armaduras vestidas"
+    },
+    "Energy": {
+      "label": "Resistência a energia",
+      "placeholder": "ex.: fogo 5, frio 10"
+    },
+    "Defense": {
+      "label": "Defesas"
+    },
+    "Combat": {
+      "note": "Clique nos números para rolar · Shift: condição favorável ou desfavorável"
+    },
+    "Movement": {
+      "label": "Deslocamento"
+    },
+    "Details": {
+      "label": "Dados pessoais",
+      "origin": "Origem",
+      "race": "Raça",
+      "racePlaceholder": "Humano, Hanyô, Henge...",
+      "caste": "Casta",
+      "religion": "Religião",
+      "clan": "Clã",
+      "player": "Jogador",
+      "title": "Alcunha",
+      "titlePlaceholder": "ex.: Alma da Cerejeira",
+      "gender": "Gênero",
+      "age": "Idade",
+      "height": "Altura",
+      "weight": "Peso",
+      "sentai": "Sentai",
+      "sentaiPlaceholder": "nome do sentai e dos nakama"
+    },
+    "Class": {
+      "plural": "Classes",
+      "add": "Adicionar classe",
+      "primary": "Classe inicial (dá os PV e PM iniciais)",
+      "placeholder": "Samurai, Ninja...",
+      "none": "sem classe",
+      "levels": "Níveis",
+      "pvInitial": "PV iniciais",
+      "pvPerLevel": "PV por nível",
+      "pmInitial": "PM iniciais",
+      "pmPerLevel": "PM por nível",
+      "skills": "Perícias treinadas",
+      "honorMod": "Modificador de Honra",
+      "startingFeats": "Talentos iniciais",
+      "classSkills": "Perícias de classe"
+    },
+    "Race": {
+      "bonusSkills": "Perícias extras",
+      "abilityMods": "Ajustes de habilidade"
+    },
+    "Weapon": {
+      "plural": "Armas",
+      "inHand": "Armas em punho",
+      "hintEquip": "Empunhe uma arma na aba Combate",
+      "add": "Nova arma",
+      "side": "Arma",
+      "empty": "Nenhuma arma. Arraste uma arma para a ficha ou crie uma nova.",
+      "attack": "Ataque",
+      "damage": "Dano",
+      "critical": "Crítico",
+      "type": "Tipo",
+      "range": "Distância",
+      "critRange": "Margem de ameaça",
+      "critMult": "Multiplicador",
+      "attackBonus": "Bônus de ataque",
+      "damageBonus": "Bônus de dano",
+      "proficient": "Sabe usar",
+      "notProficient": "Não sabe usar",
+      "notProficientShort": "sem proficiência",
+      "rollDamage": "Dano",
+      "rollCritical": "Crítico ×{n}",
+      "criticalX": "crítico ×{n}",
+      "attackTip": "Atacar",
+      "critTip": "Rolar o dano do crítico",
+      "category": {
+        "label": "Categoria",
+        "simples": "Simples",
+        "marcial": "Marcial",
+        "exotica": "Exótica"
+      },
+      "kind": {
+        "label": "Tipo de ataque",
+        "corpo": "Corpo a corpo",
+        "arremesso": "Arremesso",
+        "disparo": "Disparo"
+      },
+      "grip": {
+        "label": "Empunhadura",
+        "leve": "Leve",
+        "umaMao": "Uma mão",
+        "duasMaos": "Duas mãos"
+      }
+    },
+    "Damage": {
+      "C": "Corte",
+      "P": "Perfuração",
+      "E": "Esmagamento",
+      "CP": "Corte ou perfuração",
+      "PE": "Perfuração ou esmagamento"
+    },
+    "Armor": {
+      "plural": "Armaduras e escudos",
+      "add": "Nova armadura",
+      "side": "Armadura",
+      "empty": "Nenhuma armadura.",
+      "body": "Armadura",
+      "shield": "Escudo",
+      "bonus": "Bônus na CA",
+      "maxDex": "Des. máxima",
+      "maxDexShort": "Des Máx",
+      "penalty": "Penalidade",
+      "penaltyShort": "Penal.",
+      "none": "Sem armadura",
+      "noShield": "Sem escudo",
+      "hintEquip": "Vista uma armadura na aba Combate",
+      "unequip": "Tirar",
+      "category": {
+        "label": "Categoria",
+        "leve": "Leve",
+        "media": "Média",
+        "pesada": "Pesada",
+        "escudo": "Escudo"
+      }
+    },
+    "Feat": {
+      "plural": "Talentos",
+      "add": "Novo talento",
+      "empty": "Nenhum talento.",
+      "prerequisites": "Pré-requisitos",
+      "category": {
+        "label": "Tipo",
+        "combate": "Combate",
+        "pericia": "Perícia",
+        "destino": "Destino",
+        "jutsu": "Jutsu",
+        "aprimoramento": "Aprimoramento",
+        "poder": "Poder concedido",
+        "tormenta": "Tormenta"
+      }
+    },
+    "Power": {
+      "race": "Habilidades de Raça",
+      "note": "Clique no nome para ler · a mão usa a habilidade (gasta os PM)",
+      "add": "Nova habilidade",
+      "empty": "Nenhuma.",
+      "origin": "Origem",
+      "originName": "Classe ou raça",
+      "level": "Nível",
+      "cost": "Custo (PM)",
+      "honorMin": "Honra mínima",
+      "honorReq": "Exige Honra mínima",
+      "honorTag": "Honra {n}+",
+      "honorTooLow": "{name} exige Honra {n} ou mais.",
+      "action": "Ação",
+      "actionPlaceholder": "padrão, movimento, livre...",
+      "source": {
+        "classe": "Habilidades de Classe",
+        "raca": "Habilidades de Raça",
+        "outra": "Outras Habilidades"
+      }
+    },
+    "Jutsu": {
+      "note": "Abra os chacras para aprender jutsus · o limite de PM vale para cada jutsu",
+      "known": "Jutsus conhecidos",
+      "add": "Novo jutsu",
+      "empty": "Nenhum jutsu.",
+      "execute": "Executar",
+      "executeTip": "Executar o jutsu (gasta os PM, pergunta os aprimoramentos)",
+      "extraHint": "Custo {cost} PM. Gaste PM extras nos aprimoramentos (limite {limit} PM).",
+      "extraPm": "PM extras",
+      "enhanced": "+{n} PM em aprimoramentos",
+      "enhancements": "Aprimoramentos",
+      "dc": "CD",
+      "cost": "Custo",
+      "chakra": "Chacra",
+      "grade": "Grau",
+      "execution": "Execução",
+      "range": "Alcance",
+      "target": "Alvo / área / efeito",
+      "duration": "Duração",
+      "resistance": "Resistência",
+      "descriptors": "Descritores",
+      "extraCost": "Custo extra fixo"
+    },
+    "Chakra": {
+      "plural": "Chacras",
+      "for": "Braços",
+      "des": "Pernas",
+      "con": "Torso",
+      "int": "Mente",
+      "sab": "Espírito",
+      "car": "Emoções",
+      "closed": "fechado",
+      "openTip": "Chacra aberto: soma o modificador aos PM e ao limite. Clique para fechar",
+      "closedTip": "Chacra fechado. Clique para abrir"
+    },
+    "Grade": {
+      "basico": "Básico",
+      "mediano": "Mediano",
+      "avancado": "Avançado",
+      "sublime": "Sublime",
+      "lendario": "Lendário"
+    },
+    "Consumable": {
+      "uses": "Cargas",
+      "usesMax": "Cargas máximas",
+      "useTip": "Usar (gasta uma carga ou uma unidade)",
+      "empty": "{name} acabou.",
+      "kind": {
+        "label": "Tipo",
+        "ofuda": "Ofuda",
+        "pocao": "Poção",
+        "erva": "Erva",
+        "municao": "Munição",
+        "outro": "Outro"
+      }
+    },
+    "Currency": {
+      "yo": "Yan de ouro",
+      "yp": "Yan de prata",
+      "y": "Yan de cobre",
+      "note": "1 ¥o = 10 ¥p = 100 ¥"
+    },
+    "Inventory": {
+      "label": "Inventário",
+      "gear": "Equipamentos",
+      "consumables": "Consumíveis",
+      "weight": "Carga total",
+      "dropHint": "Arraste itens do diretório ou de compêndios para a ficha"
+    },
+    "Bio": {
+      "appearance": "Aparência",
+      "personality": "Personalidade",
+      "history": "História",
+      "notes": "Anotações"
+    },
+    "Item": {
+      "new": "Novo(a) {type}",
+      "create": "Criar",
+      "edit": "Abrir",
+      "delete": "Apagar",
+      "deleteTitle": "Apagar item",
+      "deleteConfirm": "Apagar <strong>{name}</strong> da ficha?",
+      "useTip": "Usar",
+      "equipped": "Equipado",
+      "stowed": "Guardado",
+      "dishonorable": "Desonrado",
+      "dishonorableTip": "Usar um item desonrado é uma violação de honra moderada",
+      "quantity": "Quantidade",
+      "weight": "Peso",
+      "price": "Preço",
+      "source": "Fonte",
+      "sourcePlaceholder": "Império de Jade, p. 000",
+      "description": "Descrição"
+    },
+    "Roll": {
+      "abilityTest": "Teste de {name}",
+      "skillTest": "Teste de {name}",
+      "saveTest": "Teste de {name}",
+      "abilityTip": "Teste de habilidade (Shift: condição favorável ou desfavorável)",
+      "situational": "Situação",
+      "situationalHint": "Condição favorável (+2) ou desfavorável (−2), mais qualquer outro bônus.",
+      "otherBonus": "Outro bônus",
+      "unfavorable": "Desfavorável −2",
+      "normal": "Normal",
+      "favorable": "Favorável +2",
+      "threat": "Ameaça de crítico!",
+      "natural20": "20 natural!",
+      "natural1": "1 natural",
+      "trainedOnly": "{name} só pode ser testada por quem é treinado.",
+      "shiftHint": "+ clique: condição favorável ou desfavorável"
+    },
+    "Rest": {
+      "title": "Descanso",
+      "short": "Descansar",
+      "tooltip": "Uma noite de descanso: recupera todos os PM e 1 PV por nível",
+      "confirm": "Uma noite de descanso completo: recupera todos os PM e 1 PV por nível de personagem. Continuar?",
+      "body": "Recuperou {pv} PV e {pm} PM."
+    },
+    "Chat": {
+      "damage": "Dano",
+      "healing": "Cura",
+      "critical": "Crítico!",
+      "apply": "Aplicar",
+      "applyTip": "Aplica o dano aos tokens selecionados (PV temporários primeiro, menos a RD)",
+      "applyRaw": "Sem RD",
+      "applyRawTip": "Aplica o dano ignorando a redução de dano (energia, jutsus)",
+      "applyHeal": "Curar",
+      "applyHealTip": "Cura essa quantidade nos tokens selecionados",
+      "noTarget": "Selecione os tokens que recebem o dano.",
+      "damagedNote": "{name} perdeu {n} PV.",
+      "healedNote": "{name} recuperou {n} PV.",
+      "itemGone": "O item deste cartão não existe mais.",
+      "notOwner": "Você não controla este personagem."
+    }
+  }
+}

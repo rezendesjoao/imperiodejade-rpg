@@ -1,0 +1,11 @@
+{{!-- Round medallion (Technique/Initiative style): small label on top, big value. --}}
+<div class="ij-medal {{cls}}" {{#if action}}data-action="{{action}}"{{/if}} {{#if type}}data-type="{{type}}"{{/if}} {{#if skill}}data-skill="{{skill}}"{{/if}} {{#if tooltip}}data-tooltip="{{tooltip}}"{{/if}}>
+  <svg class="ij-medal__ring" viewBox="0 0 100 100" aria-hidden="true">
+    <circle class="ij-medal__outer" cx="50" cy="50" r="47"/>
+    <circle class="ij-medal__fill" cx="50" cy="50" r="42.5"/>
+    <circle class="ij-medal__line" cx="50" cy="50" r="39.5"/>
+    <path class="ij-medal__notch" d="M50 1 v7 M50 92 v7 M1 50 h7 M92 50 h7"/>
+  </svg>
+  <span class="ij-medal__label">{{label}}</span>
+  <span class="ij-medal__value">{{value}}</span>
+</div>

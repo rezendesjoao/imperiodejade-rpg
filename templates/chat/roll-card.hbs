@@ -1,0 +1,56 @@
+{{!-- The chat card of the system: rolls (checks, saves, attacks, damage) and info cards (abilities, jutsus, Honor). --}}
+<div class="imperiodejade ij-card ij-card--chat ij-card--{{kind}} {{#if crit}}ij-card--crit{{/if}} {{#if fumble}}ij-card--fumble{{/if}} {{#if critical}}ij-card--crit{{/if}}">
+  <header class="ij-card__head">
+    {{#if img}}<img class="ij-card__portrait" src="{{img}}" alt="">{{/if}}
+    <div class="ij-card__titles">
+      <h3 class="ij-card__title">{{title}}</h3>
+      {{#if subtitle}}<p class="ij-card__subtitle">{{subtitle}}</p>{{/if}}
+    </div>
+    {{#if kanji}}<span class="ij-card__kanji">{{kanji}}</span>{{/if}}
+  </header>
+
+  {{#if info}}
+    {{#if tags.length}}<div class="ij-card__tags">{{#each tags as |t|}}<span class="ij-tag">{{t}}</span>{{/each}}</div>{{/if}}
+    {{#if body}}<div class="ij-card__body">{{{body}}}</div>{{/if}}
+  {{else}}
+    <div class="ij-card__result">
+      <span class="ij-card__total">{{total}}</span>
+      {{#if (eq kind "damage")}}
+        <span class="ij-card__caption">{{localize "IJ.Chat.damage"}}{{#if critical}} · ×{{multiplier}}{{/if}}{{#if damageType}} · {{damageType}}{{/if}}</span>
+      {{else if (eq kind "healing")}}
+        <span class="ij-card__caption">{{localize "IJ.Chat.healing"}}</span>
+      {{else}}
+        <span class="ij-card__caption">d20 <strong>{{natural}}</strong> {{bonus}}</span>
+      {{/if}}
+      {{#if crit}}<span class="ij-card__flag ij-card__flag--crit">{{localize critLabel}}</span>{{/if}}
+      {{#if critical}}<span class="ij-card__flag ij-card__flag--crit">{{localize "IJ.Chat.critical"}}</span>{{/if}}
+      {{#if fumble}}<span class="ij-card__flag ij-card__flag--fumble">{{localize "IJ.Roll.natural1"}}</span>{{/if}}
+    </div>
+    {{#if parts.length}}
+    <ul class="ij-card__parts">{{#each parts as |p|}}<li><span>{{p.label}}</span><strong>{{p.value}}</strong></li>{{/each}}</ul>
+    {{/if}}
+    <div class="ij-card__dice">{{{dice}}}</div>
+  {{/if}}
+
+  {{#if buttons.length}}
+  <div class="ij-card__buttons">
+    {{#each buttons as |b|}}
+    <button type="button" class="ij-card__button {{#if b.critical}}ij-card__button--crit{{/if}}" data-ij-action="{{b.ijAction}}" data-actor="{{b.actor}}" data-item="{{b.item}}" data-crit="{{b.crit}}">
+      <i class="{{b.icon}}"></i> {{b.label}}
+    </button>
+    {{/each}}
+  </div>
+  {{/if}}
+
+  {{#if apply}}
+  <div class="ij-card__buttons ij-card__buttons--apply">
+    {{#if healing}}
+    <button type="button" class="ij-card__button" data-ij-action="apply" data-amount="-{{amount}}"><i class="fa-solid fa-heart"></i> {{localize "IJ.Chat.applyHeal"}}</button>
+    {{else}}
+    <button type="button" class="ij-card__button" data-ij-action="apply" data-amount="{{amount}}" data-physical="{{physical}}" data-tooltip="{{localize 'IJ.Chat.applyTip'}}"><i class="fa-solid fa-droplet"></i> {{localize "IJ.Chat.apply"}}</button>
+    <button type="button" class="ij-card__button" data-ij-action="apply" data-amount="{{amount}}" data-physical="false" data-tooltip="{{localize 'IJ.Chat.applyRawTip'}}"><i class="fa-solid fa-bolt"></i> {{localize "IJ.Chat.applyRaw"}}</button>
+    <button type="button" class="ij-card__button" data-ij-action="apply" data-amount="-{{amount}}" data-tooltip="{{localize 'IJ.Chat.applyHealTip'}}"><i class="fa-solid fa-heart"></i></button>
+    {{/if}}
+  </div>
+  {{/if}}
+</div>

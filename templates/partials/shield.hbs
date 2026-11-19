@@ -1,0 +1,10 @@
+{{!-- Shield badge (Evasion/Defense style): label on top, big value, colored double border. --}}
+<div class="ij-shield ij-shield--{{color}} {{cls}}" {{#if action}}data-action="{{action}}"{{/if}} {{#if save}}data-save="{{save}}"{{/if}} {{#if tooltip}}data-tooltip="{{tooltip}}"{{/if}}>
+  <svg class="ij-shield__svg" viewBox="0 0 100 118" aria-hidden="true">
+    <path class="ij-shield__outer" d="M9 2 H91 Q98 2 98 9 V76 L50 116 L2 76 V9 Q2 2 9 2 Z"/>
+    <path class="ij-shield__fill" d="M11 7 H89 Q93 7 93 11 V74 L50 109.5 L7 74 V11 Q7 7 11 7 Z"/>
+    <path class="ij-shield__line" d="M13 10.5 H87 Q89.5 10.5 89.5 13 V72.5 L50 105 L10.5 72.5 V13 Q10.5 10.5 13 10.5 Z"/>
+  </svg>
+  <span class="ij-shield__label">{{label}}</span>
+  <span class="ij-shield__value">{{value}}</span>
+</div>

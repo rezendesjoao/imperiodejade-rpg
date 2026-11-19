@@ -1,0 +1,98 @@
+{{!-- JUTSUS: the six chakras, the PM and the limit, the grade table and the jutsus by grade. --}}
+<section class="tab ij-tab ij-jutsus {{tab.cssClass}}" data-tab="jutsus" data-group="primary">
+  <div class="ij-sheet-title">
+    <span class="ij-sheet-title__kanji">術</span>
+    <h2>{{localize "IJ.Tab.jutsus"}}</h2>
+    <span class="ij-sheet-title__note">{{localize "IJ.Jutsu.note"}}</span>
+  </div>
+
+  <div class="ij-chakra-board">
+    <div class="ij-box ij-chakras">
+      <header class="ij-box__head"><span>{{localize "IJ.Chakra.plural"}}</span></header>
+      <div class="ij-chakras__row">
+        {{#each chakras as |c|}}
+        <div class="ij-chakra {{#if c.open}}ij-chakra--open{{/if}}">
+          <a class="ij-chakra__orb" {{#if @root.editable}}data-action="chakraToggle" data-chakra="{{c.key}}"{{/if}}
+             data-tooltip="{{#if c.open}}{{localize 'IJ.Chakra.openTip'}}{{else}}{{localize 'IJ.Chakra.closedTip'}}{{/if}}">
+            <span class="ij-chakra__kanji">{{c.kanji}}</span>
+          </a>
+          <span class="ij-chakra__label">{{c.label}}</span>
+          <span class="ij-chakra__ability">{{c.ability}} {{c.mod}}</span>
+          {{#if c.open}}
+            {{#if @root.editMode}}
+            <select class="ij-chakra__grade" name="system.chakras.{{c.key}}.grade">{{selectOptions @root.choices.grades selected=c.grade}}</select>
+            {{else}}
+            <span class="ij-chakra__grade-label">{{c.gradeLabel}}</span>
+            {{/if}}
+          {{else}}
+            <span class="ij-chakra__grade-label ij-muted">{{localize "IJ.Chakra.closed"}}</span>
+          {{/if}}
+        </div>
+        {{/each}}
+      </div>
+    </div>
+
+    <div class="ij-jutsu-side">
+      <div class="ij-badge ij-badge--pm">
+        <span class="ij-badge__label">{{localize "IJ.PM.label"}}<small>{{localize "IJ.PM.long"}}</small></span>
+        <div class="ij-badge__pair">
+          {{!-- Display only: the field lives on the first tab (two fields with one name would fight on submit) --}}
+          <span class="ij-badge__current">{{pm.value}}</span>
+          <span class="ij-badge__sep">/</span>
+          <span class="ij-badge__max">{{pm.max}}</span>
+        </div>
+        <div class="ij-bar ij-bar--pm"><span style="width: {{pm.pct}}%"></span></div>
+      </div>
+      <div class="ij-limit">
+        <span class="ij-limit__label">{{localize "IJ.PM.limit"}}</span>
+        <span class="ij-limit__value">{{pm.limit}}</span>
+        <span class="ij-limit__note">{{localize "IJ.PM.limitFormula"}}</span>
+        {{#if editMode}}<label class="ij-limit__bonus">{{localize "IJ.Skill.otherShort"}} <input class="ij-num-xs" type="number" name="system.attributes.pm.limitBonus" value="{{source.attributes.pm.limitBonus}}" step="1"></label>{{/if}}
+      </div>
+      <table class="ij-grade-table">
+        <tr><th>{{localize "IJ.Jutsu.grade"}}</th>{{#each grades as |g|}}<td>{{g.label}}</td>{{/each}}</tr>
+        <tr><th>PM</th>{{#each grades as |g|}}<td>{{g.cost}}</td>{{/each}}</tr>
+        <tr><th>{{localize "IJ.Jutsu.dc"}}</th>{{#each grades as |g|}}<td>{{g.dc}}</td>{{/each}}</tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="ij-cardlist ij-cardlist--jutsus">
+    <header class="ij-cardlist__head">
+      <span class="ij-cardlist__title">{{localize "IJ.Jutsu.known"}}</span>
+      {{#if editable}}<a class="ij-btn ij-btn--ghost" data-action="itemCreate" data-type="jutsu"><i class="fa-solid fa-plus"></i> {{localize "IJ.Jutsu.add"}}</a>{{/if}}
+    </header>
+    {{#each jutsuGroups as |g|}}
+    <h4 class="ij-grade-head ij-grade-head--{{g.key}}"><span>{{g.label}}</span><small>{{g.cost}} PM · {{localize "IJ.Jutsu.dc"}} {{g.dc}}</small></h4>
+    {{#each g.items as |j|}}
+    <article class="ij-power ij-jutsu ij-jutsu--{{j.chakra}} ij-card-row draggable {{#if j.expanded}}expanded{{/if}}" data-item-id="{{j.id}}">
+      <div class="ij-power__head">
+        <span class="ij-jutsu__chakra" data-tooltip="{{j.chakraLabel}}">{{j.chakraKanji}}</span>
+        <a class="ij-power__name" data-action="toggleCollapse">{{j.name}}</a>
+        <span class="ij-power__tags">
+          <span class="ij-tag ij-tag--pm">{{j.cost}} PM</span>
+          <span class="ij-tag">{{localize "IJ.Jutsu.dc"}} {{j.dc}}</span>
+          {{#if j.execution}}<span class="ij-tag">{{j.execution}}</span>{{/if}}
+          {{#if j.range}}<span class="ij-tag">{{j.range}}</span>{{/if}}
+        </span>
+        <span class="ij-power__ctl">
+          <a class="ij-btn ij-btn--small ij-btn--jade" data-action="itemUse" data-tooltip="{{localize 'IJ.Jutsu.executeTip'}}"><i class="fa-solid fa-hand-sparkles"></i></a>
+          {{> ij-item-controls}}
+        </span>
+      </div>
+      <div class="ij-power__desc">
+        <dl class="ij-jutsu__stats">
+          {{#if j.descriptors}}<dt>{{localize "IJ.Jutsu.descriptors"}}</dt><dd>{{j.descriptors}}</dd>{{/if}}
+          {{#if j.target}}<dt>{{localize "IJ.Jutsu.target"}}</dt><dd>{{j.target}}</dd>{{/if}}
+          {{#if j.duration}}<dt>{{localize "IJ.Jutsu.duration"}}</dt><dd>{{j.duration}}</dd>{{/if}}
+          {{#if j.resistance}}<dt>{{localize "IJ.Jutsu.resistance"}}</dt><dd>{{j.resistance}}</dd>{{/if}}
+        </dl>
+        {{{j.description}}}
+      </div>
+    </article>
+    {{/each}}
+    {{else}}
+    <p class="ij-empty">{{localize "IJ.Jutsu.empty"}}</p>
+    {{/each}}
+  </div>
+</section>

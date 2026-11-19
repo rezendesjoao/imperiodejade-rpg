@@ -1,0 +1,82 @@
+{{!-- PERÍCIAS: the skill table in two columns, with the specialties of Atuação, Conhecimento and Ofício. --}}
+<section class="tab ij-tab ij-pericias {{tab.cssClass}}" data-tab="pericias" data-group="primary">
+  <div class="ij-sheet-title">
+    <span class="ij-sheet-title__kanji">技</span>
+    <h2>{{localize "IJ.Tab.pericias"}}</h2>
+    <span class="ij-sheet-title__note">
+      {{localize "IJ.Skill.trainedPlural"}}: <strong>{{skillCount.trained}}{{#if skillCount.allowed}} / {{skillCount.allowed}}{{/if}}</strong>
+      · {{localize "IJ.Skill.formula"}}
+    </span>
+  </div>
+
+  <div class="ij-skills">
+    {{#each skillColumns as |column|}}
+    <div class="ij-box ij-box--table ij-skills__col">
+      <table class="ij-table ij-table--skills">
+        <thead>
+          <tr>
+            <th class="ij-c-train" data-tooltip="{{localize 'IJ.Skill.trained'}}"><i class="fa-solid fa-circle-check"></i></th>
+            <th class="ij-c-name">{{localize "IJ.Skill.label"}}</th>
+            <th class="ij-c-abl">{{localize "IJ.Skill.abilityShort"}}</th>
+            <th class="ij-c-num" data-tooltip="{{localize 'IJ.Skill.ranksTip'}}">{{localize "IJ.Skill.ranksShort"}}</th>
+            <th class="ij-c-num">{{localize "IJ.Skill.modShort"}}</th>
+            <th class="ij-c-num">{{localize "IJ.Skill.otherShort"}}</th>
+            <th class="ij-c-total">{{localize "IJ.Skill.total"}}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each column as |s|}}
+          <tr class="ij-skill {{#if s.trained}}ij-skill--trained{{/if}} {{#unless s.usable}}ij-skill--locked{{/unless}} {{#if s.isSpecialty}}ij-skill--spec{{/if}}">
+            <td class="ij-c-train">
+              <a class="ij-pip {{#if s.trained}}on{{/if}}" {{#if @root.editable}}data-action="toggleTrained" data-skill="{{s.key}}" {{#if s.specialtyId}}data-specialty="{{s.specialtyId}}"{{/if}}{{/if}}
+                 data-tooltip="{{#if s.trained}}{{localize 'IJ.Skill.trained'}}{{else}}{{localize 'IJ.Skill.untrained'}}{{/if}}"></a>
+            </td>
+            <td class="ij-c-name">
+              {{#if s.isSpecialty}}
+                <span class="ij-skill__parent">{{s.label}}</span>
+                {{#if @root.editMode}}
+                <input class="ij-skill__spec-input" type="text" name="{{s.inputName}}.label" value="{{s.specialty}}" list="ij-spec-{{s.key}}" placeholder="{{localize 'IJ.Skill.specialtyPlaceholder'}}">
+                <a class="ij-ctl ij-ctl--danger" data-action="specialtyDelete" data-specialty="{{s.specialtyId}}" data-tooltip="{{localize 'IJ.Skill.specialtyDelete'}}"><i class="fa-solid fa-xmark"></i></a>
+                {{else}}
+                <a class="ij-skill__name" data-action="rollSkill" data-skill="{{s.key}}" data-specialty="{{s.specialtyId}}">({{#if s.specialty}}{{s.specialty}}{{else}}—{{/if}})</a>
+                {{/if}}
+              {{else}}
+                <a class="ij-skill__name" data-action="rollSkill" data-skill="{{s.key}}">{{s.label}}</a>
+                {{#if s.trainedOnly}}<span class="ij-skill__flag" data-tooltip="{{localize 'IJ.Skill.trainedOnly'}}">✦</span>{{/if}}
+                {{#if s.armor}}<span class="ij-skill__flag ij-skill__flag--armor" data-tooltip="{{localize 'IJ.Skill.armorPenalty'}}">⛉</span>{{/if}}
+                {{#if (and s.multi @root.editable)}}<a class="ij-ctl" data-action="specialtyAdd" data-skill="{{s.key}}" data-tooltip="{{localize 'IJ.Skill.specialtyAdd'}}"><i class="fa-solid fa-plus"></i></a>{{/if}}
+              {{/if}}
+            </td>
+            <td class="ij-c-abl">
+              {{#if (and @root.editMode (not s.isSpecialty))}}
+              <select name="{{s.inputName}}.ability">{{selectOptions @root.choices.abilities selected=s.ability}}</select>
+              {{else}}{{s.abilityAbbr}}{{/if}}
+            </td>
+            <td class="ij-c-num">{{s.ranks}}</td>
+            <td class="ij-c-num">{{s.abilityMod}}</td>
+            <td class="ij-c-num">
+              {{#if @root.editMode}}<input class="ij-num-xs" type="number" name="{{s.inputName}}.bonus" value="{{s.bonus}}" step="1">
+              {{else}}{{#if s.bonus}}{{ij-signed s.bonus}}{{/if}}{{s.penalty}}{{#if s.sizeBonus}} {{s.sizeBonus}}{{/if}}{{/if}}
+            </td>
+            <td class="ij-c-total">
+              <a class="ij-total" data-action="rollSkill" data-skill="{{s.key}}" {{#if s.specialtyId}}data-specialty="{{s.specialtyId}}"{{/if}}>{{#if s.usable}}{{s.total}}{{else}}—{{/if}}</a>
+            </td>
+          </tr>
+          {{/each}}
+        </tbody>
+      </table>
+    </div>
+    {{/each}}
+  </div>
+
+  {{#each specialties as |list key|}}
+  <datalist id="ij-spec-{{key}}">{{#each list as |name|}}<option value="{{name}}"></option>{{/each}}</datalist>
+  {{/each}}
+
+  <footer class="ij-legend">
+    <span><span class="ij-skill__flag">✦</span> {{localize "IJ.Skill.trainedOnly"}}</span>
+    <span><span class="ij-skill__flag ij-skill__flag--armor">⛉</span> {{localize "IJ.Skill.armorPenalty"}}{{#if armorPenalty}} ({{ij-signed armorPenalty}}){{/if}}</span>
+    <span><i class="fa-solid fa-plus"></i> {{localize "IJ.Skill.specialtyLegend"}}</span>
+    <span><kbd>Shift</kbd> {{localize "IJ.Roll.shiftHint"}}</span>
+  </footer>
+</section>

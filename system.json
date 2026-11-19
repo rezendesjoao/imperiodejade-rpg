@@ -1,0 +1,71 @@
+{
+  "id": "imperiodejade",
+  "title": "Império de Jade",
+  "description": "Império de Jade para o Foundry VTT: a ficha completa do Império de Tamu-ra, com atributos e Honra, perícias com especialidades, classe de armadura e resistências calculadas, chacras e jutsus, ataques e cartões de chat automatizados.",
+  "version": "0.1.0",
+  "compatibility": {
+    "minimum": "14",
+    "verified": "14.367"
+  },
+  "authors": [
+    {
+      "name": "rezendesjoao",
+      "url": "https://github.com/rezendesjoao"
+    }
+  ],
+  "esmodules": [
+    "module/imperio.mjs"
+  ],
+  "styles": [
+    "styles/fonts.css",
+    "styles/imperio.css"
+  ],
+  "languages": [
+    {
+      "lang": "pt-BR",
+      "name": "Português (Brasil)",
+      "path": "lang/pt-BR.json"
+    },
+    {
+      "lang": "en",
+      "name": "English",
+      "path": "lang/pt-BR.json"
+    }
+  ],
+  "documentTypes": {
+    "Actor": {
+      "character": {
+        "htmlFields": [
+          "biography.appearance",
+          "biography.personality",
+          "biography.history",
+          "biography.notes"
+        ]
+      }
+    },
+    "Item": {
+      "class": { "htmlFields": ["description"] },
+      "race": { "htmlFields": ["description"] },
+      "weapon": { "htmlFields": ["description"] },
+      "armor": { "htmlFields": ["description"] },
+      "gear": { "htmlFields": ["description"] },
+      "consumable": { "htmlFields": ["description"] },
+      "feat": { "htmlFields": ["description"] },
+      "power": { "htmlFields": ["description"] },
+      "jutsu": { "htmlFields": ["description", "enhancements"] }
+    }
+  },
+  "grid": {
+    "distance": 1.5,
+    "units": "m"
+  },
+  "primaryTokenAttribute": "attributes.pv",
+  "secondaryTokenAttribute": "attributes.pm",
+  "url": "https://github.com/rezendesjoao/imperiodejade-rpg",
+  "manifest": "https://github.com/rezendesjoao/imperiodejade-rpg/releases/latest/download/system.json",
+  "download": "https://github.com/rezendesjoao/imperiodejade-rpg/releases/download/v0.1.0/imperiodejade.zip",
+  "bugs": "https://github.com/rezendesjoao/imperiodejade-rpg/issues",
+  "readme": "https://github.com/rezendesjoao/imperiodejade-rpg/blob/main/README.md",
+  "changelog": "https://github.com/rezendesjoao/imperiodejade-rpg/blob/main/CHANGELOG.md",
+  "license": "LICENSE"
+}
