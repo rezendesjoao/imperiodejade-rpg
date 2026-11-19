@@ -1,5 +1,5 @@
 {
-  "_sobre": "Automação dos jutsus de src/data/jutsus-1.json e jutsus-2.json (docs/automacao.md). A chave é o nome do jutsu. Custo, ataque, dano e teste vêm dos campos do próprio jutsu; aqui fica só o resto. @spent só aparece onde os PM extras dizem sem ambiguidade qual aprimoramento foi comprado. A CD dos testes de turnStart é a do grau do jutsu, escrita à mão (o motor só ajusta a do teste do cartão).",
+  "_sobre": "Automação dos jutsus de src/data/jutsus-1.json e jutsus-2.json (docs/automacao.md). A chave é o nome do jutsu. Custo, ataque, dano e teste vêm dos campos do próprio jutsu; aqui fica só o resto. @spent só aparece onde os PM extras dizem sem ambiguidade qual aprimoramento foi comprado. Testes de turnStart sem dc usam a CD da execução (@dc). Aura de 1,5m leva raio 2 (o motor arredonda o raio para baixo e 1 deixaria os adjacentes de fora).",
 
   "Apreciar Arte": { "status": "narrativo" },
   "Arma da Tempestade": {
@@ -28,20 +28,26 @@
     }
   },
   "Ataque Zen": {
-    "status": "parcial", "notes": "Vale só no próximo ataque do alvo: apague o efeito depois dele.",
     "activation": {
-      "duration": { "value": 1, "unit": "rodada" },
-      "targets": { "who": "allies", "rollOptions": [{ "id": "zen", "label": "Ataque Zen", "best": true }] }
+      "duration": { "unit": "cena" },
+      "options": [
+        { "id": "voce", "label": "Em você", "self": { "consumeOn": "attack", "rollOptions": [{ "id": "zen", "label": "Ataque Zen", "best": true }] } },
+        { "id": "outro", "label": "Em outra criatura", "targets": { "who": "allies", "consumeOn": "attack", "rollOptions": [{ "id": "zen", "label": "Ataque Zen", "best": true }] } },
+        { "id": "voceRodada", "label": "Em você, 1 rodada (+5 PM)", "duration": { "value": 1, "unit": "rodada" }, "self": { "rollOptions": [{ "id": "zen", "label": "Ataque Zen", "best": true }] } },
+        { "id": "outroRodada", "label": "Em outra, 1 rodada (+5 PM)", "duration": { "value": 1, "unit": "rodada" }, "targets": { "who": "allies", "rollOptions": [{ "id": "zen", "label": "Ataque Zen", "best": true }] } }
+      ]
     }
   },
   "Aura Corrosiva": {
-    "status": "parcial", "notes": "Vale para os alvos marcados ao executar; tire o efeito de quem sair da aura.",
     "activation": {
       "duration": { "unit": "cena" },
-      "targets": { "who": "any", "turnStart": { "damage": "1d4", "type": "acido" } }
+      "self": { "aura": { "radius": 2, "who": "any", "label": "Aura Corrosiva", "turnStart": { "damage": "1d4", "type": "acido" } } }
     }
   },
-  "Aura Zen": { "status": "parcial", "notes": "Quem tentar atacar o alvo testa Vontade (cartão); falhando, não ataca na cena." },
+  "Aura Zen": {
+    "status": "parcial", "notes": "Quem atacar o alvo testa Vontade no cartão; falhando, não o ataca na cena.",
+    "activation": { "duration": { "unit": "cena" }, "targets": { "who": "allies", "consumeOn": "attack" } }
+  },
   "Bomba de Fumaça": { "status": "parcial", "notes": "A camuflagem da névoa (total a partir de 3m) fica com a mesa." },
   "Brilho das Cem Gemas": {
     "activation": {
@@ -123,10 +129,11 @@
     }
   },
   "Ferir Membros": {
-    "status": "parcial", "notes": "Dano da arma à parte; em ameaças, o deslocamento menor fica à mão.",
+    "status": "parcial", "notes": "Em ameaças, o deslocamento menor fica à mão.",
     "activation": {
       "honorViolation": "moderada",
       "duration": { "unit": "cena" },
+      "attack": { "type": "corpo", "weapon": true },
       "targets": { "who": "enemies", "changes": [{ "key": "system.attributes.movement.bonus", "value": -6 }] }
     }
   },
@@ -148,10 +155,11 @@
   "Golpe do Vento Distante": {},
   "Golpe Pesado": {},
   "Hipnotismo Ninja": {
-    "status": "parcial", "notes": "A camuflagem contra os alvos fica à mão; em combate eles têm +4 no teste.",
+    "status": "parcial", "notes": "O +4 dos alvos no teste em combate fica à mão.",
     "activation": {
       "honorViolation": "leve",
       "duration": { "value": 1, "unit": "rodada" },
+      "self": { "traits": { "missChance": 20 }, "consumeOn": "attack" },
       "targets": { "who": "enemies", "save": { "type": "von" }, "conditions": ["pasmo"] }
     }
   },
@@ -244,9 +252,22 @@
       "self": { "rollOptions": [{ "id": "punhos", "label": "Punhos de Ferro", "attack": 1, "damage": 1, "filter": { "melee": true } }] }
     }
   },
-  "Rajada de Disparos": { "status": "parcial", "notes": "Ataque três vezes com a arma; cada acerto soma +2 ao dano dos acertos." },
+  "Rajada de Disparos": {
+    "status": "parcial", "notes": "Ataque três vezes pelo botão; cada acerto soma +2 ao dano dos acertos.",
+    "activation": { "attack": { "type": "distancia", "weapon": "distancia" } }
+  },
   "Refeição Respeitosa": {},
-  "Sombras da Noite": { "status": "parcial", "notes": "A camuflagem por escuridão fica com a mesa.", "activation": { "honorViolation": "moderada" } },
+  "Sombras da Noite": {
+    "status": "parcial", "notes": "Atualize quem entra ou sai e apague ao fim da concentração; visão no escuro ignora.",
+    "activation": {
+      "honorViolation": "moderada",
+      "duration": { "unit": "cena" },
+      "options": [
+        { "id": "camuflagem", "label": "Camuflagem", "targets": { "who": "any", "traits": { "missChance": 20 } } },
+        { "id": "total", "label": "Camuflagem total (+2 PM)", "targets": { "who": "any", "traits": { "missChance": 50 } } }
+      ]
+    }
+  },
   "Sono de Mizuha": {
     "activation": {
       "honorViolation": "leve",
@@ -325,7 +346,15 @@
       ]
     }
   },
-  "Anulação": { "status": "parcial", "notes": "Apague à mão os efeitos dos jutsus dissipados." },
+  "Anulação": {
+    "status": "parcial", "notes": "Teste Vontade contra a CD de cada jutsu antes; os que resistirem ficam à mão.",
+    "activation": {
+      "options": [
+        { "id": "todos", "label": "Dissipar todos (passou nos testes)", "targets": { "who": "any", "dispel": true } },
+        { "id": "alguns", "label": "Dissipar só alguns (à mão)" }
+      ]
+    }
+  },
   "Arma Ameaçadora": {
     "activation": {
       "duration": { "unit": "cena" },
@@ -349,8 +378,11 @@
   },
   "Barreira da Tempestade": { "status": "parcial", "notes": "Role o dano do cartão quando alguém cruzar a cortina (uma vez por rodada)." },
   "Bote da Naja": {
-    "status": "parcial", "notes": "Dano da arma e de Constituição à mão; Fortitude após 1 minuto evita mais 1d10.",
-    "activation": { "honorViolation": "severa" }
+    "activation": {
+      "honorViolation": "severa",
+      "attack": { "type": "corpo", "weapon": true, "onHit": { "abilityDamage": { "ability": "con", "formula": 2 } } },
+      "save": { "type": "fort", "onFail": { "abilityDamage": { "ability": "con", "formula": "1d10" } } }
+    }
   },
   "Brilho de Tai’Yang": { "status": "parcial", "notes": "Penalidades e dano de luz solar nos sensíveis à luz ficam com a mesa." },
   "Cântico dos Mortos": { "status": "narrativo", "activation": { "honorViolation": "severa" } },
@@ -359,7 +391,7 @@
     "activation": {
       "duration": { "unit": "cena" },
       "save": { "type": "fort", "negate": true },
-      "targets": { "who": "any", "turnStart": { "damage": "2d4", "type": "frio", "save": { "type": "fort", "dc": 18 }, "negate": true } }
+      "targets": { "who": "any", "turnStart": { "damage": "2d4", "type": "frio", "save": { "type": "fort" }, "negate": true } }
     }
   },
   "Cidadão Honrado": { "status": "narrativo", "activation": { "honorViolation": "leve" } },
@@ -369,15 +401,18 @@
       "targets": { "who": "enemies", "duration": { "value": 2, "unit": "rodada" }, "turnStart": { "damage": "2d4", "type": "acido" } }
     }
   },
-  "Dança dos Cinco Ventos": { "status": "parcial", "notes": "Role o dano da arma em cada alvo atingido, com +2 por acerto." },
+  "Dança dos Cinco Ventos": {
+    "status": "parcial", "notes": "Some +2 ao dano para cada alvo atingido.",
+    "activation": { "attack": { "type": "corpo", "weapon": true } }
+  },
   "Dominar Chamas": {
-    "status": "parcial", "notes": "Trocar de alvo a cada turno e a fumaça (camuflagem) ficam com a mesa.",
+    "status": "parcial", "notes": "Trocar de alvo a cada turno fica à mão; atualize quem entra ou sai da fumaça.",
     "activation": {
       "duration": { "unit": "cena" },
       "options": [
         { "id": "chamas", "label": "Chamas dançantes" },
         { "id": "fogos", "label": "Fogos de artifício", "targets": { "who": "any", "save": { "type": "ref" }, "conditions": [{ "id": "cego", "duration": { "value": 1, "unit": "rodada" } }] } },
-        { "id": "extinguir", "label": "Extinguir chama" },
+        { "id": "extinguir", "label": "Extinguir chama", "targets": { "who": "any", "traits": { "missChance": 50 } } },
         { "id": "inflamar", "label": "Inflamar objeto", "targets": { "who": "any", "save": { "type": "fort" }, "turnStart": { "damage": "1d6", "type": "fogo" } } }
       ]
     }
@@ -411,7 +446,17 @@
       "tempPv": "5d4"
     }
   },
-  "Escuridão de Yumeno": { "status": "parcial", "notes": "A camuflagem total por escuridão na área fica com a mesa.", "activation": { "honorViolation": "severa" } },
+  "Escuridão de Yumeno": {
+    "status": "parcial", "notes": "Objeto longe de você: atualize quem entra ou sai da escuridão.",
+    "activation": {
+      "honorViolation": "severa",
+      "duration": { "unit": "cena" },
+      "options": [
+        { "id": "contigo", "label": "Objeto com você", "self": { "aura": { "radius": 6, "who": "any", "includeSelf": true, "label": "Escuridão de Yumeno", "traits": { "missChance": 50 } } } },
+        { "id": "longe", "label": "Objeto em outro lugar", "targets": { "who": "any", "traits": { "missChance": 50 } } }
+      ]
+    }
+  },
   "Explosão de Fogo": {},
   "Falsificação": { "status": "narrativo", "activation": { "honorViolation": "leve" } },
   "Fantasma Vivo": {
@@ -440,7 +485,7 @@
   },
   "Golpe Estilhaçador": {
     "status": "parcial", "notes": "Dano da arma à parte; um objeto atingido é destruído.",
-    "activation": { "damage": { "formula": "6d6", "type": "irredutível" } }
+    "activation": { "damage": { "formula": "6d6", "ignoreRd": "all" } }
   },
   "Golpe Voador": {
     "status": "parcial", "notes": "Dobro do dano máximo da arma à mão; errando, quem cai é você.",
@@ -466,14 +511,20 @@
     }
   },
   "Invisibilidade Ninja": {
-    "status": "parcial", "notes": "Mover-se troca a invisibilidade por camuflagem total; atacar encerra o jutsu.",
+    "status": "parcial", "notes": "Ao se deslocar ou atacar, tire a condição invisível; atacar encerra o resto.",
     "activation": {
       "honorViolation": "leve",
       "duration": { "unit": "cena" },
-      "self": {
-        "conditions": ["invisivel"],
-        "rollOptions": [{ "id": "furtividade", "label": "Invisibilidade ninja (Furtividade)", "for": "skill", "filter": { "skills": ["furtividade"] }, "best": true }]
-      }
+      "options": [
+        { "id": "normal", "label": "Invisível", "self": {
+          "conditions": ["invisivel"], "traits": { "missChance": 50 }, "consumeOn": "attack",
+          "rollOptions": [{ "id": "furtividade", "label": "Invisibilidade ninja (Furtividade)", "for": "skill", "filter": { "skills": ["furtividade"] }, "best": true }]
+        } },
+        { "id": "andando", "label": "Invisível mesmo andando (+1 PM)", "self": {
+          "statuses": ["invisivel"], "consumeOn": "attack",
+          "rollOptions": [{ "id": "furtividade", "label": "Invisibilidade ninja (Furtividade)", "for": "skill", "filter": { "skills": ["furtividade"] }, "best": true }]
+        } }
+      ]
     }
   },
   "Kata do Polvo": { "status": "narrativo" },
@@ -492,9 +543,18 @@
   },
   "Leitura de Pensamentos": { "status": "narrativo" },
   "Localização": { "status": "narrativo" },
-  "Moldar Terra": { "status": "narrativo" },
+  "Moldar Terra": {
+    "status": "parcial", "notes": "Amolecer e modelar ficam com a mesa; soltar-se pede ação padrão e teste.",
+    "activation": {
+      "options": [
+        { "id": "amolecer", "label": "Amolecer pedra ou terra" },
+        { "id": "modelar", "label": "Modelar pedra ou argila" },
+        { "id": "solidificar", "label": "Solidificar areia ou lama", "targets": { "who": "any", "conditions": ["enredado"] } }
+      ]
+    }
+  },
   "Mente Ausente": {
-    "status": "parcial", "notes": "Renunciar às ações para aparar golpes fica à mão.",
+    "status": "parcial", "notes": "Apare só se renunciou às ações; alcançando a CA do atacante, fira-o à mão.",
     "activation": {
       "duration": { "unit": "cena" },
       "self": {
@@ -503,7 +563,8 @@
           { "key": "system.attributes.attack.damage", "value": 2 },
           { "key": "system.saves.von.bonus", "value": 2 }
         ],
-        "traits": { "immune": ["confuso"] }
+        "traits": { "immune": ["confuso"] },
+        "reactions": [{ "on": "attacked", "melee": true, "label": "Mente Ausente: aparar", "effect": "opposedAttack" }]
       }
     }
   },
@@ -531,7 +592,7 @@
     "activation": {
       "duration": { "unit": "cena" },
       "save": { "type": "ref", "onFail": { "conditions": ["enredado"] } },
-      "targets": { "who": "any", "turnStart": { "damage": "1d6", "type": "frio", "save": { "type": "ref", "dc": 18 }, "conditions": ["enredado"] } }
+      "targets": { "who": "any", "turnStart": { "damage": "1d6", "type": "frio", "save": { "type": "ref" }, "conditions": ["enredado"] } }
     }
   },
   "Ofícios dos Ancestrais": {},
@@ -542,7 +603,7 @@
       "targets": {
         "who": "enemies", "save": { "type": "von" },
         "conditions": [{ "id": "paralisado", "duration": { "value": 1, "unit": "rodada" } }],
-        "turnStart": { "save": { "type": "von", "dc": 18 }, "endOnSave": true, "conditions": [{ "id": "paralisado", "duration": { "value": 1, "unit": "rodada" } }] }
+        "turnStart": { "save": { "type": "von" }, "endOnSave": true, "conditions": [{ "id": "paralisado", "duration": { "value": 1, "unit": "rodada" } }] }
       }
     }
   },
@@ -567,7 +628,15 @@
       ]
     }
   },
-  "Relâmpago Divino": { "status": "parcial", "notes": "Numa tempestade o dano vira 6d10: role à parte." },
+  "Relâmpago Divino": {
+    "status": "parcial", "notes": "Numa tempestade o dano vira 6d10 (role à parte); surdez só em quem falhou.",
+    "activation": {
+      "options": [
+        { "id": "normal", "label": "Relâmpago" },
+        { "id": "surdez", "label": "Ensurdecer (+3 PM)", "extraSaves": [{ "type": "fort", "label": "Surdez", "onFail": { "conditions": [{ "id": "surdo", "duration": { "unit": "cena" } }] } }] }
+      ]
+    }
+  },
   "Silêncio da Noite": {
     "status": "parcial", "notes": "Surdo em quem estava na área; atualize quem entrar ou sair.",
     "activation": {
@@ -578,8 +647,20 @@
   },
   "Sopro da Vida": {},
   "Tamanho Gigante": {
-    "status": "parcial", "notes": "O aumento de tamanho (CA, ataque, alcance) fica à mão.",
-    "activation": { "duration": { "unit": "cena" }, "self": { "changes": [{ "key": "system.abilities.for.bonus", "value": 2 }] } }
+    "status": "parcial", "notes": "O alcance maior e o tamanho do token ficam à mão.",
+    "activation": {
+      "duration": { "unit": "cena" },
+      "self": {
+        "changes": [
+          { "key": "system.abilities.for.bonus", "value": 2 },
+          { "key": "system.attributes.ca.bonus", "value": -1 },
+          { "key": "system.attributes.attack.melee", "value": -1 },
+          { "key": "system.attributes.attack.ranged", "value": -1 },
+          { "key": "system.skills.furtividade.bonus", "value": -4 }
+        ],
+        "rollOptions": [{ "id": "gigante", "label": "Tamanho Gigante", "for": "maneuver", "value": 4, "both": true }]
+      }
+    }
   },
   "Tecelão Vegetal": {
     "status": "parcial", "notes": "Atualize quem entra ou sai da área; soltar-se (ação padrão e teste) fica à mão.",
@@ -589,7 +670,7 @@
         {
           "id": "enredar", "label": "Enredar",
           "save": { "type": "ref", "onFail": { "conditions": ["enredado"] } },
-          "targets": { "who": "any", "turnStart": { "save": { "type": "ref", "dc": 18 }, "conditions": ["enredado"] } }
+          "targets": { "who": "any", "turnStart": { "save": { "type": "ref" }, "conditions": ["enredado"] } }
         },
         { "id": "podar", "label": "Podar" }
       ]
@@ -610,7 +691,7 @@
         "type": "fort",
         "onFail": {
           "conditions": [{ "id": "paralisado", "duration": { "value": 1, "unit": "rodada" } }],
-          "turnStart": { "save": { "type": "von", "dc": 18 }, "endOnSave": true, "conditions": [{ "id": "paralisado", "duration": { "value": 1, "unit": "rodada" } }] }
+          "turnStart": { "save": { "type": "von" }, "endOnSave": true, "conditions": [{ "id": "paralisado", "duration": { "value": 1, "unit": "rodada" } }] }
         },
         "onSuccess": { "conditions": ["lento"] }
       }
@@ -645,7 +726,7 @@
       "honorViolation": "leve",
       "duration": { "unit": "cena" },
       "save": { "type": "von", "onFail": { "conditions": [{ "id": "enjoado", "duration": { "value": 1, "unit": "rodada" } }] } },
-      "targets": { "who": "enemies", "turnStart": { "save": { "type": "von", "dc": 18 }, "conditions": [{ "id": "enjoado", "duration": { "value": 1, "unit": "rodada" } }] } }
+      "targets": { "who": "enemies", "turnStart": { "save": { "type": "von" }, "conditions": [{ "id": "enjoado", "duration": { "value": 1, "unit": "rodada" } }] } }
     }
   },
   "Visão Perfeita": {

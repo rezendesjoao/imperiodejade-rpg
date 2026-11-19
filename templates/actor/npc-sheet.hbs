@@ -120,6 +120,7 @@
       <header class="ij-cardlist__head">
         <span class="ij-cardlist__title">{{localize "IJ.Attack.plural"}}</span>
         {{#if editable}}<a class="ij-btn ij-btn--ghost" data-action="itemCreate" data-type="weapon"><i class="fa-solid fa-plus"></i> {{localize "IJ.Npc.addAttack"}}</a>{{/if}}
+        <span class="ij-maneuvers ij-maneuvers--npc">{{#each maneuvers as |m|}}<a class="ij-btn ij-btn--ghost ij-btn--small" data-action="rollManeuver" data-kind="{{m.key}}" data-tooltip="{{m.tip}}">{{m.label}}</a>{{/each}}</span>
       </header>
       {{#each attacks as |w|}}
       <div class="ij-npc-attack ij-card-row draggable" data-item-id="{{w.id}}">

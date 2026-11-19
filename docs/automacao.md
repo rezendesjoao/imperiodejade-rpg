@@ -193,6 +193,42 @@ Opção de rolagem com `"best": true`: rola dois d20 e fica com o melhor.
 agarrado apavorado atordoado caido cego confuso desprevenido enjoado enredado exausto fascinado fatigado inconsciente
 incorporeo indefeso inerte invisivel lento ofuscado paralisado pasmo sangrando surdo surpreendido`.
 
+### Mais o que um bloco pode fazer (rodada 2)
+
+Em `targets`, `self`, `onFail`/`onSuccess`, `onHit`/`onCrit`:
+
+- `"abilityDamage": { "ability": "for", "formula": "1d6" }` (ou lista): dano de habilidade (volta 1 por dia de descanso;
+  Força/Destreza 0 deixam caído e paralisado, Int/Sab/Car 0 inconsciente, Constituição 0 mata).
+- `"negativeLevels": "1d4"`: níveis negativos (−1 em ataques e testes cada; 2 PV e 2 PM perdidos por nível).
+- `"setPv": -1` (cai a −1 PV), `"kill": true` (morte instantânea), `"dispel": true` (tira efeitos mágicos).
+- `"consumeOn": "attack" | "save" | "check" | "skill" | "ability" | "damageTaken"` (no efeito): acaba depois da próxima
+  rolagem desse tipo ("só o próximo ataque") ou do próximo dano sofrido.
+- `"absorb": 100` (no efeito): absorve esse tanto de dano antes dos PV e acaba quando esgota.
+- `"reactions": [...]` (no efeito): reações que existem só enquanto o efeito dura; `"endEffect": true` na reação encerra o
+  efeito ao usá-la.
+- `turnStart.abilityDamage`: dano de habilidade a cada turno (enquanto falhar no teste, se houver).
+- `damage.button: false`: o cartão não mostra o botão de dano próprio do jutsu.
+- `"aura": { "radius": 9, "who": "allies", "includeSelf": true, "changes": [...], "traits": {...}, "rollOptions": [...],
+  "turnStart": {...}, "conditions": [...], "label": "..." }` (em `self`): quem estiver no raio ganha uma cópia, que sai
+  quando a pessoa sai do raio ou o efeito acaba.
+
+No `activation`:
+
+- `"extraSaves": [{ "type": "fort", "dc": 22, "label": "Veneno", "onFail": {...}, "onSuccess": {...} }]`: mais testes de
+  outro tipo no mesmo cartão, cada um com o seu resultado.
+- `"attack": { "weapon": true, "bonus": 2, "damage": "2d6", "damageType": "fogo", "onHit": {...}, "onCrit": {...} }`:
+  golpe com a arma empunhada (`"weapon": "distancia"` para arma de disparo), com o bônus, o dano extra (não multiplica)
+  e o que o acerto traz; o cartão não ganha botão de dano separado.
+- `damage.extra: [{ "formula": "2d6", "type": "luz" }]` (mais partes de outros tipos), `damage.ignoreRd: 10 | "all"`,
+  `damage.perTarget: [{ "when": "vsDishonored", "mult": 2, "label": "..." }]` (o dano muda conforme o alvo).
+
+Opções de rolagem: `"onCrit": {...}` (como onHit, só no crítico); `"for": "maneuver"` com `"filter": { "maneuvers":
+["agarrar"] }` (manobras: agarrar, derrubar, desarmar, empurrar, atropelar, separar; rolagem oposta contra cada alvo,
+quem perde fica agarrado ou caído; a opção vale para quem faz a manobra, `"defense": true` para quem resiste, `"both"`
+para os dois). Uma arma marcada como desonrada põe no cartão o botão da violação de honra; `"dishonor": "severa"` no
+bloco da arma diz a gravidade (leve por padrão). Um `onCrit` com `save` só pede o teste quando houve crítico; um
+`onSuccess`/`onFail` de acerto pode ter `"damage": { "formula": "5d6", "type": "vacuo" }`.
+
 ### reactions
 
 `{ "on": "saveFailed|saveRolled|dropToZero|attacked|honorDamage|allyDown", "label", "cost", "effect", ... }` (allyDown: um aliado caiu; counterattack vai contra quem o derrubou):
@@ -259,3 +295,22 @@ Ataque Furtivo (yakuza): dado extra contra desprevenido, que some com fortifica�
 ```
 
 Evasão: `"auto": { "traits": { "evasion": "rank(1,2)" }, "requires": { "noArmor": true } }`.
+
+### Rodada 2, parte final
+
+- Filtros novos: `"jutsuExact": "Localização"` (o jutsu pelo nome inteiro; `"jutsu"` aceita parte do nome) e
+  `"itemName": "grito de kiai"` (o poder em uso, para uma regra de custo de um poder só:
+  `"costMods": [{ "value": -1, "kinds": ["power"], "filter": { "itemName": "grito de kiai" } }]`).
+- Opções de ataque: `"autoCrit": true` (todo acerto é crítico, salvo imunes), `"touch": true` (vira ataque de toque)
+  e `"noMissChance": true` (ignora a chance de falha de cegueira, camuflagem e invisibilidade).
+- Manobras: a opção sem marca vale para quem faz a manobra; `"defense": true` só para quem resiste; `"both": true`
+  para os dois lados (tamanho, totais de agarrar das criaturas).
+- A Iniciativa (na ficha ou no combate) gasta os efeitos de "próximo teste" (`consumeOn` "check" ou "skill").
+- `turnStart.ignoreRd`: o dano contínuo ignora RD (um número ou `"all"`).
+- `activation.attack.onHit` / `onCrit` também valem no ataque próprio da habilidade (não só no golpe com a arma):
+  o teste aparece no cartão do ataque e só pega quem foi atingido.
+- `attack.weapon: "garra|mordida"` escolhe a arma do golpe pelo nome; com várias armas na mão, um diálogo pergunta
+  qual (ou golpe desarmado); Shift força a pergunta.
+- `traits.defense` com `"touch": true`: só contra ataques de toque (entra no teste de Reflexos).
+- Arma desonrada: `"dishonor": "severa"` no bloco da arma põe a gravidade certa no botão do cartão de ataque; a arma
+  não precisa de um poder só para a violação.

@@ -2149,3 +2149,10 @@
   border-radius: 50%; border: 1px solid var(--ij-plum); background: #f1e9f5; color: var(--ij-plum); font-size: 11px; }
 .imperiodejade .ij-power-btn:hover { background: var(--ij-plum); color: #fff; }
 .imperiodejade .ij-item-head__use--power { right: 52px; background: var(--ij-plum); }
+
+.imperiodejade .ij-maneuvers { display: flex; flex-wrap: wrap; align-items: center; gap: 4px; margin: 6px 0 10px; }
+.imperiodejade .ij-maneuvers__label { font-family: var(--ij-caps); font-size: 11px; font-weight: 700; letter-spacing: .05em; color: var(--ij-ink-2); margin-right: 4px; }
+.imperiodejade .ij-maneuvers--npc { margin: 0 0 0 8px; }
+
+.imperiodejade .ij-plaque__damage { position: absolute; top: 2px; right: 10px; padding: 0 5px; border-radius: 8px; background: var(--ij-cinnabar);
+  color: #fff; font-size: 10.5px; font-weight: 700; line-height: 15px; z-index: 2; }

@@ -1,5 +1,46 @@
 # Changelog
 
+## 0.4.0 — 2026-11-19
+
+Segunda rodada da automação. Agora 544 entradas do livro fazem tudo sozinhas (antes 463) e 341 fazem em parte (antes
+354). Só 145 ficam apenas no texto (antes 213).
+
+### Adicionado
+- **Golpe com a arma**: habilidades e jutsus que atacam com a arma empunhada usam o ataque dela, com o bônus, o dano
+  extra e o que o acerto traz. Com várias armas na mão, um diálogo pergunta qual (Shift força a pergunta). O efeito do
+  acerto também vale no ataque próprio de uma habilidade, e o teste só pega quem foi atingido.
+- **Manobras de combate** na ficha do personagem e da Ameaça (agarrar, derrubar, desarmar, empurrar, atropelar,
+  separar): teste oposto contra cada alvo, e quem perde fica agarrado ou caído. Os bônus de quem faz a manobra e os de
+  quem resiste contam cada um do seu lado; os de tamanho, dos dois.
+- **Dano de habilidade** (venenos, drenos), com a marca na ficha; volta 1 ponto por dia de descanso. Também chegam os
+  **níveis negativos**, a queda a −1 PV, a morte instantânea e o dissipar de efeitos mágicos.
+- **Auras**: quem entra no raio ganha o efeito e quem sai perde.
+- Vários testes no mesmo cartão (o veneno e o efeito), cada um com o seu resultado.
+- Efeitos que absorvem dano, que acabam no próximo ataque, teste ou dano sofrido, e reações que só existem enquanto o
+  efeito dura.
+- Opções de ataque novas:
+  - todo acerto é crítico (Juramento da Sasori'Ken, Mira da Última Flecha);
+  - ataque de toque;
+  - ignorar a chance de falha de cegueira, camuflagem e invisibilidade (Caçadora).
+- **Poder mortal**: no crítico, o alvo faz Fortitude. Quem falha cai a −1 PV; quem passa sofre +5d6 de vácuo.
+- Desconto de PM num poder só (o Elmo do kiai tira 1 PM do Grito de Kiai). Os amuletos descontam o jutsu pelo nome
+  exato, então Localização não pega Localização Perfeita.
+- Dano contínuo que ignora RD (Engolir dos kaiju) e defesa só contra ataques de toque (Manto Mucoso).
+- Armas desonradas: o botão do cartão de ataque cobra a violação na gravidade do livro (ninja-to e shuriken: severa;
+  kra'tann e kakko'dai: moderada).
+- A Iniciativa, na ficha ou no combate, gasta os efeitos de "próximo teste".
+- Durações em dados (1d4 rodadas atordoado) são roladas na hora.
+
+### Corrigido
+- O teste pedido por um crítico só aparece quando houve crítico.
+- Num cartão com dois testes, só o do tipo do dano reduz o dano à metade.
+- Dano por alvo que zera (mult 0) agora zera mesmo.
+- Opções de manobra contavam nos dois lados; agora valem para quem faz, quem resiste ou os dois, conforme o texto.
+
+### Atualizar
+Os personagens e Ameaças que já estão no mundo recebem os blocos novos do compêndio sozinhos ao abrir o mundo com a
+0.4.0.
+
 ## 0.3.0 — 2026-11-19
 
 As habilidades fazem sozinhas o que o texto diz: um motor de automação para todo o livro, com cada habilidade de classe e

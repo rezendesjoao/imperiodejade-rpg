@@ -216,6 +216,7 @@
           <a class="ij-plaque__value" data-action="rollAbility" data-ability="{{a.key}}" data-tooltip="{{localize 'IJ.Roll.abilityTip'}}">{{a.total}}</a>
           {{/if}}
           <span class="ij-plaque__label">{{a.label}}</span>
+          {{#if a.damage}}<a class="ij-plaque__damage" data-action="healAbility" data-ability="{{a.key}}" data-tooltip="{{localize 'IJ.Ability.damageTip'}}">−{{a.damage}}</a>{{/if}}
         </div>
         <a class="ij-mod {{#if a.negative}}ij-mod--neg{{/if}}" style="--row: {{a.row}}" data-action="rollAbility" data-ability="{{a.key}}">
           <span>{{a.mod}}</span>

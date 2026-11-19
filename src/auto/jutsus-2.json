@@ -1,740 +1,3175 @@
 {
-  "_sobre": "Automação dos jutsus avançados, sublimes e lendários (src/data/jutsus-3.json e jutsus-4.json; docs/automacao.md). A chave é o nome do jutsu. Custo, ataque, dano e teste já vêm dos campos do próprio jutsu; o bloco só soma o que eles não fazem. A CD dos testes de turnStart é a do grau do jutsu, escrita à mão (o motor só ajusta a do teste do cartão).",
-
-  "Artesão Dedicado": { "status": "narrativo" },
+  "_sobre": "Automação dos jutsus avançados, sublimes e lendários (src/data/jutsus-3.json e jutsus-4.json; docs/automacao.md). A chave é o nome do jutsu. Custo, ataque, dano e teste já vêm dos campos do próprio jutsu; o bloco só soma o que eles não fazem. Testes de turnStart, extraSaves e onHit sem CD própria usam a desta execução (@dc).",
+  "Artesão Dedicado": {
+    "status": "narrativo"
+  },
   "Aura de Fascinação": {
     "activation": {
       "honorViolation": "leve",
-      "save": { "type": "von", "onSuccess": { "removeConditions": ["fascinado"] } },
-      "targets": { "who": "enemies", "save": { "type": "von" }, "conditions": [{ "id": "fascinado", "duration": { "unit": "cena" } }] }
+      "save": {
+        "type": "von",
+        "onSuccess": {
+          "removeConditions": [
+            "fascinado"
+          ]
+        }
+      },
+      "targets": {
+        "who": "enemies",
+        "save": {
+          "type": "von"
+        },
+        "conditions": [
+          {
+            "id": "fascinado",
+            "duration": {
+              "unit": "cena"
+            }
+          }
+        ]
+      }
     }
   },
   "Barreira de Lanças de Gelo": {
-    "status": "parcial", "notes": "A paliçada e o dano ao cruzar um trecho rompido ficam com a mesa.",
-    "activation": { "save": { "type": "ref", "negate": true, "onFail": { "conditions": [{ "id": "caido" }] } } }
-  },
-  "Barreira de Terra": { "status": "narrativo" },
-  "Barreira dos Ancestrais": { "status": "narrativo" },
-  "Barreira Vulcânica": {
-    "status": "parcial", "notes": "O calor ao surgir e quem entra ou sai dos 6m ficam com a mesa.",
+    "status": "parcial",
+    "notes": "A paliçada e o dano ao cruzar um trecho rompido ficam com a mesa.",
     "activation": {
-      "duration": { "unit": "cena" },
-      "save": { "type": "ref", "half": true, "onFail": { "duration": { "value": 1, "unit": "rodada" }, "turnStart": { "damage": "4d6", "type": "fogo" } } },
-      "targets": { "who": "any", "turnStart": { "damage": "1d6", "type": "fogo" } }
+      "save": {
+        "type": "ref",
+        "negate": true,
+        "onFail": {
+          "conditions": [
+            {
+              "id": "caido"
+            }
+          ]
+        }
+      }
     }
   },
-  "Caminhos Invisíveis": { "status": "narrativo" },
-  "Carapaça do Besouro": {
-    "status": "parcial", "notes": "Encerre o efeito quando a carapaça absorver 100 de dano.",
+  "Barreira de Terra": {
+    "status": "narrativo"
+  },
+  "Barreira dos Ancestrais": {
+    "status": "narrativo"
+  },
+  "Barreira Vulcânica": {
+    "status": "parcial",
+    "notes": "O calor ao surgir e quem entra ou sai dos 6m ficam com a mesa.",
     "activation": {
-      "duration": { "unit": "cena" },
-      "self": { "changes": [{ "key": "system.attributes.rd", "value": 10 }], "traits": { "resist": { "energia": 10 } } }
+      "duration": {
+        "unit": "cena"
+      },
+      "save": {
+        "type": "ref",
+        "half": true,
+        "onFail": {
+          "duration": {
+            "value": 1,
+            "unit": "rodada"
+          },
+          "turnStart": {
+            "damage": "4d6",
+            "type": "fogo"
+          }
+        }
+      },
+      "targets": {
+        "who": "any",
+        "turnStart": {
+          "damage": "1d6",
+          "type": "fogo"
+        }
+      }
+    }
+  },
+  "Caminhos Invisíveis": {
+    "status": "narrativo"
+  },
+  "Carapaça do Besouro": {
+    "status": "parcial",
+    "notes": "Encerre o efeito quando a carapaça absorver 100 de dano.",
+    "activation": {
+      "duration": {
+        "unit": "cena"
+      },
+      "self": {
+        "changes": [
+          {
+            "key": "system.attributes.rd",
+            "value": 10
+          }
+        ],
+        "traits": {
+          "resist": {
+            "energia": 10
+          }
+        }
+      }
     }
   },
   "Cólera de Lin-Wu": {
-    "status": "parcial", "notes": "Dano pela Honra (6–9 metade, 10 ou mais nenhum) fica à mão.",
+    "status": "parcial",
+    "notes": "Honra 10 ou mais não sofre dano: não aplique o dano neles.",
     "activation": {
+      "damage": {
+        "formula": "12d6",
+        "perTarget": [
+          {
+            "when": "vsSordid",
+            "mult": 2,
+            "label": "Honra 5 ou menos ×2"
+          },
+          {
+            "when": "vsDishonored",
+            "mult": 0.5,
+            "label": "Honra 9 ou menos ×½"
+          }
+        ]
+      },
       "save": {
-        "type": "ref", "half": true,
+        "type": "ref",
+        "half": true,
         "onFail": {
-          "conditions": [{ "id": "surdo", "duration": { "unit": "cena" } }],
-          "variants": [{ "when": "vsSordid", "conditions": [{ "id": "surdo", "duration": { "unit": "cena" } }, { "id": "pasmo", "duration": { "value": 1, "unit": "rodada" } }] }]
+          "conditions": [
+            {
+              "id": "surdo",
+              "duration": {
+                "unit": "cena"
+              }
+            }
+          ],
+          "variants": [
+            {
+              "when": "vsSordid",
+              "conditions": [
+                {
+                  "id": "surdo",
+                  "duration": {
+                    "unit": "cena"
+                  }
+                },
+                {
+                  "id": "pasmo",
+                  "duration": {
+                    "value": 1,
+                    "unit": "rodada"
+                  }
+                }
+              ]
+            }
+          ]
         },
         "onSuccess": {
-          "variants": [{ "when": "vsDishonored", "conditions": [{ "id": "surdo", "duration": { "unit": "cena" } }] }]
+          "variants": [
+            {
+              "when": "vsDishonored",
+              "conditions": [
+                {
+                  "id": "surdo",
+                  "duration": {
+                    "unit": "cena"
+                  }
+                }
+              ]
+            }
+          ]
         }
       }
     }
   },
   "Contra-Ataque Relâmpago": {
-    "status": "parcial", "notes": "O revide é uma reação manual: ataque com a arma marcando a opção.",
     "activation": {
-      "duration": { "unit": "cena" },
-      "self": { "rollOptions": [{ "id": "revide", "label": "Contra-ataque relâmpago (revide)", "damage": "2d6", "type": "eletricidade", "filter": { "melee": true }, "optional": true }] }
+      "duration": {
+        "unit": "cena"
+      },
+      "attack": {
+        "weapon": true,
+        "type": "corpo"
+      },
+      "self": {
+        "rollOptions": [
+          {
+            "id": "revide",
+            "label": "Contra-ataque relâmpago (revide)",
+            "damage": "2d6",
+            "type": "eletricidade",
+            "filter": {
+              "melee": true
+            },
+            "optional": true
+          }
+        ],
+        "reactions": [
+          {
+            "on": "attacked",
+            "melee": true,
+            "effect": "counterattack",
+            "label": "Contra-ataque relâmpago"
+          }
+        ]
+      }
     }
   },
   "Cripta de Liu’Yan": {
-    "status": "parcial", "notes": "Dano pela Honra (10–15 metade, 9 ou menos nenhum) fica à mão.",
     "activation": {
       "honorViolation": "severa",
+      "damage": {
+        "formula": "12d6",
+        "perTarget": [
+          {
+            "when": "vsHonored",
+            "mult": 2,
+            "label": "Honra 16 ou mais ×2"
+          },
+          {
+            "mult": 0.5,
+            "label": "Cripta ×½"
+          },
+          {
+            "when": "vsDishonored",
+            "mult": 0,
+            "label": "Honra 9 ou menos: imune"
+          }
+        ]
+      },
       "save": {
-        "type": "fort", "half": true,
+        "type": "fort",
+        "half": true,
         "onFail": {
-          "conditions": [{ "id": "ofuscado", "duration": { "unit": "cena" } }],
+          "conditions": [
+            {
+              "id": "ofuscado",
+              "duration": {
+                "unit": "cena"
+              }
+            }
+          ],
           "variants": [
-            { "when": "vsDishonored", "conditions": [] },
-            { "when": "vsHonored", "conditions": [{ "id": "ofuscado", "duration": { "unit": "cena" } }, { "id": "enjoado", "duration": { "value": "1d4", "unit": "rodada" } }] }
+            {
+              "when": "vsDishonored",
+              "conditions": []
+            },
+            {
+              "when": "vsHonored",
+              "conditions": [
+                {
+                  "id": "ofuscado",
+                  "duration": {
+                    "unit": "cena"
+                  }
+                },
+                {
+                  "id": "enjoado",
+                  "duration": {
+                    "value": "1d4",
+                    "unit": "rodada"
+                  }
+                }
+              ]
+            }
           ]
         },
         "onSuccess": {
-          "conditions": [{ "id": "ofuscado", "duration": { "unit": "cena" } }],
-          "variants": [{ "when": "vsDishonored", "conditions": [] }]
+          "conditions": [
+            {
+              "id": "ofuscado",
+              "duration": {
+                "unit": "cena"
+              }
+            }
+          ],
+          "variants": [
+            {
+              "when": "vsDishonored",
+              "conditions": []
+            }
+          ]
         }
       }
     }
   },
   "Cura das Cerejeiras em Flor": {},
-  "Despertar Espírito": { "status": "narrativo", "notes": "Teste de Vontade, PM permanente e ganho de Honra ficam com a mesa." },
+  "Despertar Espírito": {
+    "status": "narrativo",
+    "notes": "Teste de Vontade, PM permanente e ganho de Honra ficam com a mesa."
+  },
   "Dominar Água": {
-    "status": "parcial", "notes": "Lento dos elementais pelo botão de aplicar; evaporar (9d6 de fogo) e a água: à mão.",
+    "status": "parcial",
+    "notes": "Lento dos elementais pelo botão de aplicar; evaporar (9d6 de fogo) e a água: à mão.",
     "activation": {
-      "duration": { "unit": "cena" },
-      "options": [
-        { "id": "tromba", "label": "Tromba d’água" },
-        { "id": "aumentar", "label": "Aumentar nível" },
-        { "id": "congelar", "label": "Congelar" },
-        { "id": "derreter", "label": "Derreter" },
-        { "id": "evaporar", "label": "Evaporar" },
-        { "id": "reduzir", "label": "Reduzir nível (elementais lentos)", "targets": { "who": "enemies", "conditions": ["lento"] } }
-      ]
-    }
-  },
-  "Dominar Mente": {
-    "status": "parcial", "notes": "O controle mental e o novo teste por ordem desonrosa ficam com a mesa.",
-    "activation": { "honorViolation": "leve" }
-  },
-  "Dominar o Clima": { "status": "narrativo" },
-  "Emprestar Jutsu": {
-    "status": "parcial", "notes": "Apague o efeito quando o jutsu emprestado for usado.",
-    "activation": {
-      "honorViolation": "leve",
-      "self": { "changes": [{ "key": "system.attributes.pm.bonus", "value": "-1 - 2 * min(1, floor(@spent / 4)) - 3 * min(1, floor(@spent / 9))" }] }
-    }
-  },
-  "Esconderijo Secreto": { "status": "narrativo" },
-  "Espíritos Espiões": { "status": "narrativo" },
-  "Eviscerar": {
-    "status": "parcial", "notes": "Dano da arma e 2d4 de dano em Força e Destreza: à mão.",
-    "activation": { "honorViolation": "severa" }
-  },
-  "Golpe Desonrado": {
-    "status": "parcial", "notes": "Dano da arma à parte.",
-    "activation": {
-      "honorViolation": "severa",
-      "options": [
-        { "id": "cego", "label": "Cego (cena)", "targets": { "who": "enemies", "conditions": [{ "id": "cego", "duration": { "unit": "cena" } }] } },
-        { "id": "ataque", "label": "–4 nos ataques (cena)", "targets": { "who": "enemies", "duration": { "unit": "cena" }, "changes": [{ "key": "system.attributes.mods.attack", "value": -4 }] } },
-        { "id": "lento", "label": "Lento (cena)", "targets": { "who": "enemies", "conditions": [{ "id": "lento", "duration": { "unit": "cena" } }] } },
-        { "id": "enjoado", "label": "Enjoado (1d6 rodadas)", "targets": { "who": "enemies", "conditions": [{ "id": "enjoado", "duration": { "value": "1d6", "unit": "rodada" } }] } },
-        { "id": "confuso", "label": "Confuso (1d6 rodadas)", "targets": { "who": "enemies", "conditions": [{ "id": "confuso", "duration": { "value": "1d6", "unit": "rodada" } }] } },
-        { "id": "desprevenido", "label": "Desprevenido (1 rodada)", "targets": { "who": "enemies", "conditions": [{ "id": "desprevenido", "duration": { "value": 1, "unit": "rodada" } }] } }
-      ]
-    }
-  },
-  "Golpe Fantasma": {
-    "status": "parcial", "notes": "Falhou na Vontade: Fortitude; falhando, fica a –1 PV, inconsciente e sangrando (à mão).",
-    "activation": { "honorViolation": "leve", "damage": { "formula": "3d6", "type": "irredutível" } }
-  },
-  "Golpe Múltiplo": { "status": "parcial", "notes": "Repita o ataque a cada acerto com –2 cumulativo; dano da arma à parte." },
-  "Kata do Grou": { "status": "narrativo" },
-  "Kiai Destruidor": {
-    "activation": { "save": { "type": "fort", "half": true, "onFail": { "conditions": [{ "id": "surdo", "duration": { "unit": "cena" } }] } } }
-  },
-  "Lágrimas de Wang-Ho": {
-    "status": "parcial", "notes": "Vontade para jutsu ninja (CD 20 + PM) e reteste por rodada: à mão.",
-    "activation": {
-      "targets": {
-        "who": "enemies", "save": { "type": "von" }, "duration": { "unit": "cena" },
-        "changes": [
-          { "key": "system.skills.enganacao.bonus", "value": -10 },
-          { "key": "system.skills.furtividade.bonus", "value": -10 },
-          { "key": "system.skills.ladinagem.bonus", "value": -10 }
-        ]
-      }
-    }
-  },
-  "Libertação de Nozomi": {
-    "status": "parcial", "notes": "Habilidades que pedem estar sem armadura seguem desligadas na ficha.",
-    "activation": {
-      "duration": { "unit": "cena" },
-      "self": { "traits": { "immune": ["agarrado", "enredado", "lento", "paralisado", "movimento"] } }
-    }
-  },
-  "Maldição da Transformação": { "status": "parcial", "notes": "As estatísticas do animal e o ponto fraco ficam com a mesa." },
-  "Maldição das Trevas": {
-    "status": "parcial", "notes": "Debilidade, doença, lerdeza, olfato e o deslocamento do tato ficam com a mesa.",
-    "activation": {
-      "honorViolation": "severa",
-      "options": [
-        { "id": "debilidade", "label": "Debilidade" },
-        { "id": "doenca", "label": "Doença" },
-        { "id": "estupidez", "label": "Estupidez (confuso)", "targets": { "who": "enemies", "save": { "type": "fort" }, "conditions": ["confuso"] } },
-        { "id": "fraqueza", "label": "Fraqueza (–4)", "targets": { "who": "enemies", "save": { "type": "fort" }, "changes": [
-          { "key": "system.attributes.mods.attack", "value": -4 },
-          { "key": "system.attributes.attack.damage", "value": -4 },
-          { "key": "system.attributes.mods.abilityTests", "value": -4 },
-          { "key": "system.attributes.mods.skills", "value": -4 },
-          { "key": "system.attributes.mods.saves", "value": -4 }
-        ] } },
-        { "id": "visao", "label": "Isolamento: visão (cego)", "targets": { "who": "enemies", "save": { "type": "fort" }, "conditions": ["cego"] } },
-        { "id": "audicao", "label": "Isolamento: audição (surdo)", "targets": { "who": "enemies", "save": { "type": "fort" }, "conditions": ["surdo"] } },
-        { "id": "tato", "label": "Isolamento: tato (caído)", "targets": { "who": "enemies", "save": { "type": "fort" }, "conditions": ["caido"] } },
-        { "id": "olfato", "label": "Isolamento: olfato ou paladar" },
-        { "id": "lerdeza", "label": "Lerdeza" }
-      ]
-    }
-  },
-  "Mandala da Anulação": { "status": "parcial", "notes": "Os jutsus básicos e medianos na área ficam suprimidos, à mão." },
-  "Manipulador de Memórias": {
-    "status": "parcial", "notes": "A memória criada, alterada ou apagada fica com a mesa.",
-    "activation": { "honorViolation": "leve" }
-  },
-  "Manipulador de Sonhos": {
-    "status": "parcial", "notes": "Vidência no teste, a cura do sonho e apagar a premonição usada: à mão.",
-    "activation": {
-      "options": [
-        { "id": "pesadelo", "label": "Pesadelo", "honorViolation": "moderada", "targets": { "who": "any", "save": { "type": "von" }, "conditions": ["fatigado"] } },
-        { "id": "mensagem", "label": "Mensagem onírica" },
-        { "id": "premonicao", "label": "Premonição", "targets": {
-          "who": "any", "duration": { "value": 1, "unit": "dia" },
-          "rollOptions": [{ "id": "premonicao", "label": "Premonição (+5, uma vez)", "for": ["attack", "save", "skill", "ability"], "value": 5, "attack": 5, "optional": true }]
-        } },
-        { "id": "sonho", "label": "Sonho" }
-      ]
-    }
-  },
-  "Missão de Honra": { "status": "parcial", "notes": "A penalidade diária (–2 cumulativo) e a violação por missão impossível: à mão." },
-  "Pancada Poderosa": {
-    "status": "parcial", "notes": "Dano da arma à parte; imunes a acertos críticos não são afetados.",
-    "activation": {
-      "save": {
-        "type": "fort",
-        "onFail": { "conditions": [{ "id": "inconsciente" }] },
-        "onSuccess": { "conditions": [{ "id": "atordoado", "duration": { "value": "1d4", "unit": "rodada" } }] }
-      }
-    }
-  },
-  "Pirâmide Intocável": { "status": "narrativo" },
-  "Possessão de Doragami": {
-    "status": "parcial", "notes": "A possessão e a troca de estatísticas ficam com a mesa.",
-    "activation": { "honorViolation": "severa" }
-  },
-  "Resolução de Hikari": {
-    "status": "parcial", "notes": "Shiryou de Honra 0 e a descarga por imunidade a trevas: à mão.",
-    "activation": {
-      "duration": { "unit": "cena" },
-      "self": { "changes": [
-        { "key": "system.attributes.mods.attack", "value": 4 },
-        { "key": "system.attributes.attack.damage", "value": 4 },
-        { "key": "system.attributes.mods.saves", "value": 4 }
-      ] },
-      "tempPv": 15
-    }
-  },
-  "Restauração de Fuyuan": {
-    "status": "parcial", "notes": "Descansar: devolva 1d4 PM à mão; Restaurar, Revitalizar e Anular ficam com a mesa.",
-    "activation": {
-      "options": [
-        { "id": "curar", "label": "Curar (100 PV)", "damage": { "formula": "100", "type": "luz", "healing": true } },
-        { "id": "descansar", "label": "Descansar", "targets": { "who": "any", "removeConditions": ["fatigado", "exausto"] } },
-        { "id": "restaurar", "label": "Restaurar" },
-        { "id": "revitalizar", "label": "Revitalizar" },
-        { "id": "anular", "label": "Anular (+4 PM)" }
-      ]
-    }
-  },
-  "Rito do Exorcista": { "status": "parcial", "notes": "Ancorar ou expulsar fica com a mesa; itens opostos dão +2 no ataque." },
-  "Sussurros dos Ancestrais": { "status": "narrativo" },
-  "Tamanho Minúsculo": {
-    "status": "parcial", "notes": "A mudança de tamanho fica à mão; ameaças não perdem Força.",
-    "activation": {
-      "duration": { "unit": "cena" },
-      "options": [
-        { "id": "voluntaria", "label": "Criatura voluntária", "targets": { "who": "any", "changes": [{ "key": "system.abilities.for.bonus", "value": -2 }] } },
-        { "id": "involuntaria", "label": "Criatura involuntária", "targets": { "who": "any", "save": { "type": "fort" }, "changes": [{ "key": "system.abilities.for.bonus", "value": -2 }] } },
-        { "id": "objeto", "label": "Objeto" }
-      ]
-    }
-  },
-  "Teatro de Sombras": {
-    "status": "parcial", "notes": "A ilusão e seu roteiro ficam com a mesa.",
-    "activation": { "honorViolation": "leve" }
-  },
-  "Tentáculos Sombrios da Dor": {
-    "status": "parcial", "notes": "Teste de agarrar (+15) a cada turno e o agarrado ficam com a mesa.",
-    "activation": { "honorViolation": "severa" }
-  },
-  "Terror Ninja": {
-    "activation": {
-      "honorViolation": "leve",
-      "options": [
-        { "id": "apavorado", "label": "Apavorado", "targets": { "who": "enemies", "save": { "type": "von" }, "conditions": [{ "id": "apavorado", "duration": { "value": "1d6", "unit": "rodada" } }] } },
-        { "id": "confuso", "label": "Confuso", "targets": { "who": "enemies", "save": { "type": "von" }, "conditions": [{ "id": "confuso", "duration": { "value": "1d6", "unit": "rodada" } }] } }
-      ]
-    }
-  },
-  "Toque da Morte": {
-    "status": "parcial", "notes": "PV a –1 na falha, dano só no sucesso; imune a crítico ignora.",
-    "activation": {
-      "honorViolation": "severa",
-      "save": { "type": "fort", "onFail": { "conditions": [{ "id": "inconsciente" }, { "id": "sangrando" }] } }
-    }
-  },
-  "Transformação": {
-    "status": "parcial", "notes": "As vantagens escolhidas (1d4+1) ficam com a mesa.",
-    "activation": {
-      "duration": { "unit": "cena" },
-      "self": { "rollOptions": [{ "id": "disfarce", "label": "Transformação (disfarce)", "for": "skill", "filter": { "skills": ["enganacao"] }, "value": 30, "optional": true }] }
-    }
-  },
-  "Truque das Cópias Sólidas": {
-    "status": "parcial", "notes": "As cópias e os testes para desmascará-las ficam com a mesa.",
-    "activation": { "honorViolation": "leve" }
-  },
-  "Viagem Espiritual": {
-    "status": "parcial", "notes": "Apague o efeito quando todos voltarem; a viagem fica com a mesa.",
-    "activation": { "self": { "changes": [{ "key": "system.attributes.pm.bonus", "value": "-6 - 9 * min(1, floor(@spent / 9))" }] } }
-  },
-  "Vidência dos Ancestrais": { "status": "narrativo", "notes": "Some ao teste do alvo os modificadores de conhecimento." },
-  "Voo de Hinotori": { "status": "narrativo" },
-
-  "Amuleto de Repulsão": { "status": "narrativo" },
-  "Arma dos Cinco Ventos": {
-    "status": "parcial", "notes": "No crítico, a Fortitude e a tabela de 1d6 ficam com a mesa.",
-    "activation": {
-      "duration": { "unit": "cena" },
-      "self": { "rollOptions": [{ "id": "cincoVentos", "label": "Arma dos cinco ventos", "damage": "1d10", "type": "vento", "filter": { "melee": true } }] }
-    }
-  },
-  "Arma do Vácuo": {
-    "activation": {
-      "duration": { "unit": "cena" },
-      "self": { "rollOptions": [{ "id": "vacuo", "label": "Arma do vácuo", "damage": "4d8", "ignoreRd": 100, "filter": { "melee": true } }] }
-    }
-  },
-  "Armadura de Dai’Gun": {
-    "status": "parcial", "notes": "Sem outros jutsus enquanto durar; descarregar para ignorar o dano é manual.",
-    "activation": {
-      "duration": { "unit": "cena" },
-      "self": { "changes": [
-        { "key": "system.attributes.ca.bonus", "value": 6 },
-        { "key": "system.attributes.mods.attack", "value": 6 },
-        { "key": "system.attributes.attack.damage", "value": 6 },
-        { "key": "system.attributes.mods.saves", "value": 6 }
-      ] },
-      "tempPv": 60
-    }
-  },
-  "Armazenar Jutsu": { "status": "narrativo" },
-  "Barreira de Foices de Leen": { "status": "parcial", "notes": "A foice lançada (2d6, acerto automático) e o teste para cruzar ficam com a mesa." },
-  "Bombardeio Celestial": { "status": "parcial", "notes": "Divida os dados entre as esferas e role cada explosão à parte." },
-  "Círculo das Trevas": { "status": "parcial", "notes": "Mortes por nível (10d4 níveis) e os 1d4 níveis negativos ficam com a mesa." },
-  "Círculo de Luz": {
-    "status": "parcial", "notes": "Destruir shiryou fracos e remover níveis negativos dos demais: à mão.",
-    "activation": {
-      "targets": { "who": "enemies", "save": { "type": "fort" }, "conditions": [
-        { "id": "cego", "duration": { "value": 1, "unit": "dia" } },
-        { "id": "lento", "duration": { "value": 1, "unit": "dia" } }
-      ] }
-    }
-  },
-  "Colunas de Gelo": {
-    "activation": { "save": { "type": "ref", "half": true, "onFail": { "conditions": [{ "id": "caido" }] } } }
-  },
-  "Corpo de Terracota": {
-    "activation": {
-      "duration": { "unit": "cena" },
-      "self": {
-        "changes": [
-          { "key": "system.attributes.rd", "value": 8 },
-          { "key": "system.skills.acrobacia.bonus", "value": -5 },
-          { "key": "system.skills.furtividade.bonus", "value": -5 },
-          { "key": "system.skills.ladinagem.bonus", "value": -5 }
-        ],
-        "traits": { "immune": ["veneno", "doenca", "cego", "surdo", "atordoamento", "danoHabilidade"], "resist": { "fogo": 20 } }
-      }
-    }
-  },
-  "Crônica de Tanadora": {
-    "status": "parcial", "notes": "O teste de Identificar Magia e as informações ficam com a mesa.",
-    "activation": {
-      "duration": { "value": 1, "unit": "dia" },
-      "self": { "conditions": [{ "id": "exausto", "duration": { "value": 1, "unit": "dia" } }] }
-    }
-  },
-  "Destruir Sentidos": {
-    "status": "parcial", "notes": "Rastejar, sem faro, falhar em Percepção e as chances de 25% e 50%: à mão.",
-    "activation": {
-      "save": {
-        "type": "fort",
-        "onFail": { "conditions": [
-          { "id": "caido", "duration": { "unit": "cena" } },
-          { "id": "cego", "duration": { "unit": "cena" } },
-          { "id": "surdo", "duration": { "unit": "cena" } }
-        ] },
-        "onSuccess": { "conditions": [
-          { "id": "caido", "duration": { "value": 1, "unit": "rodada" } },
-          { "id": "cego", "duration": { "value": 1, "unit": "rodada" } },
-          { "id": "surdo", "duration": { "value": 1, "unit": "rodada" } }
-        ] }
-      }
-    }
-  },
-  "Dominar Gravidade": {
-    "status": "parcial", "notes": "Gravidade subjetiva (quedas e flutuação) fica com a mesa.",
-    "activation": {
-      "duration": { "unit": "cena" },
+      "duration": {
+        "unit": "cena"
+      },
       "options": [
         {
-          "id": "aumentar", "label": "Aumentar gravidade",
-          "save": {
-            "type": "fort",
-            "onFail": { "conditions": [{ "id": "fatigado", "duration": { "unit": "cena" } }, { "id": "lento", "duration": { "unit": "cena" } }] },
-            "onSuccess": { "duration": { "unit": "cena" }, "changes": [
-              { "key": "system.skills.acrobacia.bonus", "value": -2 },
-              { "key": "system.skills.atletismo.bonus", "value": -2 },
-              { "key": "system.skills.furtividade.bonus", "value": -2 },
-              { "key": "system.skills.ladinagem.bonus", "value": -2 },
-              { "key": "system.attributes.movement.bonus", "value": -3 }
-            ] }
-          }
-        },
-        { "id": "subjetiva", "label": "Gravidade subjetiva" },
-        { "id": "reduzir", "label": "Reduzir gravidade", "targets": { "who": "any", "changes": [{ "key": "system.attributes.movement.bonus", "value": 9 }] } }
-      ]
-    }
-  },
-  "Dominar Madeira": { "status": "parcial", "notes": "Armas e armaduras viradas madeira (–2 em ataque e dano, –2 na CA): à mão." },
-  "Enxame Espiritual": { "status": "parcial", "notes": "Fortitude reduz só os 6d6 de veneno; o dano se repete a cada turno seu." },
-  "Esconderijo Perfeito": { "status": "narrativo" },
-  "Espírito dos Objetos": { "status": "narrativo" },
-  "Estátua de Gelo": {
-    "status": "parcial", "notes": "A estátua é imune a dano; só fogo lendário serve de anulação.",
-    "activation": { "targets": { "who": "enemies", "save": { "type": "fort" }, "conditions": [{ "id": "inerte" }, { "id": "inconsciente" }] } }
-  },
-  "Estrela da Invencibilidade": {
-    "status": "parcial", "notes": "Adivinhação, invulnerabilidade e a sobrecarga (teste de Vontade) ficam com a mesa.",
-    "activation": {
-      "duration": { "unit": "cena" },
-      "options": [
-        { "id": "acido", "label": "Mágica: ácido", "self": { "traits": { "immune": ["acido"] } } },
-        { "id": "eletricidade", "label": "Mágica: eletricidade", "self": { "traits": { "immune": ["eletricidade"] } } },
-        { "id": "fogo", "label": "Mágica: fogo", "self": { "traits": { "immune": ["fogo"] } } },
-        { "id": "frio", "label": "Mágica: frio", "self": { "traits": { "immune": ["frio"] } } },
-        { "id": "vento", "label": "Mágica: vento", "self": { "traits": { "immune": ["vento"] } } },
-        { "id": "luz", "label": "Mágica: luz", "self": { "traits": { "immune": ["luz"] } } },
-        { "id": "trevas", "label": "Mágica: trevas", "self": { "traits": { "immune": ["trevas"] } } },
-        { "id": "encantamento", "label": "Mágica: encantamento", "self": { "traits": { "immune": ["encantamento"] } } },
-        { "id": "ilusao", "label": "Mágica: ilusão", "self": { "traits": { "immune": ["ilusao"] } } },
-        { "id": "transmutacao", "label": "Mágica: transmutação", "self": { "traits": { "immune": ["transmutacao"] } } },
-        { "id": "caido", "label": "Invencibilidade: caído", "self": { "traits": { "immune": ["caido"] } } },
-        { "id": "medo", "label": "Invencibilidade: abalado e apavorado", "self": { "traits": { "immune": ["abalado", "apavorado"] } } },
-        { "id": "atordoado", "label": "Invencibilidade: atordoado e pasmo", "self": { "traits": { "immune": ["atordoado", "pasmo"] } } },
-        { "id": "agarrado", "label": "Invencibilidade: agarrado e enredado", "self": { "traits": { "immune": ["agarrado", "enredado"] } } },
-        { "id": "confuso", "label": "Invencibilidade: confuso e fascinado", "self": { "traits": { "immune": ["confuso", "fascinado"] } } },
-        { "id": "cego", "label": "Invencibilidade: cego, ofuscado e surdo", "self": { "traits": { "immune": ["cego", "ofuscado", "surdo"] } } },
-        { "id": "enjoado", "label": "Invencibilidade: enjoado, exausto e fatigado", "self": { "traits": { "immune": ["enjoado", "exausto", "fatigado"] } } },
-        { "id": "lento", "label": "Invencibilidade: lento e paralisado", "self": { "traits": { "immune": ["lento", "paralisado"] } } },
-        { "id": "doencas", "label": "Invencibilidade: doenças e venenos", "self": { "traits": { "immune": ["doenca", "veneno"] } } },
-        { "id": "habilidade", "label": "Invencibilidade: dano de habilidade", "self": { "traits": { "immune": ["danoHabilidade"] } } },
-        { "id": "invulnerabilidade", "label": "Invulnerabilidade" }
-      ]
-    }
-  },
-  "Explosão Radiante": {
-    "status": "parcial", "notes": "O dano de luz dobra contra shiryou e sensíveis à luz: some à mão.",
-    "activation": { "save": { "type": "ref", "half": true, "onFail": { "conditions": [{ "id": "cego" }] } } }
-  },
-  "Forma Espiritual": {
-    "status": "parcial", "notes": "Ataques de toque contra materiais, tipo youkai e o limite de jutsus: à mão.",
-    "activation": {
-      "duration": { "unit": "cena" },
-      "self": { "conditions": [{ "id": "invisivel" }, { "id": "incorporeo" }], "traits": { "seeInvisible": true, "touchIncorporeal": true } }
-    }
-  },
-  "Fortaleza Oculta": { "status": "narrativo" },
-  "Fusão": { "status": "narrativo", "notes": "A criatura fundida (soma de PV e PM, melhores valores) é montada à mão." },
-  "Golpe Desintegrador": {
-    "status": "parcial", "notes": "Com Fortitude, o extra cai a 5d6; a 0 PV o alvo vira pó.",
-    "activation": { "damage": { "formula": "20d6", "type": "irredutível" } }
-  },
-  "Golpe Final": {
-    "status": "parcial", "notes": "No acerto, leve o alvo a –1 PV; no erro, role o dano da arma.",
-    "activation": {
-      "attack": { "type": "corpo", "bonus": 8 },
-      "self": { "conditions": [{ "id": "fatigado", "duration": { "unit": "cena" } }] },
-      "targets": { "who": "enemies", "conditions": ["inconsciente", "sangrando"] }
-    }
-  },
-  "Grande Kami": { "status": "narrativo" },
-  "Indolência dos Malditos": {
-    "activation": { "save": { "type": "fort", "onFail": { "conditions": [{ "id": "exausto" }] }, "onSuccess": { "conditions": [{ "id": "fatigado" }] } } }
-  },
-  "Insanidade de Okoreeji": {
-    "status": "parcial", "notes": "Espasmos: –10 em Reflexos à mão; paranoia fica com a mesa.",
-    "activation": {
-      "options": [
-        { "id": "catatonia", "label": "Catatonia (enjoado)", "targets": { "who": "enemies", "save": { "type": "von" }, "conditions": ["enjoado"] } },
-        { "id": "erratico", "label": "Comportamento errático (confuso)", "targets": { "who": "enemies", "save": { "type": "von" }, "conditions": ["confuso"] } },
-        { "id": "espasmos", "label": "Espasmos (–10 físico)", "targets": { "who": "enemies", "save": { "type": "von" }, "changes": [
-          { "key": "system.attributes.mods.attack", "value": -10 },
-          { "key": "system.attributes.attack.damage", "value": -10 },
-          { "key": "system.attributes.mods.physSkills", "value": -10 }
-        ] } },
-        { "id": "paranoia", "label": "Paranoia" }
-      ]
-    }
-  },
-  "Kata da Toupeira": { "status": "narrativo" },
-  "Maldição do Ridículo": {
-    "status": "parcial", "notes": "Dança: só ação de movimento e –10 em Reflexos; riso: outras raças têm +4.",
-    "activation": {
-      "options": [
-        {
-          "id": "danca", "label": "Dança irresistível (desprevenido)",
-          "save": {
-            "type": "von",
-            "onFail": { "duration": { "value": "1d4", "unit": "rodada" }, "conditions": ["desprevenido"] },
-            "onSuccess": { "duration": { "value": 1, "unit": "rodada" }, "conditions": ["desprevenido"] }
-          }
+          "id": "tromba",
+          "label": "Tromba d’água"
         },
         {
-          "id": "riso", "label": "Riso histérico (pasmo)",
-          "save": {
-            "type": "von",
-            "onFail": { "duration": { "value": "1d4", "unit": "rodada" }, "conditions": ["pasmo"] },
-            "onSuccess": { "duration": { "value": 1, "unit": "rodada" }, "conditions": ["pasmo"] }
-          }
+          "id": "aumentar",
+          "label": "Aumentar nível"
         },
         {
-          "id": "voz", "label": "Voz hilariante (uma ação por rodada)",
-          "save": {
-            "type": "von",
-            "onFail": { "duration": { "value": "1d4", "unit": "rodada" }, "conditions": ["enjoado"] },
-            "onSuccess": { "duration": { "value": 1, "unit": "rodada" }, "conditions": ["enjoado"] }
+          "id": "congelar",
+          "label": "Congelar"
+        },
+        {
+          "id": "derreter",
+          "label": "Derreter"
+        },
+        {
+          "id": "evaporar",
+          "label": "Evaporar"
+        },
+        {
+          "id": "reduzir",
+          "label": "Reduzir nível (elementais lentos)",
+          "targets": {
+            "who": "enemies",
+            "conditions": [
+              "lento"
+            ]
           }
         }
       ]
     }
   },
-  "Manipulador de Vontades": { "status": "parcial", "notes": "Atração ou aversão ficam com a mesa; forçado a encarar, fica abalado." },
-  "Movimento Instantâneo": { "status": "narrativo" },
-  "Palanquim Celestial": {
-    "status": "parcial", "notes": "Tire o incorpóreo de quem desembarcar.",
-    "activation": { "duration": { "unit": "cena" }, "targets": { "who": "allies", "includeSelf": true, "conditions": ["incorporeo"] } }
-  },
-  "Palavra dos Ancestrais": { "status": "parcial", "notes": "Os efeitos por nível e o lado de Honra escolhido ficam com a mesa." },
-  "Perfeição do Dragão": {
+  "Dominar Mente": {
+    "status": "parcial",
+    "notes": "O controle mental e o novo teste por ordem desonrosa ficam com a mesa.",
     "activation": {
-      "duration": { "unit": "cena" },
-      "self": { "changes": [
-        { "key": "system.abilities.for.bonus", "value": 4 },
-        { "key": "system.abilities.des.bonus", "value": 4 },
-        { "key": "system.abilities.con.bonus", "value": 4 },
-        { "key": "system.abilities.int.bonus", "value": 4 },
-        { "key": "system.abilities.sab.bonus", "value": 4 },
-        { "key": "system.abilities.car.bonus", "value": 4 },
-        { "key": "system.attributes.pv.bonus", "value": "-2 * @nivel * min(1, @classes.length)" },
-        { "key": "system.attributes.pm.bonus", "value": "-2 * (@chakras.for.open + @chakras.des.open + @chakras.con.open + @chakras.int.open + @chakras.sab.open + @chakras.car.open)" }
-      ] }
+      "honorViolation": "leve"
     }
   },
-  "Punhos de Tikauromu": { "status": "parcial", "notes": "Os punhos (agarrar e empurrar +30, cobertura) são resolvidos à mão." },
-  "Punição dos Ancestrais": {
-    "status": "parcial", "notes": "Os lados de Honra supõem executor honesto (10–15); a descarga fica com a mesa.",
+  "Dominar o Clima": {
+    "status": "narrativo"
+  },
+  "Emprestar Jutsu": {
+    "status": "parcial",
+    "notes": "Apague o efeito quando o jutsu emprestado for usado.",
     "activation": {
-      "duration": { "unit": "cena" },
-      "options": [
-        { "id": "abaixo", "label": "Contra Honra abaixo da sua", "self": { "traits": { "defense": [{ "value": 6, "when": "vsDishonored", "label": "Punição dos ancestrais" }] } } },
-        { "id": "acima", "label": "Contra Honra acima da sua", "self": { "traits": { "defense": [{ "value": 6, "when": "vsHonored", "label": "Punição dos ancestrais" }] } } }
-      ]
-    }
-  },
-  "Rajada das Mil Gemas": {
-    "status": "parcial", "notes": "Role o raio (1d8) de cada criatura e resolva o efeito à mão.",
-    "activation": { "save": { "type": "von", "onFail": { "conditions": [{ "id": "cego", "duration": { "unit": "cena" } }] } } }
-  },
-  "Regeneração de Sugora": {
-    "status": "parcial", "notes": "Na cura acelerada 20, o tipo de dano que ela não cura fica com o mestre.",
-    "activation": {
-      "duration": { "unit": "cena" },
-      "options": [
-        { "id": "cinco", "label": "Cura acelerada 5", "self": { "traits": { "fastHealing": 5, "immune": ["doenca", "veneno", "fatigado", "exausto"] } } },
-        { "id": "vinte", "label": "Cura acelerada 20 (tipo secreto)", "self": { "traits": { "fastHealing": 20, "immune": ["doenca", "veneno", "fatigado", "exausto"] } } }
-      ]
-    }
-  },
-  "Retirada Relâmpago": {
-    "status": "parcial", "notes": "Apague o efeito ao descarregar; o teleporte fica com a mesa.",
-    "activation": { "self": { "changes": [{ "key": "system.attributes.pm.bonus", "value": -10 }] } }
-  },
-  "Revitalização de Hyaku-nen": {
-    "status": "parcial", "notes": "Dano de habilidade, doenças, venenos e salvar quem acabou de morrer: à mão.",
-    "activation": {
-      "save": { "type": "von", "half": true },
-      "damage": { "formula": "100", "type": "luz", "healing": true, "alt": { "label": "Contra shiryou", "type": "luz", "harm": true } },
-      "options": [
-        { "id": "curar", "label": "Curar", "targets": { "who": "any", "removeConditions": ["cego", "surdo", "ofuscado", "atordoado", "pasmo", "confuso", "enjoado", "fatigado", "exausto"] } },
-        { "id": "shiryou", "label": "Contra shiryou" }
-      ]
-    }
-  },
-  "Revolta Espiritual": {
-    "status": "parcial", "notes": "O controle e a camuflagem (20% de falha) ficam com a mesa.",
-    "activation": {
-      "targets": {
-        "who": "enemies", "save": { "type": "von" }, "duration": { "unit": "cena" },
+      "honorViolation": "leve",
+      "self": {
         "changes": [
-          { "key": "system.attributes.mods.attack", "value": 4 },
-          { "key": "system.skills.furtividade.bonus", "value": 4 }
-        ],
-        "rollOptions": [{ "id": "auraSombria", "label": "Aura sombria", "damage": "1d10", "type": "trevas" }]
-      }
-    }
-  },
-  "Rocha Cadente": {
-    "status": "parcial", "notes": "Prisão sob a rocha (Atletismo CD 25) e queda dos voadores: à mão.",
-    "activation": { "save": { "type": "ref", "half": true } }
-  },
-  "Trilha Infalível de Nozomi": { "status": "narrativo" },
-  "Truque das Cópias Perfeitas": {
-    "status": "parcial", "notes": "A cópia ilusória (50% do dano) fica com a mesa.",
-    "activation": { "duration": { "unit": "cena" }, "self": { "conditions": [{ "id": "invisivel" }] } }
-  },
-  "Amuleto Mental": {
-    "status": "parcial", "notes": "Adivinhação, dominação, possessão e dano mental de habilidade ficam com a mesa.",
-    "activation": {
-      "duration": { "unit": "cena" },
-      "self": { "traits": { "immune": ["atordoamento", "confuso", "pasmo", "medo", "encantamento", "ilusao"] } }
-    }
-  },
-  "Assimilação": { "status": "parcial", "notes": "PV temporários e ganhos da assimilação dependem do dano: aplique à mão." },
-  "Aura Celestial": {
-    "status": "parcial", "notes": "Proteção contra possessão e o efeito nos atacantes ficam com a mesa.",
-    "activation": {
-      "targets": {
-        "who": "allies", "includeSelf": true, "duration": { "unit": "cena" },
-        "changes": [
-          { "key": "system.attributes.ca.bonus", "value": "4 + floor(@spent / 2)" },
-          { "key": "system.attributes.mods.saves", "value": "4 + floor(@spent / 2)" }
+          {
+            "key": "system.attributes.pm.bonus",
+            "value": "-1 - 2 * min(1, floor(@spent / 4)) - 3 * min(1, floor(@spent / 9))"
+          }
         ]
       }
     }
   },
-  "Barreira das Seis Mil Gemas": { "status": "parcial", "notes": "Cada cor tem seu efeito e teste: resolva à mão." },
-  "Buraco Negro": {
-    "status": "parcial", "notes": "O puxão de 30m e a sucção perto do buraco ficam com a mesa.",
+  "Esconderijo Secreto": {
+    "status": "narrativo"
+  },
+  "Espíritos Espiões": {
+    "status": "narrativo"
+  },
+  "Eviscerar": {
     "activation": {
-      "targets": { "who": "any", "includeSelf": true, "duration": { "value": 3, "unit": "rodada" }, "turnStart": { "save": { "type": "fort", "dc": 28 }, "conditions": ["caido"] } }
+      "honorViolation": "severa",
+      "attack": {
+        "weapon": true,
+        "type": "corpo",
+        "onHit": {
+          "abilityDamage": [
+            {
+              "ability": "for",
+              "formula": "(2 + floor(@spent / 4))d4"
+            },
+            {
+              "ability": "des",
+              "formula": "(2 + floor(@spent / 4))d4"
+            }
+          ]
+        }
+      }
     }
   },
-  "Ciclone de Shunka’Shuuto": {
-    "status": "parcial", "notes": "Dano sem metade; surdez, sucção, paralisia e queda ficam com a mesa.",
-    "activation": { "damage": { "formula": "6d6", "type": "frio", "alt": { "label": "Vento", "type": "vento" } } }
-  },
-  "Dança das Chamas Mortais": { "status": "parcial", "notes": "Quem falha na Fortitude morre; quem passa fica imune. Dano da arma à parte." },
-  "Disjunção": { "status": "parcial", "notes": "Dissipe à mão os jutsus e os itens mágicos da área." },
-  "Distorção da Realidade": {
-    "status": "parcial", "notes": "O efeito escolhido e os PM permanentes ficam com a mesa.",
-    "activation": { "honorViolation": "moderada" }
-  },
-  "Dominar o Tempo": {
-    "status": "parcial", "notes": "Penalidades de idade, a rodada revivida e os PM permanentes ficam com a mesa.",
+  "Golpe Desonrado": {
     "activation": {
+      "honorViolation": "severa",
+      "attack": {
+        "weapon": true,
+        "type": "corpo"
+      },
       "options": [
-        { "id": "acelerar", "label": "Acelerar o tempo" },
         {
-          "id": "envelhecer", "label": "Envelhecer (involuntário)", "honorViolation": "severa",
-          "save": { "type": "fort", "onFail": { "conditions": ["exausto"] }, "onSuccess": { "conditions": [{ "id": "fatigado", "duration": { "unit": "cena" } }] } }
+          "id": "cego",
+          "label": "Cego (cena)",
+          "targets": {
+            "who": "enemies",
+            "conditions": [
+              {
+                "id": "cego",
+                "duration": {
+                  "unit": "cena"
+                }
+              }
+            ]
+          }
         },
         {
-          "id": "envelhecerVoluntario", "label": "Envelhecer (voluntário)",
-          "save": { "type": "fort", "onFail": { "conditions": ["exausto"] }, "onSuccess": { "conditions": [{ "id": "fatigado", "duration": { "unit": "cena" } }] } }
+          "id": "ataque",
+          "label": "–4 nos ataques (cena)",
+          "targets": {
+            "who": "enemies",
+            "duration": {
+              "unit": "cena"
+            },
+            "changes": [
+              {
+                "key": "system.attributes.mods.attack",
+                "value": -4
+              }
+            ]
+          }
         },
-        { "id": "fuga", "label": "Fuga" },
-        { "id": "voltar", "label": "Voltar no tempo" }
+        {
+          "id": "lento",
+          "label": "Lento (cena)",
+          "targets": {
+            "who": "enemies",
+            "conditions": [
+              {
+                "id": "lento",
+                "duration": {
+                  "unit": "cena"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "id": "enjoado",
+          "label": "Enjoado (1d6 rodadas)",
+          "targets": {
+            "who": "enemies",
+            "conditions": [
+              {
+                "id": "enjoado",
+                "duration": {
+                  "value": "1d6",
+                  "unit": "rodada"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "id": "confuso",
+          "label": "Confuso (1d6 rodadas)",
+          "targets": {
+            "who": "enemies",
+            "conditions": [
+              {
+                "id": "confuso",
+                "duration": {
+                  "value": "1d6",
+                  "unit": "rodada"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "id": "desprevenido",
+          "label": "Desprevenido (1 rodada)",
+          "targets": {
+            "who": "enemies",
+            "conditions": [
+              {
+                "id": "desprevenido",
+                "duration": {
+                  "value": 1,
+                  "unit": "rodada"
+                }
+              }
+            ]
+          }
+        }
       ]
     }
   },
-  "Duplicação": { "status": "narrativo", "notes": "A duplicata (com dois níveis negativos) é criada e controlada à mão." },
-  "Fracasso": { "status": "parcial", "notes": "Escolha amnésia, desonra ou falência e aplique o efeito à mão." },
-  "Golpe Supremo": {
-    "status": "parcial", "notes": "Dano da arma à parte; a CA do alvo muda pelo quanto você o conhece.",
+  "Golpe Fantasma": {
     "activation": {
-      "damage": { "formula": "30d6", "type": "irredutível" },
+      "honorViolation": "leve",
+      "damage": {
+        "formula": "3d6",
+        "ignoreRd": "all",
+        "button": false
+      },
+      "extraSaves": [
+        {
+          "type": "fort",
+          "label": "Falhou na Vontade",
+          "onSuccess": {
+            "damage": "3d6"
+          },
+          "onFail": {
+            "setPv": -1
+          }
+        }
+      ]
+    }
+  },
+  "Golpe Múltiplo": {
+    "status": "parcial",
+    "notes": "A cada acerto, ataque de novo com –2 cumulativo, até errar.",
+    "activation": {
+      "attack": {
+        "weapon": true,
+        "type": "corpo"
+      }
+    }
+  },
+  "Kata do Grou": {
+    "status": "narrativo"
+  },
+  "Kiai Destruidor": {
+    "activation": {
+      "save": {
+        "type": "fort",
+        "half": true,
+        "onFail": {
+          "conditions": [
+            {
+              "id": "surdo",
+              "duration": {
+                "unit": "cena"
+              }
+            }
+          ]
+        }
+      }
+    }
+  },
+  "Lágrimas de Wang-Ho": {
+    "status": "parcial",
+    "notes": "Vontade para jutsu ninja (CD 20 + PM) e reteste por rodada: à mão.",
+    "activation": {
+      "targets": {
+        "who": "enemies",
+        "save": {
+          "type": "von"
+        },
+        "duration": {
+          "unit": "cena"
+        },
+        "changes": [
+          {
+            "key": "system.skills.enganacao.bonus",
+            "value": -10
+          },
+          {
+            "key": "system.skills.furtividade.bonus",
+            "value": -10
+          },
+          {
+            "key": "system.skills.ladinagem.bonus",
+            "value": -10
+          }
+        ]
+      }
+    }
+  },
+  "Libertação de Nozomi": {
+    "status": "parcial",
+    "notes": "Habilidades que pedem estar sem armadura seguem desligadas na ficha.",
+    "activation": {
+      "duration": {
+        "unit": "cena"
+      },
+      "self": {
+        "traits": {
+          "immune": [
+            "agarrado",
+            "enredado",
+            "lento",
+            "paralisado",
+            "movimento"
+          ]
+        }
+      }
+    }
+  },
+  "Maldição da Transformação": {
+    "status": "parcial",
+    "notes": "As estatísticas do animal e o ponto fraco ficam com a mesa."
+  },
+  "Maldição das Trevas": {
+    "status": "parcial",
+    "notes": "Debilidade, doença, lerdeza, olfato e o deslocamento do tato ficam com a mesa.",
+    "activation": {
+      "honorViolation": "severa",
       "options": [
-        { "id": "combate", "label": "Alvo em combate com você" },
-        { "id": "foraCombate", "label": "Alvo fora de combate (violação extrema)", "honorViolation": "extrema" }
+        {
+          "id": "debilidade",
+          "label": "Debilidade"
+        },
+        {
+          "id": "doenca",
+          "label": "Doença"
+        },
+        {
+          "id": "estupidez",
+          "label": "Estupidez (confuso)",
+          "targets": {
+            "who": "enemies",
+            "save": {
+              "type": "fort"
+            },
+            "conditions": [
+              "confuso"
+            ]
+          }
+        },
+        {
+          "id": "fraqueza",
+          "label": "Fraqueza (–4)",
+          "targets": {
+            "who": "enemies",
+            "save": {
+              "type": "fort"
+            },
+            "changes": [
+              {
+                "key": "system.attributes.mods.attack",
+                "value": -4
+              },
+              {
+                "key": "system.attributes.attack.damage",
+                "value": -4
+              },
+              {
+                "key": "system.attributes.mods.abilityTests",
+                "value": -4
+              },
+              {
+                "key": "system.attributes.mods.skills",
+                "value": -4
+              },
+              {
+                "key": "system.attributes.mods.saves",
+                "value": -4
+              }
+            ]
+          }
+        },
+        {
+          "id": "visao",
+          "label": "Isolamento: visão (cego)",
+          "targets": {
+            "who": "enemies",
+            "save": {
+              "type": "fort"
+            },
+            "conditions": [
+              "cego"
+            ]
+          }
+        },
+        {
+          "id": "audicao",
+          "label": "Isolamento: audição (surdo)",
+          "targets": {
+            "who": "enemies",
+            "save": {
+              "type": "fort"
+            },
+            "conditions": [
+              "surdo"
+            ]
+          }
+        },
+        {
+          "id": "tato",
+          "label": "Isolamento: tato (caído)",
+          "targets": {
+            "who": "enemies",
+            "save": {
+              "type": "fort"
+            },
+            "conditions": [
+              "caido"
+            ]
+          }
+        },
+        {
+          "id": "olfato",
+          "label": "Isolamento: olfato ou paladar"
+        },
+        {
+          "id": "lerdeza",
+          "label": "Lerdeza"
+        }
+      ]
+    }
+  },
+  "Mandala da Anulação": {
+    "status": "parcial",
+    "notes": "Os jutsus básicos e medianos na área ficam suprimidos, à mão."
+  },
+  "Manipulador de Memórias": {
+    "status": "parcial",
+    "notes": "A memória criada, alterada ou apagada fica com a mesa.",
+    "activation": {
+      "honorViolation": "leve"
+    }
+  },
+  "Manipulador de Sonhos": {
+    "status": "parcial",
+    "notes": "Vidência no teste, a cura do sonho e apagar a premonição usada: à mão.",
+    "activation": {
+      "options": [
+        {
+          "id": "pesadelo",
+          "label": "Pesadelo",
+          "honorViolation": "moderada",
+          "targets": {
+            "who": "any",
+            "save": {
+              "type": "von"
+            },
+            "conditions": [
+              "fatigado"
+            ]
+          }
+        },
+        {
+          "id": "mensagem",
+          "label": "Mensagem onírica"
+        },
+        {
+          "id": "premonicao",
+          "label": "Premonição",
+          "targets": {
+            "who": "any",
+            "duration": {
+              "value": 1,
+              "unit": "dia"
+            },
+            "rollOptions": [
+              {
+                "id": "premonicao",
+                "label": "Premonição (+5, uma vez)",
+                "for": [
+                  "attack",
+                  "save",
+                  "skill",
+                  "ability"
+                ],
+                "value": 5,
+                "attack": 5,
+                "optional": true
+              }
+            ]
+          }
+        },
+        {
+          "id": "sonho",
+          "label": "Sonho"
+        }
+      ]
+    }
+  },
+  "Missão de Honra": {
+    "status": "parcial",
+    "notes": "A penalidade diária (–2 cumulativo) e a violação por missão impossível: à mão."
+  },
+  "Pancada Poderosa": {
+    "status": "parcial",
+    "notes": "Role a Fortitude só no acerto; imunes a acertos críticos não são afetados.",
+    "activation": {
+      "attack": {
+        "weapon": true,
+        "type": "corpo"
+      },
+      "save": {
+        "type": "fort",
+        "onFail": {
+          "conditions": [
+            {
+              "id": "inconsciente"
+            }
+          ]
+        },
+        "onSuccess": {
+          "conditions": [
+            {
+              "id": "atordoado",
+              "duration": {
+                "value": "1d4",
+                "unit": "rodada"
+              }
+            }
+          ]
+        }
+      }
+    }
+  },
+  "Pirâmide Intocável": {
+    "status": "narrativo"
+  },
+  "Possessão de Doragami": {
+    "status": "parcial",
+    "notes": "A possessão e a troca de estatísticas ficam com a mesa.",
+    "activation": {
+      "honorViolation": "severa"
+    }
+  },
+  "Resolução de Hikari": {
+    "status": "parcial",
+    "notes": "Dano dobrado em shiryou de 6º nível ou mais e a descarga (imune a trevas): à mão.",
+    "activation": {
+      "duration": {
+        "unit": "cena"
+      },
+      "self": {
+        "changes": [
+          {
+            "key": "system.attributes.mods.attack",
+            "value": 4
+          },
+          {
+            "key": "system.attributes.attack.damage",
+            "value": 4
+          },
+          {
+            "key": "system.attributes.mods.saves",
+            "value": 4
+          }
+        ],
+        "rollOptions": [
+          {
+            "id": "shiryou",
+            "label": "Destruir shiryou (Honra 0, até 5º nível)",
+            "optional": true,
+            "onHit": {
+              "kill": true
+            }
+          }
+        ]
+      },
+      "tempPv": 15
+    }
+  },
+  "Restauração de Fuyuan": {
+    "status": "parcial",
+    "notes": "Descansar: devolva 1d4 PM à mão; Restaurar, Revitalizar e Anular ficam com a mesa.",
+    "activation": {
+      "options": [
+        {
+          "id": "curar",
+          "label": "Curar (100 PV)",
+          "damage": {
+            "formula": "100",
+            "type": "luz",
+            "healing": true
+          }
+        },
+        {
+          "id": "descansar",
+          "label": "Descansar",
+          "targets": {
+            "who": "any",
+            "removeConditions": [
+              "fatigado",
+              "exausto"
+            ]
+          }
+        },
+        {
+          "id": "restaurar",
+          "label": "Restaurar"
+        },
+        {
+          "id": "revitalizar",
+          "label": "Revitalizar"
+        },
+        {
+          "id": "anular",
+          "label": "Anular (+4 PM)"
+        }
+      ]
+    }
+  },
+  "Rito do Exorcista": {
+    "status": "parcial",
+    "notes": "Ancorar ou expulsar fica com a mesa; itens opostos dão +2 no ataque."
+  },
+  "Sussurros dos Ancestrais": {
+    "status": "narrativo"
+  },
+  "Tamanho Minúsculo": {
+    "status": "parcial",
+    "notes": "A mudança de tamanho fica à mão; ameaças não perdem Força.",
+    "activation": {
+      "duration": {
+        "unit": "cena"
+      },
+      "options": [
+        {
+          "id": "voluntaria",
+          "label": "Criatura voluntária",
+          "targets": {
+            "who": "any",
+            "changes": [
+              {
+                "key": "system.abilities.for.bonus",
+                "value": -2
+              }
+            ]
+          }
+        },
+        {
+          "id": "involuntaria",
+          "label": "Criatura involuntária",
+          "targets": {
+            "who": "any",
+            "save": {
+              "type": "fort"
+            },
+            "changes": [
+              {
+                "key": "system.abilities.for.bonus",
+                "value": -2
+              }
+            ]
+          }
+        },
+        {
+          "id": "objeto",
+          "label": "Objeto"
+        }
+      ]
+    }
+  },
+  "Teatro de Sombras": {
+    "status": "parcial",
+    "notes": "A ilusão e seu roteiro ficam com a mesa.",
+    "activation": {
+      "honorViolation": "leve"
+    }
+  },
+  "Tentáculos Sombrios da Dor": {
+    "status": "parcial",
+    "notes": "Teste de agarrar (+15) a cada turno e o agarrado ficam com a mesa.",
+    "activation": {
+      "honorViolation": "severa"
+    }
+  },
+  "Terror Ninja": {
+    "activation": {
+      "honorViolation": "leve",
+      "options": [
+        {
+          "id": "apavorado",
+          "label": "Apavorado",
+          "targets": {
+            "who": "enemies",
+            "save": {
+              "type": "von"
+            },
+            "conditions": [
+              {
+                "id": "apavorado",
+                "duration": {
+                  "value": "1d6",
+                  "unit": "rodada"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "id": "confuso",
+          "label": "Confuso",
+          "targets": {
+            "who": "enemies",
+            "save": {
+              "type": "von"
+            },
+            "conditions": [
+              {
+                "id": "confuso",
+                "duration": {
+                  "value": "1d6",
+                  "unit": "rodada"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "Toque da Morte": {
+    "status": "parcial",
+    "notes": "Role o dano só para quem passar; imunes a acertos críticos não são afetados.",
+    "activation": {
+      "honorViolation": "severa",
+      "save": {
+        "type": "fort",
+        "onFail": {
+          "setPv": -1
+        }
+      }
+    }
+  },
+  "Transformação": {
+    "status": "parcial",
+    "notes": "As vantagens escolhidas (1d4+1) ficam com a mesa.",
+    "activation": {
+      "duration": {
+        "unit": "cena"
+      },
+      "self": {
+        "rollOptions": [
+          {
+            "id": "disfarce",
+            "label": "Transformação (disfarce)",
+            "for": "skill",
+            "filter": {
+              "skills": [
+                "enganacao"
+              ]
+            },
+            "value": 30,
+            "optional": true
+          }
+        ]
+      }
+    }
+  },
+  "Truque das Cópias Sólidas": {
+    "status": "parcial",
+    "notes": "As cópias e os testes para desmascará-las ficam com a mesa.",
+    "activation": {
+      "honorViolation": "leve"
+    }
+  },
+  "Viagem Espiritual": {
+    "status": "parcial",
+    "notes": "Apague o efeito quando todos voltarem; a viagem fica com a mesa.",
+    "activation": {
+      "self": {
+        "changes": [
+          {
+            "key": "system.attributes.pm.bonus",
+            "value": "-6 - 9 * min(1, floor(@spent / 9))"
+          }
+        ]
+      }
+    }
+  },
+  "Vidência dos Ancestrais": {
+    "status": "narrativo",
+    "notes": "Some ao teste do alvo os modificadores de conhecimento."
+  },
+  "Voo de Hinotori": {
+    "status": "narrativo"
+  },
+  "Amuleto de Repulsão": {
+    "status": "narrativo"
+  },
+  "Arma dos Cinco Ventos": {
+    "status": "parcial",
+    "notes": "No crítico, a Fortitude e a tabela de 1d6 ficam com a mesa.",
+    "activation": {
+      "duration": {
+        "unit": "cena"
+      },
+      "self": {
+        "rollOptions": [
+          {
+            "id": "cincoVentos",
+            "label": "Arma dos cinco ventos",
+            "damage": "1d10",
+            "type": "vento",
+            "filter": {
+              "melee": true
+            }
+          }
+        ]
+      }
+    }
+  },
+  "Arma do Vácuo": {
+    "activation": {
+      "duration": {
+        "unit": "cena"
+      },
+      "self": {
+        "rollOptions": [
+          {
+            "id": "vacuo",
+            "label": "Arma do vácuo",
+            "damage": "4d8",
+            "ignoreRd": 100,
+            "filter": {
+              "melee": true
+            }
+          }
+        ]
+      }
+    }
+  },
+  "Armadura de Dai’Gun": {
+    "status": "parcial",
+    "notes": "Sem outros jutsus enquanto durar; ao descarregar, apague o efeito.",
+    "activation": {
+      "duration": {
+        "unit": "cena"
+      },
+      "self": {
+        "changes": [
+          {
+            "key": "system.attributes.ca.bonus",
+            "value": 6
+          },
+          {
+            "key": "system.attributes.mods.attack",
+            "value": 6
+          },
+          {
+            "key": "system.attributes.attack.damage",
+            "value": 6
+          },
+          {
+            "key": "system.attributes.mods.saves",
+            "value": 6
+          }
+        ],
+        "reactions": [
+          {
+            "on": "dropToZero",
+            "effect": "negateDamage",
+            "label": "Descarregar a armadura de Dai’Gun"
+          }
+        ]
+      },
+      "tempPv": 60
+    }
+  },
+  "Armazenar Jutsu": {
+    "status": "narrativo"
+  },
+  "Barreira de Foices de Leen": {
+    "status": "parcial",
+    "notes": "A foice lançada (2d6, acerto automático) e o teste para cruzar ficam com a mesa."
+  },
+  "Bombardeio Celestial": {
+    "status": "parcial",
+    "notes": "Divida os dados entre as esferas e role cada explosão à parte."
+  },
+  "Círculo das Trevas": {
+    "status": "parcial",
+    "notes": "Teste de morte só até somar 10d4 níveis; acima do 10º nível, nada.",
+    "activation": {
+      "save": {
+        "type": "fort",
+        "onFail": {
+          "negativeLevels": "1d4"
+        }
+      },
+      "extraSaves": [
+        {
+          "type": "fort",
+          "label": "Até 2º nível (morte)",
+          "onFail": {
+            "kill": true
+          }
+        }
+      ]
+    }
+  },
+  "Círculo de Luz": {
+    "status": "parcial",
+    "notes": "Destruição só até somar 10d4 níveis; tirar níveis negativos dos demais: à mão.",
+    "activation": {
+      "targets": {
+        "who": "enemies",
+        "save": {
+          "type": "fort"
+        },
+        "conditions": [
+          {
+            "id": "cego",
+            "duration": {
+              "value": 1,
+              "unit": "dia"
+            }
+          },
+          {
+            "id": "lento",
+            "duration": {
+              "value": 1,
+              "unit": "dia"
+            }
+          }
+        ]
+      },
+      "extraSaves": [
+        {
+          "type": "fort",
+          "label": "Shiryou até 2º nível (destruído)",
+          "onFail": {
+            "kill": true
+          }
+        }
+      ]
+    }
+  },
+  "Colunas de Gelo": {
+    "activation": {
+      "save": {
+        "type": "ref",
+        "half": true,
+        "onFail": {
+          "conditions": [
+            {
+              "id": "caido"
+            }
+          ]
+        }
+      }
+    }
+  },
+  "Corpo de Terracota": {
+    "activation": {
+      "duration": {
+        "unit": "cena"
+      },
+      "self": {
+        "changes": [
+          {
+            "key": "system.attributes.rd",
+            "value": 8
+          },
+          {
+            "key": "system.skills.acrobacia.bonus",
+            "value": -5
+          },
+          {
+            "key": "system.skills.furtividade.bonus",
+            "value": -5
+          },
+          {
+            "key": "system.skills.ladinagem.bonus",
+            "value": -5
+          }
+        ],
+        "traits": {
+          "immune": [
+            "veneno",
+            "doenca",
+            "cego",
+            "surdo",
+            "atordoamento",
+            "danoHabilidade"
+          ],
+          "resist": {
+            "fogo": 20
+          }
+        }
+      }
+    }
+  },
+  "Crônica de Tanadora": {
+    "status": "parcial",
+    "notes": "O teste de Identificar Magia e as informações ficam com a mesa.",
+    "activation": {
+      "duration": {
+        "value": 1,
+        "unit": "dia"
+      },
+      "self": {
+        "conditions": [
+          {
+            "id": "exausto",
+            "duration": {
+              "value": 1,
+              "unit": "dia"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "Destruir Sentidos": {
+    "status": "parcial",
+    "notes": "Rastejar, sem faro, falhar em Percepção e as chances de 25% e 50%: à mão.",
+    "activation": {
+      "save": {
+        "type": "fort",
+        "onFail": {
+          "conditions": [
+            {
+              "id": "caido",
+              "duration": {
+                "unit": "cena"
+              }
+            },
+            {
+              "id": "cego",
+              "duration": {
+                "unit": "cena"
+              }
+            },
+            {
+              "id": "surdo",
+              "duration": {
+                "unit": "cena"
+              }
+            }
+          ]
+        },
+        "onSuccess": {
+          "conditions": [
+            {
+              "id": "caido",
+              "duration": {
+                "value": 1,
+                "unit": "rodada"
+              }
+            },
+            {
+              "id": "cego",
+              "duration": {
+                "value": 1,
+                "unit": "rodada"
+              }
+            },
+            {
+              "id": "surdo",
+              "duration": {
+                "value": 1,
+                "unit": "rodada"
+              }
+            }
+          ]
+        }
+      }
+    }
+  },
+  "Dominar Gravidade": {
+    "status": "parcial",
+    "notes": "Gravidade subjetiva (quedas e flutuação) fica com a mesa.",
+    "activation": {
+      "duration": {
+        "unit": "cena"
+      },
+      "options": [
+        {
+          "id": "aumentar",
+          "label": "Aumentar gravidade",
+          "save": {
+            "type": "fort",
+            "onFail": {
+              "conditions": [
+                {
+                  "id": "fatigado",
+                  "duration": {
+                    "unit": "cena"
+                  }
+                },
+                {
+                  "id": "lento",
+                  "duration": {
+                    "unit": "cena"
+                  }
+                }
+              ]
+            },
+            "onSuccess": {
+              "duration": {
+                "unit": "cena"
+              },
+              "changes": [
+                {
+                  "key": "system.skills.acrobacia.bonus",
+                  "value": -2
+                },
+                {
+                  "key": "system.skills.atletismo.bonus",
+                  "value": -2
+                },
+                {
+                  "key": "system.skills.furtividade.bonus",
+                  "value": -2
+                },
+                {
+                  "key": "system.skills.ladinagem.bonus",
+                  "value": -2
+                },
+                {
+                  "key": "system.attributes.movement.bonus",
+                  "value": -3
+                }
+              ]
+            }
+          }
+        },
+        {
+          "id": "subjetiva",
+          "label": "Gravidade subjetiva"
+        },
+        {
+          "id": "reduzir",
+          "label": "Reduzir gravidade",
+          "targets": {
+            "who": "any",
+            "changes": [
+              {
+                "key": "system.attributes.movement.bonus",
+                "value": 9
+              }
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "Dominar Madeira": {
+    "status": "parcial",
+    "notes": "Armas e armaduras viradas madeira (–2 em ataque e dano, –2 na CA): à mão."
+  },
+  "Enxame Espiritual": {
+    "status": "parcial",
+    "notes": "Fortitude reduz só os 6d6 de veneno; o dano se repete a cada turno seu."
+  },
+  "Esconderijo Perfeito": {
+    "status": "narrativo"
+  },
+  "Espírito dos Objetos": {
+    "status": "narrativo"
+  },
+  "Estátua de Gelo": {
+    "status": "parcial",
+    "notes": "A estátua é imune a dano; só fogo lendário serve de anulação.",
+    "activation": {
+      "targets": {
+        "who": "enemies",
+        "save": {
+          "type": "fort"
+        },
+        "conditions": [
+          {
+            "id": "inerte"
+          },
+          {
+            "id": "inconsciente"
+          }
+        ]
+      }
+    }
+  },
+  "Estrela da Invencibilidade": {
+    "status": "parcial",
+    "notes": "Invulnerabilidade e a sobrecarga (teste de Vontade) ficam com a mesa.",
+    "activation": {
+      "duration": {
+        "unit": "cena"
+      },
+      "options": [
+        {
+          "id": "acido",
+          "label": "Mágica: ácido",
+          "self": {
+            "traits": {
+              "immune": [
+                "acido"
+              ]
+            }
+          }
+        },
+        {
+          "id": "eletricidade",
+          "label": "Mágica: eletricidade",
+          "self": {
+            "traits": {
+              "immune": [
+                "eletricidade"
+              ]
+            }
+          }
+        },
+        {
+          "id": "fogo",
+          "label": "Mágica: fogo",
+          "self": {
+            "traits": {
+              "immune": [
+                "fogo"
+              ]
+            }
+          }
+        },
+        {
+          "id": "frio",
+          "label": "Mágica: frio",
+          "self": {
+            "traits": {
+              "immune": [
+                "frio"
+              ]
+            }
+          }
+        },
+        {
+          "id": "vento",
+          "label": "Mágica: vento",
+          "self": {
+            "traits": {
+              "immune": [
+                "vento"
+              ]
+            }
+          }
+        },
+        {
+          "id": "luz",
+          "label": "Mágica: luz",
+          "self": {
+            "traits": {
+              "immune": [
+                "luz"
+              ]
+            }
+          }
+        },
+        {
+          "id": "trevas",
+          "label": "Mágica: trevas",
+          "self": {
+            "traits": {
+              "immune": [
+                "trevas"
+              ]
+            }
+          }
+        },
+        {
+          "id": "adivinhacao",
+          "label": "Mágica: adivinhação",
+          "self": {
+            "traits": {
+              "immune": [
+                "adivinhacao"
+              ]
+            }
+          }
+        },
+        {
+          "id": "encantamento",
+          "label": "Mágica: encantamento",
+          "self": {
+            "traits": {
+              "immune": [
+                "encantamento"
+              ]
+            }
+          }
+        },
+        {
+          "id": "ilusao",
+          "label": "Mágica: ilusão",
+          "self": {
+            "traits": {
+              "immune": [
+                "ilusao"
+              ]
+            }
+          }
+        },
+        {
+          "id": "transmutacao",
+          "label": "Mágica: transmutação",
+          "self": {
+            "traits": {
+              "immune": [
+                "transmutacao"
+              ]
+            }
+          }
+        },
+        {
+          "id": "caido",
+          "label": "Invencibilidade: caído",
+          "self": {
+            "traits": {
+              "immune": [
+                "caido"
+              ]
+            }
+          }
+        },
+        {
+          "id": "medo",
+          "label": "Invencibilidade: abalado e apavorado",
+          "self": {
+            "traits": {
+              "immune": [
+                "abalado",
+                "apavorado"
+              ]
+            }
+          }
+        },
+        {
+          "id": "atordoado",
+          "label": "Invencibilidade: atordoado e pasmo",
+          "self": {
+            "traits": {
+              "immune": [
+                "atordoado",
+                "pasmo"
+              ]
+            }
+          }
+        },
+        {
+          "id": "agarrado",
+          "label": "Invencibilidade: agarrado e enredado",
+          "self": {
+            "traits": {
+              "immune": [
+                "agarrado",
+                "enredado"
+              ]
+            }
+          }
+        },
+        {
+          "id": "confuso",
+          "label": "Invencibilidade: confuso e fascinado",
+          "self": {
+            "traits": {
+              "immune": [
+                "confuso",
+                "fascinado"
+              ]
+            }
+          }
+        },
+        {
+          "id": "cego",
+          "label": "Invencibilidade: cego, ofuscado e surdo",
+          "self": {
+            "traits": {
+              "immune": [
+                "cego",
+                "ofuscado",
+                "surdo"
+              ]
+            }
+          }
+        },
+        {
+          "id": "enjoado",
+          "label": "Invencibilidade: enjoado, exausto e fatigado",
+          "self": {
+            "traits": {
+              "immune": [
+                "enjoado",
+                "exausto",
+                "fatigado"
+              ]
+            }
+          }
+        },
+        {
+          "id": "lento",
+          "label": "Invencibilidade: lento e paralisado",
+          "self": {
+            "traits": {
+              "immune": [
+                "lento",
+                "paralisado"
+              ]
+            }
+          }
+        },
+        {
+          "id": "doencas",
+          "label": "Invencibilidade: doenças e venenos",
+          "self": {
+            "traits": {
+              "immune": [
+                "doenca",
+                "veneno"
+              ]
+            }
+          }
+        },
+        {
+          "id": "habilidade",
+          "label": "Invencibilidade: dano de habilidade",
+          "self": {
+            "traits": {
+              "immune": [
+                "danoHabilidade"
+              ]
+            }
+          }
+        },
+        {
+          "id": "invulnerabilidade",
+          "label": "Invulnerabilidade"
+        }
+      ]
+    }
+  },
+  "Explosão Radiante": {
+    "status": "parcial",
+    "notes": "O dano de luz dobra contra shiryou e sensíveis à luz: some à mão.",
+    "activation": {
+      "save": {
+        "type": "ref",
+        "half": true,
+        "onFail": {
+          "conditions": [
+            {
+              "id": "cego"
+            }
+          ]
+        }
+      }
+    }
+  },
+  "Forma Espiritual": {
+    "status": "parcial",
+    "notes": "Ataques de toque contra materiais, tipo youkai e o limite de jutsus: à mão.",
+    "activation": {
+      "duration": {
+        "unit": "cena"
+      },
+      "self": {
+        "conditions": [
+          {
+            "id": "invisivel"
+          },
+          {
+            "id": "incorporeo"
+          }
+        ],
+        "traits": {
+          "seeInvisible": true,
+          "touchIncorporeal": true
+        }
+      }
+    }
+  },
+  "Fortaleza Oculta": {
+    "status": "narrativo"
+  },
+  "Fusão": {
+    "status": "narrativo",
+    "notes": "A criatura fundida (soma de PV e PM, melhores valores) é montada à mão."
+  },
+  "Golpe Desintegrador": {
+    "status": "parcial",
+    "notes": "Se ficar com 0 PV ou menos, o alvo vira pó (morre): à mão.",
+    "activation": {
+      "note": "Use os botões só se o próximo ataque acertar.",
+      "damage": {
+        "formula": "20d6",
+        "ignoreRd": "all"
+      },
+      "save": {
+        "type": "fort",
+        "negate": true,
+        "onSuccess": {
+          "damage": "5d6"
+        }
+      }
+    }
+  },
+  "Golpe Final": {
+    "activation": {
+      "note": "Acertou: alvo a –1 PV, sem rolar dano; errou: role o dano normal.",
+      "attack": {
+        "weapon": true,
+        "type": "corpo",
+        "bonus": 8,
+        "onHit": {
+          "setPv": -1
+        }
+      },
+      "self": {
+        "conditions": [
+          {
+            "id": "fatigado",
+            "duration": {
+              "unit": "cena"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "Grande Kami": {
+    "status": "narrativo"
+  },
+  "Indolência dos Malditos": {
+    "activation": {
+      "save": {
+        "type": "fort",
+        "onFail": {
+          "conditions": [
+            {
+              "id": "exausto"
+            }
+          ]
+        },
+        "onSuccess": {
+          "conditions": [
+            {
+              "id": "fatigado"
+            }
+          ]
+        }
+      }
+    }
+  },
+  "Insanidade de Okoreeji": {
+    "status": "parcial",
+    "notes": "Espasmos: –10 em Reflexos à mão; paranoia fica com a mesa.",
+    "activation": {
+      "options": [
+        {
+          "id": "catatonia",
+          "label": "Catatonia (enjoado)",
+          "targets": {
+            "who": "enemies",
+            "save": {
+              "type": "von"
+            },
+            "conditions": [
+              "enjoado"
+            ]
+          }
+        },
+        {
+          "id": "erratico",
+          "label": "Comportamento errático (confuso)",
+          "targets": {
+            "who": "enemies",
+            "save": {
+              "type": "von"
+            },
+            "conditions": [
+              "confuso"
+            ]
+          }
+        },
+        {
+          "id": "espasmos",
+          "label": "Espasmos (–10 físico)",
+          "targets": {
+            "who": "enemies",
+            "save": {
+              "type": "von"
+            },
+            "changes": [
+              {
+                "key": "system.attributes.mods.attack",
+                "value": -10
+              },
+              {
+                "key": "system.attributes.attack.damage",
+                "value": -10
+              },
+              {
+                "key": "system.attributes.mods.physSkills",
+                "value": -10
+              }
+            ]
+          }
+        },
+        {
+          "id": "paranoia",
+          "label": "Paranoia"
+        }
+      ]
+    }
+  },
+  "Kata da Toupeira": {
+    "status": "narrativo"
+  },
+  "Maldição do Ridículo": {
+    "status": "parcial",
+    "notes": "Dança: só ação de movimento e –10 em Reflexos; riso: outras raças têm +4.",
+    "activation": {
+      "options": [
+        {
+          "id": "danca",
+          "label": "Dança irresistível (desprevenido)",
+          "save": {
+            "type": "von",
+            "onFail": {
+              "duration": {
+                "value": "1d4",
+                "unit": "rodada"
+              },
+              "conditions": [
+                "desprevenido"
+              ]
+            },
+            "onSuccess": {
+              "duration": {
+                "value": 1,
+                "unit": "rodada"
+              },
+              "conditions": [
+                "desprevenido"
+              ]
+            }
+          }
+        },
+        {
+          "id": "riso",
+          "label": "Riso histérico (pasmo)",
+          "save": {
+            "type": "von",
+            "onFail": {
+              "duration": {
+                "value": "1d4",
+                "unit": "rodada"
+              },
+              "conditions": [
+                "pasmo"
+              ]
+            },
+            "onSuccess": {
+              "duration": {
+                "value": 1,
+                "unit": "rodada"
+              },
+              "conditions": [
+                "pasmo"
+              ]
+            }
+          }
+        },
+        {
+          "id": "voz",
+          "label": "Voz hilariante (uma ação por rodada)",
+          "save": {
+            "type": "von",
+            "onFail": {
+              "duration": {
+                "value": "1d4",
+                "unit": "rodada"
+              },
+              "conditions": [
+                "enjoado"
+              ]
+            },
+            "onSuccess": {
+              "duration": {
+                "value": 1,
+                "unit": "rodada"
+              },
+              "conditions": [
+                "enjoado"
+              ]
+            }
+          }
+        }
+      ]
+    }
+  },
+  "Manipulador de Vontades": {
+    "status": "parcial",
+    "notes": "Atração ou aversão ficam com a mesa; forçado a encarar, fica abalado."
+  },
+  "Movimento Instantâneo": {
+    "status": "narrativo"
+  },
+  "Palanquim Celestial": {
+    "activation": {
+      "duration": {
+        "unit": "cena"
+      },
+      "self": {
+        "aura": {
+          "radius": 3,
+          "who": "allies",
+          "includeSelf": true,
+          "traits": {
+            "incorporeal": true
+          },
+          "label": "Palanquim celestial (incorpóreo)"
+        }
+      }
+    }
+  },
+  "Palavra dos Ancestrais": {
+    "status": "parcial",
+    "notes": "Mire só quem tem Honra do lado escolhido; banir os youkai fica com a mesa.",
+    "activation": {
+      "note": "Teste sem rótulo: alvos acima do 14º nível.",
+      "save": {
+        "type": "von",
+        "onFail": {
+          "conditions": [
+            {
+              "id": "pasmo",
+              "duration": {
+                "value": 1,
+                "unit": "rodada"
+              }
+            },
+            {
+              "id": "surdo",
+              "duration": {
+                "unit": "cena"
+              }
+            }
+          ]
+        }
+      },
+      "options": [
+        {
+          "id": "confusoMorte",
+          "label": "Confusos (6º–14º) e mortos (até 5º)",
+          "extraSaves": [
+            {
+              "type": "von",
+              "label": "Do 6º ao 14º nível",
+              "onFail": {
+                "conditions": [
+                  {
+                    "id": "lento",
+                    "duration": {
+                      "unit": "cena"
+                    }
+                  },
+                  {
+                    "id": "confuso",
+                    "duration": {
+                      "value": "2d4",
+                      "unit": "rodada"
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "type": "von",
+              "label": "Até o 5º nível",
+              "onFail": {
+                "kill": true
+              }
+            }
+          ]
+        },
+        {
+          "id": "confusoInconsciente",
+          "label": "Confusos (6º–14º) e inconscientes (até 5º)",
+          "extraSaves": [
+            {
+              "type": "von",
+              "label": "Do 6º ao 14º nível",
+              "onFail": {
+                "conditions": [
+                  {
+                    "id": "lento",
+                    "duration": {
+                      "unit": "cena"
+                    }
+                  },
+                  {
+                    "id": "confuso",
+                    "duration": {
+                      "value": "2d4",
+                      "unit": "rodada"
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "type": "von",
+              "label": "Até o 5º nível",
+              "onFail": {
+                "conditions": [
+                  "inconsciente"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "id": "paralisadoMorte",
+          "label": "Paralisados (6º–14º) e mortos (até 5º)",
+          "extraSaves": [
+            {
+              "type": "von",
+              "label": "Do 6º ao 14º nível",
+              "onFail": {
+                "conditions": [
+                  {
+                    "id": "lento",
+                    "duration": {
+                      "unit": "cena"
+                    }
+                  },
+                  {
+                    "id": "paralisado",
+                    "duration": {
+                      "value": "2d4",
+                      "unit": "rodada"
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "type": "von",
+              "label": "Até o 5º nível",
+              "onFail": {
+                "kill": true
+              }
+            }
+          ]
+        },
+        {
+          "id": "paralisadoInconsciente",
+          "label": "Paralisados (6º–14º) e inconscientes (até 5º)",
+          "extraSaves": [
+            {
+              "type": "von",
+              "label": "Do 6º ao 14º nível",
+              "onFail": {
+                "conditions": [
+                  {
+                    "id": "lento",
+                    "duration": {
+                      "unit": "cena"
+                    }
+                  },
+                  {
+                    "id": "paralisado",
+                    "duration": {
+                      "value": "2d4",
+                      "unit": "rodada"
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "type": "von",
+              "label": "Até o 5º nível",
+              "onFail": {
+                "conditions": [
+                  "inconsciente"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "Perfeição do Dragão": {
+    "activation": {
+      "duration": {
+        "unit": "cena"
+      },
+      "self": {
+        "changes": [
+          {
+            "key": "system.abilities.for.bonus",
+            "value": 4
+          },
+          {
+            "key": "system.abilities.des.bonus",
+            "value": 4
+          },
+          {
+            "key": "system.abilities.con.bonus",
+            "value": 4
+          },
+          {
+            "key": "system.abilities.int.bonus",
+            "value": 4
+          },
+          {
+            "key": "system.abilities.sab.bonus",
+            "value": 4
+          },
+          {
+            "key": "system.abilities.car.bonus",
+            "value": 4
+          },
+          {
+            "key": "system.attributes.pv.bonus",
+            "value": "-2 * @nivel * min(1, @classes.length)"
+          },
+          {
+            "key": "system.attributes.pm.bonus",
+            "value": "-2 * (@chakras.for.open + @chakras.des.open + @chakras.con.open + @chakras.int.open + @chakras.sab.open + @chakras.car.open)"
+          }
+        ]
+      }
+    }
+  },
+  "Punhos de Tikauromu": {
+    "status": "parcial",
+    "notes": "Os punhos (agarrar e empurrar +30, cobertura) são resolvidos à mão."
+  },
+  "Punição dos Ancestrais": {
+    "status": "parcial",
+    "notes": "Os lados de Honra supõem executor honesto (10–15); a descarga fica com a mesa.",
+    "activation": {
+      "duration": {
+        "unit": "cena"
+      },
+      "options": [
+        {
+          "id": "abaixo",
+          "label": "Contra Honra abaixo da sua",
+          "self": {
+            "traits": {
+              "defense": [
+                {
+                  "value": 6,
+                  "when": "vsDishonored",
+                  "label": "Punição dos ancestrais"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "id": "acima",
+          "label": "Contra Honra acima da sua",
+          "self": {
+            "traits": {
+              "defense": [
+                {
+                  "value": 6,
+                  "when": "vsHonored",
+                  "label": "Punição dos ancestrais"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    }
+  },
+  "Rajada das Mil Gemas": {
+    "status": "parcial",
+    "notes": "Role o raio (1d8) de cada criatura; o dano dos raios e o violeta ficam com a mesa.",
+    "activation": {
+      "save": {
+        "type": "von",
+        "onFail": {
+          "conditions": [
+            {
+              "id": "cego",
+              "duration": {
+                "unit": "cena"
+              }
+            }
+          ]
+        }
+      },
+      "extraSaves": [
+        {
+          "type": "fort",
+          "label": "Raio laranja (veneno mortal)",
+          "onFail": {
+            "kill": true
+          },
+          "onSuccess": {
+            "abilityDamage": {
+              "ability": "con",
+              "formula": "1d6"
+            }
+          }
+        },
+        {
+          "type": "fort",
+          "label": "Raio azul (estátua de gelo)",
+          "onFail": {
+            "conditions": [
+              {
+                "id": "inerte"
+              },
+              {
+                "id": "inconsciente"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "Regeneração de Sugora": {
+    "status": "parcial",
+    "notes": "Na cura acelerada 20, o tipo de dano que ela não cura fica com o mestre.",
+    "activation": {
+      "duration": {
+        "unit": "cena"
+      },
+      "options": [
+        {
+          "id": "cinco",
+          "label": "Cura acelerada 5",
+          "self": {
+            "traits": {
+              "fastHealing": 5,
+              "immune": [
+                "doenca",
+                "veneno",
+                "fatigado",
+                "exausto"
+              ]
+            }
+          }
+        },
+        {
+          "id": "vinte",
+          "label": "Cura acelerada 20 (tipo secreto)",
+          "self": {
+            "traits": {
+              "fastHealing": 20,
+              "immune": [
+                "doenca",
+                "veneno",
+                "fatigado",
+                "exausto"
+              ]
+            }
+          }
+        }
+      ]
+    }
+  },
+  "Retirada Relâmpago": {
+    "status": "parcial",
+    "notes": "Apague o efeito ao descarregar; o teleporte fica com a mesa.",
+    "activation": {
+      "self": {
+        "changes": [
+          {
+            "key": "system.attributes.pm.bonus",
+            "value": -10
+          }
+        ]
+      }
+    }
+  },
+  "Revitalização de Hyaku-nen": {
+    "status": "parcial",
+    "notes": "Dano de habilidade, doenças, venenos e salvar quem acabou de morrer: à mão.",
+    "activation": {
+      "save": {
+        "type": "von",
+        "half": true
+      },
+      "damage": {
+        "formula": "100",
+        "type": "luz",
+        "healing": true,
+        "alt": {
+          "label": "Contra shiryou",
+          "type": "luz",
+          "harm": true
+        }
+      },
+      "options": [
+        {
+          "id": "curar",
+          "label": "Curar",
+          "targets": {
+            "who": "any",
+            "removeConditions": [
+              "cego",
+              "surdo",
+              "ofuscado",
+              "atordoado",
+              "pasmo",
+              "confuso",
+              "enjoado",
+              "fatigado",
+              "exausto"
+            ]
+          }
+        },
+        {
+          "id": "shiryou",
+          "label": "Contra shiryou"
+        }
+      ]
+    }
+  },
+  "Revolta Espiritual": {
+    "status": "parcial",
+    "notes": "O controle mental do alvo fica com a mesa.",
+    "activation": {
+      "targets": {
+        "who": "enemies",
+        "save": {
+          "type": "von"
+        },
+        "duration": {
+          "unit": "cena"
+        },
+        "traits": {
+          "missChance": 20
+        },
+        "changes": [
+          {
+            "key": "system.attributes.mods.attack",
+            "value": 4
+          },
+          {
+            "key": "system.skills.furtividade.bonus",
+            "value": 4
+          }
+        ],
+        "rollOptions": [
+          {
+            "id": "auraSombria",
+            "label": "Aura sombria",
+            "damage": "1d10",
+            "type": "trevas"
+          }
+        ]
+      }
+    }
+  },
+  "Rocha Cadente": {
+    "status": "parcial",
+    "notes": "Prisão sob a rocha (Atletismo CD 25) e queda dos voadores: à mão.",
+    "activation": {
+      "save": {
+        "type": "ref",
+        "half": true
+      }
+    }
+  },
+  "Trilha Infalível de Nozomi": {
+    "status": "narrativo"
+  },
+  "Truque das Cópias Perfeitas": {
+    "status": "parcial",
+    "notes": "A cópia ilusória (50% do dano) fica com a mesa.",
+    "activation": {
+      "duration": {
+        "unit": "cena"
+      },
+      "self": {
+        "conditions": [
+          {
+            "id": "invisivel"
+          }
+        ]
+      }
+    }
+  },
+  "Amuleto Mental": {
+    "status": "parcial",
+    "notes": "Possessão e dano de habilidade mental ficam com a mesa.",
+    "activation": {
+      "duration": {
+        "unit": "cena"
+      },
+      "self": {
+        "traits": {
+          "immune": [
+            "atordoamento",
+            "confuso",
+            "pasmo",
+            "medo",
+            "encantamento",
+            "ilusao",
+            "adivinhacao"
+          ]
+        }
+      }
+    }
+  },
+  "Assimilação": {
+    "status": "parcial",
+    "notes": "PV temporários e ganhos da assimilação dependem do dano: aplique à mão."
+  },
+  "Aura Celestial": {
+    "status": "parcial",
+    "notes": "Proteção contra possessão e o efeito nos atacantes ficam com a mesa.",
+    "activation": {
+      "targets": {
+        "who": "allies",
+        "includeSelf": true,
+        "duration": {
+          "unit": "cena"
+        },
+        "changes": [
+          {
+            "key": "system.attributes.ca.bonus",
+            "value": "4 + floor(@spent / 2)"
+          },
+          {
+            "key": "system.attributes.mods.saves",
+            "value": "4 + floor(@spent / 2)"
+          }
+        ]
+      }
+    }
+  },
+  "Barreira das Seis Mil Gemas": {
+    "status": "parcial",
+    "notes": "Quem cruza sofre cada cor; o dano das cores e o violeta ficam com a mesa.",
+    "activation": {
+      "extraSaves": [
+        {
+          "type": "fort",
+          "label": "Laranja (veneno mortal)",
+          "onFail": {
+            "kill": true
+          },
+          "onSuccess": {
+            "abilityDamage": {
+              "ability": "con",
+              "formula": "1d6"
+            }
+          }
+        },
+        {
+          "type": "fort",
+          "label": "Azul (estátua de gelo)",
+          "onFail": {
+            "conditions": [
+              {
+                "id": "inerte"
+              },
+              {
+                "id": "inconsciente"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "Buraco Negro": {
+    "status": "parcial",
+    "notes": "O puxão de 30m e a sucção perto do buraco ficam com a mesa.",
+    "activation": {
+      "targets": {
+        "who": "any",
+        "includeSelf": true,
+        "duration": {
+          "value": 3,
+          "unit": "rodada"
+        },
+        "turnStart": {
+          "save": {
+            "type": "fort"
+          },
+          "conditions": [
+            "caido"
+          ]
+        }
+      }
+    }
+  },
+  "Ciclone de Shunka’Shuuto": {
+    "status": "parcial",
+    "notes": "Grandes ou Enormes que passam em Reflexos não sofrem dano; expelir e a queda: à mão.",
+    "activation": {
+      "damage": {
+        "formula": "6d6",
+        "type": "frio",
+        "alt": {
+          "label": "Vento",
+          "type": "vento"
+        }
+      },
+      "extraSaves": [
+        {
+          "type": "fort",
+          "label": "Vento uivante",
+          "onFail": {
+            "conditions": [
+              {
+                "id": "surdo",
+                "duration": {
+                  "unit": "cena"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "ref",
+          "label": "Sucção (Média ou menor)",
+          "onFail": {
+            "conditions": [
+              "paralisado"
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "Dança das Chamas Mortais": {
+    "status": "parcial",
+    "notes": "Uma vez por rodada; quem passar na Fortitude fica imune a esta execução.",
+    "activation": {
+      "note": "A Fortitude sai do cartão do golpe.",
+      "attack": {
+        "weapon": true,
+        "type": "corpo",
+        "onHit": {
+          "save": {
+            "type": "fort",
+            "dc": "@dc"
+          },
+          "onFail": {
+            "kill": true
+          }
+        }
+      }
+    }
+  },
+  "Disjunção": {
+    "status": "parcial",
+    "notes": "Itens mágicos da área (Vontade) e a chance de destruir artefatos: à mão.",
+    "activation": {
+      "targets": {
+        "who": "any",
+        "dispel": true
+      }
+    }
+  },
+  "Distorção da Realidade": {
+    "status": "parcial",
+    "notes": "O efeito escolhido e os PM permanentes ficam com a mesa.",
+    "activation": {
+      "honorViolation": "moderada"
+    }
+  },
+  "Dominar o Tempo": {
+    "status": "parcial",
+    "notes": "Penalidades de idade, a rodada revivida e os PM permanentes ficam com a mesa.",
+    "activation": {
+      "options": [
+        {
+          "id": "acelerar",
+          "label": "Acelerar o tempo"
+        },
+        {
+          "id": "envelhecer",
+          "label": "Envelhecer (involuntário)",
+          "honorViolation": "severa",
+          "save": {
+            "type": "fort",
+            "onFail": {
+              "conditions": [
+                "exausto"
+              ]
+            },
+            "onSuccess": {
+              "conditions": [
+                {
+                  "id": "fatigado",
+                  "duration": {
+                    "unit": "cena"
+                  }
+                }
+              ]
+            }
+          }
+        },
+        {
+          "id": "envelhecerVoluntario",
+          "label": "Envelhecer (voluntário)",
+          "save": {
+            "type": "fort",
+            "onFail": {
+              "conditions": [
+                "exausto"
+              ]
+            },
+            "onSuccess": {
+              "conditions": [
+                {
+                  "id": "fatigado",
+                  "duration": {
+                    "unit": "cena"
+                  }
+                }
+              ]
+            }
+          }
+        },
+        {
+          "id": "fuga",
+          "label": "Fuga"
+        },
+        {
+          "id": "voltar",
+          "label": "Voltar no tempo"
+        }
+      ]
+    }
+  },
+  "Duplicação": {
+    "status": "narrativo",
+    "notes": "A duplicata (com dois níveis negativos) é criada e controlada à mão."
+  },
+  "Fracasso": {
+    "status": "parcial",
+    "notes": "Escolha amnésia, desonra ou falência e aplique o efeito à mão."
+  },
+  "Golpe Supremo": {
+    "status": "parcial",
+    "notes": "O quanto você conhece o alvo muda a CA dele: some no modificador do ataque.",
+    "activation": {
+      "attack": {
+        "weapon": true,
+        "type": "corpo",
+        "ignoreRd": "all"
+      },
+      "options": [
+        {
+          "id": "combate",
+          "label": "Corpo a corpo, alvo em combate com você"
+        },
+        {
+          "id": "foraCombate",
+          "label": "Corpo a corpo, alvo fora de combate (violação extrema)",
+          "honorViolation": "extrema"
+        },
+        {
+          "id": "distancia",
+          "label": "À distância, alvo em combate com você",
+          "attack": {
+            "weapon": "distancia",
+            "type": "distancia"
+          }
+        },
+        {
+          "id": "distanciaFora",
+          "label": "À distância, alvo fora de combate (violação extrema)",
+          "honorViolation": "extrema",
+          "attack": {
+            "weapon": "distancia",
+            "type": "distancia"
+          }
+        }
       ]
     }
   },
   "Incêndio Infinito": {},
-  "Katana Celestial": { "status": "parcial", "notes": "Cego e surdo pela cena pedem Fortitude à parte; luz dobra contra mortos-vivos." },
-  "Kiai Assassino": { "status": "parcial", "notes": "Quem ouve e falha na Fortitude morre: aplique à mão." },
-  "Ladrão de Almas": {
-    "status": "parcial", "notes": "O PM permanente e o objeto que prende a alma ficam com a mesa.",
-    "activation": { "targets": { "who": "enemies", "save": { "type": "von" }, "conditions": [{ "id": "inconsciente" }, { "id": "inerte" }] } }
-  },
-  "Lágrimas de Mizuha": {
-    "status": "parcial", "notes": "Chacras fechados, fim dos jutsus e os 5 PM permanentes ficam com a mesa.",
+  "Katana Celestial": {
+    "status": "parcial",
+    "notes": "O dano de luz dobra contra mortos-vivos e sensíveis à luz: some à mão.",
     "activation": {
-      "options": [
-        { "id": "permissao", "label": "Com permissão de Mizuha" },
-        { "id": "semPermissao", "label": "Sem permissão (violação extrema)", "honorViolation": "extrema" }
+      "extraSaves": [
+        {
+          "type": "fort",
+          "label": "Cegueira e surdez",
+          "onFail": {
+            "conditions": [
+              {
+                "id": "cego",
+                "duration": {
+                  "unit": "cena"
+                }
+              },
+              {
+                "id": "surdo",
+                "duration": {
+                  "unit": "cena"
+                }
+              }
+            ]
+          }
+        }
       ]
     }
   },
-  "Localização Perfeita": { "status": "narrativo" },
-  "Mandala da Afinidade": { "status": "parcial", "notes": "Repasse à mão o dano e a cura que você recebe." },
-  "Mandala-espelho": { "status": "parcial", "notes": "Devolva à mão os jutsus que o tenham como alvo (até 6 PM)." },
-  "Mantra dos Ancestrais": {
-    "status": "parcial", "notes": "Escolha a opção pelos PV atuais do alvo; matar fica à mão.",
+  "Kiai Assassino": {
+    "activation": {
+      "save": {
+        "type": "fort",
+        "onFail": {
+          "kill": true
+        }
+      }
+    }
+  },
+  "Ladrão de Almas": {
+    "status": "parcial",
+    "notes": "O PM permanente e o objeto que prende a alma ficam com a mesa.",
+    "activation": {
+      "targets": {
+        "who": "enemies",
+        "save": {
+          "type": "von"
+        },
+        "conditions": [
+          {
+            "id": "inconsciente"
+          },
+          {
+            "id": "inerte"
+          }
+        ]
+      }
+    }
+  },
+  "Lágrimas de Mizuha": {
+    "status": "parcial",
+    "notes": "Chacras fechados, fim dos jutsus e os 5 PM permanentes ficam com a mesa.",
     "activation": {
       "options": [
-        { "id": "atordoar50", "label": "Atordoar (até 50 PV)", "targets": { "who": "enemies", "conditions": [{ "id": "atordoado", "duration": { "unit": "cena" } }] } },
-        { "id": "atordoar200", "label": "Atordoar (51 a 200 PV)", "targets": { "who": "enemies", "conditions": [{ "id": "atordoado", "duration": { "value": "1d4", "unit": "rodada" } }] } },
-        { "id": "cegar200", "label": "Cegar (até 200 PV)", "targets": { "who": "enemies", "conditions": ["cego"] } },
-        { "id": "cegarMais", "label": "Cegar (mais de 200 PV)", "targets": { "who": "enemies", "conditions": [{ "id": "cego", "duration": { "unit": "cena" } }] } },
-        { "id": "matar", "label": "Matar (até 100 PV)" }
+        {
+          "id": "permissao",
+          "label": "Com permissão de Mizuha"
+        },
+        {
+          "id": "semPermissao",
+          "label": "Sem permissão (violação extrema)",
+          "honorViolation": "extrema"
+        }
+      ]
+    }
+  },
+  "Localização Perfeita": {
+    "status": "narrativo"
+  },
+  "Mandala da Afinidade": {
+    "status": "parcial",
+    "notes": "Repasse à mão o dano e a cura que você recebe."
+  },
+  "Mandala-espelho": {
+    "status": "parcial",
+    "notes": "Devolva à mão os jutsus que o tenham como alvo (até 6 PM)."
+  },
+  "Mantra dos Ancestrais": {
+    "status": "parcial",
+    "notes": "Escolha a opção pelos PV atuais do alvo.",
+    "activation": {
+      "options": [
+        {
+          "id": "atordoar50",
+          "label": "Atordoar (até 50 PV)",
+          "targets": {
+            "who": "enemies",
+            "conditions": [
+              {
+                "id": "atordoado",
+                "duration": {
+                  "unit": "cena"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "id": "atordoar200",
+          "label": "Atordoar (51 a 200 PV)",
+          "targets": {
+            "who": "enemies",
+            "conditions": [
+              {
+                "id": "atordoado",
+                "duration": {
+                  "value": "1d4",
+                  "unit": "rodada"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "id": "cegar200",
+          "label": "Cegar (até 200 PV)",
+          "targets": {
+            "who": "enemies",
+            "conditions": [
+              "cego"
+            ]
+          }
+        },
+        {
+          "id": "cegarMais",
+          "label": "Cegar (mais de 200 PV)",
+          "targets": {
+            "who": "enemies",
+            "conditions": [
+              {
+                "id": "cego",
+                "duration": {
+                  "unit": "cena"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "id": "matar",
+          "label": "Matar (até 100 PV)",
+          "targets": {
+            "who": "enemies",
+            "kill": true
+          }
+        }
       ]
     }
   },
   "Matador de Kaiju": {
-    "status": "parcial", "notes": "A cura acelerada suspensa por 1d4 rodadas fica à mão.",
+    "status": "parcial",
+    "notes": "A cura acelerada suspensa por 1d4 rodadas fica à mão.",
     "activation": {
       "options": [
-        { "id": "maiores", "label": "Contra criaturas maiores" },
-        { "id": "menores", "label": "Do seu tamanho ou menores (violação severa)", "honorViolation": "severa" }
+        {
+          "id": "maiores",
+          "label": "Contra criaturas maiores"
+        },
+        {
+          "id": "menores",
+          "label": "Do seu tamanho ou menores (violação severa)",
+          "honorViolation": "severa"
+        }
       ]
     }
   },
-  "Mente Inviolável": { "status": "parcial", "notes": "O dano de habilidade (3d6, metade com Vontade) é aplicado à mão." },
-  "Milagre dos Ancestrais": { "status": "narrativo" },
-  "Muralha da Tempestade": { "status": "parcial", "notes": "Quem atravessa leva três relâmpagos e testa Fortitude (surdo ou atordoado) à parte." },
-  "Portal Espiritual": { "status": "narrativo" },
-  "Prisão de Doragami": {
-    "status": "parcial", "notes": "Escolha a prisão e ajuste a CD à mão; apague o efeito ao fim.",
-    "activation": { "self": { "changes": [{ "key": "system.attributes.pm.bonus", "value": -15 }] } }
-  },
-  "Sentai Espiritual": { "status": "narrativo" },
-  "Sétimo Sentido": {
+  "Mente Inviolável": {
     "activation": {
-      "duration": { "unit": "cena" },
+      "options": [
+        {
+          "id": "int",
+          "label": "Dano em Inteligência",
+          "save": {
+            "type": "von",
+            "onFail": {
+              "abilityDamage": {
+                "ability": "int",
+                "formula": "3d6"
+              }
+            },
+            "onSuccess": {
+              "abilityDamage": {
+                "ability": "int",
+                "formula": "floor(3d6 / 2)"
+              }
+            }
+          }
+        },
+        {
+          "id": "sab",
+          "label": "Dano em Sabedoria",
+          "save": {
+            "type": "von",
+            "onFail": {
+              "abilityDamage": {
+                "ability": "sab",
+                "formula": "3d6"
+              }
+            },
+            "onSuccess": {
+              "abilityDamage": {
+                "ability": "sab",
+                "formula": "floor(3d6 / 2)"
+              }
+            }
+          }
+        },
+        {
+          "id": "car",
+          "label": "Dano em Carisma",
+          "save": {
+            "type": "von",
+            "onFail": {
+              "abilityDamage": {
+                "ability": "car",
+                "formula": "3d6"
+              }
+            },
+            "onSuccess": {
+              "abilityDamage": {
+                "ability": "car",
+                "formula": "floor(3d6 / 2)"
+              }
+            }
+          }
+        }
+      ]
+    }
+  },
+  "Milagre dos Ancestrais": {
+    "status": "narrativo"
+  },
+  "Muralha da Tempestade": {
+    "activation": {
+      "note": "Quem atravessa leva três relâmpagos (role o dano três vezes) e testa Fortitude.",
+      "extraSaves": [
+        {
+          "type": "fort",
+          "label": "Atravessou a muralha",
+          "onSuccess": {
+            "conditions": [
+              {
+                "id": "surdo",
+                "duration": {
+                  "unit": "cena"
+                }
+              }
+            ]
+          },
+          "onFail": {
+            "conditions": [
+              {
+                "id": "atordoado",
+                "duration": {
+                  "value": "1d4",
+                  "unit": "rodada"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "Portal Espiritual": {
+    "status": "narrativo"
+  },
+  "Prisão de Doragami": {
+    "status": "parcial",
+    "notes": "Escolha a prisão e ajuste a CD à mão; apague o efeito ao fim.",
+    "activation": {
       "self": {
         "changes": [
-          { "key": "system.attributes.ca.bonus", "value": 8 },
-          { "key": "system.saves.ref.bonus", "value": 8 }
+          {
+            "key": "system.attributes.pm.bonus",
+            "value": -15
+          }
+        ]
+      }
+    }
+  },
+  "Sentai Espiritual": {
+    "status": "narrativo"
+  },
+  "Sétimo Sentido": {
+    "activation": {
+      "duration": {
+        "unit": "cena"
+      },
+      "self": {
+        "changes": [
+          {
+            "key": "system.attributes.ca.bonus",
+            "value": 8
+          },
+          {
+            "key": "system.saves.ref.bonus",
+            "value": 8
+          }
         ],
-        "traits": { "uncannyDodge": 2, "immune": ["surpreendido", "desprevenido"] }
+        "traits": {
+          "uncannyDodge": 2,
+          "immune": [
+            "surpreendido",
+            "desprevenido"
+          ]
+        }
       }
     }
   },
   "Terremoto Corrosivo": {
-    "status": "parcial", "notes": "Tremores (sem mover, atacar ou executar jutsus) e efeitos do terreno ficam com a mesa.",
-    "activation": { "save": { "type": "ref", "negate": true } }
-  },
-  "Transformação Perfeita": { "status": "parcial", "notes": "A transformação escolhida e as novas estatísticas ficam com a mesa." },
-  "Tsunami Congelante": { "status": "parcial", "notes": "Testa também Fortitude: lento pela cena ou paralisado por 1d4 rodadas." },
-  "Velocidade da Luz": {
-    "status": "parcial", "notes": "Agir primeiro, 50% de falha contra você e o custo em Constituição: à mão.",
+    "status": "parcial",
+    "notes": "Tremores (sem mover, atacar ou executar jutsus) e efeitos do terreno ficam com a mesa.",
     "activation": {
-      "duration": { "unit": "cena" },
-      "self": {
-        "traits": { "uncannyDodge": 1, "immune": ["surpreendido"] },
-        "rollOptions": [{ "id": "reflexos", "label": "Velocidade da luz (Reflexos)", "for": "save", "filter": { "saves": ["ref"] }, "best": true }]
+      "save": {
+        "type": "ref",
+        "negate": true
       }
     }
   },
-  "Véu das Mentiras": { "status": "narrativo" },
-  "Viagem Astral": { "status": "narrativo" }
+  "Transformação Perfeita": {
+    "status": "parcial",
+    "notes": "A transformação escolhida e as novas estatísticas ficam com a mesa."
+  },
+  "Tsunami Congelante": {
+    "activation": {
+      "extraSaves": [
+        {
+          "type": "fort",
+          "label": "Congelamento",
+          "onSuccess": {
+            "conditions": [
+              {
+                "id": "lento",
+                "duration": {
+                  "unit": "cena"
+                }
+              }
+            ]
+          },
+          "onFail": {
+            "conditions": [
+              {
+                "id": "paralisado",
+                "duration": {
+                  "value": "1d4",
+                  "unit": "rodada"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "Velocidade da Luz": {
+    "status": "parcial",
+    "notes": "Agir primeiro e o custo em Constituição (Fortitude a cada rodada): à mão.",
+    "activation": {
+      "duration": {
+        "unit": "cena"
+      },
+      "self": {
+        "traits": {
+          "uncannyDodge": 1,
+          "immune": [
+            "surpreendido"
+          ],
+          "missChance": 50
+        },
+        "rollOptions": [
+          {
+            "id": "reflexos",
+            "label": "Velocidade da luz (Reflexos)",
+            "for": "save",
+            "filter": {
+              "saves": [
+                "ref"
+              ]
+            },
+            "best": true
+          }
+        ]
+      }
+    }
+  },
+  "Véu das Mentiras": {
+    "status": "narrativo"
+  },
+  "Viagem Astral": {
+    "status": "narrativo"
+  }
 }

@@ -1,27 +1,38 @@
 {
-  "_sobre": "Automação dos itens de equipamento (docs/automacao.md). A chave é o nome do item. Opções de rolagem de arma só valem nos ataques com ela; de equipamento e material, só com o item equipado. Bomba de fumaça fica sem bloco: a chave é a mesma do jutsu Bomba de Fumaça. Escudo leve e Escudo pesado dividem o bloco entre a arma e a armadura.",
+  "_sobre": "Automação dos itens de equipamento (docs/automacao.md). A chave é o nome do item. Opções de rolagem de arma só valem nos ataques com ela; de equipamento e material, só com o item equipado. Bônus de manobra das armas valem sozinhos para quem faz a manobra, com a arma equipada (não para resistir). Armas desonradas levam a gravidade no bloco (dishonor) e o cartão de ataque traz o botão da violação; armaduras e trajes têm a violação no poder do item. Bomba de fumaça fica sem bloco: a chave é a mesma do jutsu Bomba de Fumaça. Escudo leve e Escudo pesado dividem o bloco entre a arma e a armadura.",
 
-  "Ataque desarmado": { "status": "narrativo", "notes": "Dano não letal: o sistema não separa dano não letal." },
-  "Kunai (adaga)": { "status": "narrativo", "notes": "+4 em Ladinagem para escondê-la e o arremesso (3 m) ficam à mão." },
-  "Tanto": {
+  "Ataque desarmado": { "status": "parcial", "notes": "Dano não letal: o sistema não separa dano não letal." },
+  "Kunai (adaga)": {
     "status": "parcial",
-    "notes": "+2 em Ladinagem para escondê-lo fica à mão.",
-    "rollOptions": [{ "id": "obraPrima", "label": "Obra-prima", "attack": 1, "locked": true }]
+    "notes": "O arremesso (3 m) fica à mão: o item ataca corpo a corpo.",
+    "rollOptions": [{ "id": "esconder", "label": "Esconder a kunai", "for": "skill", "filter": { "skills": ["ladinagem"] }, "value": 4, "optional": true }]
+  },
+  "Tanto": {
+    "rollOptions": [
+      { "id": "obraPrima", "label": "Obra-prima", "attack": 1, "locked": true },
+      { "id": "esconder", "label": "Esconder o tanto", "for": "skill", "filter": { "skills": ["ladinagem"] }, "value": 2, "optional": true }
+    ]
   },
   "Yari (lança)": {
     "status": "parcial",
     "notes": "O dano dobrado e o arremesso (6 m) ficam à mão.",
     "rollOptions": [{ "id": "investidaMontada", "label": "Investida montada", "optional": true, "note": "dano dobrado" }]
   },
-  "Bo (bordão)": { "status": "narrativo", "notes": "Arma dupla: o ataque com a outra ponta fica à mão." },
+  "Bo (bordão)": {},
   "Azagaia": {
     "status": "parcial",
-    "notes": "Corpo a corpo, o ataque ainda usa o bônus à distância do item.",
-    "rollOptions": [{ "id": "corpo", "label": "Usada corpo a corpo", "attack": -4, "optional": true }]
+    "notes": "Corpo a corpo, o ataque segue contando como à distância.",
+    "rollOptions": [{ "id": "corpo", "label": "Usada corpo a corpo", "attack": "@for - @des - 4", "optional": true }]
   },
   "Besta leve": { "status": "narrativo", "notes": "Recarregar é uma ação de movimento." },
-  "Fukiya (zarabatana)": { "status": "narrativo", "notes": "–2 na Fortitude contra o veneno do dardo e violação severa ficam à mão." },
-  "Hankyu (arco curto)": { "status": "narrativo", "notes": "Usar é violação de honra severa: registre à mão." },
+  "Fukiya (zarabatana)": {
+    "status": "parcial",
+    "notes": "O –2 na Fortitude da vítima contra o veneno do dardo fica à mão.",
+    "dishonor": "severa"
+  },
+  "Hankyu (arco curto)": {
+    "dishonor": "severa"
+  },
   "Escudo leve": {
     "status": "parcial",
     "notes": "Ao bater com o escudo, use o item de armadura para perder o bônus.",
@@ -32,15 +43,134 @@
     }
   },
   "Jitte": {
-    "status": "parcial",
-    "notes": "Usar é violação de honra severa (exceto magistrados): registre à mão.",
-    "rollOptions": [{ "id": "desarmar", "label": "Desarmar ou separar", "attack": 4, "optional": true }]
+    "rollOptions": [
+      {
+        "id": "desarmar",
+        "label": "Jitte: desarmar ou separar",
+        "for": "maneuver",
+        "filter": {
+          "maneuvers": [
+            "desarmar",
+            "separar"
+          ]
+        },
+        "value": 4
+      }
+    ],
+    "dishonor": "severa",
+    "notes": "Magistrados do Império não violam a honra: não confirmem o botão."
   },
-  "Machadinha": { "status": "narrativo", "notes": "Arremesso (3 m): o item só ataca corpo a corpo." },
-  "Neko-te": { "status": "narrativo", "notes": "+2 em Atletismo para escalar e violação severa ficam à mão." },
-  "Ninja-to": { "status": "narrativo", "notes": "Pimenta, compartimento secreto e violação severa à mão: arma não tem ativação." },
+  "Machadinha": { "status": "parcial", "notes": "O arremesso (3 m) fica à mão: o item só ataca corpo a corpo." },
+  "Neko-te": {
+    "rollOptions": [
+      {
+        "id": "escalar",
+        "label": "Escalar com neko-te",
+        "for": "skill",
+        "filter": {
+          "skills": [
+            "atletismo"
+          ]
+        },
+        "value": 2,
+        "optional": true
+      }
+    ],
+    "dishonor": "severa"
+  },
+  "Ninja-to": {
+    "rollOptions": [
+      {
+        "id": "compartimento",
+        "label": "Compartimento secreto da bainha",
+        "for": "skill",
+        "filter": {
+          "skills": [
+            "ladinagem"
+          ]
+        },
+        "value": 4,
+        "optional": true,
+        "note": "esconder itens; só com a bainha especial"
+      }
+    ],
+    "activation": {
+      "options": [
+        {
+          "id": "pimenta1",
+          "label": "Pimenta (1 PM, Reflexos CD 15)",
+          "cost": 1,
+          "action": "padrão",
+          "targets": {
+            "who": "enemies",
+            "save": {
+              "type": "ref",
+              "dc": 15
+            },
+            "conditions": [
+              {
+                "id": "cego",
+                "duration": {
+                  "value": "1d6",
+                  "unit": "rodada"
+                }
+              }
+            ]
+          },
+          "note": "Só com truques ninjas, num adjacente: falhou, fica cego por 1d6 rodadas."
+        },
+        {
+          "id": "pimenta3",
+          "label": "Pimenta (3 PM, Reflexos CD 18)",
+          "cost": 3,
+          "action": "padrão",
+          "targets": {
+            "who": "enemies",
+            "save": {
+              "type": "ref",
+              "dc": 18
+            },
+            "conditions": [
+              {
+                "id": "cego",
+                "duration": {
+                  "value": "1d6",
+                  "unit": "rodada"
+                }
+              }
+            ]
+          },
+          "note": "Só com truques ninjas, num adjacente: falhou, fica cego por 1d6 rodadas."
+        },
+        {
+          "id": "pimenta6",
+          "label": "Pimenta (6 PM, Reflexos CD 22)",
+          "cost": 6,
+          "action": "padrão",
+          "targets": {
+            "who": "enemies",
+            "save": {
+              "type": "ref",
+              "dc": 22
+            },
+            "conditions": [
+              {
+                "id": "cego",
+                "duration": {
+                  "value": "1d6",
+                  "unit": "rodada"
+                }
+              }
+            ]
+          },
+          "note": "Só com truques ninjas, num adjacente: falhou, fica cego por 1d6 rodadas."
+        }
+      ]
+    },
+    "dishonor": "severa"
+  },
   "Sai": {
-    "rollOptions": [{ "id": "desarmar", "label": "Desarmar", "attack": 4, "optional": true }]
+    "rollOptions": [{ "id": "desarmar", "label": "Sai: desarmar", "for": "maneuver", "filter": { "maneuvers": ["desarmar"] }, "value": 4 }]
   },
   "Tonfa": {
     "choice": {
@@ -73,15 +203,19 @@
     }
   },
   "Kra'tann": {
-    "status": "parcial",
-    "notes": "Usar é violação de honra moderada: registre à mão.",
-    "passive": [{ "key": "system.skills.intimidacao.bonus", "value": 2 }]
+    "passive": [
+      {
+        "key": "system.skills.intimidacao.bonus",
+        "value": 2
+      }
+    ],
+    "dishonor": "moderada"
   },
   "Mangual": {
-    "rollOptions": [{ "id": "desarmar", "label": "Desarmar", "attack": 4, "optional": true }]
+    "rollOptions": [{ "id": "desarmar", "label": "Mangual: desarmar", "for": "maneuver", "filter": { "maneuvers": ["desarmar"] }, "value": 4 }]
   },
   "Tridente": {
-    "rollOptions": [{ "id": "derrubar", "label": "Derrubar", "attack": 4, "optional": true }]
+    "rollOptions": [{ "id": "derrubar", "label": "Tridente: derrubar", "for": "maneuver", "filter": { "maneuvers": ["derrubar"] }, "value": 4 }]
   },
   "Naginata": { "status": "narrativo", "notes": "Alcance dobrado, mas não ataca adjacentes: posicione à mão." },
   "Nodachi": {
@@ -89,15 +223,20 @@
   },
   "Besta pesada": { "status": "narrativo", "notes": "Recarregar é uma ação padrão." },
   "Jian": {
-    "rollOptions": [{ "id": "manobra", "label": "Manobra de combate", "attack": 4, "optional": true }]
+    "rollOptions": [{ "id": "manobra", "label": "Jian: manobras com arma", "for": "maneuver", "filter": { "maneuvers": ["derrubar", "desarmar", "separar"] }, "value": 4 }]
   },
   "Leque": {
     "status": "parcial",
-    "notes": "Uma vez por combate; ataque furtivo, leque fechado (1d4) e Ladinagem +4 à mão.",
-    "rollOptions": [{ "id": "abrir", "label": "Abrir e atacar", "attack": 4, "optional": true, "note": "o alvo fica desprevenido contra este ataque" }]
+    "notes": "Leque fechado (bastão, 1d4 de esmagamento) e a versão perfurante ficam à mão.",
+    "rollOptions": [{ "id": "esconder", "label": "Esconder o leque", "for": "skill", "filter": { "skills": ["ladinagem"] }, "value": 4, "optional": true }],
+    "activation": {
+      "action": "livre", "uses": { "max": 1, "per": "cena" }, "duration": { "value": 1, "unit": "rodada" },
+      "targets": { "who": "enemies", "statuses": ["desprevenido"], "consumeOn": "damageTaken" },
+      "note": "Abriu e atacou na mesma rodada: o alvo fica desprevenido contra o ataque."
+    }
   },
   "Chicote": {
-    "rollOptions": [{ "id": "manobra", "label": "Derrubar ou desarmar", "attack": 4, "optional": true }],
+    "rollOptions": [{ "id": "manobra", "label": "Chicote: derrubar ou desarmar", "for": "maneuver", "filter": { "maneuvers": ["derrubar", "desarmar"] }, "value": 4 }],
     "choice": {
       "label": "Acuidade com Arma", "count": 1,
       "options": [
@@ -107,7 +246,7 @@
     }
   },
   "Chuan": {
-    "rollOptions": [{ "id": "manobra", "label": "Manobra de combate", "attack": 4, "optional": true }],
+    "rollOptions": [{ "id": "manobra", "label": "Chuan: manobras com arma", "for": "maneuver", "filter": { "maneuvers": ["derrubar", "desarmar", "separar"] }, "value": 4 }],
     "choice": {
       "label": "Acuidade com Arma", "count": 1,
       "options": [
@@ -128,16 +267,20 @@
       ]
     }
   },
-  "Corrente": { "status": "narrativo", "notes": "Arma dupla; com uma mão causa 1d8: ajuste à mão." },
+  "Corrente": { "status": "parcial", "notes": "Com uma só mão causa 1d8: ajuste o dano à mão." },
   "Kakko'dai": {
-    "status": "parcial",
-    "notes": "Usar é violação de honra moderada: registre à mão.",
-    "passive": [{ "key": "system.attributes.ca.bonus", "value": -1 }]
+    "passive": [
+      {
+        "key": "system.attributes.ca.bonus",
+        "value": -1
+      }
+    ],
+    "dishonor": "moderada"
   },
   "Kusari-gama": {
     "status": "parcial",
     "notes": "Arma dupla: o peso da corrente (1d6, esmagamento, x2) fica à mão.",
-    "rollOptions": [{ "id": "manobra", "label": "Derrubar ou desarmar", "attack": 4, "optional": true }],
+    "rollOptions": [{ "id": "manobra", "label": "Kusari-gama: derrubar ou desarmar", "for": "maneuver", "filter": { "maneuvers": ["derrubar", "desarmar"] }, "value": 4 }],
     "choice": {
       "label": "Acuidade com Arma", "count": 1,
       "options": [
@@ -146,7 +289,7 @@
       ]
     }
   },
-  "Lajatang": { "status": "narrativo", "notes": "Arma dupla: o ataque com a outra lâmina fica à mão." },
+  "Lajatang": {},
   "Sansetsukon": { "status": "narrativo", "notes": "Arma dupla com duas mãos, ou alcance 3 m com uma: à mão." },
   "Zanbatou": { "status": "narrativo", "notes": "Exige Força 19 para empunhar." },
   "Chakram": {
@@ -156,21 +299,54 @@
   },
   "Granada": {
     "status": "parcial",
-    "notes": "Área, metade com Reflexos, truque ninja e violação severa ficam à mão.",
-    "rollOptions": [{ "id": "explosao", "label": "Explosão", "locked": true, "note": "todos a até 3 m; Reflexos (CD = resultado do ataque) reduz à metade" }]
-  },
-  "Rede": { "status": "narrativo", "notes": "Toque à distância; acertando, aplique enredado. Escapa com Acrobacia CD 20." },
-  "Shuriken": {
-    "status": "parcial",
-    "notes": "Usar é violação de honra severa: registre à mão.",
+    "notes": "Área, Reflexos para metade (CD = ataque) e o truque ninja ficam à mão.",
     "rollOptions": [
-      { "id": "extra", "label": "Mais uma shuriken", "cost": 1, "optional": true, "extraAttack": true },
-      { "id": "extraNinja", "label": "Mais uma shuriken (truques ninjas)", "optional": true, "extraAttack": true }
-    ]
+      {
+        "id": "explosao",
+        "label": "Explosão",
+        "locked": true,
+        "note": "todos a até 3 m; Reflexos (CD = resultado do ataque) reduz à metade"
+      }
+    ],
+    "activation": {
+      "action": "movimento",
+      "consume": true,
+      "note": "Acendeu a granada (gasta uma)."
+    },
+    "dishonor": "severa"
+  },
+  "Rede": {
+    "touch": true,
+    "rollOptions": [{
+      "id": "enredar", "label": "Rede", "locked": true, "note": "só até uma categoria de tamanho acima; escapa com Acrobacia CD 20",
+      "onHit": { "conditions": [{ "id": "enredado" }] }
+    }]
+  },
+  "Shuriken": {
+    "rollOptions": [
+      {
+        "id": "extra",
+        "label": "Mais uma shuriken",
+        "cost": 1,
+        "optional": true,
+        "extraAttack": true
+      },
+      {
+        "id": "extraNinja",
+        "label": "Mais uma shuriken (truques ninjas)",
+        "optional": true,
+        "extraAttack": true
+      }
+    ],
+    "dishonor": "severa"
   },
 
-  "Armadura de couro": { "status": "narrativo", "notes": "Para tamuranianos, vestir é violação de honra leve: registre à mão." },
-  "Armadura de ossos": { "status": "narrativo", "notes": "Vestir é violação de honra moderada: registre à mão." },
+  "Armadura de couro": {
+    "activation": { "action": "livre", "honorViolation": "leve", "note": "Para tamuranianos, vestir couro é violação de honra leve." }
+  },
+  "Armadura de ossos": {
+    "activation": { "action": "livre", "honorViolation": "moderada", "note": "Vestir a armadura de ossos é violação de honra moderada." }
+  },
   "Char-aina": {
     "status": "parcial",
     "notes": "Sobre outra armadura, a ficha conta só uma; kaijin podem usá-la.",
@@ -181,8 +357,18 @@
   "Suchiiru": { "passive": [{ "key": "system.attributes.movement.bonus", "value": -3 }] },
   "Carapaça kappa": {
     "status": "parcial",
-    "notes": "Sem flanco, CA +4 caído, uso sobre outra armadura e violação moderada à mão.",
-    "passive": [{ "key": "system.attributes.movement.bonus", "value": -3 }]
+    "notes": "Sem flanco e o uso sobre outra armadura à mão; ao levantar, apague o efeito.",
+    "passive": [{ "key": "system.attributes.movement.bonus", "value": -3 }],
+    "activation": {
+      "options": [
+        { "id": "vestir", "label": "Vestir", "action": "livre", "honorViolation": "moderada", "note": "Usar a carapaça kappa é violação de honra moderada." },
+        {
+          "id": "deitar", "label": "Deitar no chão (CA +4)", "action": "livre",
+          "self": { "changes": [{ "key": "system.attributes.ca.bonus", "value": 4 }], "conditions": ["caido"] },
+          "note": "Pequeno ou Médio, caído dentro da carapaça: cobertura (CA +4) até se levantar."
+        }
+      ]
+    }
   },
   "Yoroi": { "passive": [{ "key": "system.attributes.movement.bonus", "value": -3 }] },
   "O-Yoroi": { "passive": [{ "key": "system.attributes.movement.bonus", "value": -3 }] },
@@ -193,27 +379,49 @@
   "Corda de seda (15m)": {
     "rollOptions": [{ "id": "nos", "label": "Dar nós (corda de seda)", "for": "ability", "filter": { "abilities": ["des"] }, "value": 2, "optional": true }]
   },
-  "Kit de artesão": { "status": "narrativo", "notes": "Sem o kit, –5 nos testes do Ofício: aplique à mão." },
-  "Kit de disfarces": { "status": "narrativo", "notes": "Sem o kit, –5 em Enganação para disfarces: aplique à mão." },
-  "Kit de ladrão": { "status": "narrativo", "notes": "Sem o kit, –5 em Ladinagem para fechaduras e sabotagem: aplique à mão." },
-  "Kit de medicamentos": { "status": "narrativo", "notes": "Sem o kit, –5 nos testes de Cura: aplique à mão." },
+  "Kit de artesão": { "status": "parcial", "notes": "Sem o kit, –5 nos testes do Ofício: aplique à mão." },
+  "Kit de disfarces": { "status": "parcial", "notes": "Sem o kit, –5 em Enganação para disfarces: aplique à mão." },
+  "Kit de ladrão": { "status": "parcial", "notes": "Sem o kit, –5 em Ladinagem para fechaduras e sabotagem: aplique à mão." },
+  "Kit de medicamentos": { "status": "parcial", "notes": "Sem o kit, –5 nos testes de Cura: aplique à mão." },
   "Pé de Cabra": {
     "status": "parcial",
     "notes": "Para lutar com ele, use a clava.",
     "rollOptions": [{ "id": "abrir", "label": "Abrir porta ou baú (pé de cabra)", "for": "ability", "filter": { "abilities": ["for"] }, "value": 4, "optional": true }]
   },
-  "Tocha": { "status": "narrativo", "notes": "Como arma: 1d4 de esmagamento mais 1 de fogo; crie a arma à mão." },
-  "Peças Obra-primas": { "status": "narrativo", "notes": "Arma +1 no ataque; armadura com penalidade 1 menor; kit +2 na perícia." },
-  "Shinobi shozoku": {
+  "Tocha": {
     "status": "parcial",
-    "notes": "Vestir é violação de honra severa: registre à mão.",
+    "notes": "O crítico do golpe com a tocha fica à mão.",
+    "activation": {
+      "action": "padrão",
+      "attack": { "type": "corpo" },
+      "damage": { "formula": "1d4 + @for", "type": "esmagamento", "extra": [{ "formula": "1", "type": "fogo" }] },
+      "note": "Golpe com a tocha acesa (arma simples)."
+    }
+  },
+  "Peças Obra-primas": {
+    "status": "parcial",
+    "notes": "Outros itens (+2 a critério do mestre) e o ponto de Honra ao criar ficam à mão.",
+    "choice": {
+      "label": "Peça obra-prima", "count": 1, "text": "Nome da arma",
+      "options": [
+        { "id": "arma", "label": "Arma: +1 no ataque", "rollOptions": [{ "id": "obraPrima", "label": "Arma obra-prima", "attack": 1, "locked": true, "filter": { "chosenWeapon": true } }] },
+        { "id": "armadura", "label": "Armadura ou escudo: penalidade 1 menor", "passive": [{ "key": "system.attributes.armorPenaltyMod", "value": 1 }] },
+        { "id": "artesao", "label": "Kit de artesão: +2 no Ofício", "rollOptions": [{ "id": "kit", "label": "Kit de artesão obra-prima", "for": "skill", "filter": { "skills": ["oficio"] }, "value": 2, "optional": true }] },
+        { "id": "disfarces", "label": "Kit de disfarces: +2 em Enganação", "rollOptions": [{ "id": "kit", "label": "Kit de disfarces obra-prima", "for": "skill", "filter": { "skills": ["enganacao"] }, "value": 2, "optional": true }] },
+        { "id": "ladrao", "label": "Kit de ladrão: +2 em Ladinagem", "rollOptions": [{ "id": "kit", "label": "Kit de ladrão obra-prima", "for": "skill", "filter": { "skills": ["ladinagem"] }, "value": 2, "optional": true }] },
+        { "id": "medicamentos", "label": "Kit de medicamentos: +2 em Cura", "rollOptions": [{ "id": "kit", "label": "Kit de medicamentos obra-prima", "for": "skill", "filter": { "skills": ["cura"] }, "value": 2, "locked": true }] }
+      ]
+    }
+  },
+  "Shinobi shozoku": {
     "passive": [
       { "key": "system.skills.furtividade.bonus", "value": 2 },
       { "key": "system.skills.intimidacao.bonus", "value": 2 }
     ],
-    "rollOptions": [{ "id": "cla", "label": "Diplomacia com ninjas do clã", "for": "skill", "filter": { "skills": ["diplomacia"] }, "value": 2, "optional": true }]
+    "rollOptions": [{ "id": "cla", "label": "Diplomacia com ninjas do clã", "for": "skill", "filter": { "skills": ["diplomacia"] }, "value": 2, "optional": true }],
+    "activation": { "action": "livre", "honorViolation": "severa", "note": "Vestir o shinobi shozoku é violação de honra severa." }
   },
-  "Cavalo": { "status": "narrativo", "notes": "Sem treino, em combate: Cavalgar CD 20 a cada rodada para não cair." },
+  "Cavalo": { "status": "parcial", "notes": "Sem treino, em combate: Cavalgar CD 20 a cada rodada para não cair." },
   "Pipa Ninja": {
     "status": "parcial",
     "notes": "O teste de Acrobacia (CD 20) e a queda ficam à mão.",
@@ -227,8 +435,17 @@
   },
   "Akamono": {
     "status": "parcial",
-    "notes": "1 de dano em você por acerto, falha em armaduras e violação moderada à mão.",
-    "rollOptions": [{ "id": "akamono", "label": "Arma de akamono", "damage": "1d4", "noCrit": true, "optional": true, "note": "não vale contra kaijin e akumushi" }]
+    "notes": "1 de dano em você por acerto e a exceção de kaijin e akumushi ficam à mão.",
+    "choice": {
+      "label": "Akamono em", "count": 1, "text": "Nome da arma",
+      "options": [
+        { "id": "arma", "label": "Arma: +1d4 de dano", "rollOptions": [{ "id": "akamono", "label": "Arma de akamono", "damage": "1d4", "noCrit": true, "filter": { "chosenWeapon": true }, "note": "não vale contra kaijin e akumushi" }] },
+        { "id": "leve", "label": "Escudo ou armadura leve: 10% de falha", "traits": { "missChance": 10 } },
+        { "id": "media", "label": "Armadura média: 20% de falha", "traits": { "missChance": 20 } },
+        { "id": "pesada", "label": "Armadura pesada: 30% de falha", "traits": { "missChance": 30 } }
+      ]
+    },
+    "activation": { "action": "livre", "honorViolation": "moderada", "note": "Usar item de akamono é violação de honra moderada." }
   },
   "Bambu Suchiiru": {
     "choice": {

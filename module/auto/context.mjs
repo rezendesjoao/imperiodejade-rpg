@@ -184,6 +184,8 @@ export function collectTraits(actor) {
   for (const effect of actor?.appliedEffects ?? []) {
     const t = effect.flags?.[SYSTEM]?.traits;
     if (t) mergeTraits(traits, t, effect.parent?.getRollData?.() ?? {});
+    // Reactions that exist while an effect lasts (Contra-Ataque Relâmpago)
+    for (const r of effect.flags?.[SYSTEM]?.reactions ?? []) (traits.reactions ??= []).push({ ...r, _data: effect.parent?.getRollData?.() ?? {}, _item: null, _itemName: effect.name, _effect: effect.id });
   }
   traits.immune ??= [];
   traits.resist ??= {};
@@ -298,6 +300,7 @@ export function matches(filter, ctx, item = null) {
   if (filter.monk && !MONK_WEAPONS.some(n => weaponName.includes(n))) return false;
   if (filter.ninja && !NINJA_WEAPONS.some(n => weaponName.includes(n))) return false;
   if (filter.skills && !filter.skills.includes(ctx.skill)) return false;
+  if (filter.maneuvers && !filter.maneuvers.includes(ctx.maneuver)) return false;
   if (filter.saves && !filter.saves.includes(ctx.save)) return false;
   if (filter.abilities && !filter.abilities.includes(ctx.ability)) return false;
   if (filter.chakra && ![filter.chakra].flat().includes(ctx.chakra)) return false;
@@ -310,6 +313,17 @@ export function matches(filter, ctx, item = null) {
     const names = [filter.jutsu].flat().map(norm);
     const jn = norm(ctx.item?.name);
     if (!names.some(n => jn.includes(n))) return false;
+  }
+  if (filter.jutsuExact) {
+    // The jutsu by its whole name ("Localização" doesn't take "Localização Perfeita")
+    const names = [filter.jutsuExact].flat().map(norm);
+    if (!names.includes(norm(ctx.item?.name))) return false;
+  }
+  if (filter.itemName) {
+    // The power (or item) in use, by name: a cost rule for one ability (Elmo do kiai: Grito de Kiai)
+    const names = [filter.itemName].flat().flatMap(n => String(n).split("|")).map(norm).filter(Boolean);
+    const own = norm(ctx.item?.name);
+    if (!own || !names.some(n => own.includes(n))) return false;
   }
   if (filter.chosenJutsu) {
     const pick = norm(item?.system?.choiceText);
@@ -333,6 +347,7 @@ export function rollOptionsFor(actor, kind, ctx = {}) {
   const target = ctx.target === undefined ? firstTarget() : ctx.target;
   const push = (opt, item, data, source) => {
     if (![opt.for ?? "attack"].flat().includes(kind)) return;
+    if ((kind === "maneuver") && !opt.both && (!!ctx.defending !== !!opt.defense)) return;
     if (!matches(opt.filter, ctx, item)) return;
     if (opt.option && item && !chosen(item, opt.option)) return;
     if (opt.minRank && ((data.rank ?? 1) < opt.minRank)) return;
@@ -365,10 +380,15 @@ export function rollOptionsFor(actor, kind, ctx = {}) {
         cap: opt.pm.cap ? evaluate(opt.pm.cap, data) : null
       } : null,
       onHit: opt.onHit ?? null,
+      onCrit: opt.onCrit ?? null,
+      defense: !!opt.defense,
       note: opt.note ?? "",
       reroll: !!opt.reroll,
       best: opt.best ?? null,
       extraAttack: !!opt.extraAttack,
+      autoCrit: !!opt.autoCrit,
+      touch: !!opt.touch,
+      noMissChance: !!opt.noMissChance,
       auto,
       locked: !!opt.locked && auto,
       selfEffect: opt.selfEffect ?? null,

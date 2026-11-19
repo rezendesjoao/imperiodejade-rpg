@@ -107,6 +107,16 @@ export async function d20Roll({ actor, title, subtitle = "", bonus = 0, parts = 
     lines: [bestNote, autoSuccess && dc !== null ? game.i18n.localize("IJ.Auto.autoSuccess") : "", cost ? `${cost} PM` : ""].filter(Boolean)
   };
   if (after) context.buttons.push(...(after({ total: shown.total, natural, success, dc }) ?? []));
+  // Effects that end after the next roll of this kind ("+5 no próximo teste")
+  if (actor) {
+    const kinds = kind === "save" ? ["save", "check"] : kind === "attack" ? ["attack"]
+      : kind === "initiative" ? ["check", "skill", "initiative"] : ["check", flags.skill ? "skill" : "ability"];
+    const used = actor.effects.filter(e => kinds.includes(e.flags?.[SYSTEM_ID]?.consumeOn) && e.active).map(e => e.id);
+    if (used.length) {
+      const { deleteEffects } = await import("../auto/effects.mjs");
+      await deleteEffects(actor, used);
+    }
+  }
   const content = await renderTemplate(CARD, context);
   return ChatMessage.create({
     speaker: ChatMessage.getSpeaker({ actor }),
@@ -201,6 +211,16 @@ async function onCardButton(event, message) {
       return weapon ? weapon.rollAttack({ event: { altKey: true }, reaction: extra }) : attacker.rollPlainAttack("melee", { event: { altKey: true } });
     }
     case "endScene": return auto.endScene();
+    case "dishonor": {
+      const who = await fromUuid(button.dataset.actor);
+      if (!who?.isOwner) return ui.notifications.warn(game.i18n.localize("IJ.Chat.notOwner"));
+      return who.honorViolation(button.dataset.kind || "leve");
+    }
+    case "maneuver": {
+      const who = await fromUuid(button.dataset.actor);
+      if (!who?.isOwner) return ui.notifications.warn(game.i18n.localize("IJ.Chat.notOwner"));
+      return who.rollManeuver(button.dataset.kind);
+    }
     case "save": {
       // Each targeted/selected token (or the user's character) rolls against the DC; failing applies what the card says
       const actors = targetActors().filter(a => a.isOwner);
@@ -208,7 +228,7 @@ async function onCardButton(event, message) {
       const dc = Number(button.dataset.dc) || null;
       const sourceActor = message.speaker?.actor ? game.actors.get(message.speaker.actor) : null;
       for (const actor of actors) {
-        await actor.rollSave(button.dataset.save, { dc, source: button.dataset.source ?? "", sourceId: message.id, sourceActor });
+        await actor.rollSave(button.dataset.save, { dc, source: button.dataset.source ?? "", sourceId: message.id, sourceActor, saveIndex: Number(button.dataset.index) || 0 });
       }
       return;
     }

@@ -109,7 +109,10 @@
 
   "Samurai/Devoto de Lin-Wu": { "grants": [{ "name": "Devoto de Lin-Wu", "type": "feat" }] },
   "Samurai/Detectar Desonra": { "grants": [{ "name": "Detectar Desonra", "type": "feat" }] },
-  "Samurai/Espadas Ancestrais": { "status": "parcial", "notes": "O bônus mágico vai nos campos de bônus de ataque e dano da katana e da wakizashi." },
+  "Samurai/Espadas Ancestrais": {
+    "status": "parcial", "notes": "O bônus mágico (+1 por nível ímpar) vai nos campos da katana e da wakizashi.",
+    "grants": [{ "name": "Katana", "type": "item" }, { "name": "Wakizashi", "type": "item" }]
+  },
   "Samurai/Estilo de Combate": {
     "choice": {
       "label": "Estilo de combate", "count": 1,
@@ -176,6 +179,7 @@
   "Yakuza/Rede de Informantes": { "traits": { "trainedSkills": ["conhecimento"] } },
   "Yakuza/Evasão": { "traits": { "evasion": "rank(1, 2)" }, "requires": { "noArmor": true, "noShield": true } },
   "Yakuza/Extorsão": {
+    "status": "parcial", "notes": "Aliado que aceita um benefício comete violação moderada: aplique à mão.",
     "choice": {
       "label": "Efeitos de extorsão", "count": "@rank",
       "options": [
@@ -203,8 +207,12 @@
           "targets": { "who": "allies", "includeSelf": true, "duration": { "unit": "cena" }, "changes": [{ "key": "system.attributes.movement.bonus", "value": "lvl(1:3, 11:6, 17:9)" }] } },
         { "id": "maoDeAlface", "label": "Mão de alface", "option": "maoDeAlface",
           "targets": { "who": "enemies", "changes": [{ "key": "system.attributes.mods.skills", "value": "lvl(1:-4, 11:-6, 17:-8)" }] } },
-        { "id": "pedeDesculpas", "label": "Pede desculpas", "option": "pedeDesculpas",
-          "note": "Um inimigo já abalado sofre o efeito do jutsu voz de Lin-Wu se falhar.",
+        { "id": "pedeDesculpas", "label": "Pede desculpas: caia", "option": "pedeDesculpas", "note": "Só um inimigo já abalado (voz de Lin-Wu).",
+          "targets": { "who": "enemies", "save": { "type": "von", "dc": "15 + @nivel" }, "conditions": ["caido"] } },
+        { "id": "pedeDesculpasPare", "label": "Pede desculpas: pare", "option": "pedeDesculpas", "note": "Só um inimigo já abalado (voz de Lin-Wu).",
+          "targets": { "who": "enemies", "save": { "type": "von", "dc": "15 + @nivel" }, "conditions": [{ "id": "pasmo", "duration": { "value": 1, "unit": "rodada" } }] } },
+        { "id": "pedeDesculpasOutra", "label": "Pede desculpas: fuja, largue ou venha", "option": "pedeDesculpas",
+          "note": "Só um inimigo já abalado; falhando, cumpre a ordem no turno dele.",
           "save": { "type": "von", "dc": "15 + @nivel" } }
       ]
     }
@@ -229,7 +237,12 @@
     "reactions": [{ "on": "saveFailed", "saves": ["von"], "label": "Mente escorregadia", "effect": "reroll" }]
   },
   "Yakuza/Vingança Final": {
-    "reactions": [{ "on": "allyDown", "label": "Vingança final", "cost": 6, "effect": "note", "note": "Até o fim da cena, ataques seus e dos nakama contra o agressor: marque Vingança final no ataque." }],
-    "rollOptions": [{ "id": "vinganca", "label": "Vingança final (contra o agressor)", "damage": "4d6", "type": "vacuo", "noCrit": true, "optional": true }]
+    "status": "parcial", "notes": "Arma mortal (CD 28): no 20 natural, a Fortitude e o efeito ficam à mão.",
+    "reactions": [{ "on": "allyDown", "label": "Vingança final", "effect": "note", "note": "Use Vingança final (6 PM) com você e os nakama como alvos." }],
+    "activation": {
+      "cost": 6, "action": "reação", "duration": { "unit": "cena" },
+      "targets": { "who": "allies", "includeSelf": true,
+        "rollOptions": [{ "id": "vinganca", "label": "Vingança final (contra o agressor)", "damage": "4d6", "type": "vacuo", "noCrit": true, "optional": true }] }
+    }
   }
 }

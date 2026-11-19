@@ -87,6 +87,8 @@ export class NpcData extends foundry.abstract.TypeDataModel {
       treasure: text(),
       attackText: text(),
       negativeLevels: int(0, { min: 0 }),
+      // Ability damage taken (poisons, drains): lowers the score and its modifier
+      abilityDamage: new fields.SchemaField({ for: int(0, { min: 0 }), des: int(0, { min: 0 }), con: int(0, { min: 0 }), int: int(0, { min: 0 }), sab: int(0, { min: 0 }), car: int(0, { min: 0 }) }),
       // Bonuses that effects give (buffs and debuffs of abilities and jutsus)
       bonus: new fields.SchemaField({ ca: int(0), saves: int(0), attack: int(0), damage: int(0) }),
       description: new fields.HTMLField({ required: true, blank: true }),
@@ -97,7 +99,9 @@ export class NpcData extends foundry.abstract.TypeDataModel {
 
   prepareDerivedData() {
     this.mods = {};
-    for (const [key, score] of Object.entries(this.abilities)) this.mods[key] = (score === null) ? null : abilityMod(score);
+    for (const [key, score] of Object.entries(this.abilities)) {
+      this.mods[key] = (score === null) ? null : abilityMod(Math.max(0, score - (this.abilityDamage?.[key] ?? 0)));
+    }
     this.honorTier = this.abilities.hon === null ? null : honorTier(this.abilities.hon);
     this.sizeData = SIZES[this.size] ?? SIZES.medio;
     const rd = parseRd(this._source.rd, this.rdValue);

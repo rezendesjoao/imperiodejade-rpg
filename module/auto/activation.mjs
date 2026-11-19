@@ -119,7 +119,7 @@ export async function useItem(item, { event = null, choice = undefined, spent = 
   // Pay: PM (with the actor's cost rules, within the PM limit), uses, Honor
   // Without its own cost, the item's cost counts (not for a variable cost, which is all in the PM chosen)
   const base = evaluate(spec.cost ?? (spec.variable ? 0 : (item.system.cost ?? 0)), data) + (spec.variable ? spent * (spec.variable.costPer ?? 1) : 0);
-  const cost = adjustCost(actor, base, { kind: "power" });
+  const cost = adjustCost(actor, base, { kind: "power", ctx: { item } });
   if (actor && cost > 0) {
     if (spec.variable && cost > actor.pmLimit) return ui.notifications.warn(game.i18n.format("IJ.Auto.overLimit", { n: cost, limit: actor.pmLimit }));
     if (!(await actor.spendPm(cost))) return null;
@@ -134,6 +134,9 @@ export async function useItem(item, { event = null, choice = undefined, spent = 
   }
   return postCard(item, spec, data, { cost, optionId, spent, results, left: left === null ? null : left - 1 });
 }
+
+/** Whether an item's effects are magic (dispel removes them). */
+const isMagic = item => (item?.type === "jutsu") || !!item?.system?.magic;
 
 /** A number that may be rolled ("5d4" temporary PV, "1d4" rounds). */
 export async function rollValue(value, data) {
@@ -173,9 +176,10 @@ export async function perform(item, spec, data, { optionId = null, spent = 0 } =
     const tempPv = spec.tempPv ? await rollValue(spec.tempPv, data) : 0;
     spec._tempPv = tempPv;
     const duration = await fixDuration(self.duration ?? spec.duration, data);
-    if (self.changes?.length || self.traits || self.rollOptions?.length || self.statuses?.length || self.turnStart || self.key || tempPv) {
+    if (self.changes?.length || self.traits || self.rollOptions?.length || self.statuses?.length || self.turnStart || self.key || tempPv
+      || self.aura || self.reactions?.length || self.consumeOn || self.absorb) {
       await createEffects(actor, [effectData({
-        ...self, changes: forActor(self.changes ?? [], actor),
+        ...self, changes: forActor(self.changes ?? [], actor), magic: isMagic(item),
         name: spec.optionLabel ? `${item.name}: ${spec.optionLabel}` : item.name, img: item.img, origin: item.uuid,
         duration, tempPv: (tempPv && duration) ? tempPv : 0, optionKey: spec.optionId ?? null
       }, data)]);
@@ -234,7 +238,9 @@ export function targetActors(actor, targets = {}) {
   const out = [];
   for (const token of game.user.targets ?? []) {
     const a = token.actor;
-    if (!a || a === actor) continue;
+    if (!a) continue;
+    // Your own token, marked on purpose: "a criatura tocada, que pode ser você"
+    if (a === actor) { if (targets.who !== "enemies" && !out.includes(a)) out.push(a); continue; }
     const disp = token.document.disposition;
     if (targets.who === "allies" && disp !== myDisp) continue;
     if (targets.who === "enemies" && disp === myDisp) continue;
@@ -253,12 +259,13 @@ export async function applyTargetBlock(item, block, data, actor, source = item.n
   }
   spec.duration = await fixDuration(spec.duration, data);
   for (const id of spec.removeConditions ?? []) await removeCondition(actor, id);
-  if (spec.changes?.length || spec.traits || spec.rollOptions?.length || spec.statuses?.length || spec.turnStart) {
+  if (spec.changes?.length || spec.traits || spec.rollOptions?.length || spec.statuses?.length || spec.turnStart
+    || spec.reactions?.length || spec.consumeOn || spec.absorb) {
     const old = sameSource(actor, item, optionKey);
     if (old.length) await deleteEffects(actor, old);
     // A threat gets the same buff or debuff on its own fields
     const changes = forActor(spec.changes ?? [], actor);
-    await createEffects(actor, [effectData({ ...spec, changes, name: source, img: item.img, origin: item.uuid, duration: spec.duration, optionKey }, data)]);
+    await createEffects(actor, [effectData({ ...spec, changes, name: source, img: item.img, origin: item.uuid, duration: spec.duration, optionKey, magic: isMagic(item) }, data)]);
   }
   for (const c of spec.conditions ?? []) {
     await applyCondition(actor, c.id ?? c, { duration: await fixDuration(c.duration ?? spec.duration, data), origin: item.uuid, source, data, tags: descriptorTags(item) });
@@ -273,6 +280,18 @@ export async function applyTargetBlock(item, block, data, actor, source = item.n
     const pm = actor.type === "npc" ? actor.system.pm : actor.system.attributes.pm;
     await updateActor(actor, { [actor.type === "npc" ? "system.pm.value" : "system.attributes.pm.value"]: Math.max(0, pm.value - evaluateInt(spec.pmLoss, data)) });
   }
+  await applyOutcomeExtras(actor, spec, data);
+}
+
+/** The heavier outcomes of a block: ability damage, negative levels, PV set, death, dispel. */
+export async function applyOutcomeExtras(actor, spec, data = {}) {
+  if (!spec) return;
+  const extras = await import("./extras.mjs");
+  if (spec.dispel) await extras.dispel(actor);
+  if (spec.abilityDamage) await extras.applyAbilityDamage(actor, spec.abilityDamage, data);
+  if (spec.negativeLevels) await extras.applyNegativeLevels(actor, spec.negativeLevels, data);
+  if (spec.kill) await extras.kill(actor);
+  else if ((spec.setPv !== undefined) && (spec.setPv !== null)) await extras.setPv(actor, Math.floor(evaluate(spec.setPv, data)));
 }
 
 /** Apply the spec's targets block to the current targets. Returns how many, or null when nobody is targeted. */
@@ -296,9 +315,10 @@ export function cardButtons(item, spec, data, { extra = 0 } = {}) {
   const actor = item.actor;
   const buttons = [];
   if (spec.attack && actor) {
-    buttons.push({ ijAction: "autoAttack", label: L(`IJ.Jutsu.attack.${spec.attack.type ?? "corpo"}`), icon: "fa-solid fa-crosshairs", actor: actor.uuid, item: item.id });
+    const label = spec.attack.weapon ? L("IJ.Auto.weaponStrike") : L(`IJ.Jutsu.attack.${spec.attack.type ?? "corpo"}`);
+    buttons.push({ ijAction: "autoAttack", label, icon: "fa-solid fa-crosshairs", actor: actor.uuid, item: item.id });
   }
-  if (spec.damage?.formula && actor) {
+  if (spec.damage?.formula && actor && !spec.attack?.weapon && (spec.damage.button !== false)) {
     const formula = resolveFormula(spec.damage.formula, data);
     const label = spec.damage.healing ? game.i18n.format("IJ.Jutsu.healButton", { f: formula })
       : game.i18n.format("IJ.Jutsu.damageButton", { f: formula, type: spec.damage.type ?? "" });
@@ -315,6 +335,15 @@ export function cardButtons(item, spec, data, { extra = 0 } = {}) {
       label: game.i18n.format("IJ.Jutsu.saveButton", { save: L(CONFIG.IJ.SAVES[save.type].label), dc })
     });
   }
+  // A second (third...) save of another type, each with its own outcome
+  (spec.extraSaves ?? []).forEach((s, i) => {
+    if (!s?.type) return;
+    const dc = saveDc({ dc: s.dc ?? save?.dc ?? data.dc ?? 15 }, data);
+    buttons.push({
+      ijAction: "save", save: s.type, dc, source: s.label ?? item.name, index: i + 1, icon: "fa-solid fa-shield-halved",
+      label: `${s.label ? `${s.label}: ` : ""}${game.i18n.format("IJ.Jutsu.saveButton", { save: L(CONFIG.IJ.SAVES[s.type].label), dc })}`
+    });
+  });
   if (spec.targets && !spec.targets.save) {
     buttons.push({ ijAction: "autoTargets", label: L("IJ.Auto.applyTargets"), icon: "fa-solid fa-bullseye", actor: actor?.uuid, item: item.id });
   }
@@ -389,10 +418,17 @@ export async function onApplyTargets(message) {
 }
 
 /** A save rolled from a card: apply what failing (or passing) brings. */
-export async function onSaveResult(message, actor, success) {
+export async function onSaveResult(message, actor, success, index = 0) {
   const src = await sourceOf(message);
   if (!src) return;
   const { item, spec, data } = src;
+  // An extra save of the card: its own outcome only
+  if (index > 0) {
+    const extra = spec.extraSaves?.[index - 1];
+    const out = success ? extra?.onSuccess : extra?.onFail;
+    if (out) await applyTargetBlock(item, out, data, actor, extra.label ?? item.name, { duration: spec.duration ?? null, optionKey: `${spec.optionId ?? ""}x${index}` });
+    return;
+  }
   const label = spec.optionLabel ? `${item.name}: ${spec.optionLabel}` : item.name;
   const opts = { duration: spec.duration ?? null, optionKey: spec.optionId ?? null };
   if (spec.targets?.save && !success) await applyTargetBlock(item, spec.targets, data, actor, label, opts);
@@ -411,6 +447,7 @@ export async function onHitSave(attackMsg, actor, success) {
   if (atk?.targets?.length && !hit?.hit) return;
   for (const h of atk?.onHit ?? []) {
     if (!h.save?.type) continue;
+    if (h.critOnly && atk?.targets?.length && !hit?.crit) continue;
     const outcome = success ? h.onSuccess : (h.onFail ?? { conditions: h.conditions ?? [], duration: h.duration });
     if (!outcome) continue;
     for (const c of outcome.conditions ?? []) {
@@ -418,6 +455,16 @@ export async function onHitSave(attackMsg, actor, success) {
     }
     if (outcome.changes?.length || outcome.traits) {
       await createEffects(actor, [effectData({ ...outcome, name: h.label, duration: outcome.duration })]);
+    }
+    await applyOutcomeExtras(actor, outcome, {});
+    // Damage of the outcome (Mortal: +5d6 de vácuo for who passes)
+    if (outcome.damage) {
+      const { computeDamage, applyToActor, isPhysical } = await import("./damage.mjs");
+      const formula = typeof outcome.damage === "string" ? outcome.damage : outcome.damage.formula;
+      const type = typeof outcome.damage === "string" ? "" : (outcome.damage.type ?? "");
+      const roll = await new Roll(formula).evaluate();
+      const result = await computeDamage(actor, { parts: [{ amount: roll.total, single: roll.total, type, physical: isPhysical(type) }], magic: true });
+      await applyToActor(actor, { amount: result.amount });
     }
   }
 }
@@ -439,11 +486,11 @@ export async function onDamage(message, { alt = false } = {}) {
     title: item.name,
     subtitle: dmg.healing ? L("IJ.Chat.healing") : (type ?? ""),
     kanji: item.type === "jutsu" ? "術" : "能",
-    parts: [{ formula, type, noCrit: true }],
+    parts: [{ formula, type, noCrit: true }, ...(dmg.extra ?? []).map(p => ({ formula: resolveFormula(p.formula, data), type: p.type ?? "", noCrit: true, label: p.label ?? "" }))],
     healing: !!dmg.healing && !(alt && dmg.alt?.harm),
     magic: dmg.magic ?? (item.type === "jutsu"),
-    ignoreRd: message.flags[SYSTEM].ignoreRd ?? 0,
+    ignoreRd: (dmg.ignoreRd === "all") ? Infinity : (dmg.ignoreRd ?? message.flags[SYSTEM].ignoreRd ?? 0),
     maximize: !!message.flags[SYSTEM].maximize,
-    link: { source: message.id, save: save?.type ?? null, half: !!save?.half, negate: !!save?.negate, targets: hits }
+    link: { source: message.id, save: save?.type ?? null, half: !!save?.half, negate: !!save?.negate, targets: hits, perTarget: dmg.perTarget ?? null }
   });
 }

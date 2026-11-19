@@ -23,6 +23,11 @@ const HANDLERS = {
   async update({ uuid, update }) {
     const doc = await fromUuid(uuid);
     if (doc) await doc.update(update);
+  },
+  async updateEffect({ uuid, id, update }) {
+    const actor = await fromUuid(uuid);
+    const effect = actor?.effects.get(id);
+    if (effect) await effect.update(update);
   }
 };
 
@@ -45,6 +50,9 @@ async function run(doc, action, payload) {
   game.socket.emit(CHANNEL, { action, payload: { uuid: doc.uuid, ...payload } });
   return true;
 }
+
+/** Update an effect of any actor (an absorb pool that shrinks), through the GM when needed. */
+export const updateEffect = (actor, id, update) => run(actor, "updateEffect", { id, update });
 
 /** Update any actor (PV, PM...), through the GM when needed. */
 export const updateActor = (actor, update) => run(actor, "update", { update });
@@ -127,9 +135,15 @@ const NPC_KEYS = [
 ];
 export function forActor(changes = [], actor) {
   if (actor?.type !== "npc") return changes;
+  const seen = new Set();
   return changes.map(c => {
     const hit = NPC_KEYS.find(([re]) => re.test(c.key));
-    return hit ? { ...c, key: hit[1] } : null;
+    if (!hit) return null;
+    // Two character fields that are one field on a threat (melee and ranged attack; the three saves) count once
+    const merged = /attack\.(melee|ranged)|saves\.(fort|ref|von)\.bonus/.test(c.key);
+    if (merged && seen.has(hit[1])) return null;
+    if (merged) seen.add(hit[1]);
+    return { ...c, key: hit[1] };
   }).filter(Boolean);
 }
 
@@ -167,9 +181,31 @@ export function effectData(spec, data = {}) {
         ...(traits ? { traits } : {}),
         ...(rollOptions.length ? { rollOptions } : {}),
         ...(spec.tempPv ? { tempPv: spec.tempPv } : {}),
-        ...(spec.turnStart ? { turnStart: resolveTurnStart(spec.turnStart, data) } : {})
+        ...(spec.turnStart ? { turnStart: resolveTurnStart(spec.turnStart, data) } : {}),
+        // An aura carried by this effect (copied onto whoever is within its radius), with its numbers fixed now
+        ...(spec.aura ? { aura: resolveAura(spec.aura, data) } : {}),
+        // Reactions while the effect lasts; it ends after the next roll of a kind; a pool of damage it absorbs
+        ...(spec.reactions?.length ? { reactions: spec.reactions } : {}),
+        ...(spec.consumeOn ? { consumeOn: spec.consumeOn } : {}),
+        ...(spec.absorb ? { absorb: Math.floor(evaluate(spec.absorb, data)) } : {}),
+        ...(spec.magic ? { magic: true } : {})
       }
     }
+  };
+}
+
+/** An aura's spec with the source's numbers fixed (changes, traits, roll options, turn start). */
+function resolveAura(aura, data) {
+  return {
+    radius: evaluate(aura.radius ?? 9, data),
+    who: aura.who ?? "allies",
+    includeSelf: !!aura.includeSelf,
+    label: aura.label ?? "",
+    changes: resolveChanges(aura.changes ?? [], data).map(c => ({ key: c.key, value: c.value, mode: c.type })),
+    traits: aura.traits ? resolveTraitNumbers(aura.traits, data) : null,
+    rollOptions: (aura.rollOptions ?? []).map(o => resolveOptionNumbers(o, data)),
+    turnStart: aura.turnStart ? resolveTurnStart(aura.turnStart, data) : null,
+    conditions: aura.conditions ?? []
   };
 }
 
@@ -178,10 +214,12 @@ function resolveTurnStart(ts, data) {
   return {
     damage: ts.damage ? resolveFormula(ts.damage, data) : "",
     type: ts.type ?? "",
+    ignoreRd: ts.ignoreRd === "all" ? "all" : Math.floor(evaluate(ts.ignoreRd ?? 0, data)),
     heal: ts.heal ? resolveFormula(ts.heal, data) : "",
     save: ts.save?.type ? { type: ts.save.type, dc: Math.floor(evaluate(ts.save.dc ?? (data.dc ?? 15), data)) } : null,
     half: !!ts.half, negate: !!ts.negate, endOnSave: !!ts.endOnSave,
-    conditions: ts.conditions ?? []
+    conditions: ts.conditions ?? [],
+    abilityDamage: ts.abilityDamage ? [ts.abilityDamage].flat().map(a => ({ ability: a.ability, formula: resolveFormula(a.formula ?? a.value ?? 1, data) })) : null
   };
 }
 
@@ -212,8 +250,12 @@ function resolveOptionNumbers(opt, data) {
  * Put a condition on an actor unless it is immune; through the GM when the actor isn't ours.
  * @returns {Promise<boolean>} Whether the condition was applied
  */
-export async function applyCondition(actor, id, { duration = null, origin = null, source = "", data = {}, tags = [] } = {}) {
+export async function applyCondition(actor, id, { duration = null, origin = null, source = "", data = {}, tags = [], flags = null } = {}) {
   if (!actor) return false;
+  // A duration in dice is rolled now (1d4 rodadas atordoado)
+  if ((typeof duration?.value === "string") && /\d*d\d/i.test(duration.value)) {
+    duration = { ...duration, value: (await new Roll(resolveFormula(duration.value, data)).evaluate()).total };
+  }
   if (blocks(actor, id, tags)) {
     ui.notifications.info(game.i18n.format("IJ.Auto.immuneTo", { name: actor.name, what: game.i18n.localize(`IJ.Condition.${id}`) }));
     return false;
@@ -221,7 +263,9 @@ export async function applyCondition(actor, id, { duration = null, origin = null
   // Same condition from the same source: refresh instead of stacking
   const old = actor.effects.filter(e => e.statuses.has(id) && (e.flags?.[SYSTEM]?.source === source)).map(e => e.id);
   if (old.length) await deleteEffects(actor, old);
-  await createEffects(actor, [conditionEffectData(id, { duration, origin, source, durationData: durationData(duration, data) })]);
+  const effect = conditionEffectData(id, { duration, origin, source, durationData: durationData(duration, data) });
+  if (flags) Object.assign(effect.flags[SYSTEM], flags);
+  await createEffects(actor, [effect]);
   return true;
 }
 

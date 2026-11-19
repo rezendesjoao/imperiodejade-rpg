@@ -54,15 +54,21 @@
     "status": "narrativo"
   },
   "Diligente": {
-    "rollOptions": [
-      {
-        "id": "foco",
-        "label": "Diligente (gastou uma ação de movimento focando)",
-        "for": "skill",
-        "value": 2,
-        "optional": true
+    "activation": {
+      "action": "movimento",
+      "note": "+2 no próximo teste de perícia.",
+      "self": {
+        "consumeOn": "skill",
+        "rollOptions": [
+          {
+            "id": "foco",
+            "label": "Diligente",
+            "for": "skill",
+            "value": 2
+          }
+        ]
       }
-    ]
+    }
   },
   "Dissimular Honra": {
     "rollOptions": [
@@ -585,8 +591,22 @@
     }
   },
   "Companheiro Animal": {
-    "status": "narrativo",
-    "notes": "O animal é um aliado iniciante (Capítulo 8): use uma ficha à parte."
+    "status": "parcial",
+    "notes": "O animal é um aliado iniciante (Capítulo 8): use uma ficha à parte.",
+    "activation": {
+      "note": "O companheiro morreu: atordoado por 1d4 rodadas; outro, só após 1d4 dias.",
+      "self": {
+        "conditions": [
+          {
+            "id": "atordoado",
+            "duration": {
+              "value": "1d4",
+              "unit": "rodada"
+            }
+          }
+        ]
+      }
+    }
   },
   "Coração Gelado": {
     "passive": [
@@ -754,12 +774,13 @@
       },
       "save": {
         "type": "von",
-        "dc": 20
+        "dc": 20,
+        "onFail": {
+          "pmLoss": "@nivel"
+        }
       },
-      "note": "Em transe: vê e ouve, mas não fala nem se move; distrações pedem Vontade."
-    },
-    "status": "parcial",
-    "notes": "Falhou na Vontade por uma distração: tire os PM recuperados à mão."
+      "note": "Transe: vê e ouve, sem falar nem se mover. Distração: Vontade ou perde os PM."
+    }
   },
   "Leveza Celestial": {
     "rollOptions": [
@@ -899,30 +920,43 @@
       "duration": {
         "unit": "cena"
       },
-      "note": "Desonrados não se escondem de você: Furtividade, camuflagem e invisibilidade falham."
+      "note": "Desonrados não se escondem de você: Furtividade, camuflagem e invisibilidade falham.",
+      "self": {
+        "traits": {
+          "seeInvisible": true
+        }
+      }
     },
     "status": "parcial",
-    "notes": "Contra desonrados invisíveis, o sistema ainda aplica chance de falha e desprevenido."
+    "notes": "Camuflagem de desonrados à mão; o sistema revela todo invisível, mesmo honrado."
   },
   "Visão Térmica": {
-    "rollOptions": [
-      {
-        "id": "termica",
-        "label": "Visão térmica (criaturas vivas no escuro)",
-        "for": "skill",
-        "filter": {
-          "skills": [
-            "percepcao"
-          ]
-        },
-        "value": 8,
-        "optional": true
-      }
-    ],
     "status": "parcial",
-    "notes": "Vale só no escuro e só contra criaturas vivas: desligue quando não valer.",
-    "traits": {
-      "seeInvisible": true
+    "notes": "Shiryou, construtos, incorpóreos e criaturas de sangue frio não aparecem: confira na mesa.",
+    "activation": {
+      "duration": {
+        "unit": "cena"
+      },
+      "note": "No escuro: vê criaturas vivas invisíveis; +8 em Percepção para observá-las.",
+      "self": {
+        "traits": {
+          "seeInvisible": true
+        },
+        "rollOptions": [
+          {
+            "id": "termica",
+            "label": "Visão térmica (observar criaturas vivas)",
+            "for": "skill",
+            "filter": {
+              "skills": [
+                "percepcao"
+              ]
+            },
+            "value": 8,
+            "optional": true
+          }
+        ]
+      }
     }
   },
   "Vontade de Ferro": {},
@@ -1663,17 +1697,22 @@
           "type": "von",
           "dc": "15 + max(0, @hon)"
         },
-        "conditions": [
+        "variants": [
           {
-            "id": "abalado",
-            "duration": {
-              "value": 1,
-              "unit": "rodada"
-            }
+            "when": "vsDishonored",
+            "conditions": [
+              {
+                "id": "abalado",
+                "duration": {
+                  "value": 1,
+                  "unit": "rodada"
+                }
+              }
+            ]
           }
         ]
       },
-      "note": "Só criaturas a até 9m com Honra 9 ou menos."
+      "note": "Até 9m; só quem tem Honra 9 ou menos fica abalado."
     }
   },
   "Bênção de Dai’Gun": {
@@ -1921,7 +1960,13 @@
   "Energia Dominadora": {
     "activation": {
       "honorViolation": "leve",
-      "note": "Criatura fascinada de Int 1–2 obedece a até 9m; soma de níveis até o seu."
+      "note": "Criatura fascinada de Int 1–2 obedece a até 9m; soma de níveis até o seu.",
+      "targets": {
+        "who": "any",
+        "removeConditions": [
+          "fascinado"
+        ]
+      }
     },
     "status": "parcial",
     "notes": "O controle da criatura dominada fica por conta do mestre."
@@ -2043,6 +2088,19 @@
               },
               "damage": "floor((@tormenta - 1) / 2)",
               "locked": true
+            },
+            {
+              "id": "manobra",
+              "label": "Braço armado (tentáculo)",
+              "for": "maneuver",
+              "filter": {
+                "maneuvers": [
+                  "agarrar",
+                  "derrubar",
+                  "desarmar"
+                ]
+              },
+              "value": 2
             }
           ]
         },
@@ -2088,6 +2146,18 @@
               },
               "damage": "floor((@tormenta - 1) / 2)",
               "locked": true
+            },
+            {
+              "id": "manobra",
+              "label": "Braço armado (pinça)",
+              "for": "maneuver",
+              "filter": {
+                "maneuvers": [
+                  "agarrar",
+                  "separar"
+                ]
+              },
+              "value": 2
             }
           ]
         },
@@ -2103,6 +2173,17 @@
               },
               "damage": "floor((@tormenta - 1) / 2)",
               "locked": true
+            },
+            {
+              "id": "manobra",
+              "label": "Braço armado (clava)",
+              "for": "maneuver",
+              "filter": {
+                "maneuvers": [
+                  "separar"
+                ]
+              },
+              "value": 2
             }
           ]
         }
@@ -2124,7 +2205,7 @@
       }
     ],
     "status": "parcial",
-    "notes": "Crie a arma natural com o nome do tipo; bônus de manobra à mão."
+    "notes": "Crie a arma natural com o nome do tipo (tentáculo, garra...)."
   },
   "Golpes da Tempestade": {
     "rollOptions": [
@@ -2152,24 +2233,29 @@
     "traits": {
       "resist": {
         "acido": "@tormenta"
-      }
+      },
+      "defense": [
+        {
+          "value": "@tormenta",
+          "touch": true,
+          "label": "Manto mucoso"
+        }
+      ]
     },
     "rollOptions": [
       {
-        "id": "manto",
-        "label": "Manto mucoso (contra toque ou agarrar)",
-        "for": "save",
+        "id": "agarrar",
+        "label": "Manto mucoso (resistir a agarrar)",
+        "for": "maneuver",
         "filter": {
-          "saves": [
-            "ref"
+          "maneuvers": [
+            "agarrar"
           ]
         },
         "value": "@tormenta",
-        "optional": true
+        "defense": true
       }
-    ],
-    "status": "parcial",
-    "notes": "O Reflexos automático contra ataque de toque fica sem o bônus; agarrar à mão."
+    ]
   },
   "Membros Estendidos": {
     "status": "narrativo"
@@ -2190,12 +2276,9 @@
       },
       {
         "id": "manobra",
-        "label": "Patas articuladas (manobra de combate)",
-        "filter": {
-          "melee": true
-        },
-        "attack": "1 + floor((@tormenta - 1) / 2)",
-        "optional": true
+        "label": "Patas articuladas (manobra)",
+        "for": "maneuver",
+        "value": "1 + floor((@tormenta - 1) / 2)"
       }
     ]
   },

@@ -68,6 +68,8 @@ export async function useReaction(button, message) {
   const cost = Math.max(0, Math.floor(evaluate(reaction.cost ?? 0, reaction._data)));
   if (cost && !(await actor.spendPm(cost))) return;
   const name = reaction.label ?? reaction._itemName;
+  // A reaction that spends the effect that gave it
+  if (reaction.endEffect && reaction._effect && actor.effects.has(reaction._effect)) await actor.deleteEmbeddedDocuments("ActiveEffect", [reaction._effect]);
   const { infoCard } = await import("../dice/rolls.mjs");
   const note = text => infoCard({ actor, kind: "reaction", kanji: "応", title: name, subtitle: cost ? `${cost} PM` : "", body: `<p>${text}</p>` });
 

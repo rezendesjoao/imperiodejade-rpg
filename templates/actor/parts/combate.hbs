@@ -79,6 +79,12 @@
     </div>
   </div>
 
+  {{!-- Maneuvers: opposed rolls against the targets --}}
+  <div class="ij-maneuvers">
+    <span class="ij-maneuvers__label">{{localize "IJ.Maneuver.plural"}}</span>
+    {{#each maneuvers as |m|}}<a class="ij-btn ij-btn--ghost ij-btn--small" data-action="rollManeuver" data-kind="{{m.key}}" data-tooltip="{{m.tip}}">{{m.label}}</a>{{/each}}
+  </div>
+
   {{!-- Weapons: illustrated cards with a vertical tab --}}
   <div class="ij-cardlist ij-cardlist--weapons">
     <header class="ij-cardlist__head">

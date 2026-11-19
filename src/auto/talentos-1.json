@@ -26,12 +26,14 @@
     "rollOptions": [
       {
         "id": "agarrar",
-        "label": "Manobra agarrar",
-        "attack": 4,
+        "label": "Agarrar aprimorado",
+        "for": "maneuver",
         "filter": {
-          "melee": true
+          "maneuvers": [
+            "agarrar"
+          ]
         },
-        "optional": true
+        "value": 4
       }
     ]
   },
@@ -300,8 +302,16 @@
     "status": "narrativo"
   },
   "Ataque Giratório": {
-    "status": "narrativo",
-    "notes": "Troca os ataques por um ataque contra cada oponente ao seu alcance."
+    "status": "parcial",
+    "notes": "Uma jogada vale para todos os alvos; para jogadas separadas, ataque um por vez.",
+    "activation": {
+      "action": "padrão",
+      "attack": {
+        "weapon": true,
+        "type": "corpo"
+      },
+      "note": "Marque como alvos todos os oponentes ao seu alcance."
+    }
   },
   "Ataque Poderoso": {
     "rollOptions": [
@@ -330,17 +340,17 @@
     "rollOptions": [
       {
         "id": "atropelar",
-        "label": "Manobra atropelar",
-        "attack": 4,
+        "label": "Atropelar aprimorado",
+        "for": "maneuver",
         "filter": {
-          "melee": true
+          "maneuvers": [
+            "atropelar"
+          ]
         },
-        "optional": true,
+        "value": 4,
         "note": "o alvo não pode se desviar"
       }
-    ],
-    "status": "parcial",
-    "notes": "A mesa impede o alvo de se desviar."
+    ]
   },
   "Auxílio de Mira": {
     "activation": {
@@ -477,12 +487,14 @@
     "rollOptions": [
       {
         "id": "derrubar",
-        "label": "Manobra derrubar",
-        "attack": 4,
+        "label": "Derrubar aprimorado",
+        "for": "maneuver",
         "filter": {
-          "melee": true
+          "maneuvers": [
+            "derrubar"
+          ]
         },
-        "optional": true
+        "value": 4
       }
     ]
   },
@@ -490,12 +502,14 @@
     "rollOptions": [
       {
         "id": "desarmar",
-        "label": "Manobra desarmar",
-        "attack": 4,
+        "label": "Desarmar aprimorado",
+        "for": "maneuver",
         "filter": {
-          "melee": true
+          "maneuvers": [
+            "desarmar"
+          ]
         },
-        "optional": true
+        "value": 4
       }
     ]
   },
@@ -561,12 +575,14 @@
     "rollOptions": [
       {
         "id": "empurrar",
-        "label": "Manobra empurrar",
-        "attack": 4,
+        "label": "Empurrar aprimorado",
+        "for": "maneuver",
         "filter": {
-          "melee": true
+          "maneuvers": [
+            "empurrar"
+          ]
         },
-        "optional": true
+        "value": 4
       }
     ]
   },
@@ -903,8 +919,14 @@
     }
   },
   "Pisotear": {
-    "status": "narrativo",
-    "notes": "Montado, o alvo do atropelar não se desvia; ataque livre contra quem derrubar."
+    "activation": {
+      "action": "livre",
+      "attack": {
+        "weapon": true,
+        "type": "corpo"
+      },
+      "note": "Montado: ataque livre contra quem você derrubou com atropelar."
+    }
   },
   "Rapidez de Recarga": {
     "status": "narrativo"
@@ -913,6 +935,10 @@
     "activation": {
       "cost": 1,
       "action": "livre",
+      "attack": {
+        "weapon": true,
+        "type": "corpo"
+      },
       "note": "Ataque corpo a corpo um oponente desprevenido ao seu alcance."
     }
   },
@@ -939,13 +965,14 @@
     "rollOptions": [
       {
         "id": "separar",
-        "label": "Manobra separar",
-        "attack": 4,
+        "label": "Separar aprimorado",
+        "for": "maneuver",
         "filter": {
-          "melee": true
+          "maneuvers": [
+            "separar"
+          ]
         },
-        "optional": true,
-        "note": "dano dobrado contra objetos"
+        "value": 4
       }
     ],
     "status": "parcial",
@@ -1028,10 +1055,14 @@
     "activation": {
       "cost": 1,
       "action": "livre",
+      "attack": {
+        "weapon": true,
+        "type": "corpo"
+      },
       "note": "Um inimigo caiu: ataque outra criatura ao alcance com os mesmos bônus."
     },
     "status": "parcial",
-    "notes": "Repita à mão os bônus do ataque anterior, sem pagar de novo."
+    "notes": "Os bônus pagos com PM no ataque anterior entram à mão, sem novo custo."
   },
   "Trespassar Aprimorado": {
     "activation": {
@@ -1279,8 +1310,14 @@
     }
   },
   "Usar Venenos": {
-    "status": "narrativo",
-    "notes": "Escolher o talento é violação de honra severa: aplique a perda na ficha."
+    "activation": {
+      "uses": {
+        "max": 1,
+        "per": "total"
+      },
+      "honorViolation": "severa",
+      "note": "Use uma vez, ao escolher o talento: violação de honra severa."
+    }
   },
   "Vitalidade": {
     "passive": [

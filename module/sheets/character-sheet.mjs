@@ -41,6 +41,8 @@ export class CharacterSheet extends HandlebarsApplicationMixin(ActorSheetV2) {
       rollSkill: CharacterSheet.#onRollSkill,
       rollSave: CharacterSheet.#onRollSave,
       rollPlainAttack: CharacterSheet.#onRollPlainAttack,
+      rollManeuver: CharacterSheet.#onRollManeuver,
+      healAbility: CharacterSheet.#onHealAbility,
       rollInitiative: CharacterSheet.#onRollInitiative,
       itemCreate: CharacterSheet.#onItemCreate,
       itemEdit: CharacterSheet.#onItemEdit,
@@ -131,7 +133,8 @@ export class CharacterSheet extends HandlebarsApplicationMixin(ActorSheetV2) {
         key, row: index + 1, kanji: cfg.kanji, label: L(cfg.label), abbr: L(cfg.abbr),
         value: source.abilities[key].value, bonus: source.abilities[key].bonus,
         racial: a.racial ? signed(a.racial) : "",
-        total: a.total, mod: signed(a.mod), negative: a.mod < 0, isHonor: key === "hon"
+        total: a.total, mod: signed(a.mod), negative: a.mod < 0, isHonor: key === "hon",
+        damage: a.damage ?? 0
       };
     });
 
@@ -310,6 +313,9 @@ export class CharacterSheet extends HandlebarsApplicationMixin(ActorSheetV2) {
       equippedWeapons: weapons.filter(w => w.equipped).slice(0, 4),
       weight: Math.round(weight * 10) / 10,
       powerGroups, feats, jutsus, jutsuGroups, chakras,
+      maneuvers: ["agarrar", "derrubar", "desarmar", "empurrar", "atropelar", "separar"].map(key => ({
+        key, label: L(`IJ.Maneuver.${key}`), tip: L(`IJ.Maneuver.note.${key}`)
+      })),
       // Conditions on the character (status effects), with the book rule as tooltip
       activeConditions: [...(actor.statuses ?? [])].filter(id => CONFIG.statusEffects.find(s => s.id === id)).map(id => {
         const st = CONFIG.statusEffects.find(s => s.id === id);
@@ -418,6 +424,17 @@ export class CharacterSheet extends HandlebarsApplicationMixin(ActorSheetV2) {
 
   static #onRollSave(event, target) {
     this.actor.rollSave(target.dataset.save, { event });
+  }
+
+  /** One point of ability damage healed (rest heals one per day by itself). */
+  static async #onHealAbility(event, target) {
+    const key = target.dataset.ability;
+    const d = this.actor.system.abilities[key]?.damage ?? 0;
+    if (d > 0) await this.actor.update({ [`system.abilities.${key}.damage`]: d - 1 });
+  }
+
+  static #onRollManeuver(event, target) {
+    this.actor.rollManeuver(target.dataset.kind, { event });
   }
 
   static #onRollPlainAttack(event, target) {

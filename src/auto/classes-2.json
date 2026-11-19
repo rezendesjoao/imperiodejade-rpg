@@ -145,64 +145,117 @@
     ]
   },
   "Kensei/Arma querida": {
+    "choice": {
+      "label": "Arma eleita",
+      "count": 1,
+      "options": [
+        {
+          "id": "arma",
+          "label": "Uma arma",
+          "rollOptions": [
+            {
+              "id": "desarmar",
+              "label": "Arma querida (resistir a desarmar ou separar)",
+              "for": "maneuver",
+              "filter": {
+                "maneuvers": [
+                  "desarmar",
+                  "separar"
+                ]
+              },
+              "value": 4,
+              "defense": true
+            },
+            {
+              "id": "roubo",
+              "label": "Arma querida (impedir o roubo da arma eleita)",
+              "for": "skill",
+              "filter": {
+                "skills": [
+                  "percepcao"
+                ]
+              },
+              "value": 8,
+              "optional": true
+            }
+          ]
+        },
+        {
+          "id": "desarmado",
+          "label": "Ataque desarmado",
+          "rollOptions": [
+            {
+              "id": "agarrar",
+              "label": "Arma querida (resistir a agarrar)",
+              "for": "maneuver",
+              "filter": {
+                "maneuvers": [
+                  "agarrar"
+                ]
+              },
+              "value": 4,
+              "defense": true
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "Kensei/Arma indestrutível": {
+    "status": "parcial",
+    "notes": "Com arma: a RD dobrada e os PV da arma eleita ficam com a mesa.",
+    "choice": {
+      "label": "Arma eleita",
+      "count": 1,
+      "options": [
+        {
+          "id": "arma",
+          "label": "Uma arma",
+          "hint": "RD dobrada e PV da arma: à mão"
+        },
+        {
+          "id": "desarmado",
+          "label": "Ataque desarmado",
+          "rollOptions": [
+            {
+              "id": "manobras",
+              "label": "Arma indestrutível (ao resistir)",
+              "for": "maneuver",
+              "filter": {
+                "maneuvers": [
+                  "atropelar",
+                  "empurrar",
+                  "derrubar"
+                ]
+              },
+              "value": 4,
+              "defense": true
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "Kensei/Golpe mortal": {
+    "status": "parcial",
+    "notes": "Até o 19º nível, confirme o crítico com outra jogada, marcando a opção.",
     "rollOptions": [
       {
-        "id": "desarmar",
-        "label": "Arma querida (resistir a desarmar ou separar)",
-        "attack": 4,
+        "id": "mortal",
+        "label": "Golpe mortal (2ª jogada acertou)",
+        "critMult": 2,
         "optional": true,
+        "note": "até o 19º nível",
         "filter": {
           "chosenWeaponOf": "Arma eleita"
         }
       },
       {
-        "id": "agarrar",
-        "label": "Arma querida (desarmado: resistir a agarrar)",
-        "attack": 4,
-        "filter": {
-          "unarmed": true
-        },
-        "optional": true
-      },
-      {
-        "id": "roubo",
-        "label": "Arma querida (impedir o roubo da arma eleita)",
-        "for": "skill",
-        "filter": {
-          "skills": [
-            "percepcao"
-          ]
-        },
-        "value": 8,
-        "optional": true
-      }
-    ]
-  },
-  "Kensei/Arma indestrutível": {
-    "status": "parcial",
-    "notes": "A RD dobrada e os PV da arma eleita ficam com a mesa.",
-    "rollOptions": [
-      {
-        "id": "manobras",
-        "label": "Arma indestrutível (desarmado: resistir a atropelar, empurrar ou derrubar)",
-        "attack": 4,
-        "filter": {
-          "unarmed": true
-        },
-        "optional": true
-      }
-    ]
-  },
-  "Kensei/Golpe mortal": {
-    "status": "parcial",
-    "notes": "No crítico, role a 2ª jogada com a opção marcada e use o dano crítico dela.",
-    "rollOptions": [
-      {
-        "id": "mortal",
+        "id": "mortal20",
         "label": "Golpe mortal",
         "critMult": 2,
-        "optional": true,
-        "note": "se a 2ª jogada acertar; no 20º nível, sempre",
+        "minLevel": 20,
+        "locked": true,
         "filter": {
           "chosenWeaponOf": "Arma eleita"
         }
@@ -224,6 +277,10 @@
       "duration": {
         "value": 1,
         "unit": "rodada"
+      },
+      "attack": {
+        "weapon": true,
+        "type": "corpo"
       },
       "options": [
         {
@@ -355,8 +412,6 @@
     ]
   },
   "Monge/Aperfeiçoamento": {
-    "status": "parcial",
-    "notes": "Idiomas, penalidades de idade e perícias só treinadas ficam com a mesa.",
     "choice": {
       "label": "Aperfeiçoamentos",
       "count": "@rank",
@@ -364,30 +419,7 @@
         {
           "id": "almaAtemporal",
           "label": "Alma atemporal",
-          "rollOptions": [
-            {
-              "id": "almaTreinada",
-              "label": "Alma atemporal (perícia treinada)",
-              "for": [
-                "skill",
-                "initiative"
-              ],
-              "value": 4,
-              "cost": 1,
-              "optional": true
-            },
-            {
-              "id": "almaSemTreino",
-              "label": "Alma atemporal (perícia sem treino, como treinada)",
-              "for": [
-                "skill",
-                "initiative"
-              ],
-              "value": "@nivel + 3 - @meionivel",
-              "cost": 1,
-              "optional": true
-            }
-          ]
+          "hint": "Use a habilidade (1 PM) antes do teste de perícia"
         },
         {
           "id": "almaDiamante",
@@ -441,6 +473,61 @@
         {
           "id": "idiomas",
           "label": "Idiomas do sol e da lua"
+        }
+      ]
+    },
+    "activation": {
+      "cost": 1,
+      "action": "livre",
+      "options": [
+        {
+          "id": "almaSemTreino",
+          "label": "Alma atemporal: perícia sem treino",
+          "option": "almaAtemporal",
+          "note": "O próximo teste de perícia é feito como treinado.",
+          "self": {
+            "consumeOn": "skill",
+            "traits": {
+              "trainedSkills": [
+                "acrobacia",
+                "adestrarAnimais",
+                "atletismo",
+                "atuacao",
+                "cavalgar",
+                "conhecimento",
+                "cura",
+                "diplomacia",
+                "enganacao",
+                "furtividade",
+                "identificarMagia",
+                "iniciativa",
+                "intimidacao",
+                "intuicao",
+                "ladinagem",
+                "obterInformacao",
+                "oficio",
+                "percepcao",
+                "sobrevivencia"
+              ]
+            }
+          }
+        },
+        {
+          "id": "almaTreinada",
+          "label": "Alma atemporal: perícia treinada (+4)",
+          "option": "almaAtemporal",
+          "note": "+4 no próximo teste de perícia.",
+          "self": {
+            "consumeOn": "skill",
+            "rollOptions": [
+              {
+                "id": "alma",
+                "label": "Alma atemporal",
+                "for": "skill",
+                "value": 4
+              }
+            ]
+          }
         }
       ]
     }
@@ -686,7 +773,7 @@
   },
   "Onimusha/Momento de Tormenta": {
     "status": "parcial",
-    "notes": "O 1d6 de cada turno e o dano de Constituição ficam com a mesa.",
+    "notes": "Role o 1d6 ao criar e a cada turno seu; use a opção sorteada.",
     "activation": {
       "action": "movimento",
       "options": [
@@ -699,7 +786,13 @@
           },
           "honorViolation": "severa",
           "self": {
-            "key": "momentoTormenta"
+            "key": "momentoTormenta",
+            "aura": {
+              "radius": 9,
+              "who": "any",
+              "includeSelf": true,
+              "label": "Área de Tormenta"
+            }
           },
           "note": "Área de 9 m de raio em você; role 1d6 agora e no início de cada turno seu."
         },
@@ -721,9 +814,15 @@
           "action": "",
           "save": {
             "type": "fort",
-            "dc": 22
+            "dc": 22,
+            "onFail": {
+              "abilityDamage": {
+                "ability": "con",
+                "formula": "1d6"
+              }
+            }
           },
-          "note": "Quem falhar sofre 1d6 de dano de Constituição."
+          "note": "Todos na área; quem falhar sofre 1d6 de dano de Constituição."
         },
         {
           "id": "raio",

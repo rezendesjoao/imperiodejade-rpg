@@ -66,10 +66,11 @@ function targetsOf(target) {
  * @param {string} [config.reaction]          Name of the reaction that made this attack
  * @param {boolean} [config.touch]            Touch attack (jutsus)
  */
-export async function attackRoll({ actor, weapon = null, ranged = false, unarmed = false, title, subtitle = "", bonus = 0, parts = [], critRange = 20, critMult = 2, damage = null, kanji = "刀", event = null, target = null, reaction = null, touch = false, extraFlags = {} }) {
+export async function attackRoll({ actor, weapon = null, ranged = false, unarmed = false, title, subtitle = "", bonus = 0, parts = [], critRange = 20, critMult = 2, damage = null, kanji = "刀", event = null, target = null, reaction = null, touch = false, extraFlags = {}, extraOptions = [] }) {
   const targets = targetsOf(target);
   const ctx = { weapon, melee: !ranged, ranged, unarmed, target: targets[0] ?? null };
-  const options = actor ? rollOptionsFor(actor, "attack", ctx) : [];
+  // Options of the attacker, plus those of what made the attack (a jutsu or ability riding the weapon)
+  const options = [...(actor ? rollOptionsFor(actor, "attack", ctx) : []), ...extraOptions];
 
   // Options and situational modifier
   let picked = { selected: new Set(options.filter(o => o.locked || o.auto).map(o => o.id)), pm: {}, split: {}, bonus: 0 };
@@ -79,6 +80,10 @@ export async function attackRoll({ actor, weapon = null, ranged = false, unarmed
     if (!picked) return null;
   }
   const chosenOpts = options.filter(o => picked.selected.has(o.id));
+  // Options that make every hit a critical (a sworn enemy), the attack a touch attack, or ignore the miss chance
+  const autoCrit = chosenOpts.some(o => o.autoCrit);
+  const noMissChance = chosenOpts.some(o => o.noMissChance);
+  if (chosenOpts.some(o => o.touch)) touch = true;
 
   // What the options add, and what they cost
   let attack = 0;
@@ -159,8 +164,10 @@ export async function attackRoll({ actor, weapon = null, ranged = false, unarmed
     // The target's defenses against this attacker (Honra Superior: +1 CA against lower Honor; +2 against monsters)
     for (const d of t.system?.traits?.defense ?? []) {
       if (d.when && !situation(d.when, t, actor)) continue;
+      // A defense only against touch attacks (Manto Mucoso: on the Reflexos test)
+      if (d.touch && !touch) continue;
       const v = Math.floor(evaluate(d.value ?? 0, d._data ?? {}));
-      if (v) { ca += v; notes.push(`${d.label ?? d._itemName ?? ""} ${v > 0 ? "+" : ""}${v} CA`.trim()); }
+      if (v) { ca += v; notes.push(`${d.label ?? d._itemName ?? ""} ${v > 0 ? "+" : ""}${v} ${defense}`.trim()); }
     }
     // Alvo irresistível (bushi): attacks against the bushi's allies take a penalty while he can be seen
     const guard = guardPenalty(t);
@@ -172,19 +179,22 @@ export async function attackRoll({ actor, weapon = null, ranged = false, unarmed
     const sees = actor?.system?.traits ?? {};
     const hidden = (effectiveStatuses(t).has("invisivel") && !sees.seeInvisible) || ((effectiveStatuses(t).has("incorporeo") || t.system?.traits?.incorporeal) && !sees.touchIncorporeal);
     const missChance = (attackerStatuses.has("cego") || hidden) ? 50 : (t.system?.traits?.missChance ?? 0);
-    if (hit && missChance > 0) {
+    if (hit && missChance > 0 && !noMissChance) {
       missRoll = await new Roll("1d100").evaluate();
       if (missRoll.total <= missChance) { hit = false; notes.push(game.i18n.format("IJ.Auto.note.missChancePct", { n: missRoll.total, p: missChance })); }
     }
-    const crit = hit && (natural >= threat) && !isImmune(t, "critico");
+    const crit = hit && (autoCrit || (natural >= threat)) && !isImmune(t, "critico");
     results.push({
       uuid: t.uuid, name: t.name, ca, defense, value, hit, crit, notes: notes.join(", "),
       reactions: reactionButtons(t, "attacked", { attacker: actor?.uuid, total: roll.total, ranged })
     });
   }
 
-  // What a hit brings: PM drained back to the attacker; a save against a condition
-  const onHit = chosenOpts.filter(o => o.onHit).map(o => ({ ...o.onHit, label: o.label, data: o.data }));
+  // What a hit brings: PM drained back to the attacker; a save against a condition. onCrit: only on critical hits
+  const onHit = [
+    ...chosenOpts.filter(o => o.onHit).map(o => ({ ...o.onHit, label: o.label, data: o.data })),
+    ...chosenOpts.filter(o => o.onCrit).map(o => ({ ...o.onCrit, label: o.label, data: o.data, critOnly: true }))
+  ];
   const anyHit = results.some(r => r.hit) || (!results.length);
   const hitLines = [];
   if (actor && results.some(r => r.hit)) {
@@ -199,19 +209,26 @@ export async function attackRoll({ actor, weapon = null, ranged = false, unarmed
   }
   if (actor && results.some(r => r.hit)) {
     const { applyCondition } = await import("./effects.mjs");
+    const { applyOutcomeExtras } = await import("./activation.mjs");
     for (const h of onHit) {
-      if (h.save?.type || !h.conditions?.length) continue;
-      for (const r of results.filter(x => x.hit)) {
+      if (h.save?.type) continue;
+      const struck = results.filter(x => x.hit && (!h.critOnly || x.crit));
+      if (!struck.length) continue;
+      for (const r of struck) {
         const doc = fromUuidSync(r.uuid);
         const t = doc?.actor ?? doc;
-        for (const c of h.conditions) await applyCondition(t, c.id ?? c, { duration: c.duration ?? null, source: h.label });
+        if (!t?.system) continue;
+        for (const c of h.conditions ?? []) await applyCondition(t, c.id ?? c, { duration: c.duration ?? null, source: h.label });
+        await applyOutcomeExtras(t, h, h.data ?? {});
       }
-      hitLines.push(game.i18n.format("IJ.Auto.hitConditions", { what: h.label, list: h.conditions.map(c => game.i18n.localize(`IJ.Condition.${c.id ?? c}`)).join(", ") }));
+      if (h.conditions?.length) hitLines.push(game.i18n.format("IJ.Auto.hitConditions", { what: h.label, list: h.conditions.map(c => game.i18n.localize(`IJ.Condition.${c.id ?? c}`)).join(", ") }));
     }
   }
   const saveButtons = [];
   for (const h of onHit) {
     if (!h.save?.type) continue;
+    // A critical's save only when there was a critical (no targets: when the die threatened)
+    if (h.critOnly && !(results.length ? results.some(r => r.crit) : (autoCrit || natural >= threat))) continue;
     const dc = Math.floor(evaluate(h.save.dc ?? 15, h.data));
     saveButtons.push({
       ijAction: "save", save: h.save.type, dc, source: h.label, icon: "fa-solid fa-shield-halved",
@@ -230,6 +247,16 @@ export async function attackRoll({ actor, weapon = null, ranged = false, unarmed
     buttons.push({ ijAction: "extraAttack", label: L("IJ.Auto.extraAttack"), icon: "fa-solid fa-repeat", actor: actor.uuid, item: weapon?.id ?? "" });
   }
   for (const r of results) buttons.push(...r.reactions.map(b => ({ ...b, label: `${b.label} · ${r.name}` })));
+  // Attacking with a dishonorable weapon is an Honor violation (the owner confirms with the button)
+  if (weapon?.system?.dishonorable && actor?.type === "character") {
+    const severity = weapon.system.auto?.dishonor ?? "leve";
+    buttons.push({ ijAction: "dishonor", kind: severity, label: game.i18n.format("IJ.Auto.dishonorButtonOf", { severity: game.i18n.localize(`IJ.Honor.violation.${severity}`) }), icon: "fa-solid fa-scale-unbalanced", actor: actor.uuid });
+  }
+  // Effects that end after the next attack ("só o próximo ataque")
+  if (actor) {
+    const used = actor.effects.filter(e => e.flags?.[SYSTEM]?.consumeOn === "attack" && e.active).map(e => e.id);
+    if (used.length) { const { deleteEffects } = await import("./effects.mjs"); await deleteEffects(actor, used); }
+  }
 
   const context = {
     title: reaction ? `${title} (${reaction})` : title,
@@ -238,7 +265,7 @@ export async function attackRoll({ actor, weapon = null, ranged = false, unarmed
     natural,
     bonus: signed(total),
     parts: allParts.filter(p => p.value).map(p => ({ label: p.label, value: signed(p.value) })),
-    crit: natural >= threat,
+    crit: (natural >= threat) || (autoCrit && (results.length ? results.some(r => r.crit) : true)),
     critLabel: "IJ.Roll.threat",
     fumble: natural === 1,
     dice: await roll.render(),
@@ -301,4 +328,84 @@ export async function attackDamage(message, { critical = false } = {}) {
     ignoreRd: atk.ignoreRd === "all" ? Infinity : atk.ignoreRd,
     link: { source: message.id, melee: !atk.ranged, targets: (atk.targets ?? []).length ? targets.map(t => t.uuid) : [] }
   });
+}
+
+/* -------------------------------------------- */
+/*  Maneuvers                                   */
+/* -------------------------------------------- */
+
+/** The maneuvers of the book and the condition the loser gets (the rest is told on the card). */
+export const MANEUVERS = {
+  agarrar: { condition: "agarrado" },
+  derrubar: { condition: "caido" },
+  desarmar: {},
+  empurrar: {},
+  atropelar: { condition: "caido" },
+  separar: {}
+};
+
+/** A creature's maneuver bonus: BBA + Strength + the size's maneuver modifier (threats: level + Strength + size). */
+export function maneuverBonus(actor) {
+  if (!actor) return 0;
+  if (actor.type === "character") {
+    const s = actor.system;
+    return (s.bba ?? 0) + (s.abilities?.for?.mod ?? 0) + (s.size?.maneuver ?? 0) + (s.attributes?.mods?.attack ?? 0);
+  }
+  const s = actor.system;
+  return (s.level ?? 0) + (s.mods?.for ?? 0) + (s.sizeData?.maneuver ?? 0) + (s.attackMod?.melee ?? 0);
+}
+
+/**
+ * Roll a maneuver against each target: an opposed roll (the target's maneuver bonus, plus its automatic options).
+ * Winning puts the maneuver's condition on the target.
+ */
+export async function maneuverRoll(actor, kind = "agarrar", { event = null } = {}) {
+  const def = MANEUVERS[kind] ?? {};
+  const label = game.i18n.localize(`IJ.Maneuver.${kind}`);
+  const targets = [...(game.user?.targets ?? [])].map(t => t.actor).filter(Boolean);
+  const ctx = { maneuver: kind, melee: true, target: targets[0] ?? null };
+  const options = rollOptionsFor(actor, "maneuver", ctx);
+  let picked = { selected: new Set(options.filter(o => o.locked || o.auto).map(o => o.id)), pm: {}, split: {}, bonus: 0 };
+  if ((event?.shiftKey || options.some(o => !o.locked)) && !event?.altKey) {
+    picked = await askOptions(label, options, { pmLimit: actor?.pmLimit ?? Infinity });
+    if (!picked) return null;
+  }
+  const chosen = options.filter(o => picked.selected.has(o.id));
+  const bonusParts = chosen.map(o => ({ label: o.label, value: (o.value || 0) + (o.attack || 0) })).filter(p => p.value);
+  let cost = chosen.reduce((t, o) => t + (o.cost || 0), 0);
+  cost = adjustCost(actor, cost, { kind: "power" });
+  if (cost > 0 && !(await actor.spendPm(cost))) return null;
+  const base = maneuverBonus(actor);
+  const total = base + bonusParts.reduce((t, p) => t + p.value, 0) + picked.bonus;
+  const roll = await new Roll(`1d20 + ${total}`).evaluate();
+  const results = [];
+  const lines = [];
+  const { applyCondition } = await import("./effects.mjs");
+  for (const t of targets) {
+    const defOpts = rollOptionsFor(t, "maneuver", { maneuver: kind, melee: true, target: actor, defending: true }).filter(o => o.auto || o.locked || o.defense);
+    const defBonus = maneuverBonus(t) + defOpts.reduce((s, o) => s + (o.value || 0) + (o.attack || 0), 0);
+    const defRoll = await new Roll(`1d20 + ${defBonus}`).evaluate();
+    // Ties go to the higher bonus (the defender keeps the tie)
+    const win = (roll.total > defRoll.total) || ((roll.total === defRoll.total) && (total > defBonus));
+    results.push({ uuid: t.uuid, name: t.name, value: roll.total, ca: defRoll.total, defense: game.i18n.localize("IJ.Maneuver.label"), hit: win, crit: false,
+      hitLabel: game.i18n.localize(win ? "IJ.Maneuver.win" : "IJ.Maneuver.lose"), notes: "" });
+    if (win && def.condition) {
+      await applyCondition(t, def.condition, { source: label });
+      lines.push(game.i18n.format("IJ.Auto.hitConditions", { what: label, list: game.i18n.localize(`IJ.Condition.${def.condition}`) }));
+    }
+  }
+  const context = {
+    title: label, subtitle: game.i18n.localize("IJ.Maneuver.label"), kanji: "組", kind: "attack",
+    total: roll.total, natural: roll.dice[0]?.total ?? 0, bonus: signed(total),
+    parts: [{ label: game.i18n.localize("IJ.Maneuver.base"), value: signed(base) }, ...bonusParts.map(p => ({ label: p.label, value: signed(p.value) })),
+      ...(picked.bonus ? [{ label: game.i18n.localize("IJ.Roll.situational"), value: signed(picked.bonus) }] : [])],
+    dice: await roll.render(), img: actor?.img, targets: results,
+    options: chosen.map(o => ({ label: o.label, tag: optionTag(o) })),
+    lines: [...lines, game.i18n.localize(`IJ.Maneuver.note.${kind}`)]
+  };
+  const content = await renderTemplate(CARD, context);
+  return ChatMessage.create({
+    speaker: ChatMessage.getSpeaker({ actor }), content, rolls: [roll],
+    flags: { [SYSTEM]: { kind: "maneuver", maneuver: kind, targets: results } }
+  }, { messageMode: game.settings.get("core", "messageMode") });
 }

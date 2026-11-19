@@ -47,7 +47,8 @@
       "hon": "Honra",
       "modShort": "Mod.",
       "bonusTip": "Bônus ou penalidade temporária no valor (jutsus, itens, idade...)",
-      "racialTip": "Ajuste da raça (e Honra da raça e da classe inicial), já somado ao total"
+      "racialTip": "Ajuste da raça (e Honra da raça e da classe inicial), já somado ao total",
+      "damageTip": "Dano de habilidade (volta 1 por dia de descanso). Clique para curar 1 ponto."
     },
     "AbilityAbbr": {
       "for": "For",
@@ -744,7 +745,17 @@
       "syncActor": "Atualizar a automação das habilidades e itens a partir dos compêndios",
       "extraAttack": "Ataque extra",
       "hitConditions": "{what}: {list} em quem foi atingido.",
-      "usePower": "Usar o poder do item"
+      "usePower": "Usar o poder do item",
+      "abilityDamage": "{name} sofre {n} de dano de {ability} (fica com {left}).",
+      "negativeLevels": "{name} recebe {n} nível(is) negativo(s): perde 2 PV e 2 PM por nível.",
+      "negativeLevel": "níveis negativos",
+      "killed": "{name} morre.",
+      "dispelled": "{name}: {n} efeito(s) mágico(s) dissipado(s).",
+      "dishonorButton": "Arma desonrada: violação leve",
+      "weaponStrike": "Golpe com a arma",
+      "dishonorButtonOf": "Arma desonrada: violação {severity}",
+      "abilityDamageWord": "dano de habilidade",
+      "unarmedStrike": "Sem arma (desarmado)"
     },
     "Duration": {
       "rodada": "{n} rodada",
@@ -832,6 +843,27 @@
       "stayUp": "{name} segue consciente (e ainda sangrando).",
       "allyDown": "Aliado caído",
       "allyDownHint": "Um nakama de {name} caiu."
+    },
+    "Maneuver": {
+      "label": "Manobra",
+      "plural": "Manobras",
+      "base": "BBA + For + tamanho",
+      "win": "Vence",
+      "lose": "Perde",
+      "agarrar": "Agarrar",
+      "derrubar": "Derrubar",
+      "desarmar": "Desarmar",
+      "empurrar": "Empurrar",
+      "atropelar": "Atropelar",
+      "separar": "Separar",
+      "note": {
+        "agarrar": "Vencendo, o alvo fica agarrado.",
+        "derrubar": "Vencendo, o alvo fica caído.",
+        "desarmar": "Vencendo, o alvo larga o que empunha.",
+        "empurrar": "Vencendo, o alvo recua 1,5m (mais 1,5m a cada 5 pontos de diferença).",
+        "atropelar": "Vencendo, você passa pelo alvo e ele fica caído.",
+        "separar": "Vencendo, você golpeia o objeto que o alvo empunha."
+      }
     }
   }
 }

@@ -4,17 +4,19 @@
  */
 import { SYSTEM, collectTraits, rollOptionsFor, matches, situation, dataFor, rankOf, evaluate, hpOf } from "./context.mjs";
 import { registerConditions, conditionMods, CONDITIONS, effectiveStatuses } from "./conditions.mjs";
-import { registerSocket, applyCondition, removeCondition, resetUses, endScene, updateActor } from "./effects.mjs";
+import { registerSocket, applyCondition, removeCondition, resetUses, endScene, updateActor, deleteEffects } from "./effects.mjs";
 import { useItem, onApplyTargets, onDamage, onHeal, onSaveResult, sourceOf } from "./activation.mjs";
 import { attackRoll, attackDamage } from "./attack.mjs";
 import { applyCard, rollDamage, applyToActor } from "./damage.mjs";
 import { useReaction } from "./reactions.mjs";
 import { syncActor, migrateWorld, registerMigrationSetting } from "./migration.mjs";
+import { scheduleAuras, syncAuras, applyAbilityDamage, applyNegativeLevels, kill, dispel } from "./extras.mjs";
 
 export {
   collectTraits, rollOptionsFor, matches, situation, dataFor, rankOf, conditionMods, effectiveStatuses, CONDITIONS,
   applyCondition, removeCondition, resetUses, endScene, useItem, onApplyTargets, onDamage, onHeal, onSaveResult, sourceOf,
-  attackRoll, attackDamage, applyCard, rollDamage, applyToActor, useReaction, syncActor, migrateWorld
+  attackRoll, attackDamage, applyCard, rollDamage, applyToActor, useReaction, syncActor, migrateWorld,
+  syncAuras, applyAbilityDamage, applyNegativeLevels, kill, dispel
 };
 
 /** Called at init. */
@@ -29,10 +31,25 @@ export function readyAutomation() {
   // Items copied before this version get the automation of the compendium
   migrateWorld();
   Hooks.on("updateCombat", onCombatUpdate);
+  // Initiative rolled in the tracker spends the effects of "the next test" (who rolled it does it)
+  Hooks.on("updateCombatant", async (combatant, change, options, userId) => {
+    if (!("initiative" in change) || (change.initiative === null) || (userId !== game.user.id)) return;
+    const actor = combatant.actor;
+    if (!actor) return;
+    const used = actor.effects.filter(e => ["check", "skill", "initiative"].includes(e.flags?.[SYSTEM]?.consumeOn) && e.active).map(e => e.id);
+    if (used.length) await deleteEffects(actor, used);
+  });
   Hooks.on("deleteCombat", onCombatDelete);
   Hooks.on("preUpdateActor", stashPv);
   Hooks.on("updateActor", onActorUpdate);
   Hooks.on("deleteActiveEffect", onEffectDeleted);
+  // Auras: whoever enters or leaves the radius gets or loses the copy
+  Hooks.on("updateToken", (token, changed) => { if (("x" in changed) || ("y" in changed)) scheduleAuras(); });
+  Hooks.on("createToken", () => scheduleAuras());
+  Hooks.on("deleteToken", () => scheduleAuras());
+  Hooks.on("createActiveEffect", effect => { if (effect.flags?.[SYSTEM]?.aura) scheduleAuras(); });
+  Hooks.on("deleteActiveEffect", effect => { if (effect.flags?.[SYSTEM]?.aura) scheduleAuras(); });
+  Hooks.on("canvasReady", () => scheduleAuras());
 }
 
 /* -------------------------------------------- */
@@ -82,7 +99,7 @@ async function turnStartEffect(actor, effect, ts) {
     if (success && ts.negate) amount = 0;
     else if (success && ts.half) amount = Math.floor(amount / 2);
     const { computeDamage } = await import("./damage.mjs");
-    const result = await computeDamage(actor, { parts: [{ amount, single: amount, type: ts.type, physical: !ts.type || /corte|perfur|esmag/i.test(ts.type) }], magic: true });
+    const result = await computeDamage(actor, { parts: [{ amount, single: amount, type: ts.type, physical: !ts.type || /corte|perfur|esmag/i.test(ts.type) }], magic: true, ignoreRd: ts.ignoreRd ?? 0 });
     const applied = await applyToActor(actor, { amount: result.amount });
     lines.push(game.i18n.format("IJ.Chat.damagedNote", { name: actor.name, n: applied.damage }) + (result.notes.length ? ` (${result.notes.join("; ")})` : ""));
   }
@@ -92,6 +109,10 @@ async function turnStartEffect(actor, effect, ts) {
     lines.push(game.i18n.format("IJ.Chat.healedNote", { name: actor.name, n: r.healed }));
   }
   for (const c of (success ? [] : ts.conditions ?? [])) await applyCondition(actor, c.id ?? c, { duration: c.duration ?? null, source: effect.name });
+  if (ts.abilityDamage && !success) {
+    const { applyAbilityDamage } = await import("./extras.mjs");
+    await applyAbilityDamage(actor, ts.abilityDamage);
+  }
   if (lines.length) await ChatMessage.create({
     speaker: ChatMessage.getSpeaker({ actor }),
     content: `<div class="imperiodejade ij-card ij-card--applied"><p><strong>${foundry.utils.escapeHTML(effect.name)}</strong>: ${foundry.utils.escapeHTML(lines.join(" · "))}</p></div>`

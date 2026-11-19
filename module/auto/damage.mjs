@@ -117,12 +117,13 @@ function typeLabel(type) {
 /* -------------------------------------------- */
 
 /** The latest save an actor rolled against a source card (or null). */
-export function saveAgainst(actor, sourceId) {
+export function saveAgainst(actor, sourceId, type = null) {
   if (!sourceId || !actor) return null;
   const messages = game.messages.contents;
   for (let i = messages.length - 1; i >= 0; i--) {
     const f = messages[i].flags?.[SYSTEM];
-    if ((f?.kind === "save") && (f.source === sourceId) && (f.actor === actor.uuid)) return f;
+    // The save of the damage's type (a second save of the same card doesn't halve the damage)
+    if ((f?.kind === "save") && (f.source === sourceId) && (f.actor === actor.uuid) && (!type || !f.save || f.save === type)) return f;
   }
   return null;
 }
@@ -199,12 +200,23 @@ export async function computeDamage(target, card, { half = null } = {}) {
   const rd = Math.max(0, (target.system.rd ?? 0) - ignoreRd);
   if (physical && rd) notes.push(game.i18n.format("IJ.Auto.note.rd", { n: Math.min(rd, physical) }));
   let amount = Math.max(0, physical - rd) + bypassed + energy;
+  // Damage that changes with who is hit (double against the dishonored...)
+  if (card.perTarget?.length) {
+    const attacker = card.attacker ? fromUuidSync(card.attacker) : null;
+    const { situation } = await import("./context.mjs");
+    for (const rule of card.perTarget) {
+      if (!situation(rule.when, attacker, target)) continue;
+      const mult = Number(rule.mult);
+      amount = Math.floor(amount * (Number.isFinite(mult) ? mult : 1));
+      notes.push(rule.label ?? `×${rule.mult}`);
+    }
+  }
 
   // Saves that halve: the target's save against the source card (or the manual "half" button); evasion
   if (card.half || card.negate || (half !== null)) {
     let success = half;
     if (success === null) {
-      const save = saveAgainst(target, card.source);
+      const save = saveAgainst(target, card.source, card.save ?? null);
       success = save ? !!save.success : false;
     }
     const evasion = (card.save === "ref") ? (traits.evasion ?? 0) : 0;
@@ -236,6 +248,23 @@ export async function applyToActor(actor, { amount = 0, heal = 0, source = "", c
     return { damage: 0, healed: value - pv.value };
   }
   let damage = Math.max(0, amount);
+  // Effects that absorb damage first (a barrier of 100 points), then those that end when hit
+  for (const effect of actor.effects.filter(e => (e.flags?.[SYSTEM]?.absorb ?? 0) > 0 && e.active)) {
+    if (!damage) break;
+    const pool = effect.flags[SYSTEM].absorb;
+    const taken = Math.min(pool, damage);
+    damage -= taken;
+    const { deleteEffects } = await import("./effects.mjs");
+    if (pool - taken <= 0) await deleteEffects(actor, [effect.id]);
+    else {
+      const { updateEffect } = await import("./effects.mjs");
+      await updateEffect(actor, effect.id, { [`flags.${SYSTEM}.absorb`]: pool - taken });
+    }
+  }
+  if (damage > 0) {
+    const ending = actor.effects.filter(e => e.flags?.[SYSTEM]?.consumeOn === "damageTaken" && e.active).map(e => e.id);
+    if (ending.length) { const { deleteEffects } = await import("./effects.mjs"); await deleteEffects(actor, ending); }
+  }
   const fromTemp = Math.min(pv.temp ?? 0, damage);
   const toPv = damage - fromTemp;
   const before = pv.value;

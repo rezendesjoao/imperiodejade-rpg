@@ -25,7 +25,8 @@ export class CharacterData extends foundry.abstract.TypeDataModel {
   static defineSchema() {
     const abilities = {};
     for (const key of Object.keys(ABILITIES)) {
-      abilities[key] = new fields.SchemaField({ value: int(10, { min: 0 }), bonus: int(0) });
+      // damage: ability damage taken (p. 251), back one point per day of rest
+      abilities[key] = new fields.SchemaField({ value: int(10, { min: 0 }), bonus: int(0), damage: int(0, { min: 0 }) });
     }
     const skills = {};
     for (const [key, skill] of Object.entries(SKILLS)) {
@@ -145,7 +146,7 @@ export class CharacterData extends foundry.abstract.TypeDataModel {
     if (primary) racial.hon = (racial.hon ?? 0) + (primary.system.honor ?? 0);
     for (const [key, ability] of Object.entries(this.abilities)) {
       ability.racial = racial[key] ?? 0;
-      ability.total = Math.max(0, ability.value + ability.racial + ability.bonus);
+      ability.total = Math.max(0, ability.value + ability.racial + ability.bonus - (ability.damage ?? 0));
       ability.mod = abilityMod(ability.total);
     }
   }

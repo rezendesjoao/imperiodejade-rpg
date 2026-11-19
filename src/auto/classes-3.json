@@ -48,13 +48,14 @@
   "Shinkan/Adepto dos Espíritos": { "passive": [{ "key": "system.attributes.pm.bonus", "value": "max(0, @sab)" }] },
   "Shinkan/Mestre dos Espíritos": { "passive": [{ "key": "system.attributes.pm.bonus", "value": "max(0, @sab)" }] },
   "Shinkan/União Espiritual": {
-    "status": "parcial", "notes": "Tipo youkai, movimento em qualquer direção e ver o invisível ficam à mão.",
+    "status": "parcial", "notes": "Tipo youkai e ataques de toque contra criaturas materiais ficam à mão.",
+    "traits": { "seeInvisible": true, "touchIncorporeal": true },
     "activation": {
       "action": "movimento",
       "note": "Forma espiritual permanente; executa qualquer jutsu nela.",
       "options": [
         { "id": "invisivel", "label": "Incorpóreo e invisível", "self": { "statuses": ["incorporeo", "invisivel"] } },
-        { "id": "visivel", "label": "Incorpóreo e visível", "self": { "statuses": ["incorporeo"] } }
+        { "id": "visivel", "label": "Incorpóreo e visível", "self": { "statuses": ["incorporeo"], "removeConditions": ["invisivel"] } }
       ]
     }
   },
@@ -86,7 +87,7 @@
   "Shugenja/Conhecimento de Jutsus": { "status": "narrativo", "notes": "Arraste do compêndio os dois jutsus novos de cada nível par." },
   "Shugenja/Orientação": {
     "requires": { "honorMin": 16 },
-    "status": "parcial", "notes": "Resolução: o fim do efeito é à mão. Confira Honra 10+ e Int 3+ do alvo.",
+    "status": "parcial", "notes": "Confira Int 3+ do alvo; na resolução, o fim do efeito é à mão.",
     "choice": {
       "label": "Efeitos de orientação", "count": "@rank",
       "options": [
@@ -106,34 +107,43 @@
       "note": "Uma criatura a até 9m, com Int 3+ e Honra 10+, que o veja ou ouça.",
       "options": [
         { "id": "aviso", "label": "Aviso", "option": "aviso",
-          "targets": { "who": "allies", "duration": { "unit": "cena" }, "changes": [{ "key": "system.attributes.mods.saves", "value": "lvl(1:1, 5:2, 11:3, 17:4)" }] } },
+          "targets": { "who": "allies", "duration": { "unit": "cena" }, "changes": [{ "key": "system.attributes.mods.saves", "value": "lvl(1:1, 5:2, 11:3, 17:4)" }],
+            "variants": [{ "when": "vsDishonored", "changes": [] }] } },
         { "id": "conselho", "label": "Conselho", "option": "conselho",
-          "targets": { "who": "allies", "duration": { "unit": "cena" }, "changes": [{ "key": "system.attributes.mods.skills", "value": "lvl(1:2, 8:4, 14:6, 20:8)" }] } },
+          "targets": { "who": "allies", "duration": { "unit": "cena" }, "changes": [{ "key": "system.attributes.mods.skills", "value": "lvl(1:2, 8:4, 14:6, 20:8)" }],
+            "variants": [{ "when": "vsDishonored", "changes": [] }] } },
         { "id": "coordenar", "label": "Coordenar", "option": "coordenar",
-          "targets": { "who": "allies", "duration": { "unit": "cena" }, "changes": [{ "key": "system.attributes.mods.attack", "value": "lvl(1:1, 8:2, 14:3, 20:4)" }] } },
+          "targets": { "who": "allies", "duration": { "unit": "cena" }, "changes": [{ "key": "system.attributes.mods.attack", "value": "lvl(1:1, 8:2, 14:3, 20:4)" }],
+            "variants": [{ "when": "vsDishonored", "changes": [] }] } },
         { "id": "criticaConstrutiva", "label": "Crítica construtiva", "option": "criticaConstrutiva", "minLevel": 11, "duration": { "value": 1, "unit": "rodada" },
-          "targets": { "who": "allies", "duration": { "value": 1, "unit": "rodada" }, "changes": [{ "key": "system.attributes.critBonus", "value": 1 }] } },
+          "targets": { "who": "allies", "duration": { "value": 1, "unit": "rodada" }, "changes": [{ "key": "system.attributes.critBonus", "value": 1 }],
+            "variants": [{ "when": "vsDishonored", "changes": [] }] } },
         { "id": "criticaDestrutiva", "label": "Crítica destrutiva", "option": "criticaDestrutiva", "minLevel": 17, "duration": { "value": 1, "unit": "rodada" },
-          "targets": { "who": "allies", "duration": { "value": 1, "unit": "rodada" }, "changes": [{ "key": "system.attributes.critMult", "value": 1 }] } },
+          "targets": { "who": "allies", "duration": { "value": 1, "unit": "rodada" }, "changes": [{ "key": "system.attributes.critMult", "value": 1 }],
+            "variants": [{ "when": "vsDishonored", "changes": [] }] } },
         { "id": "expedicao", "label": "Expedição", "option": "expedicao", "minLevel": 5,
-          "targets": { "who": "allies", "duration": { "unit": "cena" }, "changes": [{ "key": "system.attributes.movement.bonus", "value": "lvl(1:3, 11:6, 17:9)" }] } },
+          "targets": { "who": "allies", "duration": { "unit": "cena" }, "changes": [{ "key": "system.attributes.movement.bonus", "value": "lvl(1:3, 11:6, 17:9)" }],
+            "variants": [{ "when": "vsDishonored", "changes": [] }] } },
         { "id": "expedicaoVoce", "label": "Expedição em você", "option": "expedicao", "minLevel": 5,
           "self": { "changes": [{ "key": "system.attributes.movement.bonus", "value": "lvl(1:3, 11:6, 17:9)" }] } },
         { "id": "manobrar", "label": "Manobrar", "option": "manobrar",
           "targets": { "who": "allies", "duration": { "unit": "cena" },
-            "rollOptions": [{ "id": "manobrar", "label": "Manobrar (teste de manobra)", "attack": "lvl(1:2, 5:4, 11:6, 17:8)", "filter": { "melee": true }, "optional": true }] } },
+            "rollOptions": [{ "id": "manobrar", "label": "Manobrar (orientação)", "for": "maneuver", "value": "lvl(1:2, 5:4, 11:6, 17:8)" }],
+            "variants": [{ "when": "vsDishonored", "rollOptions": [] }] } },
         { "id": "precisao", "label": "Precisão", "option": "precisao", "duration": { "value": 1, "unit": "rodada" },
           "targets": { "who": "allies", "duration": { "value": 1, "unit": "rodada" },
-            "rollOptions": [{ "id": "precisao", "label": "Precisão", "damage": "(1 + floor((@classe - 2) / 6))d6", "noCrit": true, "precision": true }] } },
+            "rollOptions": [{ "id": "precisao", "label": "Precisão", "damage": "(1 + floor((@classe - 2) / 6))d6", "noCrit": true, "precision": true }],
+            "variants": [{ "when": "vsDishonored", "rollOptions": [] }] } },
         { "id": "precisaoVoce", "label": "Precisão em você", "option": "precisao", "duration": { "value": 1, "unit": "rodada" },
           "self": { "rollOptions": [{ "id": "precisao", "label": "Precisão", "damage": "(1 + floor((@classe - 2) / 6))d6", "noCrit": true, "precision": true }] } },
         { "id": "resolucao", "label": "Resolução", "option": "resolucao", "duration": { "value": 1, "unit": "rodada" },
           "note": "Novo teste contra um efeito contínuo; passando, ele acaba e seu dano é desfeito.",
-          "targets": { "who": "allies", "duration": { "value": 1, "unit": "rodada" },
-            "rollOptions": [{ "id": "resolucao", "label": "Resolução (+4 no novo teste)", "for": "save", "value": 4, "optional": true }] } },
+          "targets": { "who": "allies", "duration": { "value": 1, "unit": "rodada" }, "consumeOn": "save",
+            "rollOptions": [{ "id": "resolucao", "label": "Resolução (+4 no novo teste)", "for": "save", "value": 4 }],
+            "variants": [{ "when": "vsDishonored", "rollOptions": [], "consumeOn": null }] } },
         { "id": "resolucaoVoce", "label": "Resolução em você", "option": "resolucao", "duration": { "value": 1, "unit": "rodada" },
           "note": "Novo teste contra um efeito contínuo; passando, ele acaba e seu dano é desfeito.",
-          "self": { "rollOptions": [{ "id": "resolucao", "label": "Resolução (+4 no novo teste)", "for": "save", "value": 4, "optional": true }] } }
+          "self": { "consumeOn": "save", "rollOptions": [{ "id": "resolucao", "label": "Resolução (+4 no novo teste)", "for": "save", "value": 4 }] } }
       ]
     }
   },
@@ -158,11 +168,11 @@
   },
   "Shugenja/Fortaleza da Honra": {
     "requires": { "honorMin": 16 },
-    "status": "parcial", "notes": "Aliados com Honra 16 ou mais recebem o dobro: ajuste à mão.",
     "activation": {
       "cost": 6, "action": "movimento", "duration": { "unit": "cena" },
       "self": { "traits": { "resist": { "energia": "rank(10, 20, 30)" } } },
-      "targets": { "who": "allies", "duration": { "unit": "cena" }, "traits": { "resist": { "energia": "rank(5, 10, 15)" } } }
+      "targets": { "who": "allies", "duration": { "unit": "cena" }, "traits": { "resist": { "energia": "rank(5, 10, 15)" } },
+        "variants": [{ "when": "vsHonored", "traits": { "resist": { "energia": "rank(10, 20, 30)" } } }] }
     }
   },
   "Shugenja/Adepto Celestial": {
@@ -217,8 +227,22 @@
     }
   },
   "Wu-Jen/Segredos dos Chacras": {
-    "status": "parcial", "notes": "Concede um Abrir Chacra; os seguintes (ou Chacra Mediano) arraste do compêndio.",
-    "grants": [{ "name": "Abrir Chacra", "type": "feat" }]
+    "choice": {
+      "label": "Chacras (um por nível da tabela até o 16º)", "count": "min(@rank, 5)",
+      "options": [
+        { "id": "for", "label": "Abrir: braços (Força)", "passive": [{ "key": "system.chakras.for.open", "value": true, "mode": "override" }] },
+        { "id": "des", "label": "Abrir: pernas (Destreza)", "passive": [{ "key": "system.chakras.des.open", "value": true, "mode": "override" }] },
+        { "id": "con", "label": "Abrir: torso (Constituição)", "passive": [{ "key": "system.chakras.con.open", "value": true, "mode": "override" }] },
+        { "id": "sab", "label": "Abrir: espírito (Sabedoria)", "passive": [{ "key": "system.chakras.sab.open", "value": true, "mode": "override" }] },
+        { "id": "car", "label": "Abrir: emoções (Carisma)", "passive": [{ "key": "system.chakras.car.open", "value": true, "mode": "override" }] },
+        { "id": "forMediano", "label": "Mediano: braços (todos já abertos)", "passive": [{ "key": "system.chakras.for.grade", "value": "mediano", "mode": "override" }] },
+        { "id": "desMediano", "label": "Mediano: pernas (todos já abertos)", "passive": [{ "key": "system.chakras.des.grade", "value": "mediano", "mode": "override" }] },
+        { "id": "conMediano", "label": "Mediano: torso (todos já abertos)", "passive": [{ "key": "system.chakras.con.grade", "value": "mediano", "mode": "override" }] },
+        { "id": "intMediano", "label": "Mediano: mente (todos já abertos)", "passive": [{ "key": "system.chakras.int.grade", "value": "mediano", "mode": "override" }] },
+        { "id": "sabMediano", "label": "Mediano: espírito (todos já abertos)", "passive": [{ "key": "system.chakras.sab.grade", "value": "mediano", "mode": "override" }] },
+        { "id": "carMediano", "label": "Mediano: emoções (todos já abertos)", "passive": [{ "key": "system.chakras.car.grade", "value": "mediano", "mode": "override" }] }
+      ]
+    }
   },
   "Wu-Jen/Conhecimento de Jutsus": { "status": "narrativo", "notes": "Arraste do compêndio os três jutsus novos de cada nível par." },
   "Wu-Jen/Discípulo da Mente": { "passive": [{ "key": "system.attributes.pm.bonus", "value": "max(0, @int)" }] },

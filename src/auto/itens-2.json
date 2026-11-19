@@ -1,5 +1,5 @@
 {
-  "_sobre": "Automação dos itens mágicos de magic-b.json: ofuda, amuletos, acessórios e artefatos (docs/automacao.md). A chave é o nome do item. Bônus que já estão nos effects do dado não se repetem aqui. Amuletos concedem os jutsus que contêm; o desconto por já conhecer o jutsu fica à mão. Talismãs: a escolha 'Já tinha o talento' liga o desconto.",
+  "_sobre": "Automação dos itens mágicos de magic-b.json: ofuda, amuletos, acessórios e artefatos (docs/automacao.md). A chave é o nome do item. Bônus que já estão nos effects do dado não se repetem aqui. Amuletos concedem os jutsus que contêm; a escolha 'já conhecia' de cada jutsu liga o desconto (mínimo 1 PM). Talismãs: a escolha 'Já tinha o talento' liga o desconto.",
   "Ofuda (jutsu básico)": {
     "activation": {
       "action": "padrão",
@@ -35,8 +35,90 @@
         "type": "jutsu"
       }
     ],
+    "choice": {
+      "label": "Para cada jutsu, se já o conhecia",
+      "count": 4,
+      "options": [
+        {
+          "id": "ondaDeFrioNao",
+          "label": "Onda de Frio: não conhecia"
+        },
+        {
+          "id": "ondaDeFrio",
+          "label": "Onda de Frio: já conhecia (−1 PM)",
+          "traits": {
+            "jutsuCost": [
+              {
+                "value": -1,
+                "filter": {
+                  "jutsuExact": "Onda de Frio"
+                },
+                "min": 1
+              }
+            ]
+          }
+        },
+        {
+          "id": "dominarAguaNao",
+          "label": "Dominar Água: não conhecia"
+        },
+        {
+          "id": "dominarAgua",
+          "label": "Dominar Água: já conhecia (−3 PM)",
+          "traits": {
+            "jutsuCost": [
+              {
+                "value": -3,
+                "filter": {
+                  "jutsuExact": "Dominar Água"
+                },
+                "min": 1
+              }
+            ]
+          }
+        },
+        {
+          "id": "criarElementoNao",
+          "label": "Criar Elemento: não conhecia"
+        },
+        {
+          "id": "criarElemento",
+          "label": "Criar Elemento: já conhecia (−1 PM)",
+          "traits": {
+            "jutsuCost": [
+              {
+                "value": -1,
+                "filter": {
+                  "jutsuExact": "Criar Elemento"
+                },
+                "min": 1
+              }
+            ]
+          }
+        },
+        {
+          "id": "camadaDeGeloNao",
+          "label": "Camada de Gelo: não conhecia"
+        },
+        {
+          "id": "camadaDeGelo",
+          "label": "Camada de Gelo: já conhecia (−1 PM)",
+          "traits": {
+            "jutsuCost": [
+              {
+                "value": -1,
+                "filter": {
+                  "jutsuExact": "Camada de Gelo"
+                },
+                "min": 1
+              }
+            ]
+          }
+        }
+      ]
+    },
     "status": "parcial",
-    "notes": "Criar elemento só de água; desconto por já conhecer o jutsu à mão."
+    "notes": "Criar elemento pelo amuleto: só água."
   },
   "Amuleto da anulação": {
     "grants": [
@@ -53,8 +135,51 @@
         "type": "power"
       }
     ],
-    "status": "parcial",
-    "notes": "Desconto por já conhecer o jutsu: à mão."
+    "choice": {
+      "label": "Para cada jutsu, se já o conhecia",
+      "count": 2,
+      "options": [
+        {
+          "id": "mandalaDaAnulacaoNao",
+          "label": "Mandala da Anulação: não conhecia"
+        },
+        {
+          "id": "mandalaDaAnulacao",
+          "label": "Mandala da Anulação: já conhecia (−3 PM)",
+          "traits": {
+            "jutsuCost": [
+              {
+                "value": -3,
+                "filter": {
+                  "jutsuExact": "Mandala da Anulação"
+                },
+                "min": 1
+              }
+            ]
+          }
+        },
+        {
+          "id": "anulacaoNao",
+          "label": "Anulação: não conhecia"
+        },
+        {
+          "id": "anulacao",
+          "label": "Anulação: já conhecia (−1 PM)",
+          "traits": {
+            "jutsuCost": [
+              {
+                "value": -1,
+                "filter": {
+                  "chakra": "int",
+                  "jutsuExact": "Anulação"
+                },
+                "min": 1
+              }
+            ]
+          }
+        }
+      ]
+    }
   },
   "Amuleto da comunicação": {
     "grants": [
@@ -71,8 +196,69 @@
         "type": "jutsu"
       }
     ],
-    "status": "parcial",
-    "notes": "Desconto por já conhecer o jutsu: à mão."
+    "choice": {
+      "label": "Para cada jutsu, se já o conhecia",
+      "count": 3,
+      "options": [
+        {
+          "id": "verdadeDosAncestraisNao",
+          "label": "Verdade dos Ancestrais: não conhecia"
+        },
+        {
+          "id": "verdadeDosAncestrais",
+          "label": "Verdade dos Ancestrais: já conhecia (−1 PM)",
+          "traits": {
+            "jutsuCost": [
+              {
+                "value": -1,
+                "filter": {
+                  "jutsuExact": "Verdade dos Ancestrais"
+                },
+                "min": 1
+              }
+            ]
+          }
+        },
+        {
+          "id": "linguaDePrataNao",
+          "label": "Língua de Prata: não conhecia"
+        },
+        {
+          "id": "linguaDePrata",
+          "label": "Língua de Prata: já conhecia (−1 PM)",
+          "traits": {
+            "jutsuCost": [
+              {
+                "value": -1,
+                "filter": {
+                  "jutsuExact": "Língua de Prata"
+                },
+                "min": 1
+              }
+            ]
+          }
+        },
+        {
+          "id": "compreensaoDosAncestraisNao",
+          "label": "Compreensão dos Ancestrais: não conhecia"
+        },
+        {
+          "id": "compreensaoDosAncestrais",
+          "label": "Compreensão dos Ancestrais: já conhecia (−1 PM)",
+          "traits": {
+            "jutsuCost": [
+              {
+                "value": -1,
+                "filter": {
+                  "jutsuExact": "Compreensão dos Ancestrais"
+                },
+                "min": 1
+              }
+            ]
+          }
+        }
+      ]
+    }
   },
   "Amuleto da cura": {
     "grants": [
@@ -89,8 +275,50 @@
         "type": "jutsu"
       }
     ],
-    "status": "parcial",
-    "notes": "Desconto por já conhecer o jutsu: à mão."
+    "choice": {
+      "label": "Para cada jutsu, se já o conhecia",
+      "count": 2,
+      "options": [
+        {
+          "id": "purificacaoNao",
+          "label": "Purificação: não conhecia"
+        },
+        {
+          "id": "purificacao",
+          "label": "Purificação: já conhecia (−1 PM)",
+          "traits": {
+            "jutsuCost": [
+              {
+                "value": -1,
+                "filter": {
+                  "jutsuExact": "Purificação"
+                },
+                "min": 1
+              }
+            ]
+          }
+        },
+        {
+          "id": "toqueCurativoNao",
+          "label": "Toque Curativo: não conhecia"
+        },
+        {
+          "id": "toqueCurativo",
+          "label": "Toque Curativo: já conhecia (−1 PM)",
+          "traits": {
+            "jutsuCost": [
+              {
+                "value": -1,
+                "filter": {
+                  "jutsuExact": "Toque Curativo"
+                },
+                "min": 1
+              }
+            ]
+          }
+        }
+      ]
+    }
   },
   "Amuleto da força interior": {
     "grants": [
@@ -107,8 +335,50 @@
         "type": "jutsu"
       }
     ],
-    "status": "parcial",
-    "notes": "Fôlego renovado entra como fôlego concentrado; desconto por conhecer o jutsu à mão."
+    "choice": {
+      "label": "Para cada jutsu, se já o conhecia",
+      "count": 2,
+      "options": [
+        {
+          "id": "folegoConcentradoNao",
+          "label": "Fôlego Concentrado: não conhecia"
+        },
+        {
+          "id": "folegoConcentrado",
+          "label": "Fôlego Concentrado: já conhecia (−1 PM)",
+          "traits": {
+            "jutsuCost": [
+              {
+                "value": -1,
+                "filter": {
+                  "jutsuExact": "Fôlego Concentrado"
+                },
+                "min": 1
+              }
+            ]
+          }
+        },
+        {
+          "id": "integridadeCorporalNao",
+          "label": "Integridade Corporal: não conhecia"
+        },
+        {
+          "id": "integridadeCorporal",
+          "label": "Integridade Corporal: já conhecia (−1 PM)",
+          "traits": {
+            "jutsuCost": [
+              {
+                "value": -1,
+                "filter": {
+                  "jutsuExact": "Integridade Corporal"
+                },
+                "min": 1
+              }
+            ]
+          }
+        }
+      ]
+    }
   },
   "Amuleto da mudança rápida": {
     "grants": [
@@ -117,8 +387,33 @@
         "type": "jutsu"
       }
     ],
+    "choice": {
+      "label": "Véu das Múltiplas Faces",
+      "count": 1,
+      "options": [
+        {
+          "id": "novo",
+          "label": "Não conhecia o jutsu"
+        },
+        {
+          "id": "conhecia",
+          "label": "Já conhecia o jutsu (−1 PM)",
+          "traits": {
+            "jutsuCost": [
+              {
+                "value": -1,
+                "filter": {
+                  "jutsuExact": "Véu das Múltiplas Faces"
+                },
+                "min": 1
+              }
+            ]
+          }
+        }
+      ]
+    },
     "status": "parcial",
-    "notes": "Acelerar o véu com Atuação e o desconto por conhecer o jutsu: à mão."
+    "notes": "Acelerar o véu com Atuação (CD 15 movimento, 25 livre): à mão."
   },
   "Amuleto da natureza": {
     "grants": [
@@ -135,8 +430,71 @@
         "type": "jutsu"
       }
     ],
+    "choice": {
+      "label": "Para cada jutsu, se já o conhecia",
+      "count": 3,
+      "options": [
+        {
+          "id": "tecelaoVegetalNao",
+          "label": "Tecelão Vegetal: não conhecia"
+        },
+        {
+          "id": "tecelaoVegetal",
+          "label": "Tecelão Vegetal: já conhecia (−1 PM)",
+          "traits": {
+            "jutsuCost": [
+              {
+                "value": -1,
+                "filter": {
+                  "jutsuExact": "Tecelão Vegetal"
+                },
+                "min": 1
+              }
+            ]
+          }
+        },
+        {
+          "id": "pactoComANaturezaNao",
+          "label": "Pacto com a Natureza: não conhecia"
+        },
+        {
+          "id": "pactoComANatureza",
+          "label": "Pacto com a Natureza: já conhecia (−1 PM)",
+          "traits": {
+            "jutsuCost": [
+              {
+                "value": -1,
+                "filter": {
+                  "jutsuExact": "Pacto com a Natureza"
+                },
+                "min": 1
+              }
+            ]
+          }
+        },
+        {
+          "id": "comunhaoComATerraNao",
+          "label": "Comunhão com a Terra: não conhecia"
+        },
+        {
+          "id": "comunhaoComATerra",
+          "label": "Comunhão com a Terra: já conhecia (−1 PM)",
+          "traits": {
+            "jutsuCost": [
+              {
+                "value": -1,
+                "filter": {
+                  "jutsuExact": "Comunhão com a Terra"
+                },
+                "min": 1
+              }
+            ]
+          }
+        }
+      ]
+    },
     "status": "parcial",
-    "notes": "+1 dado em canalizar energia e desconto por conhecer o jutsu: à mão."
+    "notes": "+1 dado no canalizar energia: à mão."
   },
   "Amuleto da noite": {
     "grants": [
@@ -145,8 +503,33 @@
         "type": "jutsu"
       }
     ],
+    "choice": {
+      "label": "Sombras da Noite",
+      "count": 1,
+      "options": [
+        {
+          "id": "novo",
+          "label": "Não conhecia o jutsu"
+        },
+        {
+          "id": "conhecia",
+          "label": "Já conhecia o jutsu (−1 PM)",
+          "traits": {
+            "jutsuCost": [
+              {
+                "value": -1,
+                "filter": {
+                  "jutsuExact": "Sombras da Noite"
+                },
+                "min": 1
+              }
+            ]
+          }
+        }
+      ]
+    },
     "status": "parcial",
-    "notes": "+1 dado em canalizar energia (trevas) e desconto por conhecer o jutsu: à mão."
+    "notes": "+1 dado no canalizar energia de trevas: à mão."
   },
   "Amuleto da terra": {
     "grants": [
@@ -167,8 +550,90 @@
         "type": "jutsu"
       }
     ],
+    "choice": {
+      "label": "Para cada jutsu, se já o conhecia",
+      "count": 4,
+      "options": [
+        {
+          "id": "moldarTerraNao",
+          "label": "Moldar Terra: não conhecia"
+        },
+        {
+          "id": "moldarTerra",
+          "label": "Moldar Terra: já conhecia (−1 PM)",
+          "traits": {
+            "jutsuCost": [
+              {
+                "value": -1,
+                "filter": {
+                  "jutsuExact": "Moldar Terra"
+                },
+                "min": 1
+              }
+            ]
+          }
+        },
+        {
+          "id": "feridaDaTerraNao",
+          "label": "Ferida da Terra: não conhecia"
+        },
+        {
+          "id": "feridaDaTerra",
+          "label": "Ferida da Terra: já conhecia (−1 PM)",
+          "traits": {
+            "jutsuCost": [
+              {
+                "value": -1,
+                "filter": {
+                  "jutsuExact": "Ferida da Terra"
+                },
+                "min": 1
+              }
+            ]
+          }
+        },
+        {
+          "id": "barreiraDeTerraNao",
+          "label": "Barreira de Terra: não conhecia"
+        },
+        {
+          "id": "barreiraDeTerra",
+          "label": "Barreira de Terra: já conhecia (−3 PM)",
+          "traits": {
+            "jutsuCost": [
+              {
+                "value": -3,
+                "filter": {
+                  "jutsuExact": "Barreira de Terra"
+                },
+                "min": 1
+              }
+            ]
+          }
+        },
+        {
+          "id": "criarElementoNao",
+          "label": "Criar Elemento: não conhecia"
+        },
+        {
+          "id": "criarElemento",
+          "label": "Criar Elemento: já conhecia (−1 PM)",
+          "traits": {
+            "jutsuCost": [
+              {
+                "value": -1,
+                "filter": {
+                  "jutsuExact": "Criar Elemento"
+                },
+                "min": 1
+              }
+            ]
+          }
+        }
+      ]
+    },
     "status": "parcial",
-    "notes": "Criar elemento só de terra; desconto por já conhecer o jutsu à mão."
+    "notes": "Criar elemento pelo amuleto: só terra."
   },
   "Amuleto da transformação": {
     "grants": [
@@ -181,8 +646,51 @@
         "type": "jutsu"
       }
     ],
-    "status": "parcial",
-    "notes": "Desconto por já conhecer o jutsu: à mão."
+    "choice": {
+      "label": "Para cada jutsu, se já o conhecia",
+      "count": 2,
+      "options": [
+        {
+          "id": "transformacaoNao",
+          "label": "Transformação: não conhecia"
+        },
+        {
+          "id": "transformacao",
+          "label": "Transformação: já conhecia (−3 PM)",
+          "traits": {
+            "jutsuCost": [
+              {
+                "value": -3,
+                "filter": {
+                  "chakra": "con",
+                  "jutsuExact": "Transformação"
+                },
+                "min": 1
+              }
+            ]
+          }
+        },
+        {
+          "id": "maldicaoDaTransformacaoNao",
+          "label": "Maldição da Transformação: não conhecia"
+        },
+        {
+          "id": "maldicaoDaTransformacao",
+          "label": "Maldição da Transformação: já conhecia (−3 PM)",
+          "traits": {
+            "jutsuCost": [
+              {
+                "value": -3,
+                "filter": {
+                  "jutsuExact": "Maldição da Transformação"
+                },
+                "min": 1
+              }
+            ]
+          }
+        }
+      ]
+    }
   },
   "Amuleto das auras": {
     "grants": [
@@ -191,8 +699,33 @@
         "type": "jutsu"
       }
     ],
+    "choice": {
+      "label": "Leitura de Chacras",
+      "count": 1,
+      "options": [
+        {
+          "id": "novo",
+          "label": "Não conhecia o jutsu"
+        },
+        {
+          "id": "conhecia",
+          "label": "Já conhecia o jutsu (−1 PM)",
+          "traits": {
+            "jutsuCost": [
+              {
+                "value": -1,
+                "filter": {
+                  "jutsuExact": "Leitura de Chacras"
+                },
+                "min": 1
+              }
+            ]
+          }
+        }
+      ]
+    },
     "status": "parcial",
-    "notes": "Escolher 10 (vanara) e desconto por já conhecer o jutsu: à mão."
+    "notes": "Vanara: escolher 10 em Identificar Magia, à mão."
   },
   "Amuleto das barreiras": {
     "grants": [
@@ -213,8 +746,90 @@
         "type": "jutsu"
       }
     ],
+    "choice": {
+      "label": "Para cada jutsu, se já o conhecia",
+      "count": 4,
+      "options": [
+        {
+          "id": "barreiraVulcanicaNao",
+          "label": "Barreira Vulcânica: não conhecia"
+        },
+        {
+          "id": "barreiraVulcanica",
+          "label": "Barreira Vulcânica: já conhecia (−3 PM)",
+          "traits": {
+            "jutsuCost": [
+              {
+                "value": -3,
+                "filter": {
+                  "jutsuExact": "Barreira Vulcânica"
+                },
+                "min": 1
+              }
+            ]
+          }
+        },
+        {
+          "id": "barreiraDosAncestraisNao",
+          "label": "Barreira dos Ancestrais: não conhecia"
+        },
+        {
+          "id": "barreiraDosAncestrais",
+          "label": "Barreira dos Ancestrais: já conhecia (−3 PM)",
+          "traits": {
+            "jutsuCost": [
+              {
+                "value": -3,
+                "filter": {
+                  "jutsuExact": "Barreira dos Ancestrais"
+                },
+                "min": 1
+              }
+            ]
+          }
+        },
+        {
+          "id": "barreiraDeLancasDeGeloNao",
+          "label": "Barreira de Lanças de Gelo: não conhecia"
+        },
+        {
+          "id": "barreiraDeLancasDeGelo",
+          "label": "Barreira de Lanças de Gelo: já conhecia (−3 PM)",
+          "traits": {
+            "jutsuCost": [
+              {
+                "value": -3,
+                "filter": {
+                  "jutsuExact": "Barreira de Lanças de Gelo"
+                },
+                "min": 1
+              }
+            ]
+          }
+        },
+        {
+          "id": "barreiraDaTempestadeNao",
+          "label": "Barreira da Tempestade: não conhecia"
+        },
+        {
+          "id": "barreiraDaTempestade",
+          "label": "Barreira da Tempestade: já conhecia (−1 PM)",
+          "traits": {
+            "jutsuCost": [
+              {
+                "value": -1,
+                "filter": {
+                  "jutsuExact": "Barreira da Tempestade"
+                },
+                "min": 1
+              }
+            ]
+          }
+        }
+      ]
+    },
     "status": "parcial",
-    "notes": "Ampliar barreiras pela metade do custo e desconto por conhecer o jutsu: à mão."
+    "notes": "Aprimoramentos que ampliam barreiras custam metade: à mão."
   },
   "Amuleto das ilusões": {
     "grants": [
@@ -235,8 +850,91 @@
         "type": "jutsu"
       }
     ],
+    "choice": {
+      "label": "Para cada jutsu, se já o conhecia",
+      "count": 4,
+      "options": [
+        {
+          "id": "vozDeWangHoNao",
+          "label": "Voz de Wang-Ho: não conhecia"
+        },
+        {
+          "id": "vozDeWangHo",
+          "label": "Voz de Wang-Ho: já conhecia (−1 PM)",
+          "traits": {
+            "jutsuCost": [
+              {
+                "value": -1,
+                "filter": {
+                  "jutsuExact": "Voz de Wang-Ho"
+                },
+                "min": 1
+              }
+            ]
+          }
+        },
+        {
+          "id": "truqueDasCopiasNao",
+          "label": "Truque das Cópias: não conhecia"
+        },
+        {
+          "id": "truqueDasCopias",
+          "label": "Truque das Cópias: já conhecia (−1 PM)",
+          "traits": {
+            "jutsuCost": [
+              {
+                "value": -1,
+                "filter": {
+                  "descriptor": "ninja",
+                  "jutsuExact": "Truque das Cópias"
+                },
+                "min": 1
+              }
+            ]
+          }
+        },
+        {
+          "id": "teatroDeSombrasNao",
+          "label": "Teatro de Sombras: não conhecia"
+        },
+        {
+          "id": "teatroDeSombras",
+          "label": "Teatro de Sombras: já conhecia (−3 PM)",
+          "traits": {
+            "jutsuCost": [
+              {
+                "value": -3,
+                "filter": {
+                  "jutsuExact": "Teatro de Sombras"
+                },
+                "min": 1
+              }
+            ]
+          }
+        },
+        {
+          "id": "miragemMisticaNao",
+          "label": "Miragem Mística: não conhecia"
+        },
+        {
+          "id": "miragemMistica",
+          "label": "Miragem Mística: já conhecia (−1 PM)",
+          "traits": {
+            "jutsuCost": [
+              {
+                "value": -1,
+                "filter": {
+                  "jutsuExact": "Miragem Mística"
+                },
+                "min": 1
+              }
+            ]
+          }
+        }
+      ]
+    },
     "status": "parcial",
-    "notes": "−5 na Intuição contra suas ilusões e desconto por conhecer o jutsu: à mão."
+    "notes": "Quem desacredita suas ilusões sofre −5 na Intuição: à mão."
   },
   "Amuleto das mandalas": {
     "grants": [
@@ -253,8 +951,71 @@
         "type": "jutsu"
       }
     ],
+    "choice": {
+      "label": "Para cada jutsu, se já o conhecia",
+      "count": 3,
+      "options": [
+        {
+          "id": "mandalaDeProtecaoNao",
+          "label": "Mandala de Proteção: não conhecia"
+        },
+        {
+          "id": "mandalaDeProtecao",
+          "label": "Mandala de Proteção: já conhecia (−1 PM)",
+          "traits": {
+            "jutsuCost": [
+              {
+                "value": -1,
+                "filter": {
+                  "jutsuExact": "Mandala de Proteção"
+                },
+                "min": 1
+              }
+            ]
+          }
+        },
+        {
+          "id": "mandalaEscudoNao",
+          "label": "Mandala-escudo: não conhecia"
+        },
+        {
+          "id": "mandalaEscudo",
+          "label": "Mandala-escudo: já conhecia (−1 PM)",
+          "traits": {
+            "jutsuCost": [
+              {
+                "value": -1,
+                "filter": {
+                  "jutsuExact": "Mandala-escudo"
+                },
+                "min": 1
+              }
+            ]
+          }
+        },
+        {
+          "id": "mandalaElementalNao",
+          "label": "Mandala Elemental: não conhecia"
+        },
+        {
+          "id": "mandalaElemental",
+          "label": "Mandala Elemental: já conhecia (−1 PM)",
+          "traits": {
+            "jutsuCost": [
+              {
+                "value": -1,
+                "filter": {
+                  "jutsuExact": "Mandala Elemental"
+                },
+                "min": 1
+              }
+            ]
+          }
+        }
+      ]
+    },
     "status": "parcial",
-    "notes": "Con de jade não acumula; desconto por já conhecer o jutsu à mão."
+    "notes": "A Constituição não acumula com outros objetos de jade."
   },
   "Amuleto das tradições": {
     "grants": [
@@ -271,8 +1032,50 @@
         "type": "jutsu"
       }
     ],
-    "status": "parcial",
-    "notes": "Desconto por já conhecer o jutsu: à mão."
+    "choice": {
+      "label": "Para cada jutsu, se já o conhecia",
+      "count": 2,
+      "options": [
+        {
+          "id": "apreciarArteNao",
+          "label": "Apreciar Arte: não conhecia"
+        },
+        {
+          "id": "apreciarArte",
+          "label": "Apreciar Arte: já conhecia (−1 PM)",
+          "traits": {
+            "jutsuCost": [
+              {
+                "value": -1,
+                "filter": {
+                  "jutsuExact": "Apreciar Arte"
+                },
+                "min": 1
+              }
+            ]
+          }
+        },
+        {
+          "id": "refeicaoRespeitosaNao",
+          "label": "Refeição Respeitosa: não conhecia"
+        },
+        {
+          "id": "refeicaoRespeitosa",
+          "label": "Refeição Respeitosa: já conhecia (−1 PM)",
+          "traits": {
+            "jutsuCost": [
+              {
+                "value": -1,
+                "filter": {
+                  "jutsuExact": "Refeição Respeitosa"
+                },
+                "min": 1
+              }
+            ]
+          }
+        }
+      ]
+    }
   },
   "Amuleto das visões": {
     "grants": [
@@ -293,8 +1096,90 @@
         "type": "jutsu"
       }
     ],
+    "choice": {
+      "label": "Para cada jutsu, se já o conhecia",
+      "count": 4,
+      "options": [
+        {
+          "id": "visaoPerfeitaNao",
+          "label": "Visão Perfeita: não conhecia"
+        },
+        {
+          "id": "visaoPerfeita",
+          "label": "Visão Perfeita: já conhecia (−1 PM)",
+          "traits": {
+            "jutsuCost": [
+              {
+                "value": -1,
+                "filter": {
+                  "jutsuExact": "Visão Perfeita"
+                },
+                "min": 1
+              }
+            ]
+          }
+        },
+        {
+          "id": "videnciaDosAncestraisNao",
+          "label": "Vidência dos Ancestrais: não conhecia"
+        },
+        {
+          "id": "videnciaDosAncestrais",
+          "label": "Vidência dos Ancestrais: já conhecia (−3 PM)",
+          "traits": {
+            "jutsuCost": [
+              {
+                "value": -3,
+                "filter": {
+                  "jutsuExact": "Vidência dos Ancestrais"
+                },
+                "min": 1
+              }
+            ]
+          }
+        },
+        {
+          "id": "percepcaoElevadaNao",
+          "label": "Percepção Elevada: não conhecia"
+        },
+        {
+          "id": "percepcaoElevada",
+          "label": "Percepção Elevada: já conhecia (−1 PM)",
+          "traits": {
+            "jutsuCost": [
+              {
+                "value": -1,
+                "filter": {
+                  "jutsuExact": "Percepção Elevada"
+                },
+                "min": 1
+              }
+            ]
+          }
+        },
+        {
+          "id": "localizacaoNao",
+          "label": "Localização: não conhecia"
+        },
+        {
+          "id": "localizacao",
+          "label": "Localização: já conhecia (−1 PM)",
+          "traits": {
+            "jutsuCost": [
+              {
+                "value": -1,
+                "filter": {
+                  "jutsuExact": "Localização"
+                },
+                "min": 1
+              }
+            ]
+          }
+        }
+      ]
+    },
     "status": "parcial",
-    "notes": "Sonho ou pesadelo a cada noite e desconto por conhecer o jutsu: à mão."
+    "notes": "Cada noite com ele: 50% de sonho ou pesadelo, à mão."
   },
   "Amuleto de Lin-Wu": {
     "grants": [
@@ -311,8 +1196,69 @@
         "type": "jutsu"
       }
     ],
-    "status": "parcial",
-    "notes": "Desconto por já conhecer o jutsu: à mão."
+    "choice": {
+      "label": "Para cada jutsu, se já o conhecia",
+      "count": 3,
+      "options": [
+        {
+          "id": "vozDeLinWuNao",
+          "label": "Voz de Lin-Wu: não conhecia"
+        },
+        {
+          "id": "vozDeLinWu",
+          "label": "Voz de Lin-Wu: já conhecia (−1 PM)",
+          "traits": {
+            "jutsuCost": [
+              {
+                "value": -1,
+                "filter": {
+                  "jutsuExact": "Voz de Lin-Wu"
+                },
+                "min": 1
+              }
+            ]
+          }
+        },
+        {
+          "id": "missaoDeHonraNao",
+          "label": "Missão de Honra: não conhecia"
+        },
+        {
+          "id": "missaoDeHonra",
+          "label": "Missão de Honra: já conhecia (−3 PM)",
+          "traits": {
+            "jutsuCost": [
+              {
+                "value": -3,
+                "filter": {
+                  "jutsuExact": "Missão de Honra"
+                },
+                "min": 1
+              }
+            ]
+          }
+        },
+        {
+          "id": "lagrimasDeWangHoNao",
+          "label": "Lágrimas de Wang-Ho: não conhecia"
+        },
+        {
+          "id": "lagrimasDeWangHo",
+          "label": "Lágrimas de Wang-Ho: já conhecia (−3 PM)",
+          "traits": {
+            "jutsuCost": [
+              {
+                "value": -3,
+                "filter": {
+                  "jutsuExact": "Lágrimas de Wang-Ho"
+                },
+                "min": 1
+              }
+            ]
+          }
+        }
+      ]
+    }
   },
   "Amuleto do ar": {
     "grants": [
@@ -333,8 +1279,90 @@
         "type": "jutsu"
       }
     ],
+    "choice": {
+      "label": "Para cada jutsu, se já o conhecia",
+      "count": 4,
+      "options": [
+        {
+          "id": "soproDaMontanhaNao",
+          "label": "Sopro da Montanha: não conhecia"
+        },
+        {
+          "id": "soproDaMontanha",
+          "label": "Sopro da Montanha: já conhecia (−1 PM)",
+          "traits": {
+            "jutsuCost": [
+              {
+                "value": -1,
+                "filter": {
+                  "jutsuExact": "Sopro da Montanha"
+                },
+                "min": 1
+              }
+            ]
+          }
+        },
+        {
+          "id": "dominarOClimaNao",
+          "label": "Dominar o Clima: não conhecia"
+        },
+        {
+          "id": "dominarOClima",
+          "label": "Dominar o Clima: já conhecia (−3 PM)",
+          "traits": {
+            "jutsuCost": [
+              {
+                "value": -3,
+                "filter": {
+                  "jutsuExact": "Dominar o Clima"
+                },
+                "min": 1
+              }
+            ]
+          }
+        },
+        {
+          "id": "laminaDeVentoNao",
+          "label": "Lâmina de Vento: não conhecia"
+        },
+        {
+          "id": "laminaDeVento",
+          "label": "Lâmina de Vento: já conhecia (−1 PM)",
+          "traits": {
+            "jutsuCost": [
+              {
+                "value": -1,
+                "filter": {
+                  "jutsuExact": "Lâmina de Vento"
+                },
+                "min": 1
+              }
+            ]
+          }
+        },
+        {
+          "id": "criarElementoNao",
+          "label": "Criar Elemento: não conhecia"
+        },
+        {
+          "id": "criarElemento",
+          "label": "Criar Elemento: já conhecia (−1 PM)",
+          "traits": {
+            "jutsuCost": [
+              {
+                "value": -1,
+                "filter": {
+                  "jutsuExact": "Criar Elemento"
+                },
+                "min": 1
+              }
+            ]
+          }
+        }
+      ]
+    },
     "status": "parcial",
-    "notes": "Criar elemento só de ar; desconto por já conhecer o jutsu à mão."
+    "notes": "Criar elemento pelo amuleto: só ar."
   },
   "Amuleto do dia": {
     "grants": [
@@ -350,8 +1378,33 @@
       },
       "note": "O amuleto brilha como uma tocha."
     },
+    "choice": {
+      "label": "Fogo-fátuo",
+      "count": 1,
+      "options": [
+        {
+          "id": "novo",
+          "label": "Não conhecia o jutsu"
+        },
+        {
+          "id": "conhecia",
+          "label": "Já conhecia o jutsu (−1 PM)",
+          "traits": {
+            "jutsuCost": [
+              {
+                "value": -1,
+                "filter": {
+                  "jutsuExact": "Fogo-fátuo"
+                },
+                "min": 1
+              }
+            ]
+          }
+        }
+      ]
+    },
     "status": "parcial",
-    "notes": "+1 dado em canalizar energia (luz) e desconto por conhecer o jutsu: à mão."
+    "notes": "+1 dado no canalizar energia de luz: à mão."
   },
   "Amuleto do dragão": {
     "grants": [
@@ -364,8 +1417,81 @@
         "type": "jutsu"
       }
     ],
+    "choice": {
+      "label": "Para cada jutsu, se já o conhecia (perfeição: Honra 22+)",
+      "count": 3,
+      "options": [
+        {
+          "id": "perfeicaoNao",
+          "label": "Perfeição do Dragão: Honra abaixo de 22"
+        },
+        {
+          "id": "perfeicaoNova",
+          "label": "Perfeição do Dragão: Honra 22+, não conhecia",
+          "grants": [
+            {
+              "name": "Perfeição do Dragão",
+              "type": "jutsu"
+            }
+          ]
+        },
+        {
+          "id": "perfeicao",
+          "label": "Perfeição do Dragão: Honra 22+, já conhecia (−3 PM)",
+          "traits": {
+            "jutsuCost": [
+              {
+                "value": -3,
+                "filter": {
+                  "jutsuExact": "Perfeição do Dragão"
+                },
+                "min": 1
+              }
+            ]
+          }
+        },
+        {
+          "id": "fisicoDoDragaoNao",
+          "label": "Físico do Dragão: não conhecia"
+        },
+        {
+          "id": "fisicoDoDragao",
+          "label": "Físico do Dragão: já conhecia (−1 PM)",
+          "traits": {
+            "jutsuCost": [
+              {
+                "value": -1,
+                "filter": {
+                  "jutsuExact": "Físico do Dragão"
+                },
+                "min": 1
+              }
+            ]
+          }
+        },
+        {
+          "id": "menteDoDragaoNao",
+          "label": "Mente do Dragão: não conhecia"
+        },
+        {
+          "id": "menteDoDragao",
+          "label": "Mente do Dragão: já conhecia (−1 PM)",
+          "traits": {
+            "jutsuCost": [
+              {
+                "value": -1,
+                "filter": {
+                  "jutsuExact": "Mente do Dragão"
+                },
+                "min": 1
+              }
+            ]
+          }
+        }
+      ]
+    },
     "status": "parcial",
-    "notes": "Perfeição do dragão (Honra 22+), Con de jade e desconto por conhecer: à mão."
+    "notes": "A Constituição não acumula com outros objetos de jade."
   },
   "Amuleto do encantamento": {
     "grants": [
@@ -386,8 +1512,90 @@
         "type": "jutsu"
       }
     ],
+    "choice": {
+      "label": "Para cada jutsu, se já o conhecia",
+      "count": 4,
+      "options": [
+        {
+          "id": "sonoDeMizuhaNao",
+          "label": "Sono de Mizuha: não conhecia"
+        },
+        {
+          "id": "sonoDeMizuha",
+          "label": "Sono de Mizuha: já conhecia (−1 PM)",
+          "traits": {
+            "jutsuCost": [
+              {
+                "value": -1,
+                "filter": {
+                  "jutsuExact": "Sono de Mizuha"
+                },
+                "min": 1
+              }
+            ]
+          }
+        },
+        {
+          "id": "mestreVerdadeiroNao",
+          "label": "Mestre Verdadeiro: não conhecia"
+        },
+        {
+          "id": "mestreVerdadeiro",
+          "label": "Mestre Verdadeiro: já conhecia (−1 PM)",
+          "traits": {
+            "jutsuCost": [
+              {
+                "value": -1,
+                "filter": {
+                  "jutsuExact": "Mestre Verdadeiro"
+                },
+                "min": 1
+              }
+            ]
+          }
+        },
+        {
+          "id": "influenciaInvisivelNao",
+          "label": "Influência Invisível: não conhecia"
+        },
+        {
+          "id": "influenciaInvisivel",
+          "label": "Influência Invisível: já conhecia (−1 PM)",
+          "traits": {
+            "jutsuCost": [
+              {
+                "value": -1,
+                "filter": {
+                  "jutsuExact": "Influência Invisível"
+                },
+                "min": 1
+              }
+            ]
+          }
+        },
+        {
+          "id": "feiticoDeKazukoNao",
+          "label": "Feitiço de Kazuko: não conhecia"
+        },
+        {
+          "id": "feiticoDeKazuko",
+          "label": "Feitiço de Kazuko: já conhecia (−1 PM)",
+          "traits": {
+            "jutsuCost": [
+              {
+                "value": -1,
+                "filter": {
+                  "jutsuExact": "Feitiço de Kazuko"
+                },
+                "min": 1
+              }
+            ]
+          }
+        }
+      ]
+    },
     "status": "parcial",
-    "notes": "+5 no número de criaturas e desconto por conhecer o jutsu: à mão."
+    "notes": "+5 no número de criaturas dos encantamentos: à mão."
   },
   "Amuleto do fogo": {
     "grants": [
@@ -408,8 +1616,88 @@
         "type": "jutsu"
       }
     ],
-    "status": "parcial",
-    "notes": "Criar elemento só de fogo; desconto por já conhecer o jutsu à mão."
+    "choice": {
+      "label": "Para cada jutsu, se já o conhecia",
+      "count": 4,
+      "options": [
+        {
+          "id": "lequeDeChamasNao",
+          "label": "Leque de Chamas: não conhecia"
+        },
+        {
+          "id": "lequeDeChamas",
+          "label": "Leque de Chamas: já conhecia (−1 PM)",
+          "traits": {
+            "jutsuCost": [
+              {
+                "value": -1,
+                "filter": {
+                  "jutsuExact": "Leque de Chamas"
+                },
+                "min": 1
+              }
+            ]
+          }
+        },
+        {
+          "id": "explosaoDeFogoNao",
+          "label": "Explosão de Fogo: não conhecia"
+        },
+        {
+          "id": "explosaoDeFogo",
+          "label": "Explosão de Fogo: já conhecia (−1 PM)",
+          "traits": {
+            "jutsuCost": [
+              {
+                "value": -1,
+                "filter": {
+                  "jutsuExact": "Explosão de Fogo"
+                },
+                "min": 1
+              }
+            ]
+          }
+        },
+        {
+          "id": "dominarChamasNao",
+          "label": "Dominar Chamas: não conhecia"
+        },
+        {
+          "id": "dominarChamas",
+          "label": "Dominar Chamas: já conhecia (−1 PM)",
+          "traits": {
+            "jutsuCost": [
+              {
+                "value": -1,
+                "filter": {
+                  "jutsuExact": "Dominar Chamas"
+                },
+                "min": 1
+              }
+            ]
+          }
+        },
+        {
+          "id": "criarElementoNao",
+          "label": "Criar Elemento: não conhecia"
+        },
+        {
+          "id": "criarElemento",
+          "label": "Criar Elemento: já conhecia (−1 PM)",
+          "traits": {
+            "jutsuCost": [
+              {
+                "value": -1,
+                "filter": {
+                  "jutsuExact": "Criar Elemento"
+                },
+                "min": 1
+              }
+            ]
+          }
+        }
+      ]
+    }
   },
   "Amuleto do relâmpago": {
     "grants": [
@@ -435,8 +1723,69 @@
         "optional": true
       }
     ],
-    "status": "parcial",
-    "notes": "Desconto por já conhecer o jutsu: à mão."
+    "choice": {
+      "label": "Para cada jutsu, se já o conhecia",
+      "count": 3,
+      "options": [
+        {
+          "id": "relampagoDivinoNao",
+          "label": "Relâmpago Divino: não conhecia"
+        },
+        {
+          "id": "relampagoDivino",
+          "label": "Relâmpago Divino: já conhecia (−1 PM)",
+          "traits": {
+            "jutsuCost": [
+              {
+                "value": -1,
+                "filter": {
+                  "jutsuExact": "Relâmpago Divino"
+                },
+                "min": 1
+              }
+            ]
+          }
+        },
+        {
+          "id": "esferaEletricaNao",
+          "label": "Esfera Elétrica: não conhecia"
+        },
+        {
+          "id": "esferaEletrica",
+          "label": "Esfera Elétrica: já conhecia (−1 PM)",
+          "traits": {
+            "jutsuCost": [
+              {
+                "value": -1,
+                "filter": {
+                  "jutsuExact": "Esfera Elétrica"
+                },
+                "min": 1
+              }
+            ]
+          }
+        },
+        {
+          "id": "barreiraDaTempestadeNao",
+          "label": "Barreira da Tempestade: não conhecia"
+        },
+        {
+          "id": "barreiraDaTempestade",
+          "label": "Barreira da Tempestade: já conhecia (−1 PM)",
+          "traits": {
+            "jutsuCost": [
+              {
+                "value": -1,
+                "filter": {
+                  "jutsuExact": "Barreira da Tempestade"
+                },
+                "min": 1
+              }
+            ]
+          }
+        }
+      ]
+    }
   },
   "Amuleto do tamanho": {
     "grants": [
@@ -445,8 +1794,31 @@
         "type": "jutsu"
       }
     ],
-    "status": "parcial",
-    "notes": "Desconto por já conhecer o jutsu: à mão."
+    "choice": {
+      "label": "Tamanho Gigante",
+      "count": 1,
+      "options": [
+        {
+          "id": "novo",
+          "label": "Não conhecia o jutsu"
+        },
+        {
+          "id": "conhecia",
+          "label": "Já conhecia o jutsu (−1 PM)",
+          "traits": {
+            "jutsuCost": [
+              {
+                "value": -1,
+                "filter": {
+                  "jutsuExact": "Tamanho Gigante"
+                },
+                "min": 1
+              }
+            ]
+          }
+        }
+      ]
+    }
   },
   "Amuleto do teletransporte": {
     "grants": [
@@ -455,8 +1827,31 @@
         "type": "jutsu"
       }
     ],
-    "status": "parcial",
-    "notes": "Aprimoramento de +5 PM sempre ativo e desconto por conhecer o jutsu: à mão."
+    "choice": {
+      "label": "Movimento Instantâneo",
+      "count": 1,
+      "options": [
+        {
+          "id": "novo",
+          "label": "Não conhecia o jutsu"
+        },
+        {
+          "id": "conhecia",
+          "label": "Já conhecia o jutsu (−3 PM)",
+          "traits": {
+            "jutsuCost": [
+              {
+                "value": -3,
+                "filter": {
+                  "jutsuExact": "Movimento Instantâneo"
+                },
+                "min": 1
+              }
+            ]
+          }
+        }
+      ]
+    }
   },
   "Amuleto dos caminhos secretos": {
     "grants": [
@@ -470,16 +1865,16 @@
       }
     ],
     "choice": {
-      "label": "Raça de quem usa",
-      "count": 1,
+      "label": "Raça e, para cada jutsu, se já o conhecia",
+      "count": 3,
       "options": [
         {
           "id": "outra",
-          "label": "Outra raça"
+          "label": "Raça: outra"
         },
         {
           "id": "hanyo",
-          "label": "Hanyô (de graça em perigo)",
+          "label": "Raça: hanyô (de graça em perigo)",
           "traits": {
             "jutsuCost": [
               {
@@ -490,16 +1885,49 @@
                     "esconderijo secreto",
                     "caminhos invisiveis"
                   ]
-                },
-                "min": 1
+                }
+              }
+            ]
+          }
+        },
+        {
+          "id": "esconderijoSecretoNao",
+          "label": "Esconderijo Secreto: não conhecia"
+        },
+        {
+          "id": "esconderijoSecreto",
+          "label": "Esconderijo Secreto: já conhecia (−3 PM)",
+          "traits": {
+            "jutsuCost": [
+              {
+                "value": -3,
+                "filter": {
+                  "jutsuExact": "Esconderijo Secreto"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "id": "caminhosInvisiveisNao",
+          "label": "Caminhos Invisíveis: não conhecia"
+        },
+        {
+          "id": "caminhosInvisiveis",
+          "label": "Caminhos Invisíveis: já conhecia (−3 PM)",
+          "traits": {
+            "jutsuCost": [
+              {
+                "value": -3,
+                "filter": {
+                  "jutsuExact": "Caminhos Invisíveis"
+                }
               }
             ]
           }
         }
       ]
-    },
-    "status": "parcial",
-    "notes": "Desconto por já conhecer o jutsu: à mão."
+    }
   },
   "Amuleto dos espíritos": {
     "grants": [
@@ -517,16 +1945,16 @@
       }
     ],
     "choice": {
-      "label": "Talento Jutsu Acelerado",
-      "count": 1,
+      "label": "Jutsu Acelerado e, para cada jutsu, se já o conhecia",
+      "count": 4,
       "options": [
         {
           "id": "nao",
-          "label": "Não tem"
+          "label": "Jutsu Acelerado: não tem"
         },
         {
           "id": "sim",
-          "label": "Tem (−3 PM em invocação)",
+          "label": "Jutsu Acelerado: tem (−3 PM em invocação)",
           "traits": {
             "jutsuEnhancements": [
               {
@@ -542,11 +1970,68 @@
               }
             ]
           }
+        },
+        {
+          "id": "espiritoGuardiaoNao",
+          "label": "Espírito Guardião: não conhecia"
+        },
+        {
+          "id": "espiritoGuardiao",
+          "label": "Espírito Guardião: já conhecia (−1 PM)",
+          "traits": {
+            "jutsuCost": [
+              {
+                "value": -1,
+                "filter": {
+                  "jutsuExact": "Espírito Guardião"
+                },
+                "min": 1
+              }
+            ]
+          }
+        },
+        {
+          "id": "espiritosEspioesNao",
+          "label": "Espíritos Espiões: não conhecia"
+        },
+        {
+          "id": "espiritosEspioes",
+          "label": "Espíritos Espiões: já conhecia (−3 PM)",
+          "traits": {
+            "jutsuCost": [
+              {
+                "value": -3,
+                "filter": {
+                  "jutsuExact": "Espíritos Espiões"
+                },
+                "min": 1
+              }
+            ]
+          }
+        },
+        {
+          "id": "pequenoKamiNao",
+          "label": "Pequeno Kami: não conhecia"
+        },
+        {
+          "id": "pequenoKami",
+          "label": "Pequeno Kami: já conhecia (−1 PM)",
+          "traits": {
+            "jutsuCost": [
+              {
+                "value": -1,
+                "filter": {
+                  "jutsuExact": "Pequeno Kami"
+                },
+                "min": 1
+              }
+            ]
+          }
         }
       ]
     },
     "status": "parcial",
-    "notes": "Con de jade não acumula; desconto por já conhecer o jutsu à mão."
+    "notes": "A Constituição não acumula com outros objetos de jade."
   },
   "Amuleto dos kata": {
     "grants": [
@@ -567,8 +2052,88 @@
         "type": "jutsu"
       }
     ],
-    "status": "parcial",
-    "notes": "Desconto por já conhecer o jutsu: à mão."
+    "choice": {
+      "label": "Para cada jutsu, se já o conhecia",
+      "count": 4,
+      "options": [
+        {
+          "id": "kataDaToupeiraNao",
+          "label": "Kata da Toupeira: não conhecia"
+        },
+        {
+          "id": "kataDaToupeira",
+          "label": "Kata da Toupeira: já conhecia (−3 PM)",
+          "traits": {
+            "jutsuCost": [
+              {
+                "value": -3,
+                "filter": {
+                  "jutsuExact": "Kata da Toupeira"
+                },
+                "min": 1
+              }
+            ]
+          }
+        },
+        {
+          "id": "kataDoPolvoNao",
+          "label": "Kata do Polvo: não conhecia"
+        },
+        {
+          "id": "kataDoPolvo",
+          "label": "Kata do Polvo: já conhecia (−1 PM)",
+          "traits": {
+            "jutsuCost": [
+              {
+                "value": -1,
+                "filter": {
+                  "jutsuExact": "Kata do Polvo"
+                },
+                "min": 1
+              }
+            ]
+          }
+        },
+        {
+          "id": "kataDoGrouNao",
+          "label": "Kata do Grou: não conhecia"
+        },
+        {
+          "id": "kataDoGrou",
+          "label": "Kata do Grou: já conhecia (−3 PM)",
+          "traits": {
+            "jutsuCost": [
+              {
+                "value": -3,
+                "filter": {
+                  "jutsuExact": "Kata do Grou"
+                },
+                "min": 1
+              }
+            ]
+          }
+        },
+        {
+          "id": "kataDoGorilaNao",
+          "label": "Kata do Gorila: não conhecia"
+        },
+        {
+          "id": "kataDoGorila",
+          "label": "Kata do Gorila: já conhecia (−1 PM)",
+          "traits": {
+            "jutsuCost": [
+              {
+                "value": -1,
+                "filter": {
+                  "jutsuExact": "Kata do Gorila"
+                },
+                "min": 1
+              }
+            ]
+          }
+        }
+      ]
+    }
   },
   "Amuleto dos mortos": {
     "grants": [
@@ -585,8 +2150,71 @@
         "type": "jutsu"
       }
     ],
+    "choice": {
+      "label": "Para cada jutsu, se já o conhecia",
+      "count": 3,
+      "options": [
+        {
+          "id": "lamentoDosMalditosNao",
+          "label": "Lamento dos Malditos: não conhecia"
+        },
+        {
+          "id": "lamentoDosMalditos",
+          "label": "Lamento dos Malditos: já conhecia (−1 PM)",
+          "traits": {
+            "jutsuCost": [
+              {
+                "value": -1,
+                "filter": {
+                  "jutsuExact": "Lamento dos Malditos"
+                },
+                "min": 1
+              }
+            ]
+          }
+        },
+        {
+          "id": "circuloDasTrevasNao",
+          "label": "Círculo das Trevas: não conhecia"
+        },
+        {
+          "id": "circuloDasTrevas",
+          "label": "Círculo das Trevas: já conhecia (−3 PM)",
+          "traits": {
+            "jutsuCost": [
+              {
+                "value": -3,
+                "filter": {
+                  "jutsuExact": "Círculo das Trevas"
+                },
+                "min": 1
+              }
+            ]
+          }
+        },
+        {
+          "id": "canticoDosMortosNao",
+          "label": "Cântico dos Mortos: não conhecia"
+        },
+        {
+          "id": "canticoDosMortos",
+          "label": "Cântico dos Mortos: já conhecia (−1 PM)",
+          "traits": {
+            "jutsuCost": [
+              {
+                "value": -1,
+                "filter": {
+                  "jutsuExact": "Cântico dos Mortos"
+                },
+                "min": 1
+              }
+            ]
+          }
+        }
+      ]
+    },
     "status": "parcial",
-    "notes": "+5 níveis para controlar shiryou e desconto por conhecer o jutsu: à mão."
+    "notes": "Controle de shiryou como 5 níveis acima: à mão."
   },
   "Amuleto dos mundos": {
     "grants": [
@@ -600,16 +2228,16 @@
       }
     ],
     "choice": {
-      "label": "Raça de quem usa",
-      "count": 1,
+      "label": "Raça e, para cada jutsu, se já o conhecia",
+      "count": 3,
       "options": [
         {
           "id": "outra",
-          "label": "Outra raça"
+          "label": "Raça: outra"
         },
         {
           "id": "hanyo",
-          "label": "Hanyô (de graça em perigo)",
+          "label": "Raça: hanyô (de graça em perigo)",
           "traits": {
             "jutsuCost": [
               {
@@ -620,16 +2248,49 @@
                     "viagem espiritual",
                     "rito do exorcista"
                   ]
-                },
-                "min": 1
+                }
+              }
+            ]
+          }
+        },
+        {
+          "id": "viagemEspiritualNao",
+          "label": "Viagem Espiritual: não conhecia"
+        },
+        {
+          "id": "viagemEspiritual",
+          "label": "Viagem Espiritual: já conhecia (−3 PM)",
+          "traits": {
+            "jutsuCost": [
+              {
+                "value": -3,
+                "filter": {
+                  "jutsuExact": "Viagem Espiritual"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "id": "ritoDoExorcistaNao",
+          "label": "Rito do Exorcista: não conhecia"
+        },
+        {
+          "id": "ritoDoExorcista",
+          "label": "Rito do Exorcista: já conhecia (−3 PM)",
+          "traits": {
+            "jutsuCost": [
+              {
+                "value": -3,
+                "filter": {
+                  "jutsuExact": "Rito do Exorcista"
+                }
               }
             ]
           }
         }
       ]
-    },
-    "status": "parcial",
-    "notes": "Desconto por já conhecer o jutsu: à mão."
+    }
   },
   "Amuleto dos ninjas": {
     "grants": [
@@ -663,8 +2324,126 @@
       "honorViolation": "leve",
       "note": "Usar o amuleto é violação de honra leve."
     },
-    "status": "parcial",
-    "notes": "Desconto por já conhecer o jutsu: à mão."
+    "choice": {
+      "label": "Para cada jutsu, se já o conhecia",
+      "count": 6,
+      "options": [
+        {
+          "id": "pernasDoGafanhotoNao",
+          "label": "Pernas do Gafanhoto: não conhecia"
+        },
+        {
+          "id": "pernasDoGafanhoto",
+          "label": "Pernas do Gafanhoto: já conhecia (−1 PM)",
+          "traits": {
+            "jutsuCost": [
+              {
+                "value": -1,
+                "filter": {
+                  "jutsuExact": "Pernas do Gafanhoto"
+                },
+                "min": 1
+              }
+            ]
+          }
+        },
+        {
+          "id": "terrorNinjaNao",
+          "label": "Terror Ninja: não conhecia"
+        },
+        {
+          "id": "terrorNinja",
+          "label": "Terror Ninja: já conhecia (−3 PM)",
+          "traits": {
+            "jutsuCost": [
+              {
+                "value": -3,
+                "filter": {
+                  "jutsuExact": "Terror Ninja"
+                },
+                "min": 1
+              }
+            ]
+          }
+        },
+        {
+          "id": "invisibilidadeNinjaNao",
+          "label": "Invisibilidade Ninja: não conhecia"
+        },
+        {
+          "id": "invisibilidadeNinja",
+          "label": "Invisibilidade Ninja: já conhecia (−1 PM)",
+          "traits": {
+            "jutsuCost": [
+              {
+                "value": -1,
+                "filter": {
+                  "jutsuExact": "Invisibilidade Ninja"
+                },
+                "min": 1
+              }
+            ]
+          }
+        },
+        {
+          "id": "hipnotismoNinjaNao",
+          "label": "Hipnotismo Ninja: não conhecia"
+        },
+        {
+          "id": "hipnotismoNinja",
+          "label": "Hipnotismo Ninja: já conhecia (−1 PM)",
+          "traits": {
+            "jutsuCost": [
+              {
+                "value": -1,
+                "filter": {
+                  "jutsuExact": "Hipnotismo Ninja"
+                },
+                "min": 1
+              }
+            ]
+          }
+        },
+        {
+          "id": "escaladaNinjaNao",
+          "label": "Escalada Ninja: não conhecia"
+        },
+        {
+          "id": "escaladaNinja",
+          "label": "Escalada Ninja: já conhecia (−1 PM)",
+          "traits": {
+            "jutsuCost": [
+              {
+                "value": -1,
+                "filter": {
+                  "jutsuExact": "Escalada Ninja"
+                },
+                "min": 1
+              }
+            ]
+          }
+        },
+        {
+          "id": "corridaNinjaNao",
+          "label": "Corrida Ninja: não conhecia"
+        },
+        {
+          "id": "corridaNinja",
+          "label": "Corrida Ninja: já conhecia (−1 PM)",
+          "traits": {
+            "jutsuCost": [
+              {
+                "value": -1,
+                "filter": {
+                  "jutsuExact": "Corrida Ninja"
+                },
+                "min": 1
+              }
+            ]
+          }
+        }
+      ]
+    }
   },
   "Amuleto zen": {
     "grants": [
@@ -681,8 +2460,50 @@
         "type": "power"
       }
     ],
-    "status": "parcial",
-    "notes": "Desconto por já conhecer o jutsu: à mão."
+    "choice": {
+      "label": "Para cada jutsu, se já o conhecia",
+      "count": 2,
+      "options": [
+        {
+          "id": "auraZenNao",
+          "label": "Aura Zen: não conhecia"
+        },
+        {
+          "id": "auraZen",
+          "label": "Aura Zen: já conhecia (−1 PM)",
+          "traits": {
+            "jutsuCost": [
+              {
+                "value": -1,
+                "filter": {
+                  "jutsuExact": "Aura Zen"
+                },
+                "min": 1
+              }
+            ]
+          }
+        },
+        {
+          "id": "ataqueZenNao",
+          "label": "Ataque Zen: não conhecia"
+        },
+        {
+          "id": "ataqueZen",
+          "label": "Ataque Zen: já conhecia (−1 PM)",
+          "traits": {
+            "jutsuCost": [
+              {
+                "value": -1,
+                "filter": {
+                  "jutsuExact": "Ataque Zen"
+                },
+                "min": 1
+              }
+            ]
+          }
+        }
+      ]
+    }
   },
   "Água sagrada": {
     "activation": {
@@ -793,9 +2614,10 @@
       },
       "honorViolation": "leve",
       "self": {
-        "conditions": [
+        "statuses": [
           "invisivel"
         ],
+        "consumeOn": "attack",
         "rollOptions": [
           {
             "id": "furtividade",
@@ -810,38 +2632,43 @@
           }
         ]
       },
-      "note": "Como invisibilidade ninja, sem aprimoramentos.",
+      "note": "Como invisibilidade ninja, sem aprimoramentos; o próximo ataque a encerra.",
       "consume": true
     },
     "status": "parcial",
-    "notes": "Mover-se troca por camuflagem total e atacar encerra."
+    "notes": "Mover-se deixa só camuflagem total; jutsu ofensivo sem ataque também encerra."
   },
   "Bastões moxa da renovação": {
-    "rollOptions": [
-      {
-        "id": "moxa",
-        "label": "Bastões moxa",
-        "for": "skill",
-        "filter": {
-          "skills": [
-            "cura"
-          ]
-        },
-        "value": 15,
-        "optional": true
-      }
-    ],
-    "status": "parcial",
-    "notes": "O +15 é a opção marcada no teste de Cura.",
     "activation": {
       "anywhere": true,
       "consume": true,
       "action": "completa",
-      "note": "Teste de Cura com +15; os bastões se apagam."
+      "self": {
+        "consumeOn": "skill",
+        "rollOptions": [
+          {
+            "id": "moxa",
+            "label": "Bastões moxa",
+            "for": "skill",
+            "filter": {
+              "skills": [
+                "cura"
+              ]
+            },
+            "value": 15
+          }
+        ]
+      },
+      "note": "+15 no próximo teste de Cura; os bastões se apagam."
     }
   },
   "Pó de apagar rastros": {
-    "status": "narrativo"
+    "activation": {
+      "consume": true,
+      "note": "Recinto de 9m parece abandonado, ou trilha de 90m sem pegadas."
+    },
+    "status": "parcial",
+    "notes": "A CD +20 para rastrear as pegadas fica com a mesa."
   },
   "Saquê fervente": {
     "activation": {
@@ -874,7 +2701,8 @@
         "type": "von",
         "dc": 15
       },
-      "note": "Quem falhar responde com sinceridade durante a cena (ainda pode se calar)."
+      "note": "Quem falhar responde com sinceridade durante a cena (ainda pode se calar).",
+      "consume": true
     }
   },
   "Incenso da meditação": {
@@ -909,43 +2737,55 @@
   },
   "Chá da revigoração honrada": {
     "activation": {
-      "restore": {
-        "pm": "max(0, @hon)"
-      },
-      "targets": {
-        "who": "any",
-        "variants": [
-          {
-            "when": "vsSordid",
-            "conditions": [
-              {
-                "id": "enjoado",
-                "duration": {
-                  "unit": "cena"
-                }
-              }
-            ]
-          }
-        ]
-      },
       "note": "Quem bebe recupera PM igual ao bônus de Honra de quem preparou (desonrado: metade).",
       "uses": {
         "max": 5,
         "per": "total"
       },
-      "anywhere": true
+      "anywhere": true,
+      "options": [
+        {
+          "id": "beber",
+          "label": "Você bebe",
+          "restore": {
+            "pm": "max(0, @hon)"
+          }
+        },
+        {
+          "id": "servir",
+          "label": "Servir a outro",
+          "targets": {
+            "who": "any",
+            "variants": [
+              {
+                "when": "vsSordid",
+                "conditions": [
+                  {
+                    "id": "enjoado",
+                    "duration": {
+                      "unit": "cena"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     },
     "status": "parcial",
-    "notes": "Os PM dos outros bebedores são à mão."
+    "notes": "Os PM de quem você serve são à mão."
   },
   "Pena de Hinotori": {
     "activation": {
       "action": "padrão",
-      "note": "Aliado a 0 PV ou menos, caído há menos de uma rodada, volta a 1 PV.",
+      "targets": {
+        "who": "allies",
+        "setPv": 1
+      },
+      "note": "Só em aliado a 0 PV ou menos, caído há menos de uma rodada.",
       "consume": true
-    },
-    "status": "parcial",
-    "notes": "Ponha os PV do aliado em 1 à mão; a pena se desfaz."
+    }
   },
   "Varinha da orientação": {
     "activation": {
@@ -1083,10 +2923,11 @@
           },
           "note": "Não precisa respirar nem comer; com uma ação de movimento, fica inerte."
         }
-      ]
+      ],
+      "consume": true
     },
     "status": "parcial",
-    "notes": "Um pote, um uso: apague o item depois."
+    "notes": "Cancelar: tire à mão o efeito da transmutação permanente."
   },
   "Pingente da leveza": {
     "status": "narrativo"
@@ -1095,7 +2936,8 @@
     "status": "narrativo"
   },
   "Sandálias acrobáticas": {
-    "status": "narrativo"
+    "status": "parcial",
+    "notes": "Terreno difícil e efeitos de chão (pisão do bisonte, estrepes) não o afetam: à mão."
   },
   "Omamori da invisibilidade específica": {
     "choice": {
@@ -1134,10 +2976,27 @@
       "duration": {
         "unit": "cena"
       },
-      "note": "Invisibilidade ninja, sem aprimoramentos, só contra o tipo protegido."
+      "note": "Invisibilidade ninja, sem aprimoramentos, só contra o tipo protegido.",
+      "self": {
+        "consumeOn": "attack",
+        "rollOptions": [
+          {
+            "id": "furtividade",
+            "label": "Invisibilidade específica (Furtividade contra o tipo)",
+            "for": "skill",
+            "filter": {
+              "skills": [
+                "furtividade"
+              ]
+            },
+            "best": true,
+            "optional": true
+          }
+        ]
+      }
     },
     "status": "parcial",
-    "notes": "A invisibilidade vale só contra um tipo: aplique à mão."
+    "notes": "A invisibilidade só vale contra o tipo protegido: aplique à mão."
   },
   "Tsuba elemental": {
     "choice": {
@@ -1233,12 +3092,6 @@
     }
   },
   "Máscara do kabuki": {
-    "grants": [
-      {
-        "name": "Véu das Múltiplas Faces",
-        "type": "jutsu"
-      }
-    ],
     "rollOptions": [
       {
         "id": "kabuki",
@@ -1253,8 +3106,35 @@
         "optional": true
       }
     ],
-    "status": "parcial",
-    "notes": "O véu da máscara sai sem aprimoramentos: não os pague."
+    "activation": {
+      "cost": 1,
+      "action": "padrão",
+      "duration": {
+        "unit": "cena"
+      },
+      "honorViolation": "leve",
+      "self": {
+        "rollOptions": [
+          {
+            "id": "disfarce",
+            "label": "Véu das Múltiplas Faces (disfarce)",
+            "for": "skill",
+            "filter": {
+              "skills": [
+                "enganacao"
+              ]
+            },
+            "value": 30,
+            "optional": true
+          }
+        ]
+      },
+      "save": {
+        "type": "von",
+        "dc": 15
+      },
+      "note": "Véu das múltiplas faces, sem aprimoramentos, mesmo com chacras fechados."
+    }
   },
   "Jingasa do bushi sortudo": {
     "traits": {
@@ -1671,8 +3551,13 @@
     }
   },
   "Anel do escudo mental": {
-    "status": "narrativo",
-    "notes": "Imunidade a adivinhação até grau avançado: o mestre aplica."
+    "traits": {
+      "immune": [
+        "adivinhacao"
+      ]
+    },
+    "status": "parcial",
+    "notes": "Vale só até o grau avançado; os efeitos de adivinhação ficam com a mesa."
   },
   "Manoplas dos dois princípios": {
     "grants": [
@@ -1705,7 +3590,24 @@
     }
   },
   "Papel das muitas formas": {
-    "status": "narrativo"
+    "activation": {
+      "options": [
+        {
+          "id": "dobrar",
+          "label": "Dobrar a figura",
+          "action": "completa",
+          "note": "Ofício (origami) ou Atuação: CD 20 + ND da criatura (ou a CD do objeto)."
+        },
+        {
+          "id": "reusar",
+          "label": "Invocar a mesma figura",
+          "action": "padrão",
+          "note": "A figura já dobrada volta até o fim da cena."
+        }
+      ]
+    },
+    "status": "parcial",
+    "notes": "A figura (tsukumogami do tamanho) fica com a mesa."
   },
   "Furoshiki profundo": {
     "status": "narrativo"
@@ -1827,13 +3729,16 @@
     }
   },
   "Elmo monstruoso": {
+    "traits": {
+      "missChance": 20
+    },
     "activation": {
       "action": "livre",
       "honorViolation": "severa",
       "note": "Usar o elmo é violação de honra severa."
     },
     "status": "parcial",
-    "notes": "20% de falha nos ataques contra você e o bônus do kaijin: à mão."
+    "notes": "Kaijin: conta como dois talentos da Tormenta a mais (à mão)."
   },
   "Fantasia de cão-leão": {
     "traits": {
@@ -1903,11 +3808,25 @@
     }
   },
   "Lanterna da revelação": {
-    "traits": {
-      "seeInvisible": true
+    "activation": {
+      "duration": {
+        "unit": "cena"
+      },
+      "self": {
+        "aura": {
+          "radius": 9,
+          "who": "any",
+          "includeSelf": true,
+          "traits": {
+            "seeInvisible": true
+          },
+          "label": "Luz da lanterna da revelação"
+        }
+      },
+      "note": "Revela criaturas e objetos invisíveis a até 9m."
     },
     "status": "parcial",
-    "notes": "Vale só até 9m; quem mais estiver sob a luz também enxerga: à mão."
+    "notes": "Quem ataca de fora da luz também vê os revelados: à mão."
   },
   "Taiko de Dai'Gun": {
     "rollOptions": [
@@ -1988,16 +3907,24 @@
                 "value": -1,
                 "filter": {
                   "jutsu": "kiai"
-                },
-                "min": 1
+                }
+              }
+            ],
+            "costMods": [
+              {
+                "value": -1,
+                "kinds": [
+                  "power"
+                ],
+                "filter": {
+                  "itemName": "grito de kiai"
+                }
               }
             ]
           }
         }
       ]
-    },
-    "status": "parcial",
-    "notes": "Samurai: o −1 PM do grito de kiai é à mão."
+    }
   },
   "Sandálias da liberdade": {
     "traits": {
@@ -2093,28 +4020,14 @@
     }
   },
   "Estandarte da honra": {
-    "choice": {
-      "label": "Honra de quem usa",
-      "count": 1,
-      "options": [
-        {
-          "id": "honrado",
-          "label": "10 ou mais"
-        },
-        {
-          "id": "desonrado",
-          "label": "9 ou menos (só nível negativo)",
-          "passive": [
-            {
-              "key": "system.attributes.negativeLevels",
-              "value": 1
-            }
-          ]
-        }
-      ]
-    },
+    "passive": [
+      {
+        "key": "system.attributes.negativeLevels",
+        "value": "min(1, max(0, 10 - @honra))"
+      }
+    ],
     "status": "parcial",
-    "notes": "Segunda reserva de força na sessão (ou na cena, com honra suprema): à mão."
+    "notes": "Reserva de força duas vezes por sessão (por cena, com honra suprema): à mão."
   },
   "Máscara aberrante": {
     "passive": [
@@ -2131,13 +4044,14 @@
         "value": "@sab"
       }
     ],
+    "traits": {
+      "missChance": 10
+    },
     "activation": {
       "action": "livre",
       "honorViolation": "severa",
       "note": "Usar a máscara é violação de honra severa."
-    },
-    "status": "parcial",
-    "notes": "10% de falha nos ataques contra você: à mão."
+    }
   },
   "Varinha da repulsão": {
     "rollOptions": [
@@ -2193,6 +4107,37 @@
     "notes": "Não acumula Con com outros objetos de jade: confira à mão."
   },
   "Flauta das Eras": {
+    "choice": {
+      "label": "Forma",
+      "count": 1,
+      "options": [
+        {
+          "id": "flauta",
+          "label": "Instrumento de sopro"
+        },
+        {
+          "id": "tanto",
+          "label": "Tanto defensora +5",
+          "passive": [
+            {
+              "key": "system.attributes.ca.bonus",
+              "value": 4
+            }
+          ],
+          "rollOptions": [
+            {
+              "id": "tanto",
+              "label": "Flauta das Eras (tanto +5)",
+              "attack": 5,
+              "damage": 5,
+              "filter": {
+                "weapon": "tanto"
+              }
+            }
+          ]
+        }
+      ]
+    },
     "activation": {
       "note": "Melodia perfeita (uma cena, Atuação CD 40): milagre dos ancestrais sem PM."
     },
@@ -2257,6 +4202,27 @@
               }
             },
             {
+              "id": "radiante",
+              "label": "Kaminari (radiante: monstros, shiryou e oni)",
+              "damage": "3d6",
+              "type": "luz",
+              "when": "vsMonster",
+              "note": "shiryou e oni: marque",
+              "filter": {
+                "weapon": "katana|kaminari"
+              }
+            },
+            {
+              "id": "fantasma",
+              "label": "Kaminari (fantasma: incorpóreo contra corpóreo, ou o inverso)",
+              "damage": "2d6",
+              "type": "vacuo",
+              "optional": true,
+              "filter": {
+                "weapon": "katana|kaminari"
+              }
+            },
+            {
               "id": "veloz",
               "label": "Kaminari (veloz: dois ataques extras)",
               "extraAttack": true,
@@ -2265,11 +4231,62 @@
               }
             }
           ]
+        },
+        {
+          "id": "desonrado",
+          "label": "Desonrado (katana +1 e missão de honra)",
+          "rollOptions": [
+            {
+              "id": "kaminari",
+              "label": "Kaminari +1",
+              "attack": 1,
+              "damage": 1,
+              "filter": {
+                "weapon": "katana|kaminari"
+              }
+            }
+          ]
+        },
+        {
+          "id": "sordido",
+          "label": "Sórdido ou desumano (26d6 por rodada)",
+          "rollOptions": [
+            {
+              "id": "kaminari",
+              "label": "Kaminari +1",
+              "attack": 1,
+              "damage": 1,
+              "filter": {
+                "weapon": "katana|kaminari"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "activation": {
+      "options": [
+        {
+          "id": "missao",
+          "label": "Missão de honra (desonrado)",
+          "option": "desonrado",
+          "note": "Impõe missão de honra sem teste; cumprida, outra, até Honra 10."
+        },
+        {
+          "id": "castigo",
+          "label": "Trovão (sórdido ou desumano)",
+          "option": "sordido",
+          "damage": {
+            "formula": "26d6",
+            "type": "eletricidade",
+            "ignoreRd": "all"
+          },
+          "note": "A cada rodada com a espada; ignora resistências e imunidades."
         }
       ]
     },
     "status": "parcial",
-    "notes": "Ataques de toque (fantasma), radiante e castigos a desonrados e sórdidos: à mão."
+    "notes": "Ataques de toque (fantasma) e dano todo de luz (radiante): à mão."
   },
   "Orbe Dourado das Quatro Direções": {
     "status": "narrativo"
@@ -2282,11 +4299,15 @@
       },
       {
         "key": "system.attributes.mods.saves",
-        "value": "5 + @hon"
+        "value": "5 + max(0, @hon)"
       },
       {
         "key": "system.attributes.ca.bonus",
-        "value": "@hon"
+        "value": "max(0, @hon)"
+      },
+      {
+        "key": "system.attributes.negativeLevels",
+        "value": "min(1, max(0, 10 - @honra))"
       }
     ],
     "traits": {
@@ -2359,13 +4380,54 @@
               }
             },
             {
+              "id": "sanguinaria",
+              "label": "Sasori'Ken (sanguinária)",
+              "note": "imunes a crítico escapam: desmarque",
+              "onHit": {
+                "abilityDamage": {
+                  "ability": "con",
+                  "formula": "1d3"
+                },
+                "conditions": [
+                  "sangrando"
+                ]
+              },
+              "filter": {
+                "weapon": "ninja to|ninjato|sasori"
+              }
+            },
+            {
               "id": "sordida",
-              "label": "Sasori'Ken (sórdida: alvo com Honra 10+)",
+              "label": "Sasori'Ken (sórdida: Honra 10 ou mais)",
               "damage": "4d6",
               "type": "vacuo",
+              "when": "vsHonored",
+              "note": "Honra 10 a 15: marque",
+              "filter": {
+                "weapon": "ninja to|ninjato|sasori"
+              }
+            },
+            {
+              "id": "mortal",
+              "label": "Sasori'Ken (mortal contra ninjas)",
               "optional": true,
               "filter": {
                 "weapon": "ninja to|ninjato|sasori"
+              },
+              "onCrit": {
+                "save": {
+                  "type": "fort",
+                  "dc": 34
+                },
+                "onFail": {
+                  "setPv": -1
+                },
+                "onSuccess": {
+                  "damage": {
+                    "formula": "5d6",
+                    "type": "vacuo"
+                  }
+                }
               }
             }
           ]
@@ -2375,37 +4437,82 @@
     "activation": {
       "cost": 10,
       "action": "livre",
-      "note": "Jura matar uma criatura a até 9m: contra ela, todo ataque da espada é crítico."
+      "self": {
+        "rollOptions": [
+          {
+            "id": "juramento",
+            "label": "Juramento (criatura jurada: todo acerto é crítico)",
+            "optional": true,
+            "filter": {
+              "weapon": "ninja to|ninjato|sasori"
+            },
+            "autoCrit": true
+          }
+        ]
+      },
+      "note": "Jura matar uma criatura a até 9m: contra ela, todo acerto é crítico."
     },
     "status": "parcial",
-    "notes": "Críticos do juramento, sangramento, mortal contra ninjas e violações de honra: à mão."
+    "notes": "Anular cura acelerada, as violações e o preço: à mão."
   },
   "A Última Flecha": {
-    "rollOptions": [
-      {
-        "id": "flecha",
-        "label": "A Última Flecha +5",
-        "attack": 5,
-        "damage": 5,
-        "optional": true,
-        "filter": {
-          "ranged": true,
-          "weapon": "arco|hankyu|daikyu|besta"
-        }
+    "activation": {
+      "self": {
+        "consumeOn": "attack",
+        "rollOptions": [
+          {
+            "id": "flecha",
+            "label": "A Última Flecha +5 (caçadora mortal)",
+            "attack": 5,
+            "damage": 5,
+            "filter": {
+              "ranged": true,
+              "weapon": "arco|hankyu|daikyu|besta"
+            },
+            "touch": true,
+            "noMissChance": true,
+            "onCrit": {
+              "save": {
+                "type": "fort",
+                "dc": 15
+              },
+              "onFail": {
+                "setPv": -1
+              },
+              "onSuccess": {
+                "damage": {
+                  "formula": "5d6",
+                  "type": "vacuo"
+                }
+              }
+            }
+          },
+          {
+            "id": "mira",
+            "label": "Mira (passou em Percepção contra a CA: o acerto é crítico)",
+            "optional": true,
+            "filter": {
+              "ranged": true,
+              "weapon": "arco|hankyu|daikyu|besta"
+            },
+            "autoCrit": true
+          },
+          {
+            "id": "akumushi",
+            "label": "A Última Flecha (contra akumushi)",
+            "ignoreRd": "all",
+            "optional": true,
+            "filter": {
+              "ranged": true,
+              "weapon": "arco|hankyu|daikyu|besta"
+            }
+          }
+        ]
       },
-      {
-        "id": "akumushi",
-        "label": "A Última Flecha (contra akumushi)",
-        "ignoreRd": "all",
-        "optional": true,
-        "filter": {
-          "ranged": true,
-          "weapon": "arco|hankyu|daikyu|besta"
-        }
-      }
-    ],
+      "note": "Vale no próximo disparo; mirar pede ação de movimento e Percepção."
+    },
     "status": "parcial",
-    "notes": "Toque à distância, mortal, crítico pela Percepção e crítico em akumushi: à mão."
+    "notes": "Contra akumushi a imunidade a crítico ainda conta: à mão. A CD do poder mortal não vem no livro: usamos 15."
   },
   "Wakizashi da Morte": {
     "rollOptions": [

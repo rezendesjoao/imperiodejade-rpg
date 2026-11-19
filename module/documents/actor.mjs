@@ -167,7 +167,7 @@ export class ImperioActor extends Actor {
    * @param {Actor} [options.sourceActor] Who caused it (Resistente a Monstros: +2 against monsters)
    * @param {string} [options.reroll]    Name of the reaction that rolls it again
    */
-  async rollSave(key, { event, dc = null, source = "", sourceId = null, sourceActor = null, reroll = null } = {}) {
+  async rollSave(key, { event, dc = null, source = "", sourceId = null, sourceActor = null, reroll = null, saveIndex = 0 } = {}) {
     const save = this.system.saves[key];
     if (save === undefined) return null;
     const isNpc = this.type === "npc";
@@ -210,14 +210,20 @@ export class ImperioActor extends Actor {
       if (sourceMsg) {
         const { onSaveResult, onHitSave } = await import("../auto/activation.mjs");
         if (sourceMsg.flags?.[SYSTEM_ID]?.attack) await onHitSave(sourceMsg, this, success);
-        else await onSaveResult(sourceMsg, this, success);
+        else await onSaveResult(sourceMsg, this, success, saveIndex);
       }
     }
     return message;
   }
 
+  /** A combat maneuver (agarrar, derrubar, desarmar, empurrar, atropelar, separar) against the targets. */
+  async rollManeuver(kind = "agarrar", { event } = {}) {
+    const { maneuverRoll } = await import("../auto/attack.mjs");
+    return maneuverRoll(this, kind, { event });
+  }
+
   /** A plain attack roll without a weapon (melee or ranged), from the attack medallions; unarmed damage in melee. */
-  async rollPlainAttack(type = "melee", { event, target = null } = {}) {
+  async rollPlainAttack(type = "melee", { event, target = null, extraOptions = [] } = {}) {
     const sys = this.system;
     const ability = type === "melee" ? "for" : "des";
     const unarmed = sys.traits?.unarmed || "1d3";
@@ -226,7 +232,7 @@ export class ImperioActor extends Actor {
       ? `${unarmed}${str ? ` ${str > 0 ? "+" : "-"} ${Math.abs(str)}` : ""}${sys.attack?.damage ? ` + ${sys.attack.damage}` : ""}`
       : null;
     return attackRoll({
-      actor: this, event, target, ranged: type !== "melee", unarmed: type === "melee",
+      actor: this, event, target, extraOptions, ranged: type !== "melee", unarmed: type === "melee",
       title: L(type === "melee" ? "IJ.Attack.melee" : "IJ.Attack.ranged"),
       subtitle: type === "melee" ? `${L("IJ.Attack.unarmed")} · ${damageFormula}` : L("IJ.Attack.noWeapon"),
       bonus: sys.attack[type],
@@ -366,8 +372,10 @@ export class ImperioActor extends Actor {
       "system.attributes.pv.value": pv.value + healed,
       "system.attributes.pm.value": pm.max
     });
-    // Uses per day (and per scene) come back
+    // Uses per day (and per scene) come back; 1 point of each damaged ability
     await resetUses(this, ["dia", "cena", "rodada"]);
+    const { recoverAbilityDamage } = await import("../auto/extras.mjs");
+    await recoverAbilityDamage(this);
     return infoCard({
       actor: this, kind: "rest", kanji: "休",
       title: L("IJ.Rest.title"),

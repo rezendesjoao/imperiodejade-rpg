@@ -17,7 +17,7 @@ const args = process.argv.slice(2);
 const stats = args.includes("--stats");
 const only = args.filter(a => !a.startsWith("--"));
 
-const TOP = ["passive", "requires", "traits", "rollOptions", "activation", "reactions", "triggers", "grants", "choice", "status", "notes", "damageType", "touch"];
+const TOP = ["passive", "requires", "traits", "rollOptions", "activation", "reactions", "triggers", "grants", "choice", "status", "notes", "damageType", "touch", "dishonor"];
 const CONDITIONS = ["abalado", "agarrado", "apavorado", "atordoado", "caido", "cego", "confuso", "desprevenido", "enjoado", "enredado",
   "exausto", "fascinado", "fatigado", "inconsciente", "incorporeo", "indefeso", "inerte", "invisivel", "lento", "ofuscado",
   "paralisado", "pasmo", "sangrando", "surdo", "surpreendido"];
@@ -30,7 +30,7 @@ const USES = ["rodada", "cena", "dia", "sessao", "total"];
 const SAVES = ["fort", "ref", "von"];
 const SITUATIONS = ["hpHalf", "hp10", "hp20", "inDanger", "vsMonster", "vsYoukai", "vsAnimal", "vsConstruct", "vsHumanoid", "vsLowerHonor", "vsDishonored",
   "vsSordid", "vsInhuman", "vsHonored", "vsFlatFooted", "vsProne", "inCombat", "outOfCombat", "noArmor", "resolve"];
-const FOR = ["attack", "save", "skill", "ability", "initiative"];
+const FOR = ["attack", "save", "skill", "ability", "initiative", "maneuver"];
 const SKILLS = ["acrobacia", "adestrarAnimais", "atletismo", "atuacao", "cavalgar", "conhecimento", "cura", "diplomacia", "enganacao",
   "furtividade", "identificarMagia", "iniciativa", "intimidacao", "intuicao", "ladinagem", "obterInformacao", "oficio", "percepcao", "sobrevivencia"];
 const ABILITIES = ["for", "des", "con", "int", "sab", "car", "hon"];
@@ -39,13 +39,14 @@ const TRAITS = ["evasion", "uncannyDodge", "fortification", "immune", "resist", 
   "twoHandedStrength", "conToCa", "unarmed", "deathAtFull", "nemMorto", "reservePerScene", "reserveHonorBonus", "reserveExtra",
   "touchUsesCa", "jutsuMeleeAbility", "fastHealing", "retaliate", "costMods", "jutsuCost", "jutsuDc", "jutsuDamage", "jutsuHeal",
   "jutsuGradeDown", "jutsuEnhancements", "incorporeal", "guardAllies", "defense", "seeInvisible", "touchIncorporeal", "missChance"];
-const FILTER = ["melee", "ranged", "unarmed", "light", "twoHanded", "monk", "ninja", "weapon", "chosenWeapon", "chosenWeaponOf", "weaponCategory", "skills",
-  "saves", "abilities", "chakra", "descriptor", "jutsu", "chosenJutsu"];
+const FILTER = ["melee", "ranged", "unarmed", "light", "twoHanded", "monk", "ninja", "weapon", "chosenWeapon", "chosenWeaponOf", "weaponCategory", "skills", "maneuvers",
+  "saves", "abilities", "chakra", "descriptor", "jutsu", "chosenJutsu", "jutsuExact", "itemName"];
 const OPTION_KEYS = ["id", "label", "for", "filter", "value", "attack", "damage", "type", "noCrit", "precision", "ca", "critRange", "critMult",
-  "ignoreRd", "cost", "pm", "when", "locked", "optional", "strict", "minRank", "minLevel", "option", "onHit", "note", "reroll", "best", "extraAttack", "selfEffect"];
+  "ignoreRd", "cost", "pm", "when", "locked", "optional", "strict", "minRank", "minLevel", "option", "onHit", "onCrit", "note", "reroll", "best", "extraAttack", "selfEffect", "defense", "both", "autoCrit", "touch", "noMissChance"];
 const ACTIVATION_KEYS = ["cost", "variable", "action", "uses", "duration", "self", "tempPv", "heal", "healTargets", "restore", "targets", "save",
-  "damage", "attack", "honorViolation", "note", "options", "consume", "anywhere"];
-const BLOCK_KEYS = ["changes", "traits", "rollOptions", "conditions", "statuses", "key", "duration", "who", "includeSelf", "save", "damage", "pmLoss", "variants", "removeConditions", "turnStart"];
+  "damage", "attack", "honorViolation", "note", "options", "consume", "anywhere", "extraSaves"];
+const BLOCK_KEYS = ["changes", "traits", "rollOptions", "conditions", "statuses", "key", "duration", "who", "includeSelf", "save", "damage", "pmLoss", "variants", "removeConditions", "turnStart",
+  "abilityDamage", "negativeLevels", "setPv", "kill", "dispel", "aura", "reactions", "consumeOn", "absorb", "half", "negate", "onFail", "onSuccess", "type", "dc", "label"];
 const REACTION_ON = ["saveFailed", "saveRolled", "dropToZero", "attacked", "honorDamage", "allyDown"];
 const REACTION_EFFECTS = ["reroll", "addBonus", "negateDamage", "stayUp", "counterattack", "opposedAttack", "opposedSkill", "reduceHonor", "honorTest", "note"];
 const PASSIVE_PREFIX = [/^system\.abilities\.(for|des|con|int|sab|car|hon)\.bonus$/, /^system\.skills\.\w+\.(bonus|ability|trained)$/,
@@ -155,7 +156,7 @@ const blockOk = (where, b) => {
   if (b.save) check(where, SAVES.includes(b.save.type), `save "${b.save.type}"`);
   for (const id of b.removeConditions ?? []) check(where, CONDITIONS.includes(id), `condição a remover "${id}"`);
   if (b.turnStart) {
-    keysIn(where, b.turnStart, ["damage", "type", "heal", "save", "half", "negate", "endOnSave", "conditions"], "chave de turnStart");
+    keysIn(where, b.turnStart, ["damage", "type", "heal", "save", "half", "negate", "endOnSave", "conditions", "abilityDamage", "ignoreRd"], "chave de turnStart");
     if (b.turnStart.damage) check(where, formulaOk(b.turnStart.damage), `turnStart.damage "${b.turnStart.damage}"`);
     if (b.turnStart.heal) check(where, formulaOk(b.turnStart.heal), `turnStart.heal "${b.turnStart.heal}"`);
     if (b.turnStart.save) check(where, SAVES.includes(b.turnStart.save.type), `turnStart.save "${b.turnStart.save.type}"`);
@@ -179,8 +180,15 @@ const activationOk = (where, a, nested = false) => {
     blockOk(where, a.save.onFail);
     blockOk(where, a.save.onSuccess);
   }
-  if (a.damage) check(where, formulaOk(a.damage.formula), `dano "${a.damage.formula}"`);
-  if (a.attack) check(where, ["corpo", "toque", "distancia", "toqueDistancia"].includes(a.attack.type), `ataque "${a.attack.type}"`);
+  if (a.damage?.formula !== undefined) check(where, formulaOk(a.damage.formula), `dano "${a.damage.formula}"`);
+  for (const p of a.damage?.extra ?? []) check(where, formulaOk(p.formula), `dano extra "${p.formula}"`);
+  for (const r of a.damage?.perTarget ?? []) { situations(where, r.when); check(where, Number.isFinite(Number(r.mult)), `perTarget.mult "${r.mult}"`); }
+  for (const s of a.extraSaves ?? []) {
+    check(where, SAVES.includes(s.type), `extraSaves.type "${s.type}"`);
+    if (s.dc !== undefined) check(where, formulaOk(s.dc), `extraSaves.dc "${s.dc}"`);
+    blockOk(where, s.onFail); blockOk(where, s.onSuccess);
+  }
+  if (a.attack && !(a.attack.weapon && !a.attack.type)) check(where, ["corpo", "toque", "distancia", "toqueDistancia"].includes(a.attack.type), `ataque "${a.attack.type}"`);
   if (a.honorViolation) check(where, ["leve", "moderada", "severa", "extrema"].includes(a.honorViolation), `violação "${a.honorViolation}"`);
   const ids = new Set();
   for (const o of a.options ?? []) {

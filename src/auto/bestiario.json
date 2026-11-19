@@ -1,5 +1,5 @@
 {
-  "_sobre": "Automação dos ataques e habilidades das criaturas do bestiário (docs/automacao.md). A chave é Criatura/Ataque ou Criatura/Habilidade. Imunidades, resistências, RD, fortificação, vulnerabilidades e cura acelerada da ficha já saem do campo de resistências (module/data/npc.mjs). Kaijin/Afinidade com a Tormenta usa o bloco de racas.json (mesma chave da raça). Ataque e habilidade com o mesmo nome dividem o bloco: nesses, nada de rollOptions (sairiam em dobro).",
+  "_sobre": "Automação dos ataques e habilidades das criaturas do bestiário (docs/automacao.md). A chave é Criatura/Ataque ou Criatura/Habilidade. Imunidades, resistências, RD, fortificação, vulnerabilidades e cura acelerada da ficha já saem do campo de resistências (module/data/npc.mjs). Kaijin/Afinidade com a Tormenta usa o bloco de racas.json (mesma chave da raça). Ataque e habilidade com o mesmo nome dividem o bloco: nesses, nada de rollOptions (sairiam em dobro). As opções de manobra (for maneuver) levam a rolagem oposta ao total impresso na ficha, para fazer e para resistir (both): o valor é a diferença para nível + mod. de For + tamanho, a base que o sistema usa para ameaças. Galhada divide o bloco, então o bônus de manobra dela vem de uma ativação usada uma vez.",
   "Bisonte/Investida Avassaladora": {
     "status": "parcial",
     "notes": "O empurrão e o teste de Fortitude (CD igual ao dano causado) ficam à mão.",
@@ -16,20 +16,31 @@
     ]
   },
   "Cão-Leão/Mordida": {
-    "status": "parcial",
-    "notes": "A manobra de agarrar (+9) é rolada à mão.",
     "rollOptions": [
       {
         "id": "agarrar",
         "label": "Agarrar aprimorado",
         "locked": true,
-        "note": "agarrar como ação livre (+9)"
+        "note": "acertou: agarrar como ação livre (+9)"
       }
     ]
   },
   "Cão-Leão/Agarrar Aprimorado": {
-    "status": "narrativo",
-    "notes": "O lembrete sai no ataque Mordida."
+    "rollOptions": [
+      {
+        "id": "agarrar",
+        "label": "Agarrar aprimorado: total +9",
+        "for": "maneuver",
+        "filter": {
+          "maneuvers": [
+            "agarrar"
+          ]
+        },
+        "value": -5,
+        "locked": true,
+        "both": true
+      }
+    ]
   },
   "Cão-Leão/Bote": {
     "rollOptions": [
@@ -51,16 +62,76 @@
     }
   },
   "Chibi-Kabuto/Galhada": {
-    "status": "narrativo",
-    "notes": "Agarrar e derrubar com os chifres-pinça: +4 (total –7)."
+    "activation": {
+      "action": "livre",
+      "self": {
+        "rollOptions": [
+          {
+            "id": "galhada",
+            "label": "Galhada: total −7",
+            "for": "maneuver",
+            "filter": {
+              "maneuvers": [
+                "agarrar",
+                "derrubar"
+              ]
+            },
+            "value": 7,
+            "locked": true,
+            "both": true
+          }
+        ]
+      },
+      "note": "Use uma vez: os chifres-pinça valem nas manobras de agarrar e derrubar."
+    }
   },
   "Ko-Kabuto/Galhada": {
-    "status": "narrativo",
-    "notes": "Agarrar e derrubar com os chifres-pinça: +4 (total +5)."
+    "activation": {
+      "action": "livre",
+      "self": {
+        "rollOptions": [
+          {
+            "id": "galhada",
+            "label": "Galhada: total +5",
+            "for": "maneuver",
+            "filter": {
+              "maneuvers": [
+                "agarrar",
+                "derrubar"
+              ]
+            },
+            "value": 5,
+            "locked": true,
+            "both": true
+          }
+        ]
+      },
+      "note": "Use uma vez: os chifres-pinça valem nas manobras de agarrar e derrubar."
+    }
   },
   "Dai-Kabuto/Galhada": {
-    "status": "narrativo",
-    "notes": "Agarrar e derrubar com os chifres-pinça: +4 (total +23)."
+    "activation": {
+      "action": "livre",
+      "self": {
+        "rollOptions": [
+          {
+            "id": "galhada",
+            "label": "Galhada: total +23",
+            "for": "maneuver",
+            "filter": {
+              "maneuvers": [
+                "agarrar",
+                "derrubar"
+              ]
+            },
+            "value": 2,
+            "locked": true,
+            "both": true
+          }
+        ]
+      },
+      "note": "Use uma vez: os chifres-pinça valem nas manobras de agarrar e derrubar."
+    }
   },
   "Rato Gigante/Mordida": {
     "status": "parcial",
@@ -81,24 +152,35 @@
     ]
   },
   "Rato Gigante/Doença": {
-    "status": "narrativo",
-    "notes": "O teste sai no ataque Mordida."
+    "status": "parcial",
+    "notes": "O teste sai no ataque Mordida; a febre do esgoto fica à mão."
   },
   "Salamandra Gigante/Mordida": {
-    "status": "parcial",
-    "notes": "A manobra de agarrar (+7) é rolada à mão.",
     "rollOptions": [
       {
         "id": "agarrar",
         "label": "Agarrar aprimorado",
         "locked": true,
-        "note": "agarrar como ação livre (+7)"
+        "note": "acertou: agarrar como ação livre (+7)"
       }
     ]
   },
   "Salamandra Gigante/Agarrar Aprimorado": {
-    "status": "narrativo",
-    "notes": "O lembrete sai no ataque Mordida."
+    "rollOptions": [
+      {
+        "id": "agarrar",
+        "label": "Agarrar aprimorado: total +7",
+        "for": "maneuver",
+        "filter": {
+          "maneuvers": [
+            "agarrar"
+          ]
+        },
+        "value": 0,
+        "locked": true,
+        "both": true
+      }
+    ]
   },
   "Salamandra Gigante/Secreção": {
     "activation": {
@@ -123,7 +205,7 @@
     }
   },
   "Akumashin/Afinidade com a Tormenta": {
-    "status": "narrativo",
+    "status": "parcial",
     "notes": "Ignore à mão os níveis negativos vindos da Tormenta."
   },
   "Akumashin/Cura Elemental": {
@@ -186,11 +268,11 @@
     }
   },
   "Tsukumogami Mínimo/Deslocamento aprimorado": {
-    "status": "narrativo",
+    "status": "parcial",
     "notes": "Some +3, +6 ou +12 m ao deslocamento da ficha conforme o objeto."
   },
   "Tsukumogami Mínimo/Despertar espírito": {
-    "status": "narrativo",
+    "status": "parcial",
     "notes": "Ajuste Int, Honra, Sab e Car na ficha à mão."
   },
   "Tsukumogami Mínimo/Redução de dano": {
@@ -273,11 +355,11 @@
     }
   },
   "Tsukumogami Pequeno/Deslocamento aprimorado": {
-    "status": "narrativo",
+    "status": "parcial",
     "notes": "Some +3, +6 ou +12 m ao deslocamento da ficha conforme o objeto."
   },
   "Tsukumogami Pequeno/Despertar espírito": {
-    "status": "narrativo",
+    "status": "parcial",
     "notes": "Ajuste Int, Honra, Sab e Car na ficha à mão."
   },
   "Tsukumogami Pequeno/Redução de dano": {
@@ -360,11 +442,11 @@
     }
   },
   "Tsukumogami Médio/Deslocamento aprimorado": {
-    "status": "narrativo",
+    "status": "parcial",
     "notes": "Some +3, +6 ou +12 m ao deslocamento da ficha conforme o objeto."
   },
   "Tsukumogami Médio/Despertar espírito": {
-    "status": "narrativo",
+    "status": "parcial",
     "notes": "Ajuste Int, Honra, Sab e Car na ficha à mão."
   },
   "Tsukumogami Médio/Redução de dano": {
@@ -447,11 +529,11 @@
     }
   },
   "Tsukumogami Grande/Deslocamento aprimorado": {
-    "status": "narrativo",
+    "status": "parcial",
     "notes": "Some +3, +6 ou +12 m ao deslocamento da ficha conforme o objeto."
   },
   "Tsukumogami Grande/Despertar espírito": {
-    "status": "narrativo",
+    "status": "parcial",
     "notes": "Ajuste Int, Honra, Sab e Car na ficha à mão."
   },
   "Tsukumogami Grande/Redução de dano": {
@@ -534,11 +616,11 @@
     }
   },
   "Tsukumogami Enorme/Deslocamento aprimorado": {
-    "status": "narrativo",
+    "status": "parcial",
     "notes": "Some +3, +6 ou +12 m ao deslocamento da ficha conforme o objeto."
   },
   "Tsukumogami Enorme/Despertar espírito": {
-    "status": "narrativo",
+    "status": "parcial",
     "notes": "Ajuste Int, Honra, Sab e Car na ficha à mão."
   },
   "Tsukumogami Enorme/Redução de dano": {
@@ -621,11 +703,11 @@
     }
   },
   "Tsukumogami Descomunal/Deslocamento aprimorado": {
-    "status": "narrativo",
+    "status": "parcial",
     "notes": "Some +3, +6 ou +12 m ao deslocamento da ficha conforme o objeto."
   },
   "Tsukumogami Descomunal/Despertar espírito": {
-    "status": "narrativo",
+    "status": "parcial",
     "notes": "Ajuste Int, Honra, Sab e Car na ficha à mão."
   },
   "Tsukumogami Descomunal/Redução de dano": {
@@ -708,11 +790,11 @@
     }
   },
   "Tsukumogami Colossal/Deslocamento aprimorado": {
-    "status": "narrativo",
+    "status": "parcial",
     "notes": "Some +3, +6 ou +12 m ao deslocamento da ficha conforme o objeto."
   },
   "Tsukumogami Colossal/Despertar espírito": {
-    "status": "narrativo",
+    "status": "parcial",
     "notes": "Ajuste Int, Honra, Sab e Car na ficha à mão."
   },
   "Tsukumogami Colossal/Redução de dano": {
@@ -771,8 +853,6 @@
     }
   },
   "Kappa/Agarrar Aprimorado": {
-    "status": "parcial",
-    "notes": "A manobra de agarrar (+9) é rolada à mão.",
     "rollOptions": [
       {
         "id": "agarrar",
@@ -781,7 +861,20 @@
         "filter": {
           "melee": true
         },
-        "note": "agarrar como ação livre (+9)"
+        "note": "acertou: agarrar como ação livre (+9)"
+      },
+      {
+        "id": "manobra",
+        "label": "Agarrar aprimorado: total +9",
+        "for": "maneuver",
+        "filter": {
+          "maneuvers": [
+            "agarrar"
+          ]
+        },
+        "value": 4,
+        "locked": true,
+        "both": true
       }
     ]
   },
@@ -789,8 +882,17 @@
     "status": "narrativo"
   },
   "Kappa/Carapaça Kappa": {
-    "status": "narrativo",
-    "notes": "Sem flanco; cobertura total deitado ou atacado na água: aplique à mão."
+    "status": "parcial",
+    "notes": "Sem flanco à mão; apague o efeito quando ele se levantar ou sair da água.",
+    "activation": {
+      "action": "livre",
+      "self": {
+        "traits": {
+          "missChance": 100
+        }
+      },
+      "note": "Deitado, rastejando ou na água contra quem está em terra: cobertura total."
+    }
   },
   "Kappa/Tigela d'água": {
     "status": "parcial",
@@ -832,17 +934,19 @@
   },
   "Tengu/Golpe Relâmpago": {
     "status": "parcial",
-    "notes": "O limite de 5 ataques extras por rodada é contado à mão.",
-    "rollOptions": [
-      {
-        "id": "relampago",
-        "label": "Golpe relâmpago",
-        "cost": 2,
-        "optional": true,
-        "extraAttack": true,
-        "note": "ataque extra com o mesmo modificador"
-      }
-    ]
+    "notes": "Lutando desarmado, role o ataque extra pela linha Desarmado.",
+    "activation": {
+      "action": "livre",
+      "uses": {
+        "max": 5,
+        "per": "rodada"
+      },
+      "attack": {
+        "type": "corpo",
+        "weapon": true
+      },
+      "note": "Ataque extra com o mesmo modificador da arma corpo a corpo."
+    }
   },
   "Tengu/Poder Marcial": {
     "rollOptions": [
@@ -885,17 +989,19 @@
   },
   "Daitengu/Golpe Relâmpago": {
     "status": "parcial",
-    "notes": "O limite de 5 ataques extras por rodada é contado à mão.",
-    "rollOptions": [
-      {
-        "id": "relampago",
-        "label": "Golpe relâmpago",
-        "cost": 2,
-        "optional": true,
-        "extraAttack": true,
-        "note": "ataque extra com o mesmo modificador"
-      }
-    ]
+    "notes": "Lutando desarmado, role o ataque extra pela linha Desarmado.",
+    "activation": {
+      "action": "livre",
+      "uses": {
+        "max": 5,
+        "per": "rodada"
+      },
+      "attack": {
+        "type": "corpo",
+        "weapon": true
+      },
+      "note": "Ataque extra com o mesmo modificador da arma corpo a corpo."
+    }
   },
   "Daitengu/Poder Marcial": {
     "rollOptions": [
@@ -917,14 +1023,25 @@
     "notes": "Os jutsus vêm como itens próprios na ficha."
   },
   "Titã Enorme/Agarrar": {
-    "status": "parcial",
-    "notes": "Vale como teste de manobra oposto, não contra a CA; aplique agarrado à mão.",
     "rollOptions": [
       {
-        "id": "agarrar",
+        "id": "manobra",
+        "label": "Agarrar: total +29",
+        "for": "maneuver",
+        "filter": {
+          "maneuvers": [
+            "agarrar"
+          ]
+        },
+        "value": -4,
+        "locked": true,
+        "both": true
+      },
+      {
+        "id": "aviso",
         "label": "Manobra de agarrar",
         "locked": true,
-        "note": "teste oposto; vencendo, o alvo fica agarrado"
+        "note": "role pelo botão Agarrar das manobras"
       }
     ]
   },
@@ -933,14 +1050,25 @@
     "notes": "Cura da ficha já automática; crítico e cura a 0 PV ficam à mão."
   },
   "Titã Descomunal/Agarrar": {
-    "status": "parcial",
-    "notes": "Vale como teste de manobra oposto, não contra a CA; aplique agarrado à mão.",
     "rollOptions": [
       {
-        "id": "agarrar",
+        "id": "manobra",
+        "label": "Agarrar: total +39",
+        "for": "maneuver",
+        "filter": {
+          "maneuvers": [
+            "agarrar"
+          ]
+        },
+        "value": -8,
+        "locked": true,
+        "both": true
+      },
+      {
+        "id": "aviso",
         "label": "Manobra de agarrar",
         "locked": true,
-        "note": "teste oposto; vencendo, o alvo fica agarrado"
+        "note": "role pelo botão Agarrar das manobras"
       }
     ]
   },
@@ -956,8 +1084,6 @@
     }
   },
   "Akumushi, Dokumo/Mordida": {
-    "status": "parcial",
-    "notes": "O dano de Força (1d8) de quem falhar fica à mão.",
     "rollOptions": [
       {
         "id": "veneno",
@@ -968,17 +1094,30 @@
           "save": {
             "type": "fort",
             "dc": 15
+          },
+          "onFail": {
+            "abilityDamage": {
+              "ability": "for",
+              "formula": "1d8"
+            }
           }
         }
       }
     ]
   },
   "Akumushi, Dokumo/Teia": {
-    "status": "parcial",
-    "notes": "Use a habilidade (ela rola o toque); enredado em quem for atingido à mão.",
+    "touch": true,
     "activation": {
       "cost": 1,
       "action": "padrão",
+      "targets": {
+        "who": "any",
+        "conditions": [
+          {
+            "id": "enredado"
+          }
+        ]
+      },
       "options": [
         {
           "id": "alvo",
@@ -987,24 +1126,21 @@
             "type": "toqueDistancia",
             "bonus": -1
           },
-          "note": "Enredado; escapa com Força ou Acrobacia CD 20, ou rasgando a teia (PV 5, RD 5)."
+          "note": "Escapa com Força ou Acrobacia CD 20, ou rasgando a teia (PV 5, RD 5)."
         },
         {
           "id": "area",
           "label": "Área de 6 m",
           "action": "completa",
-          "note": "Quase invisível (Percepção 20); quem entra fica enredado. Cada 1,5 m: PV 5, RD 5."
+          "note": "Quase invisível (Percepção CD 20); enrede quem entrar. Cada 1,5 m: PV 5, RD 5."
         }
       ]
     }
   },
-  "Akumushi, Dokumo/Veneno": {
-    "status": "narrativo",
-    "notes": "O teste sai no ataque Mordida."
-  },
+  "Akumushi, Dokumo/Veneno": {},
   "Akumushi, Dokumo/Sem Flanco": {
-    "status": "narrativo",
-    "notes": "O sistema não calcula flanco."
+    "status": "parcial",
+    "notes": "O sistema não calcula flanco: não aplique o bônus de flanco contra ele."
   },
   "Akumushi, Hidotsu/Gralhar Aterrador": {
     "status": "parcial",
@@ -1033,16 +1169,16 @@
     }
   },
   "Akumushi, Hidotsu/Sem Flanco": {
-    "status": "narrativo",
-    "notes": "O sistema não calcula flanco."
+    "status": "parcial",
+    "notes": "O sistema não calcula flanco: não aplique o bônus de flanco contra ele."
   },
   "Akumushi, Kanatur/Sem Flanco": {
-    "status": "narrativo",
-    "notes": "O sistema não calcula flanco."
+    "status": "parcial",
+    "notes": "O sistema não calcula flanco: não aplique o bônus de flanco contra ele."
   },
   "Akumushi, Tai-Kanatur/Sem Flanco": {
-    "status": "narrativo",
-    "notes": "O sistema não calcula flanco."
+    "status": "parcial",
+    "notes": "O sistema não calcula flanco: não aplique o bônus de flanco contra ele."
   },
   "Kaijin/Sangue Ácido": {
     "traits": {
@@ -1056,20 +1192,18 @@
     }
   },
   "Kaiju Sauroide/Mordida": {
-    "status": "parcial",
-    "notes": "A manobra de agarrar (+56) é rolada à mão.",
     "rollOptions": [
       {
         "id": "engolir",
         "label": "Engolir",
         "locked": true,
-        "note": "agarrar como ação livre (+56)"
+        "note": "acertou: agarrar como ação livre (+56)"
       }
     ]
   },
   "Kaiju Sauroide/Traços de Kaiju": {
     "status": "parcial",
-    "notes": "Marque os vizinhos do alvo; RD nas habilidades e a fuga ficam à mão.",
+    "notes": "Marque também os vizinhos do alvo; repetir testes e a fuga ficam à mão.",
     "rollOptions": [
       {
         "id": "ignoraRd",
@@ -1099,24 +1233,41 @@
   },
   "Kaiju Sauroide/Engolir": {
     "status": "parcial",
-    "notes": "Manobras, saída (30 de corte ou perfuração, CA 15) e fim do efeito à mão.",
+    "notes": "Saída da vítima (30 de corte ou perfuração, CA 15) à mão.",
+    "rollOptions": [
+      {
+        "id": "agarrar",
+        "label": "Engolir: agarrar com total +56",
+        "for": "maneuver",
+        "filter": {
+          "maneuvers": [
+            "agarrar"
+          ]
+        },
+        "value": -7,
+        "locked": true,
+        "both": true
+      }
+    ],
     "activation": {
       "action": "livre",
       "damage": {
-        "formula": "4d6+32"
+        "formula": "4d6+32",
+        "ignoreRd": 100
       },
       "targets": {
         "who": "enemies",
         "turnStart": {
-          "damage": "4d6+32"
+          "damage": "4d6+32",
+          "ignoreRd": "all"
         }
       },
-      "note": "Marque a vítima engolida: dano agora e no começo de cada turno dela."
+      "note": "Venceu o agarrar no começo do turno: engole. Dano agora e no começo de cada turno da vítima."
     }
   },
   "Kaiju Sauroide/Golpe Avassalador": {
     "status": "parcial",
-    "notes": "O teste (CD igual ao dano), o arremesso e a queda ficam à mão.",
+    "notes": "Fortitude (CD = dano) evita a queda: tire à mão; o arremesso também.",
     "rollOptions": [
       {
         "id": "avassalador",
@@ -1125,13 +1276,19 @@
         "filter": {
           "melee": true
         },
-        "note": "lança o alvo derrubado 1d6 × 1,5 m; Fortitude (CD = dano) evita"
+        "note": "acertou: caído e lançado 1d6 × 1,5 m; Fortitude (CD = dano) evita",
+        "onHit": {
+          "conditions": [
+            {
+              "id": "caido"
+            }
+          ]
+        }
       }
     ]
   },
   "Kaiju Insetoide/Tempestade de Ferrões": {
-    "status": "parcial",
-    "notes": "Use a habilidade (toque, 1 PM por alvo); Constituição e RD ignorada à mão.",
+    "touch": true,
     "activation": {
       "action": "padrão",
       "variable": {
@@ -1146,18 +1303,25 @@
       },
       "damage": {
         "formula": "6d8+26",
-        "type": "perfuração"
+        "type": "perfuração",
+        "ignoreRd": 100
       },
       "save": {
         "type": "fort",
-        "dc": 28
+        "dc": 28,
+        "onFail": {
+          "abilityDamage": {
+            "ability": "con",
+            "formula": "2d6"
+          }
+        }
       },
-      "note": "Alvos a até 90 m. Veneno: quem falhar sofre 2d6 de dano de Constituição."
+      "note": "Alvos a até 90 m. Veneno: quem for atingido testa Fortitude ou perde 2d6 de Constituição."
     }
   },
   "Kaiju Insetoide/Traços de Kaiju": {
     "status": "parcial",
-    "notes": "Marque os vizinhos do alvo; RD nas habilidades e a fuga ficam à mão.",
+    "notes": "Marque também os vizinhos do alvo; repetir testes e a fuga ficam à mão.",
     "rollOptions": [
       {
         "id": "ignoraRd",
@@ -1186,20 +1350,31 @@
     ]
   },
   "Kaiju Titã/Agarrar": {
-    "status": "parcial",
-    "notes": "Vale como teste de manobra oposto, não contra a CA; aplique agarrado à mão.",
     "rollOptions": [
       {
-        "id": "agarrar",
+        "id": "manobra",
+        "label": "Agarrar: total +39",
+        "for": "maneuver",
+        "filter": {
+          "maneuvers": [
+            "agarrar"
+          ]
+        },
+        "value": -22,
+        "locked": true,
+        "both": true
+      },
+      {
+        "id": "aviso",
         "label": "Manobra de agarrar",
         "locked": true,
-        "note": "teste oposto; vencendo, o alvo fica agarrado"
+        "note": "role pelo botão Agarrar das manobras"
       }
     ]
   },
   "Kaiju Titã/Traços de Kaiju": {
     "status": "parcial",
-    "notes": "Marque os vizinhos do alvo; RD nas habilidades e a fuga ficam à mão.",
+    "notes": "Marque também os vizinhos do alvo; repetir testes e a fuga ficam à mão.",
     "rollOptions": [
       {
         "id": "ignoraRd",
@@ -1239,20 +1414,20 @@
     }
   },
   "Dragão Celestial Jovem/Culto": {
-    "status": "narrativo",
+    "status": "parcial",
     "notes": "Escolher 10 em Conhecimento fica à mão."
   },
   "Dragão Celestial Jovem/Metamorfose (M)": {
-    "status": "narrativo",
-    "notes": "Use o jutsu transformação sem aprimoramentos e sem pagar PM."
+    "status": "parcial",
+    "notes": "Use o jutsu transformação à mão, sem aprimoramentos e sem PM."
   },
   "Dragão Celestial Adulto/Culto": {
-    "status": "narrativo",
+    "status": "parcial",
     "notes": "Escolher 10 em Conhecimento fica à mão."
   },
   "Dragão Celestial Adulto/Metamorfose (M)": {
-    "status": "narrativo",
-    "notes": "Use o jutsu transformação sem aprimoramentos e sem pagar PM."
+    "status": "parcial",
+    "notes": "Use o jutsu transformação à mão, sem aprimoramentos e sem PM."
   },
   "Dragão Celestial Adulto/Presença Celestial": {
     "status": "parcial",
@@ -1288,12 +1463,12 @@
     }
   },
   "Dragão Celestial Venerável/Culto": {
-    "status": "narrativo",
+    "status": "parcial",
     "notes": "Escolher 10 em Conhecimento fica à mão."
   },
   "Dragão Celestial Venerável/Metamorfose (M)": {
-    "status": "narrativo",
-    "notes": "Use o jutsu transformação sem aprimoramentos e sem pagar PM."
+    "status": "parcial",
+    "notes": "Use o jutsu transformação à mão, sem aprimoramentos e sem PM."
   },
   "Dragão Celestial Venerável/Presença Celestial": {
     "status": "parcial",
@@ -1408,8 +1583,8 @@
     "damageType": "frio"
   },
   "Elemental da Água Médio/Enxurrada": {
-    "status": "narrativo",
-    "notes": "Apaga fogo mundano; anulação só contra efeitos de fogo, pelo custo normal."
+    "status": "parcial",
+    "notes": "A anulação contra efeitos de fogo, pelo custo do jutsu, fica à mão."
   },
   "Elemental da Água Médio/Maestria Aquática": {
     "rollOptions": [
@@ -1464,12 +1639,15 @@
     "rollOptions": [
       {
         "id": "empurrar",
-        "label": "Empurrar",
-        "attack": 4,
-        "optional": true,
+        "label": "Empurrar: total +13",
+        "for": "maneuver",
         "filter": {
-          "melee": true
-        }
+          "maneuvers": [
+            "empurrar"
+          ]
+        },
+        "value": 4,
+        "locked": true
       }
     ]
   },
@@ -1498,8 +1676,8 @@
     "damageType": "eletricidade"
   },
   "Elemental da Luz Enorme/Brilho": {
-    "status": "narrativo",
-    "notes": "Luz solar num raio de 18 m; ação livre para diminuir."
+    "status": "parcial",
+    "notes": "Criaturas sensíveis à luz solar sofrem como sob o sol no raio de 18 m: à mão."
   },
   "Elemental da Luz Enorme/Engolfar": {
     "status": "parcial",
@@ -1540,18 +1718,48 @@
     }
   },
   "Elemental das Trevas Enorme/Escuridão": {
-    "status": "narrativo",
-    "notes": "Camuflagem total para todos num raio de 18 m: aplique à mão."
+    "status": "parcial",
+    "notes": "Jutsus básicos de luz falham à mão; ao trocar de modo, apague o efeito anterior.",
+    "activation": {
+      "action": "livre",
+      "options": [
+        {
+          "id": "area",
+          "label": "Escuridão de 18 m",
+          "self": {
+            "aura": {
+              "radius": 18,
+              "who": "any",
+              "includeSelf": true,
+              "traits": {
+                "missChance": 50
+              },
+              "label": "Escuridão"
+            }
+          }
+        },
+        {
+          "id": "recolher",
+          "label": "Recolhida: só em si",
+          "self": {
+            "traits": {
+              "missChance": 50
+            }
+          }
+        }
+      ],
+      "note": "Camuflagem total (50% de falha); luzes normais não funcionam na área."
+    }
   },
   "Elemental das Trevas Enorme/Névoa Negra": {
     "status": "parcial",
-    "notes": "Role 1d6 e digite; cure com a segunda opção se a vítima falhou.",
+    "notes": "A cura vem pela opção Absorver, com os níveis que a vítima recebeu.",
     "activation": {
       "action": "padrão",
       "variable": {
-        "min": 1,
+        "min": 0,
         "max": 6,
-        "label": "Níveis negativos (1d6)",
+        "label": "Níveis causados (só para Absorver)",
         "costPer": 0
       },
       "options": [
@@ -1565,14 +1773,9 @@
               "type": "fort",
               "dc": 22
             },
-            "changes": [
-              {
-                "key": "system.attributes.negativeLevels",
-                "value": "@spent"
-              }
-            ]
+            "negativeLevels": "1d6"
           },
-          "note": "Criatura de tamanho igual ou menor; quem falhar recebe os níveis negativos."
+          "note": "Criatura de tamanho igual ou menor: quem falhar recebe 1d6 níveis negativos."
         },
         {
           "id": "absorver",
@@ -1587,14 +1790,25 @@
     }
   },
   "Odokuro Enorme/Agarrar": {
-    "status": "parcial",
-    "notes": "Vale como teste de manobra oposto, não contra a CA; aplique agarrado à mão.",
     "rollOptions": [
       {
-        "id": "agarrar",
+        "id": "manobra",
+        "label": "Agarrar: total +24",
+        "for": "maneuver",
+        "filter": {
+          "maneuvers": [
+            "agarrar"
+          ]
+        },
+        "value": -1,
+        "locked": true,
+        "both": true
+      },
+      {
+        "id": "aviso",
         "label": "Manobra de agarrar",
         "locked": true,
-        "note": "teste oposto; vencendo, o alvo fica agarrado"
+        "note": "role pelo botão Agarrar das manobras"
       }
     ]
   },
@@ -1602,14 +1816,25 @@
     "status": "narrativo"
   },
   "Odokuro Descomunal/Agarrar": {
-    "status": "parcial",
-    "notes": "Vale como teste de manobra oposto, não contra a CA; aplique agarrado à mão.",
     "rollOptions": [
       {
-        "id": "agarrar",
+        "id": "manobra",
+        "label": "Agarrar: total +37",
+        "for": "maneuver",
+        "filter": {
+          "maneuvers": [
+            "agarrar"
+          ]
+        },
+        "value": -3,
+        "locked": true,
+        "both": true
+      },
+      {
+        "id": "aviso",
         "label": "Manobra de agarrar",
         "locked": true,
-        "note": "teste oposto; vencendo, o alvo fica agarrado"
+        "note": "role pelo botão Agarrar das manobras"
       }
     ]
   },
@@ -1617,14 +1842,25 @@
     "status": "narrativo"
   },
   "Odokuro Colossal/Agarrar": {
-    "status": "parcial",
-    "notes": "Vale como teste de manobra oposto, não contra a CA; aplique agarrado à mão.",
     "rollOptions": [
       {
-        "id": "agarrar",
+        "id": "manobra",
+        "label": "Agarrar: total +53",
+        "for": "maneuver",
+        "filter": {
+          "maneuvers": [
+            "agarrar"
+          ]
+        },
+        "value": -3,
+        "locked": true,
+        "both": true
+      },
+      {
+        "id": "aviso",
         "label": "Manobra de agarrar",
         "locked": true,
-        "note": "teste oposto; vencendo, o alvo fica agarrado"
+        "note": "role pelo botão Agarrar das manobras"
       }
     ]
   },
@@ -1633,13 +1869,20 @@
   },
   "Yuurei/Toque": {
     "status": "parcial",
-    "notes": "Dano rolado é de Força: não aplique nos PV; toque certo em Toque Sombrio.",
+    "notes": "Não role o dano em PV; com Força 0, o dano passa à Constituição à mão.",
+    "touch": true,
     "rollOptions": [
       {
         "id": "toqueSombrio",
         "label": "Toque sombrio",
         "locked": true,
-        "note": "o dano rolado é de Força, não de PV"
+        "note": "acertou: 1d6 de dano de Força; não role o dano em PV",
+        "onHit": {
+          "abilityDamage": {
+            "ability": "for",
+            "formula": "1d6"
+          }
+        }
       }
     ]
   },
@@ -1659,14 +1902,7 @@
   },
   "Yuurei/Toque Sombrio": {
     "status": "parcial",
-    "notes": "O dano de Força (ou de Constituição) e o novo yuurei ficam à mão.",
-    "activation": {
-      "action": "padrão",
-      "attack": {
-        "type": "toque"
-      },
-      "note": "Acertou: 1d6 de Força (Constituição se zerar). Quem morre vira yuurei em 1d4 rodadas."
-    }
+    "notes": "O dano de Força sai no ataque Toque; Constituição e o novo yuurei à mão."
   },
   "Oni/Chifres": {
     "status": "parcial",
@@ -1687,7 +1923,7 @@
     ]
   },
   "Oni/Doença": {
-    "status": "narrativo",
-    "notes": "O teste sai no ataque Chifres."
+    "status": "parcial",
+    "notes": "O teste sai no ataque Chifres; os calafrios diabólicos ficam à mão."
   }
 }

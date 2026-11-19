@@ -117,7 +117,7 @@ export class ImperioItem extends Item {
    * @param {Actor} [options.target]   Attack this one (a reaction)
    * @param {string} [options.reaction]
    */
-  async rollAttack({ event, target = null, reaction = null } = {}) {
+  async rollAttack({ event, target = null, reaction = null, extraOptions = [] } = {}) {
     if (this.type !== "weapon" || !this.actor) return null;
     const sys = this.system;
     const actor = this.actor;
@@ -133,7 +133,7 @@ export class ImperioItem extends Item {
     // A creature's natural weapon can deal energy (auto.damageType) and be a touch attack (auto.touch)
     const damageType = sys.auto?.damageType || sys.damageType;
     return attackRoll({
-      actor, weapon: this, ranged, event, target, reaction,
+      actor, weapon: this, ranged, event, target, reaction, extraOptions,
       touch: !!sys.auto?.touch,
       unarmed: norm(this.name).includes("desarmado"),
       title: this.name,
@@ -199,7 +199,7 @@ export class ImperioItem extends Item {
       ui.notifications.warn(game.i18n.format("IJ.Power.honorTooLow", { name: this.name, n: sys.honorMin }));
       return null;
     }
-    const cost = adjustCost(actor, sys.cost ?? 0, { kind: "power" });
+    const cost = adjustCost(actor, sys.cost ?? 0, { kind: "power", ctx: { item: this } });
     if (actor && cost && !(await actor.spendPm(cost))) return null;
     return postCard(this, {}, dataFor(this), { cost });
   }
@@ -231,6 +231,8 @@ export class ImperioItem extends Item {
     if (!actor) return null;
     const flags = message?.flags?.[SYSTEM_ID] ?? {};
     const spec = flags.jutsuSpec ?? this.system.auto?.activation ?? {};
+    // An ability or jutsu that strikes with the weapon: the weapon's attack, with this one's bonus, damage and hit effects
+    if (spec.attack?.weapon) return this.#weaponStrike(spec, flags, message, event);
     const type = spec.attack?.type ?? this.system.attack ?? "corpo";
     const ranged = ["distancia", "toqueDistancia"].includes(type);
     const touch = type.startsWith("toque");
@@ -245,7 +247,12 @@ export class ImperioItem extends Item {
       }
     } else bonus = (actor.system.level ?? 0) + ((ranged ? actor.system.mods?.des : actor.system.mods?.for) ?? 0);
     bonus += Math.floor(evaluate(spec.attack?.bonus ?? 0, data));
-    const damage = spec.damage?.formula ? { formula: resolveFormula(flags.damageFormula ?? spec.damage.formula, data), type: spec.damage.type ?? "" } : null;
+    const hitOption = (spec.attack?.onHit || spec.attack?.onCrit) ? [{
+      id: `strike.${this.id}`, label: this.name, itemName: this.name, itemId: this.id,
+      value: 0, attack: 0, damage: "", damageType: "", noCrit: true, precision: false, ca: 0, critRange: 0, critMult: 0,
+      ignoreRd: 0, cost: 0, pm: null, onHit: spec.attack.onHit ?? null, onCrit: spec.attack.onCrit ?? null, note: "",
+      auto: true, locked: true, data
+    }] : [];
     const msg = await attackRoll({
       actor, ranged, event, touch,
       title: this.name,
@@ -253,8 +260,57 @@ export class ImperioItem extends Item {
       bonus,
       kanji: this.type === "jutsu" ? "術" : "能",
       damage: null,
-      extraFlags: { touchOf: message?.id ?? null }
+      extraFlags: { touchOf: message?.id ?? null },
+      extraOptions: hitOption
     });
+    if (msg && spec.targets && !spec.targets.save) {
+      const label = spec.optionLabel ? `${this.name}: ${spec.optionLabel}` : this.name;
+      for (const t of msg.flags[SYSTEM_ID].attack.targets.filter(r => r.hit)) {
+        const doc = fromUuidSync(t.uuid);
+        const target = doc?.actor ?? doc;
+        if (target?.system) await applyTargetBlock(this, spec.targets, data, target, label, { duration: spec.duration ?? null, optionKey: spec.optionId ?? null });
+      }
+    }
+    return msg;
+  }
+
+  /**
+   * Strike with the equipped weapon for an ability or jutsu (Golpe Desonrado, Pancada Poderosa): the weapon's attack
+   * and damage, plus the ability's attack bonus, extra damage (not multiplied) and what a hit brings.
+   */
+  async #weaponStrike(spec, flags, message, event) {
+    const actor = this.actor;
+    const a = spec.attack;
+    const ranged = a.weapon === "distancia" || a.type === "distancia";
+    const data = dataFor(this, { spent: flags.source?.spent ?? 0, ...(flags.jutsuData ?? {}) });
+    let candidates = actor.items.filter(i => (i.type === "weapon") && i.system.equipped && (ranged ? i.system.kind !== "corpo" : i.system.kind === "corpo"));
+    if ((typeof a.weapon === "string") && !["corpo", "distancia"].includes(a.weapon)) {
+      const names = a.weapon.split("|").map(n => n.trim().toLowerCase()).filter(Boolean);
+      const named = candidates.filter(i => names.some(n => i.name.toLowerCase().includes(n)));
+      if (named.length) candidates = named;
+    }
+    let weapon = candidates[0] ?? null;
+    // Several weapons in hand (or Shift held): ask which one strikes, or a strike without a weapon
+    if (((candidates.length > 1) || (event?.shiftKey && candidates.length)) && !event?.altKey) {
+      const { askActivation } = await import("../auto/dialog.mjs");
+      const answer = await askActivation(this.name, [...candidates.map(w => ({ id: w.id, label: w.name })), { id: "none", label: L("IJ.Auto.unarmedStrike") }]);
+      if (!answer) return null;
+      weapon = (answer.choice && answer.choice !== "none") ? actor.items.get(answer.choice) : null;
+    }
+    const extraDamage = a.damage ?? spec.damage?.formula ?? "";
+    const option = {
+      id: `strike.${this.id}`, label: this.name, itemName: this.name, itemId: this.id,
+      value: 0, attack: Math.floor(evaluate(a.bonus ?? 0, data)),
+      damage: extraDamage ? resolveFormula(flags.damageFormula ?? extraDamage, data) : "",
+      damageType: a.damageType ?? spec.damage?.type ?? "", noCrit: true, precision: false, ca: 0,
+      critRange: Math.floor(evaluate(a.critRange ?? 0, data)), critMult: Math.floor(evaluate(a.critMult ?? 0, data)),
+      ignoreRd: a.ignoreRd === "all" ? Infinity : Math.floor(evaluate(a.ignoreRd ?? 0, data)),
+      cost: 0, pm: null, onHit: a.onHit ?? null, onCrit: a.onCrit ?? null, note: "", auto: true, locked: true, data
+    };
+    const msg = weapon
+      ? await weapon.rollAttack({ event, reaction: this.name, extraOptions: [option] })
+      : await actor.rollPlainAttack(ranged ? "ranged" : "melee", { event, extraOptions: [option] });
+    // The ability's effects on those it hit
     if (msg && spec.targets && !spec.targets.save) {
       const label = spec.optionLabel ? `${this.name}: ${spec.optionLabel}` : this.name;
       for (const t of msg.flags[SYSTEM_ID].attack.targets.filter(r => r.hit)) {

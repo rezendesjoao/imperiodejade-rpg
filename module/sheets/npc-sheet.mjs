@@ -37,6 +37,7 @@ export class NpcSheet extends HandlebarsApplicationMixin(ActorSheetV2) {
       itemDelete: NpcSheet.#onItemDelete,
       itemUse: NpcSheet.#onItemUse,
       itemActivate: NpcSheet.#onItemActivate,
+      rollManeuver: NpcSheet.#onRollManeuver,
       itemDamage: NpcSheet.#onItemDamage,
       toggleCollapse: NpcSheet.#onToggleCollapse
     }
@@ -98,6 +99,9 @@ export class NpcSheet extends HandlebarsApplicationMixin(ActorSheetV2) {
         power: w.hasActivation
       })),
       specials: await Promise.all([...itemsOf("power"), ...itemsOf("feat")].map(view)),
+      maneuvers: ["agarrar", "derrubar", "desarmar", "empurrar", "atropelar", "separar"].map(key => ({
+        key, label: L(`IJ.Maneuver.${key}`), tip: L(`IJ.Maneuver.note.${key}`)
+      })),
       jutsus: await Promise.all(itemsOf("jutsu").map(async j => ({ ...(await view(j)), cost: j.system.cost, dc: j.system.dc }))),
       gear: itemsOf("gear").concat(itemsOf("armor"), itemsOf("consumable")).map(i => ({ id: i.id, name: i.name, img: i.img })),
       enriched: { description: await enrich(sys.description), notes: await enrich(sys.notes) },
@@ -193,6 +197,10 @@ export class NpcSheet extends HandlebarsApplicationMixin(ActorSheetV2) {
       rejectClose: false
     });
     if (ok) await item.delete();
+  }
+
+  static #onRollManeuver(event, target) {
+    this.actor.rollManeuver(target.dataset.kind, { event });
   }
 
   /** The power of an attack or item (its activation), not the attack itself. */

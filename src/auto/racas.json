@@ -19,6 +19,18 @@
         ],
         "value": 4,
         "optional": true
+      },
+      {
+        "id": "agarrar",
+        "label": "Espírito livre (resistir a agarrar)",
+        "for": "maneuver",
+        "filter": {
+          "maneuvers": [
+            "agarrar"
+          ]
+        },
+        "value": 4,
+        "defense": true
       }
     ]
   },
@@ -44,10 +56,172 @@
     }
   },
   "Henge/Forma Animal": {
-    "status": "narrativo"
+    "status": "parcial",
+    "notes": "Sem fala, jutsus, mãos nem equipamento: à mão. Para voltar, apague o efeito.",
+    "choice": {
+      "label": "Forma animal",
+      "count": 1,
+      "options": [
+        {
+          "id": "pequeno",
+          "label": "Pequeno: texugo ou garça"
+        },
+        {
+          "id": "pequenoVeloz",
+          "label": "Pequeno veloz: raposa ou cão (12 m)"
+        },
+        {
+          "id": "minimo",
+          "label": "Mínimo: gato, carpa, pardal, macaco ou guaxinim"
+        },
+        {
+          "id": "minimoVeloz",
+          "label": "Mínimo veloz: lebre (12 m)"
+        }
+      ]
+    },
+    "activation": {
+      "action": "completa",
+      "note": "Ajustes do tamanho até voltar à forma híbrida (apague o efeito).",
+      "options": [
+        {
+          "id": "pequeno",
+          "label": "Forma animal (Pequeno)",
+          "option": "pequeno",
+          "self": {
+            "changes": [
+              {
+                "key": "system.attributes.ca.bonus",
+                "value": 1
+              },
+              {
+                "key": "system.attributes.mods.attack",
+                "value": 1
+              },
+              {
+                "key": "system.skills.furtividade.bonus",
+                "value": 4
+              }
+            ],
+            "rollOptions": [
+              {
+                "id": "tamanho",
+                "label": "Forma animal (Pequeno)",
+                "for": "maneuver",
+                "value": -4,
+                "locked": true,
+                "both": true
+              }
+            ]
+          }
+        },
+        {
+          "id": "pequenoVeloz",
+          "label": "Forma animal (Pequeno, 12 m)",
+          "option": "pequenoVeloz",
+          "self": {
+            "changes": [
+              {
+                "key": "system.attributes.ca.bonus",
+                "value": 1
+              },
+              {
+                "key": "system.attributes.mods.attack",
+                "value": 1
+              },
+              {
+                "key": "system.skills.furtividade.bonus",
+                "value": 4
+              },
+              {
+                "key": "system.attributes.movement.bonus",
+                "value": 3
+              }
+            ],
+            "rollOptions": [
+              {
+                "id": "tamanho",
+                "label": "Forma animal (Pequeno)",
+                "for": "maneuver",
+                "value": -4,
+                "locked": true,
+                "both": true
+              }
+            ]
+          }
+        },
+        {
+          "id": "minimo",
+          "label": "Forma animal (Mínimo)",
+          "option": "minimo",
+          "self": {
+            "changes": [
+              {
+                "key": "system.attributes.ca.bonus",
+                "value": 2
+              },
+              {
+                "key": "system.attributes.mods.attack",
+                "value": 2
+              },
+              {
+                "key": "system.skills.furtividade.bonus",
+                "value": 8
+              }
+            ],
+            "rollOptions": [
+              {
+                "id": "tamanho",
+                "label": "Forma animal (Mínimo)",
+                "for": "maneuver",
+                "value": -8,
+                "locked": true,
+                "both": true
+              }
+            ]
+          }
+        },
+        {
+          "id": "minimoVeloz",
+          "label": "Forma animal (Mínimo, 12 m)",
+          "option": "minimoVeloz",
+          "self": {
+            "changes": [
+              {
+                "key": "system.attributes.ca.bonus",
+                "value": 2
+              },
+              {
+                "key": "system.attributes.mods.attack",
+                "value": 2
+              },
+              {
+                "key": "system.skills.furtividade.bonus",
+                "value": 8
+              },
+              {
+                "key": "system.attributes.movement.bonus",
+                "value": 3
+              }
+            ],
+            "rollOptions": [
+              {
+                "id": "tamanho",
+                "label": "Forma animal (Mínimo)",
+                "for": "maneuver",
+                "value": -8,
+                "locked": true,
+                "both": true
+              }
+            ]
+          }
+        }
+      ]
+    }
   },
   "Henge/Movimento Especial": {
-    "status": "narrativo"
+    "status": "narrativo",
+    "notes": "Os 12 m vêm da Forma Animal; escalar, escavar, nadar e voar à mão."
   },
   "Henge/Ataque Natural": {
     "status": "narrativo",
