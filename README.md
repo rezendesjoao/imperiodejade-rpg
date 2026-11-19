@@ -1,8 +1,8 @@
 # Império de Jade — sistema para Foundry VTT
 
-Sistema do **Império de Jade** (Tormenta RPG, Jambô) para o Foundry VTT 14. Esta primeira versão traz a **ficha de
-personagem** completa e automatizada; os compêndios (raças, classes, perícias, talentos, jutsus, equipamento e
-bestiário do livro) vêm nas próximas versões.
+Sistema do **Império de Jade** (Tormenta RPG, Jambô) para o Foundry VTT 14: a **ficha de personagem** completa e
+automatizada, a ficha das **Ameaças** do bestiário e os **compêndios do livro** — raças, classes com as habilidades por
+nível, talentos, jutsus, armas, armaduras, equipamento, itens mágicos e criaturas.
 
 ## Instalação
 
@@ -13,6 +13,24 @@ https://github.com/rezendesjoao/imperiodejade-rpg/releases/latest/download/syste
 ```
 
 Requer o Foundry VTT **14**.
+
+## Os compêndios
+
+Na aba Compêndios, a pasta **Império de Jade** traz: Raças, Classes, Habilidades de Raça, Habilidades de Classe,
+Talentos, Jutsus, Armas, Armaduras e Escudos, Equipamento e Serviços, Itens Mágicos e o Bestiário (só o Mestre vê).
+
+- **Arraste a raça e a classe para a ficha** e elas trazem o resto: a raça concede as habilidades de raça (e os ajustes
+  de habilidade, inclusive os "+2 em duas à escolha", marcados na ficha da raça); a classe concede as habilidades de
+  cada nível e, se for a primeira, os talentos iniciais. Ao subir o nível da classe, as habilidades novas chegam e a
+  classe inicial dá +1 de Honra por nível. Tirar a classe ou a raça tira o que elas deram.
+- Bônus fixos entram sozinhos (+4 em Percepção do Faro, +2 nas resistências da Sorte Ancestral, chacras abertos,
+  margem de ameaça do vanara, bônus de itens mágicos enquanto equipados).
+- Os **jutsus** sabem o próprio dano e o aprimoramento "aumenta o dano": os PM extras viram dados no botão de dano do
+  cartão. O cartão também traz o ataque do jutsu e o botão do teste de resistência com a CD, que cada jogador rola com o
+  seu token selecionado.
+- As **Ameaças** chegam com ataques, habilidades especiais e jutsus prontos para clicar.
+- Os textos são **resumos com palavras próprias**, com a página do livro em cada item: o livro continua necessário para
+  jogar. Veja `CREDITOS.md`.
 
 ## A ficha
 
@@ -51,7 +69,13 @@ medalhões e escudos — com o jade, o ouro e a laca vermelha do Império. As ab
 - **Shift + clique** numa rolagem pergunta a condição favorável (+2) ou desfavorável (−2).
 - Clique com o botão direito numa linha de item para abrir a ficha dele.
 
-## Licença
+## Desenvolvimento
 
-O código é distribuído sob a licença MIT (veja `LICENSE`). *Império de Jade* e *Tormenta* são marcas da Jambô
-Editora; este sistema não traz o texto do livro.
+Os compêndios saem de `src/data/*.json` (as regras do livro, resumidas). `npm run build` gera os documentos e compila
+os pacotes; `node tools/check-text.mjs <texto-do-livro.txt>` confere que nenhum trecho repete o texto do livro.
+
+## Créditos e licença
+
+*Império de Jade* (Jambô Editora, 2018) é de Marcelo Cassaro, Guilherme Dei Svaldi e Álvaro Freitas; *Tormenta* e
+todos os nomes do cenário pertencem aos seus autores e à Jambô. Este é um projeto de fãs, sem vínculo com a editora,
+e não traz o texto do livro (veja `CREDITOS.md`). O código é distribuído sob a licença MIT (veja `LICENSE`).

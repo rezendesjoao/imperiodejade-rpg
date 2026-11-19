@@ -88,6 +88,7 @@
           {{#if j.resistance}}<dt>{{localize "IJ.Jutsu.resistance"}}</dt><dd>{{j.resistance}}</dd>{{/if}}
         </dl>
         {{{j.description}}}
+        {{#if j.bookText}}<div class="ij-booktext ij-booktext--inline"><span class="ij-booktext__tag"><i class="fa-solid fa-book"></i> {{localize "IJ.BookText.title"}}</span>{{{j.bookText}}}</div>{{/if}}
       </div>
     </article>
     {{/each}}

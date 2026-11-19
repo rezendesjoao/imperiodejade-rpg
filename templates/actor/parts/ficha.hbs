@@ -61,7 +61,7 @@
             <tr>
               <th>{{localize "IJ.Details.race"}}</th>
               <td>
-                {{#if race}}<a class="ij-item-row" data-item-id="{{race.id}}" data-action="itemEdit">{{race.name}}</a>
+                {{#if race}}<a class="ij-item-row" data-item-id="{{race.id}}" data-action="itemEdit">{{race.name}}</a>{{#if raceChoicePending}} <a class="ij-pending" data-item-id="{{race.id}}" data-action="itemEdit" data-tooltip="{{localize 'IJ.Race.choosePending'}}"><i class="fa-solid fa-circle-exclamation"></i></a>{{/if}}
                 {{else if editMode}}<input type="text" name="system.details.race" value="{{source.details.race}}" placeholder="{{localize 'IJ.Details.racePlaceholder'}}">
                 {{else}}{{#if source.details.race}}{{source.details.race}}{{else}}—{{/if}}{{/if}}
               </td>
@@ -206,6 +206,7 @@
           {{#if @root.editMode}}
           <input class="ij-plaque__input" type="number" name="system.abilities.{{a.key}}.value" value="{{a.value}}" min="0" step="1">
           <input class="ij-plaque__bonus" type="number" name="system.abilities.{{a.key}}.bonus" value="{{a.bonus}}" step="1" data-tooltip="{{localize 'IJ.Ability.bonusTip'}}">
+          {{#if a.racial}}<span class="ij-plaque__racial" data-tooltip="{{localize 'IJ.Ability.racialTip'}}">{{a.racial}}</span>{{/if}}
           {{else}}
           <a class="ij-plaque__value" data-action="rollAbility" data-ability="{{a.key}}" data-tooltip="{{localize 'IJ.Roll.abilityTip'}}">{{a.total}}</a>
           {{/if}}

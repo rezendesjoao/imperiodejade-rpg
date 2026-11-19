@@ -1,0 +1,225 @@
+{{!-- The threat sheet: the bestiary stat block on parchment. --}}
+<div class="ij-npc-sheet">
+  <header class="ij-npc-head">
+    <div class="ij-frame ij-npc-head__art">
+      <img src="{{actor.img}}" alt="{{actor.name}}" {{#if editable}}data-action="editImage" data-edit="img"{{/if}}>
+    </div>
+    <div class="ij-npc-head__text">
+      <input class="ij-npc-head__name" type="text" name="name" value="{{actor.name}}" spellcheck="false">
+      <div class="ij-npc-head__line">
+        {{#if editMode}}
+        <select name="system.creatureType">{{selectOptions choices.types selected=source.creatureType}}</select>
+        <input class="ij-num-sm" type="number" name="system.level" value="{{source.level}}" min="0" data-tooltip="{{localize 'IJ.Level.label'}}">
+        <select name="system.size">{{selectOptions choices.sizes selected=source.size}}</select>
+        <input type="text" name="system.sizeNote" value="{{source.sizeNote}}" placeholder="{{localize 'IJ.Npc.sizeNote'}}" class="ij-npc-head__note">
+        {{else}}
+        <span>{{typeLabel}} {{system.level}}</span><span class="ij-dot">·</span><span>{{sizeLabel}}{{#if system.sizeNote}} ({{system.sizeNote}}){{/if}}</span>
+        {{#if honorTier}}<span class="ij-dot">·</span><span class="ij-npc-honor ij-honor-tier--{{honorTierKey}}">{{honorTier}}</span>{{/if}}
+        {{/if}}
+      </div>
+    </div>
+    <div class="ij-nd" data-tooltip="{{localize 'IJ.Npc.ndTip'}}">
+      <span class="ij-nd__label">ND</span>
+      {{#if editMode}}<input class="ij-nd__input" type="text" name="system.nd" value="{{source.nd}}">{{else}}<span class="ij-nd__value">{{system.nd}}</span>{{/if}}
+    </div>
+    {{#if editable}}
+    <a class="ij-npc-head__edit {{#if editMode}}active{{/if}}" data-action="toggleEdit" data-tooltip="{{#if editMode}}{{localize 'IJ.Sheet.editOff'}}{{else}}{{localize 'IJ.Sheet.editOn'}}{{/if}}">
+      <i class="fa-solid {{#if editMode}}fa-lock-open{{else}}fa-feather-pointed{{/if}}"></i>
+    </a>
+    {{/if}}
+  </header>
+
+  <div class="ij-npc-body">
+    {{!-- Defenses and resources --}}
+    <div class="ij-npc-defense">
+      <div class="ij-npc-ca">
+        {{#if editMode}}
+        <label class="ij-npc-field ij-npc-field--big"><span>{{localize "IJ.CA.abbr"}}</span><input type="number" name="system.ca" value="{{source.ca}}"></label>
+        {{else}}
+        {{> ij-shield label=(localize "IJ.CA.abbr") value=system.ca color="jade" cls="ij-shield--md" tooltip=system.caNote}}
+        {{/if}}
+      </div>
+      {{#each saves as |s|}}
+      <div class="ij-npc-save">
+        {{#if @root.editMode}}
+        <label class="ij-npc-field"><span>{{s.label}}</span><input type="number" name="system.saves.{{s.key}}" value="{{lookup @root.source.saves s.key}}"></label>
+        {{else}}
+        {{> ij-shield label=s.label value=s.value color="steel" action="rollSave" save=s.key cls="ij-shield--sm"}}
+        {{/if}}
+      </div>
+      {{/each}}
+
+      <div class="ij-hp ij-npc-hp {{#if (lte system.pv.value 0)}}ij-hp--down{{/if}}">
+        <div class="ij-hp__labels"><span>{{localize "IJ.PV.current"}}</span><span>{{localize "IJ.PV.max"}}</span></div>
+        <div class="ij-hp__values">
+          <input class="ij-hp__current ij-select-on-focus" type="text" inputmode="numeric" name="system.pv.value" value="{{system.pv.value}}" data-tooltip="{{localize 'IJ.Sheet.deltaHint'}}">
+          <span class="ij-hp__slash"></span>
+          {{#if editMode}}<input class="ij-hp__max-input" type="number" name="system.pv.max" value="{{source.pv.max}}" min="0">
+          {{else}}<span class="ij-hp__max">{{system.pv.max}}</span>{{/if}}
+        </div>
+        <div class="ij-bar ij-bar--pv"><span style="width: {{system.pv.pct}}%"></span></div>
+      </div>
+
+      {{#if (or system.pm.max editMode)}}
+      <div class="ij-badge ij-badge--pm ij-npc-pm">
+        <span class="ij-badge__label">{{localize "IJ.PM.label"}}</span>
+        <div class="ij-badge__pair">
+          <input class="ij-badge__input ij-select-on-focus" type="text" inputmode="numeric" name="system.pm.value" value="{{system.pm.value}}">
+          <span class="ij-badge__sep">/</span>
+          {{#if editMode}}<input class="ij-badge__max-input" type="number" name="system.pm.max" value="{{source.pm.max}}" min="0">
+          {{else}}<span class="ij-badge__max">{{system.pm.max}}</span>{{/if}}
+        </div>
+      </div>
+      {{/if}}
+    </div>
+
+    {{!-- Initiative, perception, movement, senses --}}
+    <div class="ij-npc-stats">
+      {{#if editMode}}
+      <label class="ij-npc-field"><span>{{localize "IJ.Skill.iniciativa"}}</span><input type="number" name="system.initiative" value="{{source.initiative}}"></label>
+      <label class="ij-npc-field"><span>{{localize "IJ.Skill.percepcao"}}</span><input type="number" name="system.perception" value="{{source.perception}}"></label>
+      <label class="ij-npc-field"><span>{{localize "IJ.RD.abbr"}}</span><input type="number" name="system.rdValue" value="{{source.rdValue}}" min="0"></label>
+      {{else}}
+      {{> ij-medallion label=(localize "IJ.Skill.iniciativa") value=initiative action="rollInitiative"}}
+      {{> ij-medallion label=(localize "IJ.Skill.percepcao") value=perception action="rollSkill" skill="percepcao"}}
+      {{#if system.rdValue}}<div class="ij-badge ij-badge--rd ij-npc-rd"><span class="ij-badge__label">{{localize "IJ.RD.abbr"}}</span><span class="ij-badge__big">{{system.rdValue}}</span></div>{{/if}}
+      {{/if}}
+      <dl class="ij-npc-lines">
+        <dt>{{localize "IJ.Movement.label"}}</dt>
+        <dd>{{#if editMode}}<input type="text" name="system.movement" value="{{source.movement}}">{{else}}{{system.movement}}{{/if}}</dd>
+        <dt>{{localize "IJ.Npc.senses"}}</dt>
+        <dd>{{#if editMode}}<input type="text" name="system.senses" value="{{source.senses}}">{{else}}{{#if system.senses}}{{system.senses}}{{else}}—{{/if}}{{/if}}</dd>
+        {{#if (or system.caNote editMode)}}<dt>{{localize "IJ.CA.abbr"}}</dt>
+        <dd>{{#if editMode}}<input type="text" name="system.caNote" value="{{source.caNote}}">{{else}}{{system.caNote}}{{/if}}</dd>{{/if}}
+      </dl>
+    </div>
+
+    {{!-- Abilities --}}
+    <div class="ij-npc-abilities">
+      {{#each abilities as |a|}}
+      <div class="ij-npc-ability {{#if a.none}}ij-npc-ability--none{{/if}}">
+        <span class="ij-npc-ability__kanji">{{a.kanji}}</span>
+        <span class="ij-npc-ability__abbr">{{a.abbr}}</span>
+        {{#if @root.editMode}}
+        <input class="ij-npc-ability__input" type="text" name="system.abilities.{{a.key}}" value="{{#if a.none}}–{{else}}{{a.score}}{{/if}}">
+        {{else}}
+        <a class="ij-npc-ability__score" {{#unless a.none}}data-action="rollAbility" data-ability="{{a.key}}"{{/unless}}>{{#if a.none}}–{{else}}{{a.score}}{{/if}}</a>
+        {{/if}}
+        <span class="ij-npc-ability__mod">{{a.mod}}</span>
+      </div>
+      {{/each}}
+    </div>
+
+    {{!-- Attacks --}}
+    <div class="ij-cardlist">
+      <header class="ij-cardlist__head">
+        <span class="ij-cardlist__title">{{localize "IJ.Attack.plural"}}</span>
+        {{#if editable}}<a class="ij-btn ij-btn--ghost" data-action="itemCreate" data-type="weapon"><i class="fa-solid fa-plus"></i> {{localize "IJ.Npc.addAttack"}}</a>{{/if}}
+      </header>
+      {{#each attacks as |w|}}
+      <div class="ij-npc-attack ij-card-row draggable" data-item-id="{{w.id}}">
+        <img class="ij-npc-attack__img" src="{{w.img}}" alt="">
+        <a class="ij-npc-attack__name" data-action="itemUse" data-tooltip="{{localize 'IJ.Weapon.attackTip'}}">{{w.name}}</a>
+        <div class="ij-wield__stats ij-npc-attack__stats">
+          <a class="ij-wield__stat ij-wield__stat--atk" data-action="itemUse"><small>{{localize "IJ.Weapon.attack"}}</small><strong>{{w.attack}}</strong></a>
+          <a class="ij-wield__stat" data-action="itemDamage"><small>{{localize "IJ.Weapon.damage"}}</small><strong>{{w.damage}}</strong></a>
+          <a class="ij-wield__stat" data-action="itemDamage" data-crit="true"><small>{{localize "IJ.Weapon.critical"}}</small><strong>{{w.crit}}</strong></a>
+        </div>
+        <span class="ij-controls">
+          <a class="ij-ctl" data-action="itemEdit"><i class="fa-solid fa-pen-nib"></i></a>
+          {{#if @root.editable}}<a class="ij-ctl ij-ctl--danger" data-action="itemDelete"><i class="fa-solid fa-trash-can"></i></a>{{/if}}
+        </span>
+      </div>
+      {{else}}
+      <p class="ij-empty">{{localize "IJ.Npc.noAttacks"}}</p>
+      {{/each}}
+      {{#if system.attackText}}<p class="ij-npc-attacktext">{{system.attackText}}</p>{{/if}}
+    </div>
+
+    {{!-- Special abilities --}}
+    <div class="ij-cardlist">
+      <header class="ij-cardlist__head">
+        <span class="ij-cardlist__title">{{localize "IJ.Npc.specials"}}</span>
+        {{#if editable}}<a class="ij-btn ij-btn--ghost" data-action="itemCreate" data-type="power"><i class="fa-solid fa-plus"></i> {{localize "IJ.Power.add"}}</a>{{/if}}
+      </header>
+      {{#each specials as |p|}}
+      <article class="ij-power ij-power--outra ij-card-row draggable {{#if p.expanded}}expanded{{/if}}" data-item-id="{{p.id}}">
+        <div class="ij-power__head">
+          <img class="ij-power__img" src="{{p.img}}" alt="">
+          <a class="ij-power__name" data-action="toggleCollapse">{{p.name}}</a>
+          <span class="ij-power__tags">{{#if p.cost}}<span class="ij-tag ij-tag--pm">{{p.cost}} PM</span>{{/if}}</span>
+          <span class="ij-power__ctl">
+            <a class="ij-btn ij-btn--small" data-action="itemUse"><i class="fa-solid fa-hand-sparkles"></i></a>
+            <a class="ij-ctl" data-action="itemEdit"><i class="fa-solid fa-pen-nib"></i></a>
+            {{#if @root.editable}}<a class="ij-ctl ij-ctl--danger" data-action="itemDelete"><i class="fa-solid fa-trash-can"></i></a>{{/if}}
+          </span>
+        </div>
+        <div class="ij-power__desc">{{{p.description}}}{{#if p.bookText}}<div class="ij-booktext ij-booktext--inline"><span class="ij-booktext__tag"><i class="fa-solid fa-book"></i> {{localize "IJ.BookText.title"}}</span>{{{p.bookText}}}</div>{{/if}}</div>
+      </article>
+      {{else}}
+      <p class="ij-empty">—</p>
+      {{/each}}
+    </div>
+
+    {{#if (or jutsus.length editMode)}}
+    <div class="ij-cardlist">
+      <header class="ij-cardlist__head">
+        <span class="ij-cardlist__title">{{localize "IJ.Tab.jutsus"}}</span>
+        {{#if editable}}<a class="ij-btn ij-btn--ghost" data-action="itemCreate" data-type="jutsu"><i class="fa-solid fa-plus"></i> {{localize "IJ.Jutsu.add"}}</a>{{/if}}
+      </header>
+      {{#each jutsus as |j|}}
+      <article class="ij-power ij-jutsu ij-card-row draggable {{#if j.expanded}}expanded{{/if}}" data-item-id="{{j.id}}">
+        <div class="ij-power__head">
+          <img class="ij-power__img" src="{{j.img}}" alt="">
+          <a class="ij-power__name" data-action="toggleCollapse">{{j.name}}</a>
+          <span class="ij-power__tags"><span class="ij-tag ij-tag--pm">{{j.cost}} PM</span><span class="ij-tag">{{localize "IJ.Jutsu.dc"}} {{j.dc}}</span></span>
+          <span class="ij-power__ctl">
+            <a class="ij-btn ij-btn--small ij-btn--jade" data-action="itemUse"><i class="fa-solid fa-hand-sparkles"></i></a>
+            <a class="ij-ctl" data-action="itemEdit"><i class="fa-solid fa-pen-nib"></i></a>
+            {{#if @root.editable}}<a class="ij-ctl ij-ctl--danger" data-action="itemDelete"><i class="fa-solid fa-trash-can"></i></a>{{/if}}
+          </span>
+        </div>
+        <div class="ij-power__desc">{{{j.description}}}</div>
+      </article>
+      {{/each}}
+    </div>
+    {{/if}}
+
+    {{!-- Details --}}
+    <div class="ij-box ij-npc-details">
+      <header class="ij-box__head"><span>{{localize "IJ.Npc.details"}}</span></header>
+      <dl class="ij-npc-lines ij-npc-lines--wide">
+        <dt>{{localize "IJ.Npc.skills"}}</dt>
+        <dd>{{#if editMode}}<input type="text" name="system.skills" value="{{source.skills}}">{{else}}{{#if system.skills}}{{system.skills}}{{else}}—{{/if}}{{/if}}</dd>
+        <dt>{{localize "IJ.RD.label"}}</dt>
+        <dd>{{#if editMode}}<input type="text" name="system.rd" value="{{source.rd}}">{{else}}{{#if system.rd}}{{system.rd}}{{else}}—{{/if}}{{/if}}</dd>
+        <dt>{{localize "IJ.Npc.resistances"}}</dt>
+        <dd>{{#if editMode}}<input type="text" name="system.resistances" value="{{source.resistances}}">{{else}}{{#if system.resistances}}{{system.resistances}}{{else}}—{{/if}}{{/if}}</dd>
+        <dt>{{localize "IJ.Npc.treasure"}}</dt>
+        <dd>{{#if editMode}}<input type="text" name="system.treasure" value="{{source.treasure}}">{{else}}{{#if system.treasure}}{{system.treasure}}{{else}}—{{/if}}{{/if}}</dd>
+        {{#if gear.length}}<dt>{{localize "IJ.Tab.inventario"}}</dt>
+        <dd>{{#each gear as |g|}}<a class="ij-chip ij-item-row" data-item-id="{{g.id}}" data-action="itemEdit">{{g.name}}</a>{{#unless @last}}, {{/unless}}{{/each}}</dd>{{/if}}
+        {{#if (or system.source editMode)}}<dt>{{localize "IJ.Item.source"}}</dt>
+        <dd>{{#if editMode}}<input type="text" name="system.source" value="{{source.source}}">{{else}}{{system.source}}{{/if}}</dd>{{/if}}
+      </dl>
+    </div>
+
+    {{#if bookText}}
+    <details class="ij-box ij-booktext">
+      <summary class="ij-box__head"><span><i class="fa-solid fa-book"></i> {{localize "IJ.BookText.title"}}</span><small>{{localize "IJ.BookText.local"}}</small></summary>
+      <div class="ij-booktext__body">{{{bookText}}}</div>
+    </details>
+    {{/if}}
+
+    <div class="ij-bio-texts">
+      <div class="ij-box ij-bio-text">
+        <header class="ij-box__head"><span>{{localize "IJ.Item.description"}}</span></header>
+        <prose-mirror name="system.description" value="{{source.description}}" {{#if editable}}toggled{{/if}} {{#unless editable}}disabled{{/unless}}>{{{enriched.description}}}</prose-mirror>
+      </div>
+      <div class="ij-box ij-bio-text">
+        <header class="ij-box__head"><span>{{localize "IJ.Bio.notes"}}</span></header>
+        <prose-mirror name="system.notes" value="{{source.notes}}" {{#if editable}}toggled{{/if}} {{#unless editable}}disabled{{/unless}}>{{{enriched.notes}}}</prose-mirror>
+      </div>
+    </div>
+  </div>
+</div>

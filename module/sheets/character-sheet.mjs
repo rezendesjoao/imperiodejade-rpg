@@ -3,6 +3,7 @@ import {
   FEAT_CATEGORIES, JUTSU_GRADES, KEY_ABILITIES, SAVES, SIZES, SKILLS, SPECIALTIES, SYSTEM_ID, VIOLATIONS, WEAPON_KINDS
 } from "../config.mjs";
 import { signed } from "../dice/rolls.mjs";
+import { bookText } from "../book-text.mjs";
 
 const { HandlebarsApplicationMixin } = foundry.applications.api;
 const { ActorSheetV2 } = foundry.applications.sheets;
@@ -121,6 +122,7 @@ export class CharacterSheet extends HandlebarsApplicationMixin(ActorSheetV2) {
       return {
         key, row: index + 1, kanji: cfg.kanji, label: L(cfg.label), abbr: L(cfg.abbr),
         value: source.abilities[key].value, bonus: source.abilities[key].bonus,
+        racial: a.racial ? signed(a.racial) : "",
         total: a.total, mod: signed(a.mod), negative: a.mod < 0, isHonor: key === "hon"
       };
     });
@@ -131,6 +133,8 @@ export class CharacterSheet extends HandlebarsApplicationMixin(ActorSheetV2) {
       bba: L(CONFIG.IJ.BBA_PROGRESSIONS[c.system.bba]?.label ?? "")
     }));
     const race = items.get(sys.auto.raceId) ?? null;
+    // A race with ability picks still to make ("+2 em duas habilidades à escolha")
+    const raceChoicePending = race && (race.system.abilityChoice?.count ?? 0) > (race.system.chosen?.length ?? 0);
 
     // Equipped armor and shield (the two cards of the first tab)
     const armorCard = item => item ? {
@@ -211,7 +215,8 @@ export class CharacterSheet extends HandlebarsApplicationMixin(ActorSheetV2) {
       category: item.system.category ? L(FEAT_CATEGORIES[item.system.category]) : "",
       honorLocked: item.system.honorMin > 0 && sys.abilities.hon.total < item.system.honorMin,
       expanded: this.#expanded.has(item.id),
-      description: await enrich(item)
+      description: await enrich(item),
+      bookText: bookText.of(item)
     });
     const powers = await Promise.all(itemsOf("power").map(powerView));
     const feats = await Promise.all(itemsOf("feat").map(powerView));
@@ -226,7 +231,8 @@ export class CharacterSheet extends HandlebarsApplicationMixin(ActorSheetV2) {
       execution: j.system.execution, range: j.system.range, target: j.system.target,
       duration: j.system.duration, resistance: j.system.resistance, descriptors: j.system.descriptors,
       expanded: this.#expanded.has(j.id),
-      description: await enrich(j)
+      description: await enrich(j),
+      bookText: bookText.of(j)
     })));
     const jutsuGroups = Object.entries(JUTSU_GRADES).map(([key, g]) => ({
       key, label: L(g.label), cost: g.cost, dc: g.dc, items: jutsus.filter(j => j.grade === key)
@@ -249,6 +255,7 @@ export class CharacterSheet extends HandlebarsApplicationMixin(ActorSheetV2) {
       abilities,
       classes,
       race: race ? { id: race.id, name: race.name, img: race.img } : null,
+      raceChoicePending,
       honorTier: L(sys.honorTier.label),
       honorTierKey: sys.honorTier.key,
       reserve: { used: sys.honor.reserveUsed, available: sys.honorReserve.available, bonus: signed(sys.honorReserve.bonus) },
@@ -515,12 +522,13 @@ export class CharacterSheet extends HandlebarsApplicationMixin(ActorSheetV2) {
   /** Level up by hand (no class items): +1 level, and +1 Honor for staying in the class (p. 81). */
   static async #onLevelUp() {
     const sys = this.actor.system;
+    if (sys.level >= 20) return;
     if (sys.auto.classes) {
+      // A new level in the first class: its abilities arrive and Honor rises by 1 (module/documents/item.mjs)
       const primary = this.actor.items.find(i => i.type === "class" && i.system.primary)
         ?? this.actor.items.find(i => i.type === "class");
-      return primary?.sheet.render(true);
+      return primary?.update({ "system.levels": primary.system.levels + 1 });
     }
-    if (sys.level >= 20) return;
     await this.actor.update({ "system.attributes.level": sys.attributes.level + 1 });
   }
 

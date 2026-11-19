@@ -43,7 +43,16 @@ export class ClassData extends ItemBase {
       skills: int(4, { min: 0 }),
       classSkills: new fields.ArrayField(new fields.StringField({ choices: Object.keys(SKILLS) })),
       honor: int(0),
-      startingFeats: text()
+      startingFeats: text(),
+      kanji: text(),
+      // Feats the first class gives at 1st level (granted from the compendium when the class is the primary one)
+      startingFeatList: new fields.ArrayField(new fields.SchemaField({ name: text(), uuid: text() })),
+      // Class abilities by level: granted when the class reaches the level (module/documents/grants.mjs)
+      features: new fields.ArrayField(new fields.SchemaField({
+        level: int(1, { min: 1, max: 20 }), name: text(), uuid: text()
+      })),
+      // The class table, level by level (BBA and abilities), for reading on the class sheet
+      table: new fields.ArrayField(new fields.SchemaField({ level: int(1), bba: int(0), features: text() }))
     };
   }
 }
@@ -58,8 +67,15 @@ export class RaceData extends ItemBase {
       size: choice(SIZES, "medio"),
       movement: int(9, { min: 0 }),
       abilityMods: new fields.SchemaField(mods),
+      // "+2 em duas habilidades à escolha" (humans, mashin): how many and how much; the picks live on the owned copy
+      abilityChoice: new fields.SchemaField({ count: int(0, { min: 0 }), value: int(0) }),
+      chosen: new fields.ArrayField(new fields.StringField({ choices: KEY_ABILITIES })),
       honor: int(0),
-      bonusSkills: int(0, { min: 0 })
+      bonusSkills: int(0, { min: 0 }),
+      bonusFeats: int(0, { min: 0 }),
+      kanji: text(),
+      // Racial abilities, granted from the compendium when the race is added to a character
+      features: new fields.ArrayField(new fields.SchemaField({ name: text(), uuid: text() }))
     };
   }
 }
@@ -97,9 +113,16 @@ export class WeaponData extends ItemBase {
     return (actor?.type === "character") ? actor.system : null;
   }
 
+  /** Threat range in the owner's hands: the weapon's, widened by the owner's crit bonus (p. 141). */
+  get threat() {
+    const bonus = this.#owner?.attributes?.critBonus ?? 0;
+    return Math.max(2, this.critRange - bonus);
+  }
+
   /** "19/x2", "x3"... */
   get critLabel() {
-    return `${this.critRange < 20 ? `${this.critRange}/` : ""}x${this.critMult}`;
+    const threat = this.threat;
+    return `${threat < 20 ? `${threat}/` : ""}x${this.critMult}`;
   }
 
   /** The ability used to attack: Strength in melee, Dexterity at range (p. 141). */
@@ -147,10 +170,16 @@ export class ArmorData extends ItemBase {
   }
 }
 
-/** General equipment (p. 153-157). */
+/** General equipment (p. 153-157) and magic accessories: their effects only apply while equipped. */
 export class GearData extends ItemBase {
   static defineSchema() {
-    return { ...super.defineSchema(), ...physical() };
+    return {
+      ...super.defineSchema(),
+      ...physical(),
+      equipped: new fields.BooleanField({ initial: false }),
+      slot: text(),
+      magic: new fields.BooleanField({ initial: false })
+    };
   }
 }
 
@@ -174,7 +203,8 @@ export class FeatData extends ItemBase {
       category: choice(FEAT_CATEGORIES, "combate"),
       prerequisites: text(),
       cost: int(0, { min: 0 }),
-      honorMin: int(0, { min: 0 })
+      honorMin: int(0, { min: 0 }),
+      deity: text()
     };
   }
 }
@@ -189,7 +219,11 @@ export class PowerData extends ItemBase {
       level: int(1, { min: 0, max: 20 }),
       cost: int(0, { min: 0 }),
       honorMin: int(0, { min: 0 }),
-      action: text()
+      action: text(),
+      // Levels where the ability appears or improves in the class table ("1, 7, 13, 19")
+      levels: text(),
+      noArmor: new fields.BooleanField({ initial: false }),
+      choice: new fields.BooleanField({ initial: false })
     };
   }
 }
@@ -207,6 +241,13 @@ export class JutsuData extends ItemBase {
       target: text(),
       duration: text("instantânea"),
       resistance: text(),
+      save: new fields.StringField({ required: true, blank: true, initial: "", choices: ["", "fort", "ref", "von"] }),
+      attack: new fields.StringField({ required: true, blank: true, initial: "", choices: ["", "corpo", "toque", "distancia", "toqueDistancia"] }),
+      // Damage (or healing) dice; scaleDice per scaleCost PM spent on the "aumenta o dano" enhancement
+      damage: new fields.SchemaField({
+        formula: text(), type: text(), healing: new fields.BooleanField({ initial: false }),
+        scaleDice: text(), scaleCost: int(0, { min: 0 })
+      }),
       extraCost: int(0, { min: 0 }),
       enhancements: html()
     };

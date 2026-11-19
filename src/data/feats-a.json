@@ -1,0 +1,744 @@
+[
+  {
+    "name": "Acerto Crítico Aprimorado",
+    "page": 111,
+    "category": "combate",
+    "prerequisites": "Foco em Arma com a arma escolhida, bônus base de ataque +8",
+    "cost": 0,
+    "honorMin": 0,
+    "description": "<p>Escolhido para uma arma: a margem de ameaça dessa arma aumenta em +2.</p>",
+    "effects": []
+  },
+  {
+    "name": "Acuidade com Arma",
+    "page": 111,
+    "category": "combate",
+    "prerequisites": "Des 13",
+    "cost": 0,
+    "honorMin": 0,
+    "description": "<p>Nas jogadas de ataque com armas leves corpo a corpo, você pode trocar o modificador de Força pelo de Destreza.</p>",
+    "effects": []
+  },
+  {
+    "name": "Agarrar Aprimorado",
+    "page": 111,
+    "category": "combate",
+    "prerequisites": "For 13, Ataque Desarmado Aprimorado",
+    "cost": 0,
+    "honorMin": 0,
+    "description": "<p>Você recebe +4 nas jogadas de ataque da manobra agarrar.</p>",
+    "effects": []
+  },
+  {
+    "name": "Aparar",
+    "page": 111,
+    "category": "combate",
+    "prerequisites": "Des 15, Acuidade com Arma, Especialização em Combate, bônus base de ataque +6",
+    "cost": 1,
+    "honorMin": 0,
+    "description": "<p>Quando um ataque corpo a corpo estiver prestes a acertar você, role uma jogada de ataque como reação (no máximo uma por ataque). Superando o resultado do atacante, você evita o golpe.</p><p>Só funciona se você empunha uma arma beneficiada por Acuidade com Arma.</p><p><strong>Custo:</strong> 1 PM por uso.</p>",
+    "effects": []
+  },
+  {
+    "name": "Arma Elemental",
+    "page": 111,
+    "category": "combate",
+    "prerequisites": "mashin",
+    "cost": 1,
+    "honorMin": 0,
+    "description": "<p>Com uma ação livre, você canaliza para os seus ataques a energia escolhida no traço racial cura elemental: durante uma rodada, eles causam +1d6 de dano desse elemento.</p><p><strong>Especial:</strong> se tiver mais de uma energia escolhida (pelo talento Cura Elemental Adicional), você decide qual delas aplicar.</p><p><strong>Custo:</strong> 1 PM.</p>",
+    "effects": []
+  },
+  {
+    "name": "Arma Exagerada",
+    "page": 111,
+    "category": "combate",
+    "prerequisites": "nezumi, For 13, Ataque Poderoso",
+    "cost": 0,
+    "honorMin": 0,
+    "description": "<p>Para empunhar armas, você é tratado como uma criatura Grande.</p>",
+    "effects": []
+  },
+  {
+    "name": "Arma Implantada",
+    "page": 115,
+    "category": "combate",
+    "prerequisites": "mashin",
+    "cost": 0,
+    "honorMin": 0,
+    "description": "<p>Uma arma obra-prima sua — de disparo ou de corpo a corpo, nunca de arremesso — passa a ficar guardada em um compartimento do seu corpo: empunhá-la ou recolhê-la é uma ação livre, e ela não pode ser roubada nem tomada por desarme. No resto, segue as regras normais da arma (você ainda precisa de mãos livres para usá-la, por exemplo).</p><p>Substituí-la por outra pede um teste de Ofício (metalurgia): CD 10 se levar uma hora, ou CD 20 se feito como ação completa. Apenas armas obra-prima são aceitas.</p><p><strong>Especial:</strong> pode ser escolhido várias vezes, uma arma implantada a mais por escolha.</p>",
+    "effects": []
+  },
+  {
+    "name": "Ataque Atordoante",
+    "page": 115,
+    "category": "combate",
+    "prerequisites": "Sab 13, Ataque Desarmado Aprimorado",
+    "cost": 1,
+    "honorMin": 0,
+    "description": "<p>Anuncie o uso antes de um ataque desarmado. Se acertar, o alvo sofre o dano normal e precisa passar num teste de Fortitude (CD 15) para não ficar atordoado por uma rodada.</p><p><strong>Custo:</strong> 1 PM. Gastando a quantidade de PM de um jutsu de certo grau, a CD passa a ser a desse grau (ex.: com 6 PM, CD 22, igual a um jutsu avançado).</p>",
+    "effects": []
+  },
+  {
+    "name": "Ataque Desarmado Aprimorado",
+    "page": 116,
+    "category": "combate",
+    "prerequisites": "",
+    "cost": 0,
+    "honorMin": 0,
+    "description": "<p>Seus ataques desarmados causam 1d4 de dano, e você decide se esse dano é letal ou não letal.</p><p><strong>Normal:</strong> o dano desarmado é 1d3 e sempre não letal.</p><p><strong>Especial:</strong> os valores acima são para criaturas Médias; para outros tamanhos, veja a tabela “Dano de Armas por Tamanho” (Capítulo 3).</p>",
+    "effects": []
+  },
+  {
+    "name": "Ataque Duplo",
+    "page": 116,
+    "category": "combate",
+    "prerequisites": "Foco em Arma com a arma escolhida, bônus base de ataque +6",
+    "cost": 2,
+    "honorMin": 0,
+    "description": "<p>Se estiver com a arma escolhida (a do Foco em Arma) e usar a ação padrão atacar, você ganha um ataque extra com ela.</p><p><strong>Custo:</strong> 2 PM.</p>",
+    "effects": []
+  },
+  {
+    "name": "Ataque em Movimento",
+    "page": 116,
+    "category": "combate",
+    "prerequisites": "Des 13, Esquiva, Mobilidade, bônus base de ataque +4",
+    "cost": 0,
+    "honorMin": 0,
+    "description": "<p>Em ataques corpo a corpo, você pode dividir seu movimento, deslocando-se tanto antes quanto depois de atacar, desde que a soma não exceda seu deslocamento. Não vale com armadura pesada.</p><p><strong>Normal:</strong> o movimento acontece só antes ou só depois do ataque.</p>",
+    "effects": []
+  },
+  {
+    "name": "Ataque Giratório",
+    "page": 116,
+    "category": "combate",
+    "prerequisites": "Des 13, Esquiva, Mobilidade, Ataque em Movimento, Especialização em Combate, bônus base de ataque +4",
+    "cost": 0,
+    "honorMin": 0,
+    "description": "<p>Quando usa a ação padrão atacar, é possível renunciar aos demais ataques para golpear corpo a corpo, uma vez, cada oponente ao seu alcance.</p>",
+    "effects": []
+  },
+  {
+    "name": "Ataque Poderoso",
+    "page": 116,
+    "category": "combate",
+    "prerequisites": "For 13",
+    "cost": 0,
+    "honorMin": 0,
+    "description": "<p>Antes de um ataque corpo a corpo, você pode aceitar –2 na jogada de ataque para ganhar +4 na jogada de dano.</p><p><strong>Custo:</strong> o uso básico é gratuito; cada 1 PM gasto soma mais +2 ao dano (cumulativo, até o seu limite de PM).</p>",
+    "effects": []
+  },
+  {
+    "name": "Ataque Preciso",
+    "page": 116,
+    "category": "combate",
+    "prerequisites": "Des 13, Acuidade com Arma, Especialização em Combate",
+    "cost": 0,
+    "honorMin": 0,
+    "description": "<p>Usando uma arma beneficiada por Acuidade com Arma, seu bônus de Destreza também entra nas jogadas de dano, somado ao de Força.</p>",
+    "effects": []
+  },
+  {
+    "name": "Atropelar Aprimorado",
+    "page": 116,
+    "category": "combate",
+    "prerequisites": "For 13, Ataque Poderoso",
+    "cost": 0,
+    "honorMin": 0,
+    "description": "<p>Quando você usa a manobra atropelar, o alvo perde a opção de se desviar de você. Você também recebe +4 nas jogadas de ataque para atropelar.</p>",
+    "effects": []
+  },
+  {
+    "name": "Auxílio de Mira",
+    "page": 116,
+    "category": "combate",
+    "prerequisites": "mashin",
+    "cost": 1,
+    "honorMin": 0,
+    "description": "<p>Com uma ação livre, você ganha +1 na margem de ameaça de armas de ataque à distância durante 1 rodada.</p><p><strong>Custo:</strong> 1 PM.</p>",
+    "effects": []
+  },
+  {
+    "name": "Blindagem",
+    "page": 116,
+    "category": "combate",
+    "prerequisites": "mashin",
+    "cost": 0,
+    "honorMin": 0,
+    "description": "<p>Uma armadura obra-prima sua, que você saiba usar, é integrada ao seu corpo de modo permanente: vesti-la ou recolhê-la é uma ação livre, e ela não pode ser roubada. No resto, funciona normalmente (a penalidade de armadura continua valendo, por exemplo).</p><p>Substituí-la por outra pede um teste de Ofício (metalurgia): CD 10 se levar uma hora, ou CD 20 no tempo normal de vestir a armadura. Só armaduras obra-prima podem ser instaladas.</p><p>A armadura instalada também dá chance de ignorar o dano extra de acertos críticos e ataques furtivos: 25% se for leve, 75% se for média e 100% se for pesada.</p>",
+    "effects": []
+  },
+  {
+    "name": "Bloqueio Ambidestro",
+    "page": 117,
+    "category": "combate",
+    "prerequisites": "Des 15, Combater com Duas Armas",
+    "cost": 0,
+    "honorMin": 0,
+    "description": "<p>Sempre que ataca usando Combater com Duas Armas, sua CA aumenta em +2 até o seu próximo turno.</p>",
+    "effects": []
+  },
+  {
+    "name": "Campo de Força",
+    "page": 117,
+    "category": "combate",
+    "prerequisites": "mashin",
+    "cost": 0,
+    "honorMin": 0,
+    "description": "<p>Você aprende o jutsu mandala-escudo e consegue executá-lo mesmo sem nenhum chacra aberto.</p>",
+    "effects": []
+  },
+  {
+    "name": "Casca Grossa",
+    "page": 117,
+    "category": "combate",
+    "prerequisites": "Con 13",
+    "cost": 0,
+    "honorMin": 0,
+    "description": "<p>Seu bônus de Constituição também conta na CA. Esse bônus não se soma ao de armaduras nem ao de vestimentas mágicas.</p>",
+    "effects": []
+  },
+  {
+    "name": "Combate Montado",
+    "page": 117,
+    "category": "combate",
+    "prerequisites": "treinado em Cavalgar",
+    "cost": 1,
+    "honorMin": 0,
+    "description": "<p>Quando um ataque estiver prestes a acertar sua montaria, você pode rolar um teste de Cavalgar como reação (no máximo um por ataque); superando a jogada de ataque do inimigo, o golpe é evitado.</p><p>Além disso, numa investida montada você pode continuar se movendo após o ataque, sempre em linha reta e sem que o movimento total da rodada exceda duas vezes o deslocamento da montaria.</p><p><strong>Custo:</strong> 1 PM por uso.</p>",
+    "effects": []
+  },
+  {
+    "name": "Combater com Duas Armas",
+    "page": 117,
+    "category": "combate",
+    "prerequisites": "Des 15",
+    "cost": 0,
+    "honorMin": 0,
+    "description": "<p>Com duas armas leves, ou uma leve e outra de uma mão, você pode atacar uma vez com cada arma ao usar a ação padrão atacar, sofrendo –4 nas duas jogadas de ataque.</p><p><strong>Especial:</strong> com mais mãos, desde que no máximo uma delas segure arma de uma mão, você ataca com todas, com a mesma penalidade de –4.</p>",
+    "effects": []
+  },
+  {
+    "name": "Combater com Duas Armas Aprimorado",
+    "page": 117,
+    "category": "combate",
+    "prerequisites": "Des 17, Combater com Duas Armas, bônus base de ataque +6",
+    "cost": 0,
+    "honorMin": 0,
+    "description": "<p>Ao usar Combater com Duas Armas, a penalidade nas jogadas de ataque cai para –2.</p>",
+    "effects": []
+  },
+  {
+    "name": "Combater com Duas Armas Maior",
+    "page": 117,
+    "category": "combate",
+    "prerequisites": "Des 19, Combater com Duas Armas, Combater com Duas Armas Aprimorado, bônus base de ataque +11",
+    "cost": 0,
+    "honorMin": 0,
+    "description": "<p>A penalidade de ataque de Combater com Duas Armas deixa de existir.</p>",
+    "effects": []
+  },
+  {
+    "name": "Derrubar Aprimorado",
+    "page": 117,
+    "category": "combate",
+    "prerequisites": "Especialização em Combate",
+    "cost": 0,
+    "honorMin": 0,
+    "description": "<p>Você recebe +4 nas jogadas de ataque da manobra derrubar.</p>",
+    "effects": []
+  },
+  {
+    "name": "Desarmar Aprimorado",
+    "page": 117,
+    "category": "combate",
+    "prerequisites": "Especialização em Combate",
+    "cost": 0,
+    "honorMin": 0,
+    "description": "<p>Você recebe +4 nas jogadas de ataque da manobra desarmar.</p>",
+    "effects": []
+  },
+  {
+    "name": "Desbastar",
+    "page": 118,
+    "category": "combate",
+    "prerequisites": "nezumi, Mordida de Rato",
+    "cost": 0,
+    "honorMin": 0,
+    "description": "<p>Toda mordida que acerta impõe –1 na CA do alvo, cumulativo, até o fim da cena.</p>",
+    "effects": []
+  },
+  {
+    "name": "Desviar Objetos",
+    "page": 118,
+    "category": "combate",
+    "prerequisites": "Des 13, Ataque Desarmado Aprimorado",
+    "cost": 1,
+    "honorMin": 0,
+    "description": "<p>Contra armas arremessadas ou disparadas em você (flechas, shuriken, kunai etc.), role uma jogada de ataque como reação (no máximo uma por ataque); superando o resultado do oponente, você evita o golpe.</p><p>Exige uma mão livre. Não funciona contra projéteis enormes (como pedras de catapulta) nem contra jutsus.</p><p><strong>Custo:</strong> 1 PM por uso. Ao desviar uma arma de arremesso, você pode pagar mais 2 PM para agarrá-la e lançá-la de volta contra o oponente, como reação.</p>",
+    "effects": []
+  },
+  {
+    "name": "Duro de Matar",
+    "page": 118,
+    "category": "combate",
+    "prerequisites": "",
+    "cost": 4,
+    "honorMin": 0,
+    "description": "<p>Quando sofrer dano que deixaria você com 0 PV ou menos, você pode ignorar esse dano por completo.</p><p><strong>Custo:</strong> 4 PM por uso.</p>",
+    "effects": []
+  },
+  {
+    "name": "Empunhadura Poderosa",
+    "page": 118,
+    "category": "combate",
+    "prerequisites": "For 17",
+    "cost": 0,
+    "honorMin": 0,
+    "description": "<p>Armas uma categoria de tamanho maior que a sua impõem a você só –2 nas jogadas de ataque.</p><p><strong>Normal:</strong> a penalidade por usar arma uma categoria de tamanho maior que a própria é –4 nas jogadas de ataque.</p>",
+    "effects": []
+  },
+  {
+    "name": "Empurrar Aprimorado",
+    "page": 118,
+    "category": "combate",
+    "prerequisites": "For 13, Ataque Poderoso",
+    "cost": 0,
+    "honorMin": 0,
+    "description": "<p>Você recebe +4 nas jogadas de ataque da manobra empurrar.</p>",
+    "effects": []
+  },
+  {
+    "name": "Especialização em Arma",
+    "page": 118,
+    "category": "combate",
+    "prerequisites": "kensei 4º nível",
+    "cost": 0,
+    "honorMin": 0,
+    "description": "<p>Suas jogadas de dano com a arma eleita recebem +2.</p>",
+    "effects": []
+  },
+  {
+    "name": "Especialização em Arma Aprimorada",
+    "page": 118,
+    "category": "combate",
+    "prerequisites": "Foco em Arma Aprimorado, Especialização em Arma, kensei 12º nível",
+    "cost": 0,
+    "honorMin": 0,
+    "description": "<p>O bônus de dano de Especialização em Arma passa a ser +4.</p>",
+    "effects": []
+  },
+  {
+    "name": "Especialização em Armadura",
+    "page": 118,
+    "category": "combate",
+    "prerequisites": "Foco em Armadura do tipo escolhido, bushi 8º nível",
+    "cost": 0,
+    "honorMin": 0,
+    "description": "<p>Escolhido para um tipo de armadura (leve, média ou pesada). Enquanto veste uma armadura desse tipo, você tem redução de dano 2.</p>",
+    "effects": []
+  },
+  {
+    "name": "Especialização em Combate",
+    "page": 118,
+    "category": "combate",
+    "prerequisites": "Int 13",
+    "cost": 0,
+    "honorMin": 0,
+    "description": "<p>Antes de um ataque corpo a corpo, você pode aceitar –2 na jogada de ataque para ganhar +4 na CA até o seu próximo turno.</p>",
+    "effects": []
+  },
+  {
+    "name": "Esquiva",
+    "page": 118,
+    "category": "combate",
+    "prerequisites": "Des 13",
+    "cost": 0,
+    "honorMin": 0,
+    "description": "<p>Você recebe +1 na CA.</p>",
+    "effects": [
+      {"key": "system.attributes.ca.bonus", "type": "add", "value": 1}
+    ]
+  },
+  {
+    "name": "Foco em Arma",
+    "page": 118,
+    "category": "combate",
+    "prerequisites": "saber usar a arma escolhida, bônus base de ataque +1",
+    "cost": 0,
+    "honorMin": 0,
+    "description": "<p>Escolhido para uma arma: você recebe +1 nas jogadas de ataque com ela.</p><p><strong>Especial:</strong> pela regra de talentos cumulativos, pode ser escolhido de novo para outra arma, mas não acumula na mesma arma.</p>",
+    "effects": []
+  },
+  {
+    "name": "Foco em Arma Aprimorado",
+    "page": 119,
+    "category": "combate",
+    "prerequisites": "kensei 8º nível",
+    "cost": 0,
+    "honorMin": 0,
+    "description": "<p>Com sua arma escolhida, o bônus de Foco em Arma passa a ser +2.</p>",
+    "effects": []
+  },
+  {
+    "name": "Foco em Armadura",
+    "page": 119,
+    "category": "combate",
+    "prerequisites": "saber usar o tipo de armadura escolhido",
+    "cost": 0,
+    "honorMin": 0,
+    "description": "<p>Escolhido para um tipo de armadura (leve, média ou pesada). Vestindo uma armadura desse tipo, você recebe +1 na CA e sua penalidade de armadura diminui em 1.</p>",
+    "effects": []
+  },
+  {
+    "name": "Golpe com Duas Mãos",
+    "page": 119,
+    "category": "combate",
+    "prerequisites": "For 15, Ataque Poderoso",
+    "cost": 0,
+    "honorMin": 0,
+    "description": "<p>Ao empunhar uma arma corpo a corpo com ambas as mãos, você aplica às jogadas de dano o dobro do seu modificador de Força. Não vale para armas leves.</p>",
+    "effects": []
+  },
+  {
+    "name": "Honra Suprema",
+    "page": 119,
+    "category": "combate",
+    "prerequisites": "ryuujin",
+    "cost": 0,
+    "honorMin": 0,
+    "description": "<p>Os bônus raciais que você tem contra oponentes de Honra menor que a sua (CA, ataque e dano) passam a ser +2.</p><p><strong>Normal:</strong> o ryuujin tem +1 na CA, no ataque e no dano contra quem possui Honra inferior à dele.</p>",
+    "effects": []
+  },
+  {
+    "name": "Infinita Munição",
+    "page": 119,
+    "category": "combate",
+    "prerequisites": "mashin, saber usar a arma escolhida",
+    "cost": 0,
+    "honorMin": 0,
+    "description": "<p>Escolha uma arma de arremesso que cause dano de corte ou de perfuração (kunai, shuriken etc.), ou a arma de disparo que você já implantou com o talento Arma Implantada. Seu organismo gera, sem limite, cópias comuns, sem qualidade obra-prima, dessa arma de arremesso, ou projéteis para a arma de disparo (não é preciso recarregá-la).</p><p>As armas de arremesso surgem sozinhas nas suas mãos (sacá-las é ação livre). Tudo o que é gerado se desfaz após 1 minuto. O limite de armas que você consegue segurar e usar continua valendo.</p><p><strong>Especial:</strong> pode ser escolhido mais vezes, para armas diferentes.</p>",
+    "effects": []
+  },
+  {
+    "name": "Investida Implacável",
+    "page": 119,
+    "category": "combate",
+    "prerequisites": "treinado em Cavalgar, Combate Montado",
+    "cost": 0,
+    "honorMin": 0,
+    "description": "<p>Ao fazer uma investida montado, você causa dano dobrado.</p>",
+    "effects": []
+  },
+  {
+    "name": "Lutar às Cegas",
+    "page": 119,
+    "category": "combate",
+    "prerequisites": "",
+    "cost": 0,
+    "honorMin": 0,
+    "description": "<p>Quando erra um ataque por causa de camuflagem, você pode rolar a chance de acerto uma segunda vez. Além disso, inimigos que você não consegue ver não deixam você desprevenido.</p>",
+    "effects": []
+  },
+  {
+    "name": "Mestre em Arma",
+    "page": 119,
+    "category": "combate",
+    "prerequisites": "Especialização em Arma, Especialização em Arma Aprimorada, Foco em Arma Aprimorado, kensei 16º nível",
+    "cost": 4,
+    "honorMin": 0,
+    "description": "<p>Com a arma eleita, você ganha +1 no ataque e no dano, e também +1 na margem de ameaça e +1 no multiplicador de crítico.</p><p>Também pode repetir uma jogada de ataque que acabou de fazer; o segundo resultado vale obrigatoriamente, mesmo que seja pior.</p><p><strong>Custo:</strong> 4 PM por nova rolagem de ataque (os bônus fixos não custam nada).</p>",
+    "effects": []
+  },
+  {
+    "name": "Mira Apurada",
+    "page": 119,
+    "category": "combate",
+    "prerequisites": "Sab 13, Tiro Certeiro, Tiro Longo",
+    "cost": 0,
+    "honorMin": 0,
+    "description": "<p>Se gastar uma ação de movimento mirando em um alvo, você recebe +1 em ataques à distância contra ele nessa rodada.</p>",
+    "effects": []
+  },
+  {
+    "name": "Mira Mortal",
+    "page": 120,
+    "category": "combate",
+    "prerequisites": "Des 17, Sab 13, Mira Apurada, Tiro Certeiro, Tiro Longo, bônus base de ataque +11",
+    "cost": 0,
+    "honorMin": 0,
+    "description": "<p>Você ganha +1 na margem de ameaça de armas de ataque à distância.</p>",
+    "effects": []
+  },
+  {
+    "name": "Mobilidade",
+    "page": 120,
+    "category": "combate",
+    "prerequisites": "Des 13, Esquiva",
+    "cost": 0,
+    "honorMin": 0,
+    "description": "<p>Sempre que gasta uma ação de movimento para se deslocar, você recebe +2 na CA.</p>",
+    "effects": []
+  },
+  {
+    "name": "Mordida de Rato",
+    "page": 120,
+    "category": "combate",
+    "prerequisites": "nezumi",
+    "cost": 0,
+    "honorMin": 0,
+    "description": "<p>Você passa a ter uma mordida (ataque natural, dano 1d4). Ao usar a ação padrão atacar, pode morder como ataque extra, mas aí as duas jogadas de ataque sofrem –4.</p>",
+    "effects": []
+  },
+  {
+    "name": "Na Mosca",
+    "page": 120,
+    "category": "combate",
+    "prerequisites": "Des 13, Tiro Certeiro, Tiro Preciso",
+    "cost": 0,
+    "honorMin": 0,
+    "description": "<p>Seu modificador de Destreza entra nas jogadas de dano feitas com armas de ataque à distância.</p>",
+    "effects": []
+  },
+  {
+    "name": "Pisotear",
+    "page": 120,
+    "category": "combate",
+    "prerequisites": "treinado em Cavalgar, Combate Montado",
+    "cost": 0,
+    "honorMin": 0,
+    "description": "<p>Montado, quando você usa a manobra atropelar, o alvo perde a opção de se desviar. Se derrubar o oponente, você pode atacá-lo imediatamente como ação livre (com o bônus de +4 contra oponentes caídos).</p>",
+    "effects": []
+  },
+  {
+    "name": "Rapidez de Recarga",
+    "page": 120,
+    "category": "combate",
+    "prerequisites": "saber usar a arma escolhida",
+    "cost": 0,
+    "honorMin": 0,
+    "description": "<p>Escolhido para uma arma de disparo que precisa ser recarregada (como besta leve ou besta pesada). Recarregá-la exige uma ação uma categoria menor: ação completa vira padrão, padrão vira movimento e movimento vira livre.</p>",
+    "effects": []
+  },
+  {
+    "name": "Reflexos de Combate",
+    "page": 120,
+    "category": "combate",
+    "prerequisites": "Des 13",
+    "cost": 1,
+    "honorMin": 0,
+    "description": "<p>Qualquer oponente desprevenido ao seu alcance pode ser alvo de um único ataque corpo a corpo seu, feito como ação livre.</p><p><strong>Custo:</strong> 1 PM por uso.</p>",
+    "effects": []
+  },
+  {
+    "name": "Saque Rápido",
+    "page": 120,
+    "category": "combate",
+    "prerequisites": "",
+    "cost": 0,
+    "honorMin": 0,
+    "description": "<p>Sacar ou guardar armas é uma ação livre para você. Além disso, com sucesso num teste de Iniciativa (CD 30), você saca ou guarda uma arma como reação.</p><p><strong>Custo:</strong> sacar ou guardar uma vez na rodada é gratuito; cada uso adicional na mesma rodada custa 1 PM.</p>",
+    "effects": []
+  },
+  {
+    "name": "Separar Aprimorado",
+    "page": 120,
+    "category": "combate",
+    "prerequisites": "For 13, Ataque Poderoso",
+    "cost": 0,
+    "honorMin": 0,
+    "description": "<p>Você recebe +4 nas jogadas de ataque da manobra separar e causa dano dobrado contra objetos.</p>",
+    "effects": []
+  },
+  {
+    "name": "Tiro Certeiro",
+    "page": 120,
+    "category": "combate",
+    "prerequisites": "",
+    "cost": 0,
+    "honorMin": 0,
+    "description": "<p>Contra alvos a até 9m, seus ataques com armas de ataque à distância recebem +1 no ataque e no dano.</p>",
+    "effects": []
+  },
+  {
+    "name": "Tiro em Movimento",
+    "page": 120,
+    "category": "combate",
+    "prerequisites": "Des 13, Esquiva, Mobilidade, Tiro Certeiro, bônus base de ataque +4",
+    "cost": 0,
+    "honorMin": 0,
+    "description": "<p>Em ataques à distância, você pode dividir seu movimento, deslocando-se tanto antes quanto depois de atacar, desde que a soma não exceda seu deslocamento. Não vale com armadura pesada.</p><p><strong>Normal:</strong> o movimento acontece só antes ou só depois do ataque.</p>",
+    "effects": []
+  },
+  {
+    "name": "Tiro Longo",
+    "page": 121,
+    "category": "combate",
+    "prerequisites": "Tiro Certeiro",
+    "cost": 0,
+    "honorMin": 0,
+    "description": "<p>Dobre a distância de todas as armas de ataque à distância que usar.</p>",
+    "effects": []
+  },
+  {
+    "name": "Tiro Montado",
+    "page": 121,
+    "category": "combate",
+    "prerequisites": "Combate Montado",
+    "cost": 0,
+    "honorMin": 0,
+    "description": "<p>A penalidade em ataques à distância por sua montaria ter se movimentado cai para –2.</p><p><strong>Normal:</strong> essa penalidade é –4 quando a montaria se moveu na mesma rodada.</p>",
+    "effects": []
+  },
+  {
+    "name": "Tiro Múltiplo",
+    "page": 121,
+    "category": "combate",
+    "prerequisites": "Des 17, Tiro Certeiro, Tiro Rápido, bônus base de ataque +6",
+    "cost": 2,
+    "honorMin": 0,
+    "description": "<p>Usando uma arma de disparo contra um alvo a até 9m, a ação padrão atacar lhe dá um ataque extra contra esse mesmo alvo.</p><p><strong>Custo:</strong> 2 PM.</p>",
+    "effects": []
+  },
+  {
+    "name": "Tiro Preciso",
+    "page": 121,
+    "category": "combate",
+    "prerequisites": "Tiro Certeiro",
+    "cost": 0,
+    "honorMin": 0,
+    "description": "<p>Atacar à distância um oponente que esteja em combate corpo a corpo não impõe a você a penalidade de –4.</p><p><strong>Normal:</strong> esse tipo de ataque sofre –4 na jogada.</p>",
+    "effects": []
+  },
+  {
+    "name": "Tiro Preciso Aprimorado",
+    "page": 121,
+    "category": "combate",
+    "prerequisites": "Des 19, Tiro Certeiro, Tiro Preciso, bônus base de ataque +11",
+    "cost": 0,
+    "honorMin": 0,
+    "description": "<p>Cobertura e camuflagem, desde que não sejam totais, não afetam seus ataques à distância. Contra alvos envolvidos na manobra agarrar, você sempre acerta quem escolheu.</p><p><strong>Normal:</strong> ao atirar em alguém envolvido na manobra agarrar, o alvo atingido é sorteado.</p>",
+    "effects": []
+  },
+  {
+    "name": "Tiro Rápido",
+    "page": 121,
+    "category": "combate",
+    "prerequisites": "Des 13, Tiro Certeiro",
+    "cost": 2,
+    "honorMin": 0,
+    "description": "<p>Com uma arma de ataque à distância, atacar usando uma ação completa lhe dá um ataque extra.</p><p><strong>Custo:</strong> 2 PM.</p>",
+    "effects": []
+  },
+  {
+    "name": "Trespassar",
+    "page": 121,
+    "category": "combate",
+    "prerequisites": "For 13, Ataque Poderoso",
+    "cost": 1,
+    "honorMin": 0,
+    "description": "<p>Se um ataque corpo a corpo seu deixar um inimigo com 0 PV ou menos, você pode, como ação livre, atacar outra criatura ao seu alcance. Esse ataque extra repete os mesmos bônus de ataque e de dano do anterior, mas os dados são rolados outra vez.</p><p><strong>Custo:</strong> 1 PM por uso.</p>",
+    "effects": []
+  },
+  {
+    "name": "Trespassar Aprimorado",
+    "page": 121,
+    "category": "combate",
+    "prerequisites": "For 13, Ataque Poderoso, Trespassar, bônus base de ataque +4",
+    "cost": 1,
+    "honorMin": 0,
+    "description": "<p>Quando usa Trespassar, você pode avançar 1,5m antes de fazer o ataque extra.</p><p><strong>Custo:</strong> 1 PM por uso, além do custo de Trespassar (2 PM no total para avançar e atacar).</p>",
+    "effects": []
+  },
+  {
+    "name": "Usar Armas Simples",
+    "page": 121,
+    "category": "combate",
+    "prerequisites": "",
+    "cost": 0,
+    "honorMin": 0,
+    "description": "<p>Você passa a saber usar todas as armas simples (ex.: kunai, yari).</p>",
+    "effects": []
+  },
+  {
+    "name": "Usar Armas Marciais",
+    "page": 121,
+    "category": "combate",
+    "prerequisites": "Usar Armas Simples",
+    "cost": 0,
+    "honorMin": 0,
+    "description": "<p>Você passa a saber usar todas as armas marciais (ex.: katana, wakizashi).</p><p><strong>Normal:</strong> quem ataca com uma arma que não sabe usar sofre –4 nas jogadas de ataque.</p>",
+    "effects": []
+  },
+  {
+    "name": "Usar Arma Exótica",
+    "page": 122,
+    "category": "combate",
+    "prerequisites": "Usar Armas Simples",
+    "cost": 0,
+    "honorMin": 0,
+    "description": "<p>Escolhido para uma arma exótica (ex.: nunchaku, zanbatou): você passa a saber usá-la.</p><p><strong>Normal:</strong> quem ataca com uma arma que não sabe usar sofre –4 nas jogadas de ataque.</p>",
+    "effects": []
+  },
+  {
+    "name": "Usar Armaduras Leves",
+    "page": 122,
+    "category": "combate",
+    "prerequisites": "",
+    "cost": 0,
+    "honorMin": 0,
+    "description": "<p>Você passa a saber usar armaduras leves (ex.: armadura ashigaru, armadura de ossos, char-aina, corselete de couro).</p><p><strong>Normal:</strong> com uma armadura que não sabe usar, a penalidade de armadura se aplica às jogadas de ataque e aos testes de perícias de Força e de Destreza, e executar jutsus exige um teste de Identificar Magia com essa mesma penalidade.</p>",
+    "effects": []
+  },
+  {
+    "name": "Usar Armaduras Médias",
+    "page": 122,
+    "category": "combate",
+    "prerequisites": "Usar Armaduras Leves",
+    "cost": 0,
+    "honorMin": 0,
+    "description": "<p>Você passa a saber usar armaduras médias (ex.: haramaki, lamellar, suchiiru).</p><p><strong>Normal:</strong> com uma armadura que não sabe usar, a penalidade de armadura se aplica às jogadas de ataque e aos testes de perícias de Força e de Destreza, e executar jutsus exige um teste de Identificar Magia com essa mesma penalidade.</p>",
+    "effects": []
+  },
+  {
+    "name": "Usar Armaduras Pesadas",
+    "page": 122,
+    "category": "combate",
+    "prerequisites": "Usar Armaduras Leves, Usar Armaduras Médias",
+    "cost": 0,
+    "honorMin": 0,
+    "description": "<p>Você passa a saber usar armaduras pesadas (ex.: carapaça kappa, yoroi, o-yoroi).</p><p><strong>Normal:</strong> com uma armadura que não sabe usar, a penalidade de armadura se aplica às jogadas de ataque e aos testes de perícias de Força e de Destreza, e executar jutsus exige um teste de Identificar Magia com essa mesma penalidade.</p>",
+    "effects": []
+  },
+  {
+    "name": "Usar Escudos",
+    "page": 122,
+    "category": "combate",
+    "prerequisites": "",
+    "cost": 0,
+    "honorMin": 0,
+    "description": "<p>Você passa a saber usar escudos leves e pesados.</p><p><strong>Normal:</strong> com um escudo que não sabe usar, a penalidade de armadura dele se aplica às jogadas de ataque e aos testes de perícias de Força e de Destreza, e executar jutsus exige um teste de Identificar Magia com essa mesma penalidade.</p>",
+    "effects": []
+  },
+  {
+    "name": "Usar Venenos",
+    "page": 122,
+    "category": "combate",
+    "prerequisites": "treinado em Ofício (alquimia)",
+    "cost": 0,
+    "honorMin": 0,
+    "description": "<p>Você aplica veneno em armas sem nenhum risco de se envenenar por acidente.</p><p><strong>Normal:</strong> sem este talento, aplicar veneno em uma arma traz 10% de chance de você mesmo se expor a ele.</p><p><strong>Especial:</strong> escolher este talento conta como violação de honra severa.</p>",
+    "effects": []
+  },
+  {
+    "name": "Vitalidade",
+    "page": 122,
+    "category": "combate",
+    "prerequisites": "",
+    "cost": 0,
+    "honorMin": 0,
+    "description": "<p>Você recebe +1 PV por nível de personagem, e o bônus acompanha seus próximos níveis (ex.: escolhido no 3º nível, dá 3 PV; ao chegar ao 4º, dá mais 1).</p><p><strong>Especial:</strong> pode ser escolhido várias vezes; os efeitos se acumulam.</p>",
+    "effects": []
+  }
+]

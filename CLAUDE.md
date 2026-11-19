@@ -16,6 +16,18 @@ chacras e jutsus com custo e CD por grau.
 - `module/sheets/`: ficha de personagem (ApplicationV2, uma parte por aba) e ficha de item.
 - `styles/imperio.css`: todo o visual; `styles/fonts.css`: Cinzel (Google Fonts), Gelasio e Noto Serif JP (embutidas).
 
+## Compêndios
+- A fonte é `src/data/*.json` (as regras do livro **resumidas com palavras próprias**, com a página). `npm run build` roda
+  `tools/build-data.mjs` (gera `src/packs/<pack>/*.json` com ids estáveis, pastas, ícones e efeitos; liga classes às
+  habilidades e aos talentos iniciais, raças às habilidades raciais) e `tools/packs.mjs` (compila em `packs/`, com o
+  Foundry desligado). `src/packs` e `packs` não vão para o git; o zip da release leva `packs`.
+- **Nenhum texto exato do livro.** Antes de cada release: `node tools/check-text.mjs <texto-do-PDF.txt> --min 10`
+  tem de sair sem trechos; o texto do PDF fica fora do repositório. Créditos em `CREDITOS.md`.
+- Classe e raça concedem itens ao entrar na ficha (`module/documents/grants.mjs`, flags `grantedBy`/`sourceUuid`);
+  a classe inicial dá +1 de Honra por nível ganho. Efeitos de item equipável só valem equipado (`active-effect.mjs`).
+- `game.imperiodejade.bookText` mostra o texto original de um módulo local que cada jogador gera do próprio PDF
+  (importador fora deste repositório). O sistema nunca traz esse texto.
+
 ## Regras que valem sempre
 - Código e comentários em inglês; interface em `lang/pt-BR.json` (registrado também para `en`).
 - Um campo `name` aparece uma vez só no formulário inteiro: as abas são partes do mesmo `<form>` e dois campos com o

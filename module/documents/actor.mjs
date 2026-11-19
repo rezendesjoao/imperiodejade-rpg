@@ -14,6 +14,14 @@ export class ImperioActor extends Actor {
       data.nivel = this.system.level;
       data.meionivel = this.system.halfLevel;
       data.bba = this.system.bba;
+    } else if (this.type === "npc") {
+      // The threat's numbers come ready from the stat block; the same paths as a character where formulas need them
+      const sys = this.system;
+      for (const [key, mod] of Object.entries(sys.mods ?? {})) data[key] = mod ?? 0;
+      data.nivel = sys.level;
+      data.meionivel = Math.floor(sys.level / 2);
+      data.skills = { iniciativa: { total: sys.initiative }, percepcao: { total: sys.perception } };
+      data.abilities = Object.fromEntries(Object.keys(ABILITIES).map(k => [k, { mod: sys.mods?.[k] ?? 0, total: sys.abilities[k] ?? 0 }]));
     }
     return data;
   }
@@ -31,6 +39,17 @@ export class ImperioActor extends Actor {
           displayName: CONST.TOKEN_DISPLAY_MODES.OWNER_HOVER
         }
       });
+    } else if (this.type === "npc" && !data.prototypeToken) {
+      this.updateSource({
+        prototypeToken: {
+          actorLink: false,
+          disposition: CONST.TOKEN_DISPOSITIONS.HOSTILE,
+          displayBars: CONST.TOKEN_DISPLAY_MODES.OWNER_HOVER,
+          displayName: CONST.TOKEN_DISPLAY_MODES.HOVER,
+          bar1: { attribute: "pv" },
+          bar2: { attribute: "pm" }
+        }
+      });
     }
   }
 
@@ -40,14 +59,16 @@ export class ImperioActor extends Actor {
 
   /** Ability test (p. 223): 1d20 + modifier. */
   async rollAbility(key, { event } = {}) {
-    const ability = this.system.abilities[key];
-    if (!ability) return null;
+    const isNpc = this.type === "npc";
+    const score = isNpc ? this.system.abilities[key] : this.system.abilities[key]?.total;
+    const mod = isNpc ? this.system.mods?.[key] : this.system.abilities[key]?.mod;
+    if ((score === undefined) || (score === null) || (mod === null)) return null;
     return d20Roll({
       actor: this, event,
       title: game.i18n.format("IJ.Roll.abilityTest", { name: L(ABILITIES[key].label) }),
-      subtitle: `${L(ABILITIES[key].label)} ${ability.total}`,
-      bonus: ability.mod,
-      parts: [{ label: L(ABILITIES[key].abbr), value: ability.mod }],
+      subtitle: `${L(ABILITIES[key].label)} ${score}`,
+      bonus: mod,
+      parts: [{ label: L(ABILITIES[key].abbr), value: mod }],
       kanji: ABILITIES[key].kanji
     });
   }
@@ -55,6 +76,11 @@ export class ImperioActor extends Actor {
   /** Skill test (p. 223): 1d20 + ranks + key ability + other bonuses. */
   async rollSkill(key, { event, specialtyId } = {}) {
     const sys = this.system;
+    if (this.type === "npc") {
+      if (key === "iniciativa") return this.rollInitiativeCheck({ event });
+      if (key !== "percepcao") return null;
+      return d20Roll({ actor: this, event, title: game.i18n.format("IJ.Roll.skillTest", { name: L(SKILLS.percepcao.label) }), bonus: sys.perception, kanji: "技" });
+    }
     const spec = specialtyId ? sys.specialties[specialtyId] : null;
     const data = spec ?? sys.skills[key];
     const skillKey = spec?.skill ?? key;
@@ -93,6 +119,9 @@ export class ImperioActor extends Actor {
     if (combat?.combatants.some(c => c.actor === this)) {
       return this.rollInitiative({ createCombatants: false, rerollInitiative: true });
     }
+    if (this.type === "npc") {
+      return d20Roll({ actor: this, event, kind: "initiative", title: L("IJ.Skill.iniciativa"), bonus: this.system.initiative, kanji: "速" });
+    }
     const data = this.system.skills.iniciativa;
     return d20Roll({
       actor: this, event, kind: "initiative",
@@ -109,15 +138,24 @@ export class ImperioActor extends Actor {
   }
 
   /** Saving throw (p. 78): 1d20 + ability modifier + half level. */
-  async rollSave(key, { event } = {}) {
+  /**
+   * Saving throw (p. 78): 1d20 + ability modifier + half level.
+   * @param {string} key                 fort, ref or von
+   * @param {object} [options]
+   * @param {number} [options.dc]        The DC to beat: the card says success or failure (natural 1 and 20 decide, p. 78)
+   * @param {string} [options.source]    What forced the test (a jutsu name), shown on the card
+   */
+  async rollSave(key, { event, dc = null, source = "" } = {}) {
     const save = this.system.saves[key];
-    if (!save) return null;
+    if (save === undefined) return null;
+    const isNpc = this.type === "npc";
+    const subtitle = [source, isNpc ? "" : L(ABILITIES[save.ability].label), dc ? `${L("IJ.Jutsu.dc")} ${dc}` : ""].filterJoin(" · ");
     return d20Roll({
-      actor: this, event, kind: "save",
+      actor: this, event, kind: "save", dc,
       title: game.i18n.format("IJ.Roll.saveTest", { name: L(SAVES[key].label) }),
-      subtitle: L(ABILITIES[save.ability].label),
-      bonus: save.total,
-      parts: [
+      subtitle,
+      bonus: isNpc ? save : save.total,
+      parts: isNpc ? [] : [
         { label: L("IJ.Level.half"), value: this.system.halfLevel },
         { label: L(ABILITIES[save.ability].abbr), value: save.mod },
         { label: L("IJ.Skill.other"), value: save.bonus }
@@ -234,13 +272,20 @@ export class ImperioActor extends Actor {
    * @param {number} amount
    */
   async spendPm(amount) {
-    const pm = this.system.attributes.pm;
+    const isNpc = this.type === "npc";
+    const pm = isNpc ? this.system.pm : this.system.attributes.pm;
     if (amount > pm.value) {
       ui.notifications.warn(game.i18n.format("IJ.PM.notEnough", { n: amount, have: pm.value }));
       return false;
     }
-    await this.update({ "system.attributes.pm.value": pm.value - amount });
+    await this.update({ [isNpc ? "system.pm.value" : "system.attributes.pm.value"]: pm.value - amount });
     return true;
+  }
+
+  /** The most PM that can go into one jutsu or ability (p. 161); a threat uses its level or its PM. */
+  get pmLimit() {
+    if (this.type === "npc") return Math.max(this.system.level ?? 0, this.system.pm?.max ?? 0);
+    return this.system.attributes?.pm?.limit ?? 0;
   }
 
   /** A night of rest (p. 77, 234): all PM back, and 1 PV per character level. */

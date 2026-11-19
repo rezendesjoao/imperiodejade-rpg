@@ -1,0 +1,3899 @@
+[
+ {
+  "name": "Bisonte",
+  "page": 256,
+  "nd": "4",
+  "creatureType": "animal",
+  "level": 8,
+  "size": "grande",
+  "sizeNote": "comprido",
+  "initiative": 3,
+  "perception": 12,
+  "senses": "faro, visão na penumbra",
+  "ca": 18,
+  "caNote": "+4 nível, –1 Des, –1 tamanho, +6 natural",
+  "pv": 72,
+  "pm": 0,
+  "saves": {
+   "fort": 11,
+   "ref": 5,
+   "von": 5
+  },
+  "movement": "12m",
+  "abilities": {
+   "for": 28,
+   "des": 8,
+   "con": 20,
+   "int": 2,
+   "sab": 13,
+   "car": 6,
+   "hon": null
+  },
+  "skills": "",
+  "rd": "",
+  "resistances": "",
+  "attacks": [
+   {
+    "name": "Chifres",
+    "kind": "corpo",
+    "bonus": 12,
+    "damage": "1d12",
+    "damageBonus": 17,
+    "damageType": "",
+    "critRange": 20,
+    "critMult": 2,
+    "count": 1,
+    "range": 0,
+    "note": ""
+   }
+  ],
+  "attackText": "chifres +12 (1d12+17).",
+  "specials": [
+   {
+    "name": "Investida Avassaladora",
+    "description": "<p>Ao acertar um ataque em investida, além do dano o bisonte empurra a vítima 1d6 x 1,5m na direção do golpe. A vítima evita o empurrão (não o dano) com teste de Fortitude contra CD igual ao dano causado.</p>",
+    "cost": 0
+   }
+  ],
+  "jutsus": [],
+  "treasure": "nenhum",
+  "summary": "<p>Búfalo lanoso de clima frio, agressivo e territorial. Aparece em bandos de 4d6 indivíduos e ataca intrusos à primeira vista, usando investidas para derrubar adversários.</p>",
+  "group": "Animais"
+ },
+ {
+  "name": "Cão-Leão",
+  "page": 256,
+  "nd": "3",
+  "creatureType": "animal",
+  "level": 5,
+  "size": "grande",
+  "sizeNote": "comprido",
+  "initiative": 5,
+  "perception": 9,
+  "senses": "faro, visão na penumbra",
+  "ca": 17,
+  "caNote": "+2 nível, +3 Des, –1 tamanho, +3 natural",
+  "pv": 30,
+  "pm": 0,
+  "saves": {
+   "fort": 8,
+   "ref": 7,
+   "von": 3
+  },
+  "movement": "18m",
+  "abilities": {
+   "for": 20,
+   "des": 17,
+   "con": 15,
+   "int": 2,
+   "sab": 12,
+   "car": 8,
+   "hon": null
+  },
+  "skills": "",
+  "rd": "",
+  "resistances": "",
+  "attacks": [
+   {
+    "name": "Garra",
+    "kind": "corpo",
+    "bonus": 8,
+    "damage": "1d6",
+    "damageBonus": 7,
+    "damageType": "",
+    "critRange": 20,
+    "critMult": 2,
+    "count": 1,
+    "range": 0,
+    "note": "Opção 1 (alternativa ao ataque completo)."
+   },
+   {
+    "name": "Garras",
+    "kind": "corpo",
+    "bonus": 6,
+    "damage": "1d6",
+    "damageBonus": 7,
+    "damageType": "",
+    "critRange": 20,
+    "critMult": 2,
+    "count": 2,
+    "range": 0,
+    "note": "Opção 2: 2 garras e mordida, no mesmo turno."
+   },
+   {
+    "name": "Mordida",
+    "kind": "corpo",
+    "bonus": 5,
+    "damage": "1d8",
+    "damageBonus": 7,
+    "damageType": "",
+    "critRange": 20,
+    "critMult": 2,
+    "count": 1,
+    "range": 0,
+    "note": "Faz parte da opção 2 (2 garras e mordida)."
+   }
+  ],
+  "attackText": "garra +8 (1d6+7) ou 2 garras +6 (1d6+7) e mordida +5 (1d8+7).",
+  "specials": [
+   {
+    "name": "Agarrar Aprimorado",
+    "description": "<p>Ao acertar a mordida, o cão-leão pode fazer uma manobra de agarrar como ação livre (bônus +9).</p>",
+    "cost": 0
+   },
+   {
+    "name": "Bote",
+    "description": "<p>Numa investida, ataca com todas as armas naturais, aplicando o bônus de +2 da investida em todos os ataques.</p>",
+    "cost": 0
+   },
+   {
+    "name": "Dilacerar",
+    "description": "<p>Se acertar o mesmo alvo com duas garras na rodada, causa 2d6+7 de dano extra com as patas traseiras. Não funciona enquanto estiver montado.</p>",
+    "cost": 0
+   }
+  ],
+  "jutsus": [],
+  "treasure": "nenhum",
+  "summary": "<p>Fera de caça parecida com um cão gigante, domesticável como montaria, carga ou guerra. Luta com garras e mordida, agarrando e dilacerando; ferir um é violação de honra moderada e matar um, severa.</p>",
+  "group": "Animais"
+ },
+ {
+  "name": "Chibi-Kabuto",
+  "page": 258,
+  "nd": "1/3",
+  "creatureType": "animal",
+  "level": 1,
+  "size": "diminuto",
+  "sizeNote": "",
+  "initiative": 0,
+  "perception": 5,
+  "senses": "faro, visão na penumbra",
+  "ca": 16,
+  "caNote": "+2 Des, +4 tamanho, +2 natural",
+  "pv": 4,
+  "pm": 0,
+  "saves": {
+   "fort": 2,
+   "ref": 4,
+   "von": 1
+  },
+  "movement": "6m, voo 3m",
+  "abilities": {
+   "for": 5,
+   "des": 15,
+   "con": 10,
+   "int": 2,
+   "sab": 12,
+   "car": 2,
+   "hon": null
+  },
+  "skills": "",
+  "rd": "",
+  "resistances": "",
+  "attacks": [
+   {
+    "name": "Galhada",
+    "kind": "corpo",
+    "bonus": 1,
+    "damage": "1d3",
+    "damageBonus": -3,
+    "damageType": "",
+    "critRange": 20,
+    "critMult": 2,
+    "count": 1,
+    "range": 0,
+    "note": ""
+   }
+  ],
+  "attackText": "galhada +1 (1d3-3).",
+  "specials": [
+   {
+    "name": "Galhada",
+    "description": "<p>Nas manobras de agarrar e derrubar, os chifres-pinça rendem +4 (total: –7).</p>",
+    "cost": 0
+   }
+  ],
+  "jutsus": [],
+  "treasure": "nenhum",
+  "summary": "<p>Besouro do tamanho de um rato, usado como bicho de estimação ou treinado por ladrões. Fraco em combate, mas pode carregar veneno nas pinças. Em voo não pode investir (e impõe –5 em Cavalgar se montado).</p>",
+  "group": "Animais"
+ },
+ {
+  "name": "Ko-Kabuto",
+  "page": 258,
+  "nd": "1/2",
+  "creatureType": "animal",
+  "level": 2,
+  "size": "pequeno",
+  "sizeNote": "",
+  "initiative": 1,
+  "perception": 6,
+  "senses": "faro, visão na penumbra",
+  "ca": 17,
+  "caNote": "+1 nível, +1 Des, +1 tamanho, +4 natural",
+  "pv": 10,
+  "pm": 0,
+  "saves": {
+   "fort": 4,
+   "ref": 4,
+   "von": 2
+  },
+  "movement": "6m, voo 3m",
+  "abilities": {
+   "for": 14,
+   "des": 13,
+   "con": 13,
+   "int": 2,
+   "sab": 12,
+   "car": 2,
+   "hon": null
+  },
+  "skills": "",
+  "rd": "",
+  "resistances": "",
+  "attacks": [
+   {
+    "name": "Galhada",
+    "kind": "corpo",
+    "bonus": 5,
+    "damage": "1d6",
+    "damageBonus": 3,
+    "damageType": "",
+    "critRange": 20,
+    "critMult": 2,
+    "count": 1,
+    "range": 0,
+    "note": ""
+   }
+  ],
+  "attackText": "galhada +5 (1d6+3).",
+  "specials": [
+   {
+    "name": "Galhada",
+    "description": "<p>Nas manobras de agarrar e derrubar, os chifres-pinça rendem +4 (total: +5).</p>",
+    "cost": 0
+   }
+  ],
+  "jutsus": [],
+  "treasure": "nenhum",
+  "summary": "<p>Besouro do tamanho de um cão, treinado para guardar plantações. Perigoso em pequenos bandos selvagens. Em voo não pode investir (e impõe –5 em Cavalgar se montado).</p>",
+  "group": "Animais"
+ },
+ {
+  "name": "Dai-Kabuto",
+  "page": 259,
+  "nd": "3",
+  "creatureType": "animal",
+  "level": 8,
+  "size": "grande",
+  "sizeNote": "comprido",
+  "initiative": 3,
+  "perception": 12,
+  "senses": "faro, visão na penumbra",
+  "ca": 22,
+  "caNote": "+4 nível, –1 Des, –1 tamanho, +10 natural",
+  "pv": 72,
+  "pm": 0,
+  "saves": {
+   "fort": 11,
+   "ref": 5,
+   "von": 5
+  },
+  "movement": "9m, voo 6m",
+  "abilities": {
+   "for": 28,
+   "des": 9,
+   "con": 20,
+   "int": 2,
+   "sab": 12,
+   "car": 2,
+   "hon": null
+  },
+  "skills": "",
+  "rd": "",
+  "resistances": "",
+  "attacks": [
+   {
+    "name": "Galhada",
+    "kind": "corpo",
+    "bonus": 15,
+    "damage": "1d12",
+    "damageBonus": 13,
+    "damageType": "",
+    "critRange": 20,
+    "critMult": 2,
+    "count": 1,
+    "range": 0,
+    "note": ""
+   }
+  ],
+  "attackText": "galhada +15 (1d12+13).",
+  "specials": [
+   {
+    "name": "Galhada",
+    "description": "<p>Nas manobras de agarrar e derrubar, os chifres-pinça rendem +4 (total: +23).</p>",
+    "cost": 0
+   }
+  ],
+  "jutsus": [],
+  "treasure": "nenhum",
+  "summary": "<p>Besouro do tamanho de um rinoceronte, usado como besta de carga e montaria, treinado para derrubar ou imobilizar oponentes. Em voo não pode investir (e impõe –5 em Cavalgar).</p>",
+  "group": "Animais"
+ },
+ {
+  "name": "Oonokami",
+  "page": 259,
+  "nd": "3",
+  "creatureType": "animal",
+  "level": 7,
+  "size": "grande",
+  "sizeNote": "comprido",
+  "initiative": 3,
+  "perception": 10,
+  "senses": "visão na penumbra",
+  "ca": 21,
+  "caNote": "+3 nível, –1 tamanho, +9 natural",
+  "pv": 56,
+  "pm": 0,
+  "saves": {
+   "fort": 8,
+   "ref": 5,
+   "von": 3
+  },
+  "movement": "9m, natação 9m",
+  "abilities": {
+   "for": 23,
+   "des": 10,
+   "con": 17,
+   "int": 1,
+   "sab": 10,
+   "car": 4,
+   "hon": null
+  },
+  "skills": "",
+  "rd": "10/esmagamento",
+  "resistances": "vulnerabilidade a fogo",
+  "attacks": [
+   {
+    "name": "Pinça",
+    "kind": "corpo",
+    "bonus": 11,
+    "damage": "1d8",
+    "damageBonus": 9,
+    "damageType": "",
+    "critRange": 20,
+    "critMult": 2,
+    "count": 1,
+    "range": 0,
+    "note": "Opção 1."
+   },
+   {
+    "name": "Pinças",
+    "kind": "corpo",
+    "bonus": 9,
+    "damage": "1d8",
+    "damageBonus": 9,
+    "damageType": "",
+    "critRange": 20,
+    "critMult": 2,
+    "count": 2,
+    "range": 0,
+    "note": "Opção 2: 2 pinças."
+   }
+  ],
+  "attackText": "pinça +11 (1d8+9) ou 2 pinças +9 (1d8+9).",
+  "specials": [],
+  "jutsus": [],
+  "treasure": "nenhum",
+  "summary": "<p>Caranguejo-rei de porte Grande, que caça sozinho ou em grupos pequenos, tanto em terra quanto na água. Casco muito resistente a armas de esmagamento, mas vulnerável a fogo.</p>",
+  "group": "Animais"
+ },
+ {
+  "name": "Rato Gigante",
+  "page": 259,
+  "nd": "1/3",
+  "creatureType": "animal",
+  "level": 1,
+  "size": "pequeno",
+  "sizeNote": "",
+  "initiative": 3,
+  "perception": 5,
+  "senses": "faro, visão na penumbra",
+  "ca": 15,
+  "caNote": "+3 Des, +1 tamanho, +1 natural",
+  "pv": 5,
+  "pm": 0,
+  "saves": {
+   "fort": 3,
+   "ref": 5,
+   "von": 1
+  },
+  "movement": "12m, escalada 6m",
+  "abilities": {
+   "for": 10,
+   "des": 17,
+   "con": 12,
+   "int": 1,
+   "sab": 13,
+   "car": 4,
+   "hon": null
+  },
+  "skills": "Furtividade +11",
+  "rd": "",
+  "resistances": "",
+  "attacks": [
+   {
+    "name": "Mordida",
+    "kind": "corpo",
+    "bonus": 4,
+    "damage": "1d4",
+    "damageBonus": 0,
+    "damageType": "",
+    "critRange": 20,
+    "critMult": 2,
+    "count": 1,
+    "range": 0,
+    "note": "Mais doença."
+   }
+  ],
+  "attackText": "mordida +4 (1d4 + doença).",
+  "specials": [
+   {
+    "name": "Doença",
+    "description": "<p>Quem é mordido faz teste de Fortitude (CD 14); em caso de falha contrai febre do esgoto (Capítulo 6).</p>",
+    "cost": 0
+   }
+  ],
+  "jutsus": [],
+  "treasure": "nenhum",
+  "summary": "<p>Rato do tamanho de um cão, usado pelos nezumi como animal de guarda e caça. Ágil e furtivo, transmite doença com a mordida.</p>",
+  "group": "Animais"
+ },
+ {
+  "name": "Salamandra Gigante",
+  "page": 260,
+  "nd": "2",
+  "creatureType": "animal",
+  "level": 3,
+  "size": "medio",
+  "sizeNote": "",
+  "initiative": 2,
+  "perception": 2,
+  "senses": "percepção às cegas 12m",
+  "ca": 16,
+  "caNote": "+1 nível, +1 Des, +4 natural",
+  "pv": 21,
+  "pm": 0,
+  "saves": {
+   "fort": 6,
+   "ref": 4,
+   "von": 2
+  },
+  "movement": "6m, natação 9m",
+  "abilities": {
+   "for": 19,
+   "des": 12,
+   "con": 17,
+   "int": 1,
+   "sab": 12,
+   "car": 2,
+   "hon": null
+  },
+  "skills": "Furtividade +11",
+  "rd": "",
+  "resistances": "",
+  "attacks": [
+   {
+    "name": "Mordida",
+    "kind": "corpo",
+    "bonus": 7,
+    "damage": "1d8",
+    "damageBonus": 5,
+    "damageType": "",
+    "critRange": 20,
+    "critMult": 2,
+    "count": 1,
+    "range": 0,
+    "note": ""
+   }
+  ],
+  "attackText": "mordida +7 (1d8+5).",
+  "specials": [
+   {
+    "name": "Agarrar Aprimorado",
+    "description": "<p>Ao acertar a mordida, pode fazer uma manobra de agarrar como ação livre (bônus +7).</p>",
+    "cost": 0
+   },
+   {
+    "name": "Secreção",
+    "description": "<p>Quando ameaçada ou ferida, como reação, libera uma substância irritante. Criaturas adjacentes devem passar em teste de Fortitude (CD 15) ou ficam enjoadas por 1d4+1 rodadas.</p>",
+    "cost": 0
+   }
+  ],
+  "jutsus": [],
+  "treasure": "nenhum",
+  "summary": "<p>Anfíbio predador de emboscada, parecido com um crocodilo, que espera camuflado na margem de rios e lagos. Ataca à noite, agarrando as presas.</p>",
+  "group": "Animais"
+ },
+ {
+  "name": "Akumashin",
+  "page": 261,
+  "nd": "5",
+  "creatureType": "construto",
+  "level": 5,
+  "size": "medio",
+  "sizeNote": "",
+  "initiative": 9,
+  "perception": 9,
+  "senses": "",
+  "ca": 22,
+  "caNote": "+2 nível, +1 Des, +6 yoroi, +3 Carapaça",
+  "pv": 40,
+  "pm": 5,
+  "saves": {
+   "fort": 6,
+   "ref": 3,
+   "von": 3
+  },
+  "movement": "9m",
+  "abilities": {
+   "for": 19,
+   "des": 13,
+   "con": 19,
+   "int": 10,
+   "sab": 12,
+   "car": 6,
+   "hon": 0
+  },
+  "skills": "Equipamento: yoroi.",
+  "rd": "4",
+  "resistances": "fortificação 75%, imunidade a ácido",
+  "attacks": [
+   {
+    "name": "Garra",
+    "kind": "corpo",
+    "bonus": 8,
+    "damage": "1d8",
+    "damageBonus": 12,
+    "damageType": "",
+    "critRange": 20,
+    "critMult": 3,
+    "count": 1,
+    "range": 0,
+    "note": ""
+   }
+  ],
+  "attackText": "garra +8 (1d8+12, x3).",
+  "specials": [
+   {
+    "name": "Afinidade com a Tormenta",
+    "description": "<p>Nunca recebe níveis negativos por efeitos causados pela Tormenta ou seus habitantes.</p>",
+    "cost": 0
+   },
+   {
+    "name": "Cura Elemental",
+    "description": "<p>Imune a dano de ácido. Quando exposto a ácido mágico, recupera PV iguais à metade do dano normal.</p>",
+    "cost": 0
+   },
+   {
+    "name": "Jato de Ácido",
+    "description": "<p>Ação padrão, 1 PM: cone de 6m que causa 5d4+2 de dano de ácido (Reflexos CD 15: metade do dano).</p>",
+    "cost": 1
+   }
+  ],
+  "jutsus": [],
+  "treasure": "padrão",
+  "summary": "<p>Mashin corrompido pela Tormenta, enlouquecido e hostil a tudo. Ataca com garras poderosas e dispara jatos de ácido em cone.</p>",
+  "group": "Construtos"
+ },
+ {
+  "name": "Bariki",
+  "page": 261,
+  "nd": "3",
+  "creatureType": "construto",
+  "level": 4,
+  "size": "grande",
+  "sizeNote": "comprido",
+  "initiative": 3,
+  "perception": 2,
+  "senses": "faro, visão no escuro",
+  "ca": 14,
+  "caNote": "+2 nível, –1 Des, –1 tamanho, +4 haramaki",
+  "pv": 50,
+  "pm": 4,
+  "saves": {
+   "fort": 2,
+   "ref": 1,
+   "von": 3
+  },
+  "movement": "15m",
+  "abilities": {
+   "for": 19,
+   "des": 9,
+   "con": null,
+   "int": 2,
+   "sab": 12,
+   "car": 6,
+   "hon": null
+  },
+  "skills": "Atletismo +9. Equipamento: haramaki de animal obra-prima.",
+  "rd": "",
+  "resistances": "fortificação 75%, imunidade a eletricidade",
+  "attacks": [
+   {
+    "name": "Cascos",
+    "kind": "corpo",
+    "bonus": 6,
+    "damage": "1d8",
+    "damageBonus": 6,
+    "damageType": "",
+    "critRange": 20,
+    "critMult": 2,
+    "count": 1,
+    "range": 0,
+    "note": ""
+   }
+  ],
+  "attackText": "cascos +6 (1d8+6).",
+  "specials": [
+   {
+    "name": "Cura Elemental",
+    "description": "<p>Quando exposto a eletricidade mágica, recupera PV iguais à metade do dano normal.</p>",
+    "cost": 0
+   },
+   {
+    "name": "Sem Cura",
+    "description": "<p>Não recupera PV com curas mágicas, e a perícia Cura não funciona nele; use Ofício (metalurgia) no lugar, com mesma CD e resultados.</p>",
+    "cost": 0
+   }
+  ],
+  "jutsus": [],
+  "treasure": "nenhum",
+  "summary": "<p>Cavalo mecânico criado com técnicas de mashin, tão dócil quanto um cavalo comum. Não precisa comer, beber nem descansar; é consertado com Ofício (metalurgia).</p>",
+  "group": "Construtos"
+ },
+ {
+  "name": "Tsukumogami Mínimo",
+  "page": 263,
+  "nd": "1/2",
+  "creatureType": "construto",
+  "level": 1,
+  "size": "minimo",
+  "sizeNote": "",
+  "initiative": 2,
+  "perception": -5,
+  "senses": "",
+  "ca": 14,
+  "caNote": "",
+  "pv": 5,
+  "pm": 1,
+  "saves": {
+   "fort": 0,
+   "ref": 2,
+   "von": -5
+  },
+  "movement": "12m",
+  "abilities": {
+   "for": 8,
+   "des": 14,
+   "con": null,
+   "int": null,
+   "sab": 1,
+   "car": 1
+  },
+  "skills": "",
+  "rd": "",
+  "resistances": "",
+  "attacks": [
+   {
+    "name": "Pancada",
+    "kind": "corpo",
+    "bonus": 1,
+    "damage": "1d3",
+    "damageBonus": -1,
+    "damageType": "esmagamento",
+    "critRange": 20,
+    "critMult": 2,
+    "count": 1,
+    "range": 0,
+    "note": ""
+   }
+  ],
+  "attackText": "pancada +1 (1d3–1 esmagamento).",
+  "specials": [
+   {
+    "name": "Cegar",
+    "description": "<p>Objeto achatado e flexível (futon, cortina) que agarra deixa a vítima cega até ela se soltar.</p>",
+    "cost": 0
+   },
+   {
+    "name": "Constrição",
+    "description": "<p>Objeto flexível (corda, corrente) que mantém um agarrar causa dano automático igual ao de sua pancada a cada rodada.</p>",
+    "cost": 0
+   },
+   {
+    "name": "Deslocamento aprimorado",
+    "description": "<p>O deslocamento da ficha vale para objetos que se arrastam. Dois pés/pernas: +3m; várias pernas: +6m; rodas: +12m.</p>",
+    "cost": 0
+   },
+   {
+    "name": "Despertar espírito",
+    "description": "<p>Objeto animado pelo jutsu despertar espírito tem Inteligência e Honra 3d6, +4 em Sabedoria e Carisma, e fala um idioma (normalmente ningo).</p>",
+    "cost": 0
+   },
+   {
+    "name": "Redução de dano",
+    "description": "<p>Depende do material: RD 0 papel, tecido ou corda; RD 1 vidro; RD 5 madeira; RD 8 pedra; RD 10 metal.</p>",
+    "cost": 0
+   }
+  ],
+  "jutsus": [],
+  "treasure": "nenhum",
+  "summary": "<p>Objeto que ganhou espírito e luta com pancadas. Estas estatísticas servem para qualquer forma (ferramenta, móvel, estátua, casa); a RD depende do material e o ND varia com o tamanho.</p>",
+  "group": "Construtos"
+ },
+ {
+  "name": "Tsukumogami Pequeno",
+  "page": 263,
+  "nd": "1",
+  "creatureType": "construto",
+  "level": 1,
+  "size": "pequeno",
+  "sizeNote": "",
+  "initiative": 1,
+  "perception": -5,
+  "senses": "",
+  "ca": 13,
+  "caNote": "",
+  "pv": 15,
+  "pm": 1,
+  "saves": {
+   "fort": 0,
+   "ref": 1,
+   "von": -5
+  },
+  "movement": "9m",
+  "abilities": {
+   "for": 10,
+   "des": 12,
+   "con": null,
+   "int": null,
+   "sab": 1,
+   "car": 1
+  },
+  "skills": "",
+  "rd": "",
+  "resistances": "",
+  "attacks": [
+   {
+    "name": "Pancada",
+    "kind": "corpo",
+    "bonus": 1,
+    "damage": "1d4",
+    "damageBonus": 0,
+    "damageType": "esmagamento",
+    "critRange": 20,
+    "critMult": 2,
+    "count": 1,
+    "range": 0,
+    "note": ""
+   }
+  ],
+  "attackText": "pancada +1 (1d4 esmagamento).",
+  "specials": [
+   {
+    "name": "Cegar",
+    "description": "<p>Objeto achatado e flexível (futon, cortina) que agarra deixa a vítima cega até ela se soltar.</p>",
+    "cost": 0
+   },
+   {
+    "name": "Constrição",
+    "description": "<p>Objeto flexível (corda, corrente) que mantém um agarrar causa dano automático igual ao de sua pancada a cada rodada.</p>",
+    "cost": 0
+   },
+   {
+    "name": "Deslocamento aprimorado",
+    "description": "<p>O deslocamento da ficha vale para objetos que se arrastam. Dois pés/pernas: +3m; várias pernas: +6m; rodas: +12m.</p>",
+    "cost": 0
+   },
+   {
+    "name": "Despertar espírito",
+    "description": "<p>Objeto animado pelo jutsu despertar espírito tem Inteligência e Honra 3d6, +4 em Sabedoria e Carisma, e fala um idioma (normalmente ningo).</p>",
+    "cost": 0
+   },
+   {
+    "name": "Redução de dano",
+    "description": "<p>Depende do material: RD 0 papel, tecido ou corda; RD 1 vidro; RD 5 madeira; RD 8 pedra; RD 10 metal.</p>",
+    "cost": 0
+   }
+  ],
+  "jutsus": [],
+  "treasure": "nenhum",
+  "summary": "<p>Objeto que ganhou espírito e luta com pancadas. Estas estatísticas servem para qualquer forma (ferramenta, móvel, estátua, casa); a RD depende do material e o ND varia com o tamanho.</p>",
+  "group": "Construtos"
+ },
+ {
+  "name": "Tsukumogami Médio",
+  "page": 263,
+  "nd": "2",
+  "creatureType": "construto",
+  "level": 2,
+  "size": "medio",
+  "sizeNote": "",
+  "initiative": 1,
+  "perception": -4,
+  "senses": "",
+  "ca": 14,
+  "caNote": "",
+  "pv": 30,
+  "pm": 2,
+  "saves": {
+   "fort": 1,
+   "ref": 1,
+   "von": -4
+  },
+  "movement": "9m",
+  "abilities": {
+   "for": 12,
+   "des": 10,
+   "con": null,
+   "int": null,
+   "sab": 1,
+   "car": 1
+  },
+  "skills": "",
+  "rd": "",
+  "resistances": "",
+  "attacks": [
+   {
+    "name": "Pancada",
+    "kind": "corpo",
+    "bonus": 2,
+    "damage": "1d6",
+    "damageBonus": 2,
+    "damageType": "esmagamento",
+    "critRange": 20,
+    "critMult": 2,
+    "count": 1,
+    "range": 0,
+    "note": ""
+   }
+  ],
+  "attackText": "pancada +2 (1d6+2 esmagamento).",
+  "specials": [
+   {
+    "name": "Cegar",
+    "description": "<p>Objeto achatado e flexível (futon, cortina) que agarra deixa a vítima cega até ela se soltar.</p>",
+    "cost": 0
+   },
+   {
+    "name": "Constrição",
+    "description": "<p>Objeto flexível (corda, corrente) que mantém um agarrar causa dano automático igual ao de sua pancada a cada rodada.</p>",
+    "cost": 0
+   },
+   {
+    "name": "Deslocamento aprimorado",
+    "description": "<p>O deslocamento da ficha vale para objetos que se arrastam. Dois pés/pernas: +3m; várias pernas: +6m; rodas: +12m.</p>",
+    "cost": 0
+   },
+   {
+    "name": "Despertar espírito",
+    "description": "<p>Objeto animado pelo jutsu despertar espírito tem Inteligência e Honra 3d6, +4 em Sabedoria e Carisma, e fala um idioma (normalmente ningo).</p>",
+    "cost": 0
+   },
+   {
+    "name": "Redução de dano",
+    "description": "<p>Depende do material: RD 0 papel, tecido ou corda; RD 1 vidro; RD 5 madeira; RD 8 pedra; RD 10 metal.</p>",
+    "cost": 0
+   }
+  ],
+  "jutsus": [],
+  "treasure": "nenhum",
+  "summary": "<p>Objeto que ganhou espírito e luta com pancadas. Estas estatísticas servem para qualquer forma (ferramenta, móvel, estátua, casa); a RD depende do material e o ND varia com o tamanho.</p>",
+  "group": "Construtos"
+ },
+ {
+  "name": "Tsukumogami Grande",
+  "page": 263,
+  "nd": "3",
+  "creatureType": "construto",
+  "level": 4,
+  "size": "grande",
+  "sizeNote": "",
+  "initiative": 2,
+  "perception": -3,
+  "senses": "",
+  "ca": 15,
+  "caNote": "",
+  "pv": 50,
+  "pm": 4,
+  "saves": {
+   "fort": 2,
+   "ref": 2,
+   "von": -3
+  },
+  "movement": "6m",
+  "abilities": {
+   "for": 16,
+   "des": 10,
+   "con": null,
+   "int": null,
+   "sab": 1,
+   "car": 1
+  },
+  "skills": "",
+  "rd": "",
+  "resistances": "",
+  "attacks": [
+   {
+    "name": "Pancada",
+    "kind": "corpo",
+    "bonus": 5,
+    "damage": "1d8",
+    "damageBonus": 5,
+    "damageType": "esmagamento",
+    "critRange": 20,
+    "critMult": 2,
+    "count": 1,
+    "range": 0,
+    "note": ""
+   }
+  ],
+  "attackText": "pancada +5 (1d8+5 esmagamento).",
+  "specials": [
+   {
+    "name": "Cegar",
+    "description": "<p>Objeto achatado e flexível (futon, cortina) que agarra deixa a vítima cega até ela se soltar.</p>",
+    "cost": 0
+   },
+   {
+    "name": "Constrição",
+    "description": "<p>Objeto flexível (corda, corrente) que mantém um agarrar causa dano automático igual ao de sua pancada a cada rodada.</p>",
+    "cost": 0
+   },
+   {
+    "name": "Deslocamento aprimorado",
+    "description": "<p>O deslocamento da ficha vale para objetos que se arrastam. Dois pés/pernas: +3m; várias pernas: +6m; rodas: +12m.</p>",
+    "cost": 0
+   },
+   {
+    "name": "Despertar espírito",
+    "description": "<p>Objeto animado pelo jutsu despertar espírito tem Inteligência e Honra 3d6, +4 em Sabedoria e Carisma, e fala um idioma (normalmente ningo).</p>",
+    "cost": 0
+   },
+   {
+    "name": "Redução de dano",
+    "description": "<p>Depende do material: RD 0 papel, tecido ou corda; RD 1 vidro; RD 5 madeira; RD 8 pedra; RD 10 metal.</p>",
+    "cost": 0
+   }
+  ],
+  "jutsus": [],
+  "treasure": "nenhum",
+  "summary": "<p>Objeto que ganhou espírito e luta com pancadas. Estas estatísticas servem para qualquer forma (ferramenta, móvel, estátua, casa); a RD depende do material e o ND varia com o tamanho.</p>",
+  "group": "Construtos"
+ },
+ {
+  "name": "Tsukumogami Enorme",
+  "page": 263,
+  "nd": "5",
+  "creatureType": "construto",
+  "level": 8,
+  "size": "enorme",
+  "sizeNote": "",
+  "initiative": 4,
+  "perception": -1,
+  "senses": "",
+  "ca": 20,
+  "caNote": "",
+  "pv": 80,
+  "pm": 8,
+  "saves": {
+   "fort": 4,
+   "ref": 3,
+   "von": -1
+  },
+  "movement": "6m",
+  "abilities": {
+   "for": 22,
+   "des": 8,
+   "con": null,
+   "int": null,
+   "sab": 1,
+   "car": 1
+  },
+  "skills": "",
+  "rd": "",
+  "resistances": "",
+  "attacks": [
+   {
+    "name": "Pancada",
+    "kind": "corpo",
+    "bonus": 11,
+    "damage": "2d6",
+    "damageBonus": 10,
+    "damageType": "esmagamento",
+    "critRange": 20,
+    "critMult": 2,
+    "count": 1,
+    "range": 0,
+    "note": ""
+   }
+  ],
+  "attackText": "pancada +11 (2d6+10 esmagamento).",
+  "specials": [
+   {
+    "name": "Cegar",
+    "description": "<p>Objeto achatado e flexível (futon, cortina) que agarra deixa a vítima cega até ela se soltar.</p>",
+    "cost": 0
+   },
+   {
+    "name": "Constrição",
+    "description": "<p>Objeto flexível (corda, corrente) que mantém um agarrar causa dano automático igual ao de sua pancada a cada rodada.</p>",
+    "cost": 0
+   },
+   {
+    "name": "Deslocamento aprimorado",
+    "description": "<p>O deslocamento da ficha vale para objetos que se arrastam. Dois pés/pernas: +3m; várias pernas: +6m; rodas: +12m.</p>",
+    "cost": 0
+   },
+   {
+    "name": "Despertar espírito",
+    "description": "<p>Objeto animado pelo jutsu despertar espírito tem Inteligência e Honra 3d6, +4 em Sabedoria e Carisma, e fala um idioma (normalmente ningo).</p>",
+    "cost": 0
+   },
+   {
+    "name": "Redução de dano",
+    "description": "<p>Depende do material: RD 0 papel, tecido ou corda; RD 1 vidro; RD 5 madeira; RD 8 pedra; RD 10 metal.</p>",
+    "cost": 0
+   }
+  ],
+  "jutsus": [],
+  "treasure": "nenhum",
+  "summary": "<p>Objeto que ganhou espírito e luta com pancadas. Estas estatísticas servem para qualquer forma (ferramenta, móvel, estátua, casa); a RD depende do material e o ND varia com o tamanho.</p>",
+  "group": "Construtos"
+ },
+ {
+  "name": "Tsukumogami Descomunal",
+  "page": 263,
+  "nd": "7",
+  "creatureType": "construto",
+  "level": 16,
+  "size": "descomunal",
+  "sizeNote": "",
+  "initiative": 6,
+  "perception": 3,
+  "senses": "",
+  "ca": 24,
+  "caNote": "",
+  "pv": 140,
+  "pm": 16,
+  "saves": {
+   "fort": 8,
+   "ref": 6,
+   "von": 3
+  },
+  "movement": "3m",
+  "abilities": {
+   "for": 28,
+   "des": 6,
+   "con": null,
+   "int": null,
+   "sab": 1,
+   "car": 1
+  },
+  "skills": "",
+  "rd": "",
+  "resistances": "",
+  "attacks": [
+   {
+    "name": "Pancada",
+    "kind": "corpo",
+    "bonus": 17,
+    "damage": "2d8",
+    "damageBonus": 17,
+    "damageType": "esmagamento",
+    "critRange": 20,
+    "critMult": 2,
+    "count": 1,
+    "range": 0,
+    "note": ""
+   }
+  ],
+  "attackText": "pancada +17 (2d8+17 esmagamento).",
+  "specials": [
+   {
+    "name": "Cegar",
+    "description": "<p>Objeto achatado e flexível (futon, cortina) que agarra deixa a vítima cega até ela se soltar.</p>",
+    "cost": 0
+   },
+   {
+    "name": "Constrição",
+    "description": "<p>Objeto flexível (corda, corrente) que mantém um agarrar causa dano automático igual ao de sua pancada a cada rodada.</p>",
+    "cost": 0
+   },
+   {
+    "name": "Deslocamento aprimorado",
+    "description": "<p>O deslocamento da ficha vale para objetos que se arrastam. Dois pés/pernas: +3m; várias pernas: +6m; rodas: +12m.</p>",
+    "cost": 0
+   },
+   {
+    "name": "Despertar espírito",
+    "description": "<p>Objeto animado pelo jutsu despertar espírito tem Inteligência e Honra 3d6, +4 em Sabedoria e Carisma, e fala um idioma (normalmente ningo).</p>",
+    "cost": 0
+   },
+   {
+    "name": "Redução de dano",
+    "description": "<p>Depende do material: RD 0 papel, tecido ou corda; RD 1 vidro; RD 5 madeira; RD 8 pedra; RD 10 metal.</p>",
+    "cost": 0
+   }
+  ],
+  "jutsus": [],
+  "treasure": "nenhum",
+  "summary": "<p>Objeto que ganhou espírito e luta com pancadas. Estas estatísticas servem para qualquer forma (ferramenta, móvel, estátua, casa); a RD depende do material e o ND varia com o tamanho.</p>",
+  "group": "Construtos"
+ },
+ {
+  "name": "Tsukumogami Colossal",
+  "page": 263,
+  "nd": "10",
+  "creatureType": "construto",
+  "level": 32,
+  "size": "colossal",
+  "sizeNote": "",
+  "initiative": 13,
+  "perception": 11,
+  "senses": "",
+  "ca": 30,
+  "caNote": "",
+  "pv": 400,
+  "pm": 32,
+  "saves": {
+   "fort": 16,
+   "ref": 13,
+   "von": 11
+  },
+  "movement": "3m",
+  "abilities": {
+   "for": 37,
+   "des": 4,
+   "con": null,
+   "int": null,
+   "sab": 1,
+   "car": 1
+  },
+  "skills": "",
+  "rd": "",
+  "resistances": "",
+  "attacks": [
+   {
+    "name": "Pancada",
+    "kind": "corpo",
+    "bonus": 28,
+    "damage": "4d8",
+    "damageBonus": 33,
+    "damageType": "esmagamento",
+    "critRange": 20,
+    "critMult": 2,
+    "count": 1,
+    "range": 0,
+    "note": ""
+   }
+  ],
+  "attackText": "pancada +28 (4d8+33 esmagamento).",
+  "specials": [
+   {
+    "name": "Cegar",
+    "description": "<p>Objeto achatado e flexível (futon, cortina) que agarra deixa a vítima cega até ela se soltar.</p>",
+    "cost": 0
+   },
+   {
+    "name": "Constrição",
+    "description": "<p>Objeto flexível (corda, corrente) que mantém um agarrar causa dano automático igual ao de sua pancada a cada rodada.</p>",
+    "cost": 0
+   },
+   {
+    "name": "Deslocamento aprimorado",
+    "description": "<p>O deslocamento da ficha vale para objetos que se arrastam. Dois pés/pernas: +3m; várias pernas: +6m; rodas: +12m.</p>",
+    "cost": 0
+   },
+   {
+    "name": "Despertar espírito",
+    "description": "<p>Objeto animado pelo jutsu despertar espírito tem Inteligência e Honra 3d6, +4 em Sabedoria e Carisma, e fala um idioma (normalmente ningo).</p>",
+    "cost": 0
+   },
+   {
+    "name": "Redução de dano",
+    "description": "<p>Depende do material: RD 0 papel, tecido ou corda; RD 1 vidro; RD 5 madeira; RD 8 pedra; RD 10 metal.</p>",
+    "cost": 0
+   }
+  ],
+  "jutsus": [],
+  "treasure": "nenhum",
+  "summary": "<p>Objeto que ganhou espírito e luta com pancadas. Estas estatísticas servem para qualquer forma (ferramenta, móvel, estátua, casa); a RD depende do material e o ND varia com o tamanho.</p>",
+  "group": "Construtos"
+ },
+ {
+  "name": "Goblin",
+  "page": 264,
+  "nd": "1/2",
+  "creatureType": "humanoide",
+  "level": 1,
+  "size": "pequeno",
+  "sizeNote": "",
+  "initiative": 6,
+  "perception": 3,
+  "senses": "visão no escuro",
+  "ca": 15,
+  "caNote": "+2 Des, +1 tamanho, +2 armadura de couro",
+  "pv": 5,
+  "pm": 1,
+  "saves": {
+   "fort": 2,
+   "ref": 2,
+   "von": -1
+  },
+  "movement": "9m",
+  "abilities": {
+   "for": 13,
+   "des": 15,
+   "con": 14,
+   "int": 10,
+   "sab": 9,
+   "car": 6,
+   "hon": 2
+  },
+  "skills": "Furtividade +6. Equipamento: arco curto, armadura de couro, 20 flechas, maça.",
+  "rd": "",
+  "resistances": "Fortitude +6 contra doenças e venenos",
+  "attacks": [
+   {
+    "name": "Maça",
+    "kind": "corpo",
+    "bonus": 2,
+    "damage": "1d6",
+    "damageBonus": 1,
+    "damageType": "",
+    "critRange": 20,
+    "critMult": 2,
+    "count": 1,
+    "range": 0,
+    "note": ""
+   },
+   {
+    "name": "Arco curto",
+    "kind": "distancia",
+    "bonus": 3,
+    "damage": "1d4",
+    "damageBonus": 0,
+    "damageType": "",
+    "critRange": 20,
+    "critMult": 3,
+    "count": 1,
+    "range": 0,
+    "note": ""
+   }
+  ],
+  "attackText": "Corpo-a-corpo: maça +2 (1d6+1). À distância: arco curto +3 (1d4, x3).",
+  "specials": [],
+  "jutsus": [],
+  "treasure": "padrão",
+  "summary": "<p>Humanoide pequeno, frenético e sem honra, que ataca em bando com emboscadas e armadilhas. Foge ou implora clemência quando perde.</p>",
+  "group": "Humanoides"
+ },
+ {
+  "name": "Kappa",
+  "page": 264,
+  "nd": "1",
+  "creatureType": "humanoide",
+  "level": 2,
+  "size": "medio",
+  "sizeNote": "",
+  "initiative": 9,
+  "perception": 6,
+  "senses": "percepção às cegas 12m (apenas embaixo d'água), visão na penumbra",
+  "ca": 19,
+  "caNote": "+1 nível, +4 Des, +4 natural",
+  "pv": 12,
+  "pm": 1,
+  "saves": {
+   "fort": 4,
+   "ref": 6,
+   "von": 2
+  },
+  "movement": "9m, natação 9m",
+  "abilities": {
+   "for": 17,
+   "des": 19,
+   "con": 16,
+   "int": 10,
+   "sab": 13,
+   "car": 8,
+   "hon": 6
+  },
+  "skills": "Sobrevivência +10",
+  "rd": "",
+  "resistances": "cura acelerada 5",
+  "attacks": [
+   {
+    "name": "Garra",
+    "kind": "corpo",
+    "bonus": 5,
+    "damage": "1d6",
+    "damageBonus": 4,
+    "damageType": "",
+    "critRange": 20,
+    "critMult": 2,
+    "count": 1,
+    "range": 0,
+    "note": ""
+   }
+  ],
+  "attackText": "garra +5 (1d6+4).",
+  "specials": [
+   {
+    "name": "Agarrar Aprimorado",
+    "description": "<p>Ao acertar um ataque corpo-a-corpo, o kappa pode fazer uma manobra de agarrar como ação livre (bônus +9).</p>",
+    "cost": 0
+   },
+   {
+    "name": "Anfíbio",
+    "description": "<p>Respira e age normalmente em terra e na água.</p>",
+    "cost": 0
+   },
+   {
+    "name": "Carapaça Kappa",
+    "description": "<p>Não pode ser flanqueado. Deitado, rastejando ou atacado dentro d'água por oponentes em terra, tem cobertura total.</p>",
+    "cost": 0
+   },
+   {
+    "name": "Tigela d'água",
+    "description": "<p>Movimentação normal (inclusive combate) não derrama a água da cabeça. Um oponente precisa vencer uma manobra de agarrar ou empurrar. Sem a água, o kappa fica enjoado e perde a cura acelerada até encher a tigela.</p>",
+    "cost": 0
+   }
+  ],
+  "jutsus": [],
+  "treasure": "padrão",
+  "summary": "<p>Humanoide aquático de aparência de tartaruga, ágil e artista marcial, que habita rios e lagos. Tenta afogar adversários derrubando-os e prendendo-os sob a água.</p>",
+  "group": "Humanoides"
+ },
+ {
+  "name": "Ogro",
+  "page": 265,
+  "nd": "3",
+  "creatureType": "humanoide",
+  "level": 4,
+  "size": "grande",
+  "sizeNote": "alto",
+  "initiative": 1,
+  "perception": 2,
+  "senses": "visão no escuro",
+  "ca": 18,
+  "caNote": "+2 nível, –1 tamanho, –1 Des, +2 armadura, +6 natural",
+  "pv": 32,
+  "pm": 1,
+  "saves": {
+   "fort": 5,
+   "ref": 1,
+   "von": 2
+  },
+  "movement": "9m",
+  "abilities": {
+   "for": 23,
+   "des": 8,
+   "con": 17,
+   "int": 8,
+   "sab": 10,
+   "car": 7,
+   "hon": 2
+  },
+  "skills": "Atletismo +13. Equipamento: azagaia, tacape, armadura de couro.",
+  "rd": "",
+  "resistances": "",
+  "attacks": [
+   {
+    "name": "Tacape",
+    "kind": "corpo",
+    "bonus": 9,
+    "damage": "2d8",
+    "damageBonus": 8,
+    "damageType": "",
+    "critRange": 20,
+    "critMult": 2,
+    "count": 1,
+    "range": 0,
+    "note": ""
+   },
+   {
+    "name": "Azagaia",
+    "kind": "distancia",
+    "bonus": 1,
+    "damage": "1d8",
+    "damageBonus": 8,
+    "damageType": "",
+    "critRange": 20,
+    "critMult": 2,
+    "count": 1,
+    "range": 0,
+    "note": ""
+   }
+  ],
+  "attackText": "Corpo-a-corpo: tacape +9 (2d8+8). À distância: azagaia +1 (1d8+8).",
+  "specials": [],
+  "jutsus": [],
+  "treasure": "padrão",
+  "summary": "<p>Humanoide brutal de 2,5 a 3m, de pele cinza-azulada, que vive de caça e pilhagem. Luta com tacape e arremessa azagaias.</p>",
+  "group": "Humanoides"
+ },
+ {
+  "name": "Tengu",
+  "page": 265,
+  "nd": "6",
+  "creatureType": "humanoide",
+  "level": 12,
+  "size": "medio",
+  "sizeNote": "",
+  "initiative": 20,
+  "perception": 17,
+  "senses": "visão no escuro",
+  "ca": 24,
+  "caNote": "+6 nível, +5 Des, +3 armadura ashigaru",
+  "pv": 60,
+  "pm": 20,
+  "saves": {
+   "fort": 8,
+   "ref": 13,
+   "von": 8
+  },
+  "movement": "9m, voo 15m",
+  "abilities": {
+   "for": 18,
+   "des": 21,
+   "con": 14,
+   "int": 12,
+   "sab": 14,
+   "car": 10,
+   "hon": 5
+  },
+  "skills": "Enganação +15. Equipamento: katana, armadura ashigaru.",
+  "rd": "",
+  "resistances": "",
+  "attacks": [
+   {
+    "name": "Katana",
+    "kind": "corpo",
+    "bonus": 14,
+    "damage": "1d10",
+    "damageBonus": 12,
+    "damageType": "",
+    "critRange": 19,
+    "critMult": 2,
+    "count": 1,
+    "range": 0,
+    "note": "Opção 1."
+   },
+   {
+    "name": "Desarmado",
+    "kind": "corpo",
+    "bonus": 13,
+    "damage": "1d8",
+    "damageBonus": 10,
+    "damageType": "",
+    "critRange": 20,
+    "critMult": 2,
+    "count": 1,
+    "range": 0,
+    "note": "Opção 2."
+   }
+  ],
+  "attackText": "katana +14 (1d10+12, 19) ou desarmado +13 (1d8+10).",
+  "specials": [
+   {
+    "name": "Desorientação",
+    "description": "<p>Uma vez por rodada, o tengu pode fazer uma finta como ação livre (veja a página 104).</p>",
+    "cost": 0
+   },
+   {
+    "name": "Golpe Relâmpago",
+    "description": "<p>Ao fazer um ataque, gasta 2 PM para um ataque extra com o mesmo modificador. No máximo 5 ataques extras por rodada.</p>",
+    "cost": 2
+   },
+   {
+    "name": "Poder Marcial",
+    "description": "<p>Gasta 1 PM como ação livre para somar +2 ao ataque ou ao dano; pode gastar mais PM e distribuir os bônus como quiser (ex.: 2 PM para ataque +1 e dano +3), sem que nenhum aumento passe de seu limite de PM.</p>",
+    "cost": 1
+   }
+  ],
+  "jutsus": [],
+  "treasure": "padrão",
+  "summary": "<p>Guerreiro alado e orgulhoso, com aparência de homem-corvo, que age como bandoleiro e busca duelos com kensei e samurais. Ataca várias vezes por rodada e confunde o oponente com fintas.</p>",
+  "group": "Humanoides"
+ },
+ {
+  "name": "Daitengu",
+  "page": 266,
+  "nd": "8",
+  "creatureType": "humanoide",
+  "level": 14,
+  "size": "medio",
+  "sizeNote": "",
+  "initiative": 22,
+  "perception": 19,
+  "senses": "visão no escuro",
+  "ca": 26,
+  "caNote": "+7 nível, +5 Des, +3 armadura ashigaru, +1 Esquiva",
+  "pv": 70,
+  "pm": 30,
+  "saves": {
+   "fort": 9,
+   "ref": 14,
+   "von": 9
+  },
+  "movement": "9m, voo 15m",
+  "abilities": {
+   "for": 18,
+   "des": 21,
+   "con": 14,
+   "int": 12,
+   "sab": 14,
+   "car": 10,
+   "hon": 4
+  },
+  "skills": "Enganação +17. Limite de PM 18. Equipamento: nodachi, armadura ashigaru.",
+  "rd": "",
+  "resistances": "",
+  "attacks": [
+   {
+    "name": "Nodachi",
+    "kind": "corpo",
+    "bonus": 15,
+    "damage": "2d6",
+    "damageBonus": 13,
+    "damageType": "",
+    "critRange": 19,
+    "critMult": 2,
+    "count": 1,
+    "range": 0,
+    "note": "Opção 1."
+   },
+   {
+    "name": "Desarmado",
+    "kind": "corpo",
+    "bonus": 14,
+    "damage": "1d10",
+    "damageBonus": 11,
+    "damageType": "",
+    "critRange": 20,
+    "critMult": 2,
+    "count": 1,
+    "range": 0,
+    "note": "Opção 2."
+   }
+  ],
+  "attackText": "nodachi +15 (2d6+13, 19) ou desarmado +14 (1d10+11).",
+  "specials": [
+   {
+    "name": "Desorientação",
+    "description": "<p>Uma vez por rodada, o daitengu pode fazer uma finta como ação livre (veja a página 104).</p>",
+    "cost": 0
+   },
+   {
+    "name": "Golpe Relâmpago",
+    "description": "<p>Ao fazer um ataque, gasta 2 PM para um ataque extra com o mesmo modificador. No máximo 5 ataques extras por rodada.</p>",
+    "cost": 2
+   },
+   {
+    "name": "Poder Marcial",
+    "description": "<p>Gasta 1 PM como ação livre para somar +2 ao ataque ou ao dano em seu próximo ataque; pode gastar mais PM e distribuir os bônus como quiser (ex.: 2 PM para ataque +1 e dano +3), sem que nenhum aumento passe de seu limite de PM.</p>",
+    "cost": 1
+   },
+   {
+    "name": "Jutsus (M)",
+    "description": "<p>Conhece e executa os jutsus listados em Jutsus (efeito mágico, sujeito a anulação).</p>",
+    "cost": 0
+   }
+  ],
+  "jutsus": [
+   {
+    "name": "golpe do vento distante",
+    "note": "(M); executável pelo daitengu"
+   },
+   {
+    "name": "golpe pesado",
+    "note": "(M); executável pelo daitengu"
+   },
+   {
+    "name": "mandala elemental",
+    "note": "(M); executável pelo daitengu"
+   },
+   {
+    "name": "tamanho gigante",
+    "note": "(M); executável pelo daitengu"
+   }
+  ],
+  "treasure": "padrão",
+  "summary": "<p>Tengu de feições mais humanas, que também domina jutsus e costuma liderar outros tengu. Mesmo estilo de combate, com ataque e dano elevados.</p>",
+  "group": "Humanoides"
+ },
+ {
+  "name": "Titã Enorme",
+  "page": 268,
+  "nd": "10",
+  "creatureType": "humanoide",
+  "level": 14,
+  "size": "enorme",
+  "sizeNote": "alto",
+  "initiative": 5,
+  "perception": 16,
+  "senses": "faro, visão na penumbra",
+  "ca": 23,
+  "caNote": "+7 nível, –2 Des, –2 tamanho, +10 natural",
+  "pv": 140,
+  "pm": 14,
+  "saves": {
+   "fort": 15,
+   "ref": 5,
+   "von": 6
+  },
+  "movement": "9m",
+  "abilities": {
+   "for": 32,
+   "des": 6,
+   "con": 22,
+   "int": 6,
+   "sab": 9,
+   "car": 6,
+   "hon": 0
+  },
+  "skills": "",
+  "rd": "",
+  "resistances": "cura acelerada 5/crítico",
+  "attacks": [
+   {
+    "name": "Pancadas",
+    "kind": "corpo",
+    "bonus": 19,
+    "damage": "2d6",
+    "damageBonus": 18,
+    "damageType": "esmagamento",
+    "critRange": 20,
+    "critMult": 2,
+    "count": 2,
+    "range": 0,
+    "note": "Opção 1: 2 pancadas."
+   },
+   {
+    "name": "Agarrar",
+    "kind": "corpo",
+    "bonus": 29,
+    "damage": "",
+    "damageBonus": 0,
+    "damageType": "",
+    "critRange": 20,
+    "critMult": 2,
+    "count": 1,
+    "range": 0,
+    "note": "Opção 2: manobra de agarrar."
+   },
+   {
+    "name": "Mordida",
+    "kind": "corpo",
+    "bonus": 25,
+    "damage": "4d6",
+    "damageBonus": 18,
+    "damageType": "",
+    "critRange": 20,
+    "critMult": 2,
+    "count": 1,
+    "range": 0,
+    "note": "Opção 3: apenas contra alvos agarrados."
+   }
+  ],
+  "attackText": "2 pancadas +19 (2d6+18 esmagamento) ou agarrar +29 ou mordida +25 (4d6+18, apenas contra alvos agarrados).",
+  "specials": [
+   {
+    "name": "Cura Acelerada",
+    "description": "<p>Regenera qualquer dano, mesmo decapitado ou em pedaços. Só o dano de acertos críticos impede a cura acelerada.</p>",
+    "cost": 0
+   }
+  ],
+  "jutsus": [],
+  "treasure": "padrão",
+  "summary": "<p>Gigante deformado que só caça humanos. Tenta agarrar o alvo e matá-lo com a mordida; usa pancadas apenas contra alvos Grandes ou maiores.</p>",
+  "group": "Humanoides"
+ },
+ {
+  "name": "Titã Descomunal",
+  "page": 268,
+  "nd": "14",
+  "creatureType": "humanoide",
+  "level": 20,
+  "size": "descomunal",
+  "sizeNote": "alto",
+  "initiative": 8,
+  "perception": 24,
+  "senses": "faro, visão na penumbra",
+  "ca": 26,
+  "caNote": "+10 nível, –2 Des, –4 tamanho, +13 natural",
+  "pv": 240,
+  "pm": 20,
+  "saves": {
+   "fort": 17,
+   "ref": 10,
+   "von": 11
+  },
+  "movement": "9m",
+  "abilities": {
+   "for": 40,
+   "des": 6,
+   "con": 24,
+   "int": 8,
+   "sab": 13,
+   "car": 6,
+   "hon": 0
+  },
+  "skills": "",
+  "rd": "",
+  "resistances": "cura acelerada 10/crítico",
+  "attacks": [
+   {
+    "name": "Pancadas",
+    "kind": "corpo",
+    "bonus": 25,
+    "damage": "2d8",
+    "damageBonus": 25,
+    "damageType": "esmagamento",
+    "critRange": 20,
+    "critMult": 2,
+    "count": 2,
+    "range": 0,
+    "note": "Opção 1: 2 pancadas."
+   },
+   {
+    "name": "Agarrar",
+    "kind": "corpo",
+    "bonus": 39,
+    "damage": "",
+    "damageBonus": 0,
+    "damageType": "",
+    "critRange": 20,
+    "critMult": 2,
+    "count": 1,
+    "range": 0,
+    "note": "Opção 2: manobra de agarrar."
+   },
+   {
+    "name": "Mordida",
+    "kind": "corpo",
+    "bonus": 31,
+    "damage": "6d6",
+    "damageBonus": 25,
+    "damageType": "",
+    "critRange": 20,
+    "critMult": 2,
+    "count": 1,
+    "range": 0,
+    "note": "Opção 3: apenas contra alvos agarrados."
+   }
+  ],
+  "attackText": "2 pancadas +25 (2d8+25 esmagamento) ou agarrar +39 ou mordida +31 (6d6+25, apenas contra alvos agarrados).",
+  "specials": [
+   {
+    "name": "Cura Acelerada",
+    "description": "<p>Regenera qualquer dano, mesmo decapitado ou em pedaços. Só o dano de acertos críticos impede a cura acelerada.</p>",
+    "cost": 0
+   },
+   {
+    "name": "Fúria Explosiva",
+    "description": "<p>Ação livre, 4 PM: ganha uma ação extra, padrão ou de movimento. (O texto do livro diz 'titã enorme', mas a habilidade está na ficha do titã descomunal.)</p>",
+    "cost": 4
+   }
+  ],
+  "jutsus": [],
+  "treasure": "padrão",
+  "summary": "<p>Titã muito maior, que costuma acompanhar titãs enormes e procura destruir obstáculos ou atacar o adversário mais perigoso. Pode agir duas vezes graças à Fúria Explosiva.</p>",
+  "group": "Humanoides"
+ },
+ {
+  "name": "Akumushi, Dokumo",
+  "page": 269,
+  "nd": "2",
+  "creatureType": "monstro",
+  "level": 4,
+  "size": "grande",
+  "sizeNote": "comprido",
+  "initiative": 5,
+  "perception": 2,
+  "senses": "visão no escuro",
+  "ca": 18,
+  "caNote": "+2 nível, +3 Des, –1 tamanho, +4 natural",
+  "pv": 28,
+  "pm": 8,
+  "saves": {
+   "fort": 5,
+   "ref": 9,
+   "von": 2
+  },
+  "movement": "12m, escalada 12m",
+  "abilities": {
+   "for": 15,
+   "des": 17,
+   "con": 12,
+   "int": 7,
+   "sab": 10,
+   "car": 2,
+   "hon": 0
+  },
+  "skills": "Furtividade +14",
+  "rd": "",
+  "resistances": "imunidade a acertos críticos, ácido, dano de habilidade, doenças, eletricidade, fogo, frio, luz, paralisia, sono, transmutação, trevas, venenos e vento",
+  "attacks": [
+   {
+    "name": "Mordida",
+    "kind": "corpo",
+    "bonus": 6,
+    "damage": "1d8",
+    "damageBonus": 4,
+    "damageType": "",
+    "critRange": 20,
+    "critMult": 2,
+    "count": 1,
+    "range": 0,
+    "note": "Mais veneno."
+   },
+   {
+    "name": "Teia",
+    "kind": "distancia",
+    "bonus": 6,
+    "damage": "",
+    "damageBonus": 0,
+    "damageType": "",
+    "critRange": 20,
+    "critMult": 2,
+    "count": 1,
+    "range": 0,
+    "note": "Ataque de toque à distância, custa 1 PM; alvo fica enredado."
+   }
+  ],
+  "attackText": "Corpo-a-corpo: mordida +6 (1d8+4 mais veneno). À distância: teia +6 toque (enredado).",
+  "specials": [
+   {
+    "name": "Teia",
+    "description": "<p>Ataque de toque à distância que custa 1 PM; o alvo fica enredado (–2 em ataques, –4 em Destreza, metade do deslocamento, sem correr ou investir). Para escapar, gasta ação padrão e passa em Força ou Acrobacia (CD 20), ou então destrói a teia (PV 5, RD 5). Com ação completa e 1 PM, cobre uma área de 6m de lado: teia quase invisível (Percepção CD 20), quem entra fica enredado; cada espaço de 1,5m tem PV 5 e RD 5. O dokumo anda nela sem se enredar e percebe criaturas nela como percepção às cegas.</p>",
+    "cost": 1
+   },
+   {
+    "name": "Veneno",
+    "description": "<p>Ferimento; Fortitude CD 15; 1d8 de dano de Força.</p>",
+    "cost": 0
+   },
+   {
+    "name": "Sem Flanco",
+    "description": "<p>Por seus múltiplos olhos, o akumushi não pode ser flanqueado.</p>",
+    "cost": 0
+   }
+  ],
+  "jutsus": [],
+  "treasure": "nenhum",
+  "summary": "<p>Aranha monstruosa do tamanho de um cão, que caça em bandos e prende vítimas em casulos. Imobiliza com teia e envenena com a mordida.</p>",
+  "group": "Monstros"
+ },
+ {
+  "name": "Akumushi, Hidotsu",
+  "page": 270,
+  "nd": "1",
+  "creatureType": "monstro",
+  "level": 2,
+  "size": "pequeno",
+  "sizeNote": "",
+  "initiative": 7,
+  "perception": 2,
+  "senses": "visão no escuro",
+  "ca": 17,
+  "caNote": "+1 nível, +3 Des, +2 Sab, +1 tamanho",
+  "pv": 12,
+  "pm": 4,
+  "saves": {
+   "fort": 3,
+   "ref": 8,
+   "von": 3
+  },
+  "movement": "6m, voo 12m",
+  "abilities": {
+   "for": 12,
+   "des": 16,
+   "con": 10,
+   "int": 3,
+   "sab": 14,
+   "car": 1,
+   "hon": 0
+  },
+  "skills": "",
+  "rd": "5",
+  "resistances": "imunidade a acertos críticos, ácido, dano de habilidade, doenças, eletricidade, fogo, frio, luz, paralisia, sono, transmutação, trevas, venenos e vento",
+  "attacks": [
+   {
+    "name": "Mordida",
+    "kind": "corpo",
+    "bonus": 5,
+    "damage": "1d8",
+    "damageBonus": 2,
+    "damageType": "",
+    "critRange": 20,
+    "critMult": 2,
+    "count": 1,
+    "range": 0,
+    "note": ""
+   }
+  ],
+  "attackText": "mordida +5 (1d8+2).",
+  "specials": [
+   {
+    "name": "Gralhar Aterrador",
+    "description": "<p>No início do turno do hidotsu, criaturas a até 9m fazem teste de Vontade (CD 10 +1 por hidotsu ao alcance). Falha: abalada enquanto o som persistir; falha por 5 ou mais: apavorada (foge). Quem passa fica imune por um dia.</p>",
+    "cost": 0
+   },
+   {
+    "name": "Sem Flanco",
+    "description": "<p>Por seus múltiplos olhos, o akumushi não pode ser flanqueado.</p>",
+    "cost": 0
+   }
+  ],
+  "jutsus": [],
+  "treasure": "nenhum",
+  "summary": "<p>Ave monstruosa de muitas asas e olhos, cujo grasnado aterroriza as vítimas enquanto o bando as bica. Dificulta lutas contra grupos grandes.</p>",
+  "group": "Monstros"
+ },
+ {
+  "name": "Akumushi, Kanatur",
+  "page": 270,
+  "nd": "4",
+  "creatureType": "monstro",
+  "level": 6,
+  "size": "medio",
+  "sizeNote": "",
+  "initiative": 6,
+  "perception": 14,
+  "senses": "visão no escuro",
+  "ca": 22,
+  "caNote": "+3 nível, +3 Des, +1 Sab, +5 natural",
+  "pv": 60,
+  "pm": 12,
+  "saves": {
+   "fort": 8,
+   "ref": 9,
+   "von": 4
+  },
+  "movement": "9m",
+  "abilities": {
+   "for": 20,
+   "des": 16,
+   "con": 16,
+   "int": 8,
+   "sab": 12,
+   "car": 2,
+   "hon": 0
+  },
+  "skills": "",
+  "rd": "5",
+  "resistances": "imunidade a acertos críticos, ácido, dano de habilidade, doenças, eletricidade, fogo, frio, luz, paralisia, sono, transmutação, trevas, venenos e vento",
+  "attacks": [
+   {
+    "name": "Pinça",
+    "kind": "corpo",
+    "bonus": 13,
+    "damage": "1d8",
+    "damageBonus": 8,
+    "damageType": "perfuração",
+    "critRange": 20,
+    "critMult": 2,
+    "count": 1,
+    "range": 0,
+    "note": "Usada junto com a garra."
+   },
+   {
+    "name": "Garra",
+    "kind": "corpo",
+    "bonus": 12,
+    "damage": "1d4",
+    "damageBonus": 8,
+    "damageType": "corte",
+    "critRange": 20,
+    "critMult": 2,
+    "count": 1,
+    "range": 0,
+    "note": "Usada junto com a pinça."
+   }
+  ],
+  "attackText": "pinça +13 (1d8+8 perfuração) e garra +12 (1d4+8 corte).",
+  "specials": [
+   {
+    "name": "Sem Flanco",
+    "description": "<p>Por seus múltiplos olhos, o akumushi não pode ser flanqueado.</p>",
+    "cost": 0
+   }
+  ],
+  "jutsus": [],
+  "treasure": "nenhum",
+  "summary": "<p>Humanoide alto de carapaça vermelha e cabeça de formiga, o akumushi mais numeroso. Ataca em grupo, concentrando golpes num só alvo para flanquear.</p>",
+  "group": "Monstros"
+ },
+ {
+  "name": "Akumushi, Tai-Kanatur",
+  "page": 271,
+  "nd": "6",
+  "creatureType": "monstro",
+  "level": 9,
+  "size": "medio",
+  "sizeNote": "",
+  "initiative": 8,
+  "perception": 17,
+  "senses": "visão no escuro",
+  "ca": 25,
+  "caNote": "+4 nível, +4 Des, +1 Sab, +6 natural",
+  "pv": 99,
+  "pm": 18,
+  "saves": {
+   "fort": 10,
+   "ref": 11,
+   "von": 5
+  },
+  "movement": "9m",
+  "abilities": {
+   "for": 22,
+   "des": 18,
+   "con": 18,
+   "int": 12,
+   "sab": 12,
+   "car": 6,
+   "hon": 0
+  },
+  "skills": "",
+  "rd": "10",
+  "resistances": "imunidade a acertos críticos, ácido, dano de habilidade, doenças, eletricidade, fogo, frio, luz, paralisia, sono, transmutação, trevas, venenos e vento",
+  "attacks": [
+   {
+    "name": "Pinças",
+    "kind": "corpo",
+    "bonus": 17,
+    "damage": "1d8",
+    "damageBonus": 10,
+    "damageType": "perfuração",
+    "critRange": 20,
+    "critMult": 2,
+    "count": 2,
+    "range": 0,
+    "note": "Usadas junto com a garra."
+   },
+   {
+    "name": "Garra",
+    "kind": "corpo",
+    "bonus": 16,
+    "damage": "1d4",
+    "damageBonus": 10,
+    "damageType": "corte",
+    "critRange": 20,
+    "critMult": 2,
+    "count": 1,
+    "range": 0,
+    "note": "Usada junto com as pinças."
+   }
+  ],
+  "attackText": "2 pinças +17 (1d8+10 perfuração) e garra +16 (1d4+10 corte).",
+  "specials": [
+   {
+    "name": "Sem Flanco",
+    "description": "<p>Por seus múltiplos olhos, o akumushi não pode ser flanqueado.</p>",
+    "cost": 0
+   }
+  ],
+  "jutsus": [],
+  "treasure": "nenhum",
+  "summary": "<p>Versão maior do kanatur, com três braços e duas pinças terríveis. Lidera bandos kanatur ou aparece sozinho.</p>",
+  "group": "Monstros"
+ },
+ {
+  "name": "Kaijin",
+  "page": 271,
+  "nd": "6",
+  "creatureType": "monstro",
+  "level": 10,
+  "size": "medio",
+  "sizeNote": "",
+  "initiative": 15,
+  "perception": 18,
+  "senses": "visão no escuro",
+  "ca": 27,
+  "caNote": "+5 nível, +2 Des, +4 Con, +6 Carapaça",
+  "pv": 100,
+  "pm": 20,
+  "saves": {
+   "fort": 11,
+   "ref": 9,
+   "von": 6
+  },
+  "movement": "9m, voo 18m",
+  "abilities": {
+   "for": 20,
+   "des": 14,
+   "con": 18,
+   "int": 12,
+   "sab": 13,
+   "car": 6,
+   "hon": 0
+  },
+  "skills": "Sobrevivência +14",
+  "rd": "7",
+  "resistances": "imunidade a acertos críticos e surpresa, resistência a eletricidade e vento 24",
+  "attacks": [
+   {
+    "name": "Garras",
+    "kind": "corpo",
+    "bonus": 19,
+    "damage": "1d8",
+    "damageBonus": 21,
+    "damageType": "",
+    "critRange": 20,
+    "critMult": 3,
+    "count": 2,
+    "range": 0,
+    "note": ""
+   }
+  ],
+  "attackText": "2 garras +19 (1d8+21, x3).",
+  "specials": [
+   {
+    "name": "Afinidade com a Tormenta",
+    "description": "<p>Nunca recebe níveis negativos por efeitos causados pela Tormenta ou seus habitantes.</p>",
+    "cost": 0
+   },
+   {
+    "name": "Sangue Ácido",
+    "description": "<p>Quem o ferir em combate corpo-a-corpo sofre 1d4+5 de dano de ácido.</p>",
+    "cost": 0
+   }
+  ],
+  "jutsus": [],
+  "treasure": "nenhum",
+  "summary": "<p>Homem-monstro selvagem e amaldiçoado, normalmente solitário e alvo principal dos sentai. Voa e ataca com duas garras fortes; o sangue queima quem o fere em combate corpo-a-corpo.</p>",
+  "group": "Monstros"
+ },
+ {
+  "name": "Kaiju Sauroide",
+  "page": 272,
+  "nd": "26",
+  "creatureType": "monstro",
+  "level": 30,
+  "size": "colossal",
+  "sizeNote": "alto",
+  "initiative": 13,
+  "perception": 34,
+  "senses": "visão no escuro",
+  "ca": 50,
+  "caNote": "+15 nível, –2 Des, –8 tamanho, +35 natural",
+  "pv": 600,
+  "pm": 60,
+  "saves": {
+   "fort": 30,
+   "ref": 15,
+   "von": 20
+  },
+  "movement": "12m, natação 18m",
+  "abilities": {
+   "for": 44,
+   "des": 6,
+   "con": 28,
+   "int": 4,
+   "sab": 12,
+   "car": 10,
+   "hon": null
+  },
+  "skills": "",
+  "rd": "20",
+  "resistances": "resistência a energia 30, cura acelerada 30, imunidade a dano de habilidade, doenças, medo, trevas e venenos",
+  "attacks": [
+   {
+    "name": "Mordida",
+    "kind": "corpo",
+    "bonus": 40,
+    "damage": "4d6",
+    "damageBonus": 32,
+    "damageType": "",
+    "critRange": 18,
+    "critMult": 2,
+    "count": 1,
+    "range": 0,
+    "note": "Opção 1."
+   },
+   {
+    "name": "Cauda",
+    "kind": "corpo",
+    "bonus": 38,
+    "damage": "12d8",
+    "damageBonus": 36,
+    "damageType": "esmagamento",
+    "critRange": 18,
+    "critMult": 2,
+    "count": 1,
+    "range": 0,
+    "note": "Opção 2."
+   }
+  ],
+  "attackText": "mordida +40 (4d6+32, 18) ou cauda +38 (12d8+36 esmagamento, 18).",
+  "specials": [
+   {
+    "name": "Traços de Kaiju",
+    "description": "<p>Os ataques do kaiju ignoram redução de dano (inclusive de objetos). Qualquer ataque contra alvo Enorme ou menor também atinge criaturas adjacentes. Ao falhar num teste de resistência contra efeito de duração não instantânea, pode repetir o teste a cada rodada até passar. Se reduzido a 0 PV ou menos, ao ser restaurado pela cura acelerada desiste da luta e volta à sua terra de origem.</p>",
+    "cost": 0
+   },
+   {
+    "name": "Duro de Matar",
+    "description": "<p>Quando sofre dano que o levaria a 0 PV ou menos, gasta 4 PM para ignorar esse dano por completo.</p>",
+    "cost": 4
+   },
+   {
+    "name": "Engolir",
+    "description": "<p>Ao acertar a mordida, faz a manobra agarrar como ação livre (bônus +56). Se começar o turno agarrando criatura Descomunal ou menor, repete o teste de manobra como ação livre; se vencer, engole a criatura, causando o dano da mordida agora e no início de cada turno dela. A criatura escapa causando 30 de dano de corte ou perfuração (CA 15); a abertura se fecha depois, e outras engolidas precisam abrir o próprio caminho.</p>",
+    "cost": 0
+   },
+   {
+    "name": "Golpe Avassalador",
+    "description": "<p>Cada ataque corpo-a-corpo que acerta lança a vítima, derrubada, 1d6 x 1,5m para onde o kaiju quiser. Teste de Fortitude (CD igual ao dano) evita o efeito (não o dano).</p>",
+    "cost": 0
+   }
+  ],
+  "jutsus": [],
+  "treasure": "padrão",
+  "summary": "<p>Lagarto bípede colossal, o kaiju mais comum, capaz de arrasar cidades. Morde, engole e arremessa adversários.</p>",
+  "group": "Monstros"
+ },
+ {
+  "name": "Kaiju Insetoide",
+  "page": 273,
+  "nd": "24",
+  "creatureType": "monstro",
+  "level": 26,
+  "size": "colossal",
+  "sizeNote": "comprido",
+  "initiative": 13,
+  "perception": 30,
+  "senses": "visão no escuro",
+  "ca": 40,
+  "caNote": "+13 nível, –8 tamanho, +25 natural",
+  "pv": 520,
+  "pm": 52,
+  "saves": {
+   "fort": 25,
+   "ref": 25,
+   "von": 20
+  },
+  "movement": "9m, voo 36m",
+  "abilities": {
+   "for": 36,
+   "des": 10,
+   "con": 26,
+   "int": 4,
+   "sab": 13,
+   "car": 6,
+   "hon": null
+  },
+  "skills": "",
+  "rd": "20",
+  "resistances": "resistência a energia 30, cura acelerada 30, imunidade a dano de habilidade, doenças, medo, trevas e venenos",
+  "attacks": [
+   {
+    "name": "Ferrão",
+    "kind": "corpo",
+    "bonus": 32,
+    "damage": "6d8",
+    "damageBonus": 26,
+    "damageType": "perfuração",
+    "critRange": 20,
+    "critMult": 3,
+    "count": 1,
+    "range": 0,
+    "note": ""
+   },
+   {
+    "name": "Tempestade de ferrões",
+    "kind": "distancia",
+    "bonus": 32,
+    "damage": "6d8",
+    "damageBonus": 26,
+    "damageType": "perfuração",
+    "critRange": 20,
+    "critMult": 3,
+    "count": 1,
+    "range": 90,
+    "note": "Ataque de toque; custa 1 PM por criatura; veneno Fort CD 28, 2d6 Con. Alcance 90m."
+   }
+  ],
+  "attackText": "Corpo-a-corpo: ferrão +32 (6d8+26 perfuração, x3). À distância: tempestade de ferrões +32 toque (6d8+26 perfuração, x3 + veneno).",
+  "specials": [
+   {
+    "name": "Traços de Kaiju",
+    "description": "<p>Os ataques do kaiju ignoram redução de dano (inclusive de objetos). Qualquer ataque contra alvo Enorme ou menor também atinge criaturas adjacentes. Ao falhar num teste de resistência contra efeito de duração não instantânea, pode repetir o teste a cada rodada até passar. Se reduzido a 0 PV ou menos, ao ser restaurado pela cura acelerada desiste da luta e volta à sua terra de origem.</p>",
+    "cost": 0
+   },
+   {
+    "name": "Duro de Matar",
+    "description": "<p>Quando sofre dano que o levaria a 0 PV ou menos, gasta 4 PM para ignorar esse dano por completo.</p>",
+    "cost": 4
+   },
+   {
+    "name": "Tempestade de Ferrões",
+    "description": "<p>Ação padrão: dispara ferrões em qualquer criatura a até 90m, com um ataque de toque à distância para cada alvo, que custa 1 PM. Veneno: ferimento, Fortitude CD 28, 2d6 de Constituição.</p>",
+    "cost": 1
+   }
+  ],
+  "jutsus": [],
+  "treasure": "padrão",
+  "summary": "<p>Kaiju com forma de inseto gigante, que voa e dispara ferrões venenosos contra todos os alvos num raio de 90m.</p>",
+  "group": "Monstros"
+ },
+ {
+  "name": "Kaiju Titã",
+  "page": 274,
+  "nd": "25",
+  "creatureType": "monstro",
+  "level": 28,
+  "size": "colossal",
+  "sizeNote": "alto",
+  "initiative": 12,
+  "perception": 24,
+  "senses": "faro, visão no escuro",
+  "ca": 45,
+  "caNote": "+14 nível, –1 Des, –8 tamanho, +30 natural",
+  "pv": 560,
+  "pm": 56,
+  "saves": {
+   "fort": 28,
+   "ref": 19,
+   "von": 15
+  },
+  "movement": "12m",
+  "abilities": {
+   "for": 45,
+   "des": 8,
+   "con": 27,
+   "int": 10,
+   "sab": 13,
+   "car": 6,
+   "hon": 0
+  },
+  "skills": "",
+  "rd": "20",
+  "resistances": "cura acelerada 30/crítico, resistência a energia 30, imunidade a dano de habilidade, doenças, medo, trevas e venenos",
+  "attacks": [
+   {
+    "name": "Pancadas",
+    "kind": "corpo",
+    "bonus": 35,
+    "damage": "4d8",
+    "damageBonus": 31,
+    "damageType": "esmagamento",
+    "critRange": 20,
+    "critMult": 2,
+    "count": 2,
+    "range": 0,
+    "note": "Opção 1: 2 pancadas."
+   },
+   {
+    "name": "Agarrar",
+    "kind": "corpo",
+    "bonus": 39,
+    "damage": "",
+    "damageBonus": 0,
+    "damageType": "",
+    "critRange": 20,
+    "critMult": 2,
+    "count": 1,
+    "range": 0,
+    "note": "Opção 2: manobra de agarrar."
+   },
+   {
+    "name": "Mordida",
+    "kind": "corpo",
+    "bonus": 42,
+    "damage": "8d6",
+    "damageBonus": 31,
+    "damageType": "",
+    "critRange": 20,
+    "critMult": 2,
+    "count": 1,
+    "range": 0,
+    "note": "Opção 3: apenas contra alvos agarrados."
+   }
+  ],
+  "attackText": "2 pancadas +35 (4d8+31 esmagamento) ou agarrar +39 ou mordida +42 (8d6+31, apenas contra alvos agarrados).",
+  "specials": [
+   {
+    "name": "Traços de Kaiju",
+    "description": "<p>Os ataques do kaiju ignoram redução de dano (inclusive de objetos). Qualquer ataque contra alvo Enorme ou menor também atinge criaturas adjacentes. Ao falhar num teste de resistência contra efeito de duração não instantânea, pode repetir o teste a cada rodada até passar. Se reduzido a 0 PV ou menos, ao ser restaurado pela cura acelerada desiste da luta e volta à sua terra de origem.</p>",
+    "cost": 0
+   },
+   {
+    "name": "Duro de Matar",
+    "description": "<p>Quando sofre dano que o levaria a 0 PV ou menos, gasta 4 PM para ignorar esse dano por completo.</p>",
+    "cost": 4
+   },
+   {
+    "name": "Cura Acelerada",
+    "description": "<p>Regenera qualquer dano, mesmo decapitado ou em pedaços. Só o dano de acertos críticos impede a cura acelerada (cura 30/crítico).</p>",
+    "cost": 0
+   },
+   {
+    "name": "Fúria Explosiva",
+    "description": "<p>Ação livre, 4 PM: ganha uma ação extra, padrão ou de movimento.</p>",
+    "cost": 4
+   }
+  ],
+  "jutsus": [],
+  "treasure": "padrão",
+  "summary": "<p>Kaiju humanoide, o mais raro, uma versão avançada e inteligente do titã descomunal. Pode liderar bandos de titãs; agarra e morde.</p>",
+  "group": "Monstros"
+ },
+ {
+  "name": "Dragão Celestial Jovem",
+  "page": 275,
+  "nd": "10",
+  "creatureType": "youkai",
+  "level": 12,
+  "size": "grande",
+  "sizeNote": "comprido",
+  "initiative": 16,
+  "perception": 19,
+  "senses": "percepção às cegas 18m, visão no escuro",
+  "ca": 28,
+  "caNote": "+6 nível, +1 Des, +4 Hon, –1 tamanho, +8 natural",
+  "pv": 144,
+  "pm": 72,
+  "saves": {
+   "fort": 16,
+   "ref": 13,
+   "von": 16
+  },
+  "movement": "12m, voo 45m",
+  "abilities": {
+   "for": 29,
+   "des": 12,
+   "con": 19,
+   "int": 14,
+   "sab": 18,
+   "car": 16,
+   "hon": 19
+  },
+  "skills": "Limite de PM 20. Conhecimento +8, Diplomacia +22, Identificar Magia +21, Intuição +19",
+  "rd": "",
+  "resistances": "imunidade a eletricidade, medo, paralisia, sono e vento, vulnerabilidade a ácido",
+  "attacks": [
+   {
+    "name": "Mordida",
+    "kind": "corpo",
+    "bonus": 25,
+    "damage": "2d6",
+    "damageBonus": 19,
+    "damageType": "",
+    "critRange": 18,
+    "critMult": 2,
+    "count": 1,
+    "range": 0,
+    "note": "Opção 1."
+   },
+   {
+    "name": "Mordida",
+    "kind": "corpo",
+    "bonus": 23,
+    "damage": "2d6",
+    "damageBonus": 19,
+    "damageType": "",
+    "critRange": 18,
+    "critMult": 2,
+    "count": 1,
+    "range": 0,
+    "note": "Opção 2: junto com 2 garras."
+   },
+   {
+    "name": "Garras",
+    "kind": "corpo",
+    "bonus": 22,
+    "damage": "1d8",
+    "damageBonus": 19,
+    "damageType": "",
+    "critRange": 20,
+    "critMult": 2,
+    "count": 2,
+    "range": 0,
+    "note": "Opção 2: 2 garras junto com a mordida +23."
+   }
+  ],
+  "attackText": "mordida +25 (2d6+19, 18) ou mordida +23 (2d6+19, 18) e 2 garras +22 (1d8+19).",
+  "specials": [
+   {
+    "name": "Culto",
+    "description": "<p>Pode escolher 10 em testes de Conhecimento.</p>",
+    "cost": 0
+   },
+   {
+    "name": "Metamorfose (M)",
+    "description": "<p>Lança o jutsu transformação sem aprimoramentos, sem pagar PM.</p>",
+    "cost": 0
+   }
+  ],
+  "jutsus": [
+   {
+    "name": "ataque zen",
+    "note": "(M); sem mantras ou selos"
+   },
+   {
+    "name": "aura zen",
+    "note": "(M); sem mantras ou selos"
+   },
+   {
+    "name": "cólera de Lin-Wu",
+    "note": "(M); sem mantras ou selos"
+   },
+   {
+    "name": "compreensão dos ancestrais",
+    "note": "(M); sem mantras ou selos"
+   },
+   {
+    "name": "cura das cerejeiras em flor",
+    "note": "(M); sem mantras ou selos"
+   },
+   {
+    "name": "forma espiritual",
+    "note": "(M); sem mantras ou selos"
+   },
+   {
+    "name": "localização",
+    "note": "(M); sem mantras ou selos"
+   },
+   {
+    "name": "viagem espiritual",
+    "note": "(M); sem mantras ou selos"
+   }
+  ],
+  "treasure": "triplo do padrão",
+  "summary": "<p>Youkai dracônico alongado como serpente, voa sem asas e usa jutsus sem mantras ou selos. Honrado, intolerante com o mal e o crime; mais fraco que as versões adulta e venerável.</p>",
+  "group": "Youkai"
+ },
+ {
+  "name": "Dragão Celestial Adulto",
+  "page": 275,
+  "nd": "15",
+  "creatureType": "youkai",
+  "level": 20,
+  "size": "enorme",
+  "sizeNote": "comprido",
+  "initiative": 23,
+  "perception": 28,
+  "senses": "percepção às cegas 18m, visão no escuro",
+  "ca": 34,
+  "caNote": "+10 nível, +6 Hon, –2 tamanho, +10 natural",
+  "pv": 260,
+  "pm": 121,
+  "saves": {
+   "fort": 23,
+   "ref": 18,
+   "von": 23
+  },
+  "movement": "12m, voo 45m",
+  "abilities": {
+   "for": 33,
+   "des": 10,
+   "con": 21,
+   "int": 16,
+   "sab": 20,
+   "car": 18,
+   "hon": 22
+  },
+  "skills": "Limite de PM 31. Conhecimento +13, Diplomacia +31, Identificar Magia +30, Intimidação +27, Intuição +28",
+  "rd": "",
+  "resistances": "imunidade a eletricidade, medo, paralisia, sono e vento, vulnerabilidade a ácido",
+  "attacks": [
+   {
+    "name": "Mordida",
+    "kind": "corpo",
+    "bonus": 36,
+    "damage": "3d6",
+    "damageBonus": 27,
+    "damageType": "",
+    "critRange": 18,
+    "critMult": 2,
+    "count": 1,
+    "range": 0,
+    "note": "Opção 1."
+   },
+   {
+    "name": "Mordida",
+    "kind": "corpo",
+    "bonus": 34,
+    "damage": "3d6",
+    "damageBonus": 27,
+    "damageType": "",
+    "critRange": 18,
+    "critMult": 2,
+    "count": 1,
+    "range": 0,
+    "note": "Opção 2: junto com 2 garras."
+   },
+   {
+    "name": "Garras",
+    "kind": "corpo",
+    "bonus": 33,
+    "damage": "2d6",
+    "damageBonus": 27,
+    "damageType": "",
+    "critRange": 18,
+    "critMult": 2,
+    "count": 2,
+    "range": 0,
+    "note": "Opção 2: 2 garras junto com a mordida +34."
+   }
+  ],
+  "attackText": "mordida +36 (3d6+27, 18) ou mordida +34 (3d6+27, 18) e 2 garras +33 (2d6+27, 18).",
+  "specials": [
+   {
+    "name": "Culto",
+    "description": "<p>Pode escolher 10 em testes de Conhecimento.</p>",
+    "cost": 0
+   },
+   {
+    "name": "Metamorfose (M)",
+    "description": "<p>Lança o jutsu transformação sem aprimoramentos, sem pagar PM.</p>",
+    "cost": 0
+   },
+   {
+    "name": "Presença Celestial",
+    "description": "<p>Criaturas a até 60m fazem teste de Vontade (CD 25). Falha: apavorada (Honra até 9 e no máximo 5 níveis), abalada (Honra até 9 e a partir de 6 níveis) ou fascinada (Honra 10+), pela cena. Quem passa fica imune por um dia. O dragão ativa e desativa com ação livre.</p>",
+    "cost": 0
+   }
+  ],
+  "jutsus": [
+   {
+    "name": "anulação",
+    "note": "(M); sem mantras ou selos"
+   },
+   {
+    "name": "ataque zen",
+    "note": "(M); sem mantras ou selos"
+   },
+   {
+    "name": "aura zen",
+    "note": "(M); sem mantras ou selos"
+   },
+   {
+    "name": "círculo de luz",
+    "note": "(M); sem mantras ou selos"
+   },
+   {
+    "name": "cólera de Lin-Wu",
+    "note": "(M); sem mantras ou selos"
+   },
+   {
+    "name": "compreensão dos ancestrais",
+    "note": "(M); sem mantras ou selos"
+   },
+   {
+    "name": "cura das cerejeiras em flor",
+    "note": "(M); sem mantras ou selos"
+   },
+   {
+    "name": "esconderijo secreto",
+    "note": "(M); sem mantras ou selos"
+   },
+   {
+    "name": "forma espiritual",
+    "note": "(M); sem mantras ou selos"
+   },
+   {
+    "name": "leitura de chacras",
+    "note": "(M); sem mantras ou selos"
+   },
+   {
+    "name": "lâmina de vento",
+    "note": "(M); sem mantras ou selos"
+   },
+   {
+    "name": "localização",
+    "note": "(M); sem mantras ou selos"
+   },
+   {
+    "name": "viagem astral",
+    "note": "(M); sem mantras ou selos"
+   },
+   {
+    "name": "viagem espiritual",
+    "note": "(M); sem mantras ou selos"
+   }
+  ],
+  "treasure": "triplo do padrão",
+  "summary": "<p>Dragão celestial maduro, com presença que fascina ou amedronta e um repertório maior de jutsus sem mantras. Costuma testar a honra de aventureiros antes de ajudá-los.</p>",
+  "group": "Youkai"
+ },
+ {
+  "name": "Dragão Celestial Venerável",
+  "page": 276,
+  "nd": "21",
+  "creatureType": "youkai",
+  "level": 26,
+  "size": "descomunal",
+  "sizeNote": "comprido",
+  "initiative": 29,
+  "perception": 37,
+  "senses": "percepção às cegas 18m, visão no escuro",
+  "ca": 41,
+  "caNote": "+13 nível, +8 Hon, –4 tamanho, +14 natural",
+  "pv": 468,
+  "pm": 198,
+  "saves": {
+   "fort": 31,
+   "ref": 23,
+   "von": 31
+  },
+  "movement": "12m, voo 60m",
+  "abilities": {
+   "for": 37,
+   "des": 10,
+   "con": 27,
+   "int": 22,
+   "sab": 26,
+   "car": 24,
+   "hon": 26
+  },
+  "skills": "Limite de PM 68. Conhecimento +19, Diplomacia +40, Identificar Magia +39, Intimidação +36, Intuição +37",
+  "rd": "",
+  "resistances": "imunidade a eletricidade, medo, fogo, frio, paralisia, sono e vento, vulnerabilidade a ácido",
+  "attacks": [
+   {
+    "name": "Mordida",
+    "kind": "corpo",
+    "bonus": 44,
+    "damage": "6d6",
+    "damageBonus": 34,
+    "damageType": "",
+    "critRange": 18,
+    "critMult": 2,
+    "count": 1,
+    "range": 0,
+    "note": "Opção 1."
+   },
+   {
+    "name": "Mordida",
+    "kind": "corpo",
+    "bonus": 42,
+    "damage": "6d6",
+    "damageBonus": 34,
+    "damageType": "",
+    "critRange": 18,
+    "critMult": 2,
+    "count": 1,
+    "range": 0,
+    "note": "Opção 2: junto com 2 garras."
+   },
+   {
+    "name": "Garras",
+    "kind": "corpo",
+    "bonus": 41,
+    "damage": "2d10",
+    "damageBonus": 34,
+    "damageType": "",
+    "critRange": 18,
+    "critMult": 2,
+    "count": 2,
+    "range": 0,
+    "note": "Opção 2: 2 garras junto com a mordida +42."
+   }
+  ],
+  "attackText": "mordida +44 (6d6+34, 18) ou mordida +42 (6d6+34, 18) e 2 garras +41 (2d10+34, 18).",
+  "specials": [
+   {
+    "name": "Culto",
+    "description": "<p>Pode escolher 10 em testes de Conhecimento.</p>",
+    "cost": 0
+   },
+   {
+    "name": "Metamorfose (M)",
+    "description": "<p>Lança o jutsu transformação sem aprimoramentos, sem pagar PM.</p>",
+    "cost": 0
+   },
+   {
+    "name": "Presença Celestial",
+    "description": "<p>Criaturas a até 90m fazem teste de Vontade (CD 35). Falha: apavorada (Honra até 9 e no máximo 5 níveis), abalada (Honra até 9 e a partir de 6 níveis) ou fascinada (Honra 10+), pela cena. Quem passa fica imune por um dia. O dragão ativa e desativa com ação livre.</p>",
+    "cost": 0
+   },
+   {
+    "name": "Sopro",
+    "description": "<p>Ação padrão, 6 PM: cone de 9m; quem estiver na área sofre 23d12+20 de dano de fogo (Reflexos CD 35 reduz à metade).</p>",
+    "cost": 6
+   }
+  ],
+  "jutsus": [
+   {
+    "name": "anulação",
+    "note": "(M); sem mantras ou selos"
+   },
+   {
+    "name": "armazenar jutsu",
+    "note": "(M); sem mantras ou selos"
+   },
+   {
+    "name": "ataque zen",
+    "note": "(M); sem mantras ou selos"
+   },
+   {
+    "name": "aura zen",
+    "note": "(M); sem mantras ou selos"
+   },
+   {
+    "name": "bombardeio celestial",
+    "note": "(M); sem mantras ou selos"
+   },
+   {
+    "name": "círculo de luz",
+    "note": "(M); sem mantras ou selos"
+   },
+   {
+    "name": "cólera de Lin-Wu",
+    "note": "(M); sem mantras ou selos"
+   },
+   {
+    "name": "compreensão dos ancestrais",
+    "note": "(M); sem mantras ou selos"
+   },
+   {
+    "name": "cura das cerejeiras em flor",
+    "note": "(M); sem mantras ou selos"
+   },
+   {
+    "name": "emprestar jutsu",
+    "note": "(M); sem mantras ou selos"
+   },
+   {
+    "name": "esconderijo secreto",
+    "note": "(M); sem mantras ou selos"
+   },
+   {
+    "name": "forma espiritual",
+    "note": "(M); sem mantras ou selos"
+   },
+   {
+    "name": "katana celestial",
+    "note": "(M); sem mantras ou selos"
+   },
+   {
+    "name": "leitura de chacras",
+    "note": "(M); sem mantras ou selos"
+   },
+   {
+    "name": "lâmina de vento",
+    "note": "(M); sem mantras ou selos"
+   },
+   {
+    "name": "localização",
+    "note": "(M); sem mantras ou selos"
+   },
+   {
+    "name": "missão de honra",
+    "note": "(M); sem mantras ou selos"
+   },
+   {
+    "name": "palanquim celestial",
+    "note": "(M); sem mantras ou selos"
+   },
+   {
+    "name": "viagem astral",
+    "note": "(M); sem mantras ou selos"
+   },
+   {
+    "name": "viagem espiritual",
+    "note": "(M); sem mantras ou selos"
+   }
+  ],
+  "treasure": "triplo do padrão",
+  "summary": "<p>O mais antigo e poderoso dragão celestial, com sopro de fogo, presença avassaladora e um vasto repertório de jutsus sem mantras.</p>",
+  "group": "Youkai"
+ },
+ {
+  "name": "Elemental do Ar Pequeno",
+  "page": 276,
+  "nd": "1",
+  "creatureType": "youkai",
+  "level": 2,
+  "size": "pequeno",
+  "sizeNote": "",
+  "initiative": 4,
+  "perception": 5,
+  "senses": "visão no escuro",
+  "ca": 15,
+  "caNote": "+1 nível, +1 tamanho, +3 Des",
+  "pv": 12,
+  "pm": 6,
+  "saves": {
+   "fort": 3,
+   "ref": 6,
+   "von": 3
+  },
+  "movement": "voo 30m",
+  "abilities": {
+   "for": 10,
+   "des": 17,
+   "con": 10,
+   "int": 2,
+   "sab": 11,
+   "car": 11,
+   "hon": null
+  },
+  "skills": "",
+  "rd": "",
+  "resistances": "imunidade a vento, vulnerabilidade a ácido, imunidade a acertos críticos, dano de habilidade, doenças, enjoo, paralisia, sangramento, sono e venenos",
+  "attacks": [
+   {
+    "name": "Pancada",
+    "kind": "corpo",
+    "bonus": 6,
+    "damage": "1d4",
+    "damageBonus": 1,
+    "damageType": "vento",
+    "critRange": 20,
+    "critMult": 2,
+    "count": 1,
+    "range": 0,
+    "note": ""
+   }
+  ],
+  "attackText": "pancada +6 (1d4+1 vento).",
+  "specials": [
+   {
+    "name": "Maestria Aérea",
+    "description": "<p>Todas as criaturas sofrem –1 em ataque e dano contra um elemental do ar.</p>",
+    "cost": 0
+   },
+   {
+    "name": "Vendaval",
+    "description": "<p>Ação livre, 3 PM: uma rajada derruba quem estiver a até 3m e causa 1d4+1 de dano de vento. Reflexos (CD 15) impede a queda e corta o dano pela metade.</p>",
+    "cost": 3
+   }
+  ],
+  "jutsus": [],
+  "treasure": "nenhum",
+  "summary": "<p>Nuvem mutável de ar que voa depressa e ataca com pancadas de vento. Pode derrubar quem está ao redor com um vendaval.</p>",
+  "group": "Youkai"
+ },
+ {
+  "name": "Elemental do Fogo Pequeno",
+  "page": 277,
+  "nd": "1",
+  "creatureType": "youkai",
+  "level": 2,
+  "size": "pequeno",
+  "sizeNote": "",
+  "initiative": 6,
+  "perception": 1,
+  "senses": "visão no escuro",
+  "ca": 14,
+  "caNote": "+1 nível, +1 Des, +1 tamanho, +1 Esquiva",
+  "pv": 12,
+  "pm": 6,
+  "saves": {
+   "fort": 3,
+   "ref": 4,
+   "von": 3
+  },
+  "movement": "15m",
+  "abilities": {
+   "for": 14,
+   "des": 13,
+   "con": 10,
+   "int": 2,
+   "sab": 11,
+   "car": 11,
+   "hon": null
+  },
+  "skills": "",
+  "rd": "",
+  "resistances": "imunidade a fogo, vulnerabilidade a frio, imunidade a acertos críticos, dano de habilidade, doenças, enjoo, paralisia, sangramento, sono e venenos",
+  "attacks": [
+   {
+    "name": "Pancada",
+    "kind": "corpo",
+    "bonus": 5,
+    "damage": "1d4",
+    "damageBonus": 3,
+    "damageType": "fogo",
+    "critRange": 20,
+    "critMult": 2,
+    "count": 1,
+    "range": 0,
+    "note": ""
+   }
+  ],
+  "attackText": "pancada +5 (1d4+3 fogo).",
+  "specials": [
+   {
+    "name": "Incendiar",
+    "description": "<p>Ao causar dano, gasta 1 PM (ação livre) para tentar incendiar o alvo: Reflexos (CD 15) ou pega fogo, sofrendo 1d6 de dano de fogo por rodada. Apagar exige ação completa, ou ação padrão e teste de Reflexos (CD 15).</p>",
+    "cost": 1
+   }
+  ],
+  "jutsus": [],
+  "treasure": "nenhum",
+  "summary": "<p>Pequena coluna de chamas que desliza pelo chão, incendiando o que toca.</p>",
+  "group": "Youkai"
+ },
+ {
+  "name": "Elemental da Água Médio",
+  "page": 277,
+  "nd": "3",
+  "creatureType": "youkai",
+  "level": 4,
+  "size": "medio",
+  "sizeNote": "",
+  "initiative": 3,
+  "perception": 7,
+  "senses": "visão no escuro",
+  "ca": 19,
+  "caNote": "+2 nível, +1 Des, +6 natural",
+  "pv": 36,
+  "pm": 12,
+  "saves": {
+   "fort": 7,
+   "ref": 5,
+   "von": 5
+  },
+  "movement": "6m, natação 30m",
+  "abilities": {
+   "for": 16,
+   "des": 13,
+   "con": 17,
+   "int": 2,
+   "sab": 12,
+   "car": 10,
+   "hon": null
+  },
+  "skills": "",
+  "rd": "",
+  "resistances": "imunidade a frio, vulnerabilidade a fogo, imunidade a acertos críticos, dano de habilidade, doenças, enjoo, paralisia, sangramento, sono e venenos",
+  "attacks": [
+   {
+    "name": "Pancadas",
+    "kind": "corpo",
+    "bonus": 6,
+    "damage": "1d6",
+    "damageBonus": 5,
+    "damageType": "frio",
+    "critRange": 20,
+    "critMult": 2,
+    "count": 2,
+    "range": 0,
+    "note": ""
+   }
+  ],
+  "attackText": "2 pancadas +6 (1d6+5 frio).",
+  "specials": [
+   {
+    "name": "Enxurrada",
+    "description": "<p>O toque apaga automaticamente qualquer fogo mundano. Pode executar o jutsu anulação pelo custo normal, mas só contra efeitos de fogo.</p>",
+    "cost": 0
+   },
+   {
+    "name": "Maestria Aquática",
+    "description": "<p>+1 em ataque e dano quando ele e o adversário estão em contato com a água; –1 se ambos estão em terra firme.</p>",
+    "cost": 0
+   },
+   {
+    "name": "Vórtice",
+    "description": "<p>Submerso, ação livre, 3 PM, dura a cena: vira redemoinho, não pode fazer pancadas, mas entra no espaço de criaturas de tamanho igual ou menor. A vítima faz Reflexos (CD 15) ou fica agarrada e sofre 1d6+2 de dano por rodada. O elemental solta a vítima com ação livre.</p>",
+    "cost": 3
+   }
+  ],
+  "jutsus": [],
+  "treasure": "nenhum",
+  "summary": "<p>Elemental de corpo líquido e forma vagamente humanoide, que luta melhor na água. Apaga fogo e pode agarrar vítimas num redemoinho.</p>",
+  "group": "Youkai"
+ },
+ {
+  "name": "Elemental da Terra Médio",
+  "page": 277,
+  "nd": "3",
+  "creatureType": "youkai",
+  "level": 4,
+  "size": "medio",
+  "sizeNote": "",
+  "initiative": 1,
+  "perception": 7,
+  "senses": "visão no escuro",
+  "ca": 22,
+  "caNote": "+2 nível, –1 Des, +3 Con, +8 natural",
+  "pv": 36,
+  "pm": 12,
+  "saves": {
+   "fort": 7,
+   "ref": 3,
+   "von": 4
+  },
+  "movement": "6m",
+  "abilities": {
+   "for": 21,
+   "des": 8,
+   "con": 17,
+   "int": 2,
+   "sab": 11,
+   "car": 10,
+   "hon": null
+  },
+  "skills": "",
+  "rd": "",
+  "resistances": "imunidade a ácido, vulnerabilidade a vento, imunidade a acertos críticos, dano de habilidade, doenças, enjoo, paralisia, sangramento, sono e venenos",
+  "attacks": [
+   {
+    "name": "Pancada",
+    "kind": "corpo",
+    "bonus": 9,
+    "damage": "1d8",
+    "damageBonus": 7,
+    "damageType": "",
+    "critRange": 20,
+    "critMult": 2,
+    "count": 1,
+    "range": 0,
+    "note": ""
+   },
+   {
+    "name": "Jato de ácido",
+    "kind": "distancia",
+    "bonus": 3,
+    "damage": "1d4",
+    "damageBonus": 2,
+    "damageType": "ácido",
+    "critRange": 20,
+    "critMult": 2,
+    "count": 1,
+    "range": 0,
+    "note": "Ataque de toque."
+   }
+  ],
+  "attackText": "Corpo-a-corpo: pancada +9 (1d8+7). À distância: jato de ácido +3 toque (1d4+2 ácido).",
+  "specials": [
+   {
+    "name": "Empurrar",
+    "description": "<p>+4 em jogadas de ataque para empurrar (total +13).</p>",
+    "cost": 0
+   },
+   {
+    "name": "Maestria Terrestre",
+    "description": "<p>+1 em ataque e dano se ele e o adversário estão em terra firme; –1 se o adversário está voando ou nadando.</p>",
+    "cost": 0
+   }
+  ],
+  "jutsus": [],
+  "treasure": "nenhum",
+  "summary": "<p>Elemental humanoide de terra compacta, resistente e lento. Empurra adversários e cospe ácido à distância.</p>",
+  "group": "Youkai"
+ },
+ {
+  "name": "Elemental da Luz Enorme",
+  "page": 278,
+  "nd": "7",
+  "creatureType": "youkai",
+  "level": 16,
+  "size": "enorme",
+  "sizeNote": "alto",
+  "initiative": 16,
+  "perception": 20,
+  "senses": "visão no escuro",
+  "ca": 24,
+  "caNote": "+8 nível, +8 Des, –2 tamanho",
+  "pv": 160,
+  "pm": 80,
+  "saves": {
+   "fort": 14,
+   "ref": 19,
+   "von": 10
+  },
+  "movement": "voo 18m",
+  "abilities": {
+   "for": 18,
+   "des": 26,
+   "con": 19,
+   "int": 2,
+   "sab": 13,
+   "car": 12,
+   "hon": null
+  },
+  "skills": "",
+  "rd": "",
+  "resistances": "cura acelerada 5/trevas, imunidade a eletricidade e luz, vulnerabilidade a trevas, imunidade a acertos críticos, dano de habilidade, doenças, enjoo, paralisia, sangramento, sono e venenos",
+  "attacks": [
+   {
+    "name": "Pancada",
+    "kind": "corpo",
+    "bonus": 22,
+    "damage": "2d8",
+    "damageBonus": 20,
+    "damageType": "eletricidade",
+    "critRange": 20,
+    "critMult": 2,
+    "count": 1,
+    "range": 0,
+    "note": "Opção 1."
+   },
+   {
+    "name": "Pancadas",
+    "kind": "corpo",
+    "bonus": 21,
+    "damage": "2d8",
+    "damageBonus": 20,
+    "damageType": "eletricidade",
+    "critRange": 20,
+    "critMult": 2,
+    "count": 2,
+    "range": 0,
+    "note": "Opção 2: 2 pancadas."
+   }
+  ],
+  "attackText": "pancada +22 (2d8+20 eletricidade) ou 2 pancadas +21 (2d8+20 eletricidade).",
+  "specials": [
+   {
+    "name": "Brilho",
+    "description": "<p>Emite luz intensa num raio de 18m; criaturas que sofrem penalidade e dano pela luz solar sofrem como se estivessem sob sol real. Ação livre para reduzi-lo ao equivalente a uma tocha.</p>",
+    "cost": 0
+   },
+   {
+    "name": "Engolfar",
+    "description": "<p>Ação padrão, 10 PM: engolfa criatura de tamanho igual ou menor, que faz Reflexos (CD 22) ou tem 30 PV curados. Se estiver com PV máximos, ganha PV temporários pela cena; se os PV temporários excederem seus PV máximos, morre numa explosão de energia vital. Efeito de luz.</p>",
+    "cost": 10
+   },
+   {
+    "name": "Pairar",
+    "description": "<p>Ao usar ação de movimento para voar, pode fazer uma ação padrão no meio do voo, sem passar do deslocamento total.</p>",
+    "cost": 0
+   }
+  ],
+  "jutsus": [],
+  "treasure": "nenhum",
+  "summary": "<p>Esfera flutuante de luz sólida, rápida e poderosa. Cura ou mata aliados com o engolfar e ilumina uma grande área.</p>",
+  "group": "Youkai"
+ },
+ {
+  "name": "Elemental das Trevas Enorme",
+  "page": 278,
+  "nd": "7",
+  "creatureType": "youkai",
+  "level": 16,
+  "size": "enorme",
+  "sizeNote": "alto",
+  "initiative": 26,
+  "perception": 19,
+  "senses": "visão nas trevas",
+  "ca": 23,
+  "caNote": "+8 nível, +7 Des, –2 tamanho",
+  "pv": 176,
+  "pm": 80,
+  "saves": {
+   "fort": 15,
+   "ref": 17,
+   "von": 11
+  },
+  "movement": "voo 18m",
+  "abilities": {
+   "for": 21,
+   "des": 25,
+   "con": 21,
+   "int": 2,
+   "sab": 13,
+   "car": 8,
+   "hon": null
+  },
+  "skills": "",
+  "rd": "",
+  "resistances": "imunidade a trevas, vulnerabilidade a eletricidade e luz, imunidade a acertos críticos, dano de habilidade, doenças, enjoo, paralisia, sangramento, sono e venenos",
+  "attacks": [
+   {
+    "name": "Pancada",
+    "kind": "corpo",
+    "bonus": 22,
+    "damage": "2d10",
+    "damageBonus": 20,
+    "damageType": "trevas",
+    "critRange": 20,
+    "critMult": 2,
+    "count": 1,
+    "range": 0,
+    "note": "Opção 1."
+   },
+   {
+    "name": "Pancadas",
+    "kind": "corpo",
+    "bonus": 20,
+    "damage": "2d10",
+    "damageBonus": 20,
+    "damageType": "trevas",
+    "critRange": 20,
+    "critMult": 2,
+    "count": 2,
+    "range": 0,
+    "note": "Opção 2: 2 pancadas."
+   }
+  ],
+  "attackText": "pancada +22 (2d10+20 trevas) ou 2 pancadas +20 (2d10+20 trevas).",
+  "specials": [
+   {
+    "name": "Energia Negativa",
+    "description": "<p>Como um shiryou, sofre dano por efeitos de luz e recupera PV com efeitos de trevas.</p>",
+    "cost": 0
+   },
+   {
+    "name": "Escuridão",
+    "description": "<p>Irradia escuridão profunda num raio de 18m: luzes normais e jutsus básicos de luz não funcionam, nem visão no escuro enxerga através; todos na área têm camuflagem total. Ação livre para recolher a escuridão, mantendo camuflagem total só em si.</p>",
+    "cost": 0
+   },
+   {
+    "name": "Névoa Negra",
+    "description": "<p>Ação padrão, 3 PM: vira névoa e engolfa criatura de tamanho igual ou menor, que faz Fortitude (CD 22) ou recebe 1d6 níveis negativos. Para cada nível negativo, o elemental cura 5 PV. Efeito de trevas.</p>",
+    "cost": 3
+   }
+  ],
+  "jutsus": [],
+  "treasure": "nenhum",
+  "summary": "<p>Elemental de sombra sólida que apaga a luz ao redor e drena a energia vital das vítimas.</p>",
+  "group": "Youkai"
+ },
+ {
+  "name": "Gaki",
+  "page": 278,
+  "nd": "1",
+  "creatureType": "youkai",
+  "level": 2,
+  "size": "medio",
+  "sizeNote": "",
+  "initiative": 0,
+  "perception": 1,
+  "senses": "visão no escuro",
+  "ca": 10,
+  "caNote": "+1 nível, –1 Des",
+  "pv": 14,
+  "pm": 6,
+  "saves": {
+   "fort": 3,
+   "ref": 2,
+   "von": 3
+  },
+  "movement": "6m",
+  "abilities": {
+   "for": 15,
+   "des": 8,
+   "con": null,
+   "int": null,
+   "sab": 10,
+   "car": 1,
+   "hon": 0
+  },
+  "skills": "",
+  "rd": "5/corte",
+  "resistances": "",
+  "attacks": [
+   {
+    "name": "Garra",
+    "kind": "corpo",
+    "bonus": 4,
+    "damage": "1d6",
+    "damageBonus": 3,
+    "damageType": "corte",
+    "critRange": 20,
+    "critMult": 2,
+    "count": 1,
+    "range": 0,
+    "note": ""
+   }
+  ],
+  "attackText": "garra +4 (1d6+3 corte).",
+  "specials": [],
+  "jutsus": [],
+  "treasure": "",
+  "summary": "<p>Morto-vivo faminto de barriga inchada, que vaga em bandos atrás de carne humana. Combate simples com garras, resistente a armas cortantes.</p>",
+  "group": "Youkai"
+ },
+ {
+  "name": "Kyoukotsu",
+  "page": 279,
+  "nd": "1/2",
+  "creatureType": "youkai",
+  "level": 1,
+  "size": "medio",
+  "sizeNote": "",
+  "initiative": 5,
+  "perception": 0,
+  "senses": "visão no escuro",
+  "ca": 14,
+  "caNote": "+1 Des, +3 armadura",
+  "pv": 6,
+  "pm": 3,
+  "saves": {
+   "fort": 2,
+   "ref": 3,
+   "von": 2
+  },
+  "movement": "9m",
+  "abilities": {
+   "for": 13,
+   "des": 13,
+   "con": null,
+   "int": null,
+   "sab": 10,
+   "car": 1,
+   "hon": 0
+  },
+  "skills": "Equipamento: yari, armadura ashigaru.",
+  "rd": "5/esmagamento",
+  "resistances": "imunidade a frio",
+  "attacks": [
+   {
+    "name": "Yari",
+    "kind": "corpo",
+    "bonus": 2,
+    "damage": "1d6",
+    "damageBonus": 1,
+    "damageType": "",
+    "critRange": 20,
+    "critMult": 2,
+    "count": 1,
+    "range": 0,
+    "note": ""
+   },
+   {
+    "name": "Yari",
+    "kind": "distancia",
+    "bonus": 2,
+    "damage": "1d6",
+    "damageBonus": 1,
+    "damageType": "perfuração",
+    "critRange": 20,
+    "critMult": 2,
+    "count": 1,
+    "range": 0,
+    "note": ""
+   }
+  ],
+  "attackText": "Corpo-a-corpo: yari +2 (1d6+1). À distância: yari +2 (1d6+1 perfuração).",
+  "specials": [],
+  "jutsus": [],
+  "treasure": "nenhum",
+  "summary": "<p>Esqueleto espectral que assombra locais de mortes violentas, com yari e armadura ashigaru. Fraco individualmente, resistente a armas de esmagamento.</p>",
+  "group": "Youkai"
+ },
+ {
+  "name": "Odokuro Enorme",
+  "page": 279,
+  "nd": "7",
+  "creatureType": "youkai",
+  "level": 10,
+  "size": "enorme",
+  "sizeNote": "alto",
+  "initiative": 13,
+  "perception": 5,
+  "senses": "visão no escuro",
+  "ca": 23,
+  "caNote": "+5 nível, –2 tamanho, +10 natural",
+  "pv": 100,
+  "pm": 0,
+  "saves": {
+   "fort": 7,
+   "ref": 7,
+   "von": 7
+  },
+  "movement": "12m",
+  "abilities": {
+   "for": 25,
+   "des": 11,
+   "con": null,
+   "int": null,
+   "sab": 10,
+   "car": 1,
+   "hon": 0
+  },
+  "skills": "",
+  "rd": "10/esmagamento",
+  "resistances": "imunidade a frio",
+  "attacks": [
+   {
+    "name": "Garras",
+    "kind": "corpo",
+    "bonus": 14,
+    "damage": "2d6",
+    "damageBonus": 12,
+    "damageType": "corte",
+    "critRange": 20,
+    "critMult": 2,
+    "count": 2,
+    "range": 0,
+    "note": "Opção 1: 2 garras."
+   },
+   {
+    "name": "Agarrar",
+    "kind": "corpo",
+    "bonus": 24,
+    "damage": "",
+    "damageBonus": 0,
+    "damageType": "",
+    "critRange": 20,
+    "critMult": 2,
+    "count": 1,
+    "range": 0,
+    "note": "Opção 2: manobra de agarrar."
+   },
+   {
+    "name": "Mordida",
+    "kind": "corpo",
+    "bonus": 20,
+    "damage": "4d6",
+    "damageBonus": 12,
+    "damageType": "",
+    "critRange": 20,
+    "critMult": 2,
+    "count": 1,
+    "range": 0,
+    "note": "Opção 3: apenas contra alvos agarrados."
+   }
+  ],
+  "attackText": "2 garras +14 (2d6+12 corte) ou agarrar +24 ou mordida +20 (4d6+12, apenas contra alvos agarrados).",
+  "specials": [
+   {
+    "name": "Tática",
+    "description": "<p>Tenta agarrar as vítimas e matá-las a mordidas; usa as garras apenas contra adversários de uma categoria de tamanho abaixo da sua ou maiores.</p>",
+    "cost": 0
+   }
+  ],
+  "jutsus": [],
+  "treasure": "padrão",
+  "summary": "<p>Esqueleto gigante formado por ao menos cem guerreiros mortos. Agarra e morde; usa garras só contra alvos de tamanho muito menor.</p>",
+  "group": "Youkai"
+ },
+ {
+  "name": "Odokuro Descomunal",
+  "page": 279,
+  "nd": "11",
+  "creatureType": "youkai",
+  "level": 16,
+  "size": "descomunal",
+  "sizeNote": "alto",
+  "initiative": 18,
+  "perception": 8,
+  "senses": "visão no escuro",
+  "ca": 25,
+  "caNote": "+8 nível, –4 tamanho, +11 natural",
+  "pv": 208,
+  "pm": 0,
+  "saves": {
+   "fort": 10,
+   "ref": 10,
+   "von": 10
+  },
+  "movement": "15m",
+  "abilities": {
+   "for": 34,
+   "des": 10,
+   "con": null,
+   "int": null,
+   "sab": 10,
+   "car": 1,
+   "hon": 0
+  },
+  "skills": "",
+  "rd": "15/esmagamento",
+  "resistances": "imunidade a frio",
+  "attacks": [
+   {
+    "name": "Garras",
+    "kind": "corpo",
+    "bonus": 23,
+    "damage": "2d8",
+    "damageBonus": 17,
+    "damageType": "corte",
+    "critRange": 20,
+    "critMult": 2,
+    "count": 2,
+    "range": 0,
+    "note": "Opção 1: 2 garras."
+   },
+   {
+    "name": "Agarrar",
+    "kind": "corpo",
+    "bonus": 37,
+    "damage": "",
+    "damageBonus": 0,
+    "damageType": "",
+    "critRange": 20,
+    "critMult": 2,
+    "count": 1,
+    "range": 0,
+    "note": "Opção 2: manobra de agarrar."
+   },
+   {
+    "name": "Mordida",
+    "kind": "corpo",
+    "bonus": 25,
+    "damage": "6d6",
+    "damageBonus": 17,
+    "damageType": "",
+    "critRange": 20,
+    "critMult": 2,
+    "count": 1,
+    "range": 0,
+    "note": "Opção 3: apenas contra alvos agarrados."
+   }
+  ],
+  "attackText": "2 garras +23 (2d8+17 corte) ou agarrar +37 ou mordida +25 (6d6+17, apenas contra alvos agarrados).",
+  "specials": [
+   {
+    "name": "Tática",
+    "description": "<p>Tenta agarrar as vítimas e matá-las a mordidas; usa as garras apenas contra adversários de uma categoria de tamanho abaixo da sua ou maiores.</p>",
+    "cost": 0
+   }
+  ],
+  "jutsus": [],
+  "treasure": "padrão",
+  "summary": "<p>Esqueleto de quase 20m, formado por ao menos mil guerreiros. Agarra e morde com mais força que o odokuro enorme.</p>",
+  "group": "Youkai"
+ },
+ {
+  "name": "Odokuro Colossal",
+  "page": 280,
+  "nd": "15",
+  "creatureType": "youkai",
+  "level": 28,
+  "size": "descomunal",
+  "sizeNote": "alto",
+  "initiative": 30,
+  "perception": 31,
+  "senses": "visão no escuro",
+  "ca": 36,
+  "caNote": "+14 nível, –1 Des, –8 tamanho, +21 natural",
+  "pv": 420,
+  "pm": 0,
+  "saves": {
+   "fort": 16,
+   "ref": 15,
+   "von": 16
+  },
+  "movement": "15m",
+  "abilities": {
+   "for": 42,
+   "des": 8,
+   "con": null,
+   "int": null,
+   "sab": 10,
+   "car": 1,
+   "hon": 0
+  },
+  "skills": "",
+  "rd": "20/esmagamento",
+  "resistances": "imunidade a frio, cura acelerada 10/luz",
+  "attacks": [
+   {
+    "name": "Garras",
+    "kind": "corpo",
+    "bonus": 35,
+    "damage": "2d10",
+    "damageBonus": 30,
+    "damageType": "corte",
+    "critRange": 20,
+    "critMult": 2,
+    "count": 2,
+    "range": 0,
+    "note": "Opção 1: 2 garras."
+   },
+   {
+    "name": "Agarrar",
+    "kind": "corpo",
+    "bonus": 53,
+    "damage": "",
+    "damageBonus": 0,
+    "damageType": "",
+    "critRange": 20,
+    "critMult": 2,
+    "count": 1,
+    "range": 0,
+    "note": "Opção 2: manobra de agarrar."
+   },
+   {
+    "name": "Mordida",
+    "kind": "corpo",
+    "bonus": 37,
+    "damage": "8d6",
+    "damageBonus": 30,
+    "damageType": "",
+    "critRange": 20,
+    "critMult": 2,
+    "count": 1,
+    "range": 0,
+    "note": "Opção 3: apenas contra alvos agarrados."
+   }
+  ],
+  "attackText": "2 garras +35 (2d10+30 corte) ou agarrar +53 ou mordida +37 (8d6+30, apenas contra alvos agarrados).",
+  "specials": [
+   {
+    "name": "Tática",
+    "description": "<p>Tenta agarrar as vítimas e matá-las a mordidas; usa as garras apenas contra adversários de uma categoria de tamanho abaixo da sua ou maiores.</p>",
+    "cost": 0
+   }
+  ],
+  "jutsus": [],
+  "treasure": "padrão",
+  "summary": "<p>Esqueleto gigantesco, de existência nunca confirmada, quase tão poderoso quanto um kaiju. A ficha classifica-o como Descomunal, apesar do nome.</p>",
+  "group": "Youkai"
+ },
+ {
+  "name": "Yuurei",
+  "page": 280,
+  "nd": "3",
+  "creatureType": "youkai",
+  "level": 3,
+  "size": "medio",
+  "sizeNote": "",
+  "initiative": 7,
+  "perception": 6,
+  "senses": "visão no escuro",
+  "ca": 13,
+  "caNote": "+1 nível, +1 Des, +1 Esquiva",
+  "pv": 18,
+  "pm": 6,
+  "saves": {
+   "fort": 3,
+   "ref": 4,
+   "von": 3
+  },
+  "movement": "voo 12m",
+  "abilities": {
+   "for": 13,
+   "des": 13,
+   "con": null,
+   "int": null,
+   "sab": 10,
+   "car": 10,
+   "hon": 0
+  },
+  "skills": "Furtividade +11",
+  "rd": "",
+  "resistances": "incorpóreo",
+  "attacks": [
+   {
+    "name": "Toque",
+    "kind": "corpo",
+    "bonus": 4,
+    "damage": "1d6",
+    "damageBonus": 0,
+    "damageType": "Força",
+    "critRange": 20,
+    "critMult": 2,
+    "count": 1,
+    "range": 0,
+    "note": "Dano de Força; ataque de toque."
+   }
+  ],
+  "attackText": "toque +4 (1d6 de Força).",
+  "specials": [
+   {
+    "name": "Sensibilidade à Luz",
+    "description": "<p>Fica ofuscado (–1 em ataques) sob luz solar ou sob o jutsu brilho de Tai'Yang.</p>",
+    "cost": 0
+   },
+   {
+    "name": "Toque Sombrio",
+    "description": "<p>O toque causa 1d6 de dano de Força. Se a Força do alvo chega a 0, o dano passa a ser de Constituição. Quem morre por esta habilidade vira um yuurei 1d4 rodadas depois, sob comando de quem o gerou.</p>",
+    "cost": 0
+   }
+  ],
+  "jutsus": [],
+  "treasure": "nenhum",
+  "summary": "<p>Fantasma incorpóreo preso ao mundo por emoções negativas. Drena Força com o toque e transforma as vítimas mortas em novos yuurei.</p>",
+  "group": "Youkai"
+ },
+ {
+  "name": "Oni",
+  "page": 281,
+  "nd": "5",
+  "creatureType": "youkai",
+  "level": 6,
+  "size": "medio",
+  "sizeNote": "",
+  "initiative": 10,
+  "perception": 8,
+  "senses": "faro, visão nas trevas",
+  "ca": 21,
+  "caNote": "+3 nível, +1 Des, +5 lamelar, +2 natural",
+  "pv": 60,
+  "pm": 18,
+  "saves": {
+   "fort": 8,
+   "ref": 6,
+   "von": 5
+  },
+  "movement": "9m",
+  "abilities": {
+   "for": 19,
+   "des": 12,
+   "con": 17,
+   "int": 10,
+   "sab": 9,
+   "car": 6,
+   "hon": 0
+  },
+  "skills": "Atletismo +10, Intimidação +13. Equipamento: lamelar, machado de batalha.",
+  "rd": "5",
+  "resistances": "imunidade a doenças, fogo e veneno",
+  "attacks": [
+   {
+    "name": "Machado de batalha",
+    "kind": "corpo",
+    "bonus": 10,
+    "damage": "1d8",
+    "damageBonus": 7,
+    "damageType": "",
+    "critRange": 20,
+    "critMult": 3,
+    "count": 1,
+    "range": 0,
+    "note": "Opção 1."
+   },
+   {
+    "name": "Machado de batalha",
+    "kind": "corpo",
+    "bonus": 8,
+    "damage": "1d8",
+    "damageBonus": 7,
+    "damageType": "",
+    "critRange": 20,
+    "critMult": 3,
+    "count": 1,
+    "range": 0,
+    "note": "Opção 2: junto com chifres."
+   },
+   {
+    "name": "Chifres",
+    "kind": "corpo",
+    "bonus": 8,
+    "damage": "1d6",
+    "damageBonus": 7,
+    "damageType": "",
+    "critRange": 20,
+    "critMult": 2,
+    "count": 1,
+    "range": 0,
+    "note": "Opção 2: junto com o machado +8; mais doença."
+   }
+  ],
+  "attackText": "machado de batalha +10 (1d8+7, x3) ou machado de batalha +8 (1d8+7, x3) e chifres +8 (1d6+7 mais doença).",
+  "specials": [
+   {
+    "name": "Doença",
+    "description": "<p>Sofrer dano dos chifres exige teste de Fortitude (CD 16); falha causa calafrios diabólicos (Capítulo 6).</p>",
+    "cost": 0
+   }
+  ],
+  "jutsus": [],
+  "treasure": "padrão",
+  "summary": "<p>Diabo ou demônio de pele azulada, chifres longos e armadura lamelar, que luta sujo, em grupo e com emboscadas. Ataca com machado e chifres que transmitem doença. O tipo na ficha é 'Espírito'.</p>",
+  "group": "Youkai"
+ }
+]

@@ -1,0 +1,414 @@
+[
+  {
+    "name": "Humano",
+    "page": 29,
+    "kanji": "人間",
+    "summary": "<p>O povo mais numeroso do Império: persistente, disciplinado e capaz de seguir qualquer caminho. Mecanicamente, é a raça mais flexível: dois aumentos de habilidade à escolha, perícias e talentos extras.</p>",
+    "size": "medio",
+    "movement": 9,
+    "honor": 0,
+    "abilityMods": {},
+    "abilityChoice": {
+      "count": 2,
+      "value": 2
+    },
+    "bonusSkills": 2,
+    "bonusFeats": 2,
+    "features": [
+      {
+        "name": "Perícias Extras",
+        "description": "<p>Você recebe <strong>2 perícias treinadas extras</strong>, e elas podem vir de fora da lista da sua classe. Treinar uma perícia fora da sua classe ainda conta como violação de honra leve.</p>"
+      },
+      {
+        "name": "Talentos Extras",
+        "description": "<p>Você recebe <strong>2 talentos extras</strong> no 1º nível. Ainda precisa cumprir os pré-requisitos de cada um.</p>"
+      }
+    ]
+  },
+  {
+    "name": "Hanyô",
+    "page": 31,
+    "kanji": "半妖",
+    "summary": "<p>Meio-youkai: pessoas com uma herança sobrenatural no sangue, hiperativas e impulsivas. Já nascem com o chacra das emoções aberto e se safam do perigo com poderes mais baratos.</p>",
+    "size": "medio",
+    "movement": 9,
+    "honor": 0,
+    "abilityMods": {
+      "car": 4,
+      "int": 2,
+      "sab": -2
+    },
+    "abilityChoice": {
+      "count": 0,
+      "value": 0
+    },
+    "bonusSkills": 0,
+    "bonusFeats": 0,
+    "features": [
+      {
+        "name": "Arcano",
+        "description": "<p>+4 em testes de Identificar Magia.</p>",
+        "effects": [
+          {
+            "key": "system.skills.identificarMagia.bonus",
+            "type": "add",
+            "value": 4
+          }
+        ]
+      },
+      {
+        "name": "Brincar com os Sentimentos",
+        "description": "<p>O chacra das emoções (Carisma) já vem aberto em grau básico: some o modificador de Carisma aos PM e ao limite de PM, e você pode aprender e executar jutsus básicos de Carisma. Você também aprende <strong>um jutsu básico de Carisma</strong> à sua escolha.</p>",
+        "effects": [
+          {
+            "key": "system.chakras.car.open",
+            "type": "override",
+            "value": true
+          }
+        ]
+      },
+      {
+        "name": "Espírito Livre",
+        "description": "<p>+4 em testes contra efeitos que restringem o movimento: manobra de agarrar, armadilhas, redes, paralisia, jutsus como estrepes invisíveis e onda de frio, e similares.</p>"
+      },
+      {
+        "name": "Poder Salvador",
+        "description": "<p>Quando está <strong>em perigo</strong>, seus jutsus e poderes com custo em PM custam 1 PM a menos (mínimo 0).</p><p>Você está em perigo com metade ou menos dos PV totais, ou sob qualquer condição que reduza diretamente a sua CA (agarrado, atordoado, cego, desprevenido, indefeso, inconsciente, lento, paralisado etc.).</p>"
+      }
+    ]
+  },
+  {
+    "name": "Henge",
+    "page": 33,
+    "kanji": "変化",
+    "summary": "<p>Animais inteligentes que assumem uma forma híbrida bípede. Ágeis e perceptivos, trocam livremente entre a forma híbrida e uma forma animal pequena ou mínima.</p>",
+    "size": "medio",
+    "movement": 9,
+    "honor": 0,
+    "abilityMods": {
+      "des": 4,
+      "sab": 2,
+      "for": -2
+    },
+    "abilityChoice": {
+      "count": 0,
+      "value": 0
+    },
+    "bonusSkills": 0,
+    "bonusFeats": 0,
+    "features": [
+      {
+        "name": "Animal",
+        "description": "<p>Você não é considerado humanoide: é imune a jutsus e efeitos que só afetam humanoides.</p>"
+      },
+      {
+        "name": "Forma Animal",
+        "description": "<p>Você tem <strong>uma única forma animal</strong>, definida ao criar o personagem e ligada à sua forma híbrida: um animal Pequeno — raposa, texugo, garça ou cão — ou Mínimo — gato, lebre, carpa, pardal, macaco ou guaxinim —, com os ajustes do tamanho (p. 78).</p><ul><li>A troca de forma gasta uma ação completa; você troca quantas vezes e por quanto tempo quiser.</li><li>Como animal você mantém as estatísticas da forma híbrida (ajustadas pelo tamanho), mas não fala, não executa jutsus e não faz nada que exija mãos ou tamanho Médio.</li><li>Seu equipamento e suas roupas somem dentro da forma animal e reaparecem quando você volta.</li></ul>"
+      },
+      {
+        "name": "Movimento Especial",
+        "description": "<p>Só na forma animal, conforme o bicho: cão, lebre ou raposa ganham deslocamento 12m; gato, guaxinim ou macaco escalam 6m; o texugo escava 3m; a carpa nada 9m; garça ou pardal voam 18m.</p>"
+      },
+      {
+        "name": "Ataque Natural",
+        "description": "<p>Na forma animal, conforme a espécie: uma mordida de 1d6 + For (cão, raposa, garça) ou 1d2 + For (carpa, lebre, macaco, pardal), ou duas garras de 1d4 + For (gato, guaxinim, texugo).</p>"
+      },
+      {
+        "name": "Agilidade Animal",
+        "description": "<p>A perícia Atletismo usa Destreza em vez de Força.</p>",
+        "effects": [
+          {
+            "key": "system.skills.atletismo.ability",
+            "type": "override",
+            "value": "des"
+          }
+        ]
+      },
+      {
+        "name": "Faro",
+        "description": "<p>+4 em testes de Percepção. Sem precisar de teste, você sabe que há criaturas num raio de 9m, embora não saiba onde nem para que lado estão.</p>",
+        "effects": [
+          {
+            "key": "system.skills.percepcao.bonus",
+            "type": "add",
+            "value": 4
+          }
+        ]
+      },
+      {
+        "name": "Visão na Penumbra",
+        "description": "<p>Você ignora camuflagem por escuridão (mas não camuflagem total) e enxerga duas vezes mais longe sob pouca luz, como luz das estrelas ou tochas.</p>"
+      }
+    ]
+  },
+  {
+    "name": "Kaijin",
+    "page": 35,
+    "kanji": "怪人",
+    "summary": "<p>Homens-monstros deformados pela corrupção da Tormenta: fortes, resistentes e grotescos. Não usam equipamento comum e já começam com talentos da Tormenta.</p>",
+    "size": "medio",
+    "movement": 9,
+    "honor": -1,
+    "abilityMods": {
+      "for": 4,
+      "con": 2,
+      "car": -2
+    },
+    "abilityChoice": {
+      "count": 0,
+      "value": 0
+    },
+    "bonusSkills": 0,
+    "bonusFeats": 0,
+    "features": [
+      {
+        "name": "Monstro",
+        "description": "<p>Você não é considerado humanoide: é imune a jutsus e efeitos que só afetam humanoides.</p>"
+      },
+      {
+        "name": "Afinidade com a Tormenta",
+        "description": "<p>Você nunca recebe níveis negativos por efeitos da Tormenta ou de suas criaturas.</p>"
+      },
+      {
+        "name": "Ameaçador",
+        "description": "<p>A perícia Intimidação usa Força em vez de Carisma.</p>",
+        "effects": [
+          {
+            "key": "system.skills.intimidacao.ability",
+            "type": "override",
+            "value": "for"
+          }
+        ]
+      },
+      {
+        "name": "Disforme",
+        "description": "<p>Seu corpo deformado não se ajusta a itens mundanos comuns (armas, armaduras, ferramentas...). Você ainda pode usar itens mágicos, peças obra-prima feitas sob medida e o que vier de talentos (como Armamento da Tormenta) ou de habilidades de classe — por exemplo, a armadura simbionte de um onimusha ou as espadas ancestrais de um samurai.</p>"
+      },
+      {
+        "name": "Talentos da Tormenta",
+        "description": "<p>Você recebe os talentos <strong>Anatomia Insana</strong> e <strong>Carapaça</strong>, mais <strong>2 talentos da Tormenta</strong> à sua escolha. Estes quatro não causam dano de Honra (outros talentos da Tormenta causam).</p>",
+        "grantFeats": [
+          "Anatomia Insana",
+          "Carapaça"
+        ]
+      },
+      {
+        "name": "Visão no Escuro",
+        "description": "<p>Você ignora camuflagem por escuridão, inclusive camuflagem total, e enxerga normalmente no escuro (em preto e branco).</p>"
+      }
+    ]
+  },
+  {
+    "name": "Mashin",
+    "page": 37,
+    "kanji": "マシン",
+    "summary": "<p>Construtos vivos forjados para servir ao Império, movidos por elementais internos. Adaptáveis, imunes a muitos males e curados pela energia do seu elemento, mas não por curas mágicas.</p>",
+    "size": "medio",
+    "movement": 9,
+    "honor": 1,
+    "abilityMods": {},
+    "abilityChoice": {
+      "count": 2,
+      "value": 2
+    },
+    "bonusSkills": 0,
+    "bonusFeats": 0,
+    "features": [
+      {
+        "name": "Construto",
+        "description": "<p>Você não é considerado humanoide: é imune a jutsus e efeitos que só afetam humanoides.</p>"
+      },
+      {
+        "name": "Imunidades",
+        "description": "<p>Você não sofre os efeitos de doença, veneno, sono, fadiga, enjoo, paralisia nem atordoamento, e é imune aos descritores luz e trevas. Também dispensa ar, comida, bebida e sono — mas ainda precisa descansar ou meditar para recuperar PM.</p>"
+      },
+      {
+        "name": "Quase Vivo",
+        "description": "<p>Diferente de outros construtos, você tem valor de Constituição e recupera PV com descanso. Não é destruído ao chegar a 0 PV (segue as regras normais de personagens) e pode ser ressuscitado.</p>"
+      },
+      {
+        "name": "Sem Cura",
+        "description": "<p>Curas mágicas (jutsus de luz, canalizar energia...) não recuperam seus PV, e a perícia Cura não funciona em você: use Ofício (metalurgia) no lugar, com a mesma CD e os mesmos resultados.</p>"
+      },
+      {
+        "name": "Cura Elemental",
+        "description": "<p>Ao criar o personagem, defina o seu elemento entre fogo, frio, vento, ácido e eletricidade. Dano desse elemento, natural ou mágico, não o afeta. Quando a energia vem de um efeito mágico, ela ainda <strong>cura</strong> você em metade do dano que causaria (ex.: um leque de chamas de 2d6 devolve 1d6 PV a um mashin do fogo). A versão comum dessa energia (uma tocha) não fere nem cura.</p>"
+      },
+      {
+        "name": "Visão no Escuro",
+        "description": "<p>Você ignora camuflagem por escuridão, inclusive camuflagem total, e enxerga normalmente no escuro (em preto e branco).</p>"
+      }
+    ]
+  },
+  {
+    "name": "Nezumi",
+    "page": 39,
+    "kanji": "鼠",
+    "summary": "<p>Homens-rato de cultura agressiva: pequenos, ligeiros e difíceis de matar, rudes e temidos. Lutam com armas de tamanho Médio e se movem tão rápido quanto os maiores.</p>",
+    "size": "pequeno",
+    "movement": 9,
+    "honor": -2,
+    "abilityMods": {
+      "con": 4,
+      "des": 2,
+      "int": -2
+    },
+    "abilityChoice": {
+      "count": 0,
+      "value": 0
+    },
+    "bonusSkills": 0,
+    "bonusFeats": 0,
+    "features": [
+      {
+        "name": "Tamanho Pequeno",
+        "description": "<p>+1 na CA, +1 nas jogadas de ataque, +4 em Furtividade e –4 em testes de manobra (aplicados automaticamente pelo tamanho). Mesmo assim, você usa armas como uma criatura Média.</p>"
+      },
+      {
+        "name": "Deslocamento 9m",
+        "description": "<p>Apesar do tamanho, seu deslocamento é 9m, o mesmo de criaturas Médias.</p>"
+      },
+      {
+        "name": "Amedrontador",
+        "description": "<p>+4 em testes de Intimidação.</p>",
+        "effects": [
+          {
+            "key": "system.skills.intimidacao.bonus",
+            "type": "add",
+            "value": 4
+          }
+        ]
+      },
+      {
+        "name": "Faro",
+        "description": "<p>+4 em testes de Percepção. Sem precisar de teste, você sabe que há criaturas num raio de 9m, embora não saiba onde nem para que lado estão.</p>",
+        "effects": [
+          {
+            "key": "system.skills.percepcao.bonus",
+            "type": "add",
+            "value": 4
+          }
+        ]
+      },
+      {
+        "name": "Visão na Penumbra",
+        "description": "<p>Você ignora camuflagem por escuridão (mas não camuflagem total) e enxerga duas vezes mais longe sob pouca luz, como luz das estrelas ou tochas.</p>"
+      }
+    ]
+  },
+  {
+    "name": "Ryuujin",
+    "page": 41,
+    "kanji": "竜人",
+    "summary": "<p>Meio-dragões abençoados por Lin-Wu, nascidos de mães humanas. Sábios, fortes e corteses, são campeões naturais contra os desonrados e têm a sorte dos favoritos do Deus Dragão.</p>",
+    "size": "medio",
+    "movement": 9,
+    "honor": 2,
+    "abilityMods": {
+      "sab": 4,
+      "for": 2,
+      "des": -2
+    },
+    "abilityChoice": {
+      "count": 0,
+      "value": 0
+    },
+    "bonusSkills": 0,
+    "bonusFeats": 0,
+    "features": [
+      {
+        "name": "Digno",
+        "description": "<p>+4 em testes de Diplomacia.</p>",
+        "effects": [
+          {
+            "key": "system.skills.diplomacia.bonus",
+            "type": "add",
+            "value": 4
+          }
+        ]
+      },
+      {
+        "name": "Honra Superior",
+        "description": "<p>Contra quem tem Honra menor que a sua, você ganha +1 em ataque, dano e CA.</p>"
+      },
+      {
+        "name": "Resistência Celestial",
+        "description": "<p>Escolha três descritores elementais entre ácido, eletricidade, fogo, frio e vento: você tem <strong>resistência 5</strong> contra essas energias. Anote-as em Resistência a energia, na aba Combate.</p>"
+      },
+      {
+        "name": "Sorte Ancestral",
+        "description": "<p>+2 em todos os testes de resistência.</p>",
+        "effects": [
+          {
+            "key": "system.saves.fort.bonus",
+            "type": "add",
+            "value": 2
+          },
+          {
+            "key": "system.saves.ref.bonus",
+            "type": "add",
+            "value": 2
+          },
+          {
+            "key": "system.saves.von.bonus",
+            "type": "add",
+            "value": 2
+          }
+        ]
+      },
+      {
+        "name": "Visão no Escuro",
+        "description": "<p>Você ignora camuflagem por escuridão, inclusive camuflagem total, e enxerga normalmente no escuro (em preto e branco).</p>"
+      }
+    ]
+  },
+  {
+    "name": "Vanara",
+    "page": 43,
+    "kanji": "バナラ",
+    "summary": "<p>O povo-macaco das montanhas: brilhante, sábio e de corpo frágil. Arquivos vivos de conhecimento, usam a cauda como uma mão extra e acham os pontos fracos de qualquer inimigo.</p>",
+    "size": "medio",
+    "movement": 9,
+    "honor": 1,
+    "abilityMods": {
+      "int": 4,
+      "sab": 2,
+      "con": -2
+    },
+    "abilityChoice": {
+      "count": 0,
+      "value": 0
+    },
+    "bonusSkills": 0,
+    "bonusFeats": 0,
+    "features": [
+      {
+        "name": "Cauda Preênsil",
+        "description": "<p>Sua cauda funciona como uma mão inábil: segura objetos, maneja armas leves ou escudos, faz ataques desarmados e executa selos de jutsus. Ela não maneja armas de uma ou duas mãos e não dá ataques nem ações extras.</p>"
+      },
+      {
+        "name": "Conheça o Inimigo",
+        "description": "<p>A margem de ameaça dos seus ataques aumenta em +1 (uma arma 19–20 passa a ameaçar com 18–20; aplicado automaticamente).</p>",
+        "effects": [
+          {
+            "key": "system.attributes.critBonus",
+            "type": "add",
+            "value": 1
+          }
+        ]
+      },
+      {
+        "name": "Culto",
+        "description": "<p>Você pode fazer testes de Conhecimento sem treinamento e sempre pode escolher 10 neles.</p>"
+      },
+      {
+        "name": "Mente Sobre a Matéria",
+        "description": "<p>Sempre que faz um teste de Fortitude, você pode rolar também um teste de Vontade e ficar com o melhor resultado.</p>"
+      },
+      {
+        "name": "Visão na Penumbra",
+        "description": "<p>Você ignora camuflagem por escuridão (mas não camuflagem total) e enxerga duas vezes mais longe sob pouca luz, como luz das estrelas ou tochas.</p>"
+      }
+    ]
+  }
+]

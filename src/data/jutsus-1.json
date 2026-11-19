@@ -1,0 +1,2196 @@
+[
+  {
+    "name": "Apreciar Arte",
+    "page": 172,
+    "grade": "basico",
+    "chakra": "sab",
+    "chakras": [
+      "sab"
+    ],
+    "descriptors": "adivinhação",
+    "execution": "10 minutos",
+    "range": "corpo-a-corpo",
+    "target": "Alvo: 1 objeto",
+    "duration": "instantânea",
+    "resistance": "",
+    "save": "",
+    "attack": "",
+    "damage": null,
+    "description": "<p>Revela tudo sobre o item tocado, mundano ou mágico, inclusive o modo de ativá-lo, se houver.</p>",
+    "enhancements": [
+      {
+        "cost": 1,
+        "text": "muda o alvo para 1 criatura: no lugar do efeito normal, ela rola dois dados e fica com o melhor no próximo teste de Ofício"
+      },
+      {
+        "cost": 1,
+        "text": "muda o alvo para 1 mashin: revela os talentos raciais dele e seu tipo de cura elemental"
+      },
+      {
+        "cost": 2,
+        "text": "muda o tempo de execução para ação completa"
+      },
+      {
+        "cost": 9,
+        "text": "muda a duração para cena, o alvo para você, o alcance para pessoal e a execução para ação padrão; então, uma vez por rodada, gastando uma ação livre, você analisa um objeto ou mashin, obtendo as informações comuns e descobrindo cada jutsu e habilidade que o afeta"
+      }
+    ]
+  },
+  {
+    "name": "Arma da Tempestade",
+    "page": 172,
+    "grade": "basico",
+    "chakra": "des",
+    "chakras": [
+      "des"
+    ],
+    "descriptors": "eletricidade",
+    "execution": "ação de movimento",
+    "range": "pessoal",
+    "target": "Alvo: armas de ataque à distância",
+    "duration": "cena",
+    "resistance": "",
+    "save": "",
+    "attack": "",
+    "damage": {
+      "formula": "1d6",
+      "type": "eletricidade",
+      "healing": false,
+      "scaleDice": "",
+      "scaleCost": 0
+    },
+    "description": "<p>Armas que você arremessa e projéteis disparados pela arma afetada causam +1d6 de dano de eletricidade. Ser desarmado, largar a arma ou entregá-la a outra criatura encerra o jutsu.</p>",
+    "enhancements": [
+      {
+        "cost": 1,
+        "text": "muda o alvo para 1 arma corpo-a-corpo"
+      },
+      {
+        "cost": 2,
+        "text": "muda o bônus de dano para +1d10"
+      },
+      {
+        "cost": 3,
+        "text": "um acerto crítico com a arma afetada deixa o oponente atordoado por 1d2 rodadas"
+      }
+    ]
+  },
+  {
+    "name": "Arma de Dai’Gun",
+    "page": 172,
+    "grade": "basico",
+    "chakra": "for",
+    "chakras": [
+      "for"
+    ],
+    "descriptors": "transmutação",
+    "execution": "ação livre",
+    "range": "pessoal",
+    "target": "Alvo: você",
+    "duration": "cena",
+    "resistance": "",
+    "save": "",
+    "attack": "",
+    "damage": null,
+    "description": "<p>No início de cada turno seu, escolha se seus ataques físicos causam dano de corte, perfuração ou esmagamento. Você também causa dano letal ou não letal sem penalidade.</p>",
+    "enhancements": [
+      {
+        "cost": 1,
+        "text": "você recebe +1 nas jogadas de ataque"
+      },
+      {
+        "cost": 5,
+        "text": "aumenta o bônus nas jogadas de ataque em +1"
+      }
+    ]
+  },
+  {
+    "name": "Arma Gélida",
+    "page": 172,
+    "grade": "basico",
+    "chakra": "for",
+    "chakras": [
+      "for"
+    ],
+    "descriptors": "frio",
+    "execution": "ação de movimento",
+    "range": "pessoal",
+    "target": "Alvo: 1 arma corpo-a-corpo",
+    "duration": "cena",
+    "resistance": "",
+    "save": "",
+    "attack": "",
+    "damage": {
+      "formula": "1d6",
+      "type": "frio",
+      "healing": false,
+      "scaleDice": "",
+      "scaleCost": 0
+    },
+    "description": "<p>A arma causa +1d6 de dano de frio; soltá-la encerra o jutsu.</p>",
+    "enhancements": [
+      {
+        "cost": 1,
+        "text": "muda o alvo para armas de ataque à distância: vale para qualquer arma que você arremessar ou projétil que a arma disparar"
+      },
+      {
+        "cost": 2,
+        "text": "muda o bônus de dano para +1d10"
+      },
+      {
+        "cost": 5,
+        "text": "um acerto crítico com a arma afetada deixa o oponente paralisado por uma rodada"
+      }
+    ]
+  },
+  {
+    "name": "Arma Incendiária",
+    "page": 172,
+    "grade": "basico",
+    "chakra": "for",
+    "chakras": [
+      "for"
+    ],
+    "descriptors": "fogo",
+    "execution": "ação de movimento",
+    "range": "pessoal",
+    "target": "Alvo: 1 arma corpo-a-corpo",
+    "duration": "cena",
+    "resistance": "",
+    "save": "",
+    "attack": "",
+    "damage": {
+      "formula": "1d6",
+      "type": "fogo",
+      "healing": false,
+      "scaleDice": "",
+      "scaleCost": 0
+    },
+    "description": "<p>A arma causa +1d6 de dano de fogo; soltá-la encerra o jutsu.</p>",
+    "enhancements": [
+      {
+        "cost": 1,
+        "text": "muda o alvo para armas de ataque à distância: vale para qualquer arma que você arremessar ou projétil que a arma disparar"
+      },
+      {
+        "cost": 2,
+        "text": "muda o bônus de dano para +1d10"
+      },
+      {
+        "cost": 2,
+        "text": "um acerto crítico com a arma afetada derruba o oponente"
+      }
+    ]
+  },
+  {
+    "name": "Ataque Zen",
+    "page": 172,
+    "grade": "basico",
+    "chakra": "sab",
+    "chakras": [
+      "sab"
+    ],
+    "descriptors": "adivinhação",
+    "execution": "ação padrão",
+    "range": "corpo-a-corpo",
+    "target": "Alvo: 1 criatura",
+    "duration": "instantânea",
+    "resistance": "",
+    "save": "",
+    "attack": "",
+    "damage": null,
+    "description": "<p>A próxima jogada de ataque do alvo é feita com dois dados, valendo o melhor.</p>",
+    "enhancements": [
+      {
+        "cost": 1,
+        "text": "muda o tempo de execução para ação de movimento"
+      },
+      {
+        "cost": 5,
+        "text": "muda a duração para 1 rodada: o benefício vale para todos os ataques do alvo nesse período"
+      }
+    ]
+  },
+  {
+    "name": "Aura Corrosiva",
+    "page": 172,
+    "grade": "basico",
+    "chakra": "con",
+    "chakras": [
+      "con"
+    ],
+    "descriptors": "ácido",
+    "execution": "ação de movimento",
+    "range": "pessoal",
+    "target": "Área: emanação com 1,5m de raio",
+    "duration": "cena",
+    "resistance": "",
+    "save": "",
+    "attack": "",
+    "damage": {
+      "formula": "1d4",
+      "type": "ácido",
+      "healing": false,
+      "scaleDice": "",
+      "scaleCost": 0
+    },
+    "description": "<p>Criaturas a até 1,5m sofrem 1d4 de dano de ácido, repetido no início de cada turno seu.</p>",
+    "enhancements": [
+      {
+        "cost": 1,
+        "text": "seus ataques corpo-a-corpo também causam +1d4 de dano de ácido"
+      },
+      {
+        "cost": 2,
+        "text": "muda o dano da aura para 2d4"
+      }
+    ]
+  },
+  {
+    "name": "Aura Zen",
+    "page": 172,
+    "grade": "basico",
+    "chakra": "sab",
+    "chakras": [
+      "sab"
+    ],
+    "descriptors": "abjuração",
+    "execution": "ação padrão",
+    "range": "corpo-a-corpo",
+    "target": "Alvo: 1 criatura",
+    "duration": "cena",
+    "resistance": "",
+    "save": "von",
+    "attack": "",
+    "damage": null,
+    "description": "<p>Inimigos que tentem atacar o alvo, mesmo com jutsus ou habilidades especiais, fazem um teste de Vontade; quem falhar não consegue e não pode tentar de novo até o fim da cena. Não protege contra efeitos de área.</p><p>Se o alvo atacar ou executar um jutsu ofensivo, a aura é anulada. Outras ações continuam permitidas, como curar, usar jutsus de apoio (coragem dos ancestrais, por exemplo) ou invocar youkai que lutem por ele.</p>",
+    "enhancements": [
+      {
+        "cost": 9,
+        "text": "também protege contra efeitos de área: um inimigo que ataque uma área que inclua o alvo faz o teste de Vontade e, se falhar, não pode atacar aquela área enquanto a criatura protegida estiver nela"
+      },
+      {
+        "cost": 14,
+        "text": "o alvo também fica imune a efeitos de adivinhação"
+      }
+    ]
+  },
+  {
+    "name": "Bomba de Fumaça",
+    "page": 173,
+    "grade": "basico",
+    "chakra": "int",
+    "chakras": [
+      "int"
+    ],
+    "descriptors": "ninja, vento",
+    "execution": "ação padrão",
+    "range": "curto",
+    "target": "Efeito: nuvem com 6m de raio e 6m de altura",
+    "duration": "cena",
+    "resistance": "",
+    "save": "",
+    "attack": "",
+    "damage": null,
+    "description": "<p>Uma névoa densa (cor à sua escolha) surge num ponto dentro do alcance: nela, criaturas a 1,5m têm camuflagem e, a partir de 3m, camuflagem total. Vento forte a dissipa em 4 rodadas; um vendaval, em 1. Não funciona sob a água.</p>",
+    "enhancements": [
+      {
+        "cost": 1,
+        "text": "muda o descritor vento para ácido; passa a funcionar sob a água, formando uma nuvem de tinta"
+      },
+      {
+        "cost": 2,
+        "text": "até 10 criaturas escolhidas por você enxergam através da névoa"
+      },
+      {
+        "cost": 2,
+        "text": "a nuvem fede: criaturas dentro dela, ou com faro a até 9m dela, fazem um teste de Fortitude no início de seus turnos; quem falhar fica enjoado por 1 rodada"
+      },
+      {
+        "cost": 5,
+        "text": "a nuvem fica quase sólida: criaturas dentro dela têm deslocamento 1,5m (seja qual for o normal) e sofrem –2 nas jogadas de ataque e dano"
+      }
+    ]
+  },
+  {
+    "name": "Brilho das Cem Gemas",
+    "page": 173,
+    "grade": "basico",
+    "chakra": "des",
+    "chakras": [
+      "des"
+    ],
+    "descriptors": "ilusão",
+    "execution": "ação padrão",
+    "range": "pessoal",
+    "target": "Área: explosão em cone de 6m",
+    "duration": "instantânea",
+    "resistance": "Vontade parcial",
+    "save": "von",
+    "attack": "",
+    "damage": null,
+    "description": "<p>Criaturas na área ficam atordoadas por 1 rodada (ofuscadas por 1 rodada se passarem no teste). Não afeta criaturas cegas.</p><p><em>Executá-lo é violação de honra leve (ilusão).</em></p>",
+    "enhancements": [
+      {
+        "cost": 1,
+        "text": "troca ofuscado por cego"
+      },
+      {
+        "cost": 2,
+        "text": "aumenta a duração dos efeitos em +1 rodada"
+      },
+      {
+        "cost": 5,
+        "text": "troca atordoado por inconsciente"
+      },
+      {
+        "cost": 7,
+        "text": "troca ofuscado por confuso"
+      }
+    ]
+  },
+  {
+    "name": "Camada de Gelo",
+    "page": 173,
+    "grade": "basico",
+    "chakra": "int",
+    "chakras": [
+      "int"
+    ],
+    "descriptors": "frio",
+    "execution": "ação padrão",
+    "range": "curto",
+    "target": "Alvo ou Área: 1 objeto ou quadrado de 3m de lado",
+    "duration": "cena",
+    "resistance": "veja texto",
+    "save": "ref",
+    "attack": "",
+    "damage": null,
+    "description": "<p><strong>Área:</strong> gelo liso cobre o chão; criaturas na área fazem teste de Reflexos ou caem. Nas rodadas seguintes, deslocar-se nela exige Acrobacia (CD 10): falha impede o movimento; falha por 5 ou mais derruba.</p><p><strong>Objeto:</strong> quem o segura faz teste de Reflexos a cada uso ou o deixa cair.</p>",
+    "enhancements": [
+      {
+        "cost": 1,
+        "text": "aumenta a CD dos testes de Acrobacia em +1"
+      },
+      {
+        "cost": 2,
+        "text": "muda a área para emanação com 6m de raio"
+      }
+    ]
+  },
+  {
+    "name": "Casco da Tartaruga",
+    "page": 173,
+    "grade": "basico",
+    "chakra": "con",
+    "chakras": [
+      "con"
+    ],
+    "descriptors": "abjuração",
+    "execution": "ação de movimento",
+    "range": "pessoal",
+    "target": "Alvo: você",
+    "duration": "cena",
+    "resistance": "",
+    "save": "",
+    "attack": "",
+    "damage": null,
+    "description": "<p>Você recebe +2 na CA.</p>",
+    "enhancements": [
+      {
+        "cost": 2,
+        "text": "aumenta o bônus na CA em +1"
+      },
+      {
+        "cost": 5,
+        "text": "você também recebe 5 PV temporários para cada +1 de bônus na CA"
+      }
+    ]
+  },
+  {
+    "name": "Compreensão dos Ancestrais",
+    "page": 173,
+    "grade": "basico",
+    "chakra": "car",
+    "chakras": [
+      "car"
+    ],
+    "descriptors": "adivinhação",
+    "execution": "ação padrão",
+    "range": "pessoal",
+    "target": "Alvo: você",
+    "duration": "cena",
+    "resistance": "",
+    "save": "",
+    "attack": "",
+    "damage": null,
+    "description": "<p>Você entende qualquer idioma, falado ou escrito, desde que toque quem fala ou o texto.</p>",
+    "enhancements": [
+      {
+        "cost": 1,
+        "text": "dispensa o toque"
+      },
+      {
+        "cost": 2,
+        "text": "em vez do efeito normal, você conversa com mortos, desde que esteja perto do túmulo ou do cadáver; eles só sabem o que sabiam em vida e respondem de forma breve e enigmática"
+      },
+      {
+        "cost": 4,
+        "text": "em vez do efeito normal, você fala e escreve qualquer idioma"
+      }
+    ]
+  },
+  {
+    "name": "Comunhão com a Terra",
+    "page": 173,
+    "grade": "basico",
+    "chakra": "sab",
+    "chakras": [
+      "sab"
+    ],
+    "descriptors": "adivinhação",
+    "execution": "ação padrão",
+    "range": "pessoal",
+    "target": "Alvo: você",
+    "duration": "cena",
+    "resistance": "",
+    "save": "",
+    "attack": "",
+    "damage": null,
+    "description": "<p>Em testes de Sobrevivência, você rola dois dados e usa o melhor.</p>",
+    "enhancements": [
+      {
+        "cost": 1,
+        "text": "também pode conversar com animais (inclusive henge em forma animal), sem mudar a atitude deles"
+      },
+      {
+        "cost": 1,
+        "text": "também pode conversar com plantas e entender as respostas (elas raramente compreendem ideias complexas)"
+      },
+      {
+        "cost": 1,
+        "text": "também rola dois dados e usa o melhor em testes de Adestrar Animais"
+      },
+      {
+        "cost": 2,
+        "text": "em terreno natural, também ignora terreno difícil"
+      },
+      {
+        "cost": 5,
+        "text": "muda a duração para instantânea e a execução para 1 minuto; no lugar do efeito normal, você descobre 1d6+2 informações sobre a área natural num raio de 5km ao seu redor: relevo, fauna, flora, minerais, rios e lagos, e a presença de criaturas antinaturais (construtos e akumushi)"
+      },
+      {
+        "cost": 9,
+        "text": "também pode conversar com pedras e rochas, que relatam o que viram e ouviram na última semana ou revelam se ocultam algo (como uma sala secreta atrás de uma parede falsa)"
+      }
+    ]
+  },
+  {
+    "name": "Contemplação",
+    "page": 174,
+    "grade": "basico",
+    "chakra": "con",
+    "chakras": [
+      "con"
+    ],
+    "descriptors": "abjuração",
+    "execution": "ação padrão",
+    "range": "pessoal",
+    "target": "Alvo: você",
+    "duration": "cena",
+    "resistance": "",
+    "save": "",
+    "attack": "",
+    "damage": null,
+    "description": "<p>Você recebe +2 em testes de resistência.</p>",
+    "enhancements": [
+      {
+        "cost": 1,
+        "text": "muda a duração para 1 rodada e a execução para reação"
+      },
+      {
+        "cost": 5,
+        "text": "aumenta o bônus em +1"
+      }
+    ]
+  },
+  {
+    "name": "Coragem dos Ancestrais",
+    "page": 174,
+    "grade": "basico",
+    "chakra": "sab",
+    "chakras": [
+      "sab"
+    ],
+    "descriptors": "abjuração",
+    "execution": "ação padrão",
+    "range": "curto",
+    "target": "Alvo: até 10 criaturas",
+    "duration": "cena",
+    "resistance": "",
+    "save": "",
+    "attack": "",
+    "damage": null,
+    "description": "<p>Cada alvo ganha +1 em jogadas de ataque e de dano.</p>",
+    "enhancements": [
+      {
+        "cost": 1,
+        "text": "contra efeitos de medo, os alvos rolam o teste de resistência duas vezes e usam o melhor resultado"
+      },
+      {
+        "cost": 2,
+        "text": "os alvos também melhoram apavorado para abalado, ou eliminam abalado"
+      },
+      {
+        "cost": 5,
+        "text": "aumenta o bônus de ataque e dano em +1"
+      }
+    ]
+  },
+  {
+    "name": "Corrida Ninja",
+    "page": 174,
+    "grade": "basico",
+    "chakra": "des",
+    "chakras": [
+      "des"
+    ],
+    "descriptors": "ninja, transmutação",
+    "execution": "ação de movimento",
+    "range": "pessoal",
+    "target": "Alvo: você",
+    "duration": "cena",
+    "resistance": "",
+    "save": "",
+    "attack": "",
+    "damage": null,
+    "description": "<p>Você recebe +9m de deslocamento terrestre.</p>",
+    "enhancements": [
+      {
+        "cost": 2,
+        "text": "aumenta o bônus de deslocamento em +3m"
+      },
+      {
+        "cost": 5,
+        "text": "o bônus também vale para os outros tipos de deslocamento que você tiver (escalada, voo, natação etc.)"
+      }
+    ]
+  },
+  {
+    "name": "Criar Elemento",
+    "page": 174,
+    "grade": "basico",
+    "chakra": "int",
+    "chakras": [
+      "int"
+    ],
+    "descriptors": "invocação, elemental",
+    "execution": "ação padrão",
+    "range": "corpo-a-corpo",
+    "target": "Efeito: elemento escolhido",
+    "duration": "instantânea",
+    "resistance": "",
+    "save": "",
+    "attack": "toque",
+    "damage": {
+      "formula": "1d4",
+      "type": "fogo",
+      "healing": false,
+      "scaleDice": "1d4",
+      "scaleCost": 1
+    },
+    "description": "<p>Cria uma pequena porção de um elemento, escolhido na execução:</p><ul><li><strong>Água:</strong> água potável enchendo um recipiente Mínimo (como uma tokkuri) ou, sem recipiente, um cubo de gelo Mínimo.</li><li><strong>Ar:</strong> brisa numa área de 1,5m de diâmetro, que limpa gases e fumaça por uma rodada.</li><li><strong>Fogo:</strong> chama como a de uma tocha, para iluminar ou incendiar um objeto ou criatura (ataque de toque corpo-a-corpo; 1d4 de dano de fogo se acertar).</li><li><strong>Terra:</strong> cubo ou esfera Mínimo de terra, argila ou pedra.</li></ul><p>Os elementos são reais, não mágicos, e os físicos surgem sobre uma superfície horizontal. Com um teste do Ofício adequado, dá para moldar objetos simples (sem partes móveis) de gelo, terra ou pedra.</p>",
+    "enhancements": [
+      {
+        "cost": 1,
+        "text": "aumenta a quantidade do elemento em um passo: +1 categoria de tamanho (água ou terra), +1 quadrado de 1,5m (ar) ou +1d4 de dano (fogo)"
+      },
+      {
+        "cost": 1,
+        "text": "você arremessa de imediato o cubo ou esfera criado num alvo a até 9m, com um ataque de toque à distância: acertando, causa 1d6 de dano de esmagamento, +1d6 por categoria de tamanho acima de Mínimo; o cubo ou esfera se desfaz em seguida, acertando ou não"
+      },
+      {
+        "cost": 1,
+        "text": "você arremessa de imediato a chama criada num alvo a até 9m, com um ataque de toque à distância; acertando, causa o dano de fogo da chama"
+      }
+    ]
+  },
+  {
+    "name": "Esfera Elétrica",
+    "page": 174,
+    "grade": "basico",
+    "chakra": "int",
+    "chakras": [
+      "int"
+    ],
+    "descriptors": "eletricidade",
+    "execution": "ação padrão",
+    "range": "pessoal",
+    "target": "Área: explosão com 3m de raio",
+    "duration": "instantânea",
+    "resistance": "Fortitude anula",
+    "save": "fort",
+    "attack": "",
+    "damage": {
+      "formula": "2d8",
+      "type": "eletricidade",
+      "healing": false,
+      "scaleDice": "1d8",
+      "scaleCost": 2
+    },
+    "description": "<p>Causa 2d8 de dano de eletricidade às criaturas na área; quem veste armadura de metal ou carrega muito metal sofre –4 no teste.</p>",
+    "enhancements": [
+      {
+        "cost": 1,
+        "text": "muda o teste de resistência para Fortitude, que reduz o dano à metade"
+      },
+      {
+        "cost": 2,
+        "text": "aumenta o dano em +1d8"
+      },
+      {
+        "cost": 2,
+        "text": "muda o alcance para curto"
+      }
+    ]
+  },
+  {
+    "name": "Espírito Guardião",
+    "page": 174,
+    "grade": "basico",
+    "chakra": "sab",
+    "chakras": [
+      "sab"
+    ],
+    "descriptors": "invocação",
+    "execution": "ação completa",
+    "range": "curto",
+    "target": "Efeito: 1 criatura invocada",
+    "duration": "cena",
+    "resistance": "",
+    "save": "",
+    "attack": "",
+    "damage": null,
+    "description": "<p>Invoca um youkai lutador básico num ponto dentro do alcance. Ele age a partir do início do seu próximo turno, avançando e atacando seus inimigos salvo ordem contrária (dar ordens é ação livre). A aparência é livre, mas não altera as estatísticas (forma de pássaro não dá voo sem aprimoramento). Ele some sem deixar vestígios quando o jutsu acaba ou ao ser destruído. Só um espírito guardião por vez.</p><p><strong>Estatísticas do espírito:</strong></p><ul><li><strong>Básico:</strong> Pequeno, 9m, Youkai 2; CA 15, PV 14; ataque corpo-a-corpo +5 (1d4+1 esmagamento); Von +4, Fort +6, Ref +6; Con 16, For 14, Des 17, Sab 12, Int 2, Car 4, Hon –; Furtividade +8, Iniciativa +8.</li><li><strong>Mediano:</strong> Médio, 12m, Youkai 5; CA 15, PV 35; ataque à distância +8 (1d4+2, energia à sua escolha); corpo-a-corpo +9 (1d6+6 esmagamento); Von +5, Fort +7, Ref +7; Con 16, For 18, Des 16, Sab 12, Int 2, Car 4, Hon –; Iniciativa +11.</li><li><strong>Avançado:</strong> Grande, 12m, Youkai 9; CA 15, PV 72; ataque à distância +10 (1d6+4, energia à sua escolha); corpo-a-corpo +15 (1d8+11 esmagamento); Von +7, Fort +10, Ref +8; Con 18, For 24, Des 14, Sab 12, Int 2, Car 4, Hon –; Furtividade +2, Iniciativa +14.</li><li><strong>Sublime:</strong> Enorme, 15m, Youkai 14; CA 16, PV 126; ataque à distância +13 (1d8+7, energia à sua escolha); corpo-a-corpo +23 (2d6+18 esmagamento); Von +10, Fort +14, Ref +10; Con 21, For 32, Des 12, Sab 12, Int 2, Car 4, Hon –; Furtividade +0, Iniciativa +18.</li><li><strong>Lendário:</strong> Descomunal, 18m, Youkai 20; CA 17, PV 240; ataque à distância +17 (1d10+10, energia à sua escolha); corpo-a-corpo +31 (3d6+25 esmagamento); Von +13, Fort +20, Ref +13; Con 26, For 41, Des 12, Sab 12, Int 2, Car 4, Hon –; Furtividade –1, Iniciativa +24.</li></ul><p><strong>Habilidades que os aprimoramentos adicionam (uma por compra):</strong> deslocamento (voo +6m, escalada +6m, natação +9m ou escavar +3m); percepção (visão no escuro +18m, faro +9m ou percepção às cegas +3m); proteção (resistência 10 a um tipo de energia ou redução de dano 5).</p>",
+    "enhancements": [
+      {
+        "cost": 1,
+        "text": "adiciona uma habilidade de deslocamento à criatura"
+      },
+      {
+        "cost": 1,
+        "text": "muda o dano corpo-a-corpo da criatura para corte ou perfuração"
+      },
+      {
+        "cost": 2,
+        "text": "adiciona uma habilidade de percepção à criatura"
+      },
+      {
+        "cost": 2,
+        "text": "aumenta os PV da criatura em +2 por nível"
+      },
+      {
+        "cost": 2,
+        "text": "aumenta em +2 o bônus da criatura nos ataques e no dano corpo-a-corpo"
+      },
+      {
+        "cost": 2,
+        "text": "aumenta em +2 a CA da criatura e o bônus dela nos ataques à distância"
+      },
+      {
+        "cost": 2,
+        "text": "muda o espírito para mediano (exige que você possa executar jutsus medianos)"
+      },
+      {
+        "cost": 5,
+        "text": "adiciona uma habilidade de proteção à criatura"
+      },
+      {
+        "cost": 5,
+        "text": "muda o espírito para avançado (exige que você possa executar jutsus avançados)"
+      },
+      {
+        "cost": 9,
+        "text": "muda o espírito para sublime (exige que você possa executar jutsus sublimes)"
+      },
+      {
+        "cost": 14,
+        "text": "muda o espírito para lendário (exige que você possa executar jutsus lendários)"
+      }
+    ]
+  },
+  {
+    "name": "Estrepes Invisíveis",
+    "page": 175,
+    "grade": "basico",
+    "chakra": "int",
+    "chakras": [
+      "int"
+    ],
+    "descriptors": "ilusão, invocação, ninja",
+    "execution": "ação padrão",
+    "range": "curto",
+    "target": "Área: quadrado com 3m de lado",
+    "duration": "cena",
+    "resistance": "veja texto",
+    "save": "ref",
+    "attack": "",
+    "damage": {
+      "formula": "1d6",
+      "type": "perfuração",
+      "healing": false,
+      "scaleDice": "1d6",
+      "scaleCost": 4
+    },
+    "description": "<p>Quem pisar na área sofre 1d6 de dano de perfuração e –6m no deslocamento (mínimo 1,5m) por um dia. Antes, a criatura pode notar os estrepes com um teste de Percepção ou de Reflexos; se notar, cruza a área sem dano, com metade do deslocamento (ou a contorna).</p><p><em>Executá-lo é violação de honra leve (ilusão).</em></p>",
+    "enhancements": [
+      {
+        "cost": 4,
+        "text": "aumenta o dano em +1d6"
+      },
+      {
+        "cost": 5,
+        "text": "muda a área para 12 quadrados de 1,5m, arrumados como você preferir"
+      }
+    ]
+  },
+  {
+    "name": "Face Horripilante",
+    "page": 175,
+    "grade": "basico",
+    "chakra": "car",
+    "chakras": [
+      "car"
+    ],
+    "descriptors": "encantamento",
+    "execution": "ação de movimento",
+    "range": "curto",
+    "target": "Alvo: 1 humanoide ou animal",
+    "duration": "1d4 rodadas",
+    "resistance": "Vontade parcial",
+    "save": "von",
+    "attack": "",
+    "damage": null,
+    "description": "<p>O alvo fica apavorado (abalado se passar no teste). Efeito de medo.</p><p><em>Executá-lo é violação de honra leve (encantamento).</em></p>",
+    "enhancements": [
+      {
+        "cost": 1,
+        "text": "aumenta a duração em +1 rodada"
+      },
+      {
+        "cost": 2,
+        "text": "muda o alvo para 1 criatura"
+      },
+      {
+        "cost": 5,
+        "text": "em vez do efeito normal em caso de sucesso no teste, o alvo fica abalado e enjoado"
+      }
+    ]
+  },
+  {
+    "name": "Ferida da Terra",
+    "page": 175,
+    "grade": "basico",
+    "chakra": "int",
+    "chakras": [
+      "int"
+    ],
+    "descriptors": "ácido",
+    "execution": "ação padrão",
+    "range": "curto",
+    "target": "Área: cilindro com 1,5m de diâmetro e 6m de altura",
+    "duration": "instantânea",
+    "resistance": "Reflexos parcial",
+    "save": "ref",
+    "attack": "",
+    "damage": {
+      "formula": "3d4",
+      "type": "ácido",
+      "healing": false,
+      "scaleDice": "1d4",
+      "scaleCost": 1
+    },
+    "description": "<p>Causa 3d4 de dano de ácido à criatura na área; se ela falhar no teste, sofre metade desse dano outra vez na rodada seguinte.</p>",
+    "enhancements": [
+      {
+        "cost": 1,
+        "text": "aumenta o dano em +1d4"
+      },
+      {
+        "cost": 5,
+        "text": "a criatura que falhar no teste também fica caída"
+      }
+    ]
+  },
+  {
+    "name": "Ferir Membros",
+    "page": 175,
+    "grade": "basico",
+    "chakra": "for",
+    "chakras": [
+      "for"
+    ],
+    "descriptors": "trevas",
+    "execution": "ação padrão",
+    "range": "corpo-a-corpo",
+    "target": "Alvo: 1 humanoide ou animal",
+    "duration": "cena",
+    "resistance": "",
+    "save": "",
+    "attack": "corpo",
+    "damage": null,
+    "description": "<p>Faça uma jogada de ataque. Acertando, causa dano normal, e além disso o alvo sofre –6m em todos os tipos de deslocamento (mínimo 1,5m).</p><p><em>Executá-lo é violação de honra moderada (trevas).</em></p>",
+    "enhancements": [
+      {
+        "cost": 1,
+        "text": "o alvo também sofre –2 nas jogadas de ataque"
+      },
+      {
+        "cost": 1,
+        "text": "muda o alvo para 1 criatura"
+      },
+      {
+        "cost": 2,
+        "text": "aumenta a penalidade de deslocamento em –6m"
+      },
+      {
+        "cost": 3,
+        "text": "aumenta a penalidade nas jogadas de ataque em –2"
+      }
+    ]
+  },
+  {
+    "name": "Fogo-fátuo",
+    "page": 175,
+    "grade": "basico",
+    "chakra": "int",
+    "chakras": [
+      "int"
+    ],
+    "descriptors": "luz",
+    "execution": "ação padrão",
+    "range": "longo",
+    "target": "Efeito: 4 esferas de luz flutuante",
+    "duration": "cena",
+    "resistance": "",
+    "save": "",
+    "attack": "",
+    "damage": null,
+    "description": "<p>Cria até 4 esferas de luz (cada uma ilumina como uma tocha) em pontos à sua escolha dentro do alcance; movê-las depois custa uma ação livre. Uma criatura no mesmo espaço de uma esfera tem a silhueta revelada e não recebe camuflagem por escuridão ou invisibilidade.</p>",
+    "enhancements": [
+      {
+        "cost": 1,
+        "text": "a criatura no mesmo espaço de uma esfera também fica ofuscada enquanto isso durar"
+      },
+      {
+        "cost": 5,
+        "text": "a criatura no mesmo espaço de uma esfera também fica cega enquanto isso durar (Reflexos anula)"
+      }
+    ]
+  },
+  {
+    "name": "Fôlego Concentrado",
+    "page": 176,
+    "grade": "basico",
+    "chakra": "con",
+    "chakras": [
+      "con"
+    ],
+    "descriptors": "luz",
+    "execution": "ação completa",
+    "range": "pessoal",
+    "target": "Alvo: você",
+    "duration": "instantânea",
+    "resistance": "",
+    "save": "",
+    "attack": "",
+    "damage": null,
+    "description": "<p>Remove fatigado ou abalado, ou melhora exausto para fatigado.</p>",
+    "enhancements": [
+      {
+        "cost": 2,
+        "text": "muda o tempo de execução para reação; o jutsu só elimina pasmo ou melhora atordoado para pasmo"
+      },
+      {
+        "cost": 2,
+        "text": "muda o tempo de execução para ação de movimento"
+      },
+      {
+        "cost": 5,
+        "text": "passa a eliminar a condição exausto"
+      },
+      {
+        "cost": 5,
+        "text": "muda o tempo de execução para reação; o jutsu só elimina atordoado"
+      }
+    ]
+  },
+  {
+    "name": "Garras do Tigre",
+    "page": 176,
+    "grade": "basico",
+    "chakra": "con",
+    "chakras": [
+      "con"
+    ],
+    "descriptors": "transmutação",
+    "execution": "ação de movimento",
+    "range": "pessoal",
+    "target": "Alvo: você",
+    "duration": "cena",
+    "resistance": "",
+    "save": "",
+    "attack": "",
+    "damage": null,
+    "description": "<p>O dano dos seus ataques desarmados sobe uma categoria (veja o Capítulo 3), e você pode fazê-los causar dano de corte ou de perfuração.</p>",
+    "enhancements": [
+      {
+        "cost": 1,
+        "text": "um acerto crítico com ataque desarmado deixa a vítima sangrando"
+      },
+      {
+        "cost": 3,
+        "text": "também vale para suas armas naturais"
+      },
+      {
+        "cost": 9,
+        "text": "aumenta em +1 o número de categorias de dano aumentadas"
+      }
+    ]
+  },
+  {
+    "name": "Golpe do Vento Distante",
+    "page": 176,
+    "grade": "basico",
+    "chakra": "des",
+    "chakras": [
+      "des"
+    ],
+    "descriptors": "vento",
+    "execution": "ação livre",
+    "range": "pessoal",
+    "target": "Alvo: você",
+    "duration": "instantânea",
+    "resistance": "",
+    "save": "",
+    "attack": "",
+    "damage": {
+      "formula": "1d4",
+      "type": "vento",
+      "healing": false,
+      "scaleDice": "1d4",
+      "scaleCost": 1
+    },
+    "description": "<p>O alcance do seu próximo ataque dobra, e ele causa +1d4 de dano de vento (um golpe corpo-a-corpo comum alcança 3m; um disparo de daikyu, 48m sem penalidades).</p>",
+    "enhancements": [
+      {
+        "cost": 1,
+        "text": "aumenta o dano em +1d4"
+      },
+      {
+        "cost": 5,
+        "text": "aumenta em 1 o multiplicador de alcance do próximo ataque"
+      }
+    ]
+  },
+  {
+    "name": "Golpe Pesado",
+    "page": 176,
+    "grade": "basico",
+    "chakra": "for",
+    "chakras": [
+      "for"
+    ],
+    "descriptors": "transmutação",
+    "execution": "ação livre",
+    "range": "pessoal",
+    "target": "Alvo: você",
+    "duration": "instantânea",
+    "resistance": "",
+    "save": "",
+    "attack": "",
+    "damage": {
+      "formula": "2d6",
+      "type": "",
+      "healing": false,
+      "scaleDice": "1d6",
+      "scaleCost": 1
+    },
+    "description": "<p>Seu próximo ataque corpo-a-corpo causa +2d6 de dano, do mesmo tipo do dano da arma.</p>",
+    "enhancements": [
+      {
+        "cost": 1,
+        "text": "aumenta o bônus de dano em +1d6"
+      },
+      {
+        "cost": 5,
+        "text": "o próximo ataque corpo-a-corpo também tem o multiplicador de crítico aumentado em 1"
+      }
+    ]
+  },
+  {
+    "name": "Hipnotismo Ninja",
+    "page": 176,
+    "grade": "basico",
+    "chakra": "car",
+    "chakras": [
+      "car"
+    ],
+    "descriptors": "encantamento, ninja",
+    "execution": "ação padrão",
+    "range": "longo",
+    "target": "Alvo: até 10 criaturas",
+    "duration": "1 rodada",
+    "resistance": "Vontade parcial",
+    "save": "von",
+    "attack": "",
+    "damage": null,
+    "description": "<p>Você recebe camuflagem contra todos os alvos; quem falhar no teste também fica pasmo. Só afeta quem vê você, e em combate os alvos têm +4 no teste. Qualquer ação hostil contra um afetado encerra o jutsu e torna todos os afetados hostis a você.</p><p><em>Executá-lo é violação de honra leve (encantamento).</em></p>",
+    "enhancements": [
+      {
+        "cost": 1,
+        "text": "você também recebe camuflagem total contra quem falhar no teste"
+      },
+      {
+        "cost": 2,
+        "text": "aumenta a duração em +1 rodada"
+      },
+      {
+        "cost": 5,
+        "text": "o jutsu não termina quando uma ação hostil é realizada, mas as criaturas afetadas ainda se tornam hostis"
+      }
+    ]
+  },
+  {
+    "name": "Kata do Gorila",
+    "page": 176,
+    "grade": "basico",
+    "chakra": "con",
+    "chakras": [
+      "con"
+    ],
+    "descriptors": "transmutação",
+    "execution": "ação de movimento",
+    "range": "pessoal",
+    "target": "Alvo: você",
+    "duration": "cena",
+    "resistance": "",
+    "save": "",
+    "attack": "",
+    "damage": null,
+    "description": "<p>Em testes de Atletismo, você rola dois dados e usa o melhor.</p>",
+    "enhancements": [
+      {
+        "cost": 1,
+        "text": "você também consegue correr e segurar a respiração pelo dobro do tempo normal"
+      },
+      {
+        "cost": 2,
+        "text": "onde houver apoios acima do solo (parapeitos, galhos, cipós, cordas, correntes etc.), você também se move livremente com seu deslocamento normal, balançando-se; exige mãos livres, mas você pode usá-las normalmente enquanto estiver parado"
+      }
+    ]
+  },
+  {
+    "name": "Lâmina de Vento",
+    "page": 176,
+    "grade": "basico",
+    "chakra": "int",
+    "chakras": [
+      "int"
+    ],
+    "descriptors": "vento",
+    "execution": "ação padrão",
+    "range": "longo",
+    "target": "Alvo: 1 criatura",
+    "duration": "instantânea",
+    "resistance": "",
+    "save": "",
+    "attack": "",
+    "damage": {
+      "formula": "1d8+2",
+      "type": "vento",
+      "healing": false,
+      "scaleDice": "1d8+2",
+      "scaleCost": 2
+    },
+    "description": "<p>Acerta automaticamente um inimigo, causando 1d8+2 de dano de vento.</p>",
+    "enhancements": [
+      {
+        "cost": 2,
+        "text": "aumenta o dano em +1d8+2"
+      },
+      {
+        "cost": 2,
+        "text": "muda o teste de resistência por Fortitude parcial; quem falhar fica surdo pela cena, sem sofrer dano"
+      }
+    ]
+  },
+  {
+    "name": "Leitura de Chacras",
+    "page": 176,
+    "grade": "basico",
+    "chakra": "car",
+    "chakras": [
+      "car"
+    ],
+    "descriptors": "adivinhação",
+    "execution": "ação padrão",
+    "range": "pessoal",
+    "target": "Área: emanação em cone de 9m",
+    "duration": "concentração",
+    "resistance": "",
+    "save": "",
+    "attack": "",
+    "damage": null,
+    "description": "<p>Detecta jutsus ativos, itens mágicos, criaturas vivas e construtos na área (youkai não), exigindo linha de efeito. Quanto mais rodadas de concentração, mais informação:</p><ul><li><strong>1 rodada:</strong> há alvos na área.</li><li><strong>2 rodadas:</strong> quantos são.</li><li><strong>3 rodadas:</strong> onde está cada um, mesmo escondido ou invisível.</li><li><strong>4 rodadas:</strong> PV e PM atuais de cada criatura viva ou construto, ou grau e chacra de cada jutsu ativo.</li></ul>",
+    "enhancements": [
+      {
+        "cost": 1,
+        "text": "também detecta youkai"
+      },
+      {
+        "cost": 2,
+        "text": "muda a duração para cena; no lugar do efeito normal, você obtém as informações das quatro rodadas gastando uma ação de movimento"
+      },
+      {
+        "cost": 5,
+        "text": "muda a duração para cena; no lugar do efeito normal, você obtém de imediato as informações das três primeiras rodadas e, com uma ação de movimento, as da quarta, além de saber se as criaturas na área podem executar jutsus e o grau mais alto que alcançam"
+      },
+      {
+        "cost": 9,
+        "text": "muda a duração para cena; no lugar do efeito normal, você obtém de imediato todas as informações, inclusive se as criaturas na área podem executar jutsus e o grau mais alto que alcançam"
+      }
+    ]
+  },
+  {
+    "name": "Leque de Chamas",
+    "page": 177,
+    "grade": "basico",
+    "chakra": "int",
+    "chakras": [
+      "int"
+    ],
+    "descriptors": "fogo",
+    "execution": "ação padrão",
+    "range": "pessoal",
+    "target": "Área: explosão em cone de 6m",
+    "duration": "instantânea",
+    "resistance": "Reflexos reduz à metade",
+    "save": "ref",
+    "attack": "",
+    "damage": {
+      "formula": "2d6",
+      "type": "fogo",
+      "healing": false,
+      "scaleDice": "1d6",
+      "scaleCost": 2
+    },
+    "description": "<p>Causa 2d6 de dano de fogo às criaturas na área.</p>",
+    "enhancements": [
+      {
+        "cost": 2,
+        "text": "aumenta o dano em +1d6"
+      },
+      {
+        "cost": 5,
+        "text": "muda o teste de resistência para Reflexos parcial: quem passar sofre metade do dano; quem falhar também pega fogo (veja o Capítulo 6)"
+      }
+    ]
+  },
+  {
+    "name": "Língua de Prata",
+    "page": 177,
+    "grade": "basico",
+    "chakra": "car",
+    "chakras": [
+      "car"
+    ],
+    "descriptors": "encantamento",
+    "execution": "ação padrão",
+    "range": "pessoal",
+    "target": "Alvo: você",
+    "duration": "cena",
+    "resistance": "",
+    "save": "",
+    "attack": "",
+    "damage": null,
+    "description": "<p>Você rola dois dados e usa o melhor em Atuação, Diplomacia e Obter Informação.</p><p><em>Executá-lo é violação de honra leve (encantamento).</em></p>",
+    "enhancements": [
+      {
+        "cost": 1,
+        "text": "você também recebe +10 em testes de Enganação para blefar"
+      },
+      {
+        "cost": 2,
+        "text": "você também rola dois dados e usa o melhor em testes de Enganação"
+      }
+    ]
+  },
+  {
+    "name": "Mandala Elemental",
+    "page": 177,
+    "grade": "basico",
+    "chakra": "con",
+    "chakras": [
+      "con"
+    ],
+    "descriptors": "abjuração, elemental",
+    "execution": "ação de movimento",
+    "range": "pessoal",
+    "target": "Alvo: você",
+    "duration": "cena",
+    "resistance": "",
+    "save": "",
+    "attack": "",
+    "damage": null,
+    "description": "<p>Você recebe resistência 10 a um tipo de energia escolhido a cada execução (ácido, eletricidade, fogo, frio ou vento). A barreira mostra seu elemento por um instante ao absorver dano.</p>",
+    "enhancements": [
+      {
+        "cost": 1,
+        "text": "aumenta a resistência em +1"
+      },
+      {
+        "cost": 5,
+        "text": "muda o alvo para até 5 criaturas e o alcance para curto"
+      },
+      {
+        "cost": 9,
+        "text": "no lugar do efeito normal, o alvo recebe resistência 10 contra os cinco tipos de energia"
+      }
+    ]
+  },
+  {
+    "name": "Mandala-escudo",
+    "page": 177,
+    "grade": "basico",
+    "chakra": "int",
+    "chakras": [
+      "int"
+    ],
+    "descriptors": "abjuração",
+    "execution": "reação",
+    "range": "pessoal",
+    "target": "Alvo: você",
+    "duration": "1 rodada",
+    "resistance": "",
+    "save": "",
+    "attack": "",
+    "damage": null,
+    "description": "<p>Contra ataques físicos, você recebe +4 na CA.</p>",
+    "enhancements": [
+      {
+        "cost": 1,
+        "text": "aumenta o bônus na CA em +1"
+      },
+      {
+        "cost": 2,
+        "text": "muda o alvo para criaturas escolhidas e o alcance para curto"
+      },
+      {
+        "cost": 5,
+        "text": "o alvo também ganha redução de dano igual ao bônus na CA"
+      }
+    ]
+  },
+  {
+    "name": "Mandala de Proteção",
+    "page": 177,
+    "grade": "basico",
+    "chakra": "sab",
+    "chakras": [
+      "sab"
+    ],
+    "descriptors": "abjuração",
+    "execution": "ação completa",
+    "range": "curto",
+    "target": "Área: emanação com 6m de raio",
+    "duration": "cena",
+    "resistance": "",
+    "save": "",
+    "attack": "",
+    "damage": null,
+    "description": "<p>Cria uma barreira fixa. A até 1km dela, você desperta e percebe qualquer criatura Diminuta ou maior que a toque ou entre; até 10 criaturas escolhidas por você entram sem ativá-la. Estando dentro da área, você ganha +2 na CA e nos testes de resistência. Na área, ninguém pode usar jutsus ou efeitos de dominação ou possessão, e eles tampouco atravessam a mandala.</p>",
+    "enhancements": [
+      {
+        "cost": 2,
+        "text": "muda o alcance para pessoal: a mandala é emanada a partir de você"
+      },
+      {
+        "cost": 2,
+        "text": "as criaturas escolhidas também recebem os bônus na CA e nos testes de resistência"
+      },
+      {
+        "cost": 4,
+        "text": "aumenta os bônus em +1"
+      },
+      {
+        "cost": 5,
+        "text": "muda o descritor para trevas ou luz, como você preferir; dentro da mandala, efeitos desse descritor são maximizados (como pelo talento Jutsu Maximizado)"
+      },
+      {
+        "cost": 5,
+        "text": "no lugar do efeito normal, você desperta e percebe qualquer adivinhação que atinja a mandala ou tente espiá-la, e pode fazer um teste oposto de Identificar Magia contra o responsável; vencendo, vislumbra o rosto dele e tem uma noção aproximada de onde está (direção e distância em dias de viagem, por exemplo)"
+      }
+    ]
+  },
+  {
+    "name": "Mestre Verdadeiro",
+    "page": 177,
+    "grade": "basico",
+    "chakra": "car",
+    "chakras": [
+      "car"
+    ],
+    "descriptors": "encantamento",
+    "execution": "ação padrão",
+    "range": "curto",
+    "target": "Alvo: 1 humanoide",
+    "duration": "1 rodada",
+    "resistance": "Vontade anula",
+    "save": "von",
+    "attack": "",
+    "damage": null,
+    "description": "<p>Só afeta criaturas de nível até o seu + seu modificador de Carisma. Se falhar no teste, o alvo fica pasmo.</p><p><em>Executá-lo é violação de honra leve (encantamento).</em></p>",
+    "enhancements": [
+      {
+        "cost": 1,
+        "text": "muda o efeito de pasmo para atordoado"
+      },
+      {
+        "cost": 2,
+        "text": "muda o alvo para 1 criatura"
+      },
+      {
+        "cost": 9,
+        "text": "muda o alvo para até 10 criaturas; só é afetada quem estiver dentro do seu limite de nível"
+      }
+    ]
+  },
+  {
+    "name": "Miragem Mística",
+    "page": 177,
+    "grade": "basico",
+    "chakra": "des",
+    "chakras": [
+      "des"
+    ],
+    "descriptors": "ilusão",
+    "execution": "ação padrão",
+    "range": "longo",
+    "target": "Efeito: ilusão que ocupa até 4 cubos de 1,5m",
+    "duration": "concentração + 1 rodada",
+    "resistance": "Vontade anula",
+    "save": "von",
+    "attack": "",
+    "damage": null,
+    "description": "<p>Cria uma ilusão só visual, imaginada por você (pessoas, monstros, móveis, paredes, fogo etc.), que se move como quiser dentro do tamanho do efeito; não tem som, cheiro, textura nem temperatura. Objetos e criaturas a atravessam sem causar ou sofrer dano, e ela nunca causa dano (mas pode ocultar armadilhas ou inimigos). Ao fim da concentração, fica parada por mais uma rodada e some.</p><p>Uma miragem com todos os sentidos (sons, odores, sensações térmicas e táteis) não permite teste de Vontade para percebê-la, só Intuição para desacreditar.</p><p><em>Executá-lo é violação de honra leve (ilusão).</em></p>",
+    "enhancements": [
+      {
+        "cost": 1,
+        "text": "aumenta o efeito em +1 cubo de 1,5m"
+      },
+      {
+        "cost": 2,
+        "text": "também inclui sons simples, no volume de uma voz normal, para cada cubo de 1,5m do efeito (música e conversas específicas não contam como sons simples)"
+      },
+      {
+        "cost": 2,
+        "text": "também inclui odores e sensações térmicas, percebidos a uma distância equivalente ao dobro do tamanho máximo do efeito (uma fogueira de 4 cubos de 1,5m, por exemplo, é sentida a até 12m)"
+      },
+      {
+        "cost": 2,
+        "text": "também inclui sensações táteis: objetos continuam atravessando a ilusão, porém criaturas só passam por ela se forem bem-sucedidas num teste de Vontade; ela segue sem causar nem sofrer dano"
+      },
+      {
+        "cost": 5,
+        "text": "também inclui sons complexos, no volume de cinco pessoas falando, por cubo de 1,5m do efeito"
+      },
+      {
+        "cost": 5,
+        "text": "muda a duração para cena; dentro do alcance, você move a ilusão com uma ação padrão"
+      },
+      {
+        "cost": 9,
+        "text": "muda a duração para permanente; dentro do alcance, uma ação padrão de concentração permite mover a ilusão"
+      }
+    ]
+  },
+  {
+    "name": "Nuvem Veloz",
+    "page": 178,
+    "grade": "basico",
+    "chakra": "int",
+    "chakras": [
+      "int"
+    ],
+    "descriptors": "invocação",
+    "execution": "ação padrão",
+    "range": "pessoal",
+    "target": "Efeito: nuvem dourada",
+    "duration": "cena",
+    "resistance": "",
+    "save": "",
+    "attack": "",
+    "damage": null,
+    "description": "<p>Uma nuvem dourada leva você e seu equipamento com deslocamento 12m, flutuando rente ao chão e ignorando terreno difícil. Você pode ser derrubado normalmente, e voltar a subir custa uma ação de movimento. A aparência pode variar (outras cores, disco de areia, casco de tartaruga etc.).</p>",
+    "enhancements": [
+      {
+        "cost": 2,
+        "text": "no lugar do efeito normal, a nuvem transporta você e seu equipamento com voo de 6m; se você for derrubado, sofre dano de queda normalmente e o jutsu termina"
+      },
+      {
+        "cost": 2,
+        "text": "aumenta o deslocamento da nuvem em +6m"
+      },
+      {
+        "cost": 5,
+        "text": "a nuvem cresce e leva você mais até 9 criaturas, todos com seus equipamentos, ou então você e até 1.000kg de carga"
+      }
+    ]
+  },
+  {
+    "name": "Pacto com a Natureza",
+    "page": 178,
+    "grade": "basico",
+    "chakra": "car",
+    "chakras": [
+      "car"
+    ],
+    "descriptors": "encantamento",
+    "execution": "ação padrão",
+    "range": "pessoal",
+    "target": "Área: emanação com 6m de raio",
+    "duration": "cena",
+    "resistance": "Vontade anula",
+    "save": "von",
+    "attack": "",
+    "damage": null,
+    "description": "<p>Animais na área passam a ter atitude amistosa; só os inteligentes (como henge) fazem teste de resistência. Uma ameaça evidente desfaz o efeito.</p><p><em>Executá-lo é violação de honra leve (encantamento).</em></p>",
+    "enhancements": [
+      {
+        "cost": 2,
+        "text": "também afeta monstros de Int 1 ou 2 que falharem no teste de resistência"
+      },
+      {
+        "cost": 5,
+        "text": "também afeta youkai de Int 1 ou 2 que falharem no teste de resistência"
+      }
+    ]
+  },
+  {
+    "name": "Passos Leves",
+    "page": 178,
+    "grade": "basico",
+    "chakra": "des",
+    "chakras": [
+      "des"
+    ],
+    "descriptors": "ninja, transmutação",
+    "execution": "ação padrão",
+    "range": "pessoal",
+    "target": "Alvo: você",
+    "duration": "cena",
+    "resistance": "",
+    "save": "",
+    "attack": "",
+    "damage": null,
+    "description": "<p>A CD para rastrear você com Sobrevivência aumenta em +10. Você pode correr sobre líquidos (água, ácido, lava, areia movediça), começando e terminando o movimento em superfície horizontal sólida; se parar ou for derrubado sobre algo que não aguentaria seu peso, cai ou afunda. Não protege contra os efeitos do líquido (lava ainda queima).</p>",
+    "enhancements": [
+      {
+        "cost": 2,
+        "text": "você recebe +10 em testes de Acrobacia"
+      },
+      {
+        "cost": 2,
+        "text": "você pode ficar parado sobre líquidos, sem afundar mesmo se for derrubado onde a superfície não aguentaria seu peso"
+      }
+    ]
+  },
+  {
+    "name": "Pequeno Kami",
+    "page": 178,
+    "grade": "basico",
+    "chakra": "sab",
+    "chakras": [
+      "sab"
+    ],
+    "descriptors": "invocação",
+    "execution": "ação de movimento",
+    "range": "curto",
+    "target": "Efeito: 1 criatura invocada",
+    "duration": "cena",
+    "resistance": "",
+    "save": "",
+    "attack": "",
+    "damage": null,
+    "description": "<p>Invoca um kami Pequeno (deslocamento 9m) que faz tarefas simples, como buscar lenha, colher frutas, varrer ou alimentar um cavalo; dar ordens é ação livre. A aparência é livre, mas não muda suas capacidades. Ele não luta: se sofrer dano ou um efeito que peça teste de resistência, volta ao mundo espiritual e o jutsu acaba.</p>",
+    "enhancements": [
+      {
+        "cost": 1,
+        "text": "o kami também ganha deslocamento de voo 6m ou de natação 9m"
+      },
+      {
+        "cost": 1,
+        "text": "o kami assume a forma de uma montaria capaz de levar você e equipamento, num total de 500kg; você pode usar testes de Cavalgar para controlá-lo"
+      }
+    ]
+  },
+  {
+    "name": "Percepção Elevada",
+    "page": 178,
+    "grade": "basico",
+    "chakra": "sab",
+    "chakras": [
+      "sab"
+    ],
+    "descriptors": "adivinhação",
+    "execution": "ação padrão",
+    "range": "pessoal",
+    "target": "Área: emanação com 9m de raio",
+    "duration": "concentração",
+    "resistance": "",
+    "save": "",
+    "attack": "",
+    "damage": null,
+    "description": "<p>Detecta na área venenos, armadilhas, perigos naturais (como areia movediça), situações de risco (como uma ruína prestes a ruir) e portas, alçapões, salas e esconderijos secretos, exigindo linha de efeito. Quanto mais rodadas de concentração, mais informação:</p><ul><li><strong>1 rodada:</strong> há segredos na área.</li><li><strong>2 rodadas:</strong> quantos são.</li><li><strong>3 rodadas:</strong> onde está cada um, mesmo escondido ou invisível.</li></ul>",
+    "enhancements": [
+      {
+        "cost": 1,
+        "text": "também detecta a presença de akumushi na área"
+      },
+      {
+        "cost": 1,
+        "text": "também detecta a presença de youkai na área"
+      },
+      {
+        "cost": 5,
+        "text": "muda a duração para cena: você obtém as informações das três rodadas gastando uma ação de movimento"
+      }
+    ]
+  },
+  {
+    "name": "Pernas do Gafanhoto",
+    "page": 179,
+    "grade": "basico",
+    "chakra": "des",
+    "chakras": [
+      "des"
+    ],
+    "descriptors": "ninja, transmutação",
+    "execution": "ação livre",
+    "range": "pessoal",
+    "target": "Alvo: você",
+    "duration": "cena",
+    "resistance": "",
+    "save": "",
+    "attack": "",
+    "damage": null,
+    "description": "<p>Seus testes de Atletismo para saltar recebem +30, e a CD não aumenta por falta de espaço para tomar impulso.</p>",
+    "enhancements": [
+      {
+        "cost": 1,
+        "text": "permite um “pulo duplo”: faça um segundo teste com o mesmo bônus e some os dois resultados para definir a distância ou a altura do salto"
+      },
+      {
+        "cost": 2,
+        "text": "muda a execução para ação de movimento, a duração para instantânea, o alvo para 1 criatura e o alcance para curto: você salta e aterrissa adjacente ao alvo; se atacar esse alvo corpo-a-corpo na mesma rodada, recebe os benefícios e as penalidades de uma investida e a arma causa dano dobrado (dados de dano extras nunca são multiplicados)"
+      }
+    ]
+  },
+  {
+    "name": "Pisão do Bisonte",
+    "page": 179,
+    "grade": "basico",
+    "chakra": "for",
+    "chakras": [
+      "for"
+    ],
+    "descriptors": "transmutação",
+    "execution": "ação padrão",
+    "range": "pessoal",
+    "target": "Área: dispersão em linha com 9m",
+    "duration": "instantânea",
+    "resistance": "Reflexos parcial",
+    "save": "ref",
+    "attack": "",
+    "damage": {
+      "formula": "2d4",
+      "type": "esmagamento",
+      "healing": false,
+      "scaleDice": "1d4",
+      "scaleCost": 1
+    },
+    "description": "<p>Criaturas na área sofrem 2d4 de dano de esmagamento e ficam caídas se falharem no teste. Objetos soltos podem cair; quem não está com os pés no chão não é afetado.</p>",
+    "enhancements": [
+      {
+        "cost": 1,
+        "text": "aumenta o dano em +1d4"
+      },
+      {
+        "cost": 2,
+        "text": "muda a área para dispersão em cone com 9m"
+      },
+      {
+        "cost": 5,
+        "text": "muda a área para dispersão com 9m de raio"
+      }
+    ]
+  },
+  {
+    "name": "Preguiça do Panda",
+    "page": 179,
+    "grade": "basico",
+    "chakra": "car",
+    "chakras": [
+      "car"
+    ],
+    "descriptors": "trevas",
+    "execution": "ação padrão",
+    "range": "curto",
+    "target": "Alvo: 1 criatura; Efeito: raio",
+    "duration": "cena",
+    "resistance": "",
+    "save": "",
+    "attack": "toqueDistancia",
+    "damage": null,
+    "description": "<p>Um raio (ataque de toque à distância) deixa o alvo fatigado se acertar.</p><p><em>Executá-lo é violação de honra moderada (trevas).</em></p>",
+    "enhancements": [
+      {
+        "cost": 5,
+        "text": "muda o teste de resistência para Fortitude parcial: se passar, o alvo fica fatigado; se falhar, fica exausto"
+      },
+      {
+        "cost": 9,
+        "text": "muda o efeito para exausto"
+      }
+    ]
+  },
+  {
+    "name": "Proteção dos Ancestrais",
+    "page": 179,
+    "grade": "basico",
+    "chakra": "sab",
+    "chakras": [
+      "sab"
+    ],
+    "descriptors": "abjuração",
+    "execution": "ação padrão",
+    "range": "curto",
+    "target": "Alvo: até 10 criaturas",
+    "duration": "cena",
+    "resistance": "",
+    "save": "",
+    "attack": "",
+    "damage": null,
+    "description": "<p>Cada alvo ganha +1 na CA e em testes de resistência.</p>",
+    "enhancements": [
+      {
+        "cost": 2,
+        "text": "aumenta os bônus em +1"
+      }
+    ]
+  },
+  {
+    "name": "Punhos de Ferro",
+    "page": 179,
+    "grade": "basico",
+    "chakra": "con",
+    "chakras": [
+      "con"
+    ],
+    "descriptors": "transmutação",
+    "execution": "ação de movimento",
+    "range": "pessoal",
+    "target": "Alvo: você",
+    "duration": "cena",
+    "resistance": "",
+    "save": "",
+    "attack": "",
+    "damage": null,
+    "description": "<p>Você ganha +1 em jogadas de ataque e de dano corpo-a-corpo.</p>",
+    "enhancements": [
+      {
+        "cost": 5,
+        "text": "aumenta os bônus em +1"
+      },
+      {
+        "cost": 9,
+        "text": "seus ataques corpo-a-corpo também ignoram até 10 pontos de redução de dano"
+      }
+    ]
+  },
+  {
+    "name": "Rajada de Disparos",
+    "page": 179,
+    "grade": "basico",
+    "chakra": "des",
+    "chakras": [
+      "des"
+    ],
+    "descriptors": "transmutação, ninja",
+    "execution": "ação padrão",
+    "range": "pessoal",
+    "target": "Alvo: você",
+    "duration": "instantânea",
+    "resistance": "",
+    "save": "",
+    "attack": "distancia",
+    "damage": null,
+    "description": "<p>Você faz três ataques à distância em sequência contra um único inimigo. Cada acerto concede +2 de dano aos ataques que acertaram. Só funciona com armas de arremesso que possam ser sacadas como ação livre.</p>",
+    "enhancements": [
+      {
+        "cost": 1,
+        "text": "também funciona com armas de disparo que possam ser recarregadas como ação livre"
+      },
+      {
+        "cost": 1,
+        "text": "dispensa armas: pedrinhas, moedas e até lascas de unha viram armas improvisadas que causam 1d4 de dano de perfuração, com crítico 19 e distância 6m, sem penalidade por serem improvisadas"
+      },
+      {
+        "cost": 2,
+        "text": "muda o número de ataques à distância para quatro"
+      },
+      {
+        "cost": 5,
+        "text": "muda o número de ataques à distância para cinco"
+      },
+      {
+        "cost": 9,
+        "text": "muda o número de ataques à distância para seis"
+      }
+    ]
+  },
+  {
+    "name": "Refeição Respeitosa",
+    "page": 179,
+    "grade": "basico",
+    "chakra": "sab",
+    "chakras": [
+      "sab"
+    ],
+    "descriptors": "luz",
+    "execution": "1 hora",
+    "range": "corpo-a-corpo",
+    "target": "Alvo: 1 refeição",
+    "duration": "instantânea",
+    "resistance": "",
+    "save": "",
+    "attack": "",
+    "damage": {
+      "formula": "2d4",
+      "type": "",
+      "healing": true,
+      "scaleDice": "1d4",
+      "scaleCost": 1
+    },
+    "description": "<p>Purifica comida ou bebida suja, estragada, contaminada ou envenenada; quem consumir a refeição recupera 2d4 PV. Se o consumo for interrompido ou não ocorrer em 1 hora, ela some.</p>",
+    "enhancements": [
+      {
+        "cost": 1,
+        "text": "muda o tempo de execução para 10 minutos"
+      },
+      {
+        "cost": 1,
+        "text": "aumenta o número de refeições em +1"
+      },
+      {
+        "cost": 1,
+        "text": "aumenta a cura em +1d4"
+      },
+      {
+        "cost": 5,
+        "text": "acrescenta o descritor invocação: cria uma refeição (comida e bebida para 1 criatura) que tem o efeito do jutsu"
+      },
+      {
+        "cost": 5,
+        "text": "muda o tempo de execução para 1 minuto"
+      },
+      {
+        "cost": 9,
+        "text": "a refeição também cura 100 PV e qualquer doença, veneno ou enjoo; por 12 horas, quem a consumiu fica imune a doenças, venenos e enjoo, com 10 PV temporários"
+      }
+    ]
+  },
+  {
+    "name": "Sombras da Noite",
+    "page": 180,
+    "grade": "basico",
+    "chakra": "des",
+    "chakras": [
+      "des"
+    ],
+    "descriptors": "trevas",
+    "execution": "ação padrão",
+    "range": "longo",
+    "target": "Área: cubo com 3m de lado",
+    "duration": "concentração + 1 rodada",
+    "resistance": "",
+    "save": "",
+    "attack": "",
+    "damage": null,
+    "description": "<p>Quem estiver na área tem camuflagem por escuridão. A escuridão não conta como mágica; jutsus de grau básico conseguem iluminá-la, fontes de luz comuns não.</p><p><em>Executá-lo é violação de honra moderada (trevas).</em></p>",
+    "enhancements": [
+      {
+        "cost": 2,
+        "text": "muda o efeito para camuflagem total por escuridão"
+      },
+      {
+        "cost": 2,
+        "text": "muda a duração para cena"
+      }
+    ]
+  },
+  {
+    "name": "Sono de Mizuha",
+    "page": 180,
+    "grade": "basico",
+    "chakra": "car",
+    "chakras": [
+      "car"
+    ],
+    "descriptors": "encantamento",
+    "execution": "ação padrão",
+    "range": "longo",
+    "target": "Alvo: 1 criatura",
+    "duration": "cena",
+    "resistance": "Vontade anula",
+    "save": "von",
+    "attack": "",
+    "damage": null,
+    "description": "<p>Só afeta uma criatura de nível até o seu + seu modificador de Carisma, que fica inconsciente.</p><p><em>Executá-lo é violação de honra leve (encantamento).</em></p>",
+    "enhancements": [
+      {
+        "cost": 2,
+        "text": "muda o alvo para uma explosão de 3m de raio; toda criatura na área só é afetada se estiver dentro do seu limite de nível"
+      },
+      {
+        "cost": 5,
+        "text": "muda o teste de resistência para Vontade parcial: quem passar fica pasmo por 1 rodada"
+      }
+    ]
+  },
+  {
+    "name": "Sopro da Montanha",
+    "page": 180,
+    "grade": "basico",
+    "chakra": "for",
+    "chakras": [
+      "for"
+    ],
+    "descriptors": "vento",
+    "execution": "ação padrão",
+    "range": "curto",
+    "target": "Alvo: 1 criatura Média ou menor",
+    "duration": "instantânea",
+    "resistance": "Fortitude anula",
+    "save": "fort",
+    "attack": "",
+    "damage": null,
+    "description": "<p>Empurra o alvo 1d4 × 1,5m para longe de você; se ele colidir com parede ou objeto sólido (criatura não conta), sofre 1d6 de dano de esmagamento por 3m percorridos. No alcance, também faz o que um vendaval súbito faria (levantar poeira, dispersar vapores, apagar chamas mundanas, espalhar papéis).</p>",
+    "enhancements": [
+      {
+        "cost": 1,
+        "text": "aumenta a distância do empurrão em +1,5m"
+      },
+      {
+        "cost": 2,
+        "text": "aumenta em um passo a categoria de tamanho máxima da criatura afetada"
+      },
+      {
+        "cost": 3,
+        "text": "muda o alcance para longo"
+      }
+    ]
+  },
+  {
+    "name": "Sussurros do Vento",
+    "page": 180,
+    "grade": "basico",
+    "chakra": "car",
+    "chakras": [
+      "car"
+    ],
+    "descriptors": "vento",
+    "execution": "ação padrão",
+    "range": "1km",
+    "target": "Alvo: 1 criatura",
+    "duration": "cena",
+    "resistance": "",
+    "save": "",
+    "attack": "",
+    "damage": null,
+    "description": "<p>A até 30m, você e o alvo trocam mensagens inaudíveis para os demais; mais longe, só você envia. É preciso conhecer o alvo (pessoalmente ou por jutsus). Só sons são transmitidos, então é preciso um idioma comum, e os sussurros não servem para atrapalhar concentração ou meditação.</p>",
+    "enhancements": [
+      {
+        "cost": 1,
+        "text": "aumenta o número de alvos em +1"
+      },
+      {
+        "cost": 2,
+        "text": "muda o alcance para 10km"
+      },
+      {
+        "cost": 5,
+        "text": "muda o alcance para 100km"
+      },
+      {
+        "cost": 9,
+        "text": "muda o alcance para ilimitado"
+      }
+    ]
+  },
+  {
+    "name": "Titeriteiro",
+    "page": 180,
+    "grade": "basico",
+    "chakra": "int",
+    "chakras": [
+      "int"
+    ],
+    "descriptors": "transmutação",
+    "execution": "ação padrão",
+    "range": "curto",
+    "target": "Alvo: 1 objeto com até 25kg ou 1 criatura Média ou menor",
+    "duration": "concentração",
+    "resistance": "Fortitude anula",
+    "save": "fort",
+    "attack": "",
+    "damage": null,
+    "description": "<p>Move o alvo a 6m por rodada, pelo chão ou pelo ar. A cada rodada, uma criatura (ou um objeto em posse de uma) pode fazer o teste de resistência para não ser movida. Não causa dano direto, mas derrubar o alvo do alto pode feri-lo. Um objeto é manipulado como se você o segurasse com as duas mãos, e você pode atacar com ele usando seu BBA + modificador de Inteligência.</p>",
+    "enhancements": [
+      {
+        "cost": 1,
+        "text": "aumenta o peso máximo do objeto em +25kg"
+      },
+      {
+        "cost": 4,
+        "text": "aumenta o deslocamento em +3m"
+      },
+      {
+        "cost": 5,
+        "text": "aumenta em um passo a categoria de tamanho máxima da criatura afetada"
+      }
+    ]
+  },
+  {
+    "name": "Toque Curativo",
+    "page": 180,
+    "grade": "basico",
+    "chakra": "sab",
+    "chakras": [
+      "sab"
+    ],
+    "descriptors": "luz",
+    "execution": "ação padrão",
+    "range": "corpo-a-corpo",
+    "target": "Alvo: 1 criatura",
+    "duration": "instantânea",
+    "resistance": "",
+    "save": "",
+    "attack": "",
+    "damage": {
+      "formula": "2d8",
+      "type": "",
+      "healing": true,
+      "scaleDice": "1d8",
+      "scaleCost": 2
+    },
+    "description": "<p>O alvo recupera 2d8 PV.</p>",
+    "enhancements": [
+      {
+        "cost": 2,
+        "text": "aumenta a cura em +1d8 PV, ou em +1d4 se estiver curando dano de habilidade"
+      },
+      {
+        "cost": 2,
+        "text": "remove um veneno que esteja afetando o alvo (não impede novos envenenamentos)"
+      },
+      {
+        "cost": 2,
+        "text": "muda o efeito para curar 1d4 pontos de dano de habilidade (exceto Honra)"
+      },
+      {
+        "cost": 5,
+        "text": "remove uma doença que esteja afetando o alvo"
+      }
+    ]
+  },
+  {
+    "name": "Toque Debilitante",
+    "page": 180,
+    "grade": "basico",
+    "chakra": "for",
+    "chakras": [
+      "for"
+    ],
+    "descriptors": "trevas",
+    "execution": "ação padrão",
+    "range": "corpo-a-corpo",
+    "target": "Alvo: 1 criatura",
+    "duration": "cena",
+    "resistance": "Fortitude parcial",
+    "save": "fort",
+    "attack": "toque",
+    "damage": null,
+    "description": "<p>Faça um ataque desarmado ou de toque. Acertando, causa dano normal (nenhum com toque) e o alvo sofre –2 em ataques, dano e CA (metade se passar no teste de Fortitude).</p><p><em>Executá-lo é violação de honra moderada (trevas).</em></p>",
+    "enhancements": [
+      {
+        "cost": 1,
+        "text": "permite um ataque corpo-a-corpo com qualquer arma; acertando, causa o dano da arma e aplica o efeito do jutsu"
+      },
+      {
+        "cost": 5,
+        "text": "aumenta a penalidade em –2"
+      }
+    ]
+  },
+  {
+    "name": "Truque do Gato",
+    "page": 180,
+    "grade": "basico",
+    "chakra": "des",
+    "chakras": [
+      "des"
+    ],
+    "descriptors": "ninja, transmutação",
+    "execution": "reação",
+    "range": "pessoal",
+    "target": "Alvo: você",
+    "duration": "instantânea",
+    "resistance": "",
+    "save": "",
+    "attack": "",
+    "damage": null,
+    "description": "<p>Você aterrissa de pé de qualquer altura e não sofre dano de queda.</p>",
+    "enhancements": [
+      {
+        "cost": 1,
+        "text": "muda o alvo para 1 criatura e o alcance para longo"
+      },
+      {
+        "cost": 5,
+        "text": "muda o alvo para até 10 criaturas e o alcance para longo"
+      }
+    ]
+  },
+  {
+    "name": "Véu das Múltiplas Faces",
+    "page": 181,
+    "grade": "basico",
+    "chakra": "des",
+    "chakras": [
+      "des"
+    ],
+    "descriptors": "ilusão",
+    "execution": "ação padrão",
+    "range": "pessoal",
+    "target": "Alvo: você",
+    "duration": "cena",
+    "resistance": "veja texto",
+    "save": "von",
+    "attack": "",
+    "damage": null,
+    "description": "<p>Você muda de aparência, com roupas e equipamento (altura, peso, gênero, tom de pele etc.), e recebe +30 em Enganação para disfarce. Quem interagir com o disfarce por outro sentido que não a visão pode fazer um teste de Vontade para notar a ilusão. Você não ganha habilidades nem traços raciais, e o equipamento mantém suas funções (uma katana disfarçada de bordão causa dano de katana).</p><p><em>Executá-lo é violação de honra leve (ilusão).</em></p>",
+    "enhancements": [
+      {
+        "cost": 2,
+        "text": "muda o alvo para 1 criatura e o alcance para curto"
+      },
+      {
+        "cost": 3,
+        "text": "aumenta a quantidade de alvos em +1 (só quando o alvo não é você); cada um pode ter uma aparência diferente, escolhida por você"
+      },
+      {
+        "cost": 5,
+        "text": "a ilusão passa a incluir odores, sons e sensações térmicas e táteis; as criaturas perdem o teste de Vontade para reconhecê-la, mas ainda podem usar Intuição"
+      }
+    ]
+  },
+  {
+    "name": "Vingança dos Ancestrais",
+    "page": 181,
+    "grade": "basico",
+    "chakra": "car",
+    "chakras": [
+      "car"
+    ],
+    "descriptors": "encantamento",
+    "execution": "ação padrão",
+    "range": "curto",
+    "target": "Alvo: até 10 criaturas",
+    "duration": "cena",
+    "resistance": "Vontade anula",
+    "save": "von",
+    "attack": "",
+    "damage": null,
+    "description": "<p>Cada alvo sofre –1 na CA e em testes de resistência.</p><p><em>Executá-lo é violação de honra leve (encantamento).</em></p>",
+    "enhancements": [
+      {
+        "cost": 2,
+        "text": "aumenta a penalidade para –2"
+      }
+    ]
+  },
+  {
+    "name": "Voz de Lin-Wu",
+    "page": 181,
+    "grade": "basico",
+    "chakra": "car",
+    "chakras": [
+      "car"
+    ],
+    "descriptors": "encantamento",
+    "execution": "ação padrão",
+    "range": "curto",
+    "target": "Alvo: 1 humanoide",
+    "duration": "1 rodada",
+    "resistance": "Vontade anula",
+    "save": "von",
+    "attack": "",
+    "damage": null,
+    "description": "<p>Você dá uma ordem simples no idioma do alvo, que a cumpre como puder no turno dele:</p><ul><li><strong>Caia:</strong> joga-se no chão (ou cai, se estiver no alto) e só se levanta no próximo turno; é ação livre, então pode agir de outras formas, exceto levantar.</li><li><strong>Fuja:</strong> afasta-se de você com duas ações de movimento.</li><li><strong>Largue:</strong> solta o que tem nas mãos e só pode pegar de volta no início do próximo turno; é ação livre, então pode agir de outras formas, exceto recuperar os itens.</li><li><strong>Pare:</strong> fica pasmo.</li><li><strong>Venha:</strong> aproxima-se de você com duas ações de movimento.</li></ul><p><em>Executá-lo é violação de honra leve (encantamento).</em></p>",
+    "enhancements": [
+      {
+        "cost": 1,
+        "text": "muda o alvo para 1 criatura"
+      },
+      {
+        "cost": 2,
+        "text": "aumenta a quantidade de alvos em +1"
+      }
+    ]
+  },
+  {
+    "name": "Voz de Wang-Ho",
+    "page": 181,
+    "grade": "basico",
+    "chakra": "des",
+    "chakras": [
+      "des"
+    ],
+    "descriptors": "ilusão",
+    "execution": "ação padrão",
+    "range": "curto",
+    "target": "Efeito: sons ou vozes",
+    "duration": "concentração + 1 rodada",
+    "resistance": "Vontade anula",
+    "save": "von",
+    "attack": "",
+    "damage": null,
+    "description": "<p>Cria um som fixo num ponto ou que aumenta, diminui, se aproxima ou se afasta. A cada rodada de concentração você escolhe o tipo (mensagem na sua voz, conversa, gritos, rugidos, música etc.), com volume máximo de cinco pessoas. Ao parar de se concentrar, o som se repete por mais uma rodada e o jutsu acaba.</p><p><em>Executá-lo é violação de honra leve (ilusão).</em></p>",
+    "enhancements": [
+      {
+        "cost": 1,
+        "text": "muda a duração para cena: o som escolhido repete-se todo turno, salvo se você usar uma ação padrão para se concentrar e trocá-lo"
+      },
+      {
+        "cost": 1,
+        "text": "muda a duração para permanente até ser descarregado: defina um gatilho visual ou sonoro (alguém se aproximando, uma palavra dita etc.); ao ocorrer, o jutsu é ativado e dura 1 rodada"
+      },
+      {
+        "cost": 2,
+        "text": "aumenta o volume máximo para o de uma multidão, o bastante para atrapalhar a concentração de quem estiver executando um jutsu (conta como condição ruim)"
+      }
+    ]
+  }
+]

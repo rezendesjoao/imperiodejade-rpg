@@ -4,12 +4,16 @@
  */
 import { IJ, SYSTEM_ID } from "./config.mjs";
 import { CharacterData } from "./data/character.mjs";
+import { NpcData } from "./data/npc.mjs";
 import { ITEM_MODELS } from "./data/items.mjs";
 import { ImperioActor } from "./documents/actor.mjs";
 import { ImperioItem } from "./documents/item.mjs";
+import { ImperioActiveEffect } from "./documents/active-effect.mjs";
 import { CharacterSheet } from "./sheets/character-sheet.mjs";
+import { NpcSheet } from "./sheets/npc-sheet.mjs";
 import { ItemSheet } from "./sheets/item-sheet.mjs";
 import { registerChatListeners, signed, applyDamage } from "./dice/rolls.mjs";
+import { bookText } from "./book-text.mjs";
 
 const PARTIALS = {
   "ij-shield": `systems/${SYSTEM_ID}/templates/partials/shield.hbs`,
@@ -24,7 +28,9 @@ Hooks.once("init", () => {
   // Documents and data models
   CONFIG.Actor.documentClass = ImperioActor;
   CONFIG.Item.documentClass = ImperioItem;
+  CONFIG.ActiveEffect.documentClass = ImperioActiveEffect;
   CONFIG.Actor.dataModels.character = CharacterData;
+  CONFIG.Actor.dataModels.npc = NpcData;
   Object.assign(CONFIG.Item.dataModels, ITEM_MODELS);
 
   // Initiative is the Iniciativa skill (p. 228); ties go to the higher Dexterity
@@ -34,6 +40,7 @@ Hooks.once("init", () => {
   const { Actors, Items } = foundry.documents.collections;
   Actors.unregisterSheet("core", foundry.appv1.sheets.ActorSheet);
   Actors.registerSheet(SYSTEM_ID, CharacterSheet, { types: ["character"], makeDefault: true, label: "IJ.Sheet.character" });
+  Actors.registerSheet(SYSTEM_ID, NpcSheet, { types: ["npc"], makeDefault: true, label: "IJ.Sheet.npc" });
   Items.unregisterSheet("core", foundry.appv1.sheets.ItemSheet);
   Items.registerSheet(SYSTEM_ID, ItemSheet, { makeDefault: true, label: "IJ.Sheet.item" });
 
@@ -44,7 +51,8 @@ Hooks.once("init", () => {
   foundry.applications.handlebars.loadTemplates(PARTIALS);
 
   // Macros and other modules
-  game[SYSTEM_ID] = { config: IJ, applyDamage };
+  // bookText: the original wording of the rules, only when a local module built from the player's own book fills it
+  game[SYSTEM_ID] = { config: IJ, applyDamage, bookText };
 
   registerChatListeners();
 });

@@ -1,8 +1,8 @@
 {
   "id": "imperiodejade",
   "title": "Império de Jade",
-  "description": "Império de Jade para o Foundry VTT: a ficha completa do Império de Tamu-ra, com atributos e Honra, perícias com especialidades, classe de armadura e resistências calculadas, chacras e jutsus, ataques e cartões de chat automatizados.",
-  "version": "0.1.0",
+  "description": "Império de Jade para o Foundry VTT: ficha completa e automatizada, Honra, chacras e jutsus, e os compêndios do livro (raças, classes, habilidades, talentos, jutsus, equipamento, itens mágicos e bestiário) com as habilidades concedidas automaticamente.",
+  "version": "0.2.0",
   "compatibility": {
     "minimum": "14",
     "verified": "14.367"
@@ -41,20 +41,239 @@
           "biography.history",
           "biography.notes"
         ]
+      },
+      "npc": {
+        "htmlFields": [
+          "description",
+          "notes"
+        ]
       }
     },
     "Item": {
-      "class": { "htmlFields": ["description"] },
-      "race": { "htmlFields": ["description"] },
-      "weapon": { "htmlFields": ["description"] },
-      "armor": { "htmlFields": ["description"] },
-      "gear": { "htmlFields": ["description"] },
-      "consumable": { "htmlFields": ["description"] },
-      "feat": { "htmlFields": ["description"] },
-      "power": { "htmlFields": ["description"] },
-      "jutsu": { "htmlFields": ["description", "enhancements"] }
+      "class": {
+        "htmlFields": [
+          "description"
+        ]
+      },
+      "race": {
+        "htmlFields": [
+          "description"
+        ]
+      },
+      "weapon": {
+        "htmlFields": [
+          "description"
+        ]
+      },
+      "armor": {
+        "htmlFields": [
+          "description"
+        ]
+      },
+      "gear": {
+        "htmlFields": [
+          "description"
+        ]
+      },
+      "consumable": {
+        "htmlFields": [
+          "description"
+        ]
+      },
+      "feat": {
+        "htmlFields": [
+          "description"
+        ]
+      },
+      "power": {
+        "htmlFields": [
+          "description"
+        ]
+      },
+      "jutsu": {
+        "htmlFields": [
+          "description",
+          "enhancements"
+        ]
+      }
     }
   },
+  "packs": [
+    {
+      "name": "racas",
+      "label": "Raças",
+      "path": "packs/racas",
+      "type": "Item",
+      "system": "imperiodejade",
+      "ownership": {
+        "PLAYER": "OBSERVER",
+        "ASSISTANT": "OWNER"
+      },
+      "flags": {}
+    },
+    {
+      "name": "classes",
+      "label": "Classes",
+      "path": "packs/classes",
+      "type": "Item",
+      "system": "imperiodejade",
+      "ownership": {
+        "PLAYER": "OBSERVER",
+        "ASSISTANT": "OWNER"
+      },
+      "flags": {}
+    },
+    {
+      "name": "habilidades-raca",
+      "label": "Habilidades de Raça",
+      "path": "packs/habilidades-raca",
+      "type": "Item",
+      "system": "imperiodejade",
+      "ownership": {
+        "PLAYER": "OBSERVER",
+        "ASSISTANT": "OWNER"
+      },
+      "flags": {}
+    },
+    {
+      "name": "habilidades-classe",
+      "label": "Habilidades de Classe",
+      "path": "packs/habilidades-classe",
+      "type": "Item",
+      "system": "imperiodejade",
+      "ownership": {
+        "PLAYER": "OBSERVER",
+        "ASSISTANT": "OWNER"
+      },
+      "flags": {}
+    },
+    {
+      "name": "talentos",
+      "label": "Talentos",
+      "path": "packs/talentos",
+      "type": "Item",
+      "system": "imperiodejade",
+      "ownership": {
+        "PLAYER": "OBSERVER",
+        "ASSISTANT": "OWNER"
+      },
+      "flags": {}
+    },
+    {
+      "name": "jutsus",
+      "label": "Jutsus",
+      "path": "packs/jutsus",
+      "type": "Item",
+      "system": "imperiodejade",
+      "ownership": {
+        "PLAYER": "OBSERVER",
+        "ASSISTANT": "OWNER"
+      },
+      "flags": {}
+    },
+    {
+      "name": "armas",
+      "label": "Armas",
+      "path": "packs/armas",
+      "type": "Item",
+      "system": "imperiodejade",
+      "ownership": {
+        "PLAYER": "OBSERVER",
+        "ASSISTANT": "OWNER"
+      },
+      "flags": {}
+    },
+    {
+      "name": "armaduras",
+      "label": "Armaduras e Escudos",
+      "path": "packs/armaduras",
+      "type": "Item",
+      "system": "imperiodejade",
+      "ownership": {
+        "PLAYER": "OBSERVER",
+        "ASSISTANT": "OWNER"
+      },
+      "flags": {}
+    },
+    {
+      "name": "equipamento",
+      "label": "Equipamento e Serviços",
+      "path": "packs/equipamento",
+      "type": "Item",
+      "system": "imperiodejade",
+      "ownership": {
+        "PLAYER": "OBSERVER",
+        "ASSISTANT": "OWNER"
+      },
+      "flags": {}
+    },
+    {
+      "name": "itens-magicos",
+      "label": "Itens Mágicos",
+      "path": "packs/itens-magicos",
+      "type": "Item",
+      "system": "imperiodejade",
+      "ownership": {
+        "PLAYER": "OBSERVER",
+        "ASSISTANT": "OWNER"
+      },
+      "flags": {}
+    },
+    {
+      "name": "bestiario",
+      "label": "Bestiário",
+      "path": "packs/bestiario",
+      "type": "Actor",
+      "system": "imperiodejade",
+      "ownership": {
+        "PLAYER": "NONE",
+        "ASSISTANT": "OWNER"
+      },
+      "flags": {}
+    }
+  ],
+  "packFolders": [
+    {
+      "name": "Império de Jade",
+      "sorting": "m",
+      "color": "#1d4a38",
+      "packs": [],
+      "folders": [
+        {
+          "name": "Personagem",
+          "sorting": "m",
+          "color": "#2f6b52",
+          "packs": [
+            "racas",
+            "classes",
+            "habilidades-raca",
+            "habilidades-classe",
+            "talentos",
+            "jutsus"
+          ]
+        },
+        {
+          "name": "Equipamento",
+          "sorting": "m",
+          "color": "#8a6a2c",
+          "packs": [
+            "armas",
+            "armaduras",
+            "equipamento",
+            "itens-magicos"
+          ]
+        },
+        {
+          "name": "Mestre",
+          "sorting": "m",
+          "color": "#8f2a1d",
+          "packs": [
+            "bestiario"
+          ]
+        }
+      ]
+    }
+  ],
   "grid": {
     "distance": 1.5,
     "units": "m"
@@ -63,7 +282,7 @@
   "secondaryTokenAttribute": "attributes.pm",
   "url": "https://github.com/rezendesjoao/imperiodejade-rpg",
   "manifest": "https://github.com/rezendesjoao/imperiodejade-rpg/releases/latest/download/system.json",
-  "download": "https://github.com/rezendesjoao/imperiodejade-rpg/releases/download/v0.1.0/imperiodejade.zip",
+  "download": "https://github.com/rezendesjoao/imperiodejade-rpg/releases/download/v0.2.0/imperiodejade.zip",
   "bugs": "https://github.com/rezendesjoao/imperiodejade-rpg/issues",
   "readme": "https://github.com/rezendesjoao/imperiodejade-rpg/blob/main/README.md",
   "changelog": "https://github.com/rezendesjoao/imperiodejade-rpg/blob/main/CHANGELOG.md",

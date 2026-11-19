@@ -14,17 +14,22 @@ const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const manifest = JSON.parse(fs.readFileSync(path.join(ROOT, "system.json"), "utf8"));
 const DIST = path.join(ROOT, "dist");
 const STAGE = path.join(DIST, manifest.id);
-const FILES = ["system.json", "LICENSE", "README.md", "module", "templates", "styles", "lang", "assets"];
+const FILES = ["system.json", "LICENSE", "CREDITOS.md", "README.md", "module", "templates", "styles", "lang", "assets", "packs"];
 
 // The download must be this version's zip on the GitHub release
 const expected = `https://github.com/rezendesjoao/imperiodejade-rpg/releases/download/v${manifest.version}/${manifest.id}.zip`;
 if (manifest.download !== expected) throw new Error(`system.json "download" should be ${expected}`);
 
+// Every compendium of the manifest, compiled (npm run build)
+for (const pack of manifest.packs ?? []) {
+  if (!fs.existsSync(path.join(ROOT, pack.path, "CURRENT"))) throw new Error(`${pack.path} não foi compilado: npm run build`);
+}
+
 fs.rmSync(DIST, { recursive: true, force: true });
 for (const f of FILES) {
   const src = path.join(ROOT, f);
   if (!fs.existsSync(src)) throw new Error(`Missing ${f}`);
-  fs.cpSync(src, path.join(STAGE, f), { recursive: true });
+  fs.cpSync(src, path.join(STAGE, f), { recursive: true, filter: file => path.basename(file) !== "LOCK" });
 }
 const zip = path.join(DIST, `${manifest.id}.zip`);
 // Windows' own tar (bsdtar) writes a real zip with forward slashes; tar -a picks the format from the extension

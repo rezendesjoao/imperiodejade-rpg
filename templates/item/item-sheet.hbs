@@ -36,6 +36,12 @@
           {{#each classSkills as |s|}}<a class="ij-checkchip {{#if s.checked}}on{{/if}}" {{#if @root.editable}}data-action="toggleClassSkill" data-skill="{{s.key}}"{{/if}}>{{s.label}}</a>{{/each}}
         </div>
       </div>
+      {{#if features.length}}
+      <div class="ij-field ij-field--wide">
+        <span>{{localize "IJ.Class.features"}}</span>
+        <div class="ij-linklist">{{#each features as |f|}}<span class="ij-linklist__lvl {{#if f.reached}}on{{/if}}">{{f.level}}º</span>{{#if f.uuid}}<a class="content-link" data-link data-uuid="{{f.uuid}}" draggable="true"><i class="fa-solid fa-feather"></i> {{f.name}}</a>{{else}}<span>{{f.name}}</span>{{/if}}{{/each}}</div>
+      </div>
+      {{/if}}
       {{/if}}
 
       {{#if isType.race}}
@@ -43,12 +49,29 @@
       <label class="ij-field"><span>{{localize "IJ.Movement.label"}} (m)</span><input type="number" name="system.movement" value="{{source.movement}}" min="0" step="1.5"></label>
       <label class="ij-field"><span>{{localize "IJ.Class.honorMod"}}</span><input type="number" name="system.honor" value="{{source.honor}}"></label>
       <label class="ij-field"><span>{{localize "IJ.Race.bonusSkills"}}</span><input type="number" name="system.bonusSkills" value="{{source.bonusSkills}}" min="0"></label>
+      <label class="ij-field"><span>{{localize "IJ.Race.bonusFeats"}}</span><input type="number" name="system.bonusFeats" value="{{source.bonusFeats}}" min="0"></label>
       <div class="ij-field ij-field--wide">
         <span>{{localize "IJ.Race.abilityMods"}}</span>
         <div class="ij-abilitymods">
           {{#each abilityMods as |m|}}<label><small>{{m.label}}</small><input type="number" name="system.abilityMods.{{m.key}}" value="{{m.value}}"></label>{{/each}}
         </div>
       </div>
+      <label class="ij-field"><span>{{localize "IJ.Race.choiceCount"}}</span><input type="number" name="system.abilityChoice.count" value="{{source.abilityChoice.count}}" min="0"></label>
+      <label class="ij-field"><span>{{localize "IJ.Race.choiceValue"}}</span><input type="number" name="system.abilityChoice.value" value="{{source.abilityChoice.value}}"></label>
+      {{#if source.abilityChoice.count}}
+      <div class="ij-field ij-field--wide ij-race-choice {{#if raceChoice.missing}}ij-race-choice--missing{{/if}}">
+        <span>{{raceChoice.label}}</span>
+        <div class="ij-checkgrid">
+          {{#each raceChoice.options as |o|}}<a class="ij-checkchip {{#if o.chosen}}on{{/if}}" {{#if @root.editable}}data-action="toggleRaceChoice" data-ability="{{o.key}}"{{/if}}>{{o.label}} +{{@root.source.abilityChoice.value}}</a>{{/each}}
+        </div>
+      </div>
+      {{/if}}
+      {{#if features.length}}
+      <div class="ij-field ij-field--wide">
+        <span>{{localize "IJ.Race.features"}}</span>
+        <div class="ij-linklist">{{#each features as |f|}}{{#if f.uuid}}<a class="content-link" data-link data-uuid="{{f.uuid}}" draggable="true"><i class="fa-solid fa-feather"></i> {{f.name}}</a>{{else}}<span>{{f.name}}</span>{{/if}}{{/each}}</div>
+      </div>
+      {{/if}}
       {{/if}}
 
       {{#if isType.weapon}}
@@ -83,6 +106,12 @@
       <label class="ij-field"><span>{{localize "IJ.Consumable.usesMax"}}</span><input type="number" name="system.uses.max" value="{{source.uses.max}}" min="0"></label>
       {{/if}}
 
+      {{#if isType.gear}}
+      <label class="ij-field"><span>{{localize "IJ.Item.slot"}}</span><input type="text" name="system.slot" value="{{source.slot}}" placeholder="{{localize 'IJ.Item.slotPlaceholder'}}"></label>
+      <label class="ij-field ij-field--check"><input type="checkbox" name="system.equipped" {{checked source.equipped}}><span>{{localize "IJ.Item.equipped"}}</span></label>
+      <label class="ij-field ij-field--check"><input type="checkbox" name="system.magic" {{checked source.magic}}><span>{{localize "IJ.Item.magic"}}</span></label>
+      {{/if}}
+
       {{#if (or isType.weapon isType.armor isType.gear isType.consumable)}}
       <label class="ij-field"><span>{{localize "IJ.Item.quantity"}}</span><input type="number" name="system.quantity" value="{{source.quantity}}" min="0"></label>
       <label class="ij-field"><span>{{localize "IJ.Item.weight"}} (kg)</span><input type="number" name="system.weight" value="{{source.weight}}" min="0" step="0.5"></label>
@@ -93,6 +122,7 @@
       <label class="ij-field"><span>{{localize "IJ.Feat.category.label"}}</span><select name="system.category">{{selectOptions choices.featCategories selected=source.category}}</select></label>
       <label class="ij-field"><span>{{localize "IJ.Power.cost"}}</span><input type="number" name="system.cost" value="{{source.cost}}" min="0"></label>
       <label class="ij-field"><span>{{localize "IJ.Power.honorMin"}}</span><input type="number" name="system.honorMin" value="{{source.honorMin}}" min="0"></label>
+      <label class="ij-field"><span>{{localize "IJ.Feat.deity"}}</span><input type="text" name="system.deity" value="{{source.deity}}"></label>
       <label class="ij-field ij-field--wide"><span>{{localize "IJ.Feat.prerequisites"}}</span><input type="text" name="system.prerequisites" value="{{source.prerequisites}}"></label>
       {{/if}}
 
@@ -103,6 +133,9 @@
       <label class="ij-field"><span>{{localize "IJ.Power.cost"}}</span><input type="number" name="system.cost" value="{{source.cost}}" min="0"></label>
       <label class="ij-field"><span>{{localize "IJ.Power.honorMin"}}</span><input type="number" name="system.honorMin" value="{{source.honorMin}}" min="0"></label>
       <label class="ij-field"><span>{{localize "IJ.Power.action"}}</span><input type="text" name="system.action" value="{{source.action}}" placeholder="{{localize 'IJ.Power.actionPlaceholder'}}"></label>
+      <label class="ij-field"><span>{{localize "IJ.Power.levels"}}</span><input type="text" name="system.levels" value="{{source.levels}}" placeholder="1, 7, 13"></label>
+      <label class="ij-field ij-field--check"><input type="checkbox" name="system.choice" {{checked source.choice}}><span>{{localize "IJ.Power.choice"}}</span></label>
+      <label class="ij-field ij-field--check"><input type="checkbox" name="system.noArmor" {{checked source.noArmor}}><span>{{localize "IJ.Power.noArmor"}}</span></label>
       {{/if}}
 
       {{#if isType.jutsu}}
@@ -115,15 +148,37 @@
       <label class="ij-field"><span>{{localize "IJ.Jutsu.resistance"}}</span><input type="text" name="system.resistance" value="{{source.resistance}}"></label>
       <label class="ij-field"><span>{{localize "IJ.Jutsu.descriptors"}}</span><input type="text" name="system.descriptors" value="{{source.descriptors}}"></label>
       <label class="ij-field"><span>{{localize "IJ.Jutsu.extraCost"}}</span><input type="number" name="system.extraCost" value="{{source.extraCost}}" min="0"></label>
+      <label class="ij-field"><span>{{localize "IJ.Jutsu.saveType"}}</span><select name="system.save">{{selectOptions choices.saves selected=source.save}}</select></label>
+      <label class="ij-field"><span>{{localize "IJ.Jutsu.attackType"}}</span><select name="system.attack">{{selectOptions choices.attacks selected=source.attack}}</select></label>
+      <label class="ij-field"><span>{{localize "IJ.Jutsu.damageFormula"}}</span><input type="text" name="system.damage.formula" value="{{source.damage.formula}}" placeholder="2d6"></label>
+      <label class="ij-field"><span>{{localize "IJ.Jutsu.damageType"}}</span><input type="text" name="system.damage.type" value="{{source.damage.type}}" placeholder="fogo"></label>
+      <label class="ij-field"><span>{{localize "IJ.Jutsu.scaleDice"}}</span><input type="text" name="system.damage.scaleDice" value="{{source.damage.scaleDice}}" placeholder="1d6"></label>
+      <label class="ij-field"><span>{{localize "IJ.Jutsu.scaleCost"}}</span><input type="number" name="system.damage.scaleCost" value="{{source.damage.scaleCost}}" min="0"></label>
+      <label class="ij-field ij-field--check"><input type="checkbox" name="system.damage.healing" {{checked source.damage.healing}}><span>{{localize "IJ.Jutsu.healing"}}</span></label>
       {{/if}}
 
       <label class="ij-field ij-field--wide"><span>{{localize "IJ.Item.source"}}</span><input type="text" name="system.source" value="{{source.source}}" placeholder="{{localize 'IJ.Item.sourcePlaceholder'}}"></label>
     </div>
 
+    {{#if effects.length}}
+    <div class="ij-item-effects">
+      <span class="ij-item-effects__label"><i class="fa-solid fa-wand-magic-sparkles"></i> {{localize "IJ.Item.effects"}}</span>
+      {{#each effects as |e|}}<span class="ij-tag ij-tag--effect">{{e.label}}</span>{{/each}}
+      {{#if effectsNote}}<span class="ij-item-effects__note">{{effectsNote}}</span>{{/if}}
+    </div>
+    {{/if}}
+
     <div class="ij-box ij-item-desc">
       <header class="ij-box__head"><span>{{localize "IJ.Item.description"}}</span></header>
       <prose-mirror name="system.description" value="{{source.description}}" {{#if editable}}toggled{{/if}} {{#unless editable}}disabled{{/unless}}>{{{enriched.description}}}</prose-mirror>
     </div>
+
+    {{#if bookText}}
+    <details class="ij-box ij-booktext" open>
+      <summary class="ij-box__head"><span><i class="fa-solid fa-book"></i> {{localize "IJ.BookText.title"}}</span><small>{{localize "IJ.BookText.local"}}</small></summary>
+      <div class="ij-booktext__body">{{{bookText}}}</div>
+    </details>
+    {{/if}}
 
     {{#if isType.jutsu}}
     <div class="ij-box ij-item-desc">

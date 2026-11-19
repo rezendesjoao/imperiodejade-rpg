@@ -53,7 +53,7 @@ export async function askModifier(title) {
  * @param {object} [options.buttons]     Extra buttons [{action, label, icon, data}]
  * @param {Event} [options.event]        The click: Shift asks for a situational modifier
  */
-export async function d20Roll({ actor, title, subtitle = "", bonus = 0, parts = [], kanji = "", critRange = 20, kind = "check", buttons = [], event = null, flags = {} }) {
+export async function d20Roll({ actor, title, subtitle = "", bonus = 0, parts = [], kanji = "", critRange = 20, kind = "check", buttons = [], event = null, flags = {}, dc = null }) {
   let situational = 0;
   if (event?.shiftKey) {
     const mod = await askModifier(title);
@@ -75,7 +75,11 @@ export async function d20Roll({ actor, title, subtitle = "", bonus = 0, parts = 
     fumble: natural === 1,
     dice: await roll.render(),
     img: actor?.img,
-    buttons
+    buttons,
+    dc,
+    // Against a DC: natural 20 always succeeds and natural 1 always fails on saves (p. 78)
+    success: (dc === null) ? null : ((kind === "save") && (natural === 20)) ? true
+      : ((kind === "save") && (natural === 1)) ? false : roll.total >= dc
   };
   const content = await renderTemplate(CARD, context);
   return ChatMessage.create({
@@ -146,20 +150,21 @@ function targetActors() {
  * @param {boolean} [options.physical=true]  Whether damage reduction applies
  */
 export async function applyDamage(actor, amount, { physical = true } = {}) {
-  if (actor.type !== "character") return;
-  const pv = actor.system.attributes.pv;
+  if (!["character", "npc"].includes(actor.type)) return;
+  const base = actor.type === "npc" ? "system.pv" : "system.attributes.pv";
+  const pv = foundry.utils.getProperty(actor, base);
   if (amount < 0) {
     const value = Math.min(pv.max, pv.value - amount);
-    await actor.update({ "system.attributes.pv.value": value });
+    await actor.update({ [`${base}.value`]: value });
     return { healed: value - pv.value };
   }
   const rd = physical ? (actor.system.rd ?? 0) : 0;
   let damage = Math.max(0, amount - rd);
-  const fromTemp = Math.min(pv.temp, damage);
+  const fromTemp = Math.min(pv.temp ?? 0, damage);
   damage -= fromTemp;
   await actor.update({
-    "system.attributes.pv.temp": pv.temp - fromTemp,
-    "system.attributes.pv.value": pv.value - damage
+    [`${base}.temp`]: (pv.temp ?? 0) - fromTemp,
+    [`${base}.value`]: pv.value - damage
   });
   return { damage: damage + fromTemp, reduced: Math.min(rd, amount) };
 }
@@ -185,12 +190,23 @@ async function onCardButton(event, message) {
     return;
   }
 
-  // Item buttons (damage of an attack)
+  // Saving throws asked by a jutsu or ability: each selected token (or the user's character) rolls against the DC
+  if (ijAction === "save") {
+    const actors = targetActors().filter(a => a.isOwner);
+    if (!actors.length) return ui.notifications.warn(game.i18n.localize("IJ.Chat.noTargetSave"));
+    const dc = Number(button.dataset.dc) || null;
+    for (const actor of actors) await actor.rollSave(button.dataset.save, { dc, source: button.dataset.source ?? "" });
+    return;
+  }
+
+  // Item buttons (damage of an attack, damage and attack of a jutsu)
   const actor = await fromUuid(button.dataset.actor);
   const item = actor?.items.get(button.dataset.item);
   if (!item) return ui.notifications.warn(game.i18n.localize("IJ.Chat.itemGone"));
   if (!actor.isOwner) return ui.notifications.warn(game.i18n.localize("IJ.Chat.notOwner"));
   if (ijAction === "damage") return item.rollDamage({ critical: button.dataset.crit === "true" });
+  if (ijAction === "jutsuDamage") return item.rollJutsuDamage({ extra: Number(button.dataset.extra) || 0 });
+  if (ijAction === "jutsuAttack") return item.rollJutsuAttack();
 }
 
 /** Bind the card buttons when a message is rendered. */

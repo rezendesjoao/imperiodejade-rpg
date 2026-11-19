@@ -60,11 +60,27 @@ export const SAVES = {
 
 /** Sizes (p. 78 and chapter 5): armor class, attack, stealth and maneuver adjustments, base movement. */
 export const SIZES = {
+  infimo: { label: "IJ.Size.infimo", ca: 8, attack: 8, stealth: 16, maneuver: -16, movement: 3 },
+  diminuto: { label: "IJ.Size.diminuto", ca: 4, attack: 4, stealth: 12, maneuver: -12, movement: 3 },
   minimo: { label: "IJ.Size.minimo", ca: 2, attack: 2, stealth: 8, maneuver: -8, movement: 6 },
   pequeno: { label: "IJ.Size.pequeno", ca: 1, attack: 1, stealth: 4, maneuver: -4, movement: 6 },
   medio: { label: "IJ.Size.medio", ca: 0, attack: 0, stealth: 0, maneuver: 0, movement: 9 },
   grande: { label: "IJ.Size.grande", ca: -1, attack: -1, stealth: -4, maneuver: 4, movement: 9 },
-  enorme: { label: "IJ.Size.enorme", ca: -2, attack: -2, stealth: -8, maneuver: 8, movement: 12 }
+  enorme: { label: "IJ.Size.enorme", ca: -2, attack: -2, stealth: -8, maneuver: 8, movement: 12 },
+  descomunal: { label: "IJ.Size.descomunal", ca: -4, attack: -4, stealth: -12, maneuver: 12, movement: 12 },
+  colossal: { label: "IJ.Size.colossal", ca: -8, attack: -8, stealth: -16, maneuver: 16, movement: 15 }
+};
+
+/** Sizes a player character can have (races and the henge's animal form). */
+export const CHARACTER_SIZES = ["minimo", "pequeno", "medio"];
+
+/** Creature types of the bestiary (p. 255). */
+export const CREATURE_TYPES = {
+  animal: "IJ.Creature.animal",
+  construto: "IJ.Creature.construto",
+  humanoide: "IJ.Creature.humanoide",
+  monstro: "IJ.Creature.monstro",
+  youkai: "IJ.Creature.youkai"
 };
 
 /** The three castes (p. 89). */
@@ -194,7 +210,7 @@ export const abilityMod = score => Math.floor((score - 10) / 2);
 export const honorTier = score => HONOR_TIERS.find(t => score >= t.min) ?? HONOR_TIERS.at(-1);
 
 export const IJ = {
-  ABILITIES, KEY_ABILITIES, SKILLS, SPECIALTIES, SAVES, SIZES, CASTES, HONOR_TIERS, VIOLATIONS, BBA_PROGRESSIONS,
+  ABILITIES, KEY_ABILITIES, SKILLS, SPECIALTIES, SAVES, SIZES, CHARACTER_SIZES, CREATURE_TYPES, CASTES, HONOR_TIERS, VIOLATIONS, BBA_PROGRESSIONS,
   CHAKRAS, JUTSU_GRADES, WEAPON_CATEGORIES, WEAPON_KINDS, WEAPON_GRIPS, DAMAGE_TYPES, ARMOR_CATEGORIES,
   FEAT_CATEGORIES, ABILITY_SOURCES, CONSUMABLE_KINDS, CURRENCIES
 };

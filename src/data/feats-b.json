@@ -1,0 +1,1571 @@
+[
+ {
+  "name": "Acrobacia Audaz",
+  "page": 123,
+  "category": "pericia",
+  "prerequisites": "treinado em Acrobacia",
+  "cost": 0,
+  "honorMin": 0,
+  "deity": "",
+  "description": "<p>Terreno difícil não reduz seu deslocamento, e você consegue fazer investidas mesmo nesse tipo de terreno.</p><p><strong>Normal:</strong> terreno difícil corta o deslocamento pela metade e impede investidas.</p>",
+  "effects": []
+ },
+ {
+  "name": "Ágil",
+  "page": 123,
+  "category": "pericia",
+  "prerequisites": "Des 15",
+  "cost": 0,
+  "honorMin": 0,
+  "deity": "",
+  "description": "<p>Em testes de Atletismo, você pode aplicar seu modificador de Destreza no lugar do de Força.</p>",
+  "effects": [
+   {
+    "key": "system.skills.atletismo.ability",
+    "type": "override",
+    "value": "des"
+   }
+  ]
+ },
+ {
+  "name": "Autossuficiente",
+  "page": 123,
+  "category": "pericia",
+  "prerequisites": "",
+  "cost": 0,
+  "honorMin": 0,
+  "deity": "",
+  "description": "<p>A penalidade de –5 por usar Cura em si mesmo não se aplica a você. Além disso, quando não há nenhum companheiro a até 30m, você ganha +4 em todos os testes de perícia.</p>",
+  "effects": []
+ },
+ {
+  "name": "Cauda Ágil",
+  "page": 123,
+  "category": "pericia",
+  "prerequisites": "vanara",
+  "cost": 0,
+  "honorMin": 0,
+  "deity": "",
+  "description": "<p>Ganha +2 nos testes de Acrobacia e Atletismo e +2 nos testes de Ladinagem feitos para prestidigitação.</p>",
+  "effects": [
+   {
+    "key": "system.skills.acrobacia.bonus",
+    "type": "add",
+    "value": 2
+   },
+   {
+    "key": "system.skills.atletismo.bonus",
+    "type": "add",
+    "value": 2
+   }
+  ]
+ },
+ {
+  "name": "Cauda Hipnótica",
+  "page": 123,
+  "category": "pericia",
+  "prerequisites": "vanara",
+  "cost": 0,
+  "honorMin": 0,
+  "deity": "",
+  "description": "<p>Ganha +2 nos testes de Atuação e Diplomacia e +2 nos testes de Enganação feitos para blefar.</p>",
+  "effects": [
+   {
+    "key": "system.skills.atuacao.bonus",
+    "type": "add",
+    "value": 2
+   },
+   {
+    "key": "system.skills.diplomacia.bonus",
+    "type": "add",
+    "value": 2
+   }
+  ]
+ },
+ {
+  "name": "Criar Obra-Prima",
+  "page": 123,
+  "category": "pericia",
+  "prerequisites": "treinado em Ofício, Foco em Perícia (Ofício)",
+  "cost": 0,
+  "honorMin": 0,
+  "deity": "",
+  "description": "<p>Você é capaz de fabricar itens obra-prima (ver “Itens Obra-Prima” no Capítulo 3). Valem as regras normais de criação de itens, com duas mudanças: a CD do teste de Ofício sobe +5, e o custo sobe +17 ¥o para kits ou +100 ¥o para armas e armaduras.</p>",
+  "effects": []
+ },
+ {
+  "name": "Diligente",
+  "page": 123,
+  "category": "pericia",
+  "prerequisites": "",
+  "cost": 0,
+  "honorMin": 0,
+  "deity": "",
+  "description": "<p>Você pode dedicar uma ação de movimento a focar na tarefa; com isso, seu teste de perícia seguinte ganha +2.</p>",
+  "effects": []
+ },
+ {
+  "name": "Dissimular Honra",
+  "page": 123,
+  "category": "pericia",
+  "prerequisites": "treinado em Enganação",
+  "cost": 0,
+  "honorMin": 0,
+  "deity": "",
+  "description": "<p>Ganha +10 nos testes de Enganação feitos para dissimular honra.</p>",
+  "effects": []
+ },
+ {
+  "name": "Foco em Perícia",
+  "page": 123,
+  "category": "pericia",
+  "prerequisites": "treinado na perícia escolhida",
+  "cost": 0,
+  "honorMin": 0,
+  "deity": "",
+  "description": "<p>Você recebe +4 nos testes de uma perícia à sua escolha.</p>",
+  "effects": []
+ },
+ {
+  "name": "Investigador",
+  "page": 123,
+  "category": "pericia",
+  "prerequisites": "Int 13",
+  "cost": 0,
+  "honorMin": 0,
+  "deity": "",
+  "description": "<p>Seu bônus de Inteligência é somado aos testes de Obter Informação e Percepção.</p>",
+  "effects": []
+ },
+ {
+  "name": "Mãos Rápidas",
+  "page": 123,
+  "category": "pericia",
+  "prerequisites": "Des 15, treinado em Ladinagem",
+  "cost": 0,
+  "honorMin": 0,
+  "deity": "",
+  "description": "<p>Prestidigitação (Ladinagem) pode ser feita como ação livre. O primeiro uso na rodada é gratuito; cada uso extra na mesma rodada custa 1 PM.</p>",
+  "effects": []
+ },
+ {
+  "name": "Memória Eidética",
+  "page": 123,
+  "category": "pericia",
+  "prerequisites": "",
+  "cost": 0,
+  "honorMin": 0,
+  "deity": "",
+  "description": "<p>Você consegue decorar grandes volumes de informação complexa, como longas sequências numéricas ou trechos extensos de versos (nunca escritas mágicas ou similares). Cada ação completa memoriza uma página. A lembrança é permanente, mas recuperá-la exige um teste de Inteligência (CD 15).</p>",
+  "effects": []
+ },
+ {
+  "name": "Obra de Arte",
+  "page": 124,
+  "category": "pericia",
+  "prerequisites": "mashin, Car 13",
+  "cost": 0,
+  "honorMin": 0,
+  "deity": "",
+  "description": "<p>Ganha +2 nos testes de Atuação, Diplomacia e Obter Informação.</p>",
+  "effects": [
+   {
+    "key": "system.skills.atuacao.bonus",
+    "type": "add",
+    "value": 2
+   },
+   {
+    "key": "system.skills.diplomacia.bonus",
+    "type": "add",
+    "value": 2
+   },
+   {
+    "key": "system.skills.obterInformacao.bonus",
+    "type": "add",
+    "value": 2
+   }
+  ]
+ },
+ {
+  "name": "Perícia Aprimorada",
+  "page": 124,
+  "category": "pericia",
+  "prerequisites": "",
+  "cost": 0,
+  "honorMin": 0,
+  "deity": "",
+  "description": "<p>Escolha uma perícia em que seja treinado. Logo depois de fazer um teste dela, você pode rolar o teste de novo, mas fica obrigado a usar o segundo resultado, mesmo que seja pior.</p>",
+  "effects": []
+ },
+ {
+  "name": "Rastrear",
+  "page": 124,
+  "category": "pericia",
+  "prerequisites": "treinado em Sobrevivência",
+  "cost": 0,
+  "honorMin": 0,
+  "deity": "",
+  "description": "<p>Ganha +4 nos testes de Sobrevivência para rastrear, e seguir rastros não reduz seu deslocamento à metade.</p>",
+  "effects": []
+ },
+ {
+  "name": "Treino em Perícia",
+  "page": 124,
+  "category": "pericia",
+  "prerequisites": "",
+  "cost": 0,
+  "honorMin": 0,
+  "deity": "",
+  "description": "<p>Você se torna treinado em uma perícia à sua escolha na qual ainda não era treinado.</p><p><strong>Especial:</strong> treinar uma perícia que não é de sua classe é uma violação de honra leve; treinar Enganação ou Furtividade é violação moderada; treinar Ladinagem é violação severa.</p>",
+  "effects": []
+ },
+ {
+  "name": "Violência Velada",
+  "page": 124,
+  "category": "pericia",
+  "prerequisites": "For 15",
+  "cost": 0,
+  "honorMin": 0,
+  "deity": "",
+  "description": "<p>Em testes de Intimidação, você pode aplicar seu modificador de Força no lugar do de Carisma.</p>",
+  "effects": [
+   {
+    "key": "system.skills.intimidacao.ability",
+    "type": "override",
+    "value": "for"
+   }
+  ]
+ },
+ {
+  "name": "Ajuda dos Ancestrais",
+  "page": 124,
+  "category": "destino",
+  "prerequisites": "Sab 13, Hon 10",
+  "cost": 0,
+  "honorMin": 10,
+  "deity": "",
+  "description": "<p>Ao usar a Honra como reserva de força, você ganha mais uma opção: executar o jutsu <em>conselhos dos ancestrais</em> sem custo em PM. Aprimoramentos podem ser somados a ele, pagando o custo deles e dentro do seu limite de PM.</p>",
+  "effects": []
+ },
+ {
+  "name": "Animal Falante",
+  "page": 124,
+  "category": "destino",
+  "prerequisites": "henge",
+  "cost": 0,
+  "honorMin": 0,
+  "deity": "",
+  "description": "<p>Na forma animal, você continua capaz de falar e de executar jutsus.</p>",
+  "effects": []
+ },
+ {
+  "name": "Camuflagem",
+  "page": 124,
+  "category": "destino",
+  "prerequisites": "mashin, personagem 3º nível",
+  "cost": 0,
+  "honorMin": 0,
+  "deity": "",
+  "description": "<p>Você aprende o jutsu <em>invisibilidade ninja</em> e consegue executá-lo mesmo sem ter nenhum chacra aberto.</p>",
+  "effects": []
+ },
+ {
+  "name": "Comandar",
+  "page": 124,
+  "category": "destino",
+  "prerequisites": "Car 13",
+  "cost": 1,
+  "honorMin": 0,
+  "deity": "",
+  "description": "<p>Com uma ação de movimento e 1 PM, você dá ordens a seus nakama: todos que puderem ouvi-lo recebem +1 em jogadas de ataque e testes até o fim da cena.</p>",
+  "effects": []
+ },
+ {
+  "name": "Companheiro Animal",
+  "page": 124,
+  "category": "destino",
+  "prerequisites": "treinado em Adestrar Animais, Car 13",
+  "cost": 0,
+  "honorMin": 0,
+  "deity": "",
+  "description": "<p>Um animal treinado acompanha você e funciona como aliado iniciante (regras em “Aliados”, Capítulo 8: Recompensas); você define se ele será lutador, guardião, montaria ou perseguidor. Ele evolui como aliado à medida que você sobe de nível.</p><p>Se ele morrer, você fica atordoado por 1d4 rodadas, e só depois de 1d4 dias pode conquistar a amizade de outro animal.</p>",
+  "effects": []
+ },
+ {
+  "name": "Coração Gelado",
+  "page": 125,
+  "category": "destino",
+  "prerequisites": "hanyô",
+  "cost": 0,
+  "honorMin": 0,
+  "deity": "",
+  "description": "<p>Seu chacra das emoções (Carisma) fica fechado para sempre: nenhum talento, habilidade de classe ou efeito semelhante pode abri-lo. Em compensação, o traço racial <em>brincar com os sentimentos</em> passa a se aplicar a outra habilidade de sua escolha (exceto Honra).</p><p><strong>Especial:</strong> disponível apenas no 1º nível de personagem.</p>",
+  "effects": []
+ },
+ {
+  "name": "Corrida",
+  "page": 125,
+  "category": "destino",
+  "prerequisites": "",
+  "cost": 0,
+  "honorMin": 0,
+  "deity": "",
+  "description": "<p>Você recebe +3m de deslocamento.</p>",
+  "effects": [
+   {
+    "key": "system.attributes.movement.bonus",
+    "type": "add",
+    "value": 3
+   }
+  ]
+ },
+ {
+  "name": "Cura Elemental Adicional",
+  "page": 125,
+  "category": "destino",
+  "prerequisites": "mashin, personagem 5º nível",
+  "cost": 0,
+  "honorMin": 0,
+  "deity": "",
+  "description": "<p>Acrescente mais um descritor elemental ao seu traço racial <em>cura elemental</em>, escolhido entre ácido, eletricidade, fogo, frio e vento (sem repetir um já escolhido). O traço passa a valer para ele também (imunidade ao dano dessa energia e cura quando ela for mágica).</p><p><strong>Especial:</strong> pode ser escolhido mais vezes, uma para cada descritor. A cada escolha além da primeira, o nível de personagem exigido aumenta em +4.</p>",
+  "effects": []
+ },
+ {
+  "name": "Dignidade de Aço",
+  "page": 125,
+  "category": "destino",
+  "prerequisites": "ryuujin",
+  "cost": 0,
+  "honorMin": 0,
+  "deity": "",
+  "description": "<p>Sempre que cometer uma violação de honra leve, você pode, como reação, fazer um teste de Diplomacia contra CD 15; com sucesso, a violação não lhe causa dano de Honra.</p><p><strong>Especial:</strong> não vale para o dano de Honra sofrido durante a criação do personagem.</p>",
+  "effects": []
+ },
+ {
+  "name": "Fortitude Maior",
+  "page": 125,
+  "category": "destino",
+  "prerequisites": "",
+  "cost": 0,
+  "honorMin": 0,
+  "deity": "",
+  "description": "<p>Você recebe +2 nos testes de Fortitude.</p><p><strong>Especial:</strong> pode ser escolhido mais de uma vez; os bônus se somam.</p>",
+  "effects": [
+   {
+    "key": "system.saves.fort.bonus",
+    "type": "add",
+    "value": 2
+   }
+  ]
+ },
+ {
+  "name": "Gerador Arcano",
+  "page": 125,
+  "category": "destino",
+  "prerequisites": "mashin",
+  "cost": 0,
+  "honorMin": 0,
+  "deity": "",
+  "description": "<p>Uma vez por dia, com uma ação completa, você entra em transe e recupera 1 PM por nível de personagem. Em transe, você vê e ouve normalmente, mas não pode falar nem se mover. Qualquer distração exige um teste de Vontade (CD 20); em caso de falha, o transe é interrompido e os benefícios se perdem.</p>",
+  "effects": []
+ },
+ {
+  "name": "Leveza Celestial",
+  "page": 125,
+  "category": "destino",
+  "prerequisites": "ryuujin",
+  "cost": 0,
+  "honorMin": 0,
+  "deity": "",
+  "description": "<p>Ganha +4 nos testes de Atletismo para saltar. Quedas de qualquer altura não lhe causam dano, e você sempre aterrissa de pé.</p>",
+  "effects": []
+ },
+ {
+  "name": "Liderança",
+  "page": 126,
+  "category": "destino",
+  "prerequisites": "personagem 5º nível, Car 11",
+  "cost": 1,
+  "honorMin": 0,
+  "deity": "",
+  "description": "<p>Escolha uma das opções:</p><ul><li><strong>Parceiro:</strong> um aliado iniciante (ver Capítulo 8) cujo papel, raça, classe e personalidade você define. A categoria de Honra dele é a mesma que a sua (digníssimo, honrado, honesto, desonrado ou sórdido), e ele evolui como aliado conforme você sobe de nível. Ele segue você por motivos pessoais, cumpre ordens e se arrisca por você, mas pode ir embora se for maltratado ou se as categorias de Honra de vocês se afastarem mais de uma. Um parceiro perdido é substituído na aventura seguinte.</li><li><strong>Seguidores:</strong> pessoas sob sua autoridade (ajudantes, guardas, mensageiros, carregadores...) que normalmente não se aventuram com você. Gastando 1 PM, eles cumprem uma tarefa muito simples (CD igual ao seu nível de personagem); gastando 2 PM, uma tarefa mais difícil ou trabalhosa (CD 5 + seu nível de personagem). Trate isso como um sucesso garantido em um teste de perícia que você escolher, que ainda leva o tempo normal da perícia; o mestre descreve como acontece. Quem tem uma habilidade de classe semelhante (como as do ninja e do yakuza) soma +5 a essas CDs.</li></ul><p><strong>Especial:</strong> pode ser escolhido duas vezes, uma para cada opção.</p>",
+  "effects": []
+ },
+ {
+  "name": "Linguista",
+  "page": 126,
+  "category": "destino",
+  "prerequisites": "",
+  "cost": 0,
+  "honorMin": 0,
+  "deity": "",
+  "description": "<p>Você aprende novos idiomas, em quantidade igual a 3 mais o bônus de Inteligência (ao menos um idioma).</p><p><strong>Especial:</strong> pode ser escolhido mais de uma vez; os efeitos se somam.</p>",
+  "effects": []
+ },
+ {
+  "name": "Mudança Rápida",
+  "page": 126,
+  "category": "destino",
+  "prerequisites": "henge",
+  "cost": 0,
+  "honorMin": 0,
+  "deity": "",
+  "description": "<p>Mudar de forma exige de você apenas uma ação de movimento.</p><p><strong>Normal:</strong> a troca de forma leva uma ação completa.</p>",
+  "effects": []
+ },
+ {
+  "name": "Nekomimi",
+  "page": 127,
+  "category": "destino",
+  "prerequisites": "henge, Car 13",
+  "cost": 0,
+  "honorMin": 0,
+  "deity": "",
+  "description": "<p>Além das formas animal e híbrida, você ganha uma terceira forma, quase humana: usa as estatísticas da forma híbrida, mas mostra só traços animais cosméticos, como orelhas grandes e cauda (sem pelagem, por isso precisa de roupas).</p><p>Nessa forma, você não sofre a penalidade por raça diferente ao se disfarçar com Enganação, e ganha +4 nos testes de Diplomacia e Enganação contra quem possa se sentir fisicamente atraído por você.</p><p><strong>Especial:</strong> hanyô podem adquirir este talento mesmo sem os pré-requisitos, mas nesse caso ganham só os bônus de Diplomacia e Enganação.</p>",
+  "effects": []
+ },
+ {
+  "name": "Reconfiguração",
+  "page": 127,
+  "category": "destino",
+  "prerequisites": "mashin",
+  "cost": 1,
+  "honorMin": 0,
+  "deity": "",
+  "description": "<p>Com uma ação completa, você troca um de seus talentos por outro do mesmo grupo, desde que cumpra os pré-requisitos do novo. Este talento e os talentos bônus não podem ser trocados.</p><p><strong>Custo:</strong> 1 PM no primeiro uso do dia, com +1 PM a cada uso adicional no mesmo dia (2 PM no segundo, 3 PM no terceiro e assim por diante).</p>",
+  "effects": []
+ },
+ {
+  "name": "Reflexos Rápidos",
+  "page": 127,
+  "category": "destino",
+  "prerequisites": "",
+  "cost": 0,
+  "honorMin": 0,
+  "deity": "",
+  "description": "<p>Você recebe +2 nos testes de Reflexos.</p><p><strong>Especial:</strong> pode ser escolhido mais de uma vez; os bônus se somam.</p>",
+  "effects": [
+   {
+    "key": "system.saves.ref.bonus",
+    "type": "add",
+    "value": 2
+   }
+  ]
+ },
+ {
+  "name": "Terreno Familiar",
+  "page": 127,
+  "category": "destino",
+  "prerequisites": "",
+  "cost": 0,
+  "honorMin": 0,
+  "deity": "",
+  "description": "<p>Escolha um tipo de terreno (planície, floresta, montanha, pântano, glacial, aquático ou subterrâneo). Dentro dele, você ganha +2 na CA e nos testes de perícia.</p><p><strong>Especial:</strong> se o mestre permitir, você pode escolher um local específico, como um vale, uma cidade, uma estrada ou um navio; regiões enormes (Grande Estepe, Mar dos Monstros, Trono de Sugora, Ferida Profunda) não são permitidas.</p>",
+  "effects": []
+ },
+ {
+  "name": "Tolerância",
+  "page": 127,
+  "category": "destino",
+  "prerequisites": "",
+  "cost": 0,
+  "honorMin": 0,
+  "deity": "",
+  "description": "<p>Ganha +4 nos testes para manter uma corrida, segurar o fôlego e resistir a dano por fome, sede, calor ou frio. Dormir vestindo armadura não deixa você fatigado.</p><p><strong>Normal:</strong> sem este talento, quem dorme de armadura amanhece fatigado.</p>",
+  "effects": []
+ },
+ {
+  "name": "Ver a Vergonha",
+  "page": 127,
+  "category": "destino",
+  "prerequisites": "ryuujin, Hon 16, personagem 3º nível",
+  "cost": 3,
+  "honorMin": 16,
+  "deity": "",
+  "description": "<p>Com uma ação padrão e 3 PM, até o fim da cena alvos desonrados (Honra 9 ou menos) não recebem contra você os benefícios de Furtividade, camuflagem ou invisibilidade.</p>",
+  "effects": []
+ },
+ {
+  "name": "Visão Térmica",
+  "page": 127,
+  "category": "destino",
+  "prerequisites": "visão no escuro",
+  "cost": 0,
+  "honorMin": 0,
+  "deity": "",
+  "description": "<p>No escuro, você percebe temperaturas extremas em cores (laranja brilhante para o calor, azul para o frio); o que está em temperatura ambiente aparece em preto e branco, como na visão no escuro comum.</p><p>Assim, criaturas vivas invisíveis ficam visíveis para você, e você ganha +8 em Percepção para observar criaturas vivas no escuro. Shiryou, construtos, criaturas incorpóreas, criaturas de sangue frio (como henge carpa e kappa) e outras definidas pelo mestre não são percebidas dessa forma.</p>",
+  "effects": []
+ },
+ {
+  "name": "Vontade de Ferro",
+  "page": 127,
+  "category": "destino",
+  "prerequisites": "",
+  "cost": 0,
+  "honorMin": 0,
+  "deity": "",
+  "description": "<p>Você recebe +2 nos testes de Vontade.</p><p><strong>Especial:</strong> pode ser escolhido mais de uma vez; os bônus se somam.</p>",
+  "effects": [
+   {
+    "key": "system.saves.von.bonus",
+    "type": "add",
+    "value": 2
+   }
+  ]
+ },
+ {
+  "name": "Abrir Chacra",
+  "page": 128,
+  "category": "jutsu",
+  "prerequisites": "personagem 3º nível, habilidade escolhida 11",
+  "cost": 0,
+  "honorMin": 0,
+  "deity": "",
+  "description": "<p>Escolha uma habilidade básica (exceto Honra) e abra o chacra correspondente: some o bônus dessa habilidade aos seus PM totais e ao seu limite de PM, e passe a poder aprender e executar jutsus básicos desse chacra. Você também aprende um jutsu básico dessa habilidade.</p>",
+  "effects": []
+ },
+ {
+  "name": "Chacra Mediano",
+  "page": 128,
+  "category": "jutsu",
+  "prerequisites": "personagem 7º nível, habilidade do chacra escolhido 13",
+  "cost": 0,
+  "honorMin": 0,
+  "deity": "",
+  "description": "<p>Escolha um chacra que você já tenha aberto. Você passa a poder aprender e executar jutsus medianos desse chacra e aprende um jutsu mediano dele.</p>",
+  "effects": []
+ },
+ {
+  "name": "Chacra Avançado",
+  "page": 128,
+  "category": "jutsu",
+  "prerequisites": "personagem 11º nível, habilidade do chacra escolhido 16",
+  "cost": 0,
+  "honorMin": 0,
+  "deity": "",
+  "description": "<p>Escolha um chacra que você já tenha aberto em grau mediano. Você passa a poder aprender e executar jutsus avançados desse chacra e aprende um jutsu avançado dele.</p>",
+  "effects": []
+ },
+ {
+  "name": "Chacra Sublime",
+  "page": 128,
+  "category": "jutsu",
+  "prerequisites": "personagem 15º nível, habilidade do chacra escolhido 19",
+  "cost": 0,
+  "honorMin": 0,
+  "deity": "",
+  "description": "<p>Escolha um chacra que você já tenha aberto em grau avançado. Você passa a poder aprender e executar jutsus sublimes desse chacra e aprende um jutsu sublime dele.</p>",
+  "effects": []
+ },
+ {
+  "name": "Chacra Lendário",
+  "page": 128,
+  "category": "jutsu",
+  "prerequisites": "personagem 19º nível, habilidade do chacra escolhido 22",
+  "cost": 0,
+  "honorMin": 0,
+  "deity": "",
+  "description": "<p>Escolha um chacra que você já tenha aberto em grau sublime. Você passa a poder aprender e executar jutsus lendários desse chacra e aprende um jutsu lendário dele.</p>",
+  "effects": []
+ },
+ {
+  "name": "Concentração Mística",
+  "page": 128,
+  "category": "jutsu",
+  "prerequisites": "hanyô ou vanara",
+  "cost": 0,
+  "honorMin": 0,
+  "deity": "",
+  "description": "<p>Ganha +4 nos testes de Vontade feitos para executar jutsus em condições difíceis, e executar jutsus de ação completa ou mais não deixa você desprevenido.</p><p><strong>Normal:</strong> o conjurador fica desprevenido enquanto executa um jutsu de ação completa ou mais.</p>",
+  "effects": []
+ },
+ {
+  "name": "Conhecimento de Jutsus",
+  "page": 128,
+  "category": "jutsu",
+  "prerequisites": "",
+  "cost": 0,
+  "honorMin": 0,
+  "deity": "",
+  "description": "<p>Você aprende dois jutsus de quaisquer chacras e graus que já possa executar (por exemplo, quem tem Abrir Chacra no chacra dos braços aprende dois jutsus básicos de Força).</p><p><strong>Especial:</strong> pode ser escolhido mais de uma vez; a cada escolha, você aprende mais dois jutsus.</p>",
+  "effects": []
+ },
+ {
+  "name": "Devoto da Família Celestial",
+  "page": 128,
+  "category": "jutsu",
+  "prerequisites": "Sab 11",
+  "cost": 0,
+  "honorMin": 0,
+  "deity": "",
+  "description": "<p>Você se devota aos dezenove deuses irmãos de Lin-Wu. Seu chacra do espírito se abre: some seu bônus de Sabedoria aos PM totais e ao limite de PM, e os jutsus básicos de Sabedoria ficam disponíveis para você aprender. Os talentos de poder concedido da Família Celestial também passam a estar ao seu alcance (ver “Poderes Concedidos”); ninguém pode ter poderes concedidos de religiões diferentes.</p>",
+  "effects": [
+   {
+    "key": "system.chakras.sab.open",
+    "type": "override",
+    "value": true
+   }
+  ]
+ },
+ {
+  "name": "Devoto de Lin-Wu",
+  "page": 128,
+  "category": "jutsu",
+  "prerequisites": "Sab 11, Hon 11",
+  "cost": 0,
+  "honorMin": 11,
+  "deity": "",
+  "description": "<p>Você se devota a Lin-Wu, o Deus Dragão. Seu chacra do espírito se abre: some seu bônus de Sabedoria aos PM totais e ao limite de PM, e os jutsus básicos de Sabedoria ficam disponíveis para você aprender. Os talentos de poder concedido de Lin-Wu também passam a estar ao seu alcance (ver “Poderes Concedidos”); ninguém pode ter poderes concedidos de religiões diferentes.</p><p><strong>Especial:</strong> jutsus com “Lin-Wu” no nome podem ser aprendidos por você sem o chacra correspondente, contanto que você já execute jutsus daquele grau; aprendê-los não viola a honra.</p>",
+  "effects": [
+   {
+    "key": "system.chakras.sab.open",
+    "type": "override",
+    "value": true
+   }
+  ]
+ },
+ {
+  "name": "Devoto do Bushintau",
+  "page": 129,
+  "category": "jutsu",
+  "prerequisites": "Sab 11",
+  "cost": 0,
+  "honorMin": 0,
+  "deity": "",
+  "description": "<p>Você se devota aos incontáveis espíritos do universo. Seu chacra do espírito se abre: some seu bônus de Sabedoria aos PM totais e ao limite de PM, e os jutsus básicos de Sabedoria ficam disponíveis para você aprender. Os talentos de poder concedido do Bushintau também passam a estar ao seu alcance (ver “Poderes Concedidos”); ninguém pode ter poderes concedidos de religiões diferentes.</p>",
+  "effects": [
+   {
+    "key": "system.chakras.sab.open",
+    "type": "override",
+    "value": true
+   }
+  ]
+ },
+ {
+  "name": "Dominar Jutsu",
+  "page": 129,
+  "category": "jutsu",
+  "prerequisites": "",
+  "cost": 0,
+  "honorMin": 0,
+  "deity": "",
+  "description": "<p>O jutsu escolhido passa a custar o PM de um grau abaixo (um lendário custa 10 PM, por exemplo). Se for básico, o custo cai para 0 PM, mas ele sempre precisa de aprimoramentos que deixem o custo final em no mínimo 1 PM.</p>",
+  "effects": []
+ },
+ {
+  "name": "Jutsu Acelerado",
+  "page": 129,
+  "category": "aprimoramento",
+  "prerequisites": "",
+  "cost": 3,
+  "honorMin": 0,
+  "deity": "",
+  "description": "<p>O jutsu fica um passo mais rápido de executar: de ação completa para padrão, de padrão para movimento, de movimento para livre. Outros tempos de execução não mudam.</p><p><strong>Custo:</strong> +3 PM por um passo; +6 PM por dois passos (só jutsus de ação padrão ou completa); +9 PM por três passos (só jutsus de ação completa). Como em todo aprimoramento, o custo extra não altera o grau do jutsu, e o talento não afeta jutsus executados a partir de ofuda.</p>",
+  "effects": []
+ },
+ {
+  "name": "Jutsu Ampliado",
+  "page": 129,
+  "category": "aprimoramento",
+  "prerequisites": "",
+  "cost": 6,
+  "honorMin": 0,
+  "deity": "",
+  "description": "<p>Dobra (+100%) a área ou o efeito de área do jutsu; não tem efeito em jutsus sem área.</p><p><strong>Custo:</strong> +6 PM, cumulativo: pode ser aplicado várias vezes ao mesmo jutsu, e cada aplicação soma mais +100% da área original (uma <em>explosão de fogo</em>, de 6m de raio, ampliada com +12 PM chega a 18m). Como em todo aprimoramento, o custo extra não altera o grau do jutsu, e o talento não afeta jutsus executados a partir de ofuda.</p>",
+  "effects": []
+ },
+ {
+  "name": "Jutsu Compartilhado",
+  "page": 129,
+  "category": "aprimoramento",
+  "prerequisites": "",
+  "cost": 2,
+  "honorMin": 0,
+  "deity": "",
+  "description": "<p>Transforma um jutsu pessoal (alvo: você) em um jutsu de toque, com alcance corpo-a-corpo e alvo 1 criatura. Contra uma criatura que não aceite o efeito, é preciso acertar um ataque de toque.</p><p><strong>Custo:</strong> +2 PM, aplicável uma vez por jutsu. Como em todo aprimoramento, o custo extra não altera o grau do jutsu, e o talento não afeta jutsus executados a partir de ofuda.</p>",
+  "effects": []
+ },
+ {
+  "name": "Jutsu Distante",
+  "page": 129,
+  "category": "aprimoramento",
+  "prerequisites": "",
+  "cost": 2,
+  "honorMin": 0,
+  "deity": "",
+  "description": "<p>Dobra (+100%) o alcance do jutsu. Só vale para jutsus de alcance curto ou longo.</p><p><strong>Custo:</strong> +2 PM, cumulativo: pode ser aplicado várias vezes ao mesmo jutsu, e cada aplicação soma mais +100% do alcance original (alcance curto com +2 PM chega a 18m; alcance longo com +6 PM chega a 120m). Como em todo aprimoramento, o custo extra não altera o grau do jutsu, e o talento não afeta jutsus executados a partir de ofuda.</p>",
+  "effects": []
+ },
+ {
+  "name": "Jutsu Estendido",
+  "page": 130,
+  "category": "aprimoramento",
+  "prerequisites": "",
+  "cost": 2,
+  "honorMin": 0,
+  "deity": "",
+  "description": "<p>Dobra (+100%) a duração do jutsu e/ou de seus efeitos, quando medida em rodadas. Não tem efeito em jutsus sem duração ou efeitos medidos em rodadas.</p><p><strong>Custo:</strong> +2 PM, cumulativo: pode ser aplicado várias vezes ao mesmo jutsu, e cada aplicação soma mais +100% da duração original (um <em>kiai atordoante</em> com +2 PM atordoa por 2 rodadas; uma <em>face horripilante</em> com +6 PM dura 4d4 rodadas). Como em todo aprimoramento, o custo extra não altera o grau do jutsu, e o talento não afeta jutsus executados a partir de ofuda.</p>",
+  "effects": []
+ },
+ {
+  "name": "Jutsu Irresistível",
+  "page": 130,
+  "category": "aprimoramento",
+  "prerequisites": "",
+  "cost": 2,
+  "honorMin": 0,
+  "deity": "",
+  "description": "<p>A CD do teste de resistência do jutsu sobe +1, assim como as CDs de outros efeitos dele (por exemplo, <em>camada de gelo</em>).</p><p><strong>Custo:</strong> +2 PM por aplicação, cumulativo: pode ser aplicado várias vezes ao mesmo jutsu, somando +1 na CD a cada vez. Como em todo aprimoramento, o custo extra não altera o grau do jutsu, e o talento não afeta jutsus executados a partir de ofuda.</p>",
+  "effects": []
+ },
+ {
+  "name": "Jutsu Longínquo",
+  "page": 130,
+  "category": "aprimoramento",
+  "prerequisites": "",
+  "cost": 1,
+  "honorMin": 0,
+  "deity": "",
+  "description": "<p>Um jutsu de toque (alcance corpo-a-corpo, alvo 1 criatura) passa a ser disparado como raio, com alcance curto. Alvos voluntários recebem o efeito normalmente; contra quem recusar, é preciso um ataque de toque à distância bem-sucedido.</p><p><strong>Custo:</strong> +1 PM, aplicável uma vez por jutsu. Como em todo aprimoramento, o custo extra não altera o grau do jutsu, e o talento não afeta jutsus executados a partir de ofuda.</p>",
+  "effects": []
+ },
+ {
+  "name": "Jutsu Maximizado",
+  "page": 130,
+  "category": "aprimoramento",
+  "prerequisites": "",
+  "cost": 6,
+  "honorMin": 0,
+  "deity": "",
+  "description": "<p>Todo dano ou cura variável do jutsu fica no valor máximo, sem rolar dados (uma <em>lâmina de vento</em> causa 10 pontos de dano; um <em>toque curativo</em> cura 16 PV). Jutsus sem dano ou cura variáveis não são afetados.</p><p><strong>Custo:</strong> +6 PM, aplicável uma vez por jutsu. Como em todo aprimoramento, o custo extra não altera o grau do jutsu, e o talento não afeta jutsus executados a partir de ofuda.</p>",
+  "effects": []
+ },
+ {
+  "name": "Jutsu sem Mantras",
+  "page": 130,
+  "category": "aprimoramento",
+  "prerequisites": "",
+  "cost": 1,
+  "honorMin": 0,
+  "deity": "",
+  "description": "<p>Você executa o jutsu sem entoar mantras, podendo fazê-lo mesmo amordaçado ou silenciado por magia.</p><p><strong>Custo:</strong> +1 PM, aplicável uma vez por jutsu. Como em todo aprimoramento, o custo extra não altera o grau do jutsu, e o talento não afeta jutsus executados a partir de ofuda.</p>",
+  "effects": []
+ },
+ {
+  "name": "Jutsu sem Selos",
+  "page": 130,
+  "category": "aprimoramento",
+  "prerequisites": "",
+  "cost": 1,
+  "honorMin": 0,
+  "deity": "",
+  "description": "<p>Você executa o jutsu sem fazer selos com as mãos ou com armas, o que permite usá-lo mesmo paralisado ou de mãos atadas.</p><p><strong>Custo:</strong> +1 PM, aplicável uma vez por jutsu. Como em todo aprimoramento, o custo extra não altera o grau do jutsu, e o talento não afeta jutsus executados a partir de ofuda.</p>",
+  "effects": []
+ },
+ {
+  "name": "Poder Mágico",
+  "page": 130,
+  "category": "jutsu",
+  "prerequisites": "personagem 2º nível",
+  "cost": 0,
+  "honorMin": 0,
+  "deity": "",
+  "description": "<p>Você recebe 1 PM adicional para cada 2 níveis de personagem, e o bônus acompanha sua subida de nível (escolhido no 4º nível, dá 2 PM; ao chegar ao 6º nível, mais 1 PM, e assim por diante).</p><p><strong>Especial:</strong> pode ser escolhido mais de uma vez; os efeitos se somam.</p>",
+  "effects": []
+ },
+ {
+  "name": "Wu-Jen de Batalha",
+  "page": 130,
+  "category": "jutsu",
+  "prerequisites": "Int 13, wu-jen 4º nível",
+  "cost": 0,
+  "honorMin": 0,
+  "deity": "",
+  "description": "<p>Seus jutsus causam dano adicional igual ao seu modificador de Inteligência.</p><p><strong>Especial:</strong> se o jutsu causa dano rodada após rodada (por exemplo, <em>tentáculos sombrios da dor</em>), o adicional só entra na rodada da execução. Se ele causa dano por mais de uma fonte (por exemplo, <em>explosão radiante</em>), reparta o bônus em partes iguais entre elas ou concentre-o todo em uma só, como preferir.</p>",
+  "effects": []
+ },
+ {
+  "name": "Armadura Honrada",
+  "page": 131,
+  "category": "poder",
+  "prerequisites": "Devoto de Lin-Wu, Hon 16",
+  "cost": 1,
+  "honorMin": 16,
+  "deity": "Lin-Wu",
+  "description": "<p>Gastando uma ação livre e 1 PM, você adiciona seu bônus de Honra à CA por uma rodada.</p>",
+  "effects": []
+ },
+ {
+  "name": "Ataque Honrado",
+  "page": 131,
+  "category": "poder",
+  "prerequisites": "Devoto de Lin-Wu, Hon 16",
+  "cost": 1,
+  "honorMin": 16,
+  "deity": "Lin-Wu",
+  "description": "<p>Gastando uma ação livre e 1 PM, você adiciona seu bônus de Honra às jogadas de ataque por uma rodada.</p>",
+  "effects": []
+ },
+ {
+  "name": "Coragem Total",
+  "page": 131,
+  "category": "poder",
+  "prerequisites": "Devoto de Lin-Wu, Hon 16",
+  "cost": 0,
+  "honorMin": 16,
+  "deity": "Lin-Wu",
+  "description": "<p>Você tem imunidade a medo.</p>",
+  "effects": []
+ },
+ {
+  "name": "Dano Honrado",
+  "page": 131,
+  "category": "poder",
+  "prerequisites": "Devoto de Lin-Wu, Hon 16",
+  "cost": 1,
+  "honorMin": 16,
+  "deity": "Lin-Wu",
+  "description": "<p>Gastando uma ação livre e 1 PM, você adiciona seu bônus de Honra às rolagens de dano por uma rodada.</p>",
+  "effects": []
+ },
+ {
+  "name": "Detectar Desonra",
+  "page": 131,
+  "category": "poder",
+  "prerequisites": "Devoto de Lin-Wu, Hon 16",
+  "cost": 0,
+  "honorMin": 16,
+  "deity": "Lin-Wu",
+  "description": "<p>Com uma ação padrão, você sente a presença de seres pouco honrados nas proximidades, mesmo que não estejam agindo de forma desonrada no momento. Mantendo a concentração (uma ação padrão por rodada), descobre mais:</p><ul><li><strong>1 rodada:</strong> sabe se existe algum ser desonrado (Honra 9 ou menos) na área.</li><li><strong>2 rodadas:</strong> sabe quantos são.</li><li><strong>3 rodadas:</strong> sabe onde está cada um (inclusive escondidos ou invisíveis) e seu grau de desonra (desonrado, sórdido ou desumano).</li></ul><p>Criaturas de Honra nula (como animais de Int 1 ou 2) não são detectadas. O efeito é uma emanação de 9m em todas as direções e precisa de linha de efeito até o alvo (ver “Efeito” no Capítulo 4: Jutsus).</p>",
+  "effects": []
+ },
+ {
+  "name": "Detectar Mentiras",
+  "page": 131,
+  "category": "poder",
+  "prerequisites": "Devoto de Lin-Wu, Hon 16",
+  "cost": 0,
+  "honorMin": 16,
+  "deity": "Lin-Wu",
+  "description": "<p>Seus testes de Intuição recebem o dobro do seu bônus de Honra.</p>",
+  "effects": []
+ },
+ {
+  "name": "Determinação Honrada",
+  "page": 131,
+  "category": "poder",
+  "prerequisites": "Devoto de Lin-Wu, Hon 16",
+  "cost": 1,
+  "honorMin": 16,
+  "deity": "Lin-Wu",
+  "description": "<p>Ao cair para 0 PV ou menos, você pode permanecer consciente e agir normalmente, pagando 1 PM por rodada. Os testes de Constituição contra sangramento continuam necessários, e você morre se os PV negativos atingirem metade dos seus PV totais.</p>",
+  "effects": []
+ },
+ {
+  "name": "Honra Precavida",
+  "page": 131,
+  "category": "poder",
+  "prerequisites": "Devoto de Lin-Wu, Hon 16",
+  "cost": 0,
+  "honorMin": 16,
+  "deity": "Lin-Wu",
+  "description": "<p>Você sempre sabe, antes de agir, se uma ação poderia resultar em violação de honra, inclusive por acidente: o aviso chega por intuição, por visões dos ancestrais ou pelo próprio Lin-Wu.</p>",
+  "effects": []
+ },
+ {
+  "name": "Jutsu Honrado",
+  "page": 132,
+  "category": "poder",
+  "prerequisites": "Devoto de Lin-Wu, Hon 16",
+  "cost": 2,
+  "honorMin": 16,
+  "deity": "Lin-Wu",
+  "description": "<p>Talento de aprimoramento: a CD para resistir ao jutsu modificado recebe um bônus igual ao seu bônus de Honra, o que vale também para as CDs de outros efeitos dele (por exemplo, <em>camada de gelo</em>).</p><p><strong>Custo:</strong> +2 PM, aplicável uma vez por jutsu. Segue as regras dos talentos de aprimoramento: o custo extra não altera o grau do jutsu, e o talento não afeta jutsus executados a partir de ofuda.</p>",
+  "effects": []
+ },
+ {
+  "name": "Lâmina de Lin-Wu",
+  "page": 132,
+  "category": "poder",
+  "prerequisites": "Devoto de Lin-Wu",
+  "cost": 0,
+  "honorMin": 0,
+  "deity": "Lin-Wu",
+  "description": "<p>Para você, a katana é uma arma simples e leve.</p><p><strong>Normal:</strong> empunhada com as duas mãos, a katana é arma marcial; com uma só, é arma exótica.</p>",
+  "effects": []
+ },
+ {
+  "name": "Recuperação Honrada",
+  "page": 132,
+  "category": "poder",
+  "prerequisites": "Devoto de Lin-Wu, Hon 13",
+  "cost": 3,
+  "honorMin": 13,
+  "deity": "Lin-Wu",
+  "description": "<p>Com uma ação de movimento e 3 PM, você recupera PV em quantidade igual ao seu valor de Honra.</p>",
+  "effects": []
+ },
+ {
+  "name": "Resistência Honrada",
+  "page": 132,
+  "category": "poder",
+  "prerequisites": "Devoto de Lin-Wu, Hon 13",
+  "cost": 1,
+  "honorMin": 13,
+  "deity": "Lin-Wu",
+  "description": "<p>Como reação, gastando 1 PM, você soma o bônus de Honra ao resultado de um teste de resistência.</p>",
+  "effects": []
+ },
+ {
+  "name": "Respeito de Lin-Wu",
+  "page": 132,
+  "category": "poder",
+  "prerequisites": "Devoto de Lin-Wu, Hon 16",
+  "cost": 0,
+  "honorMin": 16,
+  "deity": "Lin-Wu",
+  "description": "<p>Seu bônus de Honra é somado aos testes de Diplomacia contra criaturas com Honra 10 ou mais e aos testes de Intimidação contra criaturas com Honra 9 ou menos.</p>",
+  "effects": []
+ },
+ {
+  "name": "Terror de Lin-Wu",
+  "page": 132,
+  "category": "poder",
+  "prerequisites": "Devoto de Lin-Wu, Respeito de Lin-Wu, Hon 16",
+  "cost": 1,
+  "honorMin": 16,
+  "deity": "Lin-Wu",
+  "description": "<p>Com uma ação de movimento e 1 PM, cada criatura a até 9m com Honra 9 ou menos deve passar num teste de Vontade (CD 15 + bônus de Honra); quem falhar fica abalado por 1 rodada.</p>",
+  "effects": []
+ },
+ {
+  "name": "Bênção de Dai’Gun",
+  "page": 132,
+  "category": "poder",
+  "prerequisites": "Devoto da Família Celestial, For 13",
+  "cost": 0,
+  "honorMin": 0,
+  "deity": "Família Celestial",
+  "description": "<p>Para você, todas as armas marciais contam como simples, e todas as armas exóticas contam como marciais.</p><p>Você também pode aprender qualquer jutsu com “Dai’Gun” no nome, desde que já execute jutsus do mesmo grau, independentemente dos chacras abertos.</p>",
+  "effects": []
+ },
+ {
+  "name": "Bênção de Doragami",
+  "page": 133,
+  "category": "poder",
+  "prerequisites": "Devoto da Família Celestial, Int 13",
+  "cost": 0,
+  "honorMin": 0,
+  "deity": "Família Celestial",
+  "description": "<p>A CD para resistir aos seus jutsus de Inteligência aumenta em +2.</p><p>Você também pode aprender qualquer jutsu com “Doragami” no nome, desde que já execute jutsus do mesmo grau, independentemente dos chacras abertos.</p>",
+  "effects": []
+ },
+ {
+  "name": "Bênção de Fuyuan",
+  "page": 133,
+  "category": "poder",
+  "prerequisites": "Devoto da Família Celestial, Sab 13",
+  "cost": 0,
+  "honorMin": 0,
+  "deity": "Família Celestial",
+  "description": "<p>Seu bônus de Sabedoria é somado aos PV curados por seus jutsus.</p><p>Você também pode aprender qualquer jutsu com “Fuyuan” no nome, desde que já execute jutsus do mesmo grau, independentemente dos chacras abertos.</p>",
+  "effects": []
+ },
+ {
+  "name": "Bênção de Hikari",
+  "page": 133,
+  "category": "poder",
+  "prerequisites": "Devoto da Família Celestial, Hon 13",
+  "cost": 0,
+  "honorMin": 13,
+  "deity": "Família Celestial",
+  "description": "<p>Quando você usa a Honra como reserva de força (ver “Benefícios da Honra”), seu valor de Honra conta como 4 pontos maior.</p><p>Você também pode aprender qualquer jutsu com “Hikari” no nome, desde que já execute jutsus do mesmo grau, independentemente dos chacras abertos.</p>",
+  "effects": []
+ },
+ {
+  "name": "Bênção de Hinotori",
+  "page": 133,
+  "category": "poder",
+  "prerequisites": "Devoto da Família Celestial",
+  "cost": 0,
+  "honorMin": 0,
+  "deity": "Família Celestial",
+  "description": "<p>A CD para resistir aos seus jutsus de fogo aumenta em +2. Além disso, jutsus de fogo que você seja capaz de executar podem ser aprendidos, independentemente dos chacras que tenha abertos.</p><p>Você também pode aprender qualquer jutsu com “Hinotori” no nome, desde que já execute jutsus do mesmo grau, independentemente dos chacras abertos.</p>",
+  "effects": []
+ },
+ {
+  "name": "Bênção de Hyaku-nen",
+  "page": 133,
+  "category": "poder",
+  "prerequisites": "Devoto da Família Celestial, Hon 13",
+  "cost": 0,
+  "honorMin": 13,
+  "deity": "Família Celestial",
+  "description": "<p>Se uma criatura de Honra menor que a sua matar você, você pode optar por ressuscitar após 1d4 dias; cada ressurreição desse tipo causa 1d4 pontos de dano de Honra.</p><p>Você também pode aprender qualquer jutsu com “Hyaku-nen” no nome, desde que já execute jutsus do mesmo grau, independentemente dos chacras abertos.</p>",
+  "effects": []
+ },
+ {
+  "name": "Bênção de Kazuko",
+  "page": 133,
+  "category": "poder",
+  "prerequisites": "Devoto da Família Celestial, Car 13",
+  "cost": 0,
+  "honorMin": 0,
+  "deity": "Família Celestial",
+  "description": "<p>Quem atacar você enquanto você não representa perigo nem ameaça comete uma violação de honra severa.</p><p>Você também pode aprender qualquer jutsu com “Kazuko” no nome, desde que já execute jutsus do mesmo grau, independentemente dos chacras abertos.</p>",
+  "effects": []
+ },
+ {
+  "name": "Bênção de Leen",
+  "page": 133,
+  "category": "poder",
+  "prerequisites": "Devoto da Família Celestial",
+  "cost": 0,
+  "honorMin": 0,
+  "deity": "Família Celestial",
+  "description": "<p>A CD para resistir aos seus jutsus de trevas aumenta em +2. Além disso, jutsus de trevas que você seja capaz de executar podem ser aprendidos, independentemente dos chacras que tenha abertos.</p><p>Você também pode aprender qualquer jutsu com “Leen” no nome, desde que já execute jutsus do mesmo grau, independentemente dos chacras abertos.</p>",
+  "effects": []
+ },
+ {
+  "name": "Bênção de Liu’Yan",
+  "page": 133,
+  "category": "poder",
+  "prerequisites": "Devoto da Família Celestial, Des 13",
+  "cost": 0,
+  "honorMin": 0,
+  "deity": "Família Celestial",
+  "description": "<p>Violações de honra por usar perícias desonradas, ou por se tornar treinado nelas, causam a você 1 ponto a menos de dano de Honra (mínimo 0).</p><p>Você também pode aprender qualquer jutsu com “Liu’Yan” no nome, desde que já execute jutsus do mesmo grau, independentemente dos chacras abertos.</p><p><strong>Especial:</strong> não se acumula com outros talentos que diminuem violações ou dano de Honra.</p>",
+  "effects": []
+ },
+ {
+  "name": "Bênção de Mizuha",
+  "page": 133,
+  "category": "poder",
+  "prerequisites": "Devoto da Família Celestial, Car 13",
+  "cost": 0,
+  "honorMin": 0,
+  "deity": "Família Celestial",
+  "description": "<p>A CD para resistir aos seus jutsus de Carisma aumenta em +2.</p><p>Você também pode aprender qualquer jutsu com “Mizuha” no nome, desde que já execute jutsus do mesmo grau, independentemente dos chacras abertos.</p>",
+  "effects": []
+ },
+ {
+  "name": "Bênção de Nozomi",
+  "page": 133,
+  "category": "poder",
+  "prerequisites": "Devoto da Família Celestial, Con 13",
+  "cost": 0,
+  "honorMin": 0,
+  "deity": "Família Celestial",
+  "description": "<p>Você recebe +3m de deslocamento.</p><p>Você também pode aprender qualquer jutsu com “Nozomi” no nome, desde que já execute jutsus do mesmo grau, independentemente dos chacras abertos.</p>",
+  "effects": [
+   {
+    "key": "system.attributes.movement.bonus",
+    "type": "add",
+    "value": 3
+   }
+  ]
+ },
+ {
+  "name": "Bênção de Okoreeji",
+  "page": 133,
+  "category": "poder",
+  "prerequisites": "Devoto da Família Celestial",
+  "cost": 1,
+  "honorMin": 0,
+  "deity": "Família Celestial",
+  "description": "<p>Como reação, gastando 1 PM, você reduz em 1 ponto o dano de Honra de uma violação (mínimo 1).</p><p>Você também pode aprender qualquer jutsu com “Okoreeji” no nome, desde que já execute jutsus do mesmo grau, independentemente dos chacras abertos.</p><p><strong>Especial:</strong> não se acumula com outros talentos que diminuem violações ou dano de Honra.</p>",
+  "effects": []
+ },
+ {
+  "name": "Bênção de Shunka’Shuuto",
+  "page": 133,
+  "category": "poder",
+  "prerequisites": "Devoto da Família Celestial, Sab 13",
+  "cost": 0,
+  "honorMin": 0,
+  "deity": "Família Celestial",
+  "description": "<p>A CD para resistir aos seus jutsus de Sabedoria aumenta em +2.</p><p>Você também pode aprender qualquer jutsu com “Shunka’Shuuto” no nome, desde que já execute jutsus do mesmo grau, independentemente dos chacras abertos.</p>",
+  "effects": []
+ },
+ {
+  "name": "Bênção de Sugora",
+  "page": 133,
+  "category": "poder",
+  "prerequisites": "Devoto da Família Celestial, Con 13",
+  "cost": 0,
+  "honorMin": 0,
+  "deity": "Família Celestial",
+  "description": "<p>Para você, todas as armaduras médias contam como leves, e todas as armaduras pesadas contam como médias.</p><p>Você também pode aprender qualquer jutsu com “Sugora” no nome, desde que já execute jutsus do mesmo grau, independentemente dos chacras abertos.</p>",
+  "effects": []
+ },
+ {
+  "name": "Bênção de Tai’Yang",
+  "page": 134,
+  "category": "poder",
+  "prerequisites": "Devoto da Família Celestial",
+  "cost": 0,
+  "honorMin": 0,
+  "deity": "Família Celestial",
+  "description": "<p>Seus testes de resistência contra jutsus e poderes de youkai recebem +4.</p><p>Você também pode aprender qualquer jutsu com “Tai’Yang” no nome, desde que já execute jutsus do mesmo grau, independentemente dos chacras abertos.</p>",
+  "effects": []
+ },
+ {
+  "name": "Bênção de Tanadora",
+  "page": 134,
+  "category": "poder",
+  "prerequisites": "Devoto da Família Celestial, Int 13",
+  "cost": 0,
+  "honorMin": 0,
+  "deity": "Família Celestial",
+  "description": "<p>Você compreende qualquer idioma usado por seres inteligentes (Int 3 ou mais).</p><p>Você também pode aprender qualquer jutsu com “Tanadora” no nome, desde que já execute jutsus do mesmo grau, independentemente dos chacras abertos.</p>",
+  "effects": []
+ },
+ {
+  "name": "Bênção de Tikauromu",
+  "page": 134,
+  "category": "poder",
+  "prerequisites": "Devoto da Família Celestial, For 13",
+  "cost": 0,
+  "honorMin": 0,
+  "deity": "Família Celestial",
+  "description": "<p>Nas jogadas de ataque corpo-a-corpo exigidas por jutsus, você pode trocar o bônus de Força pelo de Sabedoria.</p><p>Você também pode aprender qualquer jutsu com “Tikauromu” no nome, desde que já execute jutsus do mesmo grau, independentemente dos chacras abertos.</p>",
+  "effects": []
+ },
+ {
+  "name": "Bênção de Wang-Ho",
+  "page": 134,
+  "category": "poder",
+  "prerequisites": "Devoto da Família Celestial, Des 13",
+  "cost": 0,
+  "honorMin": 0,
+  "deity": "Família Celestial",
+  "description": "<p>A CD para resistir aos seus jutsus de Destreza aumenta em +2.</p><p>Você também pode aprender qualquer jutsu com “Wang-Ho” no nome, desde que já execute jutsus do mesmo grau, independentemente dos chacras abertos.</p>",
+  "effects": []
+ },
+ {
+  "name": "Bênção de Yumeno",
+  "page": 134,
+  "category": "poder",
+  "prerequisites": "Devoto da Família Celestial",
+  "cost": 0,
+  "honorMin": 0,
+  "deity": "Família Celestial",
+  "description": "<p>Você passa a ter visão no escuro; quem já a possui ganha, em vez disso, os benefícios de visão nas trevas (ver Capítulo 7: Bestiário).</p><p>Você também pode aprender qualquer jutsu com “Yumeno” no nome, desde que já execute jutsus do mesmo grau, independentemente dos chacras abertos.</p>",
+  "effects": []
+ },
+ {
+  "name": "Canalização Seletiva",
+  "page": 134,
+  "category": "poder",
+  "prerequisites": "Devoto do Bushintau, canalizar energia",
+  "cost": 2,
+  "honorMin": 0,
+  "deity": "Bushintau",
+  "description": "<p>Ao usar canalizar energia, pagando +2 PM, você escolhe quais criaturas dentro do alcance são afetadas; as escolhidas sofrem normalmente o efeito da energia escolhida.</p>",
+  "effects": []
+ },
+ {
+  "name": "Canalizar Energia Aprimorado",
+  "page": 134,
+  "category": "poder",
+  "prerequisites": "Devoto do Bushintau, canalizar energia",
+  "cost": 0,
+  "honorMin": 0,
+  "deity": "Bushintau",
+  "description": "<p>A CD do teste de Vontade contra sua habilidade canalizar energia aumenta em +2.</p>",
+  "effects": []
+ },
+ {
+  "name": "Canalizar o Vácuo",
+  "page": 134,
+  "category": "poder",
+  "prerequisites": "Devoto do Bushintau, canalizar energia 5d6",
+  "cost": 0,
+  "honorMin": 0,
+  "deity": "Bushintau",
+  "description": "<p>Ao canalizar energia, você pode optar por vácuo. Nesse caso, escolhe entre as criaturas atingidas quais sofrem dano de vácuo e quais são curadas.</p>",
+  "effects": []
+ },
+ {
+  "name": "Companheiro Espiritual",
+  "page": 134,
+  "category": "poder",
+  "prerequisites": "Devoto do Bushintau",
+  "cost": 0,
+  "honorMin": 0,
+  "deity": "Bushintau",
+  "description": "<p>Uma criatura espiritual acompanha você e funciona como aliado iniciante (ver “Aliados” no Capítulo 8: Recompensas) do tipo curandeiro, conselheiro, guardião ou perseguidor; ela evolui como aliado conforme você sobe de nível.</p><p>O companheiro tem ligação telepática com você, cumpre todas as suas ordens e não pode ser destruído: se morrer, retorna em 1d4 rodadas.</p>",
+  "effects": []
+ },
+ {
+  "name": "Consertar a Alma",
+  "page": 134,
+  "category": "poder",
+  "prerequisites": "Devoto do Bushintau, canalizar energia ou capacidade de executar jutsus de luz",
+  "cost": 0,
+  "honorMin": 0,
+  "deity": "Bushintau",
+  "description": "<p>Sua canalização de energia e seus jutsus de luz podem curar PV de objetos e construtos (inclusive mashin). Se tiver todos os pedaços de um item destruído e conseguir curar todos os PV dele, você o restaura à condição normal.</p>",
+  "effects": []
+ },
+ {
+  "name": "Espírito das Coisas",
+  "page": 135,
+  "category": "poder",
+  "prerequisites": "Devoto do Bushintau",
+  "cost": 0,
+  "honorMin": 0,
+  "deity": "Bushintau",
+  "description": "<p>Ganha +4 nos testes de Conhecimento, Ofício e Percepção relacionados a um objeto que esteja tocando.</p>",
+  "effects": []
+ },
+ {
+  "name": "Espírito dos Animais",
+  "page": 135,
+  "category": "poder",
+  "prerequisites": "Devoto do Bushintau",
+  "cost": 0,
+  "honorMin": 0,
+  "deity": "Bushintau",
+  "description": "<p>Diplomacia passa a funcionar com animais, monstros e youkai de Int 1 ou 2. Em geral, criaturas domesticadas começam indiferentes, e selvagens começam inamistosas (ou hostis, se estiverem famintas).</p><p><strong>Normal:</strong> testes de Diplomacia só funcionam com criaturas inteligentes (Int 3 ou mais).</p>",
+  "effects": []
+ },
+ {
+  "name": "Energia Apavorante",
+  "page": 135,
+  "category": "poder",
+  "prerequisites": "Devoto do Bushintau, canalizar energia 2d6",
+  "cost": 2,
+  "honorMin": 0,
+  "deity": "Bushintau",
+  "description": "<p>Ao canalizar energia, pagando +2 PM, a energia não fere: as criaturas que falharem no teste de Vontade ficam apavoradas até o fim da cena.</p>",
+  "effects": []
+ },
+ {
+  "name": "Energia Dominadora",
+  "page": 135,
+  "category": "poder",
+  "prerequisites": "Devoto do Bushintau, canalizar energia 4d6, Energia Fascinante",
+  "cost": 0,
+  "honorMin": 0,
+  "deity": "Bushintau",
+  "description": "<p>Quando fascina uma criatura de Int 1, 2 ou nula com canalizar energia, você passa a controlá-la como no jutsu <em>dominar mente</em>: ela deixa de estar fascinada e obedece a você enquanto estiver a até 9m. A soma dos níveis das criaturas controladas por este talento não pode passar do seu próprio nível.</p><p><strong>Especial:</strong> escolher este talento, assim como usá-lo, é uma violação de honra leve.</p>",
+  "effects": []
+ },
+ {
+  "name": "Energia Fascinante",
+  "page": 135,
+  "category": "poder",
+  "prerequisites": "Devoto do Bushintau, canalizar energia 2d6",
+  "cost": 2,
+  "honorMin": 0,
+  "deity": "Bushintau",
+  "description": "<p>Ao canalizar energia, pagando +2 PM, a energia não fere: as criaturas que falharem no teste de Vontade ficam fascinadas até o fim da cena.</p>",
+  "effects": []
+ },
+ {
+  "name": "Segredos de Família",
+  "page": 135,
+  "category": "poder",
+  "prerequisites": "Devoto do Bushintau",
+  "cost": 0,
+  "honorMin": 0,
+  "deity": "Bushintau",
+  "description": "<p>Ganha +2 nos testes de Diplomacia, Intimidação e Obter Informação.</p>",
+  "effects": [
+   {
+    "key": "system.skills.diplomacia.bonus",
+    "type": "add",
+    "value": 2
+   },
+   {
+    "key": "system.skills.intimidacao.bonus",
+    "type": "add",
+    "value": 2
+   },
+   {
+    "key": "system.skills.obterInformacao.bonus",
+    "type": "add",
+    "value": 2
+   }
+  ]
+ },
+ {
+  "name": "Solidez Espiritual",
+  "page": 135,
+  "category": "poder",
+  "prerequisites": "Devoto do Bushintau",
+  "cost": 0,
+  "honorMin": 0,
+  "deity": "Bushintau",
+  "description": "<p>Você recebe +1 PM. Além disso, criaturas incorpóreas contam como normais para você: pode tocá-las e atacá-las sem restrição.</p><p><strong>Normal:</strong> só armas mágicas, jutsus e outros incorpóreos afetam criaturas incorpóreas, que também ignoram manobras de combate e, mesmo quando acertadas por arma mágica ou jutsu, ignoram o golpe em 50% das vezes.</p>",
+  "effects": [
+   {
+    "key": "system.attributes.pm.bonus",
+    "type": "add",
+    "value": 1
+   }
+  ]
+ },
+ {
+  "name": "Ver o Invisível",
+  "page": 135,
+  "category": "poder",
+  "prerequisites": "Devoto do Bushintau",
+  "cost": 0,
+  "honorMin": 0,
+  "deity": "Bushintau",
+  "description": "<p>Você recebe +1 PM e enxerga objetos e criaturas invisíveis, que aparecem para você como formas translúcidas.</p>",
+  "effects": [
+   {
+    "key": "system.attributes.pm.bonus",
+    "type": "add",
+    "value": 1
+   }
+  ]
+ },
+ {
+  "name": "Ver a Verdade",
+  "page": 135,
+  "category": "poder",
+  "prerequisites": "Devoto do Bushintau",
+  "cost": 0,
+  "honorMin": 0,
+  "deity": "Bushintau",
+  "description": "<p>Ganha +1 nos testes de Vontade e sempre enxerga a forma real de criaturas e objetos transformados ou ilusórios, seja por jutsus ou por outras habilidades (por exemplo, reconhece um henge disfarçado de animal ou vê através do jutsu <em>véu das múltiplas faces</em>).</p>",
+  "effects": [
+   {
+    "key": "system.saves.von.bonus",
+    "type": "add",
+    "value": 1
+   }
+  ]
+ },
+ {
+  "name": "Anatomia Insana",
+  "page": 136,
+  "category": "tormenta",
+  "prerequisites": "",
+  "cost": 0,
+  "honorMin": 0,
+  "deity": "",
+  "description": "<p>Há 25% de chance de você ignorar o dano extra de acertos críticos e ataques furtivos recebidos; some +25% a cada dois outros talentos da Tormenta que você tiver.</p><p><strong>Especial:</strong> acumula-se com outros efeitos de proteção contra acertos críticos. Adquiri-lo conta como violação de honra severa, exceto quando o talento vem do traço racial do kaijin (que não causa dano de Honra).</p>",
+  "effects": []
+ },
+ {
+  "name": "Armamento da Tormenta",
+  "page": 136,
+  "category": "tormenta",
+  "prerequisites": "",
+  "cost": 0,
+  "honorMin": 0,
+  "deity": "",
+  "description": "<p>Com uma ação de movimento, seu corpo expele uma arma de akamono que você saiba usar, e você sofre 1d6 pontos de dano. A arma pode ser de corpo-a-corpo ou de arremesso e dura até o fim da cena, quando se dissolve. Ela causa +1 de dano a cada dois outros talentos da Tormenta que você tiver.</p><p><strong>Especial:</strong> adquiri-lo conta como violação de honra severa, exceto quando o talento vem do traço racial do kaijin (que não causa dano de Honra).</p>",
+  "effects": []
+ },
+ {
+  "name": "Asas Insetoides",
+  "page": 136,
+  "category": "tormenta",
+  "prerequisites": "três outros talentos da Tormenta",
+  "cost": 1,
+  "honorMin": 0,
+  "deity": "",
+  "description": "<p>Seu deslocamento de voo é de 1,5m por talento da Tormenta que você tem (contando este). Voar custa 1 PM por rodada.</p><p><strong>Especial:</strong> adquiri-lo conta como violação de honra severa, exceto quando o talento vem do traço racial do kaijin (que não causa dano de Honra).</p>",
+  "effects": []
+ },
+ {
+  "name": "Carapaça",
+  "page": 136,
+  "category": "tormenta",
+  "prerequisites": "",
+  "cost": 0,
+  "honorMin": 0,
+  "deity": "",
+  "description": "<p>Você recebe +1 na CA, e mais +1 a cada dois outros talentos da Tormenta que tiver.</p><p><strong>Especial:</strong> adquiri-lo conta como violação de honra severa, exceto quando o talento vem do traço racial do kaijin (que não causa dano de Honra).</p>",
+  "effects": [
+   {
+    "key": "system.attributes.ca.bonus",
+    "type": "add",
+    "value": 1
+   }
+  ]
+ },
+ {
+  "name": "Corpo Aberrante",
+  "page": 136,
+  "category": "tormenta",
+  "prerequisites": "outro talento da Tormenta",
+  "cost": 0,
+  "honorMin": 0,
+  "deity": "",
+  "description": "<p>Você recebe redução de dano 2, e mais +1 de RD a cada dois outros talentos da Tormenta que tiver.</p><p><strong>Especial:</strong> adquiri-lo conta como violação de honra severa, exceto quando o talento vem do traço racial do kaijin (que não causa dano de Honra).</p>",
+  "effects": [
+   {
+    "key": "system.attributes.rd",
+    "type": "add",
+    "value": 2
+   }
+  ]
+ },
+ {
+  "name": "Braço Armado",
+  "page": 136,
+  "category": "tormenta",
+  "prerequisites": "",
+  "cost": 0,
+  "honorMin": 0,
+  "deity": "",
+  "description": "<p>Uma de suas mãos é uma arma natural, de um destes tipos:</p><ul><li><strong>Tentáculo</strong> (esmagamento): 1d4, crítico x2, alcance 4,5m; +2 ao agarrar, derrubar ou desarmar.</li><li><strong>Garra</strong> (corte): 1d8, crítico x3.</li><li><strong>Ferrão</strong> (perfuração): 1d6, crítico 18.</li><li><strong>Pinça</strong> (corte): 1d6, crítico x2; +2 em manobras de agarrar e separar.</li><li><strong>Clava</strong> (esmagamento): 1d8, crítico x2; +2 em manobras de separar.</li></ul><p>A arma causa +1 de dano a cada dois outros talentos da Tormenta que você tiver. Com essa mão você não segura itens, armas ou escudos, nem usa armas de duas mãos, e sofre –2 nas perícias baseadas em Força ou Destreza que precisem das duas mãos.</p><p><strong>Especial:</strong> pode ser escolhido uma vez para cada mão, mas, sem nenhuma mão, você sofre redutores e limitações severos, a critério do mestre. Adquiri-lo conta como violação de honra severa, exceto quando o talento vem do traço racial do kaijin (que não causa dano de Honra).</p>",
+  "effects": []
+ },
+ {
+  "name": "Golpes da Tempestade",
+  "page": 136,
+  "category": "tormenta",
+  "prerequisites": "dois outros talentos da Tormenta",
+  "cost": 0,
+  "honorMin": 0,
+  "deity": "",
+  "description": "<p>Seus ataques desarmados e com armas naturais causam +1 de dano, e mais +1 a cada dois outros talentos da Tormenta que você tiver.</p><p><strong>Especial:</strong> adquiri-lo conta como violação de honra severa, exceto quando o talento vem do traço racial do kaijin (que não causa dano de Honra).</p>",
+  "effects": []
+ },
+ {
+  "name": "Manto Mucoso",
+  "page": 136,
+  "category": "tormenta",
+  "prerequisites": "",
+  "cost": 0,
+  "honorMin": 0,
+  "deity": "",
+  "description": "<p>Sua resistência a ácido é igual ao total de talentos da Tormenta que você tem (contando este). Esse mesmo número entra como bônus nos testes de Reflexos contra ataques de toque e nos testes para evitar manobras de agarrar.</p><p><strong>Especial:</strong> adquiri-lo conta como violação de honra severa, exceto quando o talento vem do traço racial do kaijin (que não causa dano de Honra).</p>",
+  "effects": []
+ },
+ {
+  "name": "Membros Estendidos",
+  "page": 136,
+  "category": "tormenta",
+  "prerequisites": "",
+  "cost": 0,
+  "honorMin": 0,
+  "deity": "",
+  "description": "<p>Seu alcance em ataques corpo-a-corpo aumenta em 1,5m (uma criatura Média passa a ter alcance natural de 3m, por exemplo).</p><p><strong>Especial:</strong> adquiri-lo conta como violação de honra severa, exceto quando o talento vem do traço racial do kaijin (que não causa dano de Honra).</p>",
+  "effects": []
+ },
+ {
+  "name": "Patas Articuladas",
+  "page": 137,
+  "category": "tormenta",
+  "prerequisites": "",
+  "cost": 0,
+  "honorMin": 0,
+  "deity": "",
+  "description": "<p>Você tem um par extra de patas de inseto. Ganha +4 nos testes de Atletismo para escalar e +1 nas jogadas de ataque de manobras de combate; os dois bônus crescem +1 a cada dois outros talentos da Tormenta que você tiver.</p><p><strong>Especial:</strong> adquiri-lo conta como violação de honra severa, exceto quando o talento vem do traço racial do kaijin (que não causa dano de Honra).</p>",
+  "effects": []
+ },
+ {
+  "name": "Recuperação Aberrante",
+  "page": 137,
+  "category": "tormenta",
+  "prerequisites": "",
+  "cost": 0,
+  "honorMin": 0,
+  "deity": "",
+  "description": "<p>Efeitos prejudiciais com duração em rodadas ou de cena (apavorado, atordoado, paralisado...) duram só 1d4 rodadas em você, com –1 rodada a cada dois outros talentos da Tormenta que você tiver. Se o resultado for 0, o efeito não o atinge.</p><p><strong>Especial:</strong> adquiri-lo conta como violação de honra severa, exceto quando o talento vem do traço racial do kaijin (que não causa dano de Honra).</p>",
+  "effects": []
+ },
+ {
+  "name": "Resistência Aberrante",
+  "page": 137,
+  "category": "tormenta",
+  "prerequisites": "",
+  "cost": 0,
+  "honorMin": 0,
+  "deity": "",
+  "description": "<p>Escolha um descritor: ácido, eletricidade, fogo, frio, luz, trevas ou vento. Você ganha resistência 2 contra ele, e mais +2 por outro talento da Tormenta que tiver.</p><p><strong>Especial:</strong> pode ser escolhido várias vezes, cada uma para um descritor diferente. Adquiri-lo conta como violação de honra severa, exceto quando o talento vem do traço racial do kaijin (que não causa dano de Honra).</p>",
+  "effects": []
+ },
+ {
+  "name": "Sangue Ácido",
+  "page": 137,
+  "category": "tormenta",
+  "prerequisites": "",
+  "cost": 0,
+  "honorMin": 0,
+  "deity": "",
+  "description": "<p>Sempre que um ataque corpo-a-corpo causa dano a você, quem atacou sofre 1d4 de dano de ácido, e mais +1 a cada dois outros talentos da Tormenta que você tiver.</p><p><strong>Especial:</strong> adquiri-lo conta como violação de honra severa, exceto quando o talento vem do traço racial do kaijin (que não causa dano de Honra).</p>",
+  "effects": []
+ },
+ {
+  "name": "Sentido Sísmico",
+  "page": 137,
+  "category": "tormenta",
+  "prerequisites": "Sab 13",
+  "cost": 0,
+  "honorMin": 0,
+  "deity": "",
+  "description": "<p>Você detecta a presença, a direção e a posição de criaturas que estejam se movendo em contato com o solo, num raio de 1,5m por talento da Tormenta que você tem (contando este).</p><p><strong>Especial:</strong> adquiri-lo conta como violação de honra severa, exceto quando o talento vem do traço racial do kaijin (que não causa dano de Honra).</p>",
+  "effects": []
+ },
+ {
+  "name": "Toque da Erosão",
+  "page": 137,
+  "category": "tormenta",
+  "prerequisites": "",
+  "cost": 0,
+  "honorMin": 0,
+  "deity": "",
+  "description": "<p>Seus ataques desarmados e com armas naturais ignoram a redução de dano de objetos. Itens mágicos e de materiais especiais não são afetados; itens obra-prima, sim.</p><p><strong>Especial:</strong> adquiri-lo conta como violação de honra severa, exceto quando o talento vem do traço racial do kaijin (que não causa dano de Honra).</p>",
+  "effects": []
+ },
+ {
+  "name": "Toque da Corrosão",
+  "page": 137,
+  "category": "tormenta",
+  "prerequisites": "Toque da Erosão",
+  "cost": 0,
+  "honorMin": 0,
+  "deity": "",
+  "description": "<p>Ao obter um acerto crítico desarmado ou com arma natural em um alvo que use armadura ou escudo, você multiplica o dano normalmente e também corrói uma dessas peças (você escolhe qual): ela perde, em bônus na CA, um valor igual ao total de talentos da Tormenta que você tem; com bônus 0 ou menos, ela se desfaz. Itens mágicos são imunes.</p><p><strong>Especial:</strong> adquiri-lo conta como violação de honra severa, exceto quando o talento vem do traço racial do kaijin (que não causa dano de Honra).</p>",
+  "effects": []
+ },
+ {
+  "name": "Toque da Destruição",
+  "page": 137,
+  "category": "tormenta",
+  "prerequisites": "Toque da Erosão, Toque da Corrosão",
+  "cost": 0,
+  "honorMin": 0,
+  "deity": "",
+  "description": "<p>Um acerto crítico contra você ainda multiplica o dano, mas quebra a arma mundana de corpo-a-corpo ou de arremesso usada no golpe. Armas mágicas ou de materiais especiais resistem; armas obra-prima, não.</p><p><strong>Especial:</strong> adquiri-lo conta como violação de honra severa, exceto quando o talento vem do traço racial do kaijin (que não causa dano de Honra).</p>",
+  "effects": []
+ },
+ {
+  "name": "Visão Ampla",
+  "page": 137,
+  "category": "tormenta",
+  "prerequisites": "Sab 13",
+  "cost": 0,
+  "honorMin": 0,
+  "deity": "",
+  "description": "<p>Ganha +4 em Percepção para observar e não pode ser surpreendido.</p><p><strong>Especial:</strong> adquiri-lo conta como violação de honra severa, exceto quando o talento vem do traço racial do kaijin (que não causa dano de Honra).</p>",
+  "effects": []
+ },
+ {
+  "name": "Visco Rubro",
+  "page": 137,
+  "category": "tormenta",
+  "prerequisites": "",
+  "cost": 0,
+  "honorMin": 0,
+  "deity": "",
+  "description": "<p>Você recebe +1 nos ataques corpo-a-corpo, e mais +1 a cada dois outros talentos da Tormenta que tiver.</p><p><strong>Especial:</strong> adquiri-lo conta como violação de honra severa, exceto quando o talento vem do traço racial do kaijin (que não causa dano de Honra).</p>",
+  "effects": [
+   {
+    "key": "system.attributes.attack.melee",
+    "type": "add",
+    "value": 1
+   }
+  ]
+ }
+]

@@ -1,0 +1,1334 @@
+[
+ {
+  "type": "consumable",
+  "name": "Ofuda (jutsu básico)",
+  "page": 300,
+  "group": "Ofuda",
+  "kind": "ofuda",
+  "uses": 1,
+  "price": "50 ¥o",
+  "weight": 0,
+  "description": "<p>Talismã de uso único que carrega um jutsu básico. Na geração aleatória: 01-90 entre ofuda menores e 01-40 entre os médios.</p><p><strong>Identificar:</strong> saber o jutsu exige ler o idioma da inscrição; sem isso, teste de Identificar Magia. Só um ofuda já identificado pode ser ativado.</p><p><strong>Ativação:</strong> quem não conhece o jutsu empunha o ofuda apontado ao alvo, gastando o que for maior: uma ação padrão ou o tempo do jutsu. Ele sai sem aprimoramentos e o ofuda se consome. Quem já conhece o jutsu gasta só o tempo de execução, sem pagar o PM-base, e pode pagar aprimoramentos à vontade.</p><p><strong>Jutsus possíveis (d%):</strong> Apreciar arte, Aura zen, Casco da tartaruga, Compreensão dos ancestrais, Comunhão com a terra, Contemplação, Coragem dos ancestrais, Espírito guardião, Fogo-fátuo, Fôlego concentrado, Leitura de chacras, Mandala elemental, Mandala-escudo, Mandala de proteção, Pacto com a natureza, Pequeno kami, Percepção elevada, Proteção dos ancestrais, Refeição respeitosa, Toque curativo, Véu das múltiplas faces. Só jutsus dessas tabelas podem ser inscritos em ofuda.</p>",
+  "effects": []
+ },
+ {
+  "type": "consumable",
+  "name": "Ofuda (jutsu mediano)",
+  "page": 301,
+  "group": "Ofuda",
+  "kind": "ofuda",
+  "uses": 1,
+  "price": "300 ¥o",
+  "weight": 0,
+  "description": "<p>Talismã de uso único que carrega um jutsu mediano. Na geração aleatória: 91-100 entre ofuda menores e 41-100 entre os médios.</p><p><strong>Identificar:</strong> saber o jutsu exige ler o idioma da inscrição; sem isso, teste de Identificar Magia. Só um ofuda já identificado pode ser ativado.</p><p><strong>Ativação:</strong> quem não conhece o jutsu empunha o ofuda apontado ao alvo, gastando o que for maior: uma ação padrão ou o tempo do jutsu. Ele sai sem aprimoramentos e o ofuda se consome. Quem já conhece o jutsu gasta só o tempo de execução, sem pagar o PM-base, e pode pagar aprimoramentos à vontade.</p><p><strong>Jutsus possíveis (d%):</strong> Amuleto de proteção, Anulação, Brilho de Tai'Yang, Cântico dos mortos, Conselhos dos ancestrais, Escuridão de Yumeno, Fantasma vivo, Físico do dragão, Integridade corporal, Leitura de pensamentos, Localização, Mente do dragão, Ofícios dos ancestrais, Purificação, Sopro da vida, Truque das cópias, Truque do tronco, Verdade dos ancestrais, Visão perfeita. Só jutsus dessas tabelas podem ser inscritos em ofuda.</p>",
+  "effects": []
+ },
+ {
+  "type": "gear",
+  "name": "Amuleto da água",
+  "page": 301,
+  "group": "Amuletos",
+  "price": "21.750 ¥o",
+  "weight": 0,
+  "slot": "",
+  "description": "<p><strong>Contém:</strong> onda de frio, dominar água, criar elemento (só água) e camada de gelo.</p><p><strong>Regras de amuleto:</strong> permite executar os jutsus listados como se você os conhecesse, gastando seus PM; exige chacras abertos no grau correto (não precisa ser o chacra do jutsu). Empunhar ou exibir o amuleto não gasta tempo além da execução. Se já conhece o jutsu, o custo total cai –1 PM (básico/mediano) ou –3 PM (avançado/sublime), mínimo 1 PM. Bônus e poderes menores ficam sempre ativos, salvo indicação contrária. Identificar os jutsus: teste de Identificar Magia ou jutsu apreciar arte. Amuletos têm RD 7/PV 10 (menor), RD 12/PV 10 (médio) ou RD 22/PV 10 (maior).</p>",
+  "effects": []
+ },
+ {
+  "type": "gear",
+  "name": "Amuleto da anulação",
+  "page": 301,
+  "group": "Amuletos",
+  "price": "31.500 ¥o",
+  "weight": 0,
+  "slot": "",
+  "description": "<p><strong>Contém:</strong> mandala da anulação e anulação.</p><p>Você obtém a habilidade de classe segredos da anulação.</p><p><strong>Regras de amuleto:</strong> permite executar os jutsus listados como se você os conhecesse, gastando seus PM; exige chacras abertos no grau correto (não precisa ser o chacra do jutsu). Empunhar ou exibir o amuleto não gasta tempo além da execução. Se já conhece o jutsu, o custo total cai –1 PM (básico/mediano) ou –3 PM (avançado/sublime), mínimo 1 PM. Bônus e poderes menores ficam sempre ativos, salvo indicação contrária. Identificar os jutsus: teste de Identificar Magia ou jutsu apreciar arte. Amuletos têm RD 7/PV 10 (menor), RD 12/PV 10 (médio) ou RD 22/PV 10 (maior).</p>",
+  "effects": []
+ },
+ {
+  "type": "gear",
+  "name": "Amuleto da comunicação",
+  "page": 301,
+  "group": "Amuletos",
+  "price": "11.250 ¥o",
+  "weight": 0,
+  "slot": "",
+  "description": "<p><strong>Contém:</strong> verdade dos ancestrais, língua de prata e compreensão dos ancestrais.</p><p>Seus testes de Obter Informação levam só 1 hora.</p><p><strong>Regras de amuleto:</strong> permite executar os jutsus listados como se você os conhecesse, gastando seus PM; exige chacras abertos no grau correto (não precisa ser o chacra do jutsu). Empunhar ou exibir o amuleto não gasta tempo além da execução. Se já conhece o jutsu, o custo total cai –1 PM (básico/mediano) ou –3 PM (avançado/sublime), mínimo 1 PM. Bônus e poderes menores ficam sempre ativos, salvo indicação contrária. Identificar os jutsus: teste de Identificar Magia ou jutsu apreciar arte. Amuletos têm RD 7/PV 10 (menor), RD 12/PV 10 (médio) ou RD 22/PV 10 (maior).</p>",
+  "effects": []
+ },
+ {
+  "type": "gear",
+  "name": "Amuleto da cura",
+  "page": 301,
+  "group": "Amuletos",
+  "price": "10.500 ¥o",
+  "weight": 0,
+  "slot": "",
+  "description": "<p>Enquanto usado, concede o talento Bênção de Fuyuan.</p><p><strong>Jutsus:</strong> purificação, toque curativo.</p><p><strong>Regras de amuleto:</strong> permite executar os jutsus listados como se você os conhecesse, gastando seus PM; exige chacras abertos no grau correto (não precisa ser o chacra do jutsu). Empunhar ou exibir o amuleto não gasta tempo além da execução. Se já conhece o jutsu, o custo total cai –1 PM (básico/mediano) ou –3 PM (avançado/sublime), mínimo 1 PM. Bônus e poderes menores ficam sempre ativos, salvo indicação contrária. Identificar os jutsus: teste de Identificar Magia ou jutsu apreciar arte. Amuletos têm RD 7/PV 10 (menor), RD 12/PV 10 (médio) ou RD 22/PV 10 (maior).</p>",
+  "effects": []
+ },
+ {
+  "type": "gear",
+  "name": "Amuleto da força interior",
+  "page": 301,
+  "group": "Amuletos",
+  "price": "10.500 ¥o",
+  "weight": 0,
+  "slot": "",
+  "description": "<p>Enquanto usado, concede o talento Duro de Matar.</p><p><strong>Jutsus:</strong> fôlego renovado, integridade corporal.</p><p><strong>Regras de amuleto:</strong> permite executar os jutsus listados como se você os conhecesse, gastando seus PM; exige chacras abertos no grau correto (não precisa ser o chacra do jutsu). Empunhar ou exibir o amuleto não gasta tempo além da execução. Se já conhece o jutsu, o custo total cai –1 PM (básico/mediano) ou –3 PM (avançado/sublime), mínimo 1 PM. Bônus e poderes menores ficam sempre ativos, salvo indicação contrária. Identificar os jutsus: teste de Identificar Magia ou jutsu apreciar arte. Amuletos têm RD 7/PV 10 (menor), RD 12/PV 10 (médio) ou RD 22/PV 10 (maior).</p>",
+  "effects": []
+ },
+ {
+  "type": "gear",
+  "name": "Amuleto da mudança rápida",
+  "page": 301,
+  "group": "Amuletos",
+  "price": "1.500 ¥o",
+  "weight": 0,
+  "slot": "",
+  "description": "<p>Com teste de Atuação bem-sucedido, o jutsu do amuleto pode ser executado como ação de movimento (CD 15) ou ação livre (CD 25), sem os talentos Jutsu sem Gestos e Jutsu sem Mantras (ainda é preciso falar e gesticular).</p><p><strong>Jutsus:</strong> véu das múltiplas faces.</p><p><strong>Regras de amuleto:</strong> permite executar os jutsus listados como se você os conhecesse, gastando seus PM; exige chacras abertos no grau correto (não precisa ser o chacra do jutsu). Empunhar ou exibir o amuleto não gasta tempo além da execução. Se já conhece o jutsu, o custo total cai –1 PM (básico/mediano) ou –3 PM (avançado/sublime), mínimo 1 PM. Bônus e poderes menores ficam sempre ativos, salvo indicação contrária. Identificar os jutsus: teste de Identificar Magia ou jutsu apreciar arte. Amuletos têm RD 7/PV 10 (menor), RD 12/PV 10 (médio) ou RD 22/PV 10 (maior).</p>",
+  "effects": []
+ },
+ {
+  "type": "gear",
+  "name": "Amuleto da natureza",
+  "page": 302,
+  "group": "Amuletos",
+  "price": "11.750 ¥o",
+  "weight": 0,
+  "slot": "",
+  "description": "<p><strong>Contém:</strong> tecelão vegetal, pacto com a natureza e comunhão com a terra.</p><p>Quando você usa a habilidade de classe canalizar energia, a cura ou o dano sobe em +1 dado.</p><p><strong>Regras de amuleto:</strong> permite executar os jutsus listados como se você os conhecesse, gastando seus PM; exige chacras abertos no grau correto (não precisa ser o chacra do jutsu). Empunhar ou exibir o amuleto não gasta tempo além da execução. Se já conhece o jutsu, o custo total cai –1 PM (básico/mediano) ou –3 PM (avançado/sublime), mínimo 1 PM. Bônus e poderes menores ficam sempre ativos, salvo indicação contrária. Identificar os jutsus: teste de Identificar Magia ou jutsu apreciar arte. Amuletos têm RD 7/PV 10 (menor), RD 12/PV 10 (médio) ou RD 22/PV 10 (maior).</p>",
+  "effects": []
+ },
+ {
+  "type": "gear",
+  "name": "Amuleto da noite",
+  "page": 302,
+  "group": "Amuletos",
+  "price": "2.000 ¥o",
+  "weight": 0,
+  "slot": "",
+  "description": "<p>Ao ativar canalizar energia escolhendo trevas, a cura ou o dano aumentam em +1 dado.</p><p><strong>Jutsus:</strong> sombras da noite.</p><p><strong>Regras de amuleto:</strong> permite executar os jutsus listados como se você os conhecesse, gastando seus PM; exige chacras abertos no grau correto (não precisa ser o chacra do jutsu). Empunhar ou exibir o amuleto não gasta tempo além da execução. Se já conhece o jutsu, o custo total cai –1 PM (básico/mediano) ou –3 PM (avançado/sublime), mínimo 1 PM. Bônus e poderes menores ficam sempre ativos, salvo indicação contrária. Identificar os jutsus: teste de Identificar Magia ou jutsu apreciar arte. Amuletos têm RD 7/PV 10 (menor), RD 12/PV 10 (médio) ou RD 22/PV 10 (maior).</p>",
+  "effects": []
+ },
+ {
+  "type": "gear",
+  "name": "Amuleto da terra",
+  "page": 302,
+  "group": "Amuletos",
+  "price": "21.750 ¥o",
+  "weight": 0,
+  "slot": "",
+  "description": "<p><strong>Contém:</strong> moldar terra, ferida da terra, barreira de terra e criar elemento (só terra).</p><p><strong>Regras de amuleto:</strong> permite executar os jutsus listados como se você os conhecesse, gastando seus PM; exige chacras abertos no grau correto (não precisa ser o chacra do jutsu). Empunhar ou exibir o amuleto não gasta tempo além da execução. Se já conhece o jutsu, o custo total cai –1 PM (básico/mediano) ou –3 PM (avançado/sublime), mínimo 1 PM. Bônus e poderes menores ficam sempre ativos, salvo indicação contrária. Identificar os jutsus: teste de Identificar Magia ou jutsu apreciar arte. Amuletos têm RD 7/PV 10 (menor), RD 12/PV 10 (médio) ou RD 22/PV 10 (maior).</p>",
+  "effects": []
+ },
+ {
+  "type": "gear",
+  "name": "Amuleto da transformação",
+  "page": 302,
+  "group": "Amuletos",
+  "price": "21.000 ¥o",
+  "weight": 0,
+  "slot": "",
+  "description": "<p>Quem usa uma forma que normalmente impediria execução de jutsus ainda pode executá-los com o amuleto. Para um henge, o jutsu transformação sai pelo custo normal, mesmo com os chacras fechados.</p><p><strong>Contém:</strong> transformação e maldição da transformação.</p><p><strong>Regras de amuleto:</strong> permite executar os jutsus listados como se você os conhecesse, gastando seus PM; exige chacras abertos no grau correto (não precisa ser o chacra do jutsu). Empunhar ou exibir o amuleto não gasta tempo além da execução. Se já conhece o jutsu, o custo total cai –1 PM (básico/mediano) ou –3 PM (avançado/sublime), mínimo 1 PM. Bônus e poderes menores ficam sempre ativos, salvo indicação contrária. Identificar os jutsus: teste de Identificar Magia ou jutsu apreciar arte. Amuletos têm RD 7/PV 10 (menor), RD 12/PV 10 (médio) ou RD 22/PV 10 (maior).</p>",
+  "effects": []
+ },
+ {
+  "type": "gear",
+  "name": "Amuleto das auras",
+  "page": 302,
+  "group": "Amuletos",
+  "price": "1.500 ¥o",
+  "weight": 0,
+  "slot": "",
+  "description": "<p>Usado por um vanara, permite sempre escolher 10 em testes de Identificar Magia.</p><p><strong>Jutsus:</strong> leitura de chacras.</p><p><strong>Regras de amuleto:</strong> permite executar os jutsus listados como se você os conhecesse, gastando seus PM; exige chacras abertos no grau correto (não precisa ser o chacra do jutsu). Empunhar ou exibir o amuleto não gasta tempo além da execução. Se já conhece o jutsu, o custo total cai –1 PM (básico/mediano) ou –3 PM (avançado/sublime), mínimo 1 PM. Bônus e poderes menores ficam sempre ativos, salvo indicação contrária. Identificar os jutsus: teste de Identificar Magia ou jutsu apreciar arte. Amuletos têm RD 7/PV 10 (menor), RD 12/PV 10 (médio) ou RD 22/PV 10 (maior).</p>",
+  "effects": []
+ },
+ {
+  "type": "gear",
+  "name": "Amuleto das barreiras",
+  "page": 302,
+  "group": "Amuletos",
+  "price": "42.000 ¥o",
+  "weight": 0,
+  "slot": "",
+  "description": "<p><strong>Contém:</strong> barreira vulcânica, barreira dos ancestrais, barreira de lanças de gelo e barreira da tempestade.</p><p>Aprimoramentos que ampliam barreiras custam metade para você.</p><p><strong>Regras de amuleto:</strong> permite executar os jutsus listados como se você os conhecesse, gastando seus PM; exige chacras abertos no grau correto (não precisa ser o chacra do jutsu). Empunhar ou exibir o amuleto não gasta tempo além da execução. Se já conhece o jutsu, o custo total cai –1 PM (básico/mediano) ou –3 PM (avançado/sublime), mínimo 1 PM. Bônus e poderes menores ficam sempre ativos, salvo indicação contrária. Identificar os jutsus: teste de Identificar Magia ou jutsu apreciar arte. Amuletos têm RD 7/PV 10 (menor), RD 12/PV 10 (médio) ou RD 22/PV 10 (maior).</p>",
+  "effects": []
+ },
+ {
+  "type": "gear",
+  "name": "Amuleto das ilusões",
+  "page": 302,
+  "group": "Amuletos",
+  "price": "22.500 ¥o",
+  "weight": 0,
+  "slot": "",
+  "description": "<p><strong>Contém:</strong> voz de wang-ho, truque das cópias, teatro de sombras e miragem mística.</p><p>Quem tenta desacreditar um jutsu de ilusão seu faz o teste de Intuição com penalidade de –5.</p><p><strong>Regras de amuleto:</strong> permite executar os jutsus listados como se você os conhecesse, gastando seus PM; exige chacras abertos no grau correto (não precisa ser o chacra do jutsu). Empunhar ou exibir o amuleto não gasta tempo além da execução. Se já conhece o jutsu, o custo total cai –1 PM (básico/mediano) ou –3 PM (avançado/sublime), mínimo 1 PM. Bônus e poderes menores ficam sempre ativos, salvo indicação contrária. Identificar os jutsus: teste de Identificar Magia ou jutsu apreciar arte. Amuletos têm RD 7/PV 10 (menor), RD 12/PV 10 (médio) ou RD 22/PV 10 (maior).</p>",
+  "effects": []
+ },
+ {
+  "type": "gear",
+  "name": "Amuleto das mandalas",
+  "page": 302,
+  "group": "Amuletos",
+  "price": "3.250 ¥o",
+  "weight": 0,
+  "slot": "",
+  "description": "<p><strong>Contém:</strong> mandala de proteção, mandala-escudo e mandala elemental.</p><p>Você recebe +1 de Constituição, sem acumular com outros objetos de jade.</p><p><strong>Regras de amuleto:</strong> permite executar os jutsus listados como se você os conhecesse, gastando seus PM; exige chacras abertos no grau correto (não precisa ser o chacra do jutsu). Empunhar ou exibir o amuleto não gasta tempo além da execução. Se já conhece o jutsu, o custo total cai –1 PM (básico/mediano) ou –3 PM (avançado/sublime), mínimo 1 PM. Bônus e poderes menores ficam sempre ativos, salvo indicação contrária. Identificar os jutsus: teste de Identificar Magia ou jutsu apreciar arte. Amuletos têm RD 7/PV 10 (menor), RD 12/PV 10 (médio) ou RD 22/PV 10 (maior).</p>",
+  "effects": [
+   {
+    "key": "system.abilities.con.bonus",
+    "type": "add",
+    "value": 1
+   }
+  ]
+ },
+ {
+  "type": "gear",
+  "name": "Amuleto das tradições",
+  "page": 302,
+  "group": "Amuletos",
+  "price": "1.500 ¥o",
+  "weight": 0,
+  "slot": "",
+  "description": "<p>Enquanto usado, concede o talento Honra Precavida.</p><p><strong>Jutsus:</strong> apreciar arte, refeição respeitosa.</p><p><strong>Regras de amuleto:</strong> permite executar os jutsus listados como se você os conhecesse, gastando seus PM; exige chacras abertos no grau correto (não precisa ser o chacra do jutsu). Empunhar ou exibir o amuleto não gasta tempo além da execução. Se já conhece o jutsu, o custo total cai –1 PM (básico/mediano) ou –3 PM (avançado/sublime), mínimo 1 PM. Bônus e poderes menores ficam sempre ativos, salvo indicação contrária. Identificar os jutsus: teste de Identificar Magia ou jutsu apreciar arte. Amuletos têm RD 7/PV 10 (menor), RD 12/PV 10 (médio) ou RD 22/PV 10 (maior).</p>",
+  "effects": []
+ },
+ {
+  "type": "gear",
+  "name": "Amuleto das visões",
+  "page": 302,
+  "group": "Amuletos",
+  "price": "23.625 ¥o",
+  "weight": 0,
+  "slot": "",
+  "description": "<p><strong>Contém:</strong> visão perfeita, vidência dos ancestrais, percepção elevada e localização.</p><p>Toda noite dormida com o amuleto traz 50% de chance de sofrer, do jutsu manipulador de sonhos, o efeito de sonho ou o de pesadelo.</p><p><strong>Regras de amuleto:</strong> permite executar os jutsus listados como se você os conhecesse, gastando seus PM; exige chacras abertos no grau correto (não precisa ser o chacra do jutsu). Empunhar ou exibir o amuleto não gasta tempo além da execução. Se já conhece o jutsu, o custo total cai –1 PM (básico/mediano) ou –3 PM (avançado/sublime), mínimo 1 PM. Bônus e poderes menores ficam sempre ativos, salvo indicação contrária. Identificar os jutsus: teste de Identificar Magia ou jutsu apreciar arte. Amuletos têm RD 7/PV 10 (menor), RD 12/PV 10 (médio) ou RD 22/PV 10 (maior).</p>",
+  "effects": []
+ },
+ {
+  "type": "gear",
+  "name": "Amuleto de Lin-Wu",
+  "page": 303,
+  "group": "Amuletos",
+  "price": "21.750 ¥o",
+  "weight": 0,
+  "slot": "",
+  "description": "<p><strong>Contém:</strong> voz de Lin-Wu, missão de honra e lágrimas de Wang-Ho.</p><p>Com Honra 22+, os jutsus do amuleto saem pelo custo normal, mesmo com chacras fechados.</p><p><strong>Regras de amuleto:</strong> permite executar os jutsus listados como se você os conhecesse, gastando seus PM; exige chacras abertos no grau correto (não precisa ser o chacra do jutsu). Empunhar ou exibir o amuleto não gasta tempo além da execução. Se já conhece o jutsu, o custo total cai –1 PM (básico/mediano) ou –3 PM (avançado/sublime), mínimo 1 PM. Bônus e poderes menores ficam sempre ativos, salvo indicação contrária. Identificar os jutsus: teste de Identificar Magia ou jutsu apreciar arte. Amuletos têm RD 7/PV 10 (menor), RD 12/PV 10 (médio) ou RD 22/PV 10 (maior).</p>",
+  "effects": []
+ },
+ {
+  "type": "gear",
+  "name": "Amuleto do ar",
+  "page": 303,
+  "group": "Amuletos",
+  "price": "21.750 ¥o",
+  "weight": 0,
+  "slot": "",
+  "description": "<p><strong>Contém:</strong> sopro da montanha, dominar o clima, lâmina de vento e criar elemento (só ar).</p><p><strong>Regras de amuleto:</strong> permite executar os jutsus listados como se você os conhecesse, gastando seus PM; exige chacras abertos no grau correto (não precisa ser o chacra do jutsu). Empunhar ou exibir o amuleto não gasta tempo além da execução. Se já conhece o jutsu, o custo total cai –1 PM (básico/mediano) ou –3 PM (avançado/sublime), mínimo 1 PM. Bônus e poderes menores ficam sempre ativos, salvo indicação contrária. Identificar os jutsus: teste de Identificar Magia ou jutsu apreciar arte. Amuletos têm RD 7/PV 10 (menor), RD 12/PV 10 (médio) ou RD 22/PV 10 (maior).</p>",
+  "effects": []
+ },
+ {
+  "type": "gear",
+  "name": "Amuleto do dia",
+  "page": 303,
+  "group": "Amuletos",
+  "price": "2.000 ¥o",
+  "weight": 0,
+  "slot": "",
+  "description": "<p>Com ação padrão, faz o amuleto brilhar como uma tocha até o fim da cena. Ao ativar canalizar energia escolhendo luz, a cura ou o dano aumentam em +1 dado.</p><p><strong>Jutsus:</strong> fogo-fátuo.</p><p><strong>Regras de amuleto:</strong> permite executar os jutsus listados como se você os conhecesse, gastando seus PM; exige chacras abertos no grau correto (não precisa ser o chacra do jutsu). Empunhar ou exibir o amuleto não gasta tempo além da execução. Se já conhece o jutsu, o custo total cai –1 PM (básico/mediano) ou –3 PM (avançado/sublime), mínimo 1 PM. Bônus e poderes menores ficam sempre ativos, salvo indicação contrária. Identificar os jutsus: teste de Identificar Magia ou jutsu apreciar arte. Amuletos têm RD 7/PV 10 (menor), RD 12/PV 10 (médio) ou RD 22/PV 10 (maior).</p>",
+  "effects": []
+ },
+ {
+  "type": "gear",
+  "name": "Amuleto do dragão",
+  "page": 303,
+  "group": "Amuletos",
+  "price": "11.500 ¥o",
+  "weight": 0,
+  "slot": "",
+  "description": "<p>Concede Constituição +1 (não cumulativo com outros objetos de jade). Com Honra 22+, também pode executar perfeição do dragão.</p><p><strong>Jutsus:</strong> físico do dragão, mente do dragão.</p><p><strong>Regras de amuleto:</strong> permite executar os jutsus listados como se você os conhecesse, gastando seus PM; exige chacras abertos no grau correto (não precisa ser o chacra do jutsu). Empunhar ou exibir o amuleto não gasta tempo além da execução. Se já conhece o jutsu, o custo total cai –1 PM (básico/mediano) ou –3 PM (avançado/sublime), mínimo 1 PM. Bônus e poderes menores ficam sempre ativos, salvo indicação contrária. Identificar os jutsus: teste de Identificar Magia ou jutsu apreciar arte. Amuletos têm RD 7/PV 10 (menor), RD 12/PV 10 (médio) ou RD 22/PV 10 (maior).</p>",
+  "effects": [
+   {
+    "key": "system.abilities.con.bonus",
+    "type": "add",
+    "value": 1
+   }
+  ]
+ },
+ {
+  "type": "gear",
+  "name": "Amuleto do encantamento",
+  "page": 303,
+  "group": "Amuletos",
+  "price": "12.000 ¥o",
+  "weight": 0,
+  "slot": "",
+  "description": "<p><strong>Contém:</strong> sono de Mizuha, mestre verdadeiro, influência invisível e feitiço de Kazuko.</p><p>Nos jutsus de encantamento cujo alcance em criaturas depende de nível + bônus de Carisma, some +5 a esse valor.</p><p><strong>Regras de amuleto:</strong> permite executar os jutsus listados como se você os conhecesse, gastando seus PM; exige chacras abertos no grau correto (não precisa ser o chacra do jutsu). Empunhar ou exibir o amuleto não gasta tempo além da execução. Se já conhece o jutsu, o custo total cai –1 PM (básico/mediano) ou –3 PM (avançado/sublime), mínimo 1 PM. Bônus e poderes menores ficam sempre ativos, salvo indicação contrária. Identificar os jutsus: teste de Identificar Magia ou jutsu apreciar arte. Amuletos têm RD 7/PV 10 (menor), RD 12/PV 10 (médio) ou RD 22/PV 10 (maior).</p>",
+  "effects": []
+ },
+ {
+  "type": "gear",
+  "name": "Amuleto do fogo",
+  "page": 303,
+  "group": "Amuletos",
+  "price": "11.250 ¥o",
+  "weight": 0,
+  "slot": "",
+  "description": "<p><strong>Contém:</strong> leque de chamas, explosão de fogo, dominar chamas e criar elemento (só fogo).</p><p><strong>Regras de amuleto:</strong> permite executar os jutsus listados como se você os conhecesse, gastando seus PM; exige chacras abertos no grau correto (não precisa ser o chacra do jutsu). Empunhar ou exibir o amuleto não gasta tempo além da execução. Se já conhece o jutsu, o custo total cai –1 PM (básico/mediano) ou –3 PM (avançado/sublime), mínimo 1 PM. Bônus e poderes menores ficam sempre ativos, salvo indicação contrária. Identificar os jutsus: teste de Identificar Magia ou jutsu apreciar arte. Amuletos têm RD 7/PV 10 (menor), RD 12/PV 10 (médio) ou RD 22/PV 10 (maior).</p>",
+  "effects": []
+ },
+ {
+  "type": "gear",
+  "name": "Amuleto do relâmpago",
+  "page": 303,
+  "group": "Amuletos",
+  "price": "11.250 ¥o",
+  "weight": 0,
+  "slot": "",
+  "description": "<p><strong>Contém:</strong> relâmpago divino, esfera elétrica e barreira da tempestade.</p><p>Concede +4 nas resistências contra eletricidade.</p><p><strong>Regras de amuleto:</strong> permite executar os jutsus listados como se você os conhecesse, gastando seus PM; exige chacras abertos no grau correto (não precisa ser o chacra do jutsu). Empunhar ou exibir o amuleto não gasta tempo além da execução. Se já conhece o jutsu, o custo total cai –1 PM (básico/mediano) ou –3 PM (avançado/sublime), mínimo 1 PM. Bônus e poderes menores ficam sempre ativos, salvo indicação contrária. Identificar os jutsus: teste de Identificar Magia ou jutsu apreciar arte. Amuletos têm RD 7/PV 10 (menor), RD 12/PV 10 (médio) ou RD 22/PV 10 (maior).</p>",
+  "effects": []
+ },
+ {
+  "type": "gear",
+  "name": "Amuleto do tamanho",
+  "page": 303,
+  "group": "Amuletos",
+  "price": "5.250 ¥o",
+  "weight": 0,
+  "slot": "",
+  "description": "<p><strong>Jutsus:</strong> tamanho gigante.</p><p><strong>Regras de amuleto:</strong> permite executar os jutsus listados como se você os conhecesse, gastando seus PM; exige chacras abertos no grau correto (não precisa ser o chacra do jutsu). Empunhar ou exibir o amuleto não gasta tempo além da execução. Se já conhece o jutsu, o custo total cai –1 PM (básico/mediano) ou –3 PM (avançado/sublime), mínimo 1 PM. Bônus e poderes menores ficam sempre ativos, salvo indicação contrária. Identificar os jutsus: teste de Identificar Magia ou jutsu apreciar arte. Amuletos têm RD 7/PV 10 (menor), RD 12/PV 10 (médio) ou RD 22/PV 10 (maior).</p>",
+  "effects": []
+ },
+ {
+  "type": "gear",
+  "name": "Amuleto do teletransporte",
+  "page": 303,
+  "group": "Amuletos",
+  "price": "52.500 ¥o",
+  "weight": 0,
+  "slot": "",
+  "description": "<p><strong>Contém:</strong> movimento instantâneo.</p><p>O aprimoramento de +5 PM desse jutsu age em você de forma constante.</p><p><strong>Regras de amuleto:</strong> permite executar os jutsus listados como se você os conhecesse, gastando seus PM; exige chacras abertos no grau correto (não precisa ser o chacra do jutsu). Empunhar ou exibir o amuleto não gasta tempo além da execução. Se já conhece o jutsu, o custo total cai –1 PM (básico/mediano) ou –3 PM (avançado/sublime), mínimo 1 PM. Bônus e poderes menores ficam sempre ativos, salvo indicação contrária. Identificar os jutsus: teste de Identificar Magia ou jutsu apreciar arte. Amuletos têm RD 7/PV 10 (menor), RD 12/PV 10 (médio) ou RD 22/PV 10 (maior).</p>",
+  "effects": []
+ },
+ {
+  "type": "gear",
+  "name": "Amuleto dos caminhos secretos",
+  "page": 303,
+  "group": "Amuletos",
+  "price": "21.000 ¥o",
+  "weight": 0,
+  "slot": "",
+  "description": "<p><strong>Contém:</strong> esconderijo secreto e caminhos invisíveis.</p><p>Um hanyô que ative o traço racial poder salvador executa esses jutsus de graça, com aprimoramentos inclusos.</p><p><strong>Regras de amuleto:</strong> permite executar os jutsus listados como se você os conhecesse, gastando seus PM; exige chacras abertos no grau correto (não precisa ser o chacra do jutsu). Empunhar ou exibir o amuleto não gasta tempo além da execução. Se já conhece o jutsu, o custo total cai –1 PM (básico/mediano) ou –3 PM (avançado/sublime), mínimo 1 PM. Bônus e poderes menores ficam sempre ativos, salvo indicação contrária. Identificar os jutsus: teste de Identificar Magia ou jutsu apreciar arte. Amuletos têm RD 7/PV 10 (menor), RD 12/PV 10 (médio) ou RD 22/PV 10 (maior).</p>",
+  "effects": []
+ },
+ {
+  "type": "gear",
+  "name": "Amuleto dos espíritos",
+  "page": 303,
+  "group": "Amuletos",
+  "price": "12.250 ¥o",
+  "weight": 0,
+  "slot": "",
+  "description": "<p>Concede Constituição +1 (não cumulativo com outros objetos de jade). Em jutsus de invocação, o talento Jutsu Acelerado custa –3 PM.</p><p><strong>Jutsus:</strong> espírito guardião, espíritos espiões, pequeno kami.</p><p><strong>Regras de amuleto:</strong> permite executar os jutsus listados como se você os conhecesse, gastando seus PM; exige chacras abertos no grau correto (não precisa ser o chacra do jutsu). Empunhar ou exibir o amuleto não gasta tempo além da execução. Se já conhece o jutsu, o custo total cai –1 PM (básico/mediano) ou –3 PM (avançado/sublime), mínimo 1 PM. Bônus e poderes menores ficam sempre ativos, salvo indicação contrária. Identificar os jutsus: teste de Identificar Magia ou jutsu apreciar arte. Amuletos têm RD 7/PV 10 (menor), RD 12/PV 10 (médio) ou RD 22/PV 10 (maior).</p>",
+  "effects": [
+   {
+    "key": "system.abilities.con.bonus",
+    "type": "add",
+    "value": 1
+   }
+  ]
+ },
+ {
+  "type": "gear",
+  "name": "Amuleto dos kata",
+  "page": 303,
+  "group": "Amuletos",
+  "price": "42.000 ¥o",
+  "weight": 0,
+  "slot": "",
+  "description": "<p>Seu deslocamento ganha +3m, em qualquer forma.</p><p><strong>Contém:</strong> os kata da toupeira e do polvo, além dos do grou e do gorila.</p><p><strong>Regras de amuleto:</strong> permite executar os jutsus listados como se você os conhecesse, gastando seus PM; exige chacras abertos no grau correto (não precisa ser o chacra do jutsu). Empunhar ou exibir o amuleto não gasta tempo além da execução. Se já conhece o jutsu, o custo total cai –1 PM (básico/mediano) ou –3 PM (avançado/sublime), mínimo 1 PM. Bônus e poderes menores ficam sempre ativos, salvo indicação contrária. Identificar os jutsus: teste de Identificar Magia ou jutsu apreciar arte. Amuletos têm RD 7/PV 10 (menor), RD 12/PV 10 (médio) ou RD 22/PV 10 (maior).</p>",
+  "effects": [
+   {
+    "key": "system.attributes.movement.bonus",
+    "type": "add",
+    "value": 3
+   }
+  ]
+ },
+ {
+  "type": "gear",
+  "name": "Amuleto dos mortos",
+  "page": 303,
+  "group": "Amuletos",
+  "price": "36.750 ¥o",
+  "weight": 0,
+  "slot": "",
+  "description": "<p><strong>Contém:</strong> lamento dos malditos, círculo das trevas e cântico dos mortos.</p><p>Ao calcular quantos shiryou você controla, considere-se 5 níveis mais alto.</p><p><strong>Regras de amuleto:</strong> permite executar os jutsus listados como se você os conhecesse, gastando seus PM; exige chacras abertos no grau correto (não precisa ser o chacra do jutsu). Empunhar ou exibir o amuleto não gasta tempo além da execução. Se já conhece o jutsu, o custo total cai –1 PM (básico/mediano) ou –3 PM (avançado/sublime), mínimo 1 PM. Bônus e poderes menores ficam sempre ativos, salvo indicação contrária. Identificar os jutsus: teste de Identificar Magia ou jutsu apreciar arte. Amuletos têm RD 7/PV 10 (menor), RD 12/PV 10 (médio) ou RD 22/PV 10 (maior).</p>",
+  "effects": []
+ },
+ {
+  "type": "gear",
+  "name": "Amuleto dos mundos",
+  "page": 303,
+  "group": "Amuletos",
+  "price": "21.000 ¥o",
+  "weight": 0,
+  "slot": "",
+  "description": "<p>Você fala e compreende qualquer criatura inteligente originária de outros mundos. Um hanyô que ative o traço racial poder salvador executa os jutsus deste amuleto de graça, com aprimoramentos inclusos.</p><p><strong>Contém:</strong> viagem espiritual e rito do exorcista.</p><p><strong>Regras de amuleto:</strong> permite executar os jutsus listados como se você os conhecesse, gastando seus PM; exige chacras abertos no grau correto (não precisa ser o chacra do jutsu). Empunhar ou exibir o amuleto não gasta tempo além da execução. Se já conhece o jutsu, o custo total cai –1 PM (básico/mediano) ou –3 PM (avançado/sublime), mínimo 1 PM. Bônus e poderes menores ficam sempre ativos, salvo indicação contrária. Identificar os jutsus: teste de Identificar Magia ou jutsu apreciar arte. Amuletos têm RD 7/PV 10 (menor), RD 12/PV 10 (médio) ou RD 22/PV 10 (maior).</p>",
+  "effects": []
+ },
+ {
+  "type": "gear",
+  "name": "Amuleto dos ninjas",
+  "page": 303,
+  "group": "Amuletos",
+  "price": "33.000 ¥o",
+  "weight": 0,
+  "slot": "",
+  "description": "<p><strong>Contém:</strong> pernas do gafanhoto, terror ninja, invisibilidade ninja, hipnotismo ninja, escalada ninja e corrida ninja.</p><p>Usá-lo configura violação de honra leve.</p><p><strong>Regras de amuleto:</strong> permite executar os jutsus listados como se você os conhecesse, gastando seus PM; exige chacras abertos no grau correto (não precisa ser o chacra do jutsu). Empunhar ou exibir o amuleto não gasta tempo além da execução. Se já conhece o jutsu, o custo total cai –1 PM (básico/mediano) ou –3 PM (avançado/sublime), mínimo 1 PM. Bônus e poderes menores ficam sempre ativos, salvo indicação contrária. Identificar os jutsus: teste de Identificar Magia ou jutsu apreciar arte. Amuletos têm RD 7/PV 10 (menor), RD 12/PV 10 (médio) ou RD 22/PV 10 (maior).</p>",
+  "effects": []
+ },
+ {
+  "type": "gear",
+  "name": "Amuleto zen",
+  "page": 303,
+  "group": "Amuletos",
+  "price": "6.250 ¥o",
+  "weight": 0,
+  "slot": "",
+  "description": "<p><strong>Contém:</strong> aura zen e ataque zen.</p><p>Você ganha a habilidade de classe sexto sentido.</p><p><strong>Regras de amuleto:</strong> permite executar os jutsus listados como se você os conhecesse, gastando seus PM; exige chacras abertos no grau correto (não precisa ser o chacra do jutsu). Empunhar ou exibir o amuleto não gasta tempo além da execução. Se já conhece o jutsu, o custo total cai –1 PM (básico/mediano) ou –3 PM (avançado/sublime), mínimo 1 PM. Bônus e poderes menores ficam sempre ativos, salvo indicação contrária. Identificar os jutsus: teste de Identificar Magia ou jutsu apreciar arte. Amuletos têm RD 7/PV 10 (menor), RD 12/PV 10 (médio) ou RD 22/PV 10 (maior).</p>",
+  "effects": []
+ },
+ {
+  "type": "gear",
+  "name": "Água sagrada",
+  "page": 304,
+  "group": "Acessórios",
+  "price": "25 ¥o",
+  "weight": 0,
+  "slot": "",
+  "description": "<p>Frasco frágil arremessado no chão diante de uma criatura a até 9m (ataque à distância contra CA 7). Se acertar, causa 2d6 de dano de luz (contra oni ou shiryou) ou de trevas (contra tenshi). Uso único.</p>",
+  "effects": []
+ },
+ {
+  "type": "gear",
+  "name": "Wagh'Zarr (pintura de guerra)",
+  "page": 308,
+  "group": "Acessórios",
+  "price": "80 ¥o",
+  "weight": 0,
+  "slot": "",
+  "description": "<p>Tinta de guerra aplicada com ação completa. Durante a cena, seu dano ganha +1 por categoria de tamanho em que o alvo supera você; nezumi recebe o dobro. Usar é violação de honra moderada.</p>",
+  "effects": []
+ },
+ {
+  "type": "gear",
+  "name": "Bomba da invisibilidade",
+  "page": 304,
+  "group": "Acessórios",
+  "price": "150 ¥o",
+  "weight": 0,
+  "slot": "",
+  "description": "<p>Jogada no chão com ação padrão, produz invisibilidade ninja (sem aprimoramentos) e se consome. Usar é violação de honra leve.</p>",
+  "effects": []
+ },
+ {
+  "type": "gear",
+  "name": "Bastões moxa da renovação",
+  "page": 304,
+  "group": "Acessórios",
+  "price": "225 ¥o",
+  "weight": 0,
+  "slot": "",
+  "description": "<p>Concedem +15 em um teste de Cura. Destruídos após o uso.</p>",
+  "effects": []
+ },
+ {
+  "type": "gear",
+  "name": "Pó de apagar rastros",
+  "page": 308,
+  "group": "Acessórios",
+  "price": "250 ¥o",
+  "weight": 0,
+  "slot": "",
+  "description": "<p>Lançado no ar, deixa um recinto de até 9m de lado empoeirado e coberto de teias, como abandonado há uma década. Espalhado numa trilha, apaga as pegadas de até 12 criaturas (com montarias) por até 90m; rastrear essas pegadas por Sobrevivência fica +20 de CD.</p>",
+  "effects": []
+ },
+ {
+  "type": "gear",
+  "name": "Saquê fervente",
+  "page": 308,
+  "group": "Acessórios",
+  "price": "300 ¥o",
+  "weight": 0,
+  "slot": "",
+  "description": "<p>Beber um gole exige ação de movimento; depois, com ação padrão, você cospe fogo como o jutsu leque de chamas (sem aprimoramentos). A tokkuri tem dois goles.</p>",
+  "effects": []
+ },
+ {
+  "type": "gear",
+  "name": "Travesseiro do descanso final",
+  "page": 308,
+  "group": "Acessórios",
+  "price": "450 ¥o",
+  "weight": 0,
+  "slot": "",
+  "description": "<p>Colocado sob a cabeça de um morto: enquanto ele repousar ali, o corpo não apodrece nem retorna como shiryou.</p>",
+  "effects": []
+ },
+ {
+  "type": "gear",
+  "name": "Soro da verdade",
+  "page": 308,
+  "group": "Acessórios",
+  "price": "500 ¥o",
+  "weight": 0,
+  "slot": "",
+  "description": "<p>Quem o ingere (ação padrão) responde com sinceridade tudo o que lhe perguntarem na cena (Vontade CD 15 anula). Ainda pode recusar-se a responder ou ficar em silêncio.</p>",
+  "effects": []
+ },
+ {
+  "type": "gear",
+  "name": "Incenso da meditação",
+  "page": 306,
+  "group": "Acessórios",
+  "price": "900 ¥o",
+  "weight": 0,
+  "slot": "",
+  "description": "<p>Aceso, concede ao personagem mais próximo a habilidade de classe meditação. Cada bloco dura 2 horas.</p>",
+  "effects": []
+ },
+ {
+  "type": "gear",
+  "name": "Chá da revigoração honrada",
+  "page": 304,
+  "group": "Acessórios",
+  "price": "1.000 ¥o",
+  "weight": 0,
+  "slot": "",
+  "description": "<p>Chá preparado com cuidado e bebido com respeito (10 minutos) recupera PM igual ao bônus de Honra de quem o preparou. Criatura desonrada recupera metade; sórdida ou desumana não recupera e fica enjoada pela cena. Cada pacote serve 5 pessoas.</p>",
+  "effects": []
+ },
+ {
+  "type": "gear",
+  "name": "Pena de Hinotori",
+  "page": 307,
+  "group": "Acessórios",
+  "price": "1.000 ¥o",
+  "weight": 0,
+  "slot": "",
+  "description": "<p>Agitada (ação padrão) sobre um aliado com 0 PV ou menos, leva-o a 1 PV. Funciona mesmo se ele passou de metade dos PV totais em PV negativos, desde que não tenha passado uma rodada inteira (para todos os efeitos, ele não morreu). Desfaz-se em chamas após o uso.</p>",
+  "effects": []
+ },
+ {
+  "type": "gear",
+  "name": "Varinha da orientação",
+  "page": 308,
+  "group": "Acessórios",
+  "price": "1.100 ¥o",
+  "weight": 0,
+  "slot": "",
+  "description": "<p>Gastando ação padrão e 1 PM, concede até o fim da cena +1 em resistência a uma criatura a até 9m. Usada por um shugenja, permite usar a habilidade orientação em criaturas que não possam vê-lo ou ouvi-lo.</p>",
+  "effects": []
+ },
+ {
+  "type": "gear",
+  "name": "Anel místico +1",
+  "page": 304,
+  "group": "Acessórios",
+  "price": "2.000 ¥o",
+  "weight": 0,
+  "slot": "",
+  "description": "<p>Aumenta seu limite de PM em 1. Usado por um wu-jen, o aumento é de 2.</p>",
+  "effects": [
+   {
+    "key": "system.attributes.pm.limitBonus",
+    "type": "add",
+    "value": 1
+   }
+  ]
+ },
+ {
+  "type": "gear",
+  "name": "Anel místico +3",
+  "page": 304,
+  "group": "Acessórios",
+  "price": "18.000 ¥o",
+  "weight": 0,
+  "slot": "",
+  "description": "<p>Aumenta seu limite de PM em 3. Usado por um wu-jen, o aumento é de 5.</p>",
+  "effects": [
+   {
+    "key": "system.attributes.pm.limitBonus",
+    "type": "add",
+    "value": 3
+   }
+  ]
+ },
+ {
+  "type": "gear",
+  "name": "Anel místico +6",
+  "page": 304,
+  "group": "Acessórios",
+  "price": "72.000 ¥o",
+  "weight": 0,
+  "slot": "",
+  "description": "<p>Aumenta seu limite de PM em 6. Usado por um wu-jen, o aumento é de 9.</p>",
+  "effects": [
+   {
+    "key": "system.attributes.pm.limitBonus",
+    "type": "add",
+    "value": 6
+   }
+  ]
+ },
+ {
+  "type": "gear",
+  "name": "Bálsamo transmutador",
+  "page": 304,
+  "group": "Acessórios",
+  "price": "2.000 ¥o",
+  "weight": 0,
+  "slot": "",
+  "description": "<p>Aplicado com ação padrão, cancela um jutsu de transmutação de duração permanente. Aquecido e aplicado com ação completa, causa o efeito de corpo de terracota (sem aprimoramentos). Um pote dá um único uso.</p>",
+  "effects": []
+ },
+ {
+  "type": "gear",
+  "name": "Pingente da leveza",
+  "page": 308,
+  "group": "Acessórios",
+  "price": "2.200 ¥o",
+  "weight": 0,
+  "slot": "",
+  "description": "<p>Você sempre cai em pé e não sofre dano de queda. Usado por um ryuujin, concede deslocamento de voo 3m (6m se tiver o talento Leveza Celestial).</p>",
+  "effects": []
+ },
+ {
+  "type": "gear",
+  "name": "Colar do sustento",
+  "page": 306,
+  "group": "Acessórios",
+  "price": "2.500 ¥o",
+  "weight": 0,
+  "slot": "",
+  "description": "<p>Elimina a necessidade de comer e beber e permite dormir 2 horas por dia como se fossem 8. Os efeitos só começam após uma semana de uso.</p>",
+  "effects": []
+ },
+ {
+  "type": "gear",
+  "name": "Sandálias acrobáticas",
+  "page": 308,
+  "group": "Acessórios",
+  "price": "2.500 ¥o",
+  "weight": 0,
+  "slot": "",
+  "description": "<p>Você ignora terreno difícil e efeitos que dependem de a vítima ter os pés no chão (ex.: estrepes invisíveis, pisão do bisonte).</p>",
+  "effects": []
+ },
+ {
+  "type": "gear",
+  "name": "Omamori da invisibilidade específica",
+  "page": 307,
+  "group": "Acessórios",
+  "price": "2.625 ¥o",
+  "weight": 0,
+  "slot": "",
+  "description": "<p>Ao obter o item, role 1d6 para definir o tipo protegido: monstros (6), youkai (5), shiryou (4), oni (3), construtos (2) ou animais (1). Com ação padrão e 1 PM, você recebe invisibilidade ninja (sem aprimoramentos) apenas contra esse tipo de criatura.</p>",
+  "effects": []
+ },
+ {
+  "type": "gear",
+  "name": "Tsuba elemental",
+  "page": 308,
+  "group": "Acessórios",
+  "price": "2.625 ¥o",
+  "weight": 0,
+  "slot": "",
+  "description": "<p>Acoplável a arma corpo a corpo de corte. Com 1 PM (ação livre), a arma causa +1d6 de dano de um descritor elemental à sua escolha. Instalar ou remover exige ação de movimento.</p>",
+  "effects": []
+ },
+ {
+  "type": "gear",
+  "name": "Máscara do kabuki",
+  "page": 307,
+  "group": "Acessórios",
+  "price": "2.700 ¥o",
+  "weight": 0,
+  "slot": "",
+  "description": "<p>Executa o jutsu véu das múltiplas faces, sem aprimoramentos, mesmo com chacras fechados. Concede +5 em testes de Atuação (dramaturgia).</p>",
+  "effects": []
+ },
+ {
+  "type": "gear",
+  "name": "Jingasa do bushi sortudo",
+  "page": 306,
+  "group": "Acessórios",
+  "price": "2.800 ¥o",
+  "weight": 0,
+  "slot": "",
+  "description": "<p>Há 25% de chance de anular o dano extra de ataque furtivo ou acerto crítico sofrido. Se o usuário é um bushi, rola a chance duas vezes e vale a segunda, mesmo que seja pior.</p>",
+  "effects": []
+ },
+ {
+  "type": "gear",
+  "name": "Corda da escalada",
+  "page": 306,
+  "group": "Acessórios",
+  "price": "3.000 ¥o",
+  "weight": 0,
+  "slot": "",
+  "description": "<p>Corda de cânhamo de 30m que suporta 1.500kg. Com comando (ação padrão), move-se em qualquer direção (inclusive para cima) a 3m por rodada, fixando-se onde você quiser; também pode desamarrar-se e voltar.</p>",
+  "effects": []
+ },
+ {
+  "type": "gear",
+  "name": "Talismã do aprimoramento (Jutsu Longínquo)",
+  "page": 308,
+  "group": "Acessórios",
+  "price": "3.000 ¥o",
+  "weight": 0,
+  "slot": "",
+  "description": "<p>Concede o talento de aprimoramento indicado. Se você já o tem, pode reduzir o custo total de um jutsu com esse aprimoramento em 1 PM (talismã menor), 2 PM (médio) ou 3 PM (maior), mínimo 1 PM. Talento: Jutsu Longínquo.</p>",
+  "effects": []
+ },
+ {
+  "type": "gear",
+  "name": "Talismã do aprimoramento (Jutsu sem Mantras)",
+  "page": 308,
+  "group": "Acessórios",
+  "price": "3.000 ¥o",
+  "weight": 0,
+  "slot": "",
+  "description": "<p>Concede o talento de aprimoramento indicado. Se você já o tem, pode reduzir o custo total de um jutsu com esse aprimoramento em 1 PM (talismã menor), 2 PM (médio) ou 3 PM (maior), mínimo 1 PM. Talento: Jutsu sem Mantras.</p>",
+  "effects": []
+ },
+ {
+  "type": "gear",
+  "name": "Talismã do aprimoramento (Jutsu sem Selos)",
+  "page": 308,
+  "group": "Acessórios",
+  "price": "3.000 ¥o",
+  "weight": 0,
+  "slot": "",
+  "description": "<p>Concede o talento de aprimoramento indicado. Se você já o tem, pode reduzir o custo total de um jutsu com esse aprimoramento em 1 PM (talismã menor), 2 PM (médio) ou 3 PM (maior), mínimo 1 PM. Talento: Jutsu sem Selos.</p>",
+  "effects": []
+ },
+ {
+  "type": "gear",
+  "name": "Talismã do aprimoramento (Jutsu Compartilhado)",
+  "page": 308,
+  "group": "Acessórios",
+  "price": "11.000 ¥o",
+  "weight": 0,
+  "slot": "",
+  "description": "<p>Concede o talento de aprimoramento indicado. Se você já o tem, pode reduzir o custo total de um jutsu com esse aprimoramento em 1 PM (talismã menor), 2 PM (médio) ou 3 PM (maior), mínimo 1 PM. Talento: Jutsu Compartilhado.</p>",
+  "effects": []
+ },
+ {
+  "type": "gear",
+  "name": "Talismã do aprimoramento (Jutsu Estendido)",
+  "page": 308,
+  "group": "Acessórios",
+  "price": "11.000 ¥o",
+  "weight": 0,
+  "slot": "",
+  "description": "<p>Concede o talento de aprimoramento indicado. Se você já o tem, pode reduzir o custo total de um jutsu com esse aprimoramento em 1 PM (talismã menor), 2 PM (médio) ou 3 PM (maior), mínimo 1 PM. Talento: Jutsu Estendido.</p>",
+  "effects": []
+ },
+ {
+  "type": "gear",
+  "name": "Talismã do aprimoramento (Jutsu Ampliado)",
+  "page": 308,
+  "group": "Acessórios",
+  "price": "14.000 ¥o",
+  "weight": 0,
+  "slot": "",
+  "description": "<p>Concede o talento de aprimoramento indicado. Se você já o tem, pode reduzir o custo total de um jutsu com esse aprimoramento em 1 PM (talismã menor), 2 PM (médio) ou 3 PM (maior), mínimo 1 PM. Talento: Jutsu Ampliado.</p>",
+  "effects": []
+ },
+ {
+  "type": "gear",
+  "name": "Talismã do aprimoramento (Jutsu Acelerado)",
+  "page": 308,
+  "group": "Acessórios",
+  "price": "70.000 ¥o",
+  "weight": 0,
+  "slot": "",
+  "description": "<p>Concede o talento de aprimoramento indicado. Se você já o tem, pode reduzir o custo total de um jutsu com esse aprimoramento em 1 PM (talismã menor), 2 PM (médio) ou 3 PM (maior), mínimo 1 PM. Talento: Jutsu Acelerado.</p>",
+  "effects": []
+ },
+ {
+  "type": "gear",
+  "name": "Talismã do aprimoramento (Jutsu Irresistível)",
+  "page": 308,
+  "group": "Acessórios",
+  "price": "70.000 ¥o",
+  "weight": 0,
+  "slot": "",
+  "description": "<p>Concede o talento de aprimoramento indicado. Se você já o tem, pode reduzir o custo total de um jutsu com esse aprimoramento em 1 PM (talismã menor), 2 PM (médio) ou 3 PM (maior), mínimo 1 PM. Talento: Jutsu Irresistível.</p>",
+  "effects": []
+ },
+ {
+  "type": "gear",
+  "name": "Talismã do aprimoramento (Jutsu Maximizado)",
+  "page": 308,
+  "group": "Acessórios",
+  "price": "70.000 ¥o",
+  "weight": 0,
+  "slot": "",
+  "description": "<p>Concede o talento de aprimoramento indicado. Se você já o tem, pode reduzir o custo total de um jutsu com esse aprimoramento em 1 PM (talismã menor), 2 PM (médio) ou 3 PM (maior), mínimo 1 PM. Talento: Jutsu Maximizado.</p>",
+  "effects": []
+ },
+ {
+  "type": "gear",
+  "name": "Maquiagem celestial",
+  "page": 307,
+  "group": "Acessórios",
+  "price": "3.150 ¥o",
+  "weight": 0,
+  "slot": "",
+  "description": "<p>Kit obra-prima com 5 usos. Aplicada em 10 minutos, dá imunidade a encantamento pela cena.</p>",
+  "effects": []
+ },
+ {
+  "type": "gear",
+  "name": "Cinturão da pedra real",
+  "page": 306,
+  "group": "Acessórios",
+  "price": "3.250 ¥o",
+  "weight": 0,
+  "slot": "",
+  "description": "<p>+5 em testes de Atletismo. Em jitensha, deslocamento extra +3m (somado ao +3m normal). Usado por um kaijin, pode trocar para a forma humana normal e retornar, cada troca com ação completa; humano, ele escapa dos efeitos do traço disforme.</p>",
+  "effects": [
+   {
+    "key": "system.skills.atletismo.bonus",
+    "type": "add",
+    "value": 5
+   }
+  ]
+ },
+ {
+  "type": "gear",
+  "name": "Karakuri das armadilhas",
+  "page": 307,
+  "group": "Acessórios",
+  "price": "3.500 ¥o",
+  "weight": 0,
+  "slot": "",
+  "description": "<p>Com ação padrão, encontra e desabilita uma única armadilha a até 9m. Há 5% de chance de acioná-la por acidente, sendo destruído.</p>",
+  "effects": []
+ },
+ {
+  "type": "gear",
+  "name": "Bainha da surpresa",
+  "page": 304,
+  "group": "Acessórios",
+  "price": "4.000 ¥o",
+  "weight": 0,
+  "slot": "",
+  "description": "<p>Rola Iniciativa duas vezes e fica com o melhor resultado, mas só quando você saca a arma guardada na bainha.</p>",
+  "effects": []
+ },
+ {
+  "type": "gear",
+  "name": "Braçadeiras do arqueiro",
+  "page": 304,
+  "group": "Acessórios",
+  "price": "4.000 ¥o",
+  "weight": 0,
+  "slot": "",
+  "description": "<p>Concede +1 em jogadas de ataque feitas com armas de ataque à distância.</p>",
+  "effects": [
+   {
+    "key": "system.attributes.attack.ranged",
+    "type": "add",
+    "value": 1
+   }
+  ]
+ },
+ {
+  "type": "gear",
+  "name": "Corda do aprisionamento",
+  "page": 306,
+  "group": "Acessórios",
+  "price": "4.500 ¥o",
+  "weight": 0,
+  "slot": "",
+  "description": "<p>Corda de seda de 30m que, com comando (ação padrão), amarra criatura de tamanho Enorme ou menor. Para rompê-la, teste de Força CD 30; ela possui 4 PV e RD 5.</p>",
+  "effects": []
+ },
+ {
+  "type": "gear",
+  "name": "Tokkuri da fumaça eterna",
+  "page": 308,
+  "group": "Acessórios",
+  "price": "5.400 ¥o",
+  "weight": 0,
+  "slot": "",
+  "description": "<p>Destampar (ação de movimento) libera fumaça preta como o jutsu bomba de fumaça (sem aprimoramentos). Ela persiste até que outra ação de movimento tampe a garrafa.</p>",
+  "effects": []
+ },
+ {
+  "type": "gear",
+  "name": "Aljava abençoada",
+  "page": 304,
+  "group": "Acessórios",
+  "price": "6.000 ¥o",
+  "weight": 0,
+  "slot": "",
+  "description": "<p>Flechas guardadas na aljava causam +1d6 de dano de luz. Os efeitos só ativam após uma cena de uso.</p>",
+  "effects": []
+ },
+ {
+  "type": "gear",
+  "name": "Bainha do vento divino",
+  "page": 304,
+  "group": "Acessórios",
+  "price": "7.350 ¥o",
+  "weight": 0,
+  "slot": "",
+  "description": "<p>Com uma arma sacada desta bainha na mesma rodada, você executa dança dos cinco ventos e golpe do vento distante pagando o custo normal, ainda que seus chacras estejam fechados.</p>",
+  "effects": []
+ },
+ {
+  "type": "gear",
+  "name": "Anel de proteção",
+  "page": 304,
+  "group": "Acessórios",
+  "price": "8.000 ¥o",
+  "weight": 0,
+  "slot": "",
+  "description": "<p>Contra ataques de toque ou toque à distância, você usa a CA em vez de Reflexos.</p>",
+  "effects": []
+ },
+ {
+  "type": "gear",
+  "name": "Anel do escudo mental",
+  "page": 304,
+  "group": "Acessórios",
+  "price": "8.000 ¥o",
+  "weight": 0,
+  "slot": "",
+  "description": "<p>Imunidade a jutsus de adivinhação de grau avançado ou menor.</p>",
+  "effects": []
+ },
+ {
+  "type": "gear",
+  "name": "Manoplas dos dois princípios",
+  "page": 307,
+  "group": "Acessórios",
+  "price": "10.000 ¥o",
+  "weight": 0,
+  "slot": "",
+  "description": "<p>Concedem o talento Combater com Duas Armas. Se você já o tem, recebe +1 nas jogadas de ataque ao usá-lo.</p>",
+  "effects": []
+ },
+ {
+  "type": "gear",
+  "name": "Papel das muitas formas",
+  "page": 307,
+  "group": "Acessórios",
+  "price": "10.000 ¥o",
+  "weight": 0,
+  "slot": "",
+  "description": "<p>Para quem tem Ofício (origami) ou Atuação (arte tradicional). Com ação completa, dobre o papel e faça teste de perícia (CD 20 + ND da criatura, ou a CD de fabricação do objeto). Se passar, a figura vira objeto ou criatura real de tamanho Enorme ou menor, com estatísticas de tsukumogami do tamanho adequado (Cap. 7) e os deslocamentos da criatura original, até o fim da cena. Depois de dobrado, pode ser reutilizado (ação padrão) para invocar a mesma figura. Se destruído ou desdobrado, perde o poder.</p>",
+  "effects": []
+ },
+ {
+  "type": "gear",
+  "name": "Furoshiki profundo",
+  "page": 306,
+  "group": "Acessórios",
+  "price": "10.400 ¥o",
+  "weight": 0,
+  "slot": "",
+  "description": "<p>Guarda até 500kg e pesa no máximo 250g. Se rasgado, o conteúdo surge no espaço vazio mais próximo. Não aceita criaturas vivas.</p>",
+  "effects": []
+ },
+ {
+  "type": "gear",
+  "name": "Biwa encantador",
+  "page": 304,
+  "group": "Acessórios",
+  "price": "12.600 ¥o",
+  "weight": 0,
+  "slot": "",
+  "description": "<p>Tocar exige ação padrão e teste de Atuação (música) CD 25. Funciona como influência invisível (sem aprimoramentos) sobre uma criatura ouvinte, de qualquer tipo. As ordens podem estar ocultas na canção; percebê-las exige teste de Intuição oposto à Enganação do usuário.</p>",
+  "effects": []
+ },
+ {
+  "type": "gear",
+  "name": "Faixa do monge",
+  "page": 306,
+  "group": "Acessórios",
+  "price": "13.000 ¥o",
+  "weight": 0,
+  "slot": "",
+  "description": "<p>Concede o talento Ataque Desarmado Aprimorado. Se já o tem, conta como uma categoria de tamanho acima para dano desarmado; com a habilidade de classe dano desarmado, conta como duas categorias acima.</p>",
+  "effects": []
+ },
+ {
+  "type": "gear",
+  "name": "Sandálias da velocidade",
+  "page": 308,
+  "group": "Acessórios",
+  "price": "14.000 ¥o",
+  "weight": 0,
+  "slot": "",
+  "description": "<p>No início de cada rodada sua, você ganha uma ação de movimento extra, usada para se deslocar.</p>",
+  "effects": []
+ },
+ {
+  "type": "gear",
+  "name": "Jogo de chá ancestral",
+  "page": 307,
+  "group": "Acessórios",
+  "price": "15.100 ¥o",
+  "weight": 0,
+  "slot": "",
+  "description": "<p>+5 em testes de Atuação (arte tradicional). Em cerimônia do chá (ação completa, Atuação CD 25), produz verdade dos ancestrais já com os aprimoramentos de +3 e de +12 PM. Para sustentá-la, continue a cerimônia com ação padrão por rodada, como se concentrasse em jutsu.</p>",
+  "effects": []
+ },
+ {
+  "type": "gear",
+  "name": "Faixa do vanara incompleto",
+  "page": 306,
+  "group": "Acessórios",
+  "price": "16.000 ¥o",
+  "weight": 0,
+  "slot": "",
+  "description": "<p>Presa ao cinto, dá os benefícios do traço racial cauda. Usada por vanara, enrola-se na cauda, que passa a empunhar armas de uma mão ou ajudar com as de duas mãos. Em ataque corpo a corpo, o vanara paga 1 PM por um ataque adicional com a cauda (desarmado, arma leve ou de uma mão).</p>",
+  "effects": []
+ },
+ {
+  "type": "gear",
+  "name": "Remo voador",
+  "page": 308,
+  "group": "Acessórios",
+  "price": "17.000 ¥o",
+  "weight": 0,
+  "slot": "",
+  "description": "<p>Voa com deslocamento 12m e pode acelerar como o jutsu voo de Hinotori. Carrega até 200kg ou viaja sozinho a um lugar que o dono conheça bem. A até 300m, vem ao dono com um comando (ação livre).</p>",
+  "effects": []
+ },
+ {
+  "type": "gear",
+  "name": "Botas das nuvens",
+  "page": 304,
+  "group": "Acessórios",
+  "price": "20.000 ¥o",
+  "weight": 0,
+  "slot": "",
+  "description": "<p>Gastando 6 PM (ação livre), você recebe deslocamento de voo 18m até o fim da cena.</p>",
+  "effects": []
+ },
+ {
+  "type": "gear",
+  "name": "Elmo monstruoso",
+  "page": 306,
+  "group": "Acessórios",
+  "price": "24.000 ¥o",
+  "weight": 0,
+  "slot": "",
+  "description": "<p>Deixa sua aparência borrada: ataques contra você têm 20% de chance de falha. Para um kaijin, o elmo vale como dois talentos da Tormenta extras no cálculo dos poderes de outros talentos da Tormenta. Usar é violação de honra severa.</p>",
+  "effects": []
+ },
+ {
+  "type": "gear",
+  "name": "Fantasia de cão-leão",
+  "page": 306,
+  "group": "Acessórios",
+  "price": "26.500 ¥o",
+  "weight": 0,
+  "slot": "",
+  "description": "<p>+5 em Atuação (dança) e imunidade a medo. Com ação de movimento e Atuação CD 25, você escolhe criaturas a até 30m, que ficam igualmente imunes a medo durante a cena.</p>",
+  "effects": []
+ },
+ {
+  "type": "gear",
+  "name": "Periapto da saúde",
+  "page": 307,
+  "group": "Acessórios",
+  "price": "27.000 ¥o",
+  "weight": 0,
+  "slot": "",
+  "description": "<p>Imunidade a doenças e venenos.</p>",
+  "effects": []
+ },
+ {
+  "type": "gear",
+  "name": "Pincel do poeta andarilho",
+  "page": 307,
+  "group": "Acessórios",
+  "price": "27.700 ¥o",
+  "weight": 0,
+  "slot": "",
+  "description": "<p>+5 em Atuação (oratória) e Ofício (escriba). Escrever uma frase no ar (ação padrão, Atuação (oratória) CD 25) cria uma ilusão visível e perceptível semelhante a teatro de sombras, julgada pelo mestre, de tamanho até emanação de 45m de raio.</p>",
+  "effects": []
+ },
+ {
+  "type": "gear",
+  "name": "Lanterna da revelação",
+  "page": 307,
+  "group": "Acessórios",
+  "price": "30.000 ¥o",
+  "weight": 0,
+  "slot": "",
+  "description": "<p>Sua luz revela, como formas translúcidas, todas as criaturas e objetos invisíveis a até 9m. Usa combustível normal.</p>",
+  "effects": []
+ },
+ {
+  "type": "gear",
+  "name": "Taiko de Dai'Gun",
+  "page": 308,
+  "group": "Acessórios",
+  "price": "30.500 ¥o",
+  "weight": 0,
+  "slot": "",
+  "description": "<p>Exige as duas mãos. +5 em Atuação (música); em viagem, o grupo ganha +6m de deslocamento. Gastando 2 PM, ação padrão e Atuação (música) CD 25, causa 6d6 de dano em cone de 9m (Reflexos CD 25 reduz à metade), ignorando RD de objetos e construtos; +1d6 por +2 PM extras. Se falhar no teste, o efeito ocorre mas o dano também atinge você.</p>",
+  "effects": []
+ },
+ {
+  "type": "gear",
+  "name": "Elmo do kiai invencível",
+  "page": 306,
+  "group": "Acessórios",
+  "price": "32.600 ¥o",
+  "weight": 0,
+  "slot": "",
+  "description": "<p>Com ação padrão, você grita \"kiai!\" e causa o efeito do jutsu kiai atordoante. Usado por samurai, reduz em 1 PM (mínimo 0) o custo de grito de kiai e de jutsus com \"kiai\" no nome.</p>",
+  "effects": []
+ },
+ {
+  "type": "gear",
+  "name": "Sandálias da liberdade",
+  "page": 308,
+  "group": "Acessórios",
+  "price": "37.500 ¥o",
+  "weight": 0,
+  "slot": "",
+  "description": "<p>+3m no deslocamento e efeito constante de libertação de Nozomi (sem aprimoramentos).</p>",
+  "effects": [
+   {
+    "key": "system.attributes.movement.bonus",
+    "type": "add",
+    "value": 3
+   }
+  ]
+ },
+ {
+  "type": "gear",
+  "name": "Pérola da fúria divina",
+  "page": 307,
+  "group": "Acessórios",
+  "price": "38.000 ¥o",
+  "weight": 0,
+  "slot": "",
+  "description": "<p>Com comando (ação padrão), dá +2 nas jogadas de ataque e dano e –2 na CA, até o fim da cena. Usada por shugenja, soma seu bônus de Honra a ataque, dano, CA e CD de jutsus (cumulativo com efeitos similares).</p>",
+  "effects": []
+ },
+ {
+  "type": "gear",
+  "name": "Gerador arcano externo",
+  "page": 306,
+  "group": "Acessórios",
+  "price": "40.000 ¥o",
+  "weight": 0,
+  "slot": "",
+  "description": "<p>Acoplado às costas de um mashin, dá os benefícios do talento Gerador Arcano. Caso o mashin já o possua, o tempo de meditação cai para 30 minutos.</p>",
+  "effects": []
+ },
+ {
+  "type": "gear",
+  "name": "Bola de cristal",
+  "page": 304,
+  "group": "Acessórios",
+  "price": "42.000 ¥o",
+  "weight": 0,
+  "slot": "",
+  "description": "<p>Com ação padrão, permite ver uma criatura ou objeto como no jutsu vidência dos ancestrais, com possibilidade de concentrar-se para continuar observando. Também permite comunicação telepática com alvo inteligente (Int 3+), independente do idioma.</p>",
+  "effects": []
+ },
+ {
+  "type": "gear",
+  "name": "Anel de Sugora",
+  "page": 304,
+  "group": "Acessórios",
+  "price": "45.000 ¥o",
+  "weight": 0,
+  "slot": "",
+  "description": "<p>Concede cura acelerada 5 apenas em combate. Deixa de funcionar quando o usuário morre.</p>",
+  "effects": []
+ },
+ {
+  "type": "gear",
+  "name": "Estandarte da honra",
+  "page": 306,
+  "group": "Acessórios",
+  "price": "50.000 ¥o",
+  "weight": 0,
+  "slot": "",
+  "description": "<p>A Honra serve de reserva de força, em duas ocasiões por sessão (duas por cena, havendo a habilidade de classe honra suprema). Usado por criatura com Honra 9 ou menos, apenas impõe um nível negativo enquanto usado.</p>",
+  "effects": []
+ },
+ {
+  "type": "gear",
+  "name": "Máscara aberrante",
+  "page": 307,
+  "group": "Acessórios",
+  "price": "50.500 ¥o",
+  "weight": 0,
+  "slot": "",
+  "description": "<p>Ataques contra você têm 10% de chance de falha. Você soma seu bônus de Sabedoria a jogadas de ataque, CA e testes de Reflexos. Usar é violação de honra severa.</p>",
+  "effects": []
+ },
+ {
+  "type": "gear",
+  "name": "Varinha da repulsão",
+  "page": 308,
+  "group": "Acessórios",
+  "price": "60.000 ¥o",
+  "weight": 0,
+  "slot": "",
+  "description": "<p>Contra youkai, as jogadas de ataque do jutsu rito do exorcista ganham +5. Além disso, o alvo permanece sob amuleto de repulsão (efeito constante), restrito a youkai.</p>",
+  "effects": []
+ },
+ {
+  "type": "gear",
+  "name": "Cetro de Yumeno",
+  "page": 304,
+  "group": "Acessórios",
+  "price": "63.000 ¥o",
+  "weight": 0,
+  "slot": "",
+  "description": "<p>Enquanto empunhado, libera estes jutsus pelo custo normal, sem chacras abertos e sem violação de honra: explosão radiante, estrela da invencibilidade, círculo de trevas e círculo de luz. A cada noite de sono com o item, há 1% cumulativo de receber o efeito amnésia do jutsu fracasso.</p>",
+  "effects": []
+ },
+ {
+  "type": "gear",
+  "name": "Lágrima do norte branco",
+  "page": 307,
+  "group": "Acessórios",
+  "price": "71.000 ¥o",
+  "weight": 0,
+  "slot": "",
+  "description": "<p>Empunhada, com ação completa e 6 PM, muda o clima como dominar o clima (sem aprimoramentos), mas só neblina, neve ou granizo. Você fica imune a frio.</p>",
+  "effects": []
+ },
+ {
+  "type": "gear",
+  "name": "Anel da estabilidade",
+  "page": 304,
+  "group": "Acessórios",
+  "price": "100.000 ¥o",
+  "weight": 0,
+  "slot": "",
+  "description": "<p>Concede Constituição +2 (não cumulativo com outros objetos de jade) e imunidade a transmutação.</p>",
+  "effects": [
+   {
+    "key": "system.abilities.con.bonus",
+    "type": "add",
+    "value": 2
+   }
+  ]
+ },
+ {
+  "type": "gear",
+  "name": "Flauta das Eras",
+  "page": 309,
+  "group": "Artefatos",
+  "price": "—",
+  "weight": 0,
+  "slot": "",
+  "description": "<p>Artefato único, sem preço; entra na campanha só por decisão do mestre. Só de carregá-la você recebe +5 na CA e nos testes de resistência. Pode mudar de forma para outro instrumento de sopro ou para uma tanto defensora +5.</p><p>Quem toca a melodia perfeita (uma cena inteira e Atuação (música) CD 40) obtém efeitos como o jutsu milagre dos ancestrais, sem custo em PM. Com 12 melodias perfeitas seguidas, uma nova era começa, definida pelo mestre: com Honra 22+ a mudança é harmoniosa; com Honra 5 ou menos, caótica e destrutiva.</p><p><strong>Custo:</strong> a cada dia carregando-a, o dono perde 5 PM permanentes. Quando seus PM chegam a 0, os chacras se fecham (como em lágrimas de Mizuha) e a flauta some, indo parar em outro lugar.</p>",
+  "effects": [
+   {
+    "key": "system.attributes.ca.bonus",
+    "type": "add",
+    "value": 5
+   },
+   {
+    "key": "system.saves.fort.bonus",
+    "type": "add",
+    "value": 5
+   },
+   {
+    "key": "system.saves.ref.bonus",
+    "type": "add",
+    "value": 5
+   },
+   {
+    "key": "system.saves.von.bonus",
+    "type": "add",
+    "value": 5
+   }
+  ]
+ },
+ {
+  "type": "gear",
+  "name": "Kaminari, o Trovão Divino",
+  "page": 309,
+  "group": "Artefatos",
+  "price": "—",
+  "weight": 0,
+  "slot": "",
+  "description": "<p>Artefato único: espada de Lin-Wu. Nas mãos de samurai ou shugenja, é uma katana digníssima, elétrica, fantasma, radiante, trovejante e veloz, com todos os poderes de digníssima.</p><p>Nas mãos de qualquer outra criatura é só uma katana +1. Se empunhada por criatura desonrada, impõe na hora uma missão de honra, sem teste de resistência; cumprida (+1 de Honra), ela continua impondo missões até a criatura chegar a Honra 10. Se empunhada por criatura sórdida ou desumana, causa 26d6 de dano de eletricidade por rodada, ignorando resistências e imunidades, até a morte ou até soltar a espada.</p>",
+  "effects": []
+ },
+ {
+  "type": "gear",
+  "name": "Orbe Dourado das Quatro Direções",
+  "page": 309,
+  "group": "Artefatos",
+  "price": "—",
+  "weight": 0,
+  "slot": "",
+  "description": "<p>Artefato único, de paradeiro desconhecido. Quem toca o orbe faz um desejo atendido como o jutsu distorção da realidade, sem custo em PM, sem perda permanente de PM e sem violação de honra; pode, por exemplo, reviver um nakama caído que não pôde ser salvo de outro modo.</p><p><strong>Consequência:</strong> após o uso, catástrofes naturais e ataques de kaiju se concentram, por décadas a milênios, numa só das direções cardeais de Tamu-ra (norte, sul, leste, oeste). O orbe diminui e desaparece, assim como uma gema-estrela e a construção onde estava (as criaturas dentro permanecem no lugar, podendo cair).</p>",
+  "effects": []
+ },
+ {
+  "type": "gear",
+  "name": "O-Yoroi do Samurai de Sangue",
+  "page": 310,
+  "group": "Artefatos",
+  "price": "—",
+  "weight": 0,
+  "slot": "",
+  "description": "<p>Artefato único. Surge em trovão divino como reação, comportando-se como criatura conjurada completamente imune a dano e efeitos; fornece cobertura total a uma criatura de qualquer tamanho. No início da rodada seguinte, veste-se sozinha, como ação livre, no herói escolhido (absorvendo temporariamente qualquer armadura que ele usasse).</p><p>Trata-se de o-yoroi +5 com os poderes assustadora, espectral, fortificada, guardiã, honrada e resistente, sem penalidade de armadura. Para samurai ou shugenja, ela não impõe limite ao bônus de Destreza na CA nem diminui o deslocamento.</p>",
+  "effects": []
+ },
+ {
+  "type": "gear",
+  "name": "Sasori'Ken, a Espada-Escorpião",
+  "page": 310,
+  "group": "Artefatos",
+  "price": "—",
+  "weight": 0,
+  "slot": "",
+  "description": "<p>Artefato único. Para qualquer um, é uma ninja-to +1. Empunhada por um ninja, torna-se ninja-to +5 ameaçadora sanguinária sórdida. Todo ataque bem-sucedido neutraliza cura acelerada por 1 rodada (mesmo a que não pode ser interrompida). Contra outros ninjas, tem o poder mortal (CD 34).</p><p>O usuário pode gastar 10 PM (ação livre) para jurar matar uma criatura a até 9m; contra ela, todos os ataques da espada são acertos críticos. Tocando a lâmina em um efeito ou alvo de jutsu e gastando 1 PM permanente, torna esse efeito permanente.</p><p><strong>Preço:</strong> sempre que é desembainhada, o usuário precisa abater uma criatura com ND igual ou superior ao seu (reduzir a menos de 0 PV não basta; ela deve morrer pela espada). Se tentar embainhá-la sem pagar, perde 1 ponto de Constituição permanentemente.</p>",
+  "effects": []
+ },
+ {
+  "type": "gear",
+  "name": "A Última Flecha",
+  "page": 311,
+  "group": "Artefatos",
+  "price": "—",
+  "weight": 0,
+  "slot": "",
+  "description": "<p>Artefato único. Flecha caçadora mortal +5 usável em qualquer arco ou besta; reaparece na aljava depois de acertar ou errar. Antes de disparar, com ação de movimento, faça teste de Percepção (CD igual à CA do alvo); se passar e o ataque acertar, é acerto crítico automático.</p><p>Contra akumushi, ignora toda redução de dano e imunidade, inclusive a acertos críticos. Rumores dizem que mataria Lordes da Tormenta, mas o arqueiro estaria destinado a morrer da mesma forma que o Deus dos Arqueiros.</p>",
+  "effects": []
+ },
+ {
+  "type": "gear",
+  "name": "Wakizashi da Morte",
+  "page": 311,
+  "group": "Artefatos",
+  "price": "—",
+  "weight": 0,
+  "slot": "",
+  "description": "<p>Artefato único. Mecanicamente é uma wakizashi +1. Qualquer criatura inteligente (Int 3+) que enxergue o próprio reflexo na lâmina vê o momento da própria morte. Até lá, recebe +4 na CA e nos testes de resistência em qualquer combate; no encontro que levará à morte, sofre –4 na CA e nos testes de resistência e todos os acertos contra ela são críticos (ignorando imunidade a críticos). Para mortes fora de combate, os modificadores se adaptam (ex.: +4 em Fortitude contra doença, mas falha automática ao contato com a peste fatal).</p><p>Se o personagem destruir definitivamente a causa da morte (matar o inimigo, erradicar a doença), muda o futuro e os bônus e penalidades somem (embora o mestre possa mostrar que a ameaça voltou). O mestre define as circunstâncias da morte.</p>",
+  "effects": []
+ }
+]

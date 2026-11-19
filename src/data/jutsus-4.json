@@ -1,0 +1,2428 @@
+[
+  {
+    "name": "Amuleto de Repulsão",
+    "page": 202,
+    "grade": "sublime",
+    "chakra": "sab",
+    "chakras": [
+      "sab"
+    ],
+    "descriptors": "abjuração",
+    "execution": "ação padrão",
+    "range": "pessoal",
+    "target": "Alvo: você",
+    "duration": "cena",
+    "resistance": "",
+    "save": "",
+    "attack": "",
+    "damage": null,
+    "description": "<p>Escolha um tipo de criatura (animais, construtos, humanoides, monstros ou youkai) ou uma categoria dentro de um tipo (como insetos, ou shiryou). Essas criaturas não conseguem chegar a menos de 3m de você, mas podem usar habilidades, jutsus e ataques à distância de fora desse limite.</p>",
+    "enhancements": [
+      {
+        "cost": 1,
+        "text": "aumenta em +1 as categorias escolhidas dentro de um tipo já escolhido."
+      },
+      {
+        "cost": 2,
+        "text": "aumenta a distância em +3m."
+      },
+      {
+        "cost": 5,
+        "text": "aumenta em +1 os tipos escolhidos."
+      }
+    ]
+  },
+  {
+    "name": "Arma dos Cinco Ventos",
+    "page": 202,
+    "grade": "sublime",
+    "chakra": "for",
+    "chakras": [
+      "for"
+    ],
+    "descriptors": "vento",
+    "execution": "ação de movimento",
+    "range": "pessoal",
+    "target": "Alvo: 1 arma corpo-a-corpo",
+    "duration": "cena",
+    "resistance": "",
+    "save": "fort",
+    "attack": "",
+    "damage": {
+      "formula": "1d10",
+      "type": "vento",
+      "healing": false,
+      "scaleDice": "",
+      "scaleCost": 0
+    },
+    "description": "<p>A arma causa +1d10 de dano de vento e ataca criaturas a até 30m; o jutsu acaba se você soltar, entregar ou perder a arma. Num acerto crítico, o alvo testa Fortitude; se falhar, role 1d6: 1) atordoado 1 rodada; 2) confuso 1d4 rodadas; 3) apavorado 1d4 rodadas; 4) surdo pela cena; 5) +5d10 de dano de vento; 6) role duas vezes, ignorando 6.</p>",
+    "enhancements": [
+      {
+        "cost": 1,
+        "text": "muda o alvo para armas de ataque à distância (armas que você arremessar e projéteis disparados pela arma); a distância pode ser contada de qualquer ponto a até 30m de você, e o projétil pode fazer curvas."
+      }
+    ]
+  },
+  {
+    "name": "Arma do Vácuo",
+    "page": 202,
+    "grade": "sublime",
+    "chakra": "for",
+    "chakras": [
+      "for"
+    ],
+    "descriptors": "vácuo",
+    "execution": "ação de movimento",
+    "range": "pessoal",
+    "target": "Alvo: 1 arma corpo-a-corpo",
+    "duration": "cena",
+    "resistance": "",
+    "save": "",
+    "attack": "",
+    "damage": {
+      "formula": "4d8",
+      "type": "",
+      "healing": false,
+      "scaleDice": "",
+      "scaleCost": 0
+    },
+    "description": "<p>A arma ignora redução de dano e causa +4d8 de dano; o jutsu acaba se você soltar, entregar ou perder a arma.</p>",
+    "enhancements": [
+      {
+        "cost": 1,
+        "text": "a arma também atinge criaturas incorpóreas normalmente."
+      },
+      {
+        "cost": 1,
+        "text": "muda o alvo para armas de ataque à distância (armas que você arremessar e projéteis disparados pela arma)."
+      },
+      {
+        "cost": 5,
+        "text": "a arma faz ataques de toque."
+      }
+    ]
+  },
+  {
+    "name": "Armadura de Dai’Gun",
+    "page": 202,
+    "grade": "sublime",
+    "chakra": "con",
+    "chakras": [
+      "con"
+    ],
+    "descriptors": "transmutação",
+    "execution": "ação padrão",
+    "range": "pessoal",
+    "target": "Alvo: você",
+    "duration": "cena ou até ser descarregado",
+    "resistance": "",
+    "save": "",
+    "attack": "",
+    "damage": null,
+    "description": "<p>Você recebe +6 na CA, nas jogadas de ataque, no dano e nos testes de resistência, e 60 PV temporários, mas não pode executar outros jutsus. Se sofrer dano que o levaria a 0 PV ou menos, pode descarregar o jutsu como reação para ignorar esse dano.</p>",
+    "enhancements": [
+      {
+        "cost": 5,
+        "text": "muda o efeito: você pode executar outros jutsus enquanto este estiver ativo."
+      },
+      {
+        "cost": 10,
+        "text": "muda o alvo para até 5 criaturas voluntárias e o alcance para curto; cada uma descarrega o jutsu individualmente, sem afetar os demais alvos. Exige poder executar jutsus lendários."
+      }
+    ]
+  },
+  {
+    "name": "Armazenar Jutsu",
+    "page": 202,
+    "grade": "sublime",
+    "chakra": "car",
+    "chakras": [
+      "car"
+    ],
+    "descriptors": "invocação",
+    "execution": "1 minuto",
+    "range": "corpo-a-corpo",
+    "target": "Alvo: 1 objeto mundano",
+    "duration": "permanente até ser descarregado",
+    "resistance": "",
+    "save": "",
+    "attack": "",
+    "damage": null,
+    "description": "<p>Você guarda um de seus jutsus no objeto (um jutsu por objeto e um objeto por vez), sem deixar de poder usá-lo. Quem segurar o objeto pode liberar o jutsu com uma ação padrão, sem mantras, selos ou PM, esvaziando o objeto. As escolhas do jutsu são feitas por você ao armazená-lo, e penalidades de PM dele recaem sobre você.</p>",
+    "enhancements": [
+      {
+        "cost": 5,
+        "text": "aumenta em +1 o número de objetos com jutsus armazenados ao mesmo tempo."
+      }
+    ]
+  },
+  {
+    "name": "Barreira de Foices de Leen",
+    "page": 203,
+    "grade": "sublime",
+    "chakra": "int",
+    "chakras": [
+      "int"
+    ],
+    "descriptors": "abjuração, transmutação",
+    "execution": "ação padrão",
+    "range": "longo",
+    "target": "Efeito: foices flutuantes",
+    "duration": "cena",
+    "resistance": "Reflexos reduz à metade",
+    "save": "ref",
+    "attack": "",
+    "damage": {
+      "formula": "10d6",
+      "type": "corte",
+      "healing": false,
+      "scaleDice": "1d6",
+      "scaleCost": 1
+    },
+    "description": "<p>Foices giratórias formam, na intersecção entre quadrados, uma parede de até 30m de largura por 6m de altura ou um anel de 6m de raio por 6m de altura, que dá cobertura contra ataques através dela. Atravessá-la exige uma ação padrão e um teste de Atletismo ou Acrobacia (CD do jutsu); com sucesso ou não, a criatura sofre 10d6 de dano de corte (Reflexos reduz à metade). Uma vez por rodada, com uma ação livre, você lança uma foice contra um inimigo a até 30m da barreira: acerto automático, 2d6 de dano de corte, sem teste.</p>",
+    "enhancements": [
+      {
+        "cost": 1,
+        "text": "aumenta a barreira em +3m de largura ou de altura."
+      },
+      {
+        "cost": 1,
+        "text": "aumenta o dano por atravessar em +1d6."
+      },
+      {
+        "cost": 2,
+        "text": "aumenta o dano da foice lançada em +1d6."
+      },
+      {
+        "cost": 4,
+        "text": "aumenta em +1 as foices lançadas por rodada (contra alvos diferentes)."
+      }
+    ]
+  },
+  {
+    "name": "Bombardeio Celestial",
+    "page": 203,
+    "grade": "sublime",
+    "chakra": "int",
+    "chakras": [
+      "int"
+    ],
+    "descriptors": "fogo, eletricidade",
+    "execution": "ação padrão",
+    "range": "longo",
+    "target": "Efeito: até 6 explosões com 3m de raio",
+    "duration": "cena ou até ser descarregado",
+    "resistance": "Reflexos reduz à metade",
+    "save": "ref",
+    "attack": "",
+    "damage": {
+      "formula": "12d6 + 12d6",
+      "type": "fogo e eletricidade",
+      "healing": false,
+      "scaleDice": "1d6",
+      "scaleCost": 1
+    },
+    "description": "<p>Você cria até seis esferas invisíveis, cada uma numa intersecção de quadrados (as áreas podem se sobrepor). Elas dividem entre si, como você quiser, um total de 12d6 de dano de fogo, além de 12d6 de eletricidade (ex.: uma esfera com tudo; ou três, com 8d6 de fogo, 8d6 de eletricidade e 4d6 + 4d6). Cada esfera explode na execução ou quando você a detonar com uma ação livre, durante a cena.</p>",
+    "enhancements": [
+      {
+        "cost": 1,
+        "text": "aumenta o dano máximo de fogo em +1d6."
+      },
+      {
+        "cost": 1,
+        "text": "aumenta o dano máximo de eletricidade em +1d6."
+      }
+    ]
+  },
+  {
+    "name": "Círculo das Trevas",
+    "page": 203,
+    "grade": "sublime",
+    "chakra": "car",
+    "chakras": [
+      "car"
+    ],
+    "descriptors": "trevas",
+    "execution": "ação padrão",
+    "range": "longo",
+    "target": "Área: explosão com 12m de raio",
+    "duration": "instantânea",
+    "resistance": "Fortitude anula",
+    "save": "fort",
+    "attack": "",
+    "damage": null,
+    "description": "<p>Mata instantaneamente criaturas vivas de 2º nível ou menor, até somar 10d4 níveis (níveis menores primeiro; em empate, as mais próximas do centro). Criaturas de 3º a 10º nível, e as de nível baixo que sobreviverem, recebem 1d4 níveis negativos. Acima do 10º nível, nada acontece.</p>",
+    "enhancements": [
+      {
+        "cost": 1,
+        "text": "aumenta em +1d4 os níveis afetados pela morte."
+      },
+      {
+        "cost": 2,
+        "text": "aumenta em +1 os limites de nível dos efeitos (com +6 PM, morte até o 5º e níveis negativos do 6º ao 13º)."
+      },
+      {
+        "cost": 2,
+        "text": "aumenta em +1 os níveis negativos causados."
+      }
+    ]
+  },
+  {
+    "name": "Círculo de Luz",
+    "page": 203,
+    "grade": "sublime",
+    "chakra": "sab",
+    "chakras": [
+      "sab"
+    ],
+    "descriptors": "luz",
+    "execution": "ação padrão",
+    "range": "longo",
+    "target": "Área: explosão com 12m de raio",
+    "duration": "instantânea",
+    "resistance": "Fortitude anula",
+    "save": "fort",
+    "attack": "",
+    "damage": null,
+    "description": "<p>Destrói instantaneamente shiryou de 2º nível ou menor, até somar 10d4 níveis (níveis menores primeiro; em empate, os mais próximos do centro). Shiryou de 3º a 10º nível, e os de nível baixo que restarem, ficam cegos e lentos por 1 dia; acima do 10º, nada acontece. As demais criaturas na área removem 1d4 níveis negativos.</p>",
+    "enhancements": [
+      {
+        "cost": 1,
+        "text": "aumenta em +1d4 os níveis afetados pela destruição."
+      },
+      {
+        "cost": 2,
+        "text": "aumenta em +1 os limites de nível dos efeitos."
+      },
+      {
+        "cost": 2,
+        "text": "aumenta em +1 os níveis negativos removidos."
+      }
+    ]
+  },
+  {
+    "name": "Colunas de Gelo",
+    "page": 203,
+    "grade": "sublime",
+    "chakra": "int",
+    "chakras": [
+      "int"
+    ],
+    "descriptors": "frio",
+    "execution": "ação completa",
+    "range": "longo",
+    "target": "Área: explosão de 4 cilindros com 3m de raio e 18m de altura",
+    "duration": "veja texto",
+    "resistance": "Reflexos parcial",
+    "save": "ref",
+    "attack": "",
+    "damage": {
+      "formula": "8d6",
+      "type": "frio",
+      "healing": false,
+      "scaleDice": "1d6",
+      "scaleCost": 4
+    },
+    "description": "<p>Quatro colunas de gelo (adjacentes, mas sem sobreposição) causam 8d6 de dano de frio cada e derrubam as criaturas em sua área; um teste de Reflexos corta o dano pela metade e impede a queda. As colunas ficam pela cena, dando cobertura total, e os espaços adjacentes a elas são terreno difícil.</p>",
+    "enhancements": [
+      {
+        "cost": 4,
+        "text": "aumenta o dano de cada coluna em +1d6."
+      }
+    ]
+  },
+  {
+    "name": "Corpo de Terracota",
+    "page": 203,
+    "grade": "sublime",
+    "chakra": "con",
+    "chakras": [
+      "con"
+    ],
+    "descriptors": "ácido, transmutação",
+    "execution": "ação padrão",
+    "range": "pessoal",
+    "target": "Alvo: você",
+    "duration": "cena",
+    "resistance": "",
+    "save": "",
+    "attack": "",
+    "damage": null,
+    "description": "<p>Você e seu equipamento viram uma estátua viva de terracota. Você fica imune a venenos, doenças, cegueira, surdez, atordoamento e dano de habilidade, não precisa respirar nem comer, e recebe resistência a fogo 20, RD 8 e penalidade de armadura –5; seu tato só sente o que arranharia pedra. Com uma ação de movimento, pode ficar imóvel e inerte (outra ação de movimento desfaz).</p>",
+    "enhancements": [
+      {
+        "cost": 2,
+        "text": "muda o alvo para 1 criatura, o alcance para longo e a duração para instantânea: no lugar do efeito normal, cancela um jutsu de transmutação permanente (como maldição da transformação, corpo de terracota ou estátua de gelo)."
+      },
+      {
+        "cost": 5,
+        "text": "muda o teste de resistência para Fortitude anula, o alvo para 1 criatura, o alcance para longo e a duração para permanente: no lugar do efeito normal, o alvo e seu equipamento viram terracota inerte, e ele fica inconsciente; se a estátua quebrar, a criatura morre (estatísticas de objetos no Capítulo 5)."
+      }
+    ]
+  },
+  {
+    "name": "Crônica de Tanadora",
+    "page": 204,
+    "grade": "sublime",
+    "chakra": "sab",
+    "chakras": [
+      "sab"
+    ],
+    "descriptors": "adivinhação",
+    "execution": "ação padrão",
+    "range": "ilimitado",
+    "target": "Alvo: 1 criatura, objeto ou local",
+    "duration": "instantânea",
+    "resistance": "",
+    "save": "",
+    "attack": "",
+    "damage": null,
+    "description": "<p>Faça um teste de Identificar Magia: CD do jutsu se não estiver tocando o alvo mas tiver informações sobre ele; –5 se estiver tocando; +5 se não tocar nem souber nada. Sucesso: 2d4 informações úteis sobre o que procura, a critério do mestre (muitas vezes, só pistas). Falha: nada, mas os PM são gastos; pode tentar de novo. Depois, você fica exausto por 1 dia (só descanso remove).</p>",
+    "enhancements": [
+      {
+        "cost": 5,
+        "text": "muda o efeito: você não fica exausto após o jutsu."
+      }
+    ]
+  },
+  {
+    "name": "Destruir Sentidos",
+    "page": 204,
+    "grade": "sublime",
+    "chakra": "car",
+    "chakras": [
+      "car"
+    ],
+    "descriptors": "encantamento, trevas",
+    "execution": "ação padrão",
+    "range": "curto",
+    "target": "Alvo: 1 criatura",
+    "duration": "cena",
+    "resistance": "Fortitude parcial",
+    "save": "fort",
+    "attack": "",
+    "damage": null,
+    "description": "<p>O alvo fica caído, cego e surdo e perde o faro. Não consegue se levantar e só rasteja (deslocamento 3m), sem poder voar com asas, escalar, escavar ou usar outros deslocamentos. Falha automaticamente em Percepção (os demais sentidos, como leitura de chacras ou percepção às cegas, funcionam). Só tem 25% de chance de se fazer entender ou de entoar mantras, e no início de cada turno tem 50% de chance de largar o que segura. Se passar no teste, sofre tudo isso por 1 rodada.</p>",
+    "enhancements": [
+      {
+        "cost": 5,
+        "text": "muda a duração para permanente; quem passar no teste sofre os efeitos pela cena."
+      }
+    ]
+  },
+  {
+    "name": "Dominar Gravidade",
+    "page": 204,
+    "grade": "sublime",
+    "chakra": "int",
+    "chakras": [
+      "int"
+    ],
+    "descriptors": "vácuo",
+    "execution": "ação padrão",
+    "range": "longo",
+    "target": "Área: cubo com 12m de lado",
+    "duration": "cena",
+    "resistance": "veja texto",
+    "save": "fort",
+    "attack": "",
+    "damage": null,
+    "description": "<p>Você escolhe quais criaturas e objetos livres na área ficam imunes e um efeito:</p><ul><li><strong>Aumentar gravidade:</strong> fatigado e lento; quem passar em Fortitude sofre só as penalidades de excesso de carga (–2 em Acrobacia, Atletismo, Furtividade e Ladinagem e –3m de deslocamento).</li><li><strong>Gravidade subjetiva:</strong> criaturas e objetos livres “caem” em uma rodada rumo a uma face do cubo escolhida por você. Bater num obstáculo causa 1d6 de dano por 1,5m de queda, e depois é possível andar sobre ele; sem obstáculo, ficam flutuando presos à face. Voadores se movem normalmente. Quem estiver junto de algo em que se agarrar pode testar Reflexos para não cair, mas precisa seguir agarrado.</li><li><strong>Reduzir gravidade:</strong> +9m de deslocamento em terra, triplo da carga e salto em altura (Atletismo) sem corrida.</li></ul>",
+    "enhancements": [
+      {
+        "cost": 5,
+        "text": "uma ação padrão gasta por você no início de um de seus turnos permite trocar de efeito."
+      }
+    ]
+  },
+  {
+    "name": "Dominar Madeira",
+    "page": 204,
+    "grade": "sublime",
+    "chakra": "int",
+    "chakras": [
+      "int"
+    ],
+    "descriptors": "transmutação",
+    "execution": "ação padrão",
+    "range": "longo",
+    "target": "Alvo/Área: veja texto",
+    "duration": "veja texto",
+    "resistance": "veja texto",
+    "save": "von",
+    "attack": "",
+    "damage": null,
+    "description": "<p>Escolha:</p><ul><li><strong>Madeira-ferro</strong> (permanente): um item de madeira de até 50kg ganha resistência e peso de metal (uma katana ou o-yoroi de madeira usa as estatísticas da versão metálica) e não é afetado por efeitos contra metal. Os itens podem ser feitos com Ofício (carpintaria) ou com jutsus como artesão dedicado.</li><li><strong>Metal em madeira</strong> (permanente): todo objeto de metal numa explosão de 12m de raio vira madeira. Objetos em posse de criaturas e itens mágicos livres fazem teste de Vontade; objetos mundanos livres não. Armas assim sofrem –2 em ataque e dano e quebram com 1 natural; armaduras perdem 2 de CA e mais 1 a cada ataque com 20 natural que as atinja.</li><li><strong>Pedra em madeira</strong> (permanente): o mesmo, para objetos de pedra e gemas (não terra, argila, areia ou cerâmica); construções passam a ter estatísticas de madeira (Capítulo 6).</li><li><strong>Repelir madeira</strong> (cena): objetos de madeira são empurrados até o limite do alcance a partir do ponto onde você executou o jutsu (mesmo que você se mova). Fixos Médios ou maiores não são afetados; fixos menores quebram e têm os pedaços empurrados; livres são empurrados. Flechas, arcos, lanças, clavas, escudos leves e cabos de armas são levados mesmo se mágicos; o portador evita ser arrastado largando a arma (ação livre) ou o escudo (ação de movimento).</li></ul>",
+    "enhancements": [
+      {
+        "cost": 5,
+        "text": "muda para instantânea a duração de madeira-ferro, metal em madeira e pedra em madeira (não podem mais ser dissipados); cada execução assim custa 3 PM permanentes."
+      }
+    ]
+  },
+  {
+    "name": "Enxame Espiritual",
+    "page": 205,
+    "grade": "sublime",
+    "chakra": "sab",
+    "chakras": [
+      "sab"
+    ],
+    "descriptors": "invocação",
+    "execution": "ação completa",
+    "range": "longo",
+    "target": "Efeito: enxame de youkai",
+    "duration": "cena",
+    "resistance": "veja texto",
+    "save": "fort",
+    "attack": "",
+    "damage": {
+      "formula": "2d6 + 6d6",
+      "type": "perfuração e veneno",
+      "healing": false,
+      "scaleDice": "2d6",
+      "scaleCost": 3
+    },
+    "description": "<p>Um enxame de youkai Diminutos ou Ínfimos (aparência à sua escolha) ocupa um cubo de 3m de lado. Quem estiver dentro sofre 2d6 de dano de perfuração (sem teste) e 6d6 de dano de veneno (Fortitude reduz à metade), de novo no início de cada turno seu. Uma vez por rodada, com uma ação livre, você move o enxame até 30m (ele não causa dano enquanto se move). O enxame é imune a dano, some no fim do jutsu ou se dissipado, e você só pode ter um por vez.</p>",
+    "enhancements": [
+      {
+        "cost": 3,
+        "text": "aumenta em +1d6 tanto o dano de perfuração quanto o de veneno."
+      },
+      {
+        "cost": 5,
+        "text": "muda o dano de veneno para dano de vácuo, sem teste de resistência."
+      }
+    ]
+  },
+  {
+    "name": "Esconderijo Perfeito",
+    "page": 205,
+    "grade": "sublime",
+    "chakra": "des",
+    "chakras": [
+      "des"
+    ],
+    "descriptors": "ilusão, invocação",
+    "execution": "ação padrão",
+    "range": "curto",
+    "target": "Alvo: 1 objeto Grande ou maior",
+    "duration": "permanente ou até ser descarregado",
+    "resistance": "",
+    "save": "",
+    "attack": "",
+    "damage": null,
+    "description": "<p>Uma abertura invisível no objeto leva a um esconderijo igual ao de esconderijo secreto, para até dez criaturas escolhidas por você e seu equipamento. Nada lá dentro pode ser detectado por adivinhação. O jutsu dura enquanto houver alguém dentro; quando o último sai, termina, e objetos trazidos de fora aparecem no local da execução.</p>",
+    "enhancements": [
+      {
+        "cost": 2,
+        "text": "muda o tamanho mínimo do objeto-alvo uma categoria para baixo (cumulativo)."
+      }
+    ]
+  },
+  {
+    "name": "Espírito dos Objetos",
+    "page": 205,
+    "grade": "sublime",
+    "chakra": "sab",
+    "chakras": [
+      "sab"
+    ],
+    "descriptors": "invocação, transmutação",
+    "execution": "ação padrão",
+    "range": "longo",
+    "target": "Alvo: veja texto",
+    "duration": "cena",
+    "resistance": "",
+    "save": "",
+    "attack": "",
+    "damage": null,
+    "description": "<p>Anima, como tsukumogami do tamanho correspondente (Capítulo 7), 1 objeto Enorme, 2 Grandes, 4 Médios, 8 Pequenos ou 16 Mínimos, ou combinações equivalentes. Itens mágicos e objetos carregados por criaturas ficam de fora; objetos fixos podem ser afetados, mas com deslocamento 0m. Eles agem a partir do seu próximo turno, em geral atacando seus inimigos, e você dá ordens como ação livre. Não é possível executar este jutsu com outro espírito dos objetos seu ativo.</p>",
+    "enhancements": [
+      {
+        "cost": 1,
+        "text": "muda a duração para permanente até ser descarregado e o tempo de execução para 10 minutos: os objetos ficam adormecidos e despertam, por uma cena, quando alguém toca ou entra num local escolhido a até 30m deles; as ordens, inclusive condições como senhas, são dadas na execução."
+      },
+      {
+        "cost": 5,
+        "text": "muda os alvos um passo acima (1 Descomunal, 2 Enormes, 4 Grandes, 8 Médios, 16 Pequenos ou 32 Mínimos)."
+      },
+      {
+        "cost": 5,
+        "text": "muda o teste de resistência para Vontade anula: itens mágicos e objetos em posse de criaturas podem ser afetados se falharem."
+      },
+      {
+        "cost": 10,
+        "text": "muda os alvos dois passos acima (1 Colossal, 2 Descomunais, 4 Enormes, 8 Grandes, 16 Médios, 32 Pequenos ou 64 Mínimos). Exige poder executar jutsus lendários."
+      }
+    ]
+  },
+  {
+    "name": "Estátua de Gelo",
+    "page": 205,
+    "grade": "sublime",
+    "chakra": "int",
+    "chakras": [
+      "int"
+    ],
+    "descriptors": "frio, transmutação",
+    "execution": "ação padrão",
+    "range": "longo",
+    "target": "Alvo: 1 criatura",
+    "duration": "permanente",
+    "resistance": "Fortitude anula",
+    "save": "fort",
+    "attack": "",
+    "damage": null,
+    "description": "<p>O alvo e seu equipamento viram uma estátua de gelo (ou ficam presos num bloco), inertes e inconscientes. A estátua é imune a dano, mas só o jutsu pode ser dissipado, e para isso serve como anulação um jutsu de fogo lendário.</p>",
+    "enhancements": [
+      {
+        "cost": 1,
+        "text": "muda o teste de resistência para nenhum e a duração para cena: no lugar do efeito normal, o alvo vira uma estátua de gelo viva, imune a frio, venenos, doenças, cegueira, surdez, atordoamento e dano de habilidade, sem precisar respirar ou comer, com penalidade de armadura –2 e vulnerabilidade a fogo."
+      },
+      {
+        "cost": 2,
+        "text": "muda a duração para instantânea: no lugar do efeito normal, cancela um jutsu de transmutação permanente (como maldição da transformação, corpo de terracota ou estátua de gelo)."
+      },
+      {
+        "cost": 5,
+        "text": "muda o efeito: a estátua deixa de ser imune a dano, e quebrá-la mata a criatura (estatísticas de objetos no Capítulo 5)."
+      }
+    ]
+  },
+  {
+    "name": "Estrela da Invencibilidade",
+    "page": 206,
+    "grade": "sublime",
+    "chakra": "con",
+    "chakras": [
+      "con"
+    ],
+    "descriptors": "abjuração",
+    "execution": "ação padrão",
+    "range": "pessoal",
+    "target": "Alvo: você",
+    "duration": "cena ou até ser descarregado",
+    "resistance": "",
+    "save": "",
+    "attack": "",
+    "damage": null,
+    "description": "<p>Você ganha imunidade conforme a opção escolhida:</p><ul><li><strong>Imunidade Mágica:</strong> um descritor entre ácido, eletricidade, fogo, frio, vento, luz, trevas, adivinhação, encantamento, ilusão ou transmutação.</li><li><strong>Invencibilidade:</strong> um grupo de condições entre caído; abalado e apavorado; atordoado e pasmo; agarrado e enredado; confuso e fascinado; cego, ofuscado e surdo; enjoado, exausto e fatigado; lento e paralisado; doenças e venenos; ou dano de habilidade (três habilidades, exceto Honra). Você também dispensa respirar, comer e dormir (mas precisa descansar para recuperar PM).</li><li><strong>Invulnerabilidade:</strong> um tipo de dano físico (corte, esmagamento ou perfuração) e uma manobra (atropelar, desarmar, empurrar ou separar).</li></ul><p>Se um efeito ao qual você é imune o atingir mais de uma vez na mesma rodada, teste Vontade; se falhar, o jutsu o protege uma última vez e é descarregado.</p>",
+    "enhancements": [
+      {
+        "cost": 1,
+        "text": "aumenta em +1 os efeitos por rodada antes da sobrecarga."
+      },
+      {
+        "cost": 2,
+        "text": "aumenta em +1 as escolhas dentro de uma opção (com +4 PM, por exemplo, três descritores)."
+      },
+      {
+        "cost": 5,
+        "text": "aumenta em +1 as opções escolhidas."
+      }
+    ]
+  },
+  {
+    "name": "Explosão Radiante",
+    "page": 206,
+    "grade": "sublime",
+    "chakra": "int",
+    "chakras": [
+      "int"
+    ],
+    "descriptors": "fogo, luz",
+    "execution": "ação padrão",
+    "range": "pessoal",
+    "target": "Área: explosão com 30m de raio",
+    "duration": "instantânea",
+    "resistance": "Reflexos parcial",
+    "save": "ref",
+    "attack": "",
+    "damage": {
+      "formula": "6d6 + 6d6",
+      "type": "luz e fogo",
+      "healing": false,
+      "scaleDice": "1d6",
+      "scaleCost": 1
+    },
+    "description": "<p>Criaturas na área (exceto você) sofrem 6d6 de dano de luz e 6d6 de dano de fogo e ficam cegas; para shiryou e criaturas sensíveis à luz, o dano de luz dobra. Um teste de Reflexos corta o dano pela metade e impede a cegueira.</p>",
+    "enhancements": [
+      {
+        "cost": 1,
+        "text": "aumenta o dano de fogo em +1d6."
+      },
+      {
+        "cost": 1,
+        "text": "aumenta o dano de luz em +1d6."
+      },
+      {
+        "cost": 2,
+        "text": "muda o efeito: você escolhe quais criaturas na área são afetadas."
+      }
+    ]
+  },
+  {
+    "name": "Forma Espiritual",
+    "page": 206,
+    "grade": "sublime",
+    "chakra": "sab",
+    "chakras": [
+      "sab"
+    ],
+    "descriptors": "invocação, vácuo",
+    "execution": "ação padrão",
+    "range": "pessoal",
+    "target": "Alvo: você",
+    "duration": "cena",
+    "resistance": "",
+    "save": "",
+    "attack": "",
+    "damage": null,
+    "description": "<p>Você e seu equipamento ficam invisíveis e incorpóreos, e seu tipo muda para youkai. Você se move com seu deslocamento em terra em qualquer direção e vê o que é invisível. A invisibilidade é como a de invisibilidade ninja, mas não termina se você se mover, atacar ou executar jutsus ofensivos; uma ação de movimento alterna entre visível e invisível. Você interage normalmente com criaturas e objetos, materiais ou incorpóreos, e seus ataques contra criaturas materiais são de toque; objetos livres que você carregar também ficam incorpóreos. Só pode executar jutsus cujo alvo seja você. Se o jutsu acabar com você dentro de algo sólido, você surge no espaço vazio mais próximo e sofre 1d6 de dano irredutível por 1,5m percorrido.</p>",
+    "enhancements": [
+      {
+        "cost": 5,
+        "text": "muda o efeito: você pode executar qualquer jutsu nessa forma."
+      },
+      {
+        "cost": 5,
+        "text": "muda o alvo para até 5 criaturas voluntárias e o alcance para curto."
+      }
+    ]
+  },
+  {
+    "name": "Fortaleza Oculta",
+    "page": 206,
+    "grade": "sublime",
+    "chakra": "int",
+    "chakras": [
+      "int"
+    ],
+    "descriptors": "abjuração, elemental",
+    "execution": "10 minutos",
+    "range": "longo",
+    "target": "Área: construção com qualquer tamanho",
+    "duration": "1 dia",
+    "resistance": "veja texto",
+    "save": "von",
+    "attack": "",
+    "damage": null,
+    "description": "<p>A construção recebe:</p><ul><li><strong>Clima agourento:</strong> quando alguém chega a 30m, um efeito de chuva da revelação cerca a construção até 30m.</li><li><strong>Confusão:</strong> em cada bifurcação, 50% de chance de seguir pelo lado oposto ao escolhido (Vontade anula).</li><li><strong>Miragens:</strong> portas escolhidas parecem paredes (miragem mística).</li><li><strong>Névoa:</strong> como reação, você cria ou desfaz névoa nos corredores (camuflagem a 1,5m, camuflagem total a partir de 3m).</li><li><strong>Proteção:</strong> todas as portas recebem amuleto de proteção.</li></ul><p>A construção é imune a adivinhação quando ela própria é o alvo (dentro dela, adivinhações funcionam). Anulação dissipa um efeito, mas não o jutsu; disjunção contra a construção o dissipa.</p>",
+    "enhancements": [
+      {
+        "cost": 5,
+        "text": "muda a duração para permanente; enquanto durar assim, seus PM máximos diminuem em 10."
+      }
+    ]
+  },
+  {
+    "name": "Fusão",
+    "page": 207,
+    "grade": "sublime",
+    "chakra": "con",
+    "chakras": [
+      "con"
+    ],
+    "descriptors": "transmutação",
+    "execution": "ação completa",
+    "range": "corpo-a-corpo",
+    "target": "Alvo: você e 1 nakama voluntário",
+    "duration": "cena",
+    "resistance": "",
+    "save": "",
+    "attack": "",
+    "damage": null,
+    "description": "<p>Você e um nakama do mesmo tipo e de tamanho parecido (até uma categoria de diferença) viram uma só criatura, controlada por você. Ela tem PV e PM máximos iguais à soma dos atuais de ambos; o maior valor de cada habilidade; todos os traços raciais, habilidades de classe, talentos, perícias treinadas e jutsus dos dois (sem acumular); e o maior tamanho, resistências, bônus de ataque e perícias. Você escolhe que equipamentos são absorvidos (itens mágicos absorvidos param de funcionar).</p><p>No fim, o nakama surge adjacente (sem espaço, ambos sofrem 10d6 de dano e dividem o espaço), e PV e PM restantes são repartidos igualmente, arredondando para cima, até o máximo de cada um. Efeitos nocivos da fusão (doenças, venenos, níveis negativos, dano de habilidade) ficam nos dois. Se a fusão morrer, ambos morrem.</p>",
+    "enhancements": [
+      {
+        "cost": 5,
+        "text": "muda o teste de resistência para Fortitude anula e o alvo para você e uma criatura: permite fundir-se com uma criatura involuntária, que testa Vontade no início de cada turno seu para encerrar o jutsu. Usar este aprimoramento é violação de honra severa."
+      }
+    ]
+  },
+  {
+    "name": "Golpe Desintegrador",
+    "page": 207,
+    "grade": "sublime",
+    "chakra": "for",
+    "chakras": [
+      "for"
+    ],
+    "descriptors": "transmutação",
+    "execution": "ação de movimento",
+    "range": "pessoal",
+    "target": "Alvo: você",
+    "duration": "instantânea",
+    "resistance": "Fortitude parcial",
+    "save": "fort",
+    "attack": "",
+    "damage": {
+      "formula": "20d6",
+      "type": "",
+      "healing": false,
+      "scaleDice": "1d6",
+      "scaleCost": 2
+    },
+    "description": "<p>Se você acertar seu próximo ataque, além do dano normal o alvo sofre 20d6 de dano que ignora redução de dano (Fortitude reduz esse extra para 5d6). Se ficar com 0 PV ou menos, vira pó, passe ou não no teste. Errar desperdiça o jutsu; objetos só testam se estiverem em posse de alguém.</p>",
+    "enhancements": [
+      {
+        "cost": 1,
+        "text": "escolha um material (metal, madeira, pedra...): contra objetos ou criaturas feitos principalmente dele, o dano é maximizado, como pelo talento Jutsu Maximizado."
+      },
+      {
+        "cost": 1,
+        "text": "muda o alvo para efeito de raio, o alcance para longo e o tempo de execução para ação padrão: um ataque de toque à distância aplica o efeito se acertar."
+      },
+      {
+        "cost": 2,
+        "text": "aumenta o dano em +1d6."
+      }
+    ]
+  },
+  {
+    "name": "Golpe Final",
+    "page": 207,
+    "grade": "sublime",
+    "chakra": "for",
+    "chakras": [
+      "for"
+    ],
+    "descriptors": "transmutação",
+    "execution": "ação completa",
+    "range": "longo",
+    "target": "Alvo: 1 criatura",
+    "duration": "instantânea",
+    "resistance": "",
+    "save": "",
+    "attack": "corpo",
+    "damage": null,
+    "description": "<p>Você avança até ficar adjacente ao alvo e ataca corpo-a-corpo com +8: se acertar, ele cai a –1 PV, inconsciente e sangrando; se errar, sofre o dano normal do ataque. Depois você fica fatigado pela cena e, se avançou pelo ar, cai.</p>",
+    "enhancements": [
+      {
+        "cost": 1,
+        "text": "muda o efeito: avançar pelo ar não causa dano de queda."
+      },
+      {
+        "cost": 2,
+        "text": "muda o efeito: você não fica fatigado."
+      }
+    ]
+  },
+  {
+    "name": "Grande Kami",
+    "page": 207,
+    "grade": "sublime",
+    "chakra": "sab",
+    "chakras": [
+      "sab"
+    ],
+    "descriptors": "invocação",
+    "execution": "10 minutos",
+    "range": "longo",
+    "target": "Efeito: 1 criatura invocada",
+    "duration": "instantânea",
+    "resistance": "Vontade parcial",
+    "save": "von",
+    "attack": "",
+    "damage": null,
+    "description": "<p>Você escolhe o ND do youkai (máximo: seu nível –2) e o mestre escolhe a criatura. Se ela passar em Vontade, pode recusar o chamado (os PM são gastos); se falhar, surge no alcance. Ela presta um serviço mediante pagamento de ND x 50 ¥o (tarefa simples) a ND x 500 ¥o (complexa), em doações, itens mágicos, Yan etc. Um teste oposto de Diplomacia permite barganhar: vencendo, o custo cai 50%; vencendo por 10 ou mais, sai de graça; perdendo, ela vai embora; perdendo por 5 ou mais, ataca. Cumprido o serviço, ela volta a seu mundo.</p>",
+    "enhancements": [
+      {
+        "cost": 5,
+        "text": "aumenta o ND máximo do youkai em +1."
+      }
+    ]
+  },
+  {
+    "name": "Indolência dos Malditos",
+    "page": 208,
+    "grade": "sublime",
+    "chakra": "car",
+    "chakras": [
+      "car"
+    ],
+    "descriptors": "trevas",
+    "execution": "ação padrão",
+    "range": "pessoal",
+    "target": "Área: explosão em cone de 18m",
+    "duration": "instantânea",
+    "resistance": "Fortitude parcial",
+    "save": "fort",
+    "attack": "",
+    "damage": null,
+    "description": "<p>Criaturas na área ficam exaustas (só fatigadas, se passarem no teste).</p>",
+    "enhancements": [
+      {
+        "cost": 2,
+        "text": "muda o efeito: você escolhe quais criaturas na área são afetadas."
+      }
+    ]
+  },
+  {
+    "name": "Insanidade de Okoreeji",
+    "page": 208,
+    "grade": "sublime",
+    "chakra": "car",
+    "chakras": [
+      "car"
+    ],
+    "descriptors": "encantamento",
+    "execution": "ação completa",
+    "range": "longo",
+    "target": "Alvo: 1 criatura",
+    "duration": "permanente",
+    "resistance": "Vontade anula",
+    "save": "von",
+    "attack": "",
+    "damage": null,
+    "description": "<p>Escolha uma insanidade permanente: <strong>Catatonia</strong> (enjoado), <strong>Comportamento Errático</strong> (confuso), <strong>Espasmos</strong> (–10 em testes de ações físicas, como ataque, dano, Reflexos e perícias de Força e Destreza) ou <strong>Paranoia</strong> (hostil com todos). Outras insanidades podem ser criadas com aval do mestre. Só purificação, restauração de Fuyuan ou revitalização de Hyaku-nen removem o efeito.</p>",
+    "enhancements": [
+      {
+        "cost": 5,
+        "text": "muda o teste de resistência para Vontade parcial: quem passar sofre o efeito por 1 rodada."
+      }
+    ]
+  },
+  {
+    "name": "Kata da Toupeira",
+    "page": 208,
+    "grade": "sublime",
+    "chakra": "des",
+    "chakras": [
+      "des"
+    ],
+    "descriptors": "transmutação",
+    "execution": "ação de movimento",
+    "range": "pessoal",
+    "target": "Alvo: você",
+    "duration": "cena",
+    "resistance": "",
+    "save": "",
+    "attack": "",
+    "damage": null,
+    "description": "<p>Você ganha deslocamento de escavar 9m e, em contato com o solo, percebe criaturas que também o tocam a até 18m.</p>",
+    "enhancements": [
+      {
+        "cost": 2,
+        "text": "aumenta o deslocamento de escavar em +3m."
+      },
+      {
+        "cost": 2,
+        "text": "aumenta o alcance da percepção em +9m."
+      }
+    ]
+  },
+  {
+    "name": "Maldição do Ridículo",
+    "page": 208,
+    "grade": "sublime",
+    "chakra": "car",
+    "chakras": [
+      "car"
+    ],
+    "descriptors": "encantamento",
+    "execution": "ação padrão",
+    "range": "curto",
+    "target": "Alvo: 1 criatura",
+    "duration": "1d4 rodadas",
+    "resistance": "Vontade parcial",
+    "save": "von",
+    "attack": "",
+    "damage": null,
+    "description": "<p>Escolha:</p><ul><li><strong>Dança Irresistível:</strong> só uma ação de movimento por rodada, desprevenido e –10 em Reflexos.</li><li><strong>Riso Histérico:</strong> não pode fazer ações; criaturas de raça diferente da sua recebem +4 no teste.</li><li><strong>Voz Hilariante:</strong> não pode entoar mantras nem usar habilidades ou perícias que exijam fala, e só faz uma ação (padrão ou de movimento) por rodada.</li></ul><p>Se passar no teste, sofre o efeito por 1 rodada.</p>",
+    "enhancements": [
+      {
+        "cost": 5,
+        "text": "muda a duração para cena."
+      }
+    ]
+  },
+  {
+    "name": "Manipulador de Vontades",
+    "page": 208,
+    "grade": "sublime",
+    "chakra": "car",
+    "chakras": [
+      "car"
+    ],
+    "descriptors": "encantamento",
+    "execution": "ação padrão",
+    "range": "longo",
+    "target": "Alvo: 1 criatura",
+    "duration": "permanente",
+    "resistance": "Vontade anula",
+    "save": "von",
+    "attack": "",
+    "damage": null,
+    "description": "<p>Escolha:</p><ul><li><strong>Atração:</strong> o alvo passa a buscar uma criatura, objeto ou local escolhido (obter, conhecer, aproximar-se, dar atenção ou localizar), sem atos suicidas; reconhece perigos, mas só foge de ameaças imediatas. Fica prestativo com a criatura que o atrai.</li><li><strong>Aversão:</strong> o alvo evita uma criatura, objeto, palavra, ação ou local escolhido, sem se arriscar para isso: fica a 9m ou mais da criatura ou objeto (inamistoso com a criatura), não pronuncia a palavra, não pratica a ação por vontade própria e não permanece no local. Se for forçado a encarar a aversão, fica abalado (e hostil com a criatura).</li></ul>",
+    "enhancements": [
+      {
+        "cost": 2,
+        "text": "muda o alvo para 1 objeto, o tempo de execução para 1 minuto e o teste de resistência para Vontade parcial: escolha um tipo de criatura ou uma medida de Honra; dentro de 30m do objeto, essas criaturas que falharem ficam atraídas ou aversas ao objeto pela cena; as que passarem agem normalmente na rodada, e o teste se repete enquanto permanecerem no alcance."
+      },
+      {
+        "cost": 2,
+        "text": "muda o alvo para área de cubo com 30m de lado, o tempo de execução para 1 hora e o teste de resistência para Vontade parcial: como o anterior, mas vale para criaturas do tipo ou Honra escolhidos que entrarem na área."
+      }
+    ]
+  },
+  {
+    "name": "Movimento Instantâneo",
+    "page": 209,
+    "grade": "sublime",
+    "chakra": "des",
+    "chakras": [
+      "des"
+    ],
+    "descriptors": "invocação",
+    "execution": "ação padrão",
+    "range": "ilimitado",
+    "target": "Alvo: você",
+    "duration": "instantânea",
+    "resistance": "",
+    "save": "",
+    "attack": "",
+    "damage": null,
+    "description": "<p>Você se teleporta. Não precisa ver o destino (pode surgir 3m adiante para passar por uma porta fechada), mas não pode ir a lugares que nunca visitou, que não sejam óbvios ou de que não tenha descrição, nem a outros mundos. Quem é transportado só age na rodada seguinte; se o destino estiver ocupado, surge no espaço livre mais próximo.</p>",
+    "enhancements": [
+      {
+        "cost": 1,
+        "text": "muda o alvo para até 10 criaturas voluntárias adjacentes entre si."
+      },
+      {
+        "cost": 1,
+        "text": "aumenta em +1 as criaturas afetadas."
+      },
+      {
+        "cost": 2,
+        "text": "muda o alvo para 1 objeto de até 500kg."
+      },
+      {
+        "cost": 5,
+        "text": "muda a duração para cena e o tempo de execução para ação de movimento: o alvo se move com seu deslocamento sem cruzar o espaço, surgindo em qualquer ponto que alcançaria andando (gastando ações de movimento normalmente)."
+      }
+    ]
+  },
+  {
+    "name": "Palanquim Celestial",
+    "page": 209,
+    "grade": "sublime",
+    "chakra": "des",
+    "chakras": [
+      "des"
+    ],
+    "descriptors": "vento",
+    "execution": "ação padrão",
+    "range": "ilimitado",
+    "target": "Efeito: carruagem de nuvens",
+    "duration": "cena",
+    "resistance": "",
+    "save": "",
+    "attack": "",
+    "damage": null,
+    "description": "<p>Um palanquim de nuvens leva até cinco criaturas e seus equipamentos, com deslocamento de voo 180m, por comando mental (em combate, uma ação de movimento por rodada). Os passageiros e seus equipamentos ficam incorpóreos.</p>",
+    "enhancements": [
+      {
+        "cost": 1,
+        "text": "aumenta em +1 os passageiros."
+      },
+      {
+        "cost": 1,
+        "text": "muda o descritor para frio: o palanquim é de espuma do mar e tem deslocamento de natação 180m em vez de voo; os passageiros não precisam respirar nem sofrem penalidades por lutar submersos."
+      }
+    ]
+  },
+  {
+    "name": "Palavra dos Ancestrais",
+    "page": 209,
+    "grade": "sublime",
+    "chakra": "car",
+    "chakras": [
+      "car"
+    ],
+    "descriptors": "abjuração, vento",
+    "execution": "ação padrão",
+    "range": "pessoal",
+    "target": "Área: dispersão com 9m de raio",
+    "duration": "instantânea",
+    "resistance": "Vontade anula",
+    "save": "von",
+    "attack": "",
+    "damage": null,
+    "description": "<p>Só criaturas cuja medida de Honra esteja acima ou abaixo da sua são afetadas (escolha um lado; com Honra 12, por exemplo, Honra 16+ ou Honra 9 ou menos), conforme o nível: acima do 14º, pasmas por 1 rodada e surdas pela cena; do 6º ao 14º, lentas pela cena e, à sua escolha, confusas ou paralisadas por 2d4 rodadas; abaixo do 6º, mortas ou inconscientes (à sua escolha). Em seu mundo nativo, os youkai afetados também são banidos para o mundo de origem (como expulsar, de rito do exorcista).</p>",
+    "enhancements": [
+      {
+        "cost": 5,
+        "text": "aumenta em +1 os limites de nível dos efeitos."
+      }
+    ]
+  },
+  {
+    "name": "Perfeição do Dragão",
+    "page": 209,
+    "grade": "sublime",
+    "chakra": "sab",
+    "chakras": [
+      "sab"
+    ],
+    "descriptors": "transmutação",
+    "execution": "ação de movimento",
+    "range": "pessoal",
+    "target": "Alvo: você",
+    "duration": "cena",
+    "resistance": "",
+    "save": "",
+    "attack": "",
+    "damage": null,
+    "description": "<p>Você ganha +4 em Força, Destreza, Constituição, Inteligência, Sabedoria e Carisma (sem PV ou PM extras, mas o limite de PM por jutsu aumenta para chacras abertos).</p>",
+    "enhancements": [
+      {
+        "cost": 5,
+        "text": "muda o efeito: o bônus também vale para Honra (só se você for honrado ou digníssimo)."
+      },
+      {
+        "cost": 10,
+        "text": "aumenta os bônus em +2."
+      },
+      {
+        "cost": 15,
+        "text": "muda o alvo para até 5 criaturas e o alcance para curto. Exige poder executar jutsus lendários."
+      }
+    ]
+  },
+  {
+    "name": "Punhos de Tikauromu",
+    "page": 209,
+    "grade": "sublime",
+    "chakra": "for",
+    "chakras": [
+      "for"
+    ],
+    "descriptors": "transmutação, vácuo",
+    "execution": "ação padrão",
+    "range": "longo",
+    "target": "Efeito: 2 punhos mágicos",
+    "duration": "cena",
+    "resistance": "",
+    "save": "",
+    "attack": "",
+    "damage": null,
+    "description": "<p>Dois punhos gigantes de energia executam, cada um, uma ação contra um alvo no alcance:</p><ul><li><strong>Agarrar:</strong> manobra agarrar com +30; só solta por ordem sua.</li><li><strong>Arrastar:</strong> leva quem já está agarrado, com 9m de deslocamento de voo, no máximo até o limite do alcance.</li><li><strong>Cobertura:</strong> fica entre você e um alvo, dando cobertura (CA +4) contra ele; escuridão, invisibilidade, transformações e disfarces não o enganam.</li><li><strong>Empurrar:</strong> manobra empurrar com +30, até o limite do alcance.</li></ul><p>No início de seus turnos, os punhos repetem a ação; nesse momento, com uma ação de movimento, você pode mudar ações e alvos.</p>",
+    "enhancements": [
+      {
+        "cost": 1,
+        "text": "aumenta em +1 o bônus de ataques e manobras dos punhos."
+      },
+      {
+        "cost": 2,
+        "text": "adiciona a ação Golpear: ataque com +32 que causa 2d6+10 de dano de esmagamento; o atingido testa Fortitude ou fica atordoado por 1 rodada."
+      },
+      {
+        "cost": 3,
+        "text": "adiciona a ação Esmagar: um punho que já agarra uma criatura causa 2d6+10 de dano de esmagamento que ignora qualquer redução de dano."
+      },
+      {
+        "cost": 5,
+        "text": "aumenta em +1d6 o dano de golpear e de esmagar."
+      },
+      {
+        "cost": 10,
+        "text": "muda o efeito para quatro punhos mágicos. Exige poder executar jutsus lendários."
+      }
+    ]
+  },
+  {
+    "name": "Punição dos Ancestrais",
+    "page": 210,
+    "grade": "sublime",
+    "chakra": "sab",
+    "chakras": [
+      "sab"
+    ],
+    "descriptors": "abjuração",
+    "execution": "ação padrão",
+    "range": "pessoal",
+    "target": "Alvo: você",
+    "duration": "cena ou até ser descarregado",
+    "resistance": "",
+    "save": "",
+    "attack": "",
+    "damage": null,
+    "description": "<p>Você recebe CA +6 contra criaturas de Honra acima ou abaixo da sua (escolha um lado; com Hon 12, honrados e digníssimos, ou desonrados, sórdidos e desumanos). Com uma ação padrão, pode descarregar o jutsu num efeito de rito do exorcista ou de anulação, mas só contra criaturas afetadas pelo bônus com até seu nível + seu modificador de Sabedoria em níveis, ou contra jutsus delas.</p>",
+    "enhancements": [
+      {
+        "cost": 1,
+        "text": "muda o alvo para 1 criatura e o alcance para corpo-a-corpo."
+      },
+      {
+        "cost": 1,
+        "text": "aumenta o bônus na CA em +1."
+      }
+    ]
+  },
+  {
+    "name": "Rajada das Mil Gemas",
+    "page": 210,
+    "grade": "sublime",
+    "chakra": "des",
+    "chakras": [
+      "des"
+    ],
+    "descriptors": "elemental, ilusão",
+    "execution": "ação padrão",
+    "range": "pessoal",
+    "target": "Área: explosão em cone de 9m",
+    "duration": "instantânea",
+    "resistance": "veja texto",
+    "save": "von",
+    "attack": "",
+    "damage": null,
+    "description": "<p>Quem falhar em Vontade fica cego pela cena. Além disso, role 1d8 por criatura: 1) vermelho, 6d6 de fogo (Reflexos: metade); 2) laranja, veneno mortal (Fortitude reduz a 1d6 de dano de Constituição); 3) amarelo, 12d12 de eletricidade (Reflexos: metade); 4) verde, 8d8 de ácido (Fortitude: metade); 5) azul, estátua de gelo (Fortitude anula); 6) azul-verde (ao), 10d10 de vento (Reflexos: metade); 7) violeta, enviada a outro mundo (Vontade anula); 8) dois raios (role duas vezes, ignorando 8).</p>",
+    "enhancements": [
+      {
+        "cost": 10,
+        "text": "muda o efeito: cada criatura é atingida por dois raios (três num resultado 8)."
+      }
+    ]
+  },
+  {
+    "name": "Regeneração de Sugora",
+    "page": 210,
+    "grade": "sublime",
+    "chakra": "con",
+    "chakras": [
+      "con"
+    ],
+    "descriptors": "luz, transmutação",
+    "execution": "ação padrão",
+    "range": "pessoal",
+    "target": "Alvo: você",
+    "duration": "cena",
+    "resistance": "",
+    "save": "",
+    "attack": "",
+    "damage": null,
+    "description": "<p>Você recebe cura acelerada 5 e fica imune a doenças e venenos e às condições fatigado e exausto. Membros arrancados, ossos quebrados e órgãos danificados se regeneram: na hora, se a parte estiver encostada no corpo; senão, em 2d10 rodadas (e a parte solta se desintegra). Você pode optar por cura acelerada 20, mas o mestre escolhe em segredo um tipo de dano físico (corte, perfuração ou esmagamento) ou de energia (ácido, eletricidade, fogo, frio ou vento) que ela não cura.</p>",
+    "enhancements": [
+      {
+        "cost": 2,
+        "text": "muda o efeito: toda regeneração de partes arrancadas ou danificadas é instantânea."
+      },
+      {
+        "cost": 5,
+        "text": "além do efeito normal, se for decapitado, o alvo não morre e regenera um corpo novo a partir da cabeça (o antigo se desintegra, deixando o equipamento)."
+      }
+    ]
+  },
+  {
+    "name": "Retirada Relâmpago",
+    "page": 210,
+    "grade": "sublime",
+    "chakra": "int",
+    "chakras": [
+      "int"
+    ],
+    "descriptors": "eletricidade, invocação",
+    "execution": "ação padrão",
+    "range": "pessoal",
+    "target": "Alvo: você",
+    "duration": "permanente até ser descarregado",
+    "resistance": "",
+    "save": "",
+    "attack": "",
+    "damage": null,
+    "description": "<p>Escolha um lugar seguro que você conheça pessoalmente (se não o visita há mais de 1 mês, passe num teste de Identificar Magia, CD do jutsu, ou o jutsu falha e os PM são perdidos). Enquanto o jutsu durar, a qualquer momento e como reação, um mantra ou selo faz um relâmpago levá-lo até lá, descarregando o jutsu. Não leva a outros mundos. Enquanto ativo, seus PM máximos diminuem em 10.</p>",
+    "enhancements": [
+      {
+        "cost": 1,
+        "text": "muda o efeito: descarregar não exige selo nem mantra."
+      },
+      {
+        "cost": 2,
+        "text": "ao descarregar, o alvo causa 10d8 de dano de eletricidade nas criaturas adjacentes (Reflexos reduz à metade)."
+      },
+      {
+        "cost": 5,
+        "text": "muda o alvo para até 5 criaturas e o alcance para curto: cada uma ativa o jutsu independentemente, e você pode ativá-lo por elas; enquanto estiver ativo em alguma, seus PM máximos diminuem em 10."
+      },
+      {
+        "cost": 10,
+        "text": "muda o efeito: o jutsu pode levar o alvo a outros mundos."
+      }
+    ]
+  },
+  {
+    "name": "Revitalização de Hyaku-nen",
+    "page": 211,
+    "grade": "sublime",
+    "chakra": "sab",
+    "chakras": [
+      "sab"
+    ],
+    "descriptors": "luz",
+    "execution": "ação padrão",
+    "range": "curto",
+    "target": "Alvo: 1 criatura",
+    "duration": "instantânea",
+    "resistance": "",
+    "save": "von",
+    "attack": "",
+    "damage": {
+      "formula": "100",
+      "type": "luz",
+      "healing": true,
+      "scaleDice": "",
+      "scaleCost": 0
+    },
+    "description": "<p>Cura 100 PV e todo dano de habilidade (exceto Honra), e salva quem chegou a PV negativos além de metade de seus PV totais há menos de uma rodada inteira (para todos os efeitos, não morreu). Também cura doenças, venenos e as condições cego, surdo, ofuscado, atordoado, pasmo, confuso, enjoado, fatigado e exausto. Contra shiryou, causa 100 de dano de luz (Vontade reduz à metade).</p>",
+    "enhancements": [
+      {
+        "cost": 1,
+        "text": "se o alvo estiver com PV negativos, eles vão a 0 antes da cura."
+      },
+      {
+        "cost": 5,
+        "text": "aumenta a cura ou o dano em +50."
+      },
+      {
+        "cost": 5,
+        "text": "também remove todos os níveis negativos do alvo."
+      },
+      {
+        "cost": 5,
+        "text": "muda o alvo para até 5 criaturas."
+      }
+    ]
+  },
+  {
+    "name": "Revolta Espiritual",
+    "page": 211,
+    "grade": "sublime",
+    "chakra": "car",
+    "chakras": [
+      "car"
+    ],
+    "descriptors": "encantamento, invocação, trevas",
+    "execution": "ação padrão",
+    "range": "longo",
+    "target": "Alvo: 1 humanoide ou animal",
+    "duration": "cena",
+    "resistance": "Vontade anula",
+    "save": "von",
+    "attack": "",
+    "damage": null,
+    "description": "<p>O alvo fica sob seu controle, como em dominar mente, e ganha uma aura sombria: camuflagem (20% de falha nos ataques contra ele), +1d10 de dano de trevas nos ataques físicos e +4 em jogadas de ataque e Furtividade. Se sair do alcance, o controle acaba, mas a aura dura até o fim do jutsu.</p>",
+    "enhancements": [
+      {
+        "cost": 2,
+        "text": "aumenta em +1 os alvos; uma ação de movimento dá a mesma ordem a todos, ou uma ordem diferente a cada um (uma ação de movimento por ordem)."
+      },
+      {
+        "cost": 5,
+        "text": "muda o alvo para 1 criatura."
+      },
+      {
+        "cost": 10,
+        "text": "muda o efeito: sair do alcance não encerra o controle. Exige poder executar jutsus lendários."
+      }
+    ]
+  },
+  {
+    "name": "Rocha Cadente",
+    "page": 211,
+    "grade": "sublime",
+    "chakra": "int",
+    "chakras": [
+      "int"
+    ],
+    "descriptors": "ácido",
+    "execution": "ação padrão",
+    "range": "longo",
+    "target": "Efeito: rocha cadente com 6m de raio",
+    "duration": "instantânea",
+    "resistance": "Reflexos parcial",
+    "save": "ref",
+    "attack": "",
+    "damage": {
+      "formula": "20d6",
+      "type": "esmagamento",
+      "healing": false,
+      "scaleDice": "",
+      "scaleCost": 0
+    },
+    "description": "<p>Uma rocha surge a 30m de altura e cai. Voadores no caminho sofrem 1d6 de dano de esmagamento por 1,5m de queda e caem; no chão da área, criaturas sofrem 20d6 de dano de esmagamento e ficam presas. Um teste de Reflexos corta o dano pela metade e impede a queda ou o aprisionamento. Preso, só se pode tentar erguer a rocha (ação padrão, Atletismo CD 25; outros podem prestar ajuda).</p>",
+    "enhancements": [
+      {
+        "cost": 5,
+        "text": "muda o dano para 2d6 de esmagamento por 1,5m de queda."
+      }
+    ]
+  },
+  {
+    "name": "Trilha Infalível de Nozomi",
+    "page": 211,
+    "grade": "sublime",
+    "chakra": "car",
+    "chakras": [
+      "car"
+    ],
+    "descriptors": "adivinhação",
+    "execution": "ação padrão",
+    "range": "pessoal",
+    "target": "Alvo: você",
+    "duration": "cena",
+    "resistance": "",
+    "save": "",
+    "attack": "",
+    "damage": null,
+    "description": "<p>Você conhece o caminho mais curto e simples para entrar ou sair de um lugar (não serve para achar criaturas ou objetos). A trilha usa só suas capacidades normais, nunca exige testes de perícia com CD acima de 10 e tenta evitar armadilhas e perigos, sem revelá-los. Um encontro significativo (uma cena) no caminho apaga o conhecimento e encerra o jutsu.</p>",
+    "enhancements": [
+      {
+        "cost": 2,
+        "text": "muda o alvo para até 5 criaturas e o alcance para curto."
+      },
+      {
+        "cost": 5,
+        "text": "muda a duração para permanente até ser descarregado: encontros não apagam o conhecimento, e o jutsu só acaba ao chegar ao destino; enquanto ativo, seus PM máximos diminuem em 15."
+      }
+    ]
+  },
+  {
+    "name": "Truque das Cópias Perfeitas",
+    "page": 211,
+    "grade": "sublime",
+    "chakra": "des",
+    "chakras": [
+      "des"
+    ],
+    "descriptors": "ilusão",
+    "execution": "ação padrão",
+    "range": "pessoal",
+    "target": "Alvo/Efeito: você/cópia",
+    "duration": "cena",
+    "resistance": "Vontade parcial",
+    "save": "von",
+    "attack": "",
+    "damage": null,
+    "description": "<p>Você fica invisível (como em invisibilidade ninja, mas continua invisível ao se mover, atacar ou executar jutsus ofensivos) e cria no seu espaço uma cópia ilusória que funciona como em truque das cópias sólidas, tem seu cheiro e pode atacar, causando 50% do dano normal. Seus jutsus podem partir da cópia se ela estiver a até 30m (escolha a origem no início de cada turno; ações e PM são seus).</p>",
+    "enhancements": [
+      {
+        "cost": 2,
+        "text": "aumenta em +1 as cópias."
+      },
+      {
+        "cost": 5,
+        "text": "aumenta o dano das cópias em +25% (máximo 100%)."
+      }
+    ]
+  },
+  {
+    "name": "Amuleto Mental",
+    "page": 212,
+    "grade": "lendario",
+    "chakra": "con",
+    "chakras": [
+      "con"
+    ],
+    "descriptors": "abjuração",
+    "execution": "ação de movimento",
+    "range": "pessoal",
+    "target": "Alvo: você",
+    "duration": "cena",
+    "resistance": "",
+    "save": "",
+    "attack": "",
+    "damage": null,
+    "description": "<p>Você ganha imunidade a adivinhação, atordoamento, confusão, dano de habilidade (só mentais), dominação, encantamento, ilusão, medo, pasmar e possessão. Nem distorção da realidade, nem milagre dos ancestrais, nem outros jutsus lendários vencem essas imunidades quando o objetivo é afetar a mente.</p><p>Jutsus de adivinhação, encantamento ou ilusão de área continuam valendo no lugar onde você está, mas não o atingem; ilusões ainda são percebidas por você, mas ficam evidentes e não podem prejudicá-lo.</p>",
+    "enhancements": [
+      {
+        "cost": 2,
+        "text": "muda o alvo para 1 criatura e o alcance para curto."
+      }
+    ]
+  },
+  {
+    "name": "Assimilação",
+    "page": 212,
+    "grade": "lendario",
+    "chakra": "con",
+    "chakras": [
+      "con"
+    ],
+    "descriptors": "transmutação, trevas",
+    "execution": "ação padrão",
+    "range": "corpo-a-corpo",
+    "target": "Alvo: 1 criatura",
+    "duration": "veja texto",
+    "resistance": "Fortitude reduz à metade",
+    "save": "fort",
+    "attack": "toque",
+    "damage": {
+      "formula": "30d6",
+      "type": "trevas",
+      "healing": false,
+      "scaleDice": "",
+      "scaleCost": 0
+    },
+    "description": "<p>Faça um ataque de toque ou um ataque desarmado. Se acertar, causa o dano normal (nenhum, no caso de toque) + 30d6 de dano de trevas (Fortitude reduz à metade).</p><ul><li><strong>Assimilação parcial</strong> (o alvo sobrevive): você recebe PV temporários iguais à metade do dano causado, pela cena.</li><li><strong>Assimilação total</strong> (o alvo cai a 0 PV ou menos e morre): pela cena, você ganha PV temporários no valor do dano causado e +4 em todas as habilidades (exceto Honra), aprende 1d6 jutsus que a criatura conhecia (o mestre escolhe) e adquire traços físicos dela, com +10 em testes de Enganação para se disfarçar como ela.</li></ul>",
+    "enhancements": [
+      {
+        "cost": 1,
+        "text": "o ataque pode ser corpo-a-corpo com qualquer arma; acertando, ele soma o dano da arma ao efeito do jutsu."
+      },
+      {
+        "cost": 5,
+        "text": "se assimilar totalmente uma criatura, você também recupera 10 PM."
+      }
+    ]
+  },
+  {
+    "name": "Aura Celestial",
+    "page": 212,
+    "grade": "lendario",
+    "chakra": "sab",
+    "chakras": [
+      "sab"
+    ],
+    "descriptors": "vácuo",
+    "execution": "ação padrão",
+    "range": "curto",
+    "target": "Alvo: até 5 criaturas",
+    "duration": "cena",
+    "resistance": "veja texto",
+    "save": "fort",
+    "attack": "",
+    "damage": null,
+    "description": "<p>Os alvos ficam envoltos por um brilho da cor que você escolher, recebem +4 na CA e nos testes de resistência e ficam protegidos contra efeitos de possessão e dominação.</p><p>Na execução, escolha uma medida de Honra (desonrado, sórdido, desumano etc.). Criaturas dessa Honra que atacarem um dos alvos, acertando ou não, sofrem um destes efeitos, à sua escolha: 2d4 de dano de Força ou de Destreza; ficar cega pela cena; ficar confusa pela cena; ou ficar lenta pela cena. Um teste de Fortitude evita o efeito.</p>",
+    "enhancements": [
+      {
+        "cost": 2,
+        "text": "aumenta em +1 o bônus na CA e nos testes de resistência."
+      }
+    ]
+  },
+  {
+    "name": "Barreira das Seis Mil Gemas",
+    "page": 212,
+    "grade": "lendario",
+    "chakra": "des",
+    "chakras": [
+      "des"
+    ],
+    "descriptors": "abjuração, elemental, ilusão, invocação",
+    "execution": "ação padrão",
+    "range": "longo",
+    "target": "Efeito: barreira multicolorida",
+    "duration": "cena",
+    "resistance": "veja texto",
+    "save": "ref",
+    "attack": "",
+    "damage": null,
+    "description": "<p>Surge, na intersecção entre quadrados, uma parede vertical opaca e fixa, medindo até 30m de largura por 9m de altura, que cintila em sete cores. Cada cor barra um tipo de ataque e afeta quem tenta cruzar a barreira; você passa por ela sem sofrer nada.</p><p>Ela pode ser desmanchada uma cor por vez, em qualquer ordem, com o jutsu correspondente; usado para isso, o jutsu não gera seus outros efeitos e tem alcance curto e a barreira como alvo, sem PM extra.</p><ul><li><strong>Vermelho</strong> — barra ataques à distância mundanos; causa 6d6 de dano de fogo (Reflexos reduz à metade); desfeita por dominar água.</li><li><strong>Laranja</strong> — barra ataques à distância mágicos; veneno mortal (Fortitude reduz a 1d6 de dano de Constituição); desfeita por lâmina de vento.</li><li><strong>Amarelo</strong> — barra trevas e transmutação; causa 12d12 de dano de eletricidade (Reflexos reduz à metade); desfeita por rocha cadente.</li><li><strong>Verde</strong> — barra efeitos elementais e de luz; causa 8d8 de dano de ácido (Fortitude reduz à metade); desfeita por caminhos invisíveis.</li><li><strong>Azul-verde (ao)</strong> — barra adivinhações e encantamentos; causa 10d10 de dano de vento (Reflexos reduz à metade); desfeita por leque de chamas.</li><li><strong>Azul</strong> — barra todos os jutsus; congela como estátua de gelo (Fortitude anula); desfeita por fogo-fátuo.</li><li><strong>Violeta</strong> — barra todos os efeitos e objetos; manda a criatura para outro mundo (Vontade anula); desfeita por anulação.</li></ul>",
+    "enhancements": [
+      {
+        "cost": 1,
+        "text": "aumenta em +1 o número de criaturas que cruzam a barreira sem sofrer seus efeitos."
+      },
+      {
+        "cost": 5,
+        "text": "muda o efeito para aura multicolorida e o alcance para pessoal: uma aura com as propriedades da barreira envolve você. Seus sentidos funcionam normalmente, mas você não pode executar jutsus; quem tentar atacá-lo fisicamente em corpo-a-corpo sofre o efeito de uma cor sorteada, como em rajada das mil gemas."
+      }
+    ]
+  },
+  {
+    "name": "Buraco Negro",
+    "page": 213,
+    "grade": "lendario",
+    "chakra": "car",
+    "chakras": [
+      "car"
+    ],
+    "descriptors": "trevas, vácuo",
+    "execution": "ação completa",
+    "range": "longo",
+    "target": "Efeito: buraco negro",
+    "duration": "3 rodadas",
+    "resistance": "Fortitude parcial",
+    "save": "fort",
+    "attack": "",
+    "damage": null,
+    "description": "<p>Você cria um buraco negro em um quadrado desocupado. No começo de cada uma das três rodadas seguintes, toda criatura num raio de 60m (você incluído) testa Fortitude; quem falha fica caído e é puxado 30m na direção do buraco. Objetos soltos também são arrastados. Quem gastar uma ação de movimento agarrando-se a algo fixo ganha +4 no teste.</p><p>O que estiver a 30m ou menos do buraco — criaturas ou objetos — é sugado e desaparece para sempre.</p>",
+    "enhancements": [
+      {
+        "cost": 5,
+        "text": "muda o efeito: você não é afetado."
+      },
+      {
+        "cost": 15,
+        "text": "muda o efeito: criaturas que você escolher dentro do alcance não são afetadas."
+      }
+    ]
+  },
+  {
+    "name": "Ciclone de Shunka’Shuuto",
+    "page": 213,
+    "grade": "lendario",
+    "chakra": "int",
+    "chakras": [
+      "int"
+    ],
+    "descriptors": "frio, vento",
+    "execution": "ação padrão",
+    "range": "ilimitado",
+    "target": "Efeito: ciclone",
+    "duration": "concentração +1 rodada",
+    "resistance": "veja texto",
+    "save": "ref",
+    "attack": "",
+    "damage": {
+      "formula": "6d6",
+      "type": "frio ou vento",
+      "healing": false,
+      "scaleDice": "",
+      "scaleCost": 0
+    },
+    "description": "<p>Você cria um ciclone (cilindro de 3m de raio por 30m de altura) coroado por uma nuvem de chuva e granizo, que se desloca 18m por rodada na direção que você escolher; enquanto mantiver a concentração, você pode desviá-lo, pará-lo ou fazê-lo andar de novo.</p><p>Efeitos em qualquer criatura a até 30m do ciclone:</p><ul><li>Vento uivante: teste de Fortitude a cada rodada para não ficar surda pela cena.</li><li>Chuva e granizo atrapalham a visão como bomba de fumaça (efeitos de vento não dissipam).</li><li>Destroços deixam toda a área como terreno difícil e impedem ataques físicos à distância.</li><li>A área conta como condição terrível para executar jutsus.</li></ul><p>Dentro do ciclone, criaturas Enormes ou menores precisam passar em Reflexos a cada rodada ou sofrem 6d6 de dano de frio ou de vento (você escolhe para cada uma). As Médias ou menores sofrem esse dano automaticamente e, a cada rodada, precisam passar em Reflexos ou são sugadas até metade da altura do ciclone, ficando paralisadas enquanto ele existir. Com uma ação livre, você expele qualquer criatura sugada e escolhe onde ela pousa ou cai; a queda causa 10d6 de dano (Reflexos reduz à metade e permite cair de pé).</p>",
+    "enhancements": [
+      {
+        "cost": 5,
+        "text": "muda a duração para cena; para controlar o ciclone, você gasta uma ação padrão de concentração."
+      }
+    ]
+  },
+  {
+    "name": "Dança das Chamas Mortais",
+    "page": 213,
+    "grade": "lendario",
+    "chakra": "for",
+    "chakras": [
+      "for"
+    ],
+    "descriptors": "fogo, transmutação",
+    "execution": "ação de movimento",
+    "range": "pessoal",
+    "target": "Alvo: você",
+    "duration": "cena",
+    "resistance": "Fortitude anula",
+    "save": "fort",
+    "attack": "corpo",
+    "damage": null,
+    "description": "<p>Chamas de cores exóticas envolvem uma de suas armas. Uma vez por rodada, com uma ação padrão, você pode fazer um ataque corpo-a-corpo; se acertar, a vítima testa Fortitude ou morre na hora. Quem passar no teste fica imune a esta execução do jutsu.</p>",
+    "enhancements": [
+      {
+        "cost": 5,
+        "text": "muda o teste de resistência para Fortitude parcial; quem passar ainda sofre 10d6 de dano de fogo."
+      }
+    ]
+  },
+  {
+    "name": "Disjunção",
+    "page": 213,
+    "grade": "lendario",
+    "chakra": "sab",
+    "chakras": [
+      "sab"
+    ],
+    "descriptors": "abjuração",
+    "execution": "ação padrão",
+    "range": "longo",
+    "target": "Área: explosão com 9m de raio",
+    "duration": "instantânea",
+    "resistance": "veja texto",
+    "save": "von",
+    "attack": "",
+    "damage": null,
+    "description": "<p>Funciona como uma anulação mais forte: dissipa todos os jutsus na área e torna mundanos os itens mágicos que estiverem nela, exceto os seus. Cada item pode resistir com um teste de Vontade (usando a melhor resistência entre a dele e a do portador).</p><p>Cada uso tem ainda 10% de chance de destruir um artefato que esteja na área, mesmo um que seja seu; se isso acontecer, você testa Vontade e, se falhar, sofre os efeitos de lágrimas de Mizuha.</p>",
+    "enhancements": [
+      {
+        "cost": 10,
+        "text": "muda o efeito: até 5 criaturas na área, à sua escolha, ficam de fora, junto com os itens mágicos delas (artefatos não)."
+      }
+    ]
+  },
+  {
+    "name": "Distorção da Realidade",
+    "page": 213,
+    "grade": "lendario",
+    "chakra": "int",
+    "chakras": [
+      "int"
+    ],
+    "descriptors": "ilusão, vácuo",
+    "execution": "ação padrão",
+    "range": "ilimitado",
+    "target": "Alvo/Área/Efeito: veja texto",
+    "duration": "veja texto",
+    "resistance": "veja texto",
+    "save": "von",
+    "attack": "",
+    "damage": null,
+    "description": "<p>Você reescreve a realidade: escolha um dos efeitos abaixo ou proponha outro.</p><p>Usos que custam 1 PM permanente cada:</p><ul><li>Reproduzir qualquer jutsu de grau sublime ou menor, com aprimoramentos, seguindo as regras dele (inclusive penalidade ou perda de PM).</li><li>Criar um item mundano que valha até 25.000 ¥o.</li><li>Conceder a uma criatura +1 permanente em uma habilidade (a mesma habilidade aceita até cinco aumentos).</li><li>Anular os efeitos nocivos de qualquer jutsu, exceto morte (resgatar alguém sugado por buraco negro, recuperar uma vítima de fracasso etc.).</li><li>Restaurar de imediato todos os PV de até 10 criaturas e livrá-las de todas as condições.</li><li>Levar instantaneamente até 10 criaturas de qualquer lugar a qualquer outro, em qualquer mundo, independentemente das condições; quem não quiser ir pode resistir com Vontade.</li></ul><p>Usos que custam 5 PM permanentes cada:</p><ul><li>Desfazer algo recente: força a repetição de uma rolagem de dados da rodada anterior (como o crítico inimigo que matou um aliado).</li><li>Ressuscitar alguém: a criatura perde um nível, ficando com o XP mínimo do novo nível (no 1º nível, perde 2 pontos de Constituição), perda que nada recupera. Ela volta com PV e PM cheios, habilidades zeradas sobem para 1, e venenos, doenças e condições prejudiciais são curados. Não funciona em shiryou ou youkai, nem em quem morreu há mais de dez anos, de velhice, em morte honrada ou não quer voltar.</li></ul><p>Pedidos ainda mais poderosos são possíveis, mas tudo que fugir da lista é decidido pelo mestre e pode ter resultados imprevistos ou ruins. Por ser ilusão de grau lendário, executá-lo é violação de honra moderada, mesmo com boas intenções.</p>",
+    "enhancements": []
+  },
+  {
+    "name": "Dominar o Tempo",
+    "page": 214,
+    "grade": "lendario",
+    "chakra": "int",
+    "chakras": [
+      "int"
+    ],
+    "descriptors": "vácuo",
+    "execution": "ação padrão",
+    "range": "curto",
+    "target": "Alvo: veja texto",
+    "duration": "veja texto",
+    "resistance": "veja texto",
+    "save": "fort",
+    "attack": "",
+    "damage": null,
+    "description": "<p>Escolha um efeito:</p><ul><li><strong>Acelerar o tempo:</strong> você age livremente por 1d4 rodadas de tempo aparente, enquanto o resto parece congelado. Nesse intervalo você ignora efeitos contínuos, mas seus ataques e jutsus não conseguem afetar criaturas nem objetos que estejam com elas; jutsus de área ou que durem mais que a aceleração só começam a agir quando ela acaba (o uso típico é reforçar defesas e invocar criaturas).</li><li><strong>Envelhecer:</strong> você acrescenta de 1 a 30 anos à idade de uma criatura (raças não humanas envelhecem o período equivalente pelo ajuste de idade do Capítulo 1 — de 3 a 90 anos para um ryuujin, por exemplo). Ela sofre as penalidades de idade nas habilidades físicas, sem os bônus nas mentais, e chegar assim à longevidade máxima pode matá-la de velhice. Falhando em Fortitude, o envelhecimento é permanente e ela fica exausta; passando, dura a cena e ela fica fatigada. Usar esta opção contra uma criatura involuntária é violação de honra severa.</li><li><strong>Fuga:</strong> até 10 criaturas voluntárias saltam de 1 a 24 horas para o futuro e reaparecem no mesmo lugar, com a mesma velocidade e orientação (para elas, nenhum tempo passou); se algo sólido ocupar o espaço, surgem no espaço vazio mais próximo. Personagens jogadores não recebem XP por encontros evitados assim.</li><li><strong>Voltar no tempo:</strong> você revive a rodada anterior. Tudo o que aconteceu nela é desfeito (inclusive perda de PV e PM) e você volta à posição do início do seu último turno, sendo o único que sabe o que vai acontecer; os demais repetem as mesmas ações, mas você pode avisar seus nakama. Você perde 5 PM permanentes ao usar esta opção.</li></ul>",
+    "enhancements": []
+  },
+  {
+    "name": "Duplicação",
+    "page": 214,
+    "grade": "lendario",
+    "chakra": "con",
+    "chakras": [
+      "con"
+    ],
+    "descriptors": "transmutação",
+    "execution": "ação completa",
+    "range": "pessoal",
+    "target": "Alvo: você",
+    "duration": "cena",
+    "resistance": "",
+    "save": "",
+    "attack": "",
+    "damage": null,
+    "description": "<p>Você se divide, criando uma duplicata no espaço adjacente mais próximo. Ela pensa e age como você e obedece a ordens dadas como ação livre, mas não faz nada que você não faria. Suas estatísticas são idênticas às suas (inclusive PV atuais e máximos), mais dois níveis negativos impossíveis de remover ou curar. Ela pode executar jutsus, mas compartilha os seus PM. Efeitos, condições e jutsus que afetem você não passam para ela.</p><p>A duplicata traz cópias do seu equipamento, exceto consumíveis e itens mágicos; peças tiradas dela viram pó, mas projéteis e armas de arremesso funcionam em combate.</p><p>Quando o jutsu termina, a duplicata volta a se unir a você, a qualquer distância, e você sofre metade do dano que ela sofreu (podendo cair inconsciente ou morrer). Se ela morrer antes, você recebe um nível negativo; se você morrer antes, ela passa a ser você (mantendo os dois níveis negativos). Você só pode executar este jutsu no próprio corpo e ter uma duplicação ativa por vez; a duplicata não pode executá-lo, e não é possível usar fusão com ela.</p>",
+    "enhancements": [
+      {
+        "cost": 5,
+        "text": "muda o alvo para 1 criatura, o alcance para curto, o tempo de execução para 1 hora e a duração para instantânea. Cria uma duplicata inerte e inconsciente, sem equipamento; se o alvo morrer, sua alma passa para ela como reação e ela ganha vida, com as estatísticas que o alvo tinha ao morrer (morte por velhice impede a transferência). Enquanto ela permanecer inerte, seus PM máximos ficam 15 menores."
+      },
+      {
+        "cost": 5,
+        "text": "muda a duração para permanente, o tempo de execução para ação completa, o alvo para 1 criatura e o alcance para curto. Cria a duplicata de uma criatura com até tantos níveis quanto você + seu modificador de Constituição, com níveis negativos iguais à metade do nível dela, impossíveis de remover ou curar. Quem conhece o original pode notar a cópia com um teste de Percepção ou Intuição. A duplicata obedece a ordens como ação livre (sem fazer nada que você não faria), não ganha XP e não recupera PV nem PM. Enquanto ela viver, seus PM máximos ficam 15 menores, e cada execução com este aprimoramento custa 1 PM permanente."
+      }
+    ]
+  },
+  {
+    "name": "Fracasso",
+    "page": 215,
+    "grade": "lendario",
+    "chakra": "car",
+    "chakras": [
+      "car"
+    ],
+    "descriptors": "encantamento, trevas",
+    "execution": "ação completa",
+    "range": "curto",
+    "target": "Alvo: 1 criatura",
+    "duration": "permanente",
+    "resistance": "Vontade anula",
+    "save": "von",
+    "attack": "",
+    "damage": null,
+    "description": "<p>O alvo perde tudo que conquistou. Escolha:</p><ul><li><strong>Amnésia:</strong> o alvo esquece nome, amigos e lembranças e perde acesso a todas as perícias, talentos, habilidades de classe e jutsus, virando na prática uma pessoa comum (nada é apagado de fato; ele só não lembra o que sabia fazer). Valores de habilidade, traços raciais, idiomas, PV e PM não mudam. Itens que vieram de talentos, habilidades de classe e afins somem. Se o jutsu for dissipado, as memórias voltam gradualmente, em 1d4+2 dias, na ordem que o mestre decidir, e os itens reaparecem; nesse meio-tempo, em situações extremas, a vítima pode ter lampejos que permitem usar uma habilidade. Distorção da realidade ou milagre dos ancestrais devolvem tudo de imediato.</li><li><strong>Desonra:</strong> a Honra do alvo cai dois passos, para o menor valor da nova medida (mínimo 1) — um digníssimo (Hon 26) vira honesto (Hon 10), e um desonrado (Hon 8) vira sórdido (Hon 1).</li><li><strong>Falência:</strong> o dinheiro e os bens do alvo somem: seus itens e equipamentos, mundanos ou mágicos, se desfazem em trevas, e o dinheiro guardado, as posses e as construções são perdidos (a realidade se ajusta para explicar a perda). Itens concedidos por talentos, habilidades de classe e semelhantes ficam de fora. Se o jutsu for dissipado, itens e equipamentos voltam na hora e as demais riquezas voltam aos poucos em 1d4+2 dias (na ordem que o mestre decidir); distorção da realidade ou milagre dos ancestrais devolvem tudo de imediato.</li></ul>",
+    "enhancements": []
+  },
+  {
+    "name": "Golpe Supremo",
+    "page": 215,
+    "grade": "lendario",
+    "chakra": "for",
+    "chakras": [
+      "for"
+    ],
+    "descriptors": "ácido, transmutação",
+    "execution": "ação padrão",
+    "range": "ilimitado",
+    "target": "Alvo: 1 criatura",
+    "duration": "instantânea",
+    "resistance": "",
+    "save": "",
+    "attack": "corpo",
+    "damage": {
+      "formula": "30d6",
+      "type": "",
+      "healing": false,
+      "scaleDice": "",
+      "scaleCost": 0
+    },
+    "description": "<p>Você ataca (corpo-a-corpo ou à distância) e o golpe alcança o alvo onde quer que ele esteja; a CA dele recebe bônus ou penalidades conforme o quanto você o conhece (os mesmos modificadores de vidência dos ancestrais). Um acerto causa o dano normal mais 30d6, e esse dano atravessa qualquer redução de dano ou imunidade.</p><p>Atacar assim uma criatura que não está em combate com você é violação de honra extrema.</p>",
+    "enhancements": [
+      {
+        "cost": 1,
+        "text": "muda o alvo para 1 objeto Enorme ou maior: o golpe atinge uma construção, um elemento do terreno ou algo parecido, que sofre o dano se você acertar. A critério do mestre, isso pode gerar efeitos como os de terremoto corrosivo (desmoronamentos) ou de dominar água (baixar o nível de um corpo d’água)."
+      },
+      {
+        "cost": 5,
+        "text": "aumenta em 1 o multiplicador de crítico do ataque."
+      }
+    ]
+  },
+  {
+    "name": "Incêndio Infinito",
+    "page": 215,
+    "grade": "lendario",
+    "chakra": "int",
+    "chakras": [
+      "int"
+    ],
+    "descriptors": "fogo",
+    "execution": "ação padrão",
+    "range": "longo",
+    "target": "Área: cubo com 30m de lado",
+    "duration": "instantânea",
+    "resistance": "Reflexos reduz à metade",
+    "save": "ref",
+    "attack": "",
+    "damage": {
+      "formula": "17d6",
+      "type": "fogo",
+      "healing": false,
+      "scaleDice": "1d6",
+      "scaleCost": 1
+    },
+    "description": "<p>Fogo toma a área inteira: toda criatura e todo objeto livre nela sofre 17d6 de dano de fogo (Reflexos reduz à metade).</p>",
+    "enhancements": [
+      {
+        "cost": 1,
+        "text": "muda o dano para 4d6 de fogo e a duração para permanente; o dano é sofrido por criaturas e objetos livres na área no início dos turnos deles. Enquanto ele durar assim, seus PM máximos ficam 15 menores."
+      },
+      {
+        "cost": 1,
+        "text": "aumenta o dano em +1d6."
+      }
+    ]
+  },
+  {
+    "name": "Katana Celestial",
+    "page": 215,
+    "grade": "lendario",
+    "chakra": "sab",
+    "chakras": [
+      "sab"
+    ],
+    "descriptors": "eletricidade, luz",
+    "execution": "ação padrão",
+    "range": "pessoal",
+    "target": "Área: duas explosões em linha com 30m",
+    "duration": "instantânea",
+    "resistance": "Fortitude anula, Reflexos reduz à metade",
+    "save": "ref",
+    "attack": "",
+    "damage": {
+      "formula": "10d6 + 10d6",
+      "type": "eletricidade e luz",
+      "healing": false,
+      "scaleDice": "1d6",
+      "scaleCost": 1
+    },
+    "description": "<p>Duas linhas de 30m, cada uma numa direção, formam um traço reto de 60m ou um “V”. As criaturas atingidas sofrem 10d6 de dano de eletricidade e 10d6 de dano de luz (Reflexos reduz à metade), e o dano de luz dobra contra mortos-vivos e contra quem tem sensibilidade à luz. Elas também ficam cegas e surdas pela cena (Fortitude anula).</p>",
+    "enhancements": [
+      {
+        "cost": 1,
+        "text": "aumenta o dano de eletricidade em +1d6."
+      },
+      {
+        "cost": 1,
+        "text": "aumenta o dano de luz em +1d6."
+      },
+      {
+        "cost": 10,
+        "text": "muda a área para duas linhas de 60m cruzadas em “X” (4 explosões em linha de 30m)."
+      }
+    ]
+  },
+  {
+    "name": "Kiai Assassino",
+    "page": 216,
+    "grade": "lendario",
+    "chakra": "for",
+    "chakras": [
+      "for"
+    ],
+    "descriptors": "vento, trevas",
+    "execution": "ação padrão",
+    "range": "pessoal",
+    "target": "Área: explosão em cone de 9m",
+    "duration": "instantânea",
+    "resistance": "Fortitude anula",
+    "save": "fort",
+    "attack": "",
+    "damage": null,
+    "description": "<p>Seu grito mata instantaneamente as criaturas na área que puderem ouvi-lo (exceto você). Fortitude anula.</p>",
+    "enhancements": [
+      {
+        "cost": 5,
+        "text": "muda o efeito: você seleciona quais criaturas na área são atingidas."
+      },
+      {
+        "cost": 5,
+        "text": "muda o teste de resistência para Fortitude parcial; quem passar fica abalado pela cena."
+      }
+    ]
+  },
+  {
+    "name": "Ladrão de Almas",
+    "page": 216,
+    "grade": "lendario",
+    "chakra": "car",
+    "chakras": [
+      "car"
+    ],
+    "descriptors": "trevas",
+    "execution": "ação padrão",
+    "range": "curto",
+    "target": "Alvo: 1 criatura",
+    "duration": "permanente",
+    "resistance": "Vontade anula",
+    "save": "von",
+    "attack": "",
+    "damage": null,
+    "description": "<p>Se o alvo falhar no teste, sua alma fica aprisionada num objeto e o corpo tomba inconsciente e inerte, em estase: não envelhece nem apodrece, mas continua vulnerável e pode ser destruído. Com a alma presa, nenhum efeito de ressurreição funciona nele (como o talento Bênção de Hyaku-nen ou o jutsu distorção da realidade).</p><p>O objeto precisa valer 1.000 ¥o por nível da criatura; se valer menos, quebra na execução. Destruir o objeto encerra o jutsu, e a alma volta ao corpo se ele ainda existir; se não existir, será preciso um efeito de ressurreição. Executar este jutsu custa 1 PM permanente.</p>",
+    "enhancements": [
+      {
+        "cost": 10,
+        "text": "como reação, ao ter sucesso com este jutsu, você pode tomar o corpo vazio do alvo, como em possessão de Doragami."
+      }
+    ]
+  },
+  {
+    "name": "Lágrimas de Mizuha",
+    "page": 216,
+    "grade": "lendario",
+    "chakra": "car",
+    "chakras": [
+      "car"
+    ],
+    "descriptors": "vácuo",
+    "execution": "1 minuto",
+    "range": "curto",
+    "target": "Alvo: 1 criatura",
+    "duration": "instantânea",
+    "resistance": "Vontade anula",
+    "save": "von",
+    "attack": "",
+    "damage": null,
+    "description": "<p>Se falhar no teste de Vontade, o alvo tem os chacras fechados para sempre: perde os talentos que abrem chacras e os PM que vinham dos modificadores desses chacras, e fica incapaz de executar jutsus de qualquer forma. Também não consegue usar Ladinagem ou Identificar Magia para operar instrumentos mágicos, nem ativar ofuda (mesmo que conheça o jutsu).</p><p>Nenhum recurso mortal desfaz isso, nem mesmo distorção da realidade; só intervenção divina direta ou milagre dos ancestrais. Se o jutsu tiver sucesso, você perde 5 PM permanentes. Executá-lo sem a permissão de Mizuha é violação de honra extrema.</p>",
+    "enhancements": []
+  },
+  {
+    "name": "Localização Perfeita",
+    "page": 216,
+    "grade": "lendario",
+    "chakra": "sab",
+    "chakras": [
+      "sab"
+    ],
+    "descriptors": "adivinhação",
+    "execution": "1 minuto",
+    "range": "ilimitado",
+    "target": "Alvo: 1 criatura ou objeto",
+    "duration": "instantânea",
+    "resistance": "",
+    "save": "",
+    "attack": "",
+    "damage": null,
+    "description": "<p>Funciona como o jutsu localização, mas encontra o alvo esteja ele onde estiver, superando qualquer proteção ou imunidade a adivinhação, exceto a de amuleto mental ou a de intervenção divina direta (incluindo milagre dos ancestrais).</p><p>Achar uma criatura exige conhecê-la pessoalmente ou portar um objeto pessoal dela; achar um objeto exige tê-lo tocado pelo menos uma vez.</p>",
+    "enhancements": [
+      {
+        "cost": 5,
+        "text": "muda o efeito: a busca alcança também outros mundos."
+      }
+    ]
+  },
+  {
+    "name": "Mandala da Afinidade",
+    "page": 216,
+    "grade": "lendario",
+    "chakra": "con",
+    "chakras": [
+      "con"
+    ],
+    "descriptors": "transmutação",
+    "execution": "ação padrão",
+    "range": "pessoal",
+    "target": "Área: emanação com 9m de raio",
+    "duration": "cena",
+    "resistance": "",
+    "save": "",
+    "attack": "",
+    "damage": null,
+    "description": "<p>Você traça uma mandala de energia ao seu redor e, na execução, define quais criaturas na área são aliadas e quais são inimigas.</p><p>As inimigas sofrem todo dano que você sofrer (inclusive dano de habilidade, mas não dano de Honra), e qualquer jutsu prejudicial básico ou mediano lançado contra você também as atinge (cada uma com seu próprio teste de resistência, se houver). As aliadas recuperam PV e são curadas sempre que você recupera PV ou recebe cura, e se beneficiam de todo jutsu básico que tiver você como alvo.</p><p>Quem sai da mandala deixa de ser afetado; quem entra depois da execução não é afetado.</p>",
+    "enhancements": [
+      {
+        "cost": 10,
+        "text": "muda o efeito: jutsus prejudiciais avançados lançados contra você também atingem as inimigas."
+      }
+    ]
+  },
+  {
+    "name": "Mandala-espelho",
+    "page": 216,
+    "grade": "lendario",
+    "chakra": "car",
+    "chakras": [
+      "car"
+    ],
+    "descriptors": "abjuração",
+    "execution": "ação padrão",
+    "range": "pessoal",
+    "target": "Alvo: você",
+    "duration": "cena ou até ser descarregado",
+    "resistance": "",
+    "save": "",
+    "attack": "",
+    "damage": null,
+    "description": "<p>Jutsus que tenham você como alvo são devolvidos a quem os executou. Jutsus de área não são refletidos, mas os de efeito lançados contra você são: um dominar mente refletido pode fazer você dominar quem o executou, e o raio de rito do exorcista também volta; já uma explosão de fogo o atinge normalmente.</p><p>O jutsu reflete até 6 PM de custo base (aprimoramentos não contam) — um jutsu avançado, dois medianos, seis básicos ou um mediano e três básicos — e então se esvai. Se você e quem executou o jutsu contra você estiverem ambos protegidos por mandala-espelho, os dois efeitos se anulam e o jutsu o afeta normalmente, sem consumir seu limite.</p>",
+    "enhancements": [
+      {
+        "cost": 10,
+        "text": "muda o limite de custo base refletido para 10 PM."
+      }
+    ]
+  },
+  {
+    "name": "Mantra dos Ancestrais",
+    "page": 217,
+    "grade": "lendario",
+    "chakra": "car",
+    "chakras": [
+      "car"
+    ],
+    "descriptors": "encantamento, vento",
+    "execution": "ação padrão",
+    "range": "curto",
+    "target": "Alvo: 1 criatura",
+    "duration": "veja texto",
+    "resistance": "",
+    "save": "",
+    "attack": "",
+    "damage": null,
+    "description": "<p>Este jutsu dispensa selos. O efeito depende dos PV atuais do alvo; escolha:</p><ul><li><strong>Atordoar:</strong> até 50 PV, atordoado pela cena; de 51 a 200 PV, por 1d4 rodadas; acima de 200 PV, imune.</li><li><strong>Cegar:</strong> até 200 PV, cego para sempre; acima disso, cego pela cena.</li><li><strong>Matar:</strong> até 100 PV, morre; acima disso, imune.</li></ul>",
+    "enhancements": [
+      {
+        "cost": 10,
+        "text": "aumenta em +50 os limites de PV dos efeitos (com +10 PM e matar, por exemplo, morre quem tiver até 150 PV)."
+      }
+    ]
+  },
+  {
+    "name": "Matador de Kaiju",
+    "page": 217,
+    "grade": "lendario",
+    "chakra": "for",
+    "chakras": [
+      "for"
+    ],
+    "descriptors": "transmutação, vácuo",
+    "execution": "2 rodadas",
+    "range": "pessoal",
+    "target": "Área: explosão em cone de 30m",
+    "duration": "instantânea",
+    "resistance": "Reflexos reduz à metade",
+    "save": "ref",
+    "attack": "",
+    "damage": {
+      "formula": "20d12+20",
+      "type": "vácuo",
+      "healing": false,
+      "scaleDice": "1d12+1",
+      "scaleCost": 3
+    },
+    "description": "<p>Depois de longos mantras e gestos com a arma ou as mãos, você libera à sua frente uma descarga de energia que atinge toda criatura, objeto livre e construção na área com 20d12+20 de dano de vácuo (Reflexos reduz à metade) e suspende por 1d4 rodadas a cura acelerada de quem estiver na área.</p><p>Executar este jutsu contra criaturas da sua categoria de tamanho ou menores é violação de honra severa.</p>",
+    "enhancements": [
+      {
+        "cost": 3,
+        "text": "aumenta o dano em +1d12+1."
+      },
+      {
+        "cost": 5,
+        "text": "muda a área para explosão em linha de 30m e o tempo de execução para ação completa."
+      }
+    ]
+  },
+  {
+    "name": "Mente Inviolável",
+    "page": 217,
+    "grade": "lendario",
+    "chakra": "car",
+    "chakras": [
+      "car"
+    ],
+    "descriptors": "abjuração, encantamento",
+    "execution": "reação",
+    "range": "ilimitado",
+    "target": "Efeito: contra-ataque mental",
+    "duration": "instantânea",
+    "resistance": "Vontade reduz à metade",
+    "save": "von",
+    "attack": "",
+    "damage": null,
+    "description": "<p>Quando algo tentar afetá-lo com adivinhação, encantamento ou ilusão, ou causar-lhe atordoamento, confusão, dano de habilidade (só mentais), dominação, medo, pasmar ou possessão, você pode ativar este jutsu: o responsável sofre 3d6 de dano de habilidade em Inteligência, Sabedoria ou Carisma, à sua escolha (Vontade reduz à metade).</p>",
+    "enhancements": [
+      {
+        "cost": 5,
+        "text": "muda o efeito para alvo de até 5 criaturas, o alcance para curto, o tempo de execução para ação padrão e a duração para cena ou até ser descarregado. Qualquer uma delas pode, como reação, descarregar o efeito para si mesma; o jutsu acaba com a duração ou quando todas já o tiverem usado."
+      },
+      {
+        "cost": 10,
+        "text": "aumenta o dano de habilidade em +1d6."
+      }
+    ]
+  },
+  {
+    "name": "Milagre dos Ancestrais",
+    "page": 217,
+    "grade": "lendario",
+    "chakra": "sab",
+    "chakras": [
+      "sab"
+    ],
+    "descriptors": "luz, vácuo",
+    "execution": "ação padrão",
+    "range": "ilimitado",
+    "target": "Alvo/Área/Efeito: veja texto",
+    "duration": "veja texto",
+    "resistance": "veja texto",
+    "save": "",
+    "attack": "",
+    "damage": null,
+    "description": "<p>Só pode ser aprendido por devotos. Você roga que os ancestrais e grandes espíritos intervenham diretamente; escolha:</p><ul><li>Reproduzir qualquer jutsu de grau sublime ou menor, com aprimoramentos, seguindo as regras dele (inclusive penalidade ou perda de PM).</li><li>Criar um item mundano que valha até 25.000 ¥o.</li><li>Anular os efeitos nocivos de qualquer jutsu, exceto morte (por exemplo, soltar alguém de prisão de Doragami ou resgatar uma alma tomada por ladrão de almas).</li><li>Gerar outro efeito de poder parecido, conforme a vontade e os propósitos dos deuses, grandes espíritos ou ancestrais.</li></ul><p>Esses usos não custam PM permanentes. Pedidos maiores custam 5 PM permanentes:</p><ul><li>Reverter uma batalha quase perdida, ressuscitando todos os seus nakama caídos (como a ressurreição de distorção da realidade).</li><li>Proteger uma cidade ou lugar semelhante de um desastre natural (erupção vulcânica, inundação, terremoto, ataque de kaiju).</li><li>Outros pedidos autorizados pelo mestre, conforme a vontade dos deuses, grandes espíritos ou ancestrais; mesmo atendidos, alguns podem ser violações de honra, a critério do mestre.</li></ul>",
+    "enhancements": []
+  },
+  {
+    "name": "Muralha da Tempestade",
+    "page": 218,
+    "grade": "lendario",
+    "chakra": "int",
+    "chakras": [
+      "int"
+    ],
+    "descriptors": "abjuração, eletricidade",
+    "execution": "ação padrão",
+    "range": "ilimitado",
+    "target": "Efeito: muralha de relâmpagos",
+    "duration": "concentração",
+    "resistance": "Fortitude parcial, Reflexos reduz à metade",
+    "save": "ref",
+    "attack": "",
+    "damage": {
+      "formula": "6d6",
+      "type": "eletricidade",
+      "healing": false,
+      "scaleDice": "1d6",
+      "scaleCost": 3
+    },
+    "description": "<p>Você cria uma muralha imóvel de pura eletricidade, com até 60m de largura por 30m de altura, posicionada na intersecção entre quadrados. Ela atrapalha a visão (conta como cobertura) e barra projéteis físicos.</p><p>Toda criatura que chegar a 15m da muralha leva um relâmpago, como reação: 6d6 de dano de eletricidade (Reflexos reduz à metade). Quem a atravessar ou sobrevoar (até 1km de altura) leva três relâmpagos e testa Fortitude: passando, fica surdo pela cena; falhando, fica atordoado por 1d4 rodadas. Cada criatura só é afetada por este jutsu uma vez por rodada.</p>",
+    "enhancements": [
+      {
+        "cost": 3,
+        "text": "aumenta em +1d6 o dano de cada relâmpago."
+      }
+    ]
+  },
+  {
+    "name": "Portal Espiritual",
+    "page": 218,
+    "grade": "lendario",
+    "chakra": "des",
+    "chakras": [
+      "des"
+    ],
+    "descriptors": "invocação",
+    "execution": "ação completa",
+    "range": "curto",
+    "target": "Efeito: portal",
+    "duration": "cena",
+    "resistance": "",
+    "save": "",
+    "attack": "",
+    "damage": null,
+    "description": "<p>Você cria um círculo brilhante, com raio de 1,5m a 6m, numa superfície como o chão ou uma parede. Qualquer criatura que pise nele ou o atravesse é transportada como em movimento instantâneo, para um destino definido por você na execução — que pode ficar em outro mundo. Se quiser, o portal pode ser invisível, podendo ser usado por acidente.</p>",
+    "enhancements": [
+      {
+        "cost": 5,
+        "text": "em vez do efeito normal, o portal traz de outro mundo uma criatura qualquer à sua escolha, que age no início do seu próximo turno. Se ela tiver até tantos níveis quanto você, fica sob seu controle: avança e ataca seus inimigos, salvo outras ordens, que você dá como ação livre. Se tiver mais níveis, age como quiser (inclusive atacando você). Ela fica até o jutsu terminar ou até ser destruída, e então some sem deixar nada. Só pode haver uma criatura invocada assim por vez; divindades e criaturas de poder extremo (a critério do mestre) não podem ser trazidas. Você perde 1 PM permanente ao usar este aprimoramento."
+      }
+    ]
+  },
+  {
+    "name": "Prisão de Doragami",
+    "page": 218,
+    "grade": "lendario",
+    "chakra": "car",
+    "chakras": [
+      "car"
+    ],
+    "descriptors": "encantamento, ilusão, invocação",
+    "execution": "ação padrão",
+    "range": "curto",
+    "target": "Alvo: 1 criatura",
+    "duration": "veja texto",
+    "resistance": "Vontade anula",
+    "save": "von",
+    "attack": "",
+    "damage": null,
+    "description": "<p>Escolha uma prisão (algumas reduzem a CD do teste de Vontade):</p><ul><li><strong>Desincorporação</strong> (permanente; CD –4): o alvo fica invisível e incorpóreo, exceto a cabeça, guardada num jarro ou outro recipiente. Continua consciente e pode falar, mas não sai do recipiente, não ataca nem usa habilidades ou jutsus; não precisa respirar nem comer e não envelhece.</li><li><strong>Estase</strong> (10 anos; CD –2): animação suspensa; as funções do corpo param e a vítima, inconsciente, não envelhece nem precisa respirar ou comer, mas continua sendo detectada como criatura viva.</li><li><strong>Miniaturização</strong> (permanente; CD –5): o alvo encolhe para 3cm e fica preso dentro de um objeto à sua escolha, sem poder sair; não precisa comer nem respirar e não envelhece.</li><li><strong>Outra Dimensão</strong> (cena): o alvo é levado a um semiplano, como o de esconderijo perfeito, e só encontra a saída com um teste de Inteligência (CD 20), que exige uma ação completa. Ao escapar, ou quando o jutsu termina, reaparece onde estava; efeitos de viagem entre mundos permitem fugir.</li><li><strong>Prisão</strong> (1 ano; CD –1): o alvo não consegue sair da construção ou aposento onde está, que emana um efeito igual a manipulador de vontades, causando aversão em qualquer criatura (exceto você) que chegue a até 30m.</li><li><strong>Tumba</strong> (permanente; CD –3): a criatura é enterrada a até 1km de profundidade, em animação suspensa como na estase; localizá-la exige jutsus de adivinhação lendários, como localização perfeita.</li></ul><p>Você pode definir uma condição que, cumprida, dissipa o jutsu e liberta a vítima (como abrir uma caixa que você segura); isso aumenta a CD em +2. Anulação não afeta este jutsu, mas disjunção pode removê-lo. Enquanto ele estiver ativo, seus PM máximos ficam 15 menores.</p>",
+    "enhancements": [
+      {
+        "cost": 5,
+        "text": "muda o alcance para ilimitado e o tempo de execução para 1 hora; o teste da vítima recebe os modificadores de conhecimento de vidência dos ancestrais. Até seis assistentes podem se concentrar ao seu lado durante toda a execução; no fim, cada um executa um jutsu de encantamento avançado ou superior, e cada assistente soma +2 à CD do teste de Vontade. Enquanto ele durar assim, cada assistente fica com PM máximos 6 menores."
+      }
+    ]
+  },
+  {
+    "name": "Sentai Espiritual",
+    "page": 219,
+    "grade": "lendario",
+    "chakra": "sab",
+    "chakras": [
+      "sab"
+    ],
+    "descriptors": "invocação",
+    "execution": "ação completa",
+    "range": "longo",
+    "target": "Efeito: criaturas invocadas",
+    "duration": "cena",
+    "resistance": "",
+    "save": "",
+    "attack": "",
+    "damage": null,
+    "description": "<p>Como espírito guardião, porém mais forte: você invoca 1d3+1 espíritos avançados, 1d4+2 medianos ou 2d4+2 básicos. Sem gastar PM, cada youkai pode receber uma habilidade de deslocamento e de percepção.</p>",
+    "enhancements": [
+      {
+        "cost": 1,
+        "text": "adiciona a todas as criaturas uma habilidade de deslocamento do jutsu espírito guardião."
+      },
+      {
+        "cost": 1,
+        "text": "adiciona a todas as criaturas uma habilidade de percepção do jutsu espírito guardião."
+      },
+      {
+        "cost": 2,
+        "text": "aumenta os PV de todas as criaturas em +2 por nível."
+      },
+      {
+        "cost": 2,
+        "text": "aumenta em +2 o ataque e o dano corpo-a-corpo das criaturas."
+      },
+      {
+        "cost": 2,
+        "text": "aumenta em +2 a CA e o ataque à distância das criaturas."
+      },
+      {
+        "cost": 5,
+        "text": "adiciona a todas as criaturas uma habilidade de proteção do jutsu espírito guardião."
+      },
+      {
+        "cost": 10,
+        "text": "muda a duração para permanente: as criaturas guardam um local escolhido por você (sala, passagem, entrada ou construção) e atacam, sem perseguir, qualquer criatura não autorizada que chegue a menos de 30m. Enquanto ele durar assim, seus PM máximos ficam 15 menores."
+      }
+    ]
+  },
+  {
+    "name": "Sétimo Sentido",
+    "page": 219,
+    "grade": "lendario",
+    "chakra": "sab",
+    "chakras": [
+      "sab"
+    ],
+    "descriptors": "adivinhação",
+    "execution": "ação de movimento",
+    "range": "pessoal",
+    "target": "Alvo: você",
+    "duration": "cena",
+    "resistance": "",
+    "save": "",
+    "attack": "",
+    "damage": null,
+    "description": "<p>Você não pode ser surpreendido nem flanqueado, não fica desprevenido e recebe +8 na CA e nos testes de Reflexos.</p>",
+    "enhancements": [
+      {
+        "cost": 1,
+        "text": "muda a duração para cena ou até ser descarregado; com uma reação, você pode descarregar o jutsu para ganhar +15 na CA ou em uma única jogada ou teste, decidindo depois de rolar, desde que antes de o mestre anunciar o resultado."
+      }
+    ]
+  },
+  {
+    "name": "Terremoto Corrosivo",
+    "page": 219,
+    "grade": "lendario",
+    "chakra": "int",
+    "chakras": [
+      "int"
+    ],
+    "descriptors": "ácido",
+    "execution": "ação padrão",
+    "range": "pessoal",
+    "target": "Área: dispersão com 30m de raio",
+    "duration": "1 rodada",
+    "resistance": "veja texto",
+    "save": "ref",
+    "attack": "",
+    "damage": {
+      "formula": "5d4",
+      "type": "ácido",
+      "healing": false,
+      "scaleDice": "",
+      "scaleCost": 0
+    },
+    "description": "<p>Tremores racham o solo da área: criaturas no chão não podem se deslocar, atacar nem executar jutsus. Você pode fazer o chão expelir 5 colunas de ácido (cilindros de 1,5m de raio por 30m de altura, que podem se sobrepor), com efeito parecido com o de ferida da terra: 5d4 de dano de ácido (Reflexos anula).</p><p>Dependendo do terreno, há efeitos extras:</p><ul><li><strong>Caverna ou subterrâneo:</strong> o teto desaba; todos na área sofrem 10d6 de dano de esmagamento e ficam soterrados (com Reflexos, o dano cai à metade e a criatura não fica soterrada).</li><li><strong>Construção:</strong> cada estrutura na área sofre 100 de dano, o bastante para pôr abaixo construções de madeira ou de alvenaria simples (mas não de alvenaria reforçada), e o teto desaba como na caverna.</li><li><strong>Espaço aberto:</strong> fendas se abrem, e há 25% de chance de cada criatura na área despencar numa delas (Reflexos para escapar). Ao fim da duração, as fendas se fecham e matam quem estiver dentro.</li><li><strong>Penhascos:</strong> o penhasco desmorona por uma distância horizontal igual à sua altura (30m de altura, 30m além da base); quem estiver no caminho sofre 10d6 de dano de esmagamento e fica soterrado (com Reflexos, o dano cai à metade e a criatura não fica soterrada).</li><li><strong>Rio, lago ou pântano:</strong> fissuras drenam a água e deixam um lamaçal; criaturas na área testam Reflexos para não afundar e ficar presas. Ao fim da duração, as fissuras se fecham, podendo afogar quem ficou preso.</li></ul><p>Quem está preso sofre 1d6 de dano de esmagamento no início de seus turnos, e a única ação possível é tentar se libertar (ação padrão, Atletismo CD 28); outras criaturas podem prestar ajuda.</p>",
+    "enhancements": [
+      {
+        "cost": 5,
+        "text": "muda o alcance para ilimitado."
+      },
+      {
+        "cost": 5,
+        "text": "muda a duração para concentração +1 rodada e o tempo de execução para ação completa. A cada rodada, uma ação livre ativa um cilindro de ferida da terra (no máximo 5 por execução), e, enquanto você se concentra, os tremores continuam e criaturas no solo seguem sem poder se deslocar, atacar ou executar jutsus. Os efeitos de terreno só ocorrem na execução (ou quando fizer sentido, como nas fendas de espaço aberto)."
+      }
+    ]
+  },
+  {
+    "name": "Transformação Perfeita",
+    "page": 220,
+    "grade": "lendario",
+    "chakra": "int",
+    "chakras": [
+      "int"
+    ],
+    "descriptors": "transmutação",
+    "execution": "ação padrão",
+    "range": "curto",
+    "target": "Alvo: 1 criatura ou objeto",
+    "duration": "cena",
+    "resistance": "Fortitude anula",
+    "save": "fort",
+    "attack": "",
+    "damage": null,
+    "description": "<p>Você transforma criaturas e objetos em outras criaturas ou objetos. O jutsu não afeta itens mágicos nem torna mágicos itens mundanos. Escolha:</p><ul><li><strong>Alvo em objeto:</strong> o alvo vira um objeto mundano de tamanho Ínfimo a Grande, à sua escolha, com as estatísticas normais desse objeto; itens específicos, com estatísticas de jogo, exigem um teste apropriado de Ofício. Não pode virar item consumível.</li><li><strong>Objeto em criatura:</strong> o objeto vira uma criatura à sua escolha com até tantos níveis quanto você + seu modificador de Inteligência, sem níveis de classe (exceto de cidadão), com as estatísticas normais dela e –4 nas habilidades mentais. Você não a controla, mas ela começa com atitude pelo menos neutra em relação a você.</li><li><strong>Criatura em criatura:</strong> aplica ao alvo o jutsu transformação, com forma, vantagens e destino do equipamento definidos por você; as opções de tipo incluem youkai e construto (como nos aprimoramentos daquele jutsu), e o tamanho pode ir de Ínfimo a Colossal.</li></ul>",
+    "enhancements": [
+      {
+        "cost": 5,
+        "text": "muda a duração para permanente. Com alvo em objeto, o alvo também pode virar materiais valiosos ou especiais (como jade, aço-rubi, seda, pedras preciosas, prata, ouro, platina etc.); com objeto em criatura, a penalidade mental cai 1 ponto por semana passada na nova forma. Enquanto ele durar assim, seus PM máximos ficam 15 menores."
+      },
+      {
+        "cost": 5,
+        "text": "muda a duração para cena ou até ser descarregado e o alvo para até 5 criaturas voluntárias; no lugar do efeito normal, cada alvo ganha o efeito de transformação com 1d4+4 vantagens, e todos viram versões da mesma criatura (cinco lobos, cinco onis...). Cada um volta à forma natural quando quiser, como ação livre; o jutsu termina quando todos tiverem voltado ou a duração acabar."
+      }
+    ]
+  },
+  {
+    "name": "Tsunami Congelante",
+    "page": 220,
+    "grade": "lendario",
+    "chakra": "int",
+    "chakras": [
+      "int"
+    ],
+    "descriptors": "frio",
+    "execution": "ação padrão",
+    "range": "ilimitado",
+    "target": "Efeito: paredão de água congelante",
+    "duration": "concentração, até o fim da cena",
+    "resistance": "Fortitude parcial, Reflexos reduz à metade",
+    "save": "ref",
+    "attack": "",
+    "damage": {
+      "formula": "17d6",
+      "type": "frio",
+      "healing": false,
+      "scaleDice": "1d6",
+      "scaleCost": 1
+    },
+    "description": "<p>Uma onda de até 30m de largura, 30m de altura e 1,5m de espessura surge e avança 9m na direção escolhida; enquanto você mantiver a concentração, ela avança mais 9m no início de cada um dos seus turnos.</p><p>Criaturas por onde ela passa sofrem 17d6 de dano de frio (Reflexos reduz à metade) e testam Fortitude: passando, ficam lentas pela cena; falhando, ficam paralisadas por 1d4 rodadas. Objetos livres também sofrem o dano e congelam por completo se chegarem a 0 PV. Cada criatura ou objeto só pode ser afetado uma vez por rodada.</p>",
+    "enhancements": [
+      {
+        "cost": 1,
+        "text": "aumenta o dano em +1d6."
+      },
+      {
+        "cost": 5,
+        "text": "aumenta em +9m o avanço do tsunami por rodada."
+      }
+    ]
+  },
+  {
+    "name": "Velocidade da Luz",
+    "page": 220,
+    "grade": "lendario",
+    "chakra": "des",
+    "chakras": [
+      "des"
+    ],
+    "descriptors": "luz, transmutação",
+    "execution": "reação",
+    "range": "pessoal",
+    "target": "Alvo: você",
+    "duration": "cena",
+    "resistance": "",
+    "save": "",
+    "attack": "",
+    "damage": null,
+    "description": "<p>Ao entrar em combate, você não rola Iniciativa: age primeiro em toda rodada e nunca é surpreendido (se várias criaturas usarem este jutsu, elas rolam Iniciativa entre si e todas agem antes das demais). Você se levanta e saca ou guarda armas como reação, manipula itens como ação livre e, uma vez por rodada, pode se mover até o seu deslocamento como ação livre.</p><p>Ataques contra você têm 50% de chance de errar. Em testes de Reflexos, role dois dados e fique com o melhor. Com uma ação completa, você executa golpe múltiplo sem custo em PM e sem ficar desprevenido.</p><p>O preço: a cada rodada, você testa Fortitude e, se falhar, sofre 2 pontos de dano de Constituição (quem não possui valor de Constituição, ou tem imunidade a dano de habilidade, sofre 20 de dano que não pode ser reduzido).</p>",
+    "enhancements": [
+      {
+        "cost": 5,
+        "text": "muda a perda por falha para 1 ponto de dano de Constituição (ou para 10 de dano, no caso de quem sofre dano em PV)."
+      }
+    ]
+  },
+  {
+    "name": "Véu das Mentiras",
+    "page": 221,
+    "grade": "lendario",
+    "chakra": "des",
+    "chakras": [
+      "des"
+    ],
+    "descriptors": "ilusão",
+    "execution": "ação padrão",
+    "range": "ilimitado",
+    "target": "Efeito: ilusão que ocupa até 1 cubo de 300m",
+    "duration": "concentração +1 rodada",
+    "resistance": "veja texto",
+    "save": "von",
+    "attack": "",
+    "damage": null,
+    "description": "<p>A ilusão funciona como miragem mística com os aprimoramentos de sons complexos, odores e sensações térmicas e táteis, e jutsus de adivinhação a percebem como real. Normalmente, as criaturas não têm direito a teste de Vontade contra ela; o teste só é permitido quando alguém presencia algo claramente ilógico (como um exército que some de repente no meio de uma estrada).</p>",
+    "enhancements": [
+      {
+        "cost": 1,
+        "text": "muda a duração para permanente até ser descarregado: defina um gatilho visual ou auditivo (alguém se aproximando, uma palavra dita...); quando ele ocorre, a ilusão desperta por uma cena, seguindo um roteiro preparado na execução, que pode ter diálogos. Desviá-la do roteiro exige uma ação padrão de concentração."
+      },
+      {
+        "cost": 5,
+        "text": "muda a duração para permanente: a ilusão segue um roteiro preparado na execução (pode ter diálogos), e desviá-la dele exige uma ação padrão de concentração. Enquanto ela durar assim, seus PM máximos ficam 15 menores."
+      }
+    ]
+  },
+  {
+    "name": "Viagem Astral",
+    "page": 221,
+    "grade": "lendario",
+    "chakra": "sab",
+    "chakras": [
+      "sab"
+    ],
+    "descriptors": "invocação, vácuo",
+    "execution": "1 minuto",
+    "range": "curto",
+    "target": "Alvo: você e criaturas voluntárias escolhidas",
+    "duration": "veja texto",
+    "resistance": "",
+    "save": "",
+    "attack": "",
+    "damage": null,
+    "description": "<p>Os alvos vão fisicamente para o Astral, o mundo que liga todos os outros, e recebem os efeitos de forma espiritual (podendo executar jutsus nessa forma). Lá podem sofrer dano e morrer; se você morrer, o jutsu acaba e os demais voltam ao mundo nativo, no ponto de partida.</p><p>Os alvos podem vagar pelo Astral indefinidamente, até voltarem ao mundo nativo (o que encerra o jutsu). Para guiá-los a um destino, faça um teste de Identificar Magia ou Sobrevivência (CD do jutsu) a cada hora de viagem; locais famosos, como a Fortaleza Takayama, exigem um só teste, e outros podem exigir mais tempo e um teste estendido, a critério do mestre. Os mesmos testes permitem procurar almas de mortos a caminho de seu destino final (o mestre define os sucessos necessários; com uma falha, a alma já partiu). Almas encontradas podem ser guiadas a outros mundos, mas não de volta à vida, e podem contar o que sabiam em vida; em geral, têm as estatísticas que tinham vivas, com cópias espirituais do equipamento.</p><p>Ao entrar em outro mundo, cada alvo cria uma forma física igual à normal; se ela for destruída, ele volta ao corpo original, no ponto de partida do mundo nativo. Se isso acontecer com todos os alvos, o jutsu termina.</p>",
+    "enhancements": []
+  }
+]

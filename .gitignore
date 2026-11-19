@@ -15,3 +15,7 @@ Thumbs.db
 
 # Notas locais do Claude Code
 .claude/
+
+# Compêndios gerados (fonte: src/data; npm run build)
+/src/packs/
+/packs/

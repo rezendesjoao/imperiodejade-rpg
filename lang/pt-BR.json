@@ -1,7 +1,8 @@
 {
   "TYPES": {
     "Actor": {
-      "character": "Personagem"
+      "character": "Personagem",
+      "npc": "Ameaça"
     },
     "Item": {
       "class": "Classe",
@@ -24,7 +25,8 @@
       "editOff": "Sair do modo de edição",
       "name": "Nome",
       "namePlaceholder": "Nome do personagem",
-      "deltaHint": "Digite +5 ou -3 para somar ou subtrair; =N define o valor"
+      "deltaHint": "Digite +5 ou -3 para somar ou subtrair; =N define o valor",
+      "npc": "Ameaça do Império de Jade"
     },
     "Tab": {
       "ficha": "Ficha",
@@ -44,7 +46,8 @@
       "car": "Carisma",
       "hon": "Honra",
       "modShort": "Mod.",
-      "bonusTip": "Bônus ou penalidade temporária no valor (jutsus, itens, idade...)"
+      "bonusTip": "Bônus ou penalidade temporária no valor (jutsus, itens, idade...)",
+      "racialTip": "Ajuste da raça (e Honra da raça e da classe inicial), já somado ao total"
     },
     "AbilityAbbr": {
       "for": "For",
@@ -110,7 +113,11 @@
       "pequeno": "Pequeno",
       "medio": "Médio",
       "grande": "Grande",
-      "enorme": "Enorme"
+      "enorme": "Enorme",
+      "infimo": "Ínfimo",
+      "diminuto": "Diminuto",
+      "descomunal": "Descomunal",
+      "colossal": "Colossal"
     },
     "Caste": {
       "daizenshi": "Dai'zenshi (nobreza)",
@@ -261,11 +268,19 @@
       "skills": "Perícias treinadas",
       "honorMod": "Modificador de Honra",
       "startingFeats": "Talentos iniciais",
-      "classSkills": "Perícias de classe"
+      "classSkills": "Perícias de classe",
+      "features": "Habilidades por nível"
     },
     "Race": {
       "bonusSkills": "Perícias extras",
-      "abilityMods": "Ajustes de habilidade"
+      "abilityMods": "Ajustes de habilidade",
+      "bonusFeats": "Talentos extras",
+      "choiceCount": "Habilidades à escolha",
+      "choiceValue": "Bônus de cada escolha",
+      "features": "Habilidades de raça",
+      "chooseLabel": "Escolha {n} habilidades (+{v} cada) — {done} escolhida(s)",
+      "chooseFull": "Já escolheu {n} habilidades: tire uma antes de marcar outra.",
+      "choosePending": "Escolha as habilidades da raça na ficha dela"
     },
     "Weapon": {
       "plural": "Armas",
@@ -355,7 +370,8 @@
         "aprimoramento": "Aprimoramento",
         "poder": "Poder concedido",
         "tormenta": "Tormenta"
-      }
+      },
+      "deity": "Devoção"
     },
     "Power": {
       "race": "Habilidades de Raça",
@@ -376,7 +392,10 @@
         "classe": "Habilidades de Classe",
         "raca": "Habilidades de Raça",
         "outra": "Outras Habilidades"
-      }
+      },
+      "levels": "Níveis da tabela",
+      "choice": "É uma escolha de lista",
+      "noArmor": "Exige estar sem armadura"
     },
     "Jutsu": {
       "note": "Abra os chacras para aprender jutsus · o limite de PM vale para cada jutsu",
@@ -399,7 +418,24 @@
       "duration": "Duração",
       "resistance": "Resistência",
       "descriptors": "Descritores",
-      "extraCost": "Custo extra fixo"
+      "extraCost": "Custo extra fixo",
+      "attack": {
+        "corpo": "Ataque corpo a corpo",
+        "toque": "Ataque de toque",
+        "distancia": "Ataque à distância",
+        "toqueDistancia": "Ataque de toque à distância"
+      },
+      "damageButton": "Dano {f} {type}",
+      "healButton": "Cura {f}",
+      "saveButton": "{save} CD {dc}",
+      "touchNote": "oposto ao teste de Reflexos do alvo",
+      "saveType": "Teste de resistência",
+      "attackType": "Jogada de ataque",
+      "damageFormula": "Dano / cura",
+      "damageType": "Tipo do dano",
+      "scaleDice": "Dados por aprimoramento",
+      "scaleCost": "PM por aprimoramento",
+      "healing": "Cura (em vez de dano)"
     },
     "Chakra": {
       "plural": "Chacras",
@@ -470,7 +506,12 @@
       "price": "Preço",
       "source": "Fonte",
       "sourcePlaceholder": "Império de Jade, p. 000",
-      "description": "Descrição"
+      "description": "Descrição",
+      "slot": "Onde se usa",
+      "slotPlaceholder": "pescoço, dedo...",
+      "magic": "Item mágico",
+      "effects": "Automático",
+      "effectsEquipped": "vale com o item equipado"
     },
     "Roll": {
       "abilityTest": "Teste de {name}",
@@ -487,7 +528,9 @@
       "natural20": "20 natural!",
       "natural1": "1 natural",
       "trainedOnly": "{name} só pode ser testada por quem é treinado.",
-      "shiftHint": "+ clique: condição favorável ou desfavorável"
+      "shiftHint": "+ clique: condição favorável ou desfavorável",
+      "success": "Sucesso",
+      "failure": "Falha"
     },
     "Rest": {
       "title": "Descanso",
@@ -510,7 +553,42 @@
       "damagedNote": "{name} perdeu {n} PV.",
       "healedNote": "{name} recuperou {n} PV.",
       "itemGone": "O item deste cartão não existe mais.",
-      "notOwner": "Você não controla este personagem."
+      "notOwner": "Você não controla este personagem.",
+      "noTargetSave": "Selecione os tokens que fazem o teste."
+    },
+    "Grant": {
+      "received": "{name} recebeu: {items}.",
+      "levelUp": "{name} nível {n}",
+      "persistence": "Avançar na classe que escolheu no 1º nível é persistência: +{n} de Honra."
+    },
+    "Creature": {
+      "animal": "Animal",
+      "construto": "Construto",
+      "humanoide": "Humanoide",
+      "monstro": "Monstro",
+      "youkai": "Youkai"
+    },
+    "Npc": {
+      "sizeNote": "alto, comprido...",
+      "ndTip": "Nível de desafio",
+      "senses": "Sentidos",
+      "addAttack": "Novo ataque",
+      "noAttacks": "Nenhum ataque.",
+      "specials": "Habilidades especiais",
+      "details": "Detalhes",
+      "skills": "Perícias e outros",
+      "resistances": "Imunidades e resistências",
+      "treasure": "Tesouro"
+    },
+    "Effect": {
+      "skillAbility": "{skill} usa {ability}",
+      "chakraOpen": "Chacra {chakra} aberto",
+      "pmLimit": "limite de PM",
+      "threat": "margem de ameaça"
+    },
+    "BookText": {
+      "title": "Texto do livro",
+      "local": "do seu módulo local"
     }
   }
 }

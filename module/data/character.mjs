@@ -64,6 +64,8 @@ export class CharacterData extends foundry.abstract.TypeDataModel {
         attack: new fields.SchemaField({ melee: int(0), ranged: int(0), damage: int(0) }),
         movement: new fields.SchemaField({ base: int(9, { min: 0 }), bonus: int(0) }),
         rd: int(0, { min: 0 }),
+        // Threat range bonus for every weapon (+1 = a 19 also threatens on a 20-only weapon), e.g. Conheça o Inimigo
+        critBonus: int(0, { min: 0 }),
         energy: text()
       }),
       honor: new fields.SchemaField({
@@ -99,8 +101,29 @@ export class CharacterData extends foundry.abstract.TypeDataModel {
   /* -------------------------------------------- */
 
   prepareBaseData() {
-    for (const ability of Object.values(this.abilities)) {
-      ability.total = ability.value + ability.bonus;
+    // A first pass, so the roll data used while applying effects already has the modifiers
+    this.#prepareAbilities();
+  }
+
+  /**
+   * Ability totals: the typed score + the race's adjustments (fixed and chosen) + bonuses (effects, jutsus, items).
+   * Honor also takes the race's and the first class's Honor modifiers (p. 81).
+   */
+  #prepareAbilities() {
+    const items = this.parent.items;
+    const race = items.find(i => i.type === "race");
+    const classes = items.filter(i => i.type === "class").sort((a, b) => a.sort - b.sort);
+    const primary = classes.find(c => c.system.primary) ?? classes[0];
+    const racial = {};
+    if (race) {
+      const rs = race.system;
+      for (const key of KEY_ABILITIES) racial[key] = (rs.abilityMods?.[key] ?? 0) + ((rs.chosen ?? []).includes(key) ? (rs.abilityChoice?.value ?? 0) : 0);
+      racial.hon = rs.honor ?? 0;
+    }
+    if (primary) racial.hon = (racial.hon ?? 0) + (primary.system.honor ?? 0);
+    for (const [key, ability] of Object.entries(this.abilities)) {
+      ability.racial = racial[key] ?? 0;
+      ability.total = Math.max(0, ability.value + ability.racial + ability.bonus);
       ability.mod = abilityMod(ability.total);
     }
   }
@@ -110,6 +133,8 @@ export class CharacterData extends foundry.abstract.TypeDataModel {
   prepareDerivedData() {
     const actor = this.parent;
     const items = actor.items;
+    // Again after the active effects, which may have changed the ability bonuses
+    this.#prepareAbilities();
     const abl = this.abilities;
     const mod = key => abl[key]?.mod ?? 0;
 

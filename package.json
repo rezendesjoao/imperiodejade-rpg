@@ -1,0 +1,16 @@
+{
+  "name": "imperiodejade",
+  "private": true,
+  "type": "module",
+  "description": "Império de Jade para Foundry VTT (ferramentas de desenvolvimento: compêndios e pacote da release).",
+  "scripts": {
+    "data": "node tools/build-data.mjs",
+    "packs": "node tools/packs.mjs",
+    "build": "node tools/build-data.mjs && node tools/packs.mjs",
+    "check:text": "node tools/check-text.mjs",
+    "package": "node tools/package.mjs"
+  },
+  "devDependencies": {
+    "@foundryvtt/foundryvtt-cli": "^3.0.4"
+  }
+}

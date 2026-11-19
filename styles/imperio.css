@@ -1908,3 +1908,173 @@
   .ij-chakras__row { grid-template-columns: repeat(3, 1fr); }
   .ij-bio-grid { grid-template-columns: 1fr 1fr; }
 }
+
+/* =====================================================================================================
+   Ficha da Ameaça (bestiário)
+   ===================================================================================================== */
+
+.imperiodejade.ij-npc > .window-content { display: flex; flex-direction: column; }
+.ij-npc-sheet { display: flex; flex-direction: column; height: 100%; }
+.ij-npc-head {
+  position: relative;
+  display: grid;
+  grid-template-columns: 104px 1fr auto auto;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 16px 10px;
+  background: var(--ij-wave), linear-gradient(180deg, #d9d1c1, #c8bea9);
+  border-bottom: 2px solid var(--ij-cinnabar-dark);
+}
+.ij-npc-head__art { width: 104px; height: 104px; }
+.ij-npc-head__art img { width: 100%; height: 100%; object-fit: cover; object-position: top; border: none; cursor: pointer; }
+.ij-npc-head__name {
+  width: 100%;
+  font-family: var(--ij-caps) !important;
+  font-weight: 800;
+  font-size: 24px !important;
+  letter-spacing: .04em;
+  color: var(--ij-ink) !important;
+}
+.ij-npc-head__line { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 6px; margin-top: 4px; font-family: var(--ij-caps); font-weight: 700; font-size: 12.5px; color: var(--ij-ink-2); }
+.ij-npc-head__line select, .ij-npc-head__line input { font-size: 12px !important; }
+.ij-npc-head__note { width: 90px; }
+.ij-dot { color: var(--ij-ink-3); }
+.ij-npc-honor { padding: 0 6px; border: 1px solid var(--ij-gold); border-radius: 8px; background: var(--ij-white); font-size: 11px; }
+.ij-nd {
+  width: 70px;
+  height: 70px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: radial-gradient(circle at 40% 35%, #d9604c, var(--ij-cinnabar) 55%, var(--ij-cinnabar-dark));
+  color: #fff7ea;
+  box-shadow: inset 0 0 0 3px #ffffff55, 0 0 0 2px var(--ij-cinnabar-dark), 0 3px 6px #0005;
+}
+.ij-nd__label { font-family: var(--ij-caps); font-weight: 800; font-size: 11px; letter-spacing: .1em; }
+.ij-nd__value, .ij-nd__input { font-weight: 700; font-size: 26px !important; line-height: 1 !important; color: #fff !important; text-align: center; width: 54px; }
+.ij-npc-head__edit {
+  align-self: start;
+  width: 32px;
+  height: 32px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #fffaf0, #e6dccb);
+  border: 1px solid var(--ij-line);
+  color: var(--ij-ink-2);
+}
+.ij-npc-head__edit.active { background: radial-gradient(circle at 35% 30%, #f6e3b5, var(--ij-gold)); }
+.ij-npc-body { flex: 1; overflow-y: auto; padding: 14px 16px 18px; }
+.ij-npc-defense { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; margin-bottom: 12px; }
+.ij-npc-hp { width: 190px; }
+.ij-npc-pm { min-height: 64px; }
+.ij-npc-field { display: flex; flex-direction: column; align-items: center; gap: 2px; }
+.ij-npc-field span { font-family: var(--ij-caps); font-weight: 700; font-size: 9px; color: var(--ij-ink-2); }
+.ij-npc-field input { width: 56px !important; font-weight: 700; font-size: 18px !important; border: 1.5px solid var(--ij-line) !important; border-radius: 6px !important; background: var(--ij-white) !important; }
+.ij-npc-field--big input { font-size: 24px !important; width: 66px !important; }
+.ij-npc-stats { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 16px; margin-bottom: 12px; }
+.ij-npc-rd { min-height: 64px; min-width: 70px; }
+.ij-npc-lines { flex: 1; display: grid; grid-template-columns: auto 1fr; gap: 3px 10px; margin: 0; font-size: 13px; min-width: 240px; }
+.ij-npc-lines dt { font-family: var(--ij-caps); font-weight: 700; font-size: 10px; letter-spacing: .04em; color: var(--ij-ink-2); align-self: center; }
+.ij-npc-lines dd { margin: 0; }
+.ij-npc-lines input { width: 100%; border-bottom: 1px dotted var(--ij-line-2) !important; }
+.ij-npc-lines--wide { padding: 8px 12px 10px; }
+.ij-npc-abilities { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; margin-bottom: 14px; }
+.ij-npc-ability {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 4px 2px 5px;
+  background: var(--ij-white);
+  border: 1.5px solid var(--ij-line);
+  border-radius: 8px;
+  box-shadow: inset 0 0 0 2px var(--ij-white), inset 0 0 0 3px var(--ij-line-3), 0 1px 2px #0002;
+  overflow: hidden;
+}
+.ij-npc-ability__kanji { position: absolute; right: 3px; top: -3px; font-family: var(--ij-jp); font-size: 26px; color: var(--ij-jade); opacity: .1; }
+.ij-npc-ability__abbr { font-family: var(--ij-caps); font-weight: 800; font-size: 10px; letter-spacing: .06em; }
+.ij-npc-ability__score, .ij-npc-ability__input { font-weight: 700; font-size: 22px !important; line-height: 1.1 !important; width: 44px; text-align: center; }
+.ij-npc-ability__score:hover { color: var(--ij-jade); }
+.ij-npc-ability__mod { font-size: 11.5px; color: var(--ij-ink-3); }
+.ij-npc-ability--none { opacity: .55; }
+.ij-npc-attack {
+  display: grid;
+  grid-template-columns: 30px minmax(120px, 1fr) minmax(220px, 1.4fr) auto;
+  align-items: center;
+  gap: 10px;
+  padding: 5px 8px;
+  margin-bottom: 5px;
+  border: 1px solid var(--ij-line-3);
+  border-left: 5px solid var(--ij-cinnabar);
+  border-radius: 6px;
+  background: var(--ij-white);
+}
+.ij-npc-attack__img { width: 28px; height: 28px; border: 1px solid var(--ij-line-3); border-radius: 4px; object-fit: cover; }
+.ij-npc-attack__name { font-family: var(--ij-caps); font-weight: 700; font-size: 13.5px; }
+.ij-npc-attack__name:hover { color: var(--ij-cinnabar); }
+.ij-npc-attacktext { margin: 4px 2px 0; font-size: 11.5px; color: var(--ij-ink-3); font-style: italic; }
+.ij-npc-details { margin: 4px 3px 12px; }
+
+/* =====================================================================================================
+   Compêndios: tabela de classe, escolhas de raça, links, efeitos automáticos
+   ===================================================================================================== */
+
+.imperiodejade .ij-card__flag--success,
+.ij-card--chat .ij-card__flag--success { background: var(--ij-jade-pale); color: var(--ij-jade-dark); border: 1px solid var(--ij-jade); }
+.imperiodejade table.ij-class-table, .ij-card--chat table.ij-class-table {
+  width: 100%;
+  margin: 8px 0;
+  border-collapse: collapse;
+  background: var(--ij-white);
+  border: 1.5px solid var(--ij-line);
+  font-size: 12px;
+}
+.imperiodejade table.ij-class-table :is(th, td) { padding: 2px 6px; border: none; border-top: 1px solid var(--ij-line-3); text-align: left; background: transparent; }
+.imperiodejade table.ij-class-table th { font-family: var(--ij-caps); font-size: 9.5px; background: linear-gradient(180deg, #d3cab9, #e7e1d5); border-bottom: 1px solid var(--ij-line); }
+.imperiodejade table.ij-class-table td:first-child, .imperiodejade table.ij-class-table td:nth-child(2) { width: 46px; font-weight: 700; white-space: nowrap; }
+.imperiodejade table.ij-class-table tbody tr:nth-child(even) td { background: #faf7f0; }
+.ij-race-choice > span { color: var(--ij-jade-dark) !important; }
+.ij-race-choice--missing > span { color: var(--ij-cinnabar-dark) !important; }
+.ij-race-choice--missing .ij-checkgrid { animation: ij-glow 1.6s ease-in-out infinite; border-radius: 10px; }
+.ij-linklist { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px; font-size: 12.5px; }
+.ij-linklist .content-link { background: var(--ij-paper-2); border: 1px solid var(--ij-line-3); border-radius: 4px; padding: 0 5px; color: var(--ij-ink); }
+.ij-linklist__lvl { font-family: var(--ij-caps); font-weight: 700; font-size: 10px; color: var(--ij-ink-3); margin-left: 4px; }
+.ij-linklist__lvl.on { color: var(--ij-jade); }
+.ij-plaque__racial {
+  position: absolute;
+  left: 16px;
+  top: 7px;
+  font-size: 10.5px;
+  font-weight: 700;
+  color: var(--ij-jade);
+}
+.ij-pending { color: var(--ij-cinnabar); animation: ij-glow 1.6s ease-in-out infinite; border-radius: 50%; }
+.ij-item-effects { display: flex; flex-wrap: wrap; align-items: center; gap: 5px; margin: 0 0 10px; padding: 6px 8px; border: 1px dashed var(--ij-jade); border-radius: 6px; background: #eef5f0; }
+.ij-item-effects__label { font-family: var(--ij-caps); font-weight: 700; font-size: 10px; letter-spacing: .04em; color: var(--ij-jade-dark); }
+.ij-item-effects__note { font-size: 11px; color: var(--ij-ink-3); font-style: italic; }
+.ij-tag--effect { background: var(--ij-jade-pale); border-color: #8fbfa3; color: var(--ij-jade-dark); }
+
+
+/* =====================================================================================================
+   Texto do livro (módulo local de cada jogador; o sistema não traz texto do livro)
+   ===================================================================================================== */
+
+.ij-booktext { margin-top: 10px; }
+.ij-booktext > summary { cursor: pointer; list-style: none; }
+.ij-booktext > summary::-webkit-details-marker { display: none; }
+.ij-booktext > summary small { font-family: var(--ij-serif); font-weight: 400; font-size: 10.5px; color: var(--ij-ink-3); letter-spacing: 0; font-variant: normal; }
+.ij-booktext__body { padding: 8px 12px 10px; font-size: 13px; line-height: 1.5; color: var(--ij-ink); background: #fbf8f1; }
+.ij-booktext__body p { margin: 0 0 .55em; }
+.ij-booktext--inline { margin: 8px 0 2px; padding: 6px 10px; border-left: 3px solid var(--ij-gold); background: #fbf6e8; border-radius: 0 4px 4px 0; }
+.ij-booktext__tag { display: block; font-family: var(--ij-caps); font-weight: 700; font-size: 9.5px; letter-spacing: .05em; color: #8e6516; margin-bottom: 2px; }
+
+/* Checkboxes in the parchment colors (Foundry sets these variables on the input itself) */
+.imperiodejade.ij-sheet input[type="checkbox"] {
+  --checkbox-background-color: var(--ij-white);
+  --checkbox-checked-color: var(--ij-jade);
+  --checkbox-checkmark-color: #ffffff;
+  --checkbox-disabled-color: var(--ij-line-3);
+}

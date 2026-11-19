@@ -25,6 +25,8 @@
       {{#if crit}}<span class="ij-card__flag ij-card__flag--crit">{{localize critLabel}}</span>{{/if}}
       {{#if critical}}<span class="ij-card__flag ij-card__flag--crit">{{localize "IJ.Chat.critical"}}</span>{{/if}}
       {{#if fumble}}<span class="ij-card__flag ij-card__flag--fumble">{{localize "IJ.Roll.natural1"}}</span>{{/if}}
+      {{#if (eq success true)}}<span class="ij-card__flag ij-card__flag--success">{{localize "IJ.Roll.success"}}</span>{{/if}}
+      {{#if (eq success false)}}<span class="ij-card__flag ij-card__flag--fumble">{{localize "IJ.Roll.failure"}}</span>{{/if}}
     </div>
     {{#if parts.length}}
     <ul class="ij-card__parts">{{#each parts as |p|}}<li><span>{{p.label}}</span><strong>{{p.value}}</strong></li>{{/each}}</ul>
@@ -35,7 +37,7 @@
   {{#if buttons.length}}
   <div class="ij-card__buttons">
     {{#each buttons as |b|}}
-    <button type="button" class="ij-card__button {{#if b.critical}}ij-card__button--crit{{/if}}" data-ij-action="{{b.ijAction}}" data-actor="{{b.actor}}" data-item="{{b.item}}" data-crit="{{b.crit}}">
+    <button type="button" class="ij-card__button {{#if b.critical}}ij-card__button--crit{{/if}}" data-ij-action="{{b.ijAction}}" data-actor="{{b.actor}}" data-item="{{b.item}}" data-crit="{{b.crit}}" data-extra="{{b.extra}}" data-save="{{b.save}}" data-dc="{{b.dc}}" data-source="{{b.source}}">
       <i class="{{b.icon}}"></i> {{b.label}}
     </button>
     {{/each}}
