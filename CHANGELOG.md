@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.6.1 — 2026-11-19
+
+### Corrigido
+- Assistentes de criação e de nível: o passo dos jutsus travava quando o talento Conhecimento de Jutsus era escolhido
+  por quem não tem nenhum jutsu ao alcance (um kensei de 1º nível, sem chacra aberto). Agora o passo avisa que o
+  talento não ensina nada ainda e deixa seguir. Na criação, o talento também passa a oferecer os jutsus que as
+  habilidades liberam pelo nome (kiai do samurai, katas do monge), como já fazia na subida de nível.
+
 ## 0.6.0 — 2026-11-19
 
 ### Adicionado

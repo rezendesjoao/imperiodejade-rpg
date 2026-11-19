@@ -73,7 +73,11 @@
         <div class="wz-row-full">{{{html}}}</div>
       </li>
       {{/each}}
+      {{#unless jutsus.length}}
+      <li class="wz-warn"><i class="fa-solid fa-circle-info"></i><span>{{localize "IJ.Wizard.Jutsus.outOfReach"}}</span></li>
+      {{else}}
       <li class="wz-jutsu-empty wz-empty" hidden>{{localize "IJ.Wizard.nothingFound"}}</li>
+      {{/unless}}
     </ul>
   </div>
 </div>

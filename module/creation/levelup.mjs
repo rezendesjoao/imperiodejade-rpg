@@ -209,7 +209,9 @@ export class LevelUpWizard extends HandlebarsApplicationMixin(ApplicationV2) {
       return { pick, feat, pool, problems };
     });
     const inPool = id => picks.filter(x => x.pick.pool === id).length;
-    const open = pools.reduce((t, p) => t + Math.max(0, p.count - inPool(p.id)), 0);
+    // A pool asks for what it can teach: slots no jutsu within reach can fill don't hold the level
+    const reach = p => Math.min(p.count, this.#catalog.jutsus.filter(j => levelPoolTakes(p, j)).length);
+    const open = pools.reduce((t, p) => t + Math.max(0, reach(p) - inPool(p.id)), 0);
     let problem = null;
     if ((this.draft.bonus.kind === "ability") && !this.draft.bonus.ability) problem = V("Hint.bonusAbility");
     else if (picks.some(x => x.problems.length)) problem = W("Hint.featsInvalid");

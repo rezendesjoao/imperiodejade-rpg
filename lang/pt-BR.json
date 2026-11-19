@@ -1272,7 +1272,8 @@
         "noneText": "Ninguém ensina jutsus a este personagem no 1º nível. Ele pode seguir sem eles.",
         "noneOne": "Um chacra aberto (por exemplo, por um talento de devoto) deixa aprender jutsus básicos dele.",
         "noneTwo": "O talento Conhecimento de Jutsus ensina dois jutsus de chacras que você já usa.",
-        "noneThree": "Do 3º nível em diante, o talento Abrir Chacra libera um chacra novo e ensina um jutsu básico dele."
+        "noneThree": "Do 3º nível em diante, o talento Abrir Chacra libera um chacra novo e ensina um jutsu básico dele.",
+        "outOfReach": "Nenhum jutsu ao alcance deste personagem agora: ele não tem chacra aberto nem habilidade que ensine jutsus pelo nome. O talento não ensina nada no 1º nível; siga em frente ou volte e troque de talento."
       },
       "Gear": {
         "caste": "Casta",

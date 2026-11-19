@@ -9,7 +9,7 @@ import { norm, rankOf } from "../auto/context.mjs";
 import { classGrantEntries, grantData, itemGrantEntries } from "../documents/grants.mjs";
 import { loadDocuments } from "./catalog.mjs";
 import {
-  CASTE_MONEY, CLASS_WEAPON_PICKS, EXOTIC_FEAT, GEN_KEYS, JUTSU_SOURCES, DEVOTION_NAMES, SKILL_VIOLATIONS,
+  CASTE_MONEY, CLASS_WEAPON_PICKS, EXOTIC_FEAT, GEN_KEYS, JUTSU_SOURCES, DEVOTION_NAMES, NAME_ALLOWANCES, SKILL_VIOLATIONS,
   WEAPON_TRAINING_VIOLATION, applyViolations, jutsuSeverity, splitMoney
 } from "./rules.mjs";
 
@@ -587,6 +587,9 @@ export function jutsuPools(plan) {
   const mods = modsOf(preview);
   const open = Object.entries(preview.system.chakras).filter(([, c]) => c.open).map(([k]) => k);
   const devotion = preview.items.filter(i => i.type === "feat").flatMap(i => DEVOTION_NAMES[norm(i.name)] ?? []);
+  // Words in a jutsu's name the character's abilities let Conhecimento de Jutsus teach without the chakra (the
+  // kensei's strikes, the monk's katas, the samurai's kiai): a warrior with no open chakra still has what to learn
+  const allowed = preview.items.contents.flatMap(i => NAME_ALLOWANCES[norm(i.name)] ?? []);
   const seen = new Map();
   const pools = [];
   for (const item of preview.items) {
@@ -597,7 +600,8 @@ export function jutsuPools(plan) {
     seen.set(key, n);
     pools.push({
       id: `${key}:${n}`, key, name: item.name, img: item.img, count: src.count(mods),
-      chakras: src.chakras ?? open, anyChakra: !src.chakras, names: [...src.names, ...devotion]
+      chakras: src.chakras ?? open, anyChakra: !src.chakras,
+      names: [...new Set([...src.names, ...devotion, ...(src.chakras ? [] : allowed)])]
     });
   }
   return pools;
