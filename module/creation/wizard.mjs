@@ -340,10 +340,7 @@ export class CreationWizard extends HandlebarsApplicationMixin(ApplicationV2) {
     });
     const full = pools.every(p => picks.filter(x => x.pick.pool === p.id).length >= p.count);
     const over = pools.some(p => picks.filter(x => x.pick.pool === p.id).length > p.count);
-    // A pool asks for what it can teach: with fewer jutsus within reach than slots (Conhecimento de Jutsus on a
-    // character with no open chakra), the slots nothing can fill don't hold the step
-    const reach = p => Math.min(p.count, this.#catalog.jutsus.filter(j => poolTakes(p, j)).length);
-    const open = pools.reduce((t, p) => t + Math.max(0, reach(p) - picks.filter(x => x.pick.pool === p.id).length), 0);
+    const open = pools.reduce((t, p) => t + Math.max(0, p.count - picks.filter(x => x.pick.pool === p.id).length), 0);
     let problem = null;
     if (picks.some(x => x.problems.length)) problem = W("Hint.featsInvalid");
     else if (over) problem = W("Hint.featsOver");
@@ -381,7 +378,10 @@ export class CreationWizard extends HandlebarsApplicationMixin(ApplicationV2) {
       const pool = pools.find(p => p.id === pick.pool);
       return { pick, jutsu, pool, ok: !!jutsu && !!pool && poolTakes(pool, jutsu) };
     });
-    const open = pools.reduce((t, p) => t + Math.max(0, p.count - picks.filter(x => x.pick.pool === p.id).length), 0);
+    // A pool asks for what it can teach: with fewer jutsus within reach than slots (Conhecimento de Jutsus on a
+    // character with no open chakra), the slots nothing can fill don't hold the step
+    const reach = p => Math.min(p.count, this.#catalog.jutsus.filter(j => poolTakes(p, j)).length);
+    const open = pools.reduce((t, p) => t + Math.max(0, reach(p) - picks.filter(x => x.pick.pool === p.id).length), 0);
     const over = pools.some(p => picks.filter(x => x.pick.pool === p.id).length > p.count);
     let problem = null;
     if (picks.some(x => !x.ok)) problem = W("Hint.jutsusInvalid");

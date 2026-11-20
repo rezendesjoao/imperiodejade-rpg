@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.6.2 — 2026-11-20
+
+### Corrigido
+- Assistente de criação: no passo da classe, clicar numa classe não a selecionava e o assistente não avançava. O ajuste
+  da 0.6.1 conferia os jutsus ao alcance na conta dos talentos, e não na dos jutsus, e isso quebrava a tela assim que
+  havia uma classe escolhida. A conferência voltou para o passo dos jutsus, na criação e na subida de nível.
+
 ## 0.6.1 — 2026-11-19
 
 ### Corrigido
